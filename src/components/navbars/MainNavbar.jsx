@@ -77,7 +77,7 @@ const MainNavbar = ({ onChangeCollection }) => {
         <NavItem>
           <UncontrolledDropdown nav>
             <DropdownToggle nav caret>
-              Collections {filterCollectionId}
+              Collections
             </DropdownToggle>
             <DropdownMenu>
               {collectionOptions.map((collection) =>
