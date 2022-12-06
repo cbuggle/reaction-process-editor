@@ -1,12 +1,9 @@
 import { elnBaseURL } from '../Constants'
-
-import { toast } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 export default class AuthenticationFetcher {
 
   static signInResponse = (credentials) => {
-    const promise = fetch(`${elnBaseURL}/api/sign_in`, {
+    const promise = fetch(`${elnBaseURL}/api/v1/sign_in`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +15,7 @@ export default class AuthenticationFetcher {
   }
 
   static signOutResponse = () => {
-    const promise = fetch(`${elnBaseURL}/api/sign_out`, {
+    const promise = fetch(`${elnBaseURL}/api/v1/sign_out`, {
       method: 'delete',
       headers: {
         'Content-Type': 'application/json',
