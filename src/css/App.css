@@ -1,7 +1,15 @@
+#root {
+  margin-top: 3.5rem;  /* Account for the fixed main navbar */
+}
+
 .align-items-center {
   height: 33vh;
 }
 
+.navbar-nav {
+  /* This should actually be default according to reactstrap docs */
+  flex-direction: row;
+}
 
 .reaction-link-card:hover {
   cursor: grab;

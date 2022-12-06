@@ -4,6 +4,8 @@ import { Container, Row, Col } from 'reactstrap'
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import MainNavbar from '../navbars/MainNavbar';
+
 import ReactionsFetcher from '../../fetchers/ReactionsFetcher'
 import ReactionLink from './ReactionLink'
 
@@ -23,6 +25,7 @@ const ReactionIndex = () => {
   }, []);
 
   const fetchReactions = () => {
+    setFetchingReactions(true)
     ReactionsFetcher.indexResponse().then((response) => {
       switch (response.status) {
         case 200:
@@ -72,6 +75,7 @@ const ReactionIndex = () => {
 
   return (
     <>
+      <MainNavbar onChangeCollection={fetchReactions}/>
       <Container>
         <Row className="justify-content-center align-items-center">
           {reactions.length > 0 ? renderReactions() : renderNoReactionsHint()}

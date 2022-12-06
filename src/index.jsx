@@ -5,9 +5,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faSpinner)
+library.add(faSpinner, faUserCircle)
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
