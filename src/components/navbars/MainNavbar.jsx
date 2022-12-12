@@ -83,7 +83,6 @@ const MainNavbar = ({ onChangeCollection }) => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </NavItem>
-
         <NavItem>
           <UncontrolledDropdown nav>
             <DropdownToggle nav caret>
@@ -95,10 +94,14 @@ const MainNavbar = ({ onChangeCollection }) => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </NavItem>
-        <NavbarText>
-          <FontAwesomeIcon icon="user-circle" />
-          {" " + localStorage.getItem('username')}
-        </NavbarText>
+      </Nav>
+      <Nav navbar className="justify-content-end" justified>
+        <NavItem className="me-2">
+          <NavbarText className="d-flex" >
+            <FontAwesomeIcon icon="user-circle" className="pt-1 me-1" />
+            {localStorage.getItem('username')}
+          </NavbarText>
+        </NavItem>
         <NavItem>
           <LogoutButton />
         </NavItem>

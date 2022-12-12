@@ -7,7 +7,7 @@ const LogoutButton = () => {
   const api = useAuthenticationFetcher()
 
   return (
-    <Button onClick={api.signOut} color="outline-light">Logout</Button>
+    <Button onClick={api.signOut} color="outline-light" size="sm">Logout</Button>
   )
 }
 

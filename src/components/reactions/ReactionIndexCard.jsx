@@ -6,7 +6,7 @@ import { apiHostname } from '../../Constants'
 
 import { useNavigate } from 'react-router-dom'
 
-const ReactionLink = ({ reaction }) => {
+const ReactionIndexCard = ({ reaction }) => {
 
   const navigate = useNavigate();
 
@@ -37,4 +37,4 @@ const ReactionLink = ({ reaction }) => {
   )
 }
 
-export default ReactionLink
+export default ReactionIndexCard

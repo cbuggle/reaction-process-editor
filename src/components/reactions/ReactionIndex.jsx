@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MainNavbar from '../navbars/MainNavbar';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
-import ReactionLink from './ReactionLink'
+import ReactionIndexCard from './ReactionIndexCard'
 
 const ReactionIndex = () => {
 
@@ -33,7 +33,7 @@ const ReactionIndex = () => {
         {
           reactions.map((reaction, idx) => (
             <Col md="3" key={reaction.id}>
-              <ReactionLink key={idx} reaction={reaction} />
+              <ReactionIndexCard key={idx} reaction={reaction} />
             </Col>
           ))
         }

@@ -2,6 +2,8 @@ import { apiBasePath } from "../Constants";
 
 import { useNavigate } from "react-router-dom";
 
+import { toast } from 'react-toastify';
+
 export { useFetchWrapper };
 
 const authorizationHeader = () => {
@@ -9,7 +11,6 @@ const authorizationHeader = () => {
 }
 
 function useFetchWrapper() {
-
   const navigate = useNavigate()
 
   return {
@@ -50,6 +51,7 @@ function useFetchWrapper() {
         }
 
         const error = (data && data.message) || response.statusText;
+        toast.error(error)
         return Promise.reject(error);
       }
 

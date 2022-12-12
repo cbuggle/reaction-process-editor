@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { FormGroup, Form, Input, Button } from 'reactstrap'
-import { ToastContainer } from 'react-toastify';
 
 import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
@@ -25,7 +24,6 @@ const LoginForm = () => {
 
   return (
     <>
-      <ToastContainer enableMultiContainer={true} />
       <Form>
         <FormGroup>
           <Input
