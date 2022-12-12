@@ -11,7 +11,7 @@ const App = () => {
   return (
     <BrowserRouter className="App">
       <Routes>
-        <Route path="/" exact={true} element={<LoginForm/>} />
+        <Route path="/" exact={true} element={<LoginForm />} />
         <Route path="/reactions" exact={true} element={<ReactionIndex />} />
       </Routes>
     </BrowserRouter>

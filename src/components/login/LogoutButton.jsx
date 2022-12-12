@@ -1,22 +1,13 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
-
 import { Button } from 'reactstrap';
-import AuthenticationFetcher from '../../fetchers/AuthenticationFetcher';
+
+import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
 const LogoutButton = () => {
-  const navigate = useNavigate();
-
-  const signOut = () => {
-    AuthenticationFetcher.signOut().then(() => {
-      localStorage.removeItem('jwt')
-      localStorage.removeItem('username')
-      navigate('/');
-    })
-  }
+  const api = useAuthenticationFetcher()
 
   return (
-    <Button onClick={signOut} color="outline-light">Logout</Button>
+    <Button onClick={api.signOut} color="outline-light">Logout</Button>
   )
 }
 

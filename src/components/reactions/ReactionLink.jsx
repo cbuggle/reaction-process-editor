@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Card, CardBody, CardImg, CardTitle, CardSubtitle, UncontrolledTooltip, PopoverHeader, PopoverBody } from 'reactstrap'
 
-import { elnBaseURL } from '../../Constants'
+import { apiHostname } from '../../Constants'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -20,7 +20,7 @@ const ReactionLink = ({ reaction }) => {
         <CardBody onClick={() => navigateReaction(reaction.id)}>
           <CardTitle>{reaction.short_label}</CardTitle>
           <CardSubtitle> ID: {reaction.id} </CardSubtitle>
-          <CardImg src={`${elnBaseURL}/images/reactions/${reaction.reaction_svg_file}`} alt={reaction.short_label} />
+          <CardImg src={`${apiHostname}/images/reactions/${reaction.reaction_svg_file}`} alt={reaction.short_label} />
         </CardBody>
       </Card>
       <UncontrolledTooltip placement="bottom" target={"tooltip-reaction-link-" + reaction.id}>
@@ -30,7 +30,7 @@ const ReactionLink = ({ reaction }) => {
           ID: {reaction.id}
         </PopoverHeader>
         <PopoverBody>
-          <CardImg src={`${elnBaseURL}/images/reactions/${reaction.reaction_svg_file}`} alt={reaction.short_label} />
+          <CardImg src={`${apiHostname}/images/reactions/${reaction.reaction_svg_file}`} alt={reaction.short_label} />
         </PopoverBody>
       </UncontrolledTooltip>
     </>

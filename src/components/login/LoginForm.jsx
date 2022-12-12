@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { FormGroup, Form, Input, Button } from 'reactstrap'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
-import AuthenticationFetcher from '../../fetchers/AuthenticationFetcher'
-import { afterSignInPath } from '../../Constants';
+import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
 const LoginForm = () => {
 
-  const navigate = useNavigate();
+  const authenticationFetcher = useAuthenticationFetcher();
 
   const [credentials, updateCredentials] = useState({ username: "", password: "" })
 
@@ -22,27 +20,7 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    AuthenticationFetcher.signInResponse(credentials).then((response) => {
-      switch (response.status) {
-        case 200:
-          const jwt = response.headers.get('Authorization').split('Bearer ')[1];
-          localStorage.setItem('username', credentials.username);
-          localStorage.setItem('jwt', jwt);
-
-          navigate(afterSignInPath)
-          return;
-        case 401:
-          toast.error("Username or Password wrong.")
-          localStorage.removeItem('username');
-          localStorage.removeItem('jwt');
-          return;
-        default:
-          toast.error("Unknown Error: " + response.status)
-          localStorage.removeItem('username');
-          localStorage.removeItem('jwt');
-          return;
-      }
-    })
+    authenticationFetcher.signIn(credentials)
   }
 
   return (

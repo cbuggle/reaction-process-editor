@@ -17,11 +17,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LogoutButton from '../login/LogoutButton';
 
-import ReactionsFetcher from '../../fetchers/ReactionsFetcher'
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 const MainNavbar = ({ onChangeCollection }) => {
 
   const navigate = useNavigate();
+  const api = useReactionsFetcher();
 
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
@@ -31,27 +32,22 @@ const MainNavbar = ({ onChangeCollection }) => {
 
   useEffect(() => {
     if (auth_token) {
-      localStorage.setItem('jwt', auth_token);
+      localStorage.setItem('bearer_auth_token', auth_token);
     }
     fetchCollectionOptions()
     fetchReactionOptions()
   }, []);
 
   const fetchReactionOptions = () => {
-    ReactionsFetcher.getReactionOptions().then((result) => {
-      setReactionOptions(result['reactions'])
+    api.reactionSelectOptions().then((data) => {
+      setReactionOptions(data['reactions'])
     })
   }
 
   const fetchCollectionOptions = () => {
-    ReactionsFetcher.getCollectionSelectOptions().then((result) => {
-      setCollectionOptions(result['collection_select_options'])
+    api.collectionSelectOptions().then((data) => {
+      setCollectionOptions(data['collection_select_options'])
     })
-  }
-
-  const redirectToReaction = (id) => {
-    navigate("/reactions/" + id);
-    window.location.reload();
   }
 
   const selectCollection = (event) => {
@@ -61,19 +57,19 @@ const MainNavbar = ({ onChangeCollection }) => {
   }
 
   const selectReaction = (event) => {
-    redirectToReaction(event.target.value)
+    navigate("/reactions/" + event.target.value);
+    window.location.reload();
   }
 
   return (
     <Navbar fixed='top' color='primary' dark >
-      <NavbarBrand href="/">ELN Process Editor</NavbarBrand>
+      <NavbarBrand href="/reactions">ELN Process Editor</NavbarBrand>
       <Nav navbar className="justify-content-evenly flex-grow-1">
         <NavItem>
           <NavLink href="/reactions">
             Reaction Index
           </NavLink>
         </NavItem>
-
         <NavItem>
           <UncontrolledDropdown nav>
             <DropdownToggle nav caret>
@@ -101,8 +97,7 @@ const MainNavbar = ({ onChangeCollection }) => {
         </NavItem>
         <NavbarText>
           <FontAwesomeIcon icon="user-circle" />
-
-            {" " + localStorage.getItem('username')}
+          {" " + localStorage.getItem('username')}
         </NavbarText>
         <NavItem>
           <LogoutButton />
