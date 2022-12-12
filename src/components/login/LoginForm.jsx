@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormGroup, Form, Input, Button } from 'reactstrap'
+import { FormGroup, Form, Input, Button, Container, Row, Col } from 'reactstrap'
 
 import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
@@ -24,27 +24,33 @@ const LoginForm = () => {
 
   return (
     <>
-      <Form>
-        <FormGroup>
-          <Input
-            type="textfield"
-            value={credentials.username}
-            placeholder="Username"
-            onChange={event => onInputChange({ name: 'username', value: event.target.value })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            type="password"
-            value={credentials.password}
-            placeholder="Password"
-            onChange={event => onInputChange({ name: 'password', value: event.target.value })}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button type="submit" onClick={handleSubmit} className="btn btn-primary btn-block">Submit</Button>
-        </FormGroup>
-      </Form>
+      <Container>
+        <Row className="justify-content-center align-items-top-third">
+          <Col sm="12" md="8" lg="6">
+            <Form>
+              <FormGroup>
+                <Input
+                  type="textfield"
+                  value={credentials.username}
+                  placeholder="Username"
+                  onChange={event => onInputChange({ name: 'username', value: event.target.value })}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Input
+                  type="password"
+                  value={credentials.password}
+                  placeholder="Password"
+                  onChange={event => onInputChange({ name: 'password', value: event.target.value })}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Button color="success" type="submit" onClick={handleSubmit} className="float-end">Submit</Button>
+              </FormGroup>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ProvenanceForm from './ProvenanceForm';
 
-const ProvenanceButton = ({ provenance, onChange }) => {
+const ProvenanceFormButton = ({ provenance, onChange }) => {
 
   const [showModal, setShowModal] = useState(false)
 
@@ -40,4 +40,4 @@ const ProvenanceButton = ({ provenance, onChange }) => {
   )
 }
 
-export default ProvenanceButton
+export default ProvenanceFormButton

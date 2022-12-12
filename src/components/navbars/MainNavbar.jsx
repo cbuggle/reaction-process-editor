@@ -34,8 +34,10 @@ const MainNavbar = ({ onChangeCollection }) => {
     if (auth_token) {
       localStorage.setItem('bearer_auth_token', auth_token);
     }
-    fetchCollectionOptions()
-    fetchReactionOptions()
+    if (localStorage.getItem('bearer_auth_token')) {
+      fetchCollectionOptions()
+      fetchReactionOptions()
+    }
   }, []);
 
   const fetchReactionOptions = () => {
@@ -61,51 +63,77 @@ const MainNavbar = ({ onChangeCollection }) => {
     window.location.reload();
   }
 
-  return (
-    <Navbar fixed='top' color='primary' dark >
-      <NavbarBrand href="/reactions">ELN Process Editor</NavbarBrand>
-      <Nav navbar className="justify-content-evenly flex-grow-1">
+  const brandHref = () => {
+    return localStorage.getItem('username') ? '/reactions' : '/'
+
+  }
+
+  const renderLoginHint = () => {
+    return (
+      <>
         <NavItem>
-          <NavLink href="/reactions">
-            Reaction Index
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav caret>
-              Collections
-            </DropdownToggle>
-            <DropdownMenu>
-              {collectionOptions.map((collection) =>
-                <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                  {collection.label}
-                </DropdownItem>)}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </NavItem>
-        <NavItem>
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav caret>
-              Reactions ({reactionOptions.length})
-            </DropdownToggle>
-            <DropdownMenu>
-              {reactionOptions.map((reaction) =>
-                <DropdownItem key={reaction.id} value={reaction.id} onClick={selectReaction}>{reaction.id + ': ' + reaction.short_label}</DropdownItem>)}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </NavItem>
-      </Nav>
-      <Nav navbar className="justify-content-end" justified>
-        <NavItem className="me-2">
-          <NavbarText className="d-flex" >
-            <FontAwesomeIcon icon="user-circle" className="pt-1 me-1" />
-            {localStorage.getItem('username')}
+          <NavbarText>
+            Please Login with your eln credentials
           </NavbarText>
         </NavItem>
-        <NavItem>
-          <LogoutButton />
-        </NavItem>
-      </Nav>
+
+      </>
+    )
+  }
+
+  const renderNavbarLoggedIn = () => {
+    return (
+      <>
+        <Nav navbar className="justify-content-evenly flex-grow-1">
+          <NavItem>
+            <NavLink href="/reactions">
+              Reaction Index
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                Collections
+              </DropdownToggle>
+              <DropdownMenu>
+                {collectionOptions.map((collection) =>
+                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                    {collection.label}
+                  </DropdownItem>)}
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </NavItem>
+          <NavItem>
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                Reactions ({reactionOptions.length})
+              </DropdownToggle>
+              <DropdownMenu>
+                {reactionOptions.map((reaction) =>
+                  <DropdownItem key={reaction.id} value={reaction.id} onClick={selectReaction}>{reaction.id + ': ' + reaction.short_label}</DropdownItem>)}
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </NavItem>
+        </Nav>
+        <Nav navbar className="justify-content-end">
+          <NavItem className="me-2">
+            <NavbarText className="d-flex" >
+              <FontAwesomeIcon icon="user-circle" className="pt-1 me-1" />
+              {localStorage.getItem('username')}
+            </NavbarText>
+          </NavItem>
+          <NavItem>
+            <LogoutButton />
+          </NavItem>
+        </Nav>
+      </>
+    )
+  }
+
+  return (
+    <Navbar id="main-navbar" fixed='top' color='primary' dark >
+      <NavbarBrand href={brandHref()}>ELN Process Editor</NavbarBrand>
+      {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
     </Navbar>
   )
 }

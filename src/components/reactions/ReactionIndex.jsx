@@ -41,7 +41,7 @@ const ReactionIndex = () => {
     )
   }
 
-  const renderNoReactionsHint = () => {
+  const reactionsNotLoadedHint = () => {
     if (fetchingReactions) {
       return (
         <>
@@ -55,14 +55,11 @@ const ReactionIndex = () => {
   }
 
   return (
-    <>
-      <MainNavbar onChangeCollection={fetchReactions} />
-      <Container>
-        <Row className="justify-content-center align-items-center">
-          {reactions.length > 0 ? renderReactions() : renderNoReactionsHint()}
-        </Row>
-      </Container>
-    </>
+    <Container>
+      <Row className="justify-content-center align-items-top-third">
+        {reactions.length > 0 ? renderReactions() : reactionsNotLoadedHint()}
+      </Row>
+    </Container>
   )
 }
 

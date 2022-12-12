@@ -1,14 +1,14 @@
 import React from 'react'
-import { Label, Nav, Navbar, NavbarBrand } from 'reactstrap';
+import { Nav, Navbar, NavbarBrand } from 'reactstrap';
 
-import ProvenanceButton from './ProvenanceButton';
+import ProvenanceFormButton from './ProvenanceFormButton';
 import OrdDownloadButton from './OrdDownloadButton';
 
 import prettyMilliseconds from 'pretty-ms';
 
 const ReactionNavbar = ({ fetchReactionProcess, reactionProcess }) => {
   return (
-    <Navbar fixed="top" id="navbar-reaction" color='info'>
+    <Navbar fixed="top" id="navbar-reaction" color='info' dark>
       <NavbarBrand>
         Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})
       </NavbarBrand>
@@ -16,7 +16,7 @@ const ReactionNavbar = ({ fetchReactionProcess, reactionProcess }) => {
         {reactionProcess.id}
       </Nav>
       <Nav>
-        <ProvenanceButton provenance={reactionProcess.provenance} onChange={fetchReactionProcess} />
+        <ProvenanceFormButton provenance={reactionProcess.provenance} onChange={fetchReactionProcess} />
         <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
       </Nav>
     </Navbar>

@@ -4,7 +4,6 @@ import { useParams, useLocation } from 'react-router-dom';
 import { Container, Row } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import MainNavbar from '../navbars/MainNavbar';
 import ReactionProcess from './ReactionProcess';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
@@ -37,19 +36,17 @@ const Reaction = () => {
 
   const renderFetchDataHint = () => {
     return (
-      <Container>
-        <Row className="justify-content-center align-items-center">
+      <Container className="cursor-wait">
+        <Row className="justify-content-center align-items-top-third">
           Fetching reaction process
           <FontAwesomeIcon icon="spinner" pulse size="2x" />
         </Row>
       </Container>
     )
   }
+
   return (
-    <>
-      <MainNavbar />
-      {reactionProcess ? <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} /> : renderFetchDataHint()}
-    </>
+    reactionProcess ? <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} /> : renderFetchDataHint()
   );
 }
 

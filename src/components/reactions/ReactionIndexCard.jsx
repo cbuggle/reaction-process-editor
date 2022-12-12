@@ -16,7 +16,7 @@ const ReactionIndexCard = ({ reaction }) => {
 
   return (
     <>
-      <Card id={"tooltip-reaction-link-" + reaction.id} className='reaction-link-card'>
+      <Card id={"tooltip-reaction-link-" + reaction.id} className='reaction-link-card mb-2'>
         <CardBody onClick={() => navigateReaction(reaction.id)}>
           <CardTitle>{reaction.short_label}</CardTitle>
           <CardSubtitle> ID: {reaction.id} </CardSubtitle>

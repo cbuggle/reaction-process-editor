@@ -6,7 +6,7 @@
   margin-top: 3.5rem;  /* Account for the fixed main navbar */
 }
 
-.align-items-center {
+.align-items-top-third {
   height: 33vh;
 }
 
@@ -15,9 +15,15 @@
   flex-direction: row;
 }
 
+#main-navbar {
+  z-index: 1050; /* Fixes an issue with Dropdownmenu being behind the reaction-navbar */
+}
+
 .reaction-link-card:hover {
   cursor: zoom-in;
 }
+
+.cursor-wait {cursor: wait;}
 
 .tooltip-inner {
   background: white;
