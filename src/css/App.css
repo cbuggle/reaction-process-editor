@@ -25,6 +25,10 @@
 
 .cursor-wait {cursor: wait;}
 
+.vessel-icon {
+  width: 25px;
+}
+
 .tooltip-inner {
   background: white;
   color: black;
