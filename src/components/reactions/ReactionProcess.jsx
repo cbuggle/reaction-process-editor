@@ -4,6 +4,7 @@ import { Container, Col, Row } from 'reactstrap';
 import ReactionNavbar from '../navbars/ReactionNavbar';
 
 import VesselsSelectBar from '../vessels/VesselsSelectBar';
+import SamplesSideBar from '../samples/SamplesSideBar';
 
 const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
   return (
@@ -19,9 +20,7 @@ const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
           </Col>
           <Col md={2} className="samples-select-bar scroll-body">
             <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
-            {/* <SampleSelectBarCollapsible name={"Additives"} actsAs={"ADDITIVE"} samples={reactionProcess.additives} />
-            <SampleSelectBarCollapsible name={"Diverse Solvents"} actsAs={"DIVERSE_SOLVENT"} samples={reactionProcess.diverse_solvents} />
-            <SamplesSelectBar reactionProcess={reactionProcess} /> */}
+            <SamplesSideBar reactionProcess={reactionProcess} />
           </Col>
         </Row>
       </Container>

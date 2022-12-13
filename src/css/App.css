@@ -6,8 +6,8 @@
   margin-top: 3.5rem;  /* Account for the fixed main navbar */
 }
 
-.align-items-top-third {
-  height: 33vh;
+#main-navbar {
+  z-index: 1050; /* Fixes an issue with Dropdownmenu being behind the reaction-navbar */
 }
 
 .navbar-nav {
@@ -15,12 +15,30 @@
   flex-direction: row;
 }
 
-#main-navbar {
-  z-index: 1050; /* Fixes an issue with Dropdownmenu being behind the reaction-navbar */
-}
-
 .reaction-link-card:hover {
   cursor: zoom-in;
+}
+
+.align-items-top-third {
+  height: 33vh;
+}
+
+.navbar-sidebars {
+  font-size: 0.8rem;
+  background-color: whitesmoke;
+  border-top: 1px solid lightgray;
+}
+
+.navbar-sidebars input{
+  font-size: 0.75em;
+}
+
+.sidebar-item-additive {
+  text-align: left;
+  overflow: hidden;
+  padding: 2px 5px 2px 3px;
+  width: 100%;
+  background-color: white;
 }
 
 .cursor-wait {cursor: wait;}
@@ -35,4 +53,46 @@
   border: 1px solid gray;
   max-width: 100%;
   max-height: 100%;
+}
+
+/* Sidebar Samples */
+
+.sidebar-item-sample {
+  text-align: left;
+  overflow: hidden;
+  padding: 2px 5px 2px 3px;
+  width: 100%;
+  background-color: white;
+}
+
+.sidebar-item-sample div {
+  display: inline-block;
+}
+
+.sidebar-item-sample img {
+  padding-right: 15px;
+  max-height: 40px;
+  padding-right: 10px;
+  background-color: white;
+}
+
+.sidebar-item-sample-img {
+  display: inline-block;
+}
+
+.sidebar-item-sample-info {
+  position: absolute;
+  right: 23px;
+  text-align: right;
+  font-size: 0.7rem;
+  padding: 2px 0px 0px 7px;
+  max-width: 100%;
+  z-index: 1;
+  background-color: inherit;
+}
+
+.sidebar-item-sample-label {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
 }
