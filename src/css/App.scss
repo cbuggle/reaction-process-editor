@@ -1,26 +1,8 @@
-#root {
-  margin-top: 7rem;  /* Account for the fixed navbars */
-}
-
-#navbar-reaction {
-  margin-top: 3.5rem;  /* Account for the fixed main navbar */
-}
-
-#main-navbar {
-  z-index: 1050; /* Fixes an issue with Dropdownmenu being behind the reaction-navbar */
-}
+@import "chemotion_theme";
 
 .navbar-nav {
   /* This should actually be default according to reactstrap docs */
   flex-direction: row;
-}
-
-.reaction-link-card:hover {
-  cursor: pointer;
-}
-
-.align-items-top-third {
-  height: 33vh;
 }
 
 .navbar-sidebars {

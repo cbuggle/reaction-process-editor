@@ -3,10 +3,9 @@ import { Container, Row, Col } from 'reactstrap'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import MainNavbar from '../navbars/MainNavbar';
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
-import ReactionIndexCard from './ReactionIndexCard'
+import ReactionIndexCard from '../reactions/ReactionIndexCard'
+import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 
 const ReactionIndex = () => {
 
@@ -44,10 +43,7 @@ const ReactionIndex = () => {
   const reactionsNotLoadedHint = () => {
     if (fetchingReactions) {
       return (
-        <>
-          <FontAwesomeIcon icon="spinner" pulse size="2x" />
-          Fetching reaction index
-        </>
+        <SpinnerWithMessage message='Fetching reaction index' />
       )
     } else {
       return "No reactions found for this collection."

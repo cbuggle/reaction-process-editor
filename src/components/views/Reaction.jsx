@@ -14,6 +14,9 @@ import SamplePreparationsBar from '../reaction_processes/SamplePreparationsBar';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
+import ReactionProcess from '../reactions/ReactionProcess';
+import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+
 const Reaction = () => {
 
   const api = useReactionsFetcher();
@@ -42,12 +45,7 @@ const Reaction = () => {
 
   const renderFetchDataHint = () => {
     return (
-      <Container className="cursor-wait">
-        <Row className="justify-content-center align-items-top-third">
-          Fetching reaction process
-          <FontAwesomeIcon icon="spinner" pulse size="2x" />
-        </Row>
-      </Container>
+      <SpinnerWithMessage message='Fetching reaction process' />
     )
   }
 
@@ -55,20 +53,20 @@ const Reaction = () => {
     return (
       <>
         <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
-        <Container fluid>
-          <Row>
-            <Col md={2}>
-              <SamplePreparationsBar reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>
-            </Col>
-            <Col>
-              <ReactionProcess reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
-            </Col>
-            <Col md={2}>
-              <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
-              <SamplesSideBar reactionProcess={reactionProcess} />
-            </Col>
-          </Row>
-        </Container>
+        <Row className='g-0 flex-grow-1'>
+          <Col md={10} className="scroll-body overflow-auto p-3">
+            <Row className='flex-nowrap'>
+              <Col className='flex-shrink-0'>
+                <PreparationColumnCard reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
+              </Col>
+              <StepsContainer />
+            </Row>
+          </Col>
+          <Col md={2} className="samples-select-bar scroll-body">
+            <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
+            <SamplesSideBar reactionProcess={reactionProcess} />
+          </Col>
+        </Row>
       </>
     )
   }

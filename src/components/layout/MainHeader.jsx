@@ -19,7 +19,7 @@ import LogoutButton from '../login/LogoutButton';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-const MainNavbar = ({ onChangeCollection }) => {
+const MainHeader = ({ onChangeCollection }) => {
 
   const navigate = useNavigate();
   const api = useReactionsFetcher();
@@ -131,14 +131,14 @@ const MainNavbar = ({ onChangeCollection }) => {
   }
 
   return (
-    <Navbar id="main-navbar" fixed='top' color='primary' dark >
+    <Navbar color='primary' dark >
       <NavbarBrand href={brandHref()}>ELN Process Editor</NavbarBrand>
       {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
     </Navbar>
   )
 }
 
-export default MainNavbar
+export default MainHeader
 
 
 

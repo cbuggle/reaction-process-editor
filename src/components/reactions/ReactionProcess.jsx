@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import ReactionProcessStep from '../process_steps/ReactionProcessStep';
 

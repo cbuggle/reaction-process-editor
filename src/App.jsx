@@ -2,21 +2,21 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import LoginForm from './components/login/LoginForm'
-import ReactionIndex from './components/reactions/ReactionIndex';
-import Reaction from './components/reactions/Reaction';
-import MainNavbar from './components/navbars/MainNavbar';
+import Login from './components/views/Login'
+import ReactionIndex from './components/views/ReactionIndex';
+import Reaction from './components/views/Reaction';
+import MainHeader from './components/layout/MainHeader';
 
-import './css/App.css';
+import './css/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
     <BrowserRouter className="App">
       <ToastContainer enableMultiContainer={true} />
-      <MainNavbar />
+      <MainHeader />
       <Routes>
-        <Route path="/" exact={true} element={<LoginForm />} />
+        <Route path="/" exact={true} element={<Login />} />
         <Route path="/reactions" exact={true} element={<ReactionIndex />} />
         <Route path="/reactions/:reactionId" element={<Reaction />} />
       </Routes>

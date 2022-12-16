@@ -8,7 +8,7 @@ import prettyMilliseconds from 'pretty-ms';
 
 const ReactionNavbar = ({ fetchReactionProcess, reactionProcess }) => {
   return (
-    <Navbar fixed="top" id="navbar-reaction" color='info' dark>
+    <Navbar className="reaction-navbar" color='info' dark>
       <NavbarBrand>
         Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})
       </NavbarBrand>

@@ -1,0 +1,14 @@
+.column-container-card {
+  &__body > * {
+    margin-bottom: 12px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &--preparation {
+    width: 424px;
+  }
+  &--step {
+    min-width: 548px;
+  }
+}
