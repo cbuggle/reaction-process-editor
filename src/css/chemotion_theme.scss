@@ -1,0 +1,12 @@
+/* colors */
+$theme-colors: (
+  "preparation": #666F73,
+  "step": #47AD5E,
+  "action": #2E85E2,
+  "condition": #70BCD4
+);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+/* customizations for bootstrap components */
+@import "bootstrap/button";

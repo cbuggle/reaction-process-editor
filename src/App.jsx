@@ -7,7 +7,7 @@ import ReactionIndex from './components/reactions/ReactionIndex';
 import Reaction from './components/reactions/Reaction';
 import MainNavbar from './components/navbars/MainNavbar';
 
-import './css/App.css';
+import './css/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {

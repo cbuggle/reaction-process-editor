@@ -1,13 +1,11 @@
+@import "chemotion_theme";
+
 #root {
   margin-top: 7rem;  /* Account for the fixed navbars */
 }
 
 #navbar-reaction {
   margin-top: 3.5rem;  /* Account for the fixed main navbar */
-}
-
-#main-navbar {
-  z-index: 1050; /* Fixes an issue with Dropdownmenu being behind the reaction-navbar */
 }
 
 .navbar-nav {

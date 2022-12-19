@@ -130,8 +130,14 @@ const MainNavbar = ({ onChangeCollection }) => {
     )
   }
 
+  const styles = {
+    mainNavbar: {
+      zIndex: 1050,
+    }
+  }
+
   return (
-    <Navbar id="main-navbar" fixed='top' color='primary' dark >
+    <Navbar style={styles.mainNavbar} fixed='top' color='primary' dark >
       <NavbarBrand href={brandHref()}>ELN Process Editor</NavbarBrand>
       {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
     </Navbar>

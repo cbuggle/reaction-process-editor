@@ -2,9 +2,9 @@ import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
 
 import ReactionNavbar from '../navbars/ReactionNavbar';
-
 import VesselsSelectBar from '../vessels/VesselsSelectBar';
 import SamplesSideBar from '../samples/SamplesSideBar';
+import PreparationContainerCard from "../preparations/PreparationContainerCard";
 
 const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
   return (
@@ -13,7 +13,7 @@ const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
       <Container fluid className="reaction-process-container">
         <Row className="scroll-container">
           <Col md={2} className="scroll-body">
-            preparations
+            <PreparationContainerCard />
           </Col>
           <Col md={8} className="reaction-process-container-body scroll-body">
             process steps
