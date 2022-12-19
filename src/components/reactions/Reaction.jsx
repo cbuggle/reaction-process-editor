@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-import { Container, Row } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ReactionProcess from './ReactionProcess';
+import ReactionNavbar from '../navbars/ReactionNavbar';
+
+import VesselsSelectBar from '../vessels/VesselsSelectBar';
+import SamplesSideBar from '../samples/SamplesSideBar';
+import SamplePreparationsBar from '../reaction_processes/SamplePreparationsBar';
+
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
@@ -45,8 +51,29 @@ const Reaction = () => {
     )
   }
 
+  const renderReaction = () => {
+    return (
+      <>
+        <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
+        <Container fluid className="reaction-process-container">
+          <Row className="scroll-container">
+            <Col md={2} className="scroll-body">
+            </Col>
+            <Col>
+              <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
+            </Col>
+            <Col md={2} className="samples-select-bar scroll-body">
+              <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
+              <SamplesSideBar reactionProcess={reactionProcess} />
+            </Col>
+          </Row>
+        </Container>
+      </>
+    )
+  }
+
   return (
-    reactionProcess ? <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} /> : renderFetchDataHint()
+    reactionProcess ? renderReaction() : renderFetchDataHint()
   );
 }
 

@@ -16,7 +16,7 @@
 }
 
 .reaction-link-card:hover {
-  cursor: zoom-in;
+  cursor: pointer;
 }
 
 .align-items-top-third {

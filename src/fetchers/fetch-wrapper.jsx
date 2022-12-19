@@ -51,7 +51,7 @@ function useFetchWrapper() {
         }
 
         const error = (data && data.message) || response.statusText;
-        toast.error(error)
+        toast.error(error, { toastId: 1 }) // settingt toastId prevents duplicates.
         return Promise.reject(error);
       }
 
