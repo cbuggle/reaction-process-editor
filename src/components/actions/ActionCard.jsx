@@ -1,14 +1,14 @@
 import React from 'react';
 import {Card, CardHeader} from "reactstrap";
 
-const PreparationCard = ({children}) => {
+const ActionCard = ({children}) => {
     return (
         <Card>
             <CardHeader>
-                Preparation No. {children}
+                Action No. {children}
             </CardHeader>
         </Card>
     );
 };
 
-export default PreparationCard;
+export default ActionCard;

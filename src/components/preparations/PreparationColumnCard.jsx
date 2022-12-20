@@ -5,7 +5,7 @@ import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "./PreparationCard";
 import {Card} from "reactstrap";
 
-const PreparationContainerCard = () => {
+const PreparationColumnCard = () => {
     const [preparations, setPreparations] = useState([])
 
     const createPreparation = () => {
@@ -13,7 +13,7 @@ const PreparationContainerCard = () => {
     }
 
     return (
-        <ColumnContainerCard title='Preparations'>
+        <ColumnContainerCard title='Preparations' minWidth='424'>
             {preparations.map(prep => (
                 <PreparationCard key={prep.id}>{prep.id}</PreparationCard>
             ))}
@@ -22,4 +22,4 @@ const PreparationContainerCard = () => {
     )
 }
 
-export default PreparationContainerCard
+export default PreparationColumnCard
