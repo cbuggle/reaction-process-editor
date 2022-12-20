@@ -56,13 +56,14 @@ const Reaction = () => {
       <>
         <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
         <Container fluid className="reaction-process-container">
-          <Row className="scroll-container">
-            <Col md={2} className="scroll-body">
+          <Row>
+            <Col md={2}>
+              <SamplePreparationsBar reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>
             </Col>
             <Col>
               <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
             </Col>
-            <Col md={2} className="samples-select-bar scroll-body">
+            <Col md={2}>
               <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
               <SamplesSideBar reactionProcess={reactionProcess} />
             </Col>

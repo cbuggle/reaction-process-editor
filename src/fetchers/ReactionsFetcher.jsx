@@ -13,7 +13,9 @@ function useReactionsFetcher() {
     reactionSelectOptions,
     getReactionProcess,
     updateProvenance,
-    ordLinkTarget
+    ordLinkTarget,
+    updateSamplePreparation,
+    deleteSamplePreparation
   }
 
   function index() {
@@ -44,5 +46,13 @@ function useReactionsFetcher() {
 
   function ordLinkTarget(id) {
     return `${apiHostname}/reactions/${id}/ord`
+  }
+
+  function updateSamplePreparation(reactionProcessId, samplePreparation) {
+    return api.put(`/reaction_processes/${reactionProcessId}/samples_preparations`, { 'sample_preparation': samplePreparation})
+  }
+
+  function deleteSamplePreparation(reactionProcessId, id) {
+    return api.delete(`/reaction_processes/${reactionProcessId}/samples_preparations/${id}`)
   }
 }
