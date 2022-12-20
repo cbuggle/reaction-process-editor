@@ -3,7 +3,6 @@ import { useState } from 'react';
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "./PreparationCard";
-import {Card} from "reactstrap";
 
 const PreparationColumnCard = () => {
     const [preparations, setPreparations] = useState([])

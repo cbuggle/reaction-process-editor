@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Col, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
 import ReactionNavbar from '../navbars/ReactionNavbar';
 import VesselsSelectBar from '../vessels/VesselsSelectBar';
