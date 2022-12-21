@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import confirm from "reactstrap-confirm";
-
 import { Button, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
 
 import VesselForm from './VesselForm';
@@ -26,23 +24,21 @@ const VesselModalEdit = ({ isOpen, vessel, vesselOptions, onSave, onCancel, onDe
     onSave(vesselFormState)
   }
 
-  const deleteVessel = async () => {
-    const confirmationDialog = {
-      title: 'Delete Vessel',
-      message: 'Deleting the Vessel will unassign it from all ProcessSteps. Are you sure?',
-      confirmText: 'Delete Vessel',
-      confirmColor: "danger"
-    }
+  const confirmDelete = () => {
 
-    if (await confirm(confirmationDialog)) {
-      onDeleteVessel(vessel.id)
-      handleCancel()
-    }
+    window.confirm('Deleting the Vessel will unassign it from all ProcessSteps. Are you sure?')
+      && deleteVessel()
   }
+
+  const deleteVessel = () => {
+    onDeleteVessel(vessel.id)
+    handleCancel()
+  }
+
 
   const renderDeleteButton = () => {
     return (
-      <Button className="vessel-delete-button" color="outline-danger" onClick={deleteVessel}>Unassign</Button>
+      <Button className="vessel-delete-button" color="outline-danger" onClick={confirmDelete}>Unassign</Button>
     )
   }
   const renderModalTitle = () => {

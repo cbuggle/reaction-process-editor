@@ -4,29 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShare, faCopy } from '@fortawesome/free-solid-svg-icons'
 
 import { Button } from 'reactstrap'
-import confirm from "reactstrap-confirm";
 
 import VesselDecorator from './VesselDecorator'
 
 const VesselIndexItem = ({ vessel, onAssignVessel, onCloneVessel, onDeleteVessel }) => {
 
-  const deleteVessel = async () => {
-    const confirmationDialog = {
-      title: 'Delete Template',
-      message: 'This will irreversably delete the Template. Are you sure?',
-      confirmText: 'Delete Template',
-      confirmColor: "danger"
-    }
+  const confirmDelete = () => {
 
-    if (await confirm(confirmationDialog)) {
-      onDeleteVessel(vessel)
-    }
+    window.confirm('This will irreversably delete the Template. Are you sure?')
+      && onDeleteVessel(vessel)
   }
 
   return (
     <div className="vessel-index-item">
       <div className="vessel-index-item-buttons">
-        <Button type="button" size="xs" className="vessel-index-button" color="danger" onClick={deleteVessel}>X</Button>
+        <Button type="button" size="xs" className="vessel-index-button" color="danger" onClick={confirmDelete}>X</Button>
         <Button type="button" size="xs" color="success" className="vessel-index-button float-right" onClick={() => onCloneVessel(vessel)}>
           <FontAwesomeIcon icon={faCopy} /> Prefill Form
         </Button>

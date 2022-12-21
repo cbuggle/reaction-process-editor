@@ -19,7 +19,6 @@
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.5",
-    "reactstrap-confirm": "^1.3.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
