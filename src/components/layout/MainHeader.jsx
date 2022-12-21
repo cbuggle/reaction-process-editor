@@ -19,7 +19,7 @@ import LogoutButton from '../login/LogoutButton';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-const MainNavbar = ({ onChangeCollection }) => {
+const MainHeader = ({ onChangeCollection }) => {
 
   const navigate = useNavigate();
   const api = useReactionsFetcher();
@@ -144,7 +144,7 @@ const MainNavbar = ({ onChangeCollection }) => {
   )
 }
 
-export default MainNavbar
+export default MainHeader
 
 
 

@@ -3,7 +3,7 @@ import { FormGroup, Form, Input, Button, Container, Row, Col } from 'reactstrap'
 
 import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
-const LoginForm = () => {
+const Login = () => {
 
   const authenticationFetcher = useAuthenticationFetcher();
 
@@ -55,4 +55,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default Login

@@ -8,5 +8,9 @@ $theme-colors: (
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
+/* styling for generic page layout */
+@import "layout";
 /* customizations for bootstrap components */
-@import "bootstrap/button";
+@import "components/reactions/ReactionNavbar";
+@import "components/utilities/CreateButton";
+@import "components/utilities/SpinnerWithMessage";

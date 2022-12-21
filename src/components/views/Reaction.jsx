@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-
-import { Container, Row } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import ReactionProcess from './ReactionProcess';
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+
+import ReactionProcess from '../reactions/ReactionProcess';
+import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 
 const Reaction = () => {
 
@@ -34,19 +31,10 @@ const Reaction = () => {
     })
   }
 
-  const renderFetchDataHint = () => {
-    return (
-      <Container className="cursor-wait">
-        <Row className="justify-content-center align-items-top-third">
-          Fetching reaction process
-          <FontAwesomeIcon icon="spinner" pulse size="2x" />
-        </Row>
-      </Container>
-    )
-  }
-
   return (
-    reactionProcess ? <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} /> : renderFetchDataHint()
+    reactionProcess ?
+        <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
+        : <SpinnerWithMessage message='Fetching reaction process' />
   );
 }
 

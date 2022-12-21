@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 
-import ReactionNavbar from '../navbars/ReactionNavbar';
+import ReactionNavbar from '../reactions/ReactionNavbar';
 import VesselsSelectBar from '../vessels/VesselsSelectBar';
 import SamplesSideBar from '../samples/SamplesSideBar';
 import PreparationColumnCard from "../preparations/PreparationColumnCard";
