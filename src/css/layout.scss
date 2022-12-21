@@ -1,3 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
 #root {
-  margin-top: 7rem;  /* Account for the fixed navbars */
+  display: flex;
+  flex-direction: column;
 }

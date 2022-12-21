@@ -12,5 +12,6 @@ $theme-colors: (
 @import "layout";
 /* customizations for bootstrap components */
 @import "components/reactions/ReactionNavbar";
+@import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
 @import "components/utilities/SpinnerWithMessage";

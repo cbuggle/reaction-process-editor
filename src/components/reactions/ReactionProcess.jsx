@@ -11,8 +11,8 @@ const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
   return (
     <>
       <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
-      <Row className='g-0'>
-        <Col md={10} className="scroll-body overflow-auto">
+      <Row className='g-0 flex-grow-1'>
+        <Col md={10} className="scroll-body overflow-auto p-3">
           <Row className='flex-nowrap'>
             <Col className='flex-shrink-0'>
               <PreparationColumnCard reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>

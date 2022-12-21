@@ -15,7 +15,7 @@ const PreparationColumnCard = ({ reactionProcess, onChange }) => {
   }
 
   return (
-    <ColumnContainerCard title='Preparations' minWidth='424'>
+    <ColumnContainerCard title='Preparations' className='column-container-card column-container-card--preparation'>
         {renderSamplePreparations()}
         <Preparation reactionProcess={reactionProcess} onChange={onChange} />
     </ColumnContainerCard>

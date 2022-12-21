@@ -11,7 +11,7 @@ const StepColumCard = ({index, amount, stepName, children}) => {
     }
     const title = (index + 1) + ' / ' + amount + ' ' + stepName
     return (
-        <ColumnContainerCard title={title} minWidth='548'>
+        <ColumnContainerCard title={title} className='column-container-card column-container-card--step'>
             {actions.map(prep => (
                 <ActionCard key={prep.id}>{prep.id}</ActionCard>
             ))}

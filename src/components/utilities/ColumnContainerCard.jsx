@@ -1,18 +1,13 @@
 import React from 'react';
 import {Card, CardHeader, CardBody} from 'reactstrap';
 
-const ColumnContainerCard = ({ title, minWidth, children }) => {
-    const styles = {
-        cardStyle: {
-            minWidth: minWidth+'px',
-        }
-    }
+const ColumnContainerCard = ({ title, children, className }) => {
     return (
-        <Card style={styles.cardStyle}>
+        <Card className={className}>
             <CardHeader>
                 <h3>{title}</h3>
             </CardHeader>
-            <CardBody>
+            <CardBody className='column-container-card__body'>
                 {children}
             </CardBody>
         </Card>
