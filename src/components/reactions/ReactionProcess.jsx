@@ -6,6 +6,7 @@ import VesselsSelectBar from '../vessels/VesselsSelectBar';
 import SamplesSideBar from '../samples/SamplesSideBar';
 import PreparationColumnCard from "../preparations/PreparationColumnCard";
 import StepsContainer from "../steps/StepsContainer";
+import SamplePreparationsBar from "../reaction_processes/SamplePreparationsBar";
 
 const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
   return (
@@ -16,6 +17,7 @@ const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
           <Row className='flex-nowrap'>
             <Col className='flex-shrink-0'>
               <PreparationColumnCard />
+              <SamplePreparationsBar reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>
             </Col>
             <StepsContainer />
           </Row>
