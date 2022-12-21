@@ -55,13 +55,13 @@ const Reaction = () => {
     return (
       <>
         <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
-        <Container fluid className="reaction-process-container">
+        <Container fluid>
           <Row>
             <Col md={2}>
               <SamplePreparationsBar reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>
             </Col>
             <Col>
-              <ReactionProcess reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
+              <ReactionProcess reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
             </Col>
             <Col md={2}>
               <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
