@@ -11,7 +11,7 @@ const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
   return (
     <>
       <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
-      <Row noGutters>
+      <Row className='g-0'>
         <Col md={10} className="scroll-body overflow-auto">
           <Row className='flex-nowrap'>
             <Col className='flex-shrink-0'>
