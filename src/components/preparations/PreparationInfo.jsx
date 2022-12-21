@@ -1,17 +1,17 @@
 import React from 'react'
 import {  UncontrolledTooltip } from 'reactstrap'
 
-const SamplePreparation = ({ preparation, preparationOptions }) => {
+const PreparationInfo = ({ preparation, sampleName }) => {
 
   return (
     <>
       <div id={"sample-preparation-" + preparation.id}>
-        {preparationOptions.samples.find(option => option.value === preparation.sample_id).label}
+        {sampleName}
         <br />
         {preparation.preparations.join(', ')}
       </div>
       < UncontrolledTooltip target={"sample-preparation-" + preparation.id} >
-        {preparationOptions.samples.find(option => option.value === preparation.sample_id).label}
+        {sampleName}
         <br />
         {preparation.preparations.join(', ')}
         <br />
@@ -23,4 +23,4 @@ const SamplePreparation = ({ preparation, preparationOptions }) => {
   )
 }
 
-export default SamplePreparation
+export default PreparationInfo

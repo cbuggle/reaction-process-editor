@@ -4,9 +4,8 @@ import { Col, Row } from 'reactstrap';
 import ReactionNavbar from '../reactions/ReactionNavbar';
 import VesselsSelectBar from '../vessels/VesselsSelectBar';
 import SamplesSideBar from '../samples/SamplesSideBar';
-import PreparationColumnCard from "../preparations/PreparationColumnCard";
 import StepsContainer from "../steps/StepsContainer";
-import SamplePreparationsBar from "../reaction_processes/SamplePreparationsBar";
+import PreparationColumnCard from "../preparations/PreparationColumnCard";
 
 const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
   return (
@@ -16,8 +15,7 @@ const ReactionProcess = ({ reactionProcess, fetchReactionProcess }) => {
         <Col md={10} className="scroll-body overflow-auto">
           <Row className='flex-nowrap'>
             <Col className='flex-shrink-0'>
-              <PreparationColumnCard />
-              <SamplePreparationsBar reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>
+              <PreparationColumnCard reactionProcess={reactionProcess} onChange={fetchReactionProcess}/>
             </Col>
             <StepsContainer />
           </Row>

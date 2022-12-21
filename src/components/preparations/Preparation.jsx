@@ -3,18 +3,26 @@ import { Button, Label, Input, Form, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
-import SamplePreparation from './SamplePreparation'
+import PreparationInfo from './PreparationInfo'
 import CreateButton from "../utilities/CreateButton";
+import PreparationCard from "../preparations/PreparationCard";
+import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 
-const SamplePreparationForm = ({ preparation, reactionProcess, onChange }) => {
+const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
   const preparationOptions = useMemo(() => { return reactionProcess.select_options.samples_preparations })
 
   const [showForm, setShowForm] = useState(false)
-  const [preparationForm, updatePreparationForm] = useState(preparation || {
-  })
+  const [initPreparation, setInitPreparation] = useState(false)
+  const [preparationForm, updatePreparationForm] = useState(preparation || {})
 
   const api = useReactionsFetcher()
+
+  const showCard = preparation || initPreparation
+  const sampleName = preparation
+      ? preparationOptions.samples.find(option => option.value === preparation.sample_id).label
+      : ''
+  const cardTitle = preparation ? sampleName : 'New Preparation'
 
   const onInputChange = (field) => {
     const { name, value } = field;
@@ -26,24 +34,30 @@ const SamplePreparationForm = ({ preparation, reactionProcess, onChange }) => {
   const onSave = (e) => {
     e.preventDefault()
     api.updateSamplePreparation(reactionProcess.id, preparationForm).then(() => {
-      setShowForm(false)
+      closeForm()
       onChange()
     })
   }
 
   const onDelete = () => {
     api.deleteSamplePreparation(reactionProcess.id, preparationForm.id).then(() => {
-      setShowForm(false)
+      closeForm()
       onChange()
     })
   }
 
   const openForm = () => {
-    setShowForm(true)
+      setShowForm(true)
   }
 
   const closeForm = () => {
     setShowForm(false)
+    setInitPreparation(false)
+  }
+
+  const createPreparation = () => {
+      setShowForm(true)
+      setInitPreparation(true)
   }
 
   const renderDeleteButton = () => {
@@ -53,15 +67,11 @@ const SamplePreparationForm = ({ preparation, reactionProcess, onChange }) => {
   }
 
   const renderInfo = () => {
-    if (preparation) {
-      return (
-        <Button color="outline-secondary" size="sm" onClick={openForm}>
-          <SamplePreparation preparation={preparation} preparationOptions={preparationOptions} />
-        </Button>
-      )
-    } else {
-      return (<CreateButton label='New Preparation' type='preparation' onClick={openForm}/>)
-    }
+    return (
+      <Button color="outline-secondary" size="sm" onClick={openForm}>
+        <PreparationInfo preparation={preparation} sampleName={sampleName} />
+      </Button>
+    )
   }
 
   const renderForm = () => {
@@ -112,10 +122,12 @@ const SamplePreparationForm = ({ preparation, reactionProcess, onChange }) => {
   }
 
   return (
-    <>
-      {showForm ? renderForm() : renderInfo()}
-    </>
+    showCard ?
+        <PreparationCard title={cardTitle}>
+          {showForm ? renderForm() : renderInfo()}
+        </PreparationCard>
+    : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation}/>
   )
 }
 
-export default SamplePreparationForm
+export default Preparation

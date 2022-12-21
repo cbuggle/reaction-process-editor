@@ -1,12 +1,15 @@
 import React from 'react';
-import {Card, CardHeader} from "reactstrap";
+import {Card, CardBody, CardHeader} from "reactstrap";
 
-const PreparationCard = ({children}) => {
+const PreparationCard = ({title, children}) => {
     return (
         <Card>
             <CardHeader>
-                Preparation No. {children}
+                {title}
             </CardHeader>
+            <CardBody>
+                {children}
+            </CardBody>
         </Card>
     );
 };
