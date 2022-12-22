@@ -1,16 +1,12 @@
 import React from 'react';
 import {Card, CardBody, CardHeader} from "reactstrap";
+import ProcedureCard from "../utilities/ProcedureCard";
 
 const PreparationCard = ({title, children}) => {
     return (
-        <Card>
-            <CardHeader>
-                {title}
-            </CardHeader>
-            <CardBody>
-                {children}
-            </CardBody>
-        </Card>
+        <ProcedureCard title={title} type='preparation'>
+            {children}
+        </ProcedureCard>
     );
 };
 
