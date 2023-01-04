@@ -3,10 +3,10 @@ import { Button, Label, Input, Form, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
-import PreparationInfo from './PreparationInfo'
+
 import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "../preparations/PreparationCard";
-import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+import PreparationInfo from "./PreparationInfo"
 
 const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
@@ -20,8 +20,8 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
   const showCard = preparation || initPreparation
   const sampleName = preparation
-      ? preparationOptions.samples.find(option => option.value === preparation.sample_id).label
-      : ''
+    ? preparationOptions.samples.find(option => option.value === preparation.sample_id).label
+    : ''
   const cardTitle = preparation ? sampleName : 'New Preparation'
 
   const onInputChange = (field) => {
@@ -47,7 +47,7 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
   }
 
   const openForm = () => {
-      setShowForm(true)
+    setShowForm(true)
   }
 
   const closeForm = () => {
@@ -56,8 +56,8 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
   }
 
   const createPreparation = () => {
-      setShowForm(true)
-      setInitPreparation(true)
+    setShowForm(true)
+    setInitPreparation(true)
   }
 
   const renderDeleteButton = () => {
@@ -66,11 +66,11 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
     }
   }
 
-  const renderInfo = () => {
+  const renderCard = () => {
     return (
-      <Button color="outline-secondary" size="sm" onClick={openForm}>
-        <PreparationInfo preparation={preparation} sampleName={sampleName} />
-      </Button>
+      <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showCancelBtn={false} >
+        <PreparationInfo preparation={preparation} />
+      </PreparationCard>
     )
   }
 
@@ -123,10 +123,8 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
   return (
     showCard ?
-        <PreparationCard title={cardTitle}>
-          {showForm ? renderForm() : renderInfo()}
-        </PreparationCard>
-    : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation}/>
+      showForm ? renderForm() : renderCard()
+      : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />
   )
 }
 

@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-import { Container, Row, Col } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Row, Col } from 'reactstrap';
 
-import ReactionProcess from './ReactionProcess';
-import ReactionNavbar from '../navbars/ReactionNavbar';
+import StepsContainer from '../steps/StepsContainer';
+import PreparationColumnCard from '../preparations/PreparationColumnCard';
+
+import ReactionNavbar from '../reactions/ReactionNavbar';
 
 import VesselsSelectBar from '../vessels/VesselsSelectBar';
 import SamplesSideBar from '../samples/SamplesSideBar';
-import SamplePreparationsBar from '../reaction_processes/SamplePreparationsBar';
-
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-import ReactionProcess from '../reactions/ReactionProcess';
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 
 const Reaction = () => {
