@@ -24,6 +24,7 @@ const Reaction = () => {
   const username = new URLSearchParams(useLocation().search).get('username');
 
   const [reactionProcess, setReactionProcess] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (auth_token) {
@@ -36,28 +37,31 @@ const Reaction = () => {
   }, [])
 
   const fetchReactionProcess = () => {
+    setIsLoading(true)
     api.getReactionProcess(reactionId).then((data) => {
       setReactionProcess(data['reaction_process'])
+      setIsLoading(false)
     })
   }
 
-  const renderFetchDataHint = () => {
+  const renderReactionNavbar = () => {
     return (
-      <SpinnerWithMessage message='Fetching reaction process' />
+      isLoading ? <SpinnerWithMessage message={'Storing process data'} /> : <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
     )
   }
 
   const renderReaction = () => {
     return (
       <>
-        <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
+        {renderReactionNavbar()}
+
         <Row className='g-0 flex-grow-1'>
           <Col md={10} className="scroll-body overflow-auto p-3">
             <Row className='flex-nowrap'>
               <Col className='flex-shrink-0'>
                 <PreparationColumnCard reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
               </Col>
-              <StepsContainer />
+              <StepsContainer reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
             </Row>
           </Col>
           <Col md={2} className="samples-select-bar scroll-body">
@@ -70,7 +74,7 @@ const Reaction = () => {
   }
 
   return (
-    reactionProcess ? renderReaction() : renderFetchDataHint()
+    reactionProcess ? renderReaction() : <SpinnerWithMessage message={'Fetching reaction process data'} />
   );
 }
 
