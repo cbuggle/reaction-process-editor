@@ -1,26 +1,36 @@
-import React, {useState} from 'react';
-import {Col} from 'reactstrap';
-import CreateButton from "../utilities/CreateButton";
+import React from 'react';
+import { Col } from 'reactstrap';
+
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import CreateButton from '../utilities/CreateButton';
 import StepColumCard from "./StepColumnCard";
 
-const StepsContainer = () => {
-    const [steps, setSteps] = useState([])
+const StepsContainer = ({ reactionProcess, onChange }) => {
 
-    const createStep = () => {
-        setSteps([...steps, {id:String(steps.length + 1)}])
-    }
-    return (
-        <>
-            {steps.map((step, index) => (
-                <Col key={step.id} className='flex-shrink-0'>
-                    <StepColumCard index={index} amount={steps.length} stepName={'Step No. ' + (index + 1)} />
-                </Col>
-            ))}
-            <Col className='flex-shrink-0'>
-                <CreateButton label='New Step' type='step' onClick={createStep}/>
-            </Col>
-        </>
-    );
+  const api = useReactionsFetcher();
+
+  const createProcessStep = () => {
+    api.createProcessStep(reactionProcess.id).then(() => {
+      onChange()
+    })
+  }
+
+  return (
+    <>
+      {reactionProcess.reaction_process_steps.map((processStep, index) => (
+        <Col key={processStep.id} className='flex-shrink-0'>
+          <StepColumCard index={index}
+            processStep={processStep}
+            totalSteps={reactionProcess.reaction_process_steps.length}
+            onChange={onChange} />
+        </Col>
+      ))}
+      <Col className='flex-shrink-0'>
+        <CreateButton label='New Step' type='step' onClick={createProcessStep} />
+      </Col>
+    </>
+  );
 };
 
-export default StepsContainer;
+
+export default StepsContainer

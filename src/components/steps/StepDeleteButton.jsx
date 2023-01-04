@@ -4,7 +4,7 @@ import { Button, UncontrolledTooltip } from 'reactstrap'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-const ProcessStepDeleteButton = ({ processStep, onDelete }) => {
+const StepDeleteButton = ({ processStep, onDelete }) => {
 
   const api = useReactionsFetcher()
 
@@ -32,4 +32,4 @@ const ProcessStepDeleteButton = ({ processStep, onDelete }) => {
   )
 }
 
-export default ProcessStepDeleteButton
+export default StepDeleteButton

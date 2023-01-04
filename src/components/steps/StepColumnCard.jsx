@@ -1,23 +1,33 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import CreateButton from "../utilities/CreateButton";
 import ActionCard from "../actions/ActionCard";
+import StepDeleteButton from "./StepDeleteButton";
 
-const StepColumCard = ({index, amount, stepName, children}) => {
-    const [actions, setActions] = useState([])
+const StepColumCard = ({ processStep, index, totalSteps, onChange }) => {
 
-    const createAction = () => {
-        setActions([...actions, {id:String(actions.length + 1)}])
-    }
-    const title = (index + 1) + ' / ' + amount + ' ' + stepName
+  const stepName = 'Step No. ' + (index + 1)
+  const title = (index + 1) + '/' + totalSteps + ' ' + stepName // + ' ' + processStep.name
+
+  const renderTitle = () => {
     return (
-        <ColumnContainerCard title={title} className='column-container-card column-container-card--step'>
-            {actions.map(prep => (
-                <ActionCard key={prep.id}>{prep.id}</ActionCard>
-            ))}
-            <CreateButton label='New Action' type='action' onClick={createAction}/>
-        </ColumnContainerCard>
-    );
+      <>
+        <div>{title} {processStep.name}</div>
+        <StepDeleteButton processStep={processStep} onDelete={onChange} />
+      </>
+    )
+  }
+
+  const createAction = () => { }
+
+  return (
+    <ColumnContainerCard title={renderTitle()} className='column-container-card column-container-card--step'>
+      {processStep.actions.map(action => (
+        <ActionCard key={action.id}>{action.id}</ActionCard>
+      ))}
+      <CreateButton label='New Action' type='action' onClick={createAction} />
+    </ColumnContainerCard>
+  );
 };
 
 export default StepColumCard;
