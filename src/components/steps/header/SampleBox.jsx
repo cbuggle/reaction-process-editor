@@ -1,9 +1,10 @@
 import React from 'react'
-import { PopoverBody, PopoverHeader, UncontrolledTooltip } from 'reactstrap'
 
-import SamplesDecorator from '../../../samples/SamplesDecorator'
+import { UncontrolledTooltip, PopoverHeader, PopoverBody, } from 'reactstrap'
 
-const SolventBox = ({ action }) => {
+import SamplesDecorator from '../../samples/SamplesDecorator'
+
+const SampleBox = ({ action }) => {
   return (
     <>
       <div id={"tooltip-sample-" + action.id}>
@@ -13,9 +14,14 @@ const SolventBox = ({ action }) => {
         <PopoverHeader>
           {SamplesDecorator.labelForButtonSolvent(action.sample)}
         </PopoverHeader>
-      </UncontrolledTooltip >
+        <PopoverBody>
+          <div>
+            {SamplesDecorator.sampleSvgFile(action.sample)}
+          </div>
+        </PopoverBody>
+      </UncontrolledTooltip>
     </>
   )
 }
 
-export default SolventBox
+export default SampleBox

@@ -1,9 +1,9 @@
 import React from 'react'
-import MediumBox from './boxes/MediumBox'
-import SampleBox from './boxes/SampleBox'
-import SolventBox from './boxes/SolventBox'
+import MediumBox from './MediumBox'
+import SampleBox from './SampleBox'
+import SolventBox from './SolventBox'
 
-const ProcessStepSamples = ({ processStep }) => {
+const StepSamples = ({ processStep }) => {
 
   const renderSampleBox = (action) => {
     switch (action.workup['acts_as']) {
@@ -31,4 +31,4 @@ const ProcessStepSamples = ({ processStep }) => {
   )
 }
 
-export default ProcessStepSamples
+export default StepSamples

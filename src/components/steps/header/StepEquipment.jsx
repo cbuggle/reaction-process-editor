@@ -1,9 +1,9 @@
 
 import React from 'react'
-import EquipmentBox from './boxes/EquipmentBox'
+import EquipmentBox from './EquipmentBox'
 
-const ProcessStepEquipment = ({ processStep }) => {
-   return (
+const StepEquipment = ({ processStep }) => {
+  return (
     <>
       {processStep.actions.map((action) => {
         if (action.workup['mount_action'] === 'MOUNT') {
@@ -15,4 +15,4 @@ const ProcessStepEquipment = ({ processStep }) => {
   )
 }
 
-export default ProcessStepEquipment
+export default StepEquipment
