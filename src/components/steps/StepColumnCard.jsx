@@ -6,26 +6,35 @@ import ActionCard from "../actions/ActionCard";
 import StepEquipment from './header/StepEquipment'
 import StepSamples from './header/StepSamples'
 import StepVessel from './header/StepVessel'
-import StepDeleteButton from "./StepDeleteButton";
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const StepColumCard = ({ processStep, index, totalSteps, onChange }) => {
+const StepColumCard = ({ processStep, index, totalSteps, onChange  }) => {
 
-  const stepName = 'Step No. ' + (index + 1)
-  const title = (index + 1) + '/' + totalSteps + ' ' + stepName // + ' ' + processStep.name
+  const titlePrefix = (index + 1) + '/' + totalSteps
 
   const renderTitle = () => {
-    return (
-      <>
-        <div>{title} {processStep.name}</div>
-        <StepDeleteButton processStep={processStep} onDelete={onChange} />
-      </>
-    )
+    return (titlePrefix + ' ' + processStep.name)
   }
+
+  const api = useReactionsFetcher()
 
   const createAction = () => { }
 
+  const confirmDeleteStep = () => {
+
+    window.confirm('Deleting the ProcessStep will irreversably delete this ' +
+      'step and all associated actions. This can not be undone. Are you sure?')
+    && deleteStep()
+  }
+
+  const deleteStep = () => {
+    api.deleteProcessStep(processStep.id).then(() => {
+      onChange()
+    })
+  }
+
   return (
-    <ColumnContainerCard title={renderTitle()} className='column-container-card column-container-card--step'>
+    <ColumnContainerCard title={renderTitle()} type='step' onDelete={confirmDeleteStep}>
       <StepVessel processStep={processStep} />
       <StepSamples processStep={processStep} />
       <StepEquipment processStep={processStep} />

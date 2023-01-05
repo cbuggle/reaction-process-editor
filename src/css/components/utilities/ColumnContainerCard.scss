@@ -1,5 +1,5 @@
 .column-container-card {
-  &__body > * {
+  .card-body > * {
     margin-bottom: 12px;
     &:last-child {
       margin-bottom: 0;

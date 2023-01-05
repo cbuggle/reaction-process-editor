@@ -16,19 +16,23 @@ import {
     faPlus,
     faTrash,
     faXmark,
+    faArrowsAltV,
+    faArrowsAltH,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
-    faChevronCircleDown,
-    faChevronCircleRight,
-    faDownload,
-    faEdit,
-    faPen,
-    faSearch,
-    faUserCircle,
-    faPlus,
-    faTrash,
-    faXmark
+  faChevronCircleDown,
+  faChevronCircleRight,
+  faDownload,
+  faEdit,
+  faPen,
+  faSearch,
+  faUserCircle,
+  faPlus,
+  faTrash,
+  faXmark,
+  faArrowsAltV,
+  faArrowsAltH,
 )
 
 

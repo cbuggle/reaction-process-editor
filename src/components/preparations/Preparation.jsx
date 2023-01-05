@@ -60,17 +60,9 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
     setInitPreparation(true)
   }
 
-  const renderDeleteButton = () => {
-    if (preparation) {
-      return (<Button close color="outline-danger" onClick={onDelete} />)
-    }
-  }
-
-  const renderCard = () => {
+  const renderInfo = () => {
     return (
-      <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showCancelBtn={false} >
-        <PreparationInfo preparation={preparation} />
-      </PreparationCard>
+      <PreparationInfo preparation={preparation} />
     )
   }
 
@@ -114,16 +106,19 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
             onChange={event => onInputChange({ name: 'details', value: event.target.value })}
           />
         </FormGroup>
-        {renderDeleteButton()}
-        <Button color="secondary" className="float-left" onClick={closeForm}>Cancel</Button>
-        <Button type="submit" color="success" className="float-right" onClick={onSave}>Save</Button>
+        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+          <Button color="secondary" onClick={closeForm}>Cancel</Button>
+          <Button type="submit" color="success" onClick={onSave}>Save</Button>
+        </div>
       </Form>
     )
   }
 
   return (
     showCard ?
-      showForm ? renderForm() : renderCard()
+      <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showForm={showForm} >
+        {showForm ? renderForm() : renderInfo()}
+      </PreparationCard>
       : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />
   )
 }
