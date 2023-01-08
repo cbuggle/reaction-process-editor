@@ -17,7 +17,10 @@ function useReactionsFetcher() {
     updateSamplePreparation,
     deleteSamplePreparation,
     createProcessStep,
-    deleteProcessStep
+    deleteProcessStep,
+    createAction,
+    updateAction,
+    deleteAction
   }
 
   function index() {
@@ -65,5 +68,17 @@ function useReactionsFetcher() {
 
   function deleteProcessStep(id) {
     return api.delete(`/reaction_process_step/${id}`)
+  }
+
+  function createAction(processStepId, action) {
+    return api.post(`/reaction_process_step/${processStepId}/actions`, { 'action': action })
+  }
+
+  function updateAction(action) {
+    return api.put(`/reaction_process_action/${action.id}`, { 'action': action })
+  }
+
+  function deleteAction(id) {
+    return api.delete(`/reaction_process_action/${id}`)
   }
 }

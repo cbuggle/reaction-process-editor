@@ -1,0 +1,122 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import { Button, ListGroupItem, FormGroup, Label, Input } from 'reactstrap'
+
+import AddSampleForm from './forms/AddSampleForm'
+import EquipmentForm from './forms/EquipmentForm'
+import ConditionForm from './forms/ConditionForm'
+import MotionForm from './forms/MotionForm'
+import TransferForm from './forms/TransferForm'
+import RemoveForm from './forms/RemoveForm'
+import PurifyForm from './forms/PurifyForm'
+import AnalysisForm from './forms/AnalysisForm'
+import ApplyEquipmentForm from './forms/ApplyEquipmentForm'
+import SaveSampleForm from './forms/SaveSampleForm'
+// import ActionValidator from '../validators/ActionValidator';
+
+import { actionTypeClusters } from '../../constants/actionTypeClusters'
+import TypeSelectionPanel from '../utilities/TypeSelectionPanel'
+
+
+const ActionForm = (props) => {
+
+  const customActionForm = () => {
+    switch (props.action.action_name) {
+      case "ADD":
+        return (
+          <>
+            <AddSampleForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </>
+        )
+      case "SAVE":
+        return (
+          <SaveSampleForm {...props} />
+        )
+      case "EQUIP":
+        return (
+          <EquipmentForm {...props} />
+        )
+      case "CONDITION":
+        return (
+          <b>
+            <ConditionForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </b>
+        )
+      case "MOTION":
+        return (
+          <>
+            <MotionForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </>
+        )
+      case "TRANSFER":
+        return (
+          <>
+            <TransferForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </>
+        )
+      case "REMOVE":
+        return (
+          <>
+            <RemoveForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </>
+        )
+      case "PURIFY":
+        return (
+          <>
+            <PurifyForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </>
+        )
+      case "ANALYSIS":
+        return (
+          <>
+            <AnalysisForm {...props} />
+          </>
+        )
+      case 'PAUSE':
+      case "WAIT":
+        return (<></>)
+      default:
+        // return (<TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelect}/>)
+        return (<div>Error in Sample Form: Unknown ACTION TYPE: {props.action.action_name} ***</div>)
+    }
+  }
+
+  const onSave = () => {
+    // if (ActionValidator.validate(props.action)) {
+    props.onSave()
+    // }
+  }
+
+  return (
+    <div className="action-form">
+      <ListGroupItem>
+        <FormGroup>
+          <Label>Description</Label>
+          {props.action.id ? "" : " (leave empty to autofill)"}
+          <Input
+            type="textarea"
+            value={props.action.workup.description}
+            placeholder="Description"
+            onChange={event => props.onWorkupChange({ name: 'description', value: event.target.value })}
+          />
+        </FormGroup>
+      </ListGroupItem>
+      {customActionForm()}
+      <Button color="secondary" className="float-left" onClick={props.onCancel}>Cancel</Button>
+      <Button color="success" className="float-right" onClick={onSave}>Save</Button>
+    </div>
+  )
+}
+
+ActionForm.propTypes = {
+  action: PropTypes.object.isRequired
+}
+
+export default ActionForm

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, ButtonGroup} from "reactstrap";
 
-const TypeSelectionPanel = ({clusters}) => {
+const TypeSelectionPanel = ({clusters, onSelect}) => {
     const styles = {
         typeSelectionPanel: {
             display: 'flex',
@@ -18,7 +18,7 @@ const TypeSelectionPanel = ({clusters}) => {
                     <h4>{cluster.label}</h4>
                     <ButtonGroup vertical>
                         {cluster.types.map((type, tIndex) => (
-                            <Button key={type.id + tIndex}>
+                            <Button key={type.id + tIndex} onClick={onSelect(type.action)}>
                                 {type.createLabel}
                             </Button>
                         ))}

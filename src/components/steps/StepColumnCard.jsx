@@ -1,14 +1,14 @@
 import React from 'react';
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import CreateButton from "../utilities/CreateButton";
-import ActionCard from "../actions/ActionCard";
+import Action from '../actions/Action';
 
 import StepEquipment from './header/StepEquipment'
 import StepSamples from './header/StepSamples'
 import StepVessel from './header/StepVessel'
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const StepColumCard = ({ processStep, index, totalSteps, onChange  }) => {
+const StepColumCard = ({ processStep, index, totalSteps, onChange }) => {
 
   const titlePrefix = (index + 1) + '/' + totalSteps
 
@@ -18,13 +18,11 @@ const StepColumCard = ({ processStep, index, totalSteps, onChange  }) => {
 
   const api = useReactionsFetcher()
 
-  const createAction = () => { }
-
   const confirmDeleteStep = () => {
 
     window.confirm('Deleting the ProcessStep will irreversably delete this ' +
       'step and all associated actions. This can not be undone. Are you sure?')
-    && deleteStep()
+      && deleteStep()
   }
 
   const deleteStep = () => {
@@ -39,9 +37,10 @@ const StepColumCard = ({ processStep, index, totalSteps, onChange  }) => {
       <StepSamples processStep={processStep} />
       <StepEquipment processStep={processStep} />
       {processStep.actions.map(action => (
-        <ActionCard key={action.id}>{action.id}</ActionCard>
+        <Action key={action.id} action={action} processStep={processStep} onChange={onChange} />
       ))}
-      <CreateButton label='New Action' type='action' onClick={createAction} />
+
+      <Action action={{ workup: {} }} processStep={processStep} onChange={onChange} />
     </ColumnContainerCard>
   );
 };
