@@ -1,0 +1,11 @@
+.icon-button {
+  border-radius: 50%;
+  padding: 4px;
+  --bs-btn-color: white;
+  --bs-btn-hover-color: black;
+  --bs-btn-hover-bg: white;
+  line-height: 1em;
+  svg {
+    width: 1em;
+  }
+}

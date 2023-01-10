@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Row, Spinner} from "reactstrap";
+import {Spinner} from "reactstrap";
 
 const SpinnerWithMessage = ({message}) => {
     return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Card, CardHeader, CardBody} from 'reactstrap';
 import ProcedureCard from "./ProcedureCard";
 
 const ColumnContainerCard = (props) => {

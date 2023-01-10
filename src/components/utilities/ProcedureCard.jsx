@@ -1,6 +1,6 @@
 import React from 'react';
-import {Card, CardBody, CardHeader, ButtonGroup, Button} from "reactstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Card, CardBody, CardHeader} from "reactstrap";
+import IconButton from "./IconButton";
 
 const ProcedureCard = (
   {
@@ -24,33 +24,23 @@ const ProcedureCard = (
       <Card className={'procedure-card procedure-card--' + type + ' ' + customClass}>
         <CardHeader className={'d-flex justify-content-between align-items-center bg-' + type}>
           <HeaderTitleTag className='rounded-pill bg-white mb-0 px-3'>{title}</HeaderTitleTag>
-          <ButtonGroup>
+          <div>
             {showEditBtn &&
-              <Button size="sm" onClick={onEdit}>
-                <FontAwesomeIcon size="lg" icon='pen' />
-              </Button>
+              <IconButton onClick={onEdit} icon='pen' />
             }
             {showMoveXBtn &&
-              <Button size="sm">
-                <FontAwesomeIcon size="lg" icon='arrows-alt-h' />
-              </Button>
+              <IconButton icon='arrows-alt-h' />
             }
             {showMoveYBtn &&
-              <Button size="sm">
-                <FontAwesomeIcon size="lg" icon='arrows-alt-v' />
-              </Button>
+              <IconButton icon='arrows-alt-v' />
             }
             {showDeleteBtn &&
-              <Button size="sm" onClick={onDelete}>
-                <FontAwesomeIcon size="lg" icon='trash' />
-              </Button>
+              <IconButton onClick={onDelete} icon='trash' />
             }
             {showCancelBtn &&
-              <Button size="sm" onClick={onCancel}>
-                <FontAwesomeIcon size="lg" icon='xmark' />
-              </Button>
+              <IconButton onClick={onCancel} icon='times' />
             }
-          </ButtonGroup>
+          </div>
         </CardHeader>
         <CardBody className={'procedure-card__body procedure-card__body--' + mode}>
           {children}

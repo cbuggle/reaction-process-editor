@@ -15,7 +15,7 @@ import {
   faUserCircle,
   faPlus,
   faTrash,
-  faXmark,
+  faTimes,
   faArrowsAltV,
   faArrowsAltH,
 } from '@fortawesome/free-solid-svg-icons'
@@ -30,7 +30,7 @@ library.add(
   faUserCircle,
   faPlus,
   faTrash,
-  faXmark,
+  faTimes,
   faArrowsAltV,
   faArrowsAltH,
 )
