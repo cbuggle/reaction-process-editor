@@ -56,7 +56,17 @@ const StepColumCard = ({ processStep, reactionProcess, totalSteps, onChange }) =
 
   return (
     showCard ?
-      <ColumnContainerCard title={cardTitle} type='step' onDelete={confirmDeleteStep} onEdit={toggleForm}>
+      <ColumnContainerCard
+        title={cardTitle}
+        type='step'
+        showEditBtn={!showForm}
+        showMoveXBtn={!showForm}
+        showDeleteBtn={!showForm}
+        showCancelBtn={showForm}
+        onDelete={confirmDeleteStep}
+        onEdit={toggleForm}
+        onCancel={toggleForm}
+      >
         {showForm ?
           <StepForm processStep={processStep}
             reactionProcess={reactionProcess}
