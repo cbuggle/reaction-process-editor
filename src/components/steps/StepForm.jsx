@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Button, Input } from 'reactstrap'
+import FormButtons from "../utilities/FormButtons";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
@@ -39,10 +40,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
     <>
       <Input size="sm" placeholder="Unnamed" value={stepForm.name} onChange={event => onInputChange({ name: 'name', value: event.target.value })} />
       {renderNameSuggestionSelect()}
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <Button color="secondary" onClick={onCancel}>Cancel</Button>
-        <Button color="success" onClick={handleSave}>Save</Button>
-      </div>
+      <FormButtons onSave={handleSave} onCancel={onCancel} type='step' />
     </>
   )
 

@@ -7,6 +7,7 @@ const PreparationCard = (
     children,
     onEdit,
     onDelete,
+    onCancel,
     showForm = false,
   }) => {
   return (
@@ -15,11 +16,12 @@ const PreparationCard = (
       type='preparation'
       onEdit={onEdit}
       onDelete={onDelete}
+      onCancel={onCancel}
       showEditBtn={!showForm}
       showMoveXBtn={false}
       showMoveYBtn={!showForm}
-      showDeleteBtn={true}
-      showCancelBtn={false}
+      showDeleteBtn={!showForm}
+      showCancelBtn={showForm}
     >
       {children}
     </ProcedureCard>

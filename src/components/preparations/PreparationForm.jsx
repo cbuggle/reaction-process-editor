@@ -3,6 +3,7 @@ import { Button, Label, Input, Form, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
+import FormButtons from "../utilities/FormButtons";
 
 const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) => {
 
@@ -60,10 +61,7 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           onChange={event => onInputChange({ name: 'details', value: event.target.value })}
         />
       </FormGroup>
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <Button color="secondary" onClick={onCancel}>Cancel</Button>
-        <Button color="success" onClick={handleSave}>Save</Button>
-      </div>
+      <FormButtons onSave={handleSave} onCancel={onCancel} type='preparation' />
     </Form>
   )
 }

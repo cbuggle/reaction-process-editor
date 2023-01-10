@@ -13,6 +13,7 @@ import PurifyForm from './forms/PurifyForm'
 import AnalysisForm from './forms/AnalysisForm'
 import ApplyEquipmentForm from './forms/ApplyEquipmentForm'
 import SaveSampleForm from './forms/SaveSampleForm'
+import FormButtons from "../utilities/FormButtons";
 // import ActionValidator from '../validators/ActionValidator';
 
 const ActionForm = (props) => {
@@ -104,8 +105,7 @@ const ActionForm = (props) => {
         </FormGroup>
       </ListGroupItem>
       {customActionForm()}
-      <Button color="secondary" className="float-left" onClick={props.onCancel}>Cancel</Button>
-      <Button color="success" className="float-right" onClick={onSave}>Save</Button>
+      <FormButtons onSave={onSave} onCancel={props.onCancel} type='action' />
     </div>
   )
 }

@@ -68,7 +68,7 @@ const Action = ({ action, processStep, onChange }) => {
 
   const renderActionCard = () => {
     return (
-      <ActionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showForm={showForm} >
+      <ActionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} >
         {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
           <ActionInfo action={action} />}
       </ActionCard>
@@ -78,7 +78,7 @@ const Action = ({ action, processStep, onChange }) => {
   const renderActionTypeSelectForm = () => {
     return (
       showForm ?
-        <ActionCard title={"New Action"} showForm={true} onDelete={onCancel}>
+        <ActionCard title={"New Action"} showForm={true} onCancel={onCancel}>
           <TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelectType} />
         </ActionCard >
         : <CreateButton label='New Action' type='action' onClick={openForm} />

@@ -7,6 +7,7 @@ const ActionCard = (
     children,
     onEdit,
     onDelete,
+    onCancel,
     showForm = false,
   }) => {
   return (
@@ -15,11 +16,12 @@ const ActionCard = (
       type='action'
       onEdit={onEdit}
       onDelete={onDelete}
+      onCancel={onCancel}
       showEditBtn={!showForm}
       showMoveXBtn={false}
       showMoveYBtn={!showForm}
-      showDeleteBtn={true}
-      showCancelBtn={false}
+      showDeleteBtn={!showForm}
+      showCancelBtn={showForm}
     >
       {children}
     </ProcedureCard>

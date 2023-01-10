@@ -57,13 +57,13 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
   const renderForm = () => {
     return (
-      <PreparationForm preparation={preparation} preparationOptions={preparationOptions}onSave={onSave} onCancel={closeForm}/>
+      <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
     )
   }
 
   return (
     showCard ?
-      <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showForm={showForm} >
+      <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={closeForm} showForm={showForm} >
         {showForm ? renderForm() : renderInfo()}
       </PreparationCard>
       : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />

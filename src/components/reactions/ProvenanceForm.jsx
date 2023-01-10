@@ -5,6 +5,7 @@ import { Form, Button, FormGroup, Label, Input } from 'reactstrap'
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
 import DateTimePicker from 'react-datetime-picker'
+import FormButtons from "../utilities/FormButtons";
 
 const ProvenanceForm = ({ provenance, handleCancel, handleSave }) => {
 
@@ -119,8 +120,7 @@ const ProvenanceForm = ({ provenance, handleCancel, handleSave }) => {
           onChange={event => onInputChange({ name: 'organization', value: event.target.value })}
         />
       </FormGroup>
-      <Button color="secondary" onClick={handleCancel}>Cancel</Button>
-      <Button color="success" className="float-end" onClick={onSave}>Save</Button>
+      <FormButtons onSave={onSave} onCancel={handleCancel} type='preparation' />
     </Form >
   )
 }
