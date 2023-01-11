@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import CreateButton from "../utilities/CreateButton";
-import Action from '../actions/Action';
 
-import StepEquipment from './header/StepEquipment'
-import StepSamples from './header/StepSamples'
-import StepVessel from './header/StepVessel'
+import StepForm from './StepForm';
+import StepInfo from './StepInfo';
+
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const StepColumCard = ({ processStep, index, totalSteps, onChange }) => {
+const StepColumCard = ({ processStep, reactionProcess, totalSteps, onChange }) => {
 
-  const titlePrefix = (index + 1) + '/' + totalSteps
+  const [showCard, setShowCard] = useState(processStep)
+  const [showForm, setShowForm] = useState(false)
 
-  const renderTitle = () => {
-    return (titlePrefix + ' ' + processStep.name)
-  }
+  const cardTitle = processStep ? ((processStep.position + 1) + '/' + totalSteps + ' ' + (processStep.name || '')) : 'New Step'
 
   const api = useReactionsFetcher()
 
@@ -31,17 +29,44 @@ const StepColumCard = ({ processStep, index, totalSteps, onChange }) => {
     })
   }
 
-  return (
-    <ColumnContainerCard title={renderTitle()} type='step' onDelete={confirmDeleteStep}>
-      <StepVessel processStep={processStep} />
-      <StepSamples processStep={processStep} />
-      <StepEquipment processStep={processStep} />
-      {processStep.actions.map(action => (
-        <Action key={action.id} action={action} processStep={processStep} onChange={onChange} />
-      ))}
+  const onSave = (stepForm) => {
+    if (stepForm.id) {
+      api.updateProcessStep(stepForm).then(() => {
+        setShowForm(false)
+        onChange()
+      })
+    } else {
+      api.createProcessStep(reactionProcess.id, stepForm).then(() => {
+        setShowForm(false)
+        setShowCard(false)
+        onChange()
+      })
+    }
+  }
 
-      <Action action={{ workup: {} }} processStep={processStep} onChange={onChange} />
-    </ColumnContainerCard>
+  const createStep = () => {
+    setShowCard(true)
+    setShowForm(true)
+  }
+
+  const toggleForm = () => {
+    setShowForm(!showForm)
+    setShowCard(processStep)
+  }
+
+  return (
+    showCard ?
+      <ColumnContainerCard title={cardTitle} type='step' onDelete={confirmDeleteStep} onEdit={toggleForm}>
+        {showForm ?
+          <StepForm processStep={processStep}
+            reactionProcess={reactionProcess}
+            nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
+            onSave={onSave}
+            onCancel={toggleForm} />
+          :
+          <StepInfo processStep={processStep} onChange={onChange} />}
+      </ColumnContainerCard>
+      : <CreateButton label='New Step' type='step' onClick={createStep} />
   );
 };
 

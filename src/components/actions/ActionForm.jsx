@@ -15,10 +15,6 @@ import ApplyEquipmentForm from './forms/ApplyEquipmentForm'
 import SaveSampleForm from './forms/SaveSampleForm'
 // import ActionValidator from '../validators/ActionValidator';
 
-import { actionTypeClusters } from '../../constants/actionTypeClusters'
-import TypeSelectionPanel from '../utilities/TypeSelectionPanel'
-
-
 const ActionForm = (props) => {
 
   const customActionForm = () => {
@@ -83,7 +79,6 @@ const ActionForm = (props) => {
       case "WAIT":
         return (<></>)
       default:
-        // return (<TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelect}/>)
         return (<div>Error in Sample Form: Unknown ACTION TYPE: {props.action.action_name} ***</div>)
     }
   }

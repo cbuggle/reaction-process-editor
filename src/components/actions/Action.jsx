@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button, Card, CardBody, CardHeader, UncontrolledTooltip } from "reactstrap";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import ActionInfo from './ActionInfo';
 import ActionForm from './ActionForm';
@@ -30,9 +29,6 @@ const Action = ({ action, processStep, onChange }) => {
   }
 
   const onSave = () => {
-    console.log("actionForm")
-    console.log(actionForm)
-
     if (actionForm.id) {
       api.updateAction(actionForm).then(() => {
         setShowForm(false)

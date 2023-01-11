@@ -17,6 +17,7 @@ function useReactionsFetcher() {
     updateSamplePreparation,
     deleteSamplePreparation,
     createProcessStep,
+    updateProcessStep,
     deleteProcessStep,
     createAction,
     updateAction,
@@ -62,23 +63,27 @@ function useReactionsFetcher() {
     return api.delete(`/reaction_processes/${reactionProcessId}/samples_preparations/${id}`)
   }
 
-  function createProcessStep(reactionProcessId) {
-    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`)
+  function createProcessStep(reactionProcessId, processStep) {
+    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
+  }
+
+  function updateProcessStep(processStep) {
+    return api.put(`/reaction_process_steps/${processStep.id}`, { 'reaction_process_step': processStep })
   }
 
   function deleteProcessStep(id) {
-    return api.delete(`/reaction_process_step/${id}`)
+    return api.delete(`/reaction_process_steps/${id}`)
   }
 
   function createAction(processStepId, action) {
-    return api.post(`/reaction_process_step/${processStepId}/actions`, { 'action': action })
+    return api.post(`/reaction_process_steps/${processStepId}/actions`, { 'action': action })
   }
 
   function updateAction(action) {
-    return api.put(`/reaction_process_action/${action.id}`, { 'action': action })
+    return api.put(`/reaction_process_actions/${action.id}`, { 'action': action })
   }
 
   function deleteAction(id) {
-    return api.delete(`/reaction_process_action/${id}`)
+    return api.delete(`/reaction_process_actions/${id}`)
   }
 }

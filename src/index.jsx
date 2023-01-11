@@ -6,18 +6,18 @@ import App from './App';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-    faChevronCircleDown,
-    faChevronCircleRight,
-    faDownload,
-    faEdit,
-    faPen,
-    faSearch,
-    faUserCircle,
-    faPlus,
-    faTrash,
-    faXmark,
-    faArrowsAltV,
-    faArrowsAltH,
+  faChevronCircleDown,
+  faChevronCircleRight,
+  faDownload,
+  faEdit,
+  faPen,
+  faSearch,
+  faUserCircle,
+  faPlus,
+  faTrash,
+  faXmark,
+  faArrowsAltV,
+  faArrowsAltH,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
