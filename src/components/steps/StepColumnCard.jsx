@@ -5,6 +5,9 @@ import CreateButton from "../utilities/CreateButton";
 import StepForm from './StepForm';
 import StepInfo from './StepInfo';
 
+import { useDrag, useDrop } from 'react-dnd'
+import { DndItemTypes } from '../../constants/dndItemTypes';
+
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const StepColumCard = ({ processStep, reactionProcess, totalSteps, onChange }) => {
@@ -12,7 +15,7 @@ const StepColumCard = ({ processStep, reactionProcess, totalSteps, onChange }) =
   const [showCard, setShowCard] = useState(processStep)
   const [showForm, setShowForm] = useState(false)
 
-  const cardTitle = processStep ? ((processStep.position + 1) + '/' + totalSteps + ' ' + (processStep.name || '')) : 'New Step'
+  const cardTitle = processStep ? processStep.label : 'New Step'
 
   const api = useReactionsFetcher()
 
@@ -54,28 +57,64 @@ const StepColumCard = ({ processStep, reactionProcess, totalSteps, onChange }) =
     setShowCard(processStep)
   }
 
+  /* React-DnD drag source and drop target */
+  const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
+    type: DndItemTypes.STEP,
+    item: { processStep: processStep },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+      canDrag: monitor.canDrag()
+    }),
+    canDrag: () => processStep && !processStep.locked
+  }), [processStep])
+
+
+  const [{ isOver }, dropRef] = useDrop(() => ({
+    accept: DndItemTypes.STEP,
+    drop: (monitor) => dropItem(monitor, processStep),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    }),
+    canDrop: (monitor) => processStep && !processStep.locked
+  }), [processStep])
+
+  const dropItem = (monitor, processStep) => {
+    console.log(monitor)
+    console.log(processStep)
+    api.updateProcessStepPosition(monitor.processStep.id, processStep.position).then(() => {
+      onChange()
+    })
+  }
+
+
   return (
     showCard ?
-      <ColumnContainerCard
-        title={cardTitle}
-        type='step'
-        showEditBtn={!showForm}
-        showMoveXBtn={!showForm}
-        showDeleteBtn={!showForm}
-        showCancelBtn={showForm}
-        onDelete={confirmDeleteStep}
-        onEdit={toggleForm}
-        onCancel={toggleForm}
-      >
-        {showForm ?
-          <StepForm processStep={processStep}
-            reactionProcess={reactionProcess}
-            nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
-            onSave={onSave}
-            onCancel={toggleForm} />
-          :
-          <StepInfo processStep={processStep} onChange={onChange} />}
-      </ColumnContainerCard>
+      <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
+        <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
+          <ColumnContainerCard
+            title={cardTitle}
+            type='step'
+            showEditBtn={!showForm}
+            showMoveXBtn={!showForm}
+            showDeleteBtn={!showForm}
+            showCancelBtn={showForm}
+            onDelete={confirmDeleteStep}
+            onEdit={toggleForm}
+            onCancel={toggleForm}
+            dragRef={dragRef}
+          >
+            {showForm ?
+              <StepForm processStep={processStep}
+                reactionProcess={reactionProcess}
+                nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
+                onSave={onSave}
+                onCancel={toggleForm}
+              />
+              :
+              <StepInfo processStep={processStep} onChange={onChange} />}
+          </ColumnContainerCard>
+        </div></div>
       : <CreateButton label='New Step' type='step' onClick={createStep} />
   );
 };

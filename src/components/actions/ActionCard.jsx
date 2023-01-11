@@ -9,6 +9,7 @@ const ActionCard = (
     onDelete,
     onCancel,
     showForm = false,
+    dragRef
   }) => {
   return (
     <ProcedureCard
@@ -22,6 +23,7 @@ const ActionCard = (
       showMoveYBtn={!showForm}
       showDeleteBtn={!showForm}
       showCancelBtn={showForm}
+      dragRef={dragRef}
     >
       {children}
     </ProcedureCard>
