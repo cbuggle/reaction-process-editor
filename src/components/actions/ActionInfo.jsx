@@ -10,7 +10,7 @@ const ActionInfo = ({ action }) => {
 
   return (
     <>
-      <div align="left">{action.position + 1} {action.action_name} {action.workup['description']}</div>
+      <div align="left">{action.label}</div>
       {action.workup['acts_as'] === "SAMPLE" ? SamplesDecorator.sampleSvgFile(action.sample) : <></>}
     </>
   )

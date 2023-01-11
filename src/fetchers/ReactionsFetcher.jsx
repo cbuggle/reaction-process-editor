@@ -21,7 +21,9 @@ function useReactionsFetcher() {
     deleteProcessStep,
     createAction,
     updateAction,
-    deleteAction
+    deleteAction,
+    updateActionPosition,
+    updateProcessStepPosition
   }
 
   function index() {
@@ -64,7 +66,7 @@ function useReactionsFetcher() {
   }
 
   function createProcessStep(reactionProcessId, processStep) {
-    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
+    return api.post(`/reaction_process_steps/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
   }
 
   function updateProcessStep(processStep) {
@@ -73,6 +75,10 @@ function useReactionsFetcher() {
 
   function deleteProcessStep(id) {
     return api.delete(`/reaction_process_steps/${id}`)
+  }
+
+  function updateProcessStepPosition(id, position) {
+    return api.put(`/reaction_process_steps/${id}/update_position`, { 'position': position })
   }
 
   function createAction(processStepId, action) {
@@ -86,4 +92,9 @@ function useReactionsFetcher() {
   function deleteAction(id) {
     return api.delete(`/reaction_process_actions/${id}`)
   }
+
+  function updateActionPosition(id, position) {
+    return api.put(`/reaction_process_actions/${id}/update_position`, { 'position': position })
+  }
+
 }

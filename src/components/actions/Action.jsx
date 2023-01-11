@@ -10,9 +10,13 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 import { actionTypeClusters } from '../../constants/actionTypeClusters';
 
+import { useDrag, useDrop } from 'react-dnd'
+import { DndItemTypes } from '../../constants/dndItemTypes';
+
 const Action = ({ action, processStep, onChange }) => {
 
   const api = useReactionsFetcher()
+
   const [actionForm, setActionForm] = useState(action)
   const [showForm, setShowForm] = useState(false)
 
@@ -61,17 +65,52 @@ const Action = ({ action, processStep, onChange }) => {
   const onSelectType = (action) => () => {
     setActionForm(action)
   }
-  const cardTitle = actionForm.id ?
-    '' + (action.position + 1) + ' ' + actionForm.action_name + ' ' + actionForm.workup['description']
-    :
-    'New Action ' + actionForm.action_name + ' ' + (actionForm.workup['acts_as'] || '')
+
+
+  /* React-DnD drag source and drop target */
+  const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
+    type: DndItemTypes.ACTION,
+    item: { action: action },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+      canDrag: monitor.canDrag()
+    }),
+    canDrag: () => !processStep.locked
+  }), [processStep])
+
+
+  const [{ isOver }, dropRef] = useDrop(() => ({
+    accept: DndItemTypes.ACTION,
+    drop: (monitor) => dropItem(monitor, action),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    }),
+    canDrop: (monitor) => !processStep.locked
+  }), [processStep])
+
+  const dropItem = (monitor, action) => {
+    console.log(monitor)
+    console.log(action)
+    api.updateActionPosition(monitor.action.id, action.position).then(() => {
+      onChange()
+    })
+  }
+
+  const newActionTitle = 'New Action ' + actionForm.action_name + ' ' + (actionForm.workup['acts_as'] || '')
+
+  const cardTitle = actionForm.id ? action.label : newActionTitle
 
   const renderActionCard = () => {
     return (
-      <ActionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} >
-        {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
-          <ActionInfo action={action} />}
-      </ActionCard>
+      <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
+        <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
+          <ActionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showForm={showForm} dragRef={dragRef} >
+            {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
+              <ActionInfo action={action} />}
+          </ActionCard>
+        </div>
+      </div>
     )
   }
 

@@ -16,8 +16,9 @@ const ProcedureCard = (
     showEditBtn = true,
     showMoveXBtn = true,
     showMoveYBtn = true,
-    showDeleteBtn= true,
+    showDeleteBtn = true,
     showCancelBtn = true,
+    dragRef
   }) => {
     const HeaderTitleTag = headerTitleTag
     return (
@@ -29,10 +30,10 @@ const ProcedureCard = (
               <IconButton onClick={onEdit} icon='pen' />
             }
             {showMoveXBtn &&
-              <IconButton icon='arrows-alt-h' />
+              <IconButton icon='arrows-alt-h' dragRef={dragRef} />
             }
             {showMoveYBtn &&
-              <IconButton icon='arrows-alt-v' />
+              <IconButton icon='arrows-alt-v' dragRef={dragRef} />
             }
             {showDeleteBtn &&
               <IconButton onClick={onDelete} icon='trash' />
