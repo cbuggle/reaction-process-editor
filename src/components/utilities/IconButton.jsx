@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const IconButton = (props) => {
   const icon = props.icon
   const dragRef = props.dragRef
-  let buttonProps = { icon, ...props }
+  let buttonProps = { icon, dragRef, ...props }
 
   return (
     <Button size="md" className="icon-button" {...buttonProps}>

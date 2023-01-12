@@ -66,7 +66,6 @@ const Action = ({ action, processStep, onChange }) => {
     setActionForm(action)
   }
 
-
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.ACTION,
@@ -78,23 +77,27 @@ const Action = ({ action, processStep, onChange }) => {
     canDrag: () => !processStep.locked
   }), [processStep])
 
-
-  const [{ isOver }, dropRef] = useDrop(() => ({
+  const [{ isOver, isOverBefore, isOverAfter }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
-    drop: (monitor) => dropItem(monitor, action),
+    drop: (monitor) => dropItem(monitor),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      canDrop: monitor.canDrop()
+      canDrop: monitor.canDrop(),
+      isOverBefore: monitor.isOver() && monitor.getItem().action.position >= action.position,
+      isOverAfter: monitor.isOver() && monitor.getItem().action.position <= action.position
     }),
-    canDrop: (monitor) => !processStep.locked
+    canDrop: () => !processStep.locked
   }), [processStep])
 
-  const dropItem = (monitor, action) => {
+  const dropItem = (monitor) => {
+    console.log("monitor")
     console.log(monitor)
     console.log(action)
-    api.updateActionPosition(monitor.action.id, action.position).then(() => {
-      onChange()
-    })
+    if (action.id !== monitor.action.id) {
+      api.updateActionPosition(monitor.action.id, action.position).then(() => {
+        onChange()
+      })
+    }
   }
 
   const newActionTitle = 'New Action ' + actionForm.action_name + ' ' + (actionForm.workup['acts_as'] || '')
@@ -103,13 +106,15 @@ const Action = ({ action, processStep, onChange }) => {
 
   const renderActionCard = () => {
     return (
-      <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
-        <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
+      <div ref={dropRef} >
+        <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
+        <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0, 'height': '2rem' } : { cursor: 'grab' }}>
           <ActionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} showForm={showForm} dragRef={dragRef} >
             {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
               <ActionInfo action={action} />}
           </ActionCard>
         </div>
+        <div className={'bg-action'} style={isOverAfter ? { 'height': '1rem' } : {}}></div>
       </div>
     )
   }
