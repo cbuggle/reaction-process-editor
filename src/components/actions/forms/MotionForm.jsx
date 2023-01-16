@@ -9,8 +9,8 @@ import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdow
 
 const MotionForm = ({ action, onWorkupChange }) => {
 
-  const handleRpmNumericInput = (props) => {
-    onWorkupChange({ name: 'motion_speed', value: props })
+  const handleRpmNumericInput = (value) => {
+    onWorkupChange({ name: 'motion_speed', value: value })
   }
 
   const handleRpmSliderChange = (event) => {

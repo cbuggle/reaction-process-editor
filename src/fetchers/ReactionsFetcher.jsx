@@ -66,7 +66,7 @@ function useReactionsFetcher() {
   }
 
   function createProcessStep(reactionProcessId, processStep) {
-    return api.post(`/reaction_process_steps/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
+    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
   }
 
   function updateProcessStep(processStep) {
@@ -81,8 +81,8 @@ function useReactionsFetcher() {
     return api.put(`/reaction_process_steps/${id}/update_position`, { 'position': position })
   }
 
-  function createAction(processStepId, action) {
-    return api.post(`/reaction_process_steps/${processStepId}/actions`, { 'action': action })
+  function createAction(processStepId, action, insertBefore) {
+    return api.post(`/reaction_process_steps/${processStepId}/actions`, { 'action': action, 'insert_before': insertBefore })
   }
 
   function updateAction(action) {
