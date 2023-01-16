@@ -18,6 +18,25 @@ import FormButtons from "../utilities/FormButtons";
 
 const ActionForm = (props) => {
 
+  const renderConditionForm = () => {
+    switch (props.action.workup.condition_type) {
+      case "MOTION":
+        return (
+          <>
+            <MotionForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </>
+        )
+      default:
+        return (
+          <b>
+            <ConditionForm {...props} />
+            <ApplyEquipmentForm {...props} />
+          </b>
+        )
+    }
+  }
+
   const customActionForm = () => {
     switch (props.action.action_name) {
       case "ADD":
@@ -36,19 +55,7 @@ const ActionForm = (props) => {
           <EquipmentForm {...props} />
         )
       case "CONDITION":
-        return (
-          <b>
-            <ConditionForm {...props} />
-            <ApplyEquipmentForm {...props} />
-          </b>
-        )
-      case "MOTION":
-        return (
-          <>
-            <MotionForm {...props} />
-            <ApplyEquipmentForm {...props} />
-          </>
-        )
+        return renderConditionForm()
       case "TRANSFER":
         return (
           <>
