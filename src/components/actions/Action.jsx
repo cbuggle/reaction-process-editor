@@ -87,7 +87,7 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
-      isOverBefore: monitor.isOver() && monitor.getItem().action.position >= action.position,
+      isOverBefore: monitor.isOver() && monitor.getItem().action.position > action.position,
       isOverAfter: monitor.isOver() && monitor.getItem().action.position < action.position
     }),
     canDrop: () => !processStep.locked
@@ -171,7 +171,7 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
 
         <div ref={dropRef} >
           <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
-          <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0} : { cursor: 'grab' }}>
+          <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
             {renderActionCard()}
           </div>
           <div className={'bg-action'} style={isOverAfter ? { 'height': '1rem' } : {}}></div>
