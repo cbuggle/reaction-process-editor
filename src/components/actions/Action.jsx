@@ -115,11 +115,11 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
       showForm ?
         formType == 'action' ?
           <ActionCard title={"New Action"} showForm={true} onCancel={onCancel}>
-            <TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelectType} />
+            <TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelectType} selectionType={formType} />
           </ActionCard >
           :
           <ConditionCard title={"New Condition"} showForm={true} onCancel={onCancel}>
-            <TypeSelectionPanel clusters={conditionTypeClusters} onSelect={onSelectType} />
+            <TypeSelectionPanel clusters={conditionTypeClusters} onSelect={onSelectType} selectionType={formType} />
           </ConditionCard >
         :
         <>

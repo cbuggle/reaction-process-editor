@@ -1,0 +1,11 @@
+.type-selection-panel {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+  &__cluster {
+    padding: 0 8px;
+    .btn {
+      margin-bottom: 8px;
+    }
+  }
+}

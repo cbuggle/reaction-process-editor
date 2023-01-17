@@ -3,8 +3,12 @@ $theme-colors: (
   "preparation": #666F73,
   "step": #47AD5E,
   "action": #2E85E2,
-  "condition": #70BCD4
+  "condition": #3AB1B9
 );
+
+$min-contrast-ratio: 2.5;
+$input-btn-padding-5: 0.5rem;
+$input-btn-padding-y: 0.2rem;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
@@ -16,3 +20,4 @@ $theme-colors: (
 @import "components/utilities/CreateButton";
 @import "components/utilities/IconButton";
 @import "components/utilities/SpinnerWithMessage";
+@import "components/utilities/TypeSelectionPanel";
