@@ -24,7 +24,7 @@ export const conditionTypeClusters = [
             condition_type: 'PRESSURE',
             condition_tendency: 'INCREASE',
             condition_value: '1000',
-            condition_unit: '1000'
+            condition_unit: 'mbar'
           },
         },
       },
@@ -37,7 +37,7 @@ export const conditionTypeClusters = [
             condition_type: 'PH',
             condition_tendency: 'INCREASE',
             condition_value: '1000',
-            condition_unit: '1000'
+            condition_unit: ''
           },
         },
       },
