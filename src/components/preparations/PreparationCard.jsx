@@ -22,6 +22,7 @@ const PreparationCard = (
       showMoveYBtn={!showForm}
       showDeleteBtn={!showForm}
       showCancelBtn={showForm}
+      displayMode={showForm ? 'form' : 'info'}
     >
       {children}
     </ProcedureCard>

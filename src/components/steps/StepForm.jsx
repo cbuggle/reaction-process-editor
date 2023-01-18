@@ -5,7 +5,7 @@ import FormButtons from "../utilities/FormButtons";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
-  const [stepForm, setStepForm] = useState(processStep || {})
+  const [stepForm, setStepForm] = useState(processStep || {name: ''})
 
   const onInputChange = (field) => {
     const { name, value } = field;
@@ -38,7 +38,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
   return (
     <>
-      <Input size="sm" placeholder="Unnamed" value={stepForm.name} onChange={event => onInputChange({ name: 'name', value: event.target.value })} />
+      <Input bsSize="sm" placeholder="Unnamed" value={stepForm.name} onChange={event => onInputChange({ name: 'name', value: event.target.value })} />
       {renderNameSuggestionSelect()}
       <FormButtons onSave={handleSave} onCancel={onCancel} type='step' />
     </>

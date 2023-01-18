@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Col } from 'reactstrap';
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import CreateButton from '../utilities/CreateButton';
 import StepColumCard from "./StepColumnCard";
 
@@ -10,13 +9,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const StepsContainer = ({ reactionProcess, onChange }) => {
 
-  // const api = useReactionsFetcher();
+  const [displayNewStep, setDisplayNewStep] = useState(false)
 
-  // const createProcessStep = () => {
-  //   api.createProcessStep(reactionProcess.id).then(() => {
-  //     onChange()
-  //   })
-  // }
+  const toggleNewStep = () => {
+    setDisplayNewStep(!displayNewStep)
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -26,11 +23,20 @@ const StepsContainer = ({ reactionProcess, onChange }) => {
             reactionProcess={reactionProcess}
             processStep={processStep}
             totalSteps={reactionProcess.reaction_process_steps.length}
-            onChange={onChange} />
+            onChange={onChange}
+          />
         </Col>
       ))}
       <Col className='flex-shrink-0'>
-        <StepColumCard reactionProcess={reactionProcess} onChange={onChange} />
+        {displayNewStep ?
+          <StepColumCard
+            reactionProcess={reactionProcess}
+            onChange={onChange}
+            onCancel={toggleNewStep}
+          />
+          :
+          <CreateButton label='New Step' type='step' onClick={toggleNewStep} />
+        }
       </Col>
     </DndProvider>
   );

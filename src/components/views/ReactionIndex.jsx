@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import ReactionIndexCard from '../reactions/ReactionIndexCard'
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";

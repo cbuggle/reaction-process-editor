@@ -1,6 +1,7 @@
 import React from 'react'
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import Preparation from "./Preparation";
+import ProcedureCard from "../utilities/ProcedureCard";
 
 const PreparationColumnCard = ({ reactionProcess, onChange }) => {
 
@@ -23,8 +24,10 @@ const PreparationColumnCard = ({ reactionProcess, onChange }) => {
       showDeleteBtn={false}
       showCancelBtn={false}
     >
-      {renderSamplePreparations()}
-      <Preparation reactionProcess={reactionProcess} onChange={onChange} />
+      <ProcedureCard.Details>
+        {renderSamplePreparations()}
+        <Preparation reactionProcess={reactionProcess} onChange={onChange} />
+      </ProcedureCard.Details>
     </ColumnContainerCard>
   )
 }

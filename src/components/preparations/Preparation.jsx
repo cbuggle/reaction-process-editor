@@ -6,6 +6,7 @@ import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "../preparations/PreparationCard";
 import PreparationInfo from "./PreparationInfo"
 import PreparationForm from '../preparations/PreparationForm';
+import ProcedureCard from "../utilities/ProcedureCard";
 
 const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
@@ -49,22 +50,15 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
     setInitPreparation(true)
   }
 
-  const renderInfo = () => {
-    return (
-      <PreparationInfo preparation={preparation} />
-    )
-  }
-
-  const renderForm = () => {
-    return (
-      <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
-    )
-  }
-
   return (
     showCard ?
       <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={closeForm} showForm={showForm} >
-        {showForm ? renderForm() : renderInfo()}
+        <ProcedureCard.Info>
+          <PreparationInfo preparation={preparation} />
+        </ProcedureCard.Info>
+        <ProcedureCard.Form>
+          <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
+        </ProcedureCard.Form>
       </PreparationCard>
       : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />
   )
