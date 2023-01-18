@@ -10,7 +10,7 @@ const IconButton = (props) => {
   return (
     <Button size="md" className="icon-button" {...buttonProps}>
       <div ref={dragRef}>
-        <FontAwesomeIcon size="md" icon={icon} />
+        <FontAwesomeIcon icon={icon} />
       </div>
     </Button>
   )
