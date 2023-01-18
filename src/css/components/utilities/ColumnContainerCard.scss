@@ -1,10 +1,4 @@
 .column-container-card {
-  .card-body > * {
-    margin-bottom: 12px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
   &--preparation {
     width: 424px;
   }

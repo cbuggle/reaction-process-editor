@@ -1,9 +1,9 @@
 import React from 'react';
-import ProcedureCard from "./ProcedureCard";
+import Dummy from "./Dummy";
 
 const ColumnContainerCard = (props) => {
     return (
-        <ProcedureCard
+        <Dummy
           customClass={'column-container-card column-container-card--' + props.type}
           headerTitleTag={'h3'}
           showMoveYBtn={false}
