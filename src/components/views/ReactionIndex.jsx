@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import ReactionIndexCard from '../reactions/ReactionIndexCard'
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+import Dummy from "../utilities/Dummy";
 
 const ReactionIndex = () => {
 
@@ -55,6 +54,17 @@ const ReactionIndex = () => {
       <Row className="justify-content-center align-items-top-third">
         {reactions.length > 0 ? renderReactions() : reactionsNotLoadedHint()}
       </Row>
+      <Dummy>
+        <Dummy.Info>
+          Info
+        </Dummy.Info>
+        <Dummy.TypePanel>
+          TypePanel
+        </Dummy.TypePanel>
+        <Dummy.Form>
+          Form
+        </Dummy.Form>
+      </Dummy>
     </Container>
   )
 }
