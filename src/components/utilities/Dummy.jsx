@@ -5,6 +5,7 @@ import IconButton from "./IconButton";
 const Info = () => null
 const TypePanel = () => null
 const Form = () => null
+const Details = () => null
 
 const Dummy  = (
   {
@@ -30,6 +31,7 @@ const Dummy  = (
   const info = childNodes.find(el => el.type === Info)
   const typePanel = childNodes.find(el => el.type === TypePanel)
   const form = childNodes.find(el => el.type === Form)
+  const details = childNodes.find(el => el.type === Details)
   const HeaderTitleTag = headerTitleTag
   return (
     <Card className={'procedure-card procedure-card--' + type + ' ' + customClass}>
@@ -54,19 +56,24 @@ const Dummy  = (
         </div>
       </CardHeader>
       <CardBody className={'procedure-card__body procedure-card__body--' + mode}>
-        {displayMode === 'info' &&
-          <div className='procedure-card--info'>
-            {info ? info.props.children : null}
+        {displayMode === 'info' && info &&
+          <div className='procedure-card__info'>
+            {info.props.children}
           </div>
         }
-        {displayMode === 'type-panel' &&
-          <div className='procedure-card--type-panel'>
-            {typePanel ? typePanel.props.children : null}
+        {displayMode === 'type-panel' && typePanel &&
+          <div className='procedure-card__type-panel'>
+            {typePanel.props.children}
           </div>
         }
-        {displayMode === 'form' &&
-          <div className='procedure-card--form'>
-            {form ? form.props.children : null}
+        {displayMode === 'form' && form &&
+          <div className='procedure-card__form'>
+            {form.props.children}
+          </div>
+        }
+        {details &&
+          <div className='procedure-card__details'>
+            {details.props.children}
           </div>
         }
       </CardBody>
@@ -77,5 +84,6 @@ const Dummy  = (
 Dummy.Info = Info
 Dummy.TypePanel = TypePanel
 Dummy.Form = Form
+Dummy.Details = Details
 
 export default Dummy
