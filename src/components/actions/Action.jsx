@@ -123,10 +123,10 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
             <TypeSelectionPanel clusters={conditionTypeClusters} onSelect={onSelectType} selectionType={formType} />
           </ConditionCard >
         :
-        <>
+        <div className="d-grid gap-2 d-md-flex">
           <CreateButton label='New Action' type='action' onClick={openActionForm} />
           <CreateButton label='New Condition' type='condition' onClick={openConditionForm} />
-        </>
+        </div>
     )
   }
 
