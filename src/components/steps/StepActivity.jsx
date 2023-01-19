@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
-import ActionInfo from './ActionInfo';
-import ActionForm from './ActionForm';
-import ActionCard from './ActionCard';
+import ActionCard from "../actions/ActionCard";
+import ActionInfo from "../actions/ActionInfo";
+import ActionForm from "../actions/ActionForm";
 import ConditionCard from '../conditions/ConditionCard';
 import ConditionEndCard from '../conditions/ConditionEndCard';
 
@@ -10,13 +10,12 @@ import CreateButton from '../utilities/CreateButton';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-import { actionTypeClusters } from '../../constants/actionTypeClusters';
 import { conditionTypeClusters } from '../../constants/conditionTypeClusters';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 
-const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) => {
+const StepActivity = ({ action, processStep, onChange, insertNewBeforeIndex }) => {
 
   const api = useReactionsFetcher()
 
@@ -36,14 +35,14 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
     setShowForm(false)
   }
 
-  const onSave = () => {
+  const onSave = (actionForm) => {
     if (actionForm.id) {
       api.updateAction(actionForm).then(() => {
         setShowForm(false)
         onChange()
       })
     } else {
-      api.createAction(processStep.id, actionForm, inserCreatedBeforePosition).then(() => {
+      api.createAction(processStep.id, actionForm, insertNewBeforeIndex).then(() => {
         setShowForm(false)
         setActionForm({ workup: {} })
         onChange()
@@ -115,9 +114,13 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
     return (
       showForm ?
         formType == 'action' ?
-          <ActionCard title={"New Action"} showForm={true} onCancel={onCancel}>
-            <TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelectType} selectionType={formType} />
-          </ActionCard >
+          <ActionCard
+            action={action}
+            onSave={onSave}
+            onChange={onChange}
+            processStep={processStep}
+            dragRef={dragRef}
+          />
           :
           <ConditionCard title={"New Condition"} showForm={true} onCancel={onCancel}>
             <TypeSelectionPanel clusters={conditionTypeClusters} onSelect={onSelectType} selectionType={formType} />
@@ -130,34 +133,51 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
     )
   }
 
-  const renderActionCard = () => {
+  const renderCondition = (cardTitle) => {
+    return (
+      <ConditionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} dragRef={dragRef}  >
+        {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
+          <ActionInfo action={action} />}
+      </ConditionCard>
+    )
+  }
+
+  const renderConditionEnd = (cardTitle) => {
+    return (
+      <ConditionEndCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} dragRef={dragRef}  >
+        <ActionInfo action={action} />
+      </ConditionEndCard>
+    )
+  }
+
+  const renderAction = (cardTitle) => {
+    return (
+      <ActionCard
+        action={action}
+        onSave={onSave}
+        onChange={onChange}
+        processStep={processStep}
+        dragRef={dragRef}
+      />
+    )
+  }
+
+  const renderActivity = () => {
     const newActionTitle = 'New Action ' + actionForm.action_name + ' ' + (actionForm.workup['acts_as'] || '')
     const cardTitle = actionForm.id ? action.label : newActionTitle
 
     switch (action.action_name) {
       case "CONDITION":
         return (
-          <ConditionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} dragRef={dragRef}  >
-            {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
-              <ActionInfo action={action} />}
-          </ConditionCard>
-
+          renderCondition(cardTitle)
         )
       case "CONDITION_END":
         return (
-          <>
-            <ConditionEndCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} dragRef={dragRef}  >
-              <ActionInfo action={action} />
-            </ConditionEndCard>
-
-          </>
+          renderConditionEnd(cardTitle)
         )
       default:
         return (
-          <ActionCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={onCancel} showForm={showForm} dragRef={dragRef}  >
-            {showForm ? <ActionForm action={actionForm} onCancel={onCancel} onSave={onSave} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} /> :
-              <ActionInfo action={action} />}
-          </ActionCard>
+          renderAction(cardTitle)
         )
     }
   }
@@ -166,13 +186,13 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
     return (
       <>
         {
-          action.action_name === "CONDITION_END" ? <Action action={{ workup: {} }} processStep={processStep} onChange={onChange} inserCreatedBeforePosition={action.position} /> : <></>
+          action.action_name === "CONDITION_END" ? <StepActivity action={{ workup: {} }} processStep={processStep} onChange={onChange} insertNewBeforeIndex={action.position} /> : <></>
         }
 
         <div ref={dropRef} >
           <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
           <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
-            {renderActionCard()}
+            {renderActivity()}
           </div>
           <div className={'bg-action'} style={isOverAfter ? { 'height': '1rem' } : {}}></div>
         </div>
@@ -185,4 +205,4 @@ const Action = ({ action, processStep, onChange, inserCreatedBeforePosition }) =
   )
 };
 
-export default Action;
+export default StepActivity;
