@@ -6,21 +6,25 @@ import ActionForm from "./ActionForm";
 import {actionTypeClusters} from "../../constants/actionTypeClusters";
 import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
 
-const ActionCard = ({action, onSave, onChange, dragRef, processStep}) => {
+const ActionCard = (
+  {
+    action,
+    onSave,
+    onChange,
+    onCancel,
+    processStep,
+    dragRef
+  }) => {
+
   const api = useReactionsFetcher()
+  const isInitialised = !!action
   const [actionForm, setActionForm] = useState(action)
-  const [showForm, setShowForm] = useState(false)
+  const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : 'type-panel')
+  const cardTitle = isInitialised ? action.label : 'New Action'
+  const editable = displayMode !== 'info'
 
-  const title = () => {
-    return action.label
-  }
-
-  const displayMode = () => {
-    return showForm ? 'form' : 'info'
-  }
-
-  const openForm = () => {
-    setShowForm(true)
+  const edit = () => {
+    setDisplayMode(isInitialised ? 'form' : 'type-panel')
   }
 
   const onDelete = () => {
@@ -29,9 +33,13 @@ const ActionCard = ({action, onSave, onChange, dragRef, processStep}) => {
     })
   }
 
-  const onCancel = () => {
-    setActionForm(action)
-    setShowForm(false)
+  const cancel = () => {
+    if (isInitialised) {
+      setActionForm(action)
+      setDisplayMode('info')
+    } else {
+      onCancel()
+    }
   }
 
   const onSelectType = (action) => () => {
@@ -39,9 +47,10 @@ const ActionCard = ({action, onSave, onChange, dragRef, processStep}) => {
   }
 
   const onSaveForm = () => {
-    setShowForm(false)
     onSave(actionForm)
-    if (!actionForm.id) {
+    if (isInitialised) {
+      setDisplayMode('info')
+    } else {
       setActionForm({ workup: {} })
     }
   }
@@ -61,18 +70,18 @@ const ActionCard = ({action, onSave, onChange, dragRef, processStep}) => {
 
   return (
     <Dummy
-      title={title()}
+      title={cardTitle}
       type='action'
-      onEdit={openForm}
+      onEdit={edit}
       onDelete={onDelete}
-      onCancel={onCancel}
-      showEditBtn={!showForm}
+      onCancel={cancel}
+      showEditBtn={!editable}
       showMoveXBtn={false}
-      showMoveYBtn={!showForm}
-      showDeleteBtn={!showForm}
-      showCancelBtn={showForm}
+      showMoveYBtn={!editable}
+      showDeleteBtn={!editable}
+      showCancelBtn={editable}
       dragRef={dragRef}
-      displayMode={displayMode()}
+      displayMode={displayMode}
     >
       <Dummy.Info>
         <ActionInfo action={action} />
@@ -81,7 +90,16 @@ const ActionCard = ({action, onSave, onChange, dragRef, processStep}) => {
         <TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelectType} selectionType={'action'} />
       </Dummy.TypePanel>
       <Dummy.Form>
-        <ActionForm action={actionForm} onCancel={onCancel} onSave={onSaveForm} onWorkupChange={onWorkupChange} setDuration={setDuration} processStep={processStep} />
+        {actionForm &&
+          <ActionForm
+            action={actionForm}
+            onCancel={onCancel}
+            onSave={onSaveForm}
+            onWorkupChange={onWorkupChange}
+            setDuration={setDuration}
+            processStep={processStep}
+          />
+        }
       </Dummy.Form>
     </Dummy>
   );

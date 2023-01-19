@@ -32,7 +32,6 @@ const StepsContainer = ({ reactionProcess, onChange }) => {
             processStep={processStep}
             totalSteps={reactionProcess.reaction_process_steps.length}
             onChange={onChange}
-            initialDisplayMode='info'
           />
         </Col>
       ))}
@@ -42,7 +41,6 @@ const StepsContainer = ({ reactionProcess, onChange }) => {
             reactionProcess={reactionProcess}
             onChange={onChange}
             onCancel={toggleNewStep}
-            initialDisplayMode='form'
           />
           :
           <CreateButton label='New Step' type='step' onClick={toggleNewStep} />

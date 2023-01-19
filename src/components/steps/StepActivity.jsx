@@ -14,6 +14,7 @@ import { conditionTypeClusters } from '../../constants/conditionTypeClusters';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
+import StepActivityCreator from "./StepActivityCreator";
 
 const StepActivity = ({ action, processStep, onChange, insertNewBeforeIndex }) => {
 
@@ -36,18 +37,10 @@ const StepActivity = ({ action, processStep, onChange, insertNewBeforeIndex }) =
   }
 
   const onSave = (actionForm) => {
-    if (actionForm.id) {
-      api.updateAction(actionForm).then(() => {
-        setShowForm(false)
-        onChange()
-      })
-    } else {
-      api.createAction(processStep.id, actionForm, insertNewBeforeIndex).then(() => {
-        setShowForm(false)
-        setActionForm({ workup: {} })
-        onChange()
-      })
-    }
+    api.updateAction(actionForm).then(() => {
+      setShowForm(false)
+      onChange()
+    })
   }
 
   const onDelete = () => {
@@ -126,10 +119,7 @@ const StepActivity = ({ action, processStep, onChange, insertNewBeforeIndex }) =
             <TypeSelectionPanel clusters={conditionTypeClusters} onSelect={onSelectType} selectionType={formType} />
           </ConditionCard >
         :
-        <div className="d-grid gap-2 d-md-flex">
-          <CreateButton label='New Action' type='action' onClick={openActionForm} />
-          <CreateButton label='New Condition' type='condition' onClick={openConditionForm} />
-        </div>
+        <StepActivityCreator processStep={processStep} onChange={onChange} />
     )
   }
 

@@ -10,26 +10,23 @@ import { DndItemTypes } from '../../constants/dndItemTypes';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import StepActivity from "./StepActivity";
+import StepActivityCreator from "./StepActivityCreator";
 
 const StepColumCard = (
   {
     processStep,
     reactionProcess,
     onChange,
-    onCancel,
-    initialDisplayMode= 'info'
+    onCancel
   }) => {
 
-  const [showForm, setShowForm] = useState(initialDisplayMode === 'form')
-  const cardTitle = processStep ? processStep.label : 'New Step'
+  const isInitialised = !!processStep
+  const [showForm, setShowForm] = useState(!isInitialised)
+  const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
-  }
-
-  const isInitialised = () => {
-    return initialDisplayMode === 'info'
   }
 
   const confirmDeleteStep = () => {
@@ -45,7 +42,7 @@ const StepColumCard = (
   }
 
   const handleCancel = () => {
-    if (isInitialised()) {
+    if (isInitialised) {
       toggleForm()
     } else {
       onCancel()
@@ -53,7 +50,7 @@ const StepColumCard = (
   }
 
   const onSave = (stepForm) => {
-    if (isInitialised()) {
+    if (isInitialised) {
       api.updateProcessStep(stepForm).then(() => {
         setShowForm(false)
         onChange()
@@ -130,12 +127,12 @@ const StepColumCard = (
               onCancel={handleCancel}
             />
           </Dummy.Form>
-          {isInitialised() &&
+          {isInitialised &&
             <Dummy.Details>
               {processStep.actions.map(action => (
                 <StepActivity key={action.id} action={action} processStep={processStep} onChange={onChange} />
               ))}
-              <span>Buttons</span>
+              <StepActivityCreator processStep={processStep} onChange={onChange} />
             </Dummy.Details>
           }
         </ColumnContainerCard>
