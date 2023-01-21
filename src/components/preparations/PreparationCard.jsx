@@ -1,5 +1,5 @@
 import React from 'react';
-import Dummy from "../utilities/Dummy";
+import ProcedureCard from "../utilities/ProcedureCard";
 
 const PreparationCard = (
   {
@@ -11,7 +11,7 @@ const PreparationCard = (
     showForm = false,
   }) => {
   return (
-    <Dummy
+    <ProcedureCard
       title={title}
       type='preparation'
       onEdit={onEdit}
@@ -25,7 +25,7 @@ const PreparationCard = (
       displayMode={showForm ? 'form' : 'info'}
     >
       {children}
-    </Dummy>
+    </ProcedureCard>
   );
 };
 

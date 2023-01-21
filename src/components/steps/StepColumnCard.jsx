@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
-import Dummy from "../utilities/Dummy";
+import ProcedureCard from "../utilities/ProcedureCard";
 
 import StepForm from './StepForm';
 import StepInfo from './StepInfo';
@@ -115,10 +115,10 @@ const StepColumCard = (
           displayMode={displayMode()}
           dragRef={dragRef}
         >
-          <Dummy.Info>
+          <ProcedureCard.Info>
             <StepInfo processStep={processStep} onChange={onChange} />
-          </Dummy.Info>
-          <Dummy.Form>
+          </ProcedureCard.Info>
+          <ProcedureCard.Form>
             <StepForm
               processStep={processStep}
               reactionProcess={reactionProcess}
@@ -126,14 +126,14 @@ const StepColumCard = (
               onSave={onSave}
               onCancel={handleCancel}
             />
-          </Dummy.Form>
+          </ProcedureCard.Form>
           {isInitialised &&
-            <Dummy.Details>
+            <ProcedureCard.Details>
               {processStep.actions.map(action => (
                 <Activity key={action.id} action={action} processStep={processStep} onChange={onChange} />
               ))}
               <ActivityCreator processStep={processStep} onChange={onChange} />
-            </Dummy.Details>
+            </ProcedureCard.Details>
           }
         </ColumnContainerCard>
       </div>

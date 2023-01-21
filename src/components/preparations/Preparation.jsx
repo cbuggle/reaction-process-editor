@@ -6,7 +6,7 @@ import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "../preparations/PreparationCard";
 import PreparationInfo from "./PreparationInfo"
 import PreparationForm from '../preparations/PreparationForm';
-import Dummy from "../utilities/Dummy";
+import ProcedureCard from "../utilities/ProcedureCard";
 
 const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
@@ -53,12 +53,12 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
   return (
     showCard ?
       <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={closeForm} showForm={showForm} >
-        <Dummy.Info>
+        <ProcedureCard.Info>
           <PreparationInfo preparation={preparation} />
-        </Dummy.Info>
-        <Dummy.Form>
+        </ProcedureCard.Info>
+        <ProcedureCard.Form>
           <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
-        </Dummy.Form>
+        </ProcedureCard.Form>
       </PreparationCard>
       : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />
   )

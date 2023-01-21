@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ActivityCard from "./ActivityCard";
-import ActionInfo from "../actions/ActionInfo";
-import ConditionFooter from '../conditions/ConditionFooter';
+import ConditionFooter from "./ConditionFooter";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 

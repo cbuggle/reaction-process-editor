@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Dummy from "../utilities/Dummy";
+import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import ActionInfo from "../actions/ActionInfo";
 import ActionForm from "../actions/ActionForm";
@@ -81,7 +81,7 @@ const ActivityCard = (
   }
 
   return (
-    <Dummy
+    <ProcedureCard
       title={cardTitle()}
       type={type}
       onEdit={edit}
@@ -95,13 +95,13 @@ const ActivityCard = (
       dragRef={dragRef}
       displayMode={displayMode}
     >
-      <Dummy.Info>
+      <ProcedureCard.Info>
         <ActionInfo action={activity} />
-      </Dummy.Info>
-      <Dummy.TypePanel>
+      </ProcedureCard.Info>
+      <ProcedureCard.TypePanel>
         <TypeSelectionPanel onSelect={onSelectType} selectionType={type} />
-      </Dummy.TypePanel>
-      <Dummy.Form>
+      </ProcedureCard.TypePanel>
+      <ProcedureCard.Form>
         {activityForm &&
           <ActionForm
             action={activityForm}
@@ -112,8 +112,8 @@ const ActivityCard = (
             processStep={processStep}
           />
         }
-      </Dummy.Form>
-    </Dummy>
+      </ProcedureCard.Form>
+    </ProcedureCard>
   );
 };
 
