@@ -1,7 +1,10 @@
 import React from 'react';
-import {Button, ButtonGroup} from "reactstrap";
+import {Button} from "reactstrap";
+import {actionTypeClusters} from "../../constants/actionTypeClusters";
+import { conditionTypeClusters } from '../../constants/conditionTypeClusters';
 
-const TypeSelectionPanel = ({clusters, onSelect, selectionType}) => {
+const TypeSelectionPanel = ({onSelect, selectionType}) => {
+    const clusters = (selectionType === 'action') ? actionTypeClusters : conditionTypeClusters
     return (
         <div className='type-selection-panel row'>
             {clusters.map((cluster, cIndex) => (

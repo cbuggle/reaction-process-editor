@@ -9,8 +9,8 @@ import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
-import StepActivity from "./StepActivity";
-import StepActivityCreator from "./StepActivityCreator";
+import Activity from "../activities/Activity";
+import ActivityCreator from "../activities/ActivityCreator";
 
 const StepColumCard = (
   {
@@ -130,9 +130,9 @@ const StepColumCard = (
           {isInitialised &&
             <Dummy.Details>
               {processStep.actions.map(action => (
-                <StepActivity key={action.id} action={action} processStep={processStep} onChange={onChange} />
+                <Activity key={action.id} action={action} processStep={processStep} onChange={onChange} />
               ))}
-              <StepActivityCreator processStep={processStep} onChange={onChange} />
+              <ActivityCreator processStep={processStep} onChange={onChange} />
             </Dummy.Details>
           }
         </ColumnContainerCard>

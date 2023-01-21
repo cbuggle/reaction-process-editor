@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import Dummy from "../utilities/Dummy";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
-import ActionInfo from "./ActionInfo";
-import ActionForm from "./ActionForm";
-import {actionTypeClusters} from "../../constants/actionTypeClusters";
+import ActionInfo from "../actions/ActionInfo";
+import ActionForm from "../actions/ActionForm";
 import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
 
-const ActionCard = (
+const ActivityCard = (
   {
-    action,
+    type,
+    activity,
     onSave,
     onChange,
     onCancel,
@@ -17,18 +17,18 @@ const ActionCard = (
   }) => {
 
   const api = useReactionsFetcher()
-  const isInitialised = !!action
-  const [actionForm, setActionForm] = useState(action)
+  const isInitialised = !!activity
+  const [activityForm, setActivityForm] = useState(activity)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : 'type-panel')
   const editable = displayMode !== 'info'
 
   const cardTitle = () => {
     if (isInitialised) {
-      return action.label
+      return activity.label
     } else {
-      let label = 'New Action'
-      if (actionForm) {
-        label += ' ' + actionForm.action_name + ' ' + (actionForm.workup['acts_as'] || '')
+      let label = 'New Activity'
+      if (activityForm) {
+        label += ' ' + activityForm.action_name + ' ' + (activityForm.workup['acts_as'] || '')
       }
       return label
     }
@@ -39,51 +39,51 @@ const ActionCard = (
   }
 
   const onDelete = () => {
-    api.deleteAction(action.id).then(() => {
+    api.deleteAction(activity.id).then(() => {
       onChange()
     })
   }
 
   const cancel = () => {
     if (isInitialised) {
-      setActionForm(action)
+      setActivityForm(activity)
       setDisplayMode('info')
     } else {
       onCancel()
     }
   }
 
-  const onSelectType = (action) => () => {
-    setActionForm(action)
+  const onSelectType = (activity) => () => {
+    setActivityForm(activity)
     setDisplayMode('form')
   }
 
   const onSaveForm = () => {
-    onSave(actionForm)
+    onSave(activityForm)
     if (isInitialised) {
       setDisplayMode('info')
     } else {
-      setActionForm({ workup: {} })
+      setActivityForm({ workup: {} })
     }
   }
 
   const onWorkupChange = (field) => {
     const { name, value } = field;
-    setActionForm(prevState => ({
+    setActivityForm(prevState => ({
       ...prevState, workup: { ...prevState.workup, [name]: value }
     }));
   }
 
 
   const setDuration = (value) => {
-    setActionForm({ name: "duration", value: value })
+    setActivityForm({ name: "duration", value: value })
     onWorkupChange({ name: "duration", value: value })
   }
 
   return (
     <Dummy
       title={cardTitle()}
-      type='action'
+      type={type}
       onEdit={edit}
       onDelete={onDelete}
       onCancel={cancel}
@@ -96,15 +96,15 @@ const ActionCard = (
       displayMode={displayMode}
     >
       <Dummy.Info>
-        <ActionInfo action={action} />
+        <ActionInfo action={activity} />
       </Dummy.Info>
       <Dummy.TypePanel>
-        <TypeSelectionPanel clusters={actionTypeClusters} onSelect={onSelectType} selectionType={'action'} />
+        <TypeSelectionPanel onSelect={onSelectType} selectionType={type} />
       </Dummy.TypePanel>
       <Dummy.Form>
-        {actionForm &&
+        {activityForm &&
           <ActionForm
-            action={actionForm}
+            action={activityForm}
             onCancel={onCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}
@@ -117,4 +117,4 @@ const ActionCard = (
   );
 };
 
-export default ActionCard;
+export default ActivityCard;
