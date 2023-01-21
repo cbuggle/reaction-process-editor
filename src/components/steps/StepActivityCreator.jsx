@@ -3,14 +3,14 @@ import CreateButton from "../utilities/CreateButton";
 import ActionCard from "../actions/ActionCard";
 import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
 
-const StepActivityCreator = (onChange, processStep, insertNewBeforeIndex) => {
+const StepActivityCreator = ({onChange, processStep, insertNewBeforeIndex}) => {
 
   const api = useReactionsFetcher()
   const [displayState, setDisplayState] = useState('buttons')
 
   const save = (actionForm) => {
+    setDisplayState('buttons')
     api.createAction(processStep.id, actionForm, insertNewBeforeIndex).then(() => {
-      setDisplayState('buttons')
       onChange()
     })
   }
@@ -31,7 +31,7 @@ const StepActivityCreator = (onChange, processStep, insertNewBeforeIndex) => {
     switch (displayState) {
       case 'action':
         return (
-          <ActionCard onSave={save} onCancel={cancel}/>
+          <ActionCard onSave={save} onCancel={cancel} processStep={processStep}/>
         )
       case 'condition':
         return (

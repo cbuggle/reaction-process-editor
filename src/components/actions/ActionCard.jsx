@@ -44,6 +44,7 @@ const ActionCard = (
 
   const onSelectType = (action) => () => {
     setActionForm(action)
+    setDisplayMode('form')
   }
 
   const onSaveForm = () => {
