@@ -26,7 +26,7 @@ const ActivityCard = (
     if (isInitialised) {
       return activity.label
     } else {
-      let label = 'New Activity'
+      let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
       if (activityForm) {
         label += ' ' + activityForm.action_name + ' ' + (activityForm.workup['acts_as'] || '')
       }
