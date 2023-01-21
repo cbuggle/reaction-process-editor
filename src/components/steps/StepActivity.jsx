@@ -140,7 +140,7 @@ const StepActivity = ({ action, processStep, onChange, insertNewBeforeIndex }) =
     )
   }
 
-  const renderAction = (cardTitle) => {
+  const renderAction = () => {
     return (
       <ActionCard
         action={action}
@@ -167,7 +167,7 @@ const StepActivity = ({ action, processStep, onChange, insertNewBeforeIndex }) =
         )
       default:
         return (
-          renderAction(cardTitle)
+          renderAction()
         )
     }
   }

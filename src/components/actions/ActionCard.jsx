@@ -20,8 +20,19 @@ const ActionCard = (
   const isInitialised = !!action
   const [actionForm, setActionForm] = useState(action)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : 'type-panel')
-  const cardTitle = isInitialised ? action.label : 'New Action'
   const editable = displayMode !== 'info'
+
+  const cardTitle = () => {
+    if (isInitialised) {
+      return action.label
+    } else {
+      let label = 'New Action'
+      if (actionForm) {
+        label += ' ' + actionForm.action_name + ' ' + (actionForm.workup['acts_as'] || '')
+      }
+      return label
+    }
+  }
 
   const edit = () => {
     setDisplayMode(isInitialised ? 'form' : 'type-panel')
@@ -71,7 +82,7 @@ const ActionCard = (
 
   return (
     <Dummy
-      title={cardTitle}
+      title={cardTitle()}
       type='action'
       onEdit={edit}
       onDelete={onDelete}
