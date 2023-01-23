@@ -56,7 +56,7 @@ export const conditionTypeClusters = [
       },
       {
         id: 'motion_unspecified',
-        createLabel: 'Unspecified',
+        createLabel: 'Unspecified Motion',
         action: {
           action_name: 'CONDITION',
           workup: {
