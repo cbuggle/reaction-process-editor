@@ -17,28 +17,43 @@ const Activity = ({ action, processStep, onChange }) => {
       onChange()
     })
   }
+  const isInDropRange = (dropAction) => {
+    return dropAction.min_position <= action.position &&
+      dropAction.max_position >= action.position
+  }
+
+  const isBefore = (dropAction) => {
+    return action.position < dropAction.source_position
+  }
+
+  const isAfter = (dropAction) => {
+    return action.position > dropAction.source_position
+  }
 
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.ACTION,
-    item: { action: action },
+    item: {
+      action: action,
+      source_position: action.position,
+      min_position: action.min_position,
+      max_position: action.max_position
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
-      canDrag: monitor.canDrag()
+      canDrag: monitor.canDrag(),
     }),
-    canDrag: () => !processStep.locked
+    canDrag: () => !processStep.locked,
   }), [processStep])
 
-  const [{ isOver, isOverBefore, isOverAfter }, dropRef] = useDrop(() => ({
+  const [{ isOverBefore, isOverAfter }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
+    canDrop: (dropAction) => !processStep.locked && isInDropRange(dropAction),
     collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-      isOverBefore: monitor.isOver() && monitor.getItem().action.position > action.position,
-      isOverAfter: monitor.isOver() && monitor.getItem().action.position < action.position
+      isOverBefore: monitor.isOver() && monitor.canDrop() && isBefore(monitor.getItem()),
+      isOverAfter: monitor.isOver() && monitor.canDrop() && isAfter(monitor.getItem())
     }),
-    canDrop: () => !processStep.locked
   }), [processStep])
 
   const dropItem = (monitor) => {
