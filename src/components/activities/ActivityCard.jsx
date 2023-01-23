@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import ActionInfo from "../actions/ActionInfo";
 import ActionForm from "../actions/ActionForm";
-import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const ActivityCard = (
   {
@@ -44,7 +44,7 @@ const ActivityCard = (
     })
   }
 
-  const cancel = () => {
+  const handleCancel = () => {
     if (isInitialised) {
       setActivityForm(activity)
       setDisplayMode('info')
@@ -86,7 +86,7 @@ const ActivityCard = (
       type={type}
       onEdit={edit}
       onDelete={onDelete}
-      onCancel={cancel}
+      onCancel={handleCancel}
       showEditBtn={!editable}
       showMoveXBtn={false}
       showMoveYBtn={!editable}
@@ -105,7 +105,7 @@ const ActivityCard = (
         {activityForm &&
           <ActionForm
             action={activityForm}
-            onCancel={onCancel}
+            onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}
             setDuration={setDuration}
