@@ -52,6 +52,7 @@ const TransferForm = ({action, processStep, onWorkupChange}) => {
             </UncontrolledTooltip >
             <Select
               name="transfer_target_step_id"
+              isDisabled={!!action.id}
               options={transferToOptions}
               value={transferToOptions.find(option => option.value === action.workup['transfer_target_step_id'])}
               onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
