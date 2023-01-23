@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { ListGroupItem, Row, Col, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 
-import { conditionTendencyOptions, conditionTypeOptions, conditionUnitOptions, conditionValueRanges, conditionAdditionalInformationOptions } from '../../../constants/dropdownOptions/conditionsOptions';
+import { conditionTendencyOptions, conditionUnitOptions, conditionValueRanges, conditionAdditionalInformationOptions } from '../../../constants/dropdownOptions/conditionsOptions';
 import TemperatureInput from '../../utilities/TemperatureInput';
 
 const ConditionForm = ({ action, onWorkupChange }) => {
@@ -25,13 +25,6 @@ const ConditionForm = ({ action, onWorkupChange }) => {
   const currentRangeStep = useMemo(() => { return conditionValueRanges[currentType]['step'] }, [currentType])
   const currentRangeMax = useMemo(() => { return conditionValueRanges[currentType]['max'] }, [currentType])
 
-  const handleTypeChange = (value) => {
-    onWorkupChange({ name: 'condition_type', value: value })
-    onWorkupChange({ name: 'condition_unit', value: conditionValueRanges[value]['unit'] })
-    onWorkupChange({ name: 'condition_value', value: conditionValueRanges[value]['default'] })
-    onWorkupChange({ name: 'condition_additional_information', value: "" })
-    onWorkupChange({ name: 'condition_tendency', value: "" })
-  }
 
   useEffect(() => {
     if (action.workup['condition_value'] == undefined) {
@@ -156,14 +149,6 @@ const ConditionForm = ({ action, onWorkupChange }) => {
     <div className="motion-form">
       <ListGroupItem>
         <Row>
-          <Col md={6}>
-            <Select
-              name="condition_type"
-              options={conditionTypeOptions}
-              value={conditionTypeOptions.find(option => option.value === action.workup['condition_type'])}
-              onChange={selectedOption => handleTypeChange(selectedOption.value)}
-            />
-          </Col>
           <Col md={6}>
             {renderTendencySelect()}
           </Col>

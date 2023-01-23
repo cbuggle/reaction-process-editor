@@ -3,7 +3,7 @@ import Select from 'react-select'
 
 import { Row, Col, ListGroupItem, Input, FormGroup, Label } from 'reactstrap'
 
-import { purifyModeOptions, purifyTypeOptions } from '../../../constants/dropdownOptions/purifyOptions'
+import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
@@ -22,7 +22,7 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
     onWorkupChange({ name: 'filtration_mode', value: inverseFiltrationMode })
   }
 
-  const renderFilterMethodButtontToggle = () => {
+  const renderFilterMethodButtonToggle = () => {
     if (action.workup['purify_type'] == 'FILTRATION') {
       return (
         <Col md={4}>
@@ -46,22 +46,14 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
     <>
       <ListGroupItem>
         <Row>
-          <Col md={8}>
-            <Select
-              name="purify_type"
-              options={purifyTypeOptions}
-              value={purifyTypeOptions.find(option => option.value === action.workup['purify_type'])}
-              onChange={selectedOption => onWorkupChange({ name: 'purify_type', value: selectedOption.value })}
-            />
-          </Col>
-          {renderFilterMethodButtontToggle()}
+          {renderFilterMethodButtonToggle()}
         </Row>
       </ListGroupItem>
       <ListGroupItem>
         <Select
           name="purify_automation"
-          options={purifyModeOptions}
-          value={purifyModeOptions.find(option => option.value === action.workup['purify_automation'])}
+          options={purifyAutomationModeOptions}
+          value={purifyAutomationModeOptions.find(option => option.value === action.workup['purify_automation'])}
           onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
         />
       </ListGroupItem>

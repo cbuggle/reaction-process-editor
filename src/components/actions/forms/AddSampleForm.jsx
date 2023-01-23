@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import PropTypes from 'prop-types'
 
-import { sampleActsAsOptions, samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
+import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { conditionUnitOptions, conditionValueRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
 import TemperatureInput from '../../utilities/TemperatureInput';
@@ -71,16 +71,6 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
     <div className="action-form">
       <ListGroupItem>
         <Row>
-          <Col md={2}>
-            <Label>Acts as </Label>
-            <Select
-              disabled={action.id ? true : false}
-              name="acts_as"
-              options={sampleActsAsOptions}
-              value={sampleActsAsOptions.find(sample => sample.value === currentSampleActsAs)}
-              onChange={selectedOption => handleActsAsChange({ actsAS: selectedOption.value })}
-            />
-          </Col>
           <Col md={3}>
             <Label>Sample</Label>
             <Select

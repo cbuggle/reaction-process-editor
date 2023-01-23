@@ -17,7 +17,7 @@ const MotionForm = ({ action, onWorkupChange }) => {
     onWorkupChange({ name: 'motion_speed', value: event.target.value })
   }
 
-  const sliderStep = (motionType) => {
+  const sliderStep = () => {
     return motionTypeOptions.find(option => option.value === action.workup['motion_type']).step
   }
 
@@ -25,14 +25,6 @@ const MotionForm = ({ action, onWorkupChange }) => {
     <div className="motion-form">
       <ListGroupItem>
         <Row>
-          <Col md={6}>
-            <Select
-              name="motion_type"
-              options={motionTypeOptions}
-              value={motionTypeOptions.find(option => option.value === action.workup['motion_type'])}
-              onChange={selectedOption => onWorkupChange({ name: 'motion_type', value: selectedOption.value })}
-            />
-          </Col>
           <Col md={6}>
             <Select
               name="motion_mode"

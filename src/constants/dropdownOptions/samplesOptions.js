@@ -1,23 +1,3 @@
-export const sampleActsAsOptions = [{
-  label: 'Sample',
-  value: 'SAMPLE'
-}, {
-  label: 'Solvent',
-  value: 'SOLVENT'
-}, {
-  label: 'Additive',
-  value: 'ADDITIVE'
-}, {
-  label: 'Medium',
-  value: 'MEDIUM'
-}, {
-  label: 'Diverse Solvents',
-  value: 'DIVERSE_SOLVENT'
-}, {
-  label: 'Intermediate',
-  value: 'INTERMEDIATE'
-}]
-
 export const samplevolumeUnitOptions = [{
   label: 'Unit Unspecified',
   value: 'UNSPECIFIED'

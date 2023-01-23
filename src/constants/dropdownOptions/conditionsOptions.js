@@ -1,19 +1,3 @@
-export const conditionTypeOptions = [{
-  label: 'Temperature',
-  value: 'TEMPERATURE'
-}, {
-  label: 'pH',
-  value: 'PH'
-}, {
-  label: 'Pressure',
-  value: 'PRESSURE'
-},
-{
-  label: 'Irradiation',
-  value: 'IRRADIATION'
-}
-]
-
 export const conditionTendencyOptions = [{
   label: 'Increase',
   value: 'INCREASE'
