@@ -28,7 +28,10 @@ const ActivityCard = (
     } else {
       let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
       if (activityForm) {
-        label += ' ' + activityForm.action_name + ' ' + (activityForm.workup['acts_as'] || '')
+        activityForm.action_name === "CONDITION" ?
+          label += ' ' + (activityForm.workup['condition_type'] || '')
+          :
+          label += ' ' + activityForm.action_name + ' ' + (activityForm.workup['acts_as'] || '')
       }
       return label
     }
