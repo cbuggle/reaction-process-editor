@@ -11,6 +11,8 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
 
   const [preparationForm, updatePreparationForm] = useState(preparation || {})
 
+  const sampleOptions = preparation ? preparationOptions.prepared_samples : preparationOptions.unprepared_samples
+
   const onInputChange = (field) => {
     const { name, value } = field;
     updatePreparationForm(prevState => ({
@@ -26,10 +28,12 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
     <Form>
       <FormGroup>
         <Label>Sample</Label>
+        { }
         <Select
           name="sample_id"
-          options={preparationOptions.samples}
-          value={preparationOptions.samples.filter(option => (option.value === preparationForm.sample_id))}
+          isDisabled={!!preparation}
+          options={sampleOptions}
+          value={sampleOptions.filter(option => (option.value === preparationForm.sample_id))}
           onChange={selectedOption => onInputChange({ name: 'sample_id', value: selectedOption.value })}
         />
       </FormGroup>

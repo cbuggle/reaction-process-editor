@@ -18,7 +18,7 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
 
   const showCard = preparation || initPreparation
   const sampleName = preparation
-    ? preparationOptions.samples.find(option => option.value === preparation.sample_id).label
+    ? preparationOptions.prepared_samples.find(option => option.value === preparation.sample_id).label
     : ''
   const cardTitle = preparation ? sampleName : 'New Preparation'
 
