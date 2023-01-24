@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
-import ActionInfo from "../actions/ActionInfo";
-import ActionForm from "../actions/ActionForm";
+import ActivityInfo from "./ActivityInfo";
+import ActivityForm from "./ActivityForm";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const ActivityCard = (
@@ -99,14 +99,14 @@ const ActivityCard = (
       displayMode={displayMode}
     >
       <ProcedureCard.Info>
-        <ActionInfo action={activity} />
+        <ActivityInfo action={activity} />
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
         <TypeSelectionPanel onSelect={onSelectType} selectionType={type} />
       </ProcedureCard.TypePanel>
       <ProcedureCard.Form>
         {activityForm &&
-          <ActionForm
+          <ActivityForm
             action={activityForm}
             onCancel={handleCancel}
             onSave={onSaveForm}

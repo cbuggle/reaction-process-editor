@@ -1,8 +1,42 @@
+$condition-card-indentation: 140px;
+$max-label-width: 400px;
+
 .procedure-card {
-  &__details > * {
-    margin-bottom: 12px;
-    &:last-child {
-      margin-bottom: 0;
+  &--condition {
+    margin-left: $condition-card-indentation;
+    .procedure-card__header-label {
+      max-width: $max-label-width - $condition-card-indentation;
     }
+  }
+  &__header-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: $max-label-width;
+  }
+  --bs-card-spacer-x: 0;
+  --bs-card-spacer-y: 0;
+  &__info {
+    display: flex;
+    font-size: $font-size-sm;
+    padding: 1rem;
+    .sample-molecule-image {
+      margin-right: 1rem;
+    }
+  }
+  &__details {
+    padding: 1rem;
+    & > * {
+      margin-bottom: 12px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .procedure-card--#{$color} .procedure-card__info {
+    background-color: tint-color($value, 80%);
   }
 }

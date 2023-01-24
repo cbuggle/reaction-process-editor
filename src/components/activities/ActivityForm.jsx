@@ -16,7 +16,7 @@ import SaveSampleForm from './forms/SaveSampleForm'
 import FormButtons from "../utilities/FormButtons";
 // import ActionValidator from '../validators/ActionValidator';
 
-const ActionForm = (props) => {
+const ActivityForm = (props) => {
 
   const renderConditionForm = () => {
     switch (props.action.workup.condition_type) {
@@ -117,8 +117,8 @@ const ActionForm = (props) => {
   )
 }
 
-ActionForm.propTypes = {
+ActivityForm.propTypes = {
   action: PropTypes.object.isRequired
 }
 
-export default ActionForm
+export default ActivityForm

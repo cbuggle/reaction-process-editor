@@ -6,14 +6,14 @@ import SamplesDecorator from '../samples/SamplesDecorator'
 
 const prettyMilliseconds = require('pretty-ms');
 
-const ActionInfo = ({ action }) => {
+const ActivityInfo = ({ action }) => {
 
   return (
     <>
-      <div align="left">{action.label}</div>
       {action.workup['acts_as'] === "SAMPLE" ? SamplesDecorator.sampleSvgFile(action.sample) : <></>}
+      <div><strong>{action.label}</strong></div>
     </>
   )
 }
 
-export default ActionInfo
+export default ActivityInfo

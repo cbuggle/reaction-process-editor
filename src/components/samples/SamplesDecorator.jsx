@@ -6,7 +6,11 @@ export default class SamplesDecorator {
   static sampleSvgFile = (sample) => {
     if (sample && sample.sample_svg_file) {
       return (
-        <img src={`${apiHostname}/images/samples/${sample.sample_svg_file}`} alt={sample.short_label} />
+        <img
+          src={`${apiHostname}/images/samples/${sample.sample_svg_file}`}
+          alt={sample.short_label}
+          className='sample-molecule-image bg-white border rounded-3'
+        />
       )
     }
   }
