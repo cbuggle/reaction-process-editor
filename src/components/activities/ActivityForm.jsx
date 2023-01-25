@@ -14,7 +14,7 @@ import AnalysisForm from './forms/AnalysisForm'
 import ApplyEquipmentForm from './forms/ApplyEquipmentForm'
 import SaveSampleForm from './forms/SaveSampleForm'
 import FormButtons from "../utilities/FormButtons";
-// import ActionValidator from '../validators/ActionValidator';
+import ActionValidator from '../../validators/ActionValidator'
 
 const ActivityForm = (props) => {
 
@@ -92,9 +92,9 @@ const ActivityForm = (props) => {
   }
 
   const onSave = () => {
-    // if (ActionValidator.validate(props.action)) {
-    props.onSave()
-    // }
+    if (ActionValidator.validate(props.action)) {
+      props.onSave()
+    }
   }
 
   return (
