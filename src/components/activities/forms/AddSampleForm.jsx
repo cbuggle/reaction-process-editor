@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react'
-import { ListGroupItem, Row, Col, FormGroup, Label, Input } from 'reactstrap'
+import React from 'react'
+import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 
 import PropTypes from 'prop-types'
@@ -12,19 +12,11 @@ import ActionFormGroup from "./ActionFormGroup";
 
 const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
 
-  const [sampleSelectOptions, setSampleSelectOptions] = useState(processStep.materials_options)
+  const currentSampleId = action.workup['sample_id']
+  const currentName = action.workup['sample_name']
+  const currentSampleActsAs = action.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : action.workup['acts_as']
 
-  const currentSampleActsAs = useMemo(() => {
-    return action.workup['acts_as'] || 'SAMPLE'
-  }, [action.workup['acts_as']])
-
-  const currentSampleIdValue = useMemo(() => {
-    return action.workup['sample_id']
-  }, [action.workup['sample_id']])
-
-  const currentSampleOptions = useMemo(() => {
-    return sampleSelectOptions[currentSampleActsAs].concat([{ value: "", label: "Undefined" }])
-  }, [sampleSelectOptions, currentSampleActsAs])
+  const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
 
   const handlePercentageInput = ({ value }) => {
     var new_volume = (value * action.workup['sample_original_amount']) / 100
@@ -42,30 +34,17 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
     onWorkupChange({ name: 'sample_volume_percentage', value: new_percentage })
   }
 
-  const handleActsAsChange = ({ actsAS }) => {
-    onWorkupChange({ name: 'acts_as', value: actsAS })
-    onWorkupChange({ name: 'target_amount_value', value: '' })
-    onWorkupChange({ name: 'water_free_solvent', value: '' })
-    onWorkupChange({ name: 'target_amount_unit', value: '' })
-    onWorkupChange({ name: 'sample_original_amount', value: '' })
-    onWorkupChange({ name: 'sample_volume_percentage', value: 100 })
-    onWorkupChange({ name: 'sample_id', value: '' })
+  const handleSampleChange = ({ sampleId, label }) => {
+    // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
+    const sample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
 
-    onWorkupChange({ name: 'add_sample_speed', value: '' })
-    onWorkupChange({ name: 'add_sample_speed', value: '' })
-
-    onWorkupChange({ name: 'pressure_value', value: '' })
-    onWorkupChange({ name: 'temperature_value', value: '' })
-  }
-
-  const handleSampleChange = ({ sampleId }) => {
-    const sample = currentSampleOptions.find(sample => sample.value === sampleId)
-
+    onWorkupChange({ name: 'acts_as', value: sample.acts_as || action.workup['acts_as'] })
     onWorkupChange({ name: 'sample_id', value: sampleId })
-    onWorkupChange({ name: 'target_amount_value', value: sample['amount'] })
-    onWorkupChange({ name: 'sample_original_amount', value: sample['amount'] })
+    onWorkupChange({ name: 'sample_name', value: label })
+    onWorkupChange({ name: 'target_amount_value', value: sample.amount || '' })
+    onWorkupChange({ name: 'sample_original_amount', value: sample.amount })
     onWorkupChange({ name: 'sample_volume_percentage', value: 100 })
-    onWorkupChange({ name: 'target_amount_unit', value: sample['unit'] || "UNSPECIFIED" })
+    onWorkupChange({ name: 'target_amount_unit', value: sample.unit})
   }
 
   return (
@@ -74,8 +53,8 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
         <Select
           name="sample_id"
           options={currentSampleOptions}
-          value={currentSampleOptions.find(sample => sample.value === currentSampleIdValue)}
-          onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value })}
+          value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label == currentName)}
+          onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
         />
       </ActionFormGroup>
       <ActionFormGroup label='Volume/Amount'>
@@ -142,7 +121,7 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
         <FormGroup check className='mb-3'>
           <Label check>
             <Input type="checkbox" checked={action.workup['is_waterfree_solvent']} onChange={ (event) =>
-              onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.value })
+              onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.checked })
             } />
             Water Free Solvent
           </Label>

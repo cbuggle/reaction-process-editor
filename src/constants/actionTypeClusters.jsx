@@ -20,14 +20,6 @@ export const actionTypeClusters = [
         }
       },
       {
-        id: 'add_diverse_solvent',
-        createLabel: 'Diverse Solvent',
-        action: {
-          action_name: 'ADD',
-          workup: { acts_as: 'DIVERSE_SOLVENT' }
-        }
-      },
-      {
         id: 'add_additive',
         createLabel: 'Additive',
         action: {
@@ -179,7 +171,7 @@ export const actionTypeClusters = [
         action: { action_name: 'ANALYSIS', workup: {} }
       },
       {
-        id: 'timeintermediate_save',
+        id: 'intermediate_save',
         createLabel: 'Save',
         action: {
           action_name: 'SAVE',

@@ -27,11 +27,13 @@ const ActivityCard = (
       return activity.label
     } else {
       let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
+      const acts_as = activityForm && (activityForm.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activityForm.workup['acts_as'])
+
       if (activityForm) {
         activityForm.action_name === "CONDITION" ?
           label += ' ' + (activityForm.workup['condition_type'] || '')
           :
-          label += ' ' + activityForm.action_name + ' ' + (activityForm.workup['acts_as'] || '')
+          label += ' ' + activityForm.action_name + ' ' + (acts_as || '')
       }
       return label
     }

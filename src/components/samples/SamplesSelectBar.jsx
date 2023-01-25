@@ -28,7 +28,7 @@ const SamplesSelectBar = ({ reactionProcess }) => {
       <div className="samples-select-bar">
         {sections.map((section, idx) => (
           <SamplesSelectBarSection key={idx} section={section} />
-        ))}s
+        ))}
       </div>
     </>
   )
