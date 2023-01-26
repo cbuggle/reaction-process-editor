@@ -2,8 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { ListGroupItem, Row, Col, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 
-import { conditionTendencyOptions, conditionUnitOptions, conditionValueRanges, conditionAdditionalInformationOptions } from '../../../constants/dropdownOptions/conditionsOptions';
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+
+import { conditionTendencyOptions, conditionUnitOptions, conditionValueRanges, conditionAdditionalInformationOptions } from '../../../constants/dropdownOptions/conditionsOptions';
 
 const ConditionForm = ({ action, onWorkupChange }) => {
 

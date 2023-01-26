@@ -1,8 +1,8 @@
 import React from 'react';
-import {FormGroup, Label} from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 import TooltipButton from "../../utilities/TooltipButton";
 
-const ActionFormGroup = ({label, tooltip, tooltipId, children}) => {
+const ActionFormGroup = ({ label, tooltip, tooltipId, children }) => {
   return (
     <FormGroup className='row gx-2'>
       <Label className='col-4 col-form-label d-flex'>

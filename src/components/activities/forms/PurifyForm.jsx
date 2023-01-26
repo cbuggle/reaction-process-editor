@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
+import { Input, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import { Row, Col, ListGroupItem, Input, FormGroup, Label } from 'reactstrap'
-
-import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
-
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+
 import ActionFormGroup from "./ActionFormGroup";
+import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 
 
 const PurifyForm = ({ action, onWorkupChange, processStep }) => {

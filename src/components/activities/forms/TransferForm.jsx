@@ -1,22 +1,17 @@
 import React, { useMemo, useEffect } from 'react'
-import { ListGroupItem, Row, Col, Button, UncontrolledTooltip } from 'reactstrap'
-
 import Select from 'react-select'
 
+import ActionFormGroup from "./ActionFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-import ActionFormGroup from "./ActionFormGroup";
-
-const TransferForm = ({action, processStep, onWorkupChange}) => {
+const TransferForm = ({ action, processStep, onWorkupChange }) => {
 
   useEffect(() => {
-    onWorkupChange({ name: 'transfer_source_step_id', value: processStep.id})
+    onWorkupChange({ name: 'transfer_source_step_id', value: processStep.id })
   }, [processStep])
 
   useEffect(() => {
-    onWorkupChange({ name: 'transfer_percentage', value: action.workup['transfer_percentage'] || 100})
+    onWorkupChange({ name: 'transfer_percentage', value: action.workup['transfer_percentage'] || 100 })
   }, [])
 
   const sampleOptions = useMemo(() => { return processStep.transfer_sample_options }, [])
@@ -24,11 +19,7 @@ const TransferForm = ({action, processStep, onWorkupChange}) => {
 
   return (
     <>
-      <ActionFormGroup
-        label='Transfer Sample'
-        tooltip='You can transfer any sample you have saved in the current step.'
-        tooltipId='sample-tip'
-      >
+      <ActionFormGroup label='Transfer Sample'>
         <Select
           name="sample_id"
           options={sampleOptions}
@@ -36,11 +27,7 @@ const TransferForm = ({action, processStep, onWorkupChange}) => {
           onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
         />
       </ActionFormGroup>
-      <ActionFormGroup
-        label='Transfer to Step'
-        tooltip='Transfer possible to other steps. You need at least a second step to see possible transfer targets.'
-        tooltipId='step-tip'
-      >
+      <ActionFormGroup label='Transfer to Step'>
         <Select
           name="transfer_target_step_id"
           isDisabled={!!action.id}

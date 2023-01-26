@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ListGroupItem, FormGroup, Label, Input, Form } from 'reactstrap'
+import { FormGroup, Label, Input, Form } from 'reactstrap'
 
 import AddSampleForm from './forms/AddSampleForm'
 import EquipmentForm from './forms/EquipmentForm'

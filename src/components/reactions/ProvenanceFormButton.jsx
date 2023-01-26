@@ -8,11 +8,7 @@ import ProvenanceForm from './ProvenanceForm';
 const ProvenanceFormButton = ({ provenance }) => {
 
   const [showModal, setShowModal] = useState(false)
-
-  const toggleModal = () => {
-    console.log("toggleModal")
-    setShowModal(!showModal)
-  }
+  const toggleModal = () => { setShowModal(!showModal) }
 
   return (
     <>

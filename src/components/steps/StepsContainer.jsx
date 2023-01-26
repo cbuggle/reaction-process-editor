@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Col } from 'reactstrap';
-
-import CreateButton from '../utilities/CreateButton';
-import StepColumCard from "./StepColumnCard";
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+
+import CreateButton from '../utilities/CreateButton';
+import StepColumCard from "./StepColumnCard";
 
 const StepsContainer = ({ reactionProcess }) => {
 

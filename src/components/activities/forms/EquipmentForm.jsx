@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { ListGroupItem, Row, Col, Label } from 'reactstrap'
 import Select from 'react-select'
 
-import { equipmentMountOptions } from '../../../constants/dropdownOptions/equipmentOptions'
 import ActionFormGroup from "./ActionFormGroup";
+import { equipmentMountOptions } from '../../../constants/dropdownOptions/equipmentOptions'
 
 const EquipmentForm = ({ action, onWorkupChange, processStep }) => {
 

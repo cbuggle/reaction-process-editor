@@ -9,7 +9,7 @@ const PreparationColumnCard = ({ reactionProcess }) => {
     return (
       <>
         {reactionProcess.samples_preparations.map((preparation, idx) => (
-          <Preparation key={idx} preparation={preparation} reactionProcess={reactionProcess}/>
+          <Preparation key={idx} preparation={preparation} reactionProcess={reactionProcess} />
         ))}
       </>
     )
@@ -26,7 +26,7 @@ const PreparationColumnCard = ({ reactionProcess }) => {
     >
       <ProcedureCard.Details>
         {renderSamplePreparations()}
-        <Preparation reactionProcess={reactionProcess}/>
+        <Preparation reactionProcess={reactionProcess} />
       </ProcedureCard.Details>
     </ColumnContainerCard>
   )

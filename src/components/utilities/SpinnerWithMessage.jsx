@@ -1,7 +1,7 @@
 import React from 'react';
-import {Spinner} from "reactstrap";
+import { Spinner } from "reactstrap";
 
-const SpinnerWithMessage = ({message}) => {
+const SpinnerWithMessage = ({ message }) => {
     return (
         <div className='spinner-with-message d-flex flex-column align-items-center justify-content-around'>
             <p className='text-center'>{message}</p>

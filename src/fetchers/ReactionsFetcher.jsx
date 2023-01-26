@@ -9,6 +9,7 @@ function useReactionsFetcher() {
 
   return {
     index,
+    svgImage,
     collectionSelectOptions,
     reactionSelectOptions,
     getReactionProcess,
@@ -33,6 +34,11 @@ function useReactionsFetcher() {
       path = path + '?' + new URLSearchParams({ collection_id: localStorage.getItem('filter_collection_id') })
     }
     return api.get(path);
+  }
+
+  function svgImage(reaction) {
+    // Note that this is not an api call but a link target.
+    return `${apiHostname}/images/reactions/${reaction.reaction_svg_file}`
   }
 
   function collectionSelectOptions() {

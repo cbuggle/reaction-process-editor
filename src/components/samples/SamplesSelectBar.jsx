@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { Navbar, NavbarText } from 'reactstrap'
 
 import SamplesSelectBarSection from './SamplesSelectBarSection'
+
 const SamplesSelectBar = ({ reactionProcess }) => {
 
   const sections = useMemo(() => {

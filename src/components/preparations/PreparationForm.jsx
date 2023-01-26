@@ -9,7 +9,7 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
 
   const api = useReactionsFetcher()
 
-  const [preparationForm, updatePreparationForm] = useState(preparation || {})
+  const [preparationForm, updatePreparationForm] = useState(preparation || {details: ''})
 
   const sampleOptions = preparation ? preparationOptions.prepared_samples : preparationOptions.unprepared_samples
 
@@ -38,7 +38,7 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
         />
       </FormGroup>
       <FormGroup>
-        <Label>Details</Label>
+        <Label>Preparations</Label>
         <Select
           isMulti
           name="preparations"

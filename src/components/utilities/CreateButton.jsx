@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from "reactstrap";
+import { Button } from "reactstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CreateButton = ({ label, type, onClick }) => {

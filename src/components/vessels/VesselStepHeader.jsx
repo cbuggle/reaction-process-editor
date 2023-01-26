@@ -39,7 +39,7 @@ const VesselStepHeader = ({ processStep, vesselOptions, onSaveVessel }) => {
             {VesselDecorator.renderVesselProcessStepInfo(processStep.vessel)}
           </Button>
 
-          {processStep.vessel ? <VesselModalEdit vessel={processStep.vessel} vesselOptions={vesselOptions} isOpen={showModal} onSave={handleSave} onCancel={toggleModal} /> : <></> }
+          {processStep.vessel ? <VesselModalEdit vessel={processStep.vessel} vesselOptions={vesselOptions} isOpen={showModal} onSave={handleSave} onCancel={toggleModal} /> : <></>}
 
         </div>
       </Label>

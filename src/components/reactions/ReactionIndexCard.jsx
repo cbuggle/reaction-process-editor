@@ -1,18 +1,16 @@
 import React from 'react'
-
 import { Card, CardBody, CardImg, CardTitle, CardSubtitle, UncontrolledTooltip, PopoverHeader, PopoverBody } from 'reactstrap'
-
-import { apiHostname } from '../../Constants'
 
 import { useNavigate } from 'react-router-dom'
 
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
+
 const ReactionIndexCard = ({ reaction }) => {
 
-  const navigate = useNavigate();
+  const api = useReactionsFetcher();
 
-  const navigateReaction = (id) => {
-    navigate("/reactions/" + id)
-  }
+  const navigate = useNavigate();
+  const navigateReaction = (id) => { navigate("/reactions/" + id) }
 
   return (
     <>
@@ -20,7 +18,7 @@ const ReactionIndexCard = ({ reaction }) => {
         <CardBody onClick={() => navigateReaction(reaction.id)}>
           <CardTitle>{reaction.short_label}</CardTitle>
           <CardSubtitle> ID: {reaction.id} </CardSubtitle>
-          <CardImg src={`${apiHostname}/images/reactions/${reaction.reaction_svg_file}`} alt={reaction.short_label} />
+          <CardImg src={api.svgImage(reaction)} alt={reaction.short_label} />
         </CardBody>
       </Card>
       <UncontrolledTooltip placement="bottom" target={"tooltip-reaction-link-" + reaction.id}>
@@ -30,7 +28,7 @@ const ReactionIndexCard = ({ reaction }) => {
           ID: {reaction.id}
         </PopoverHeader>
         <PopoverBody>
-          <CardImg src={`${apiHostname}/images/reactions/${reaction.reaction_svg_file}`} alt={reaction.short_label} />
+          <CardImg src={api.svgImage(reaction)} alt={reaction.short_label} />
         </PopoverBody>
       </UncontrolledTooltip>
     </>

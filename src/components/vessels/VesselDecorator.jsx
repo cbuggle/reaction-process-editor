@@ -18,16 +18,6 @@ export default class VesselDecorator {
     return "Vessel " + this.vesselIconName(vessel)
   }
 
-  // static getLabelByValue = (object, value) => {
-  //   const key = Object.keys(object).find(key => object[key]['value'] === value);
-
-  //   if (key) {
-  //     return object[key]['label']
-  //   } else {
-  //     return object
-  //   }
-  // }
-
   static toLabel = (value) => {
     if (value) {
       const newStr = value.split('_')

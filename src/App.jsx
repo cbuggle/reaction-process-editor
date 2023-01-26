@@ -7,8 +7,10 @@ import ReactionIndex from './components/views/ReactionIndex';
 import Reaction from './components/views/Reaction';
 import MainHeader from './components/layout/MainHeader';
 
-import './css/App.scss';
+import 'bootstrap/dist/css/bootstrap.css';
 import 'react-toastify/dist/ReactToastify.css';
+
+import './css/App.scss';
 
 const App = () => {
   return (

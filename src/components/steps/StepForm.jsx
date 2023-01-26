@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { Input } from 'reactstrap'
 
-import { Button, Input } from 'reactstrap'
 import FormButtons from "../utilities/FormButtons";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
-  const [stepForm, setStepForm] = useState(processStep || {name: ''})
+  const [stepForm, setStepForm] = useState(processStep || { name: '' })
 
   const onInputChange = (field) => {
     const { name, value } = field;
@@ -19,7 +19,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
   }
 
   const handleSelect = (value) => {
-    onInputChange({name: 'name', value: value})
+    onInputChange({ name: 'name', value: value })
   }
 
   const renderNameSuggestionSelect = () => {

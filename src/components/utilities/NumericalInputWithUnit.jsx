@@ -1,7 +1,7 @@
 import React from 'react'
 
 import NumericInput from 'react-numeric-input';
-import {Label, Row, Col} from "reactstrap";
+import { Label, Row, Col } from "reactstrap";
 import ActionFormGroup from "../activities/forms/ActionFormGroup";
 
 const NumericalInputWithUnit = ({ name, label, value, min, max, precision, step, unit, onWorkupChange, disabled }) => {

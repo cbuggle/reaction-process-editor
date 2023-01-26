@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
-
+import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
-import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap'
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+
+import ActionFormGroup from "./ActionFormGroup";
+import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
 
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import ActionFormGroup from "./ActionFormGroup";
-
-
 const SaveSampleForm = ({ action, onWorkupChange }) => {
 
-  const [sampleForm, setSampleForm] = useState({})
+  const [sampleForm, setSampleForm] = useState({
+    name: '',
+    short_label: '',
+    description: '',
+    target_amount_value: '',
+    location: ''
+  })
 
   useEffect(() => {
     setSampleForm(action.workup['sample'])
@@ -102,7 +106,7 @@ const SaveSampleForm = ({ action, onWorkupChange }) => {
           offlabel='Show in ELN'
           offstyle='outline-success'
           onChange={(checked) => {
-            onWorkupChange({name: 'hide_in_eln', value: checked})
+            onWorkupChange({ name: 'hide_in_eln', value: checked })
           }}
         />
       </ActionFormGroup>

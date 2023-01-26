@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import ColumnContainerCard from "../utilities/ColumnContainerCard";
-import ProcedureCard from "../utilities/ProcedureCard";
-
-import StepForm from './StepForm';
-import StepInfo from './StepInfo';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import StepForm from './StepForm';
+import StepInfo from './StepInfo';
 import Activity from "../activities/Activity";
 import ActivityCreator from "../activities/ActivityCreator";
+import ColumnContainerCard from "../utilities/ColumnContainerCard";
+import ProcedureCard from "../utilities/ProcedureCard";
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const StepColumCard = (
   {

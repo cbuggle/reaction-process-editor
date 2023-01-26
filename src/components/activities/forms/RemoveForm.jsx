@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react'
-import { Row, Col, FormGroup, Label, Input } from 'reactstrap'
+import { Input } from 'reactstrap'
 import Select from 'react-select'
+
+import ActionFormGroup from "./ActionFormGroup";
+import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { conditionUnitOptions, conditionValueRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
-
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
-import ActionFormGroup from "./ActionFormGroup";
 
 const RemoveForm = ({ action, onWorkupChange, processStep }) => {
 
@@ -18,9 +18,9 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
     return action.workup['sample_id']
   }, [action.workup['sample_id']])
 
-  const handleActsAsChange = ({actsAs}) => {
-    onWorkupChange({ name: 'acts_as', value: actsAs})
-    onWorkupChange({ name: 'sample_id', value: ''})
+  const handleActsAsChange = ({ actsAs }) => {
+    onWorkupChange({ name: 'acts_as', value: actsAs })
+    onWorkupChange({ name: 'sample_id', value: '' })
   }
 
   const renderConditions = () => {
@@ -152,7 +152,7 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
           name="acts_as"
           options={removeTypeOptions}
           value={removeTypeOptions.find(option => option.value === action.workup['acts_as'])}
-          onChange={selectedOption => handleActsAsChange({actsAs: selectedOption.value})}
+          onChange={selectedOption => handleActsAsChange({ actsAs: selectedOption.value })}
         />
       </ActionFormGroup>
       {renderGenericRemoveFields()}

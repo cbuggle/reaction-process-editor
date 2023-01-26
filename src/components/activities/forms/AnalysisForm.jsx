@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroupItem, FormGroup, Label, Input } from 'reactstrap'
+import { Input } from 'reactstrap'
 import Select from 'react-select'
 
 import { analysisTypeOptions } from '../../../constants/dropdownOptions/analysisTypeOptions'

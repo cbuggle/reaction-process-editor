@@ -4,7 +4,6 @@ import NumericInput from 'react-numeric-input';
 import Select from 'react-select'
 import { RangeStepInput } from 'react-range-step-input';
 
-
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 
 const MotionForm = ({ action, onWorkupChange }) => {
@@ -38,10 +37,10 @@ const MotionForm = ({ action, onWorkupChange }) => {
       <ListGroupItem>
         <Row>
           <Col md={8}>
-            <RangeStepInput value={action.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(action.workup['motion_type'])} onChange={handleRpmSliderChange} snap/>
+            <RangeStepInput value={action.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(action.workup['motion_type'])} onChange={handleRpmSliderChange} snap />
           </Col>
           <Col md={2}>
-            <NumericInput value={action.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(action.workup['motion_type'])} onChange={handleRpmNumericInput} snap/>
+            <NumericInput value={action.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(action.workup['motion_type'])} onChange={handleRpmNumericInput} snap />
           </Col>
           <Col md={2}>
             {action.workup['motion_unit']}

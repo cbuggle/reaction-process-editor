@@ -35,7 +35,7 @@ export default class ActionValidator {
   }
 
   static displayNotifications = (errors) => {
-    errors.forEach(error => toast.error(error, {autoClose: 1500}))
+    errors.forEach(error => toast.error(error, { autoClose: 1500 }))
   }
 
   static validate = (action) => {

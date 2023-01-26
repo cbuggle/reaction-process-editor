@@ -147,17 +147,17 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
           </Row>
           <Row>
             <Col md={12}>
-            <FormGroup>
+              <FormGroup>
 
-              <Label>Attachments</Label>
-              <Select
-                isMulti
-                name="vessel_attachments"
+                <Label>Attachments</Label>
+                <Select
+                  isMulti
+                  name="vessel_attachments"
                   options={vesselOptions.attachments}
                   value={vesselOptions.attachments.filter(option => (vessel.attachments || []).includes(option.value))}
-                onChange={selectedOptions => onInputChange({ name: 'attachments', value: selectedOptions.map(option => option.value) })}
-              />
-            </FormGroup>
+                  onChange={selectedOptions => onInputChange({ name: 'attachments', value: selectedOptions.map(option => option.value) })}
+                />
+              </FormGroup>
             </Col>
           </Row>
         </ListGroupItem>

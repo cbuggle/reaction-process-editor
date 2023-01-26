@@ -4,11 +4,11 @@ import Select from 'react-select'
 
 import PropTypes from 'prop-types'
 
+import ActionFormGroup from "./ActionFormGroup";
+import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { conditionUnitOptions, conditionValueRanges } from '../../../constants/dropdownOptions/conditionsOptions';
-
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
-import ActionFormGroup from "./ActionFormGroup";
 
 const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
 
@@ -44,7 +44,7 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
     onWorkupChange({ name: 'target_amount_value', value: sample.amount || '' })
     onWorkupChange({ name: 'sample_original_amount', value: sample.amount })
     onWorkupChange({ name: 'sample_volume_percentage', value: 100 })
-    onWorkupChange({ name: 'target_amount_unit', value: sample.unit})
+    onWorkupChange({ name: 'target_amount_unit', value: sample.unit })
   }
 
   return (
@@ -90,7 +90,7 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
         unit={conditionUnitOptions['VELOCITY'][0].label}
         precision={conditionValueRanges['VELOCITY']['precision']}
         step={conditionValueRanges['VELOCITY']['step']}
-        value={action.workup['add_sample_speed'] }
+        value={action.workup['add_sample_speed']}
         min={conditionValueRanges['VELOCITY']['min']}
         max={conditionValueRanges['VELOCITY']['max']}
         onWorkupChange={onWorkupChange}
@@ -120,7 +120,7 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
       {currentSampleActsAs === 'SOLVENT' &&
         <FormGroup check className='mb-3'>
           <Label check>
-            <Input type="checkbox" checked={action.workup['is_waterfree_solvent']} onChange={ (event) =>
+            <Input type="checkbox" checked={action.workup['is_waterfree_solvent']} onChange={(event) =>
               onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.checked })
             } />
             Water Free Solvent

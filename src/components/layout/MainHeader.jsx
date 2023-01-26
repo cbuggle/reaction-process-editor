@@ -19,14 +19,14 @@ import LogoutButton from '../login/LogoutButton';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-const MainHeader = ({ onChangeCollection }) => {
+const MainHeader = () => {
 
   const navigate = useNavigate();
   const api = useReactionsFetcher();
 
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
-  const [filterCollectionId, setFilterCollectionId] = useState(localStorage.getItem('filter_collection_id'))
+  const filterCollectionId = localStorage.getItem('filter_collection_id')
 
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
 
@@ -55,10 +55,10 @@ const MainHeader = ({ onChangeCollection }) => {
   const selectCollection = (event) => {
     localStorage.setItem('filter_collection_id', event.target.value)
     fetchReactionOptions()
-    if (onChangeCollection) { onChangeCollection() }
   }
 
   const selectReaction = (event) => {
+    console.log("selectReaction " + event.target.value)
     navigate("/reactions/" + event.target.value);
     window.location.reload();
   }
@@ -91,28 +91,33 @@ const MainHeader = ({ onChangeCollection }) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Collections
-              </DropdownToggle>
-              <DropdownMenu>
-                {collectionOptions.map((collection) =>
-                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                    {collection.label}
-                  </DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <ul>
+              <UncontrolledDropdown nav>
+                <DropdownToggle nav caret>
+                  Collections
+                </DropdownToggle>
+                <DropdownMenu>
+                  {collectionOptions.map((collection) =>
+                    <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                      {collection.label}
+                    </DropdownItem>)}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </ul>
           </NavItem>
           <NavItem>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Reactions ({reactionOptions.length})
-              </DropdownToggle>
-              <DropdownMenu>
-                {reactionOptions.map((reaction) =>
-                  <DropdownItem key={reaction.id} value={reaction.id} onClick={selectReaction}>{reaction.id + ': ' + reaction.short_label}</DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <ul>
+
+              <UncontrolledDropdown nav>
+                <DropdownToggle nav caret>
+                  Reactions ({reactionOptions.length})
+                </DropdownToggle>
+                <DropdownMenu>
+                  {reactionOptions.map((reaction) =>
+                    <DropdownItem key={reaction.id} value={reaction.id} onClick={selectReaction}>{reaction.id + ': ' + reaction.short_label}</DropdownItem>)}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </ul>
           </NavItem>
         </Nav>
         <Nav navbar className="justify-content-end">

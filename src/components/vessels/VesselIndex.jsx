@@ -6,7 +6,7 @@ const VesselIndex = ({ vessels, vesselOptions, onAssignVessel, onCloneVessel, on
   return (
     <>
       {vessels.map((vessel, idx) => (
-        <VesselIndexItem key={idx} vessel={vessel} vesselOptions={vesselOptions} onCloneVessel={onCloneVessel} onAssignVessel={onAssignVessel} onDeleteVessel={onDeleteVessel}  />
+        <VesselIndexItem key={idx} vessel={vessel} vesselOptions={vesselOptions} onCloneVessel={onCloneVessel} onAssignVessel={onAssignVessel} onDeleteVessel={onDeleteVessel} />
       ))}
     </>
   )

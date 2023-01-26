@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import ActivityInfo from "./ActivityInfo";

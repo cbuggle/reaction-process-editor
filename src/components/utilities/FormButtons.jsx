@@ -1,7 +1,7 @@
 import React from 'react';
-import {Button} from "reactstrap";
+import { Button } from "reactstrap";
 
-const FormButtons = ({onCancel, onSave, type}) => {
+const FormButtons = ({ onCancel, onSave, type }) => {
   return (
     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
       <Button color={type} onClick={onCancel} outline>Cancel</Button>

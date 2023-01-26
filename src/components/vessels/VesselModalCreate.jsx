@@ -51,7 +51,7 @@ const VesselModalCreate = ({ isOpen, vessel, vesselOptions, onCreate, onCancel, 
     <Modal isOpen={isOpen} toggle={handleCancel} backdrop={"static"}>
       <ModalHeader>
         <Label>
-        <Button color="outline-secondary" size="sm" onClick={handleCancel}>x</Button>
+          <Button color="outline-secondary" size="sm" onClick={handleCancel}>x</Button>
         </Label>
         <Label> {renderModalTitle()}</Label>
       </ModalHeader>

@@ -1,5 +1,6 @@
 import React from 'react';
-import {Card, CardBody, CardHeader} from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
+
 import IconButton from "./IconButton";
 
 const Info = () => null
@@ -7,7 +8,7 @@ const TypePanel = () => null
 const Form = () => null
 const Details = () => null
 
-const ProcedureCard  = (
+const ProcedureCard = (
   {
     title,
     type,

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { ListGroupItem, FormGroup, Input, Label, Row, Col } from 'reactstrap'
+import { FormGroup, Input, Label } from 'reactstrap'
 import Select from 'react-select'
 
 import PropTypes from 'prop-types'
@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const ApplyEquipmentForm = ({ action, onWorkupChange, processStep }) => {
 
   const equipmentOptions = useMemo(() => {
-    if(action.action_name == 'CONDITION') {
+    if (action.action_name == 'CONDITION') {
       return processStep.action_equipment_options['CONDITION'][action.workup['condition_type']]
     } else {
       return processStep.action_equipment_options[action.action_name]
