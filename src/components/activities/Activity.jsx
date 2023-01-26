@@ -29,6 +29,10 @@ const Activity = ({ action, processStep }) => {
     return action.position > dropAction.source_position
   }
 
+  const isInSameStep = (dropAction) => {
+    return action.step_id === dropAction.step_id
+  }
+
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.ACTION,
@@ -36,7 +40,8 @@ const Activity = ({ action, processStep }) => {
       action: action,
       source_position: action.position,
       min_position: action.min_position,
-      max_position: action.max_position
+      max_position: action.max_position,
+      step_id: action.step_id
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -48,7 +53,7 @@ const Activity = ({ action, processStep }) => {
   const [{ isOverBefore, isOverAfter }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
-    canDrop: (dropAction) => !processStep.locked && isInDropRange(dropAction),
+    canDrop: (dropAction) => !processStep.locked && isInSameStep(dropAction) && isInDropRange(dropAction),
     collect: (monitor) => ({
       isOverBefore: monitor.isOver() && monitor.canDrop() && isBefore(monitor.getItem()),
       isOverAfter: monitor.isOver() && monitor.canDrop() && isAfter(monitor.getItem())
