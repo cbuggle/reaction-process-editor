@@ -6,6 +6,7 @@ import { Row, Col, ListGroupItem, Input, FormGroup, Label } from 'reactstrap'
 import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import ActionFormGroup from "./ActionFormGroup";
 
 
 const PurifyForm = ({ action, onWorkupChange, processStep }) => {
@@ -25,7 +26,7 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
   const renderFilterMethodButtonToggle = () => {
     if (action.workup['purify_type'] == 'FILTRATION') {
       return (
-        <Col md={4}>
+        <>
           <BootstrapSwitchButton
             width='200'
             checked={filtrationModeKeepRetentate}
@@ -37,28 +38,25 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
               toggleFiltrationMode()
             }}
           />
-        </Col>
+        </>
       )
     }
   }
 
   return (
     <>
-      <ListGroupItem>
-        <Row>
-          {renderFilterMethodButtonToggle()}
-        </Row>
-      </ListGroupItem>
-      <ListGroupItem>
+      <FormGroup>
+        {renderFilterMethodButtonToggle()}
+      </FormGroup>
+      <FormGroup>
         <Select
           name="purify_automation"
           options={purifyAutomationModeOptions}
           value={purifyAutomationModeOptions.find(option => option.value === action.workup['purify_automation'])}
           onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
         />
-      </ListGroupItem>
-      <ListGroupItem>
-        <Label>Solvents</Label>
+      </FormGroup>
+      <ActionFormGroup label='Solvents'>
         <Select
           isMulti
           name="purify_solvent_sample_ids"
@@ -66,18 +64,15 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
           value={purifySolventOptions.filter(option => actionPurifySolventIds.includes(option.value))}
           onChange={selectedOptions => onWorkupChange({ name: 'purify_solvent_sample_ids', value: selectedOptions.map(option => option.value) })}
         />
-      </ListGroupItem>
-      <ListGroupItem>
-        <FormGroup>
-          <Label>Ratio</Label>
-          <Input
-            type="textarea"
-            value={action.workup['purify_ratio']}
-            placeholder="Ratio"
-            onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
-          />
-        </FormGroup>
-      </ListGroupItem>
+      </ActionFormGroup>
+      <ActionFormGroup label='Ratio'>
+        <Input
+          type="textarea"
+          value={action.workup['purify_ratio']}
+          placeholder="Ratio"
+          onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
+        />
+      </ActionFormGroup>
     </>
   )
 }

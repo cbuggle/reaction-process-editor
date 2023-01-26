@@ -7,7 +7,8 @@ import PropTypes from 'prop-types'
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { conditionUnitOptions, conditionValueRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
-import TemperatureInput from '../../utilities/TemperatureInput';
+import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+import ActionFormGroup from "./ActionFormGroup";
 
 const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
 
@@ -68,103 +69,86 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
   }
 
   return (
-    <div className="action-form">
-      <ListGroupItem>
-        <Row>
-          <Col md={3}>
-            <Label>Sample</Label>
-            <Select
-              name="sample_id"
-              options={currentSampleOptions}
-              value={currentSampleOptions.find(sample => sample.value === currentSampleIdValue)}
-              onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value })}
-            />
-          </Col>
-          <Col md={2}>
-            <Label>Volume/Amount</Label>
-            <Input
-              value={action.workup['target_amount_value']}
-              placeholder="Amount"
-              onChange={event => handleAmountInput({ value: event.target.value })}
-            />
-          </Col>
-          <Col md={2}>
-            <Label>Unit</Label>
-            <Select
-              name="target_amount_unit"
-              options={samplevolumeUnitOptions}
-              value={samplevolumeUnitOptions.find(item => item.value === action.workup['target_amount_unit'])}
-              onChange={selectedOption => onWorkupChange({ name: 'target_amount_unit', value: selectedOption.value })}
-            />
-          </Col>
-          <Col md={3}>
-            <Label>Percentage</Label>
-            <br />
-            {action.workup['sample_original_amount'] ?
-              <TemperatureInput
-                name='sample_volume_percentage'
-                unit={'%'}
-                precision={1}
-                step={0.1}
-                value={action.workup['sample_volume_percentage'] || 100}
-                min={0}
-                max={100}
-                onWorkupChange={handlePercentageInput} />
-              : <>100 %</>}
-          </Col>
-        </Row>
-      </ListGroupItem>
-      <ListGroupItem>
-        <FormGroup>
-          <Row>
-            <Col md={3}>
-              <TemperatureInput
-                label="Speed"
-                name='add_sample_speed'
-                unit={conditionUnitOptions['VELOCITY'][0].label}
-                precision={conditionValueRanges['VELOCITY']['precision']}
-                step={conditionValueRanges['VELOCITY']['step']}
-                value={action.workup['add_sample_speed'] }
-                min={conditionValueRanges['VELOCITY']['min']}
-                max={conditionValueRanges['VELOCITY']['max']}
-                onWorkupChange={onWorkupChange} />
-            </Col>
-            <Col md={3}>
-              <TemperatureInput
-                label="Temperature"
-                name='temperature_value'
-                unit={conditionUnitOptions['TEMPERATURE'][0].label}
-                precision={conditionValueRanges['TEMPERATURE']['precision']}
-                step={conditionValueRanges['TEMPERATURE']['step']}
-                value={action.workup['temperature_value']}
-                min={conditionValueRanges['TEMPERATURE']['min']}
-                max={conditionValueRanges['TEMPERATURE']['max']}
-                onWorkupChange={onWorkupChange} />
-            </Col>
-            <Col md={3}>
-              <TemperatureInput
-                label="Pressure"
-                name='pressure_value'
-                unit={conditionUnitOptions['PRESSURE'][0].label}
-                precision={conditionValueRanges['PRESSURE']['precision']}
-                step={conditionValueRanges['PRESSURE']['step']}
-                value={action.workup['pressure_value']}
-                min={conditionValueRanges['PRESSURE']['min']}
-                max={conditionValueRanges['PRESSURE']['max']}
-                onWorkupChange={onWorkupChange} />
-            </Col>
-
-          </Row>
-          {currentSampleActsAs === 'SOLVENT' ?
-            <Label check>
-              <Input type="checkbox" checked={action.workup['is_waterfree_solvent']} onChange={ (event) =>
-                onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.value })
-              } />
-              Water Free Solvent
-            </Label> : <></>}
+    <>
+      <ActionFormGroup label='Sample'>
+        <Select
+          name="sample_id"
+          options={currentSampleOptions}
+          value={currentSampleOptions.find(sample => sample.value === currentSampleIdValue)}
+          onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value })}
+        />
+      </ActionFormGroup>
+      <ActionFormGroup label='Volume/Amount'>
+        <Input
+          value={action.workup['target_amount_value']}
+          placeholder="Amount"
+          onChange={event => handleAmountInput({ value: event.target.value })}
+        />
+      </ActionFormGroup>
+      <ActionFormGroup label='Unit'>
+        <Select
+          name="target_amount_unit"
+          options={samplevolumeUnitOptions}
+          value={samplevolumeUnitOptions.find(item => item.value === action.workup['target_amount_unit'])}
+          onChange={selectedOption => onWorkupChange({ name: 'target_amount_unit', value: selectedOption.value })}
+        />
+      </ActionFormGroup>
+      <NumericalnputWithUnit
+        label='Percentage'
+        name='sample_volume_percentage'
+        unit={'%'}
+        precision={1}
+        step={0.1}
+        value={action.workup['sample_volume_percentage'] || 100}
+        min={0}
+        max={100}
+        disabled={!action.workup['sample_original_amount']}
+        onWorkupChange={handlePercentageInput}
+      />
+      <NumericalnputWithUnit
+        label="Speed"
+        name='add_sample_speed'
+        unit={conditionUnitOptions['VELOCITY'][0].label}
+        precision={conditionValueRanges['VELOCITY']['precision']}
+        step={conditionValueRanges['VELOCITY']['step']}
+        value={action.workup['add_sample_speed'] }
+        min={conditionValueRanges['VELOCITY']['min']}
+        max={conditionValueRanges['VELOCITY']['max']}
+        onWorkupChange={onWorkupChange}
+      />
+      <NumericalnputWithUnit
+        label="Temperature"
+        name='temperature_value'
+        unit={conditionUnitOptions['TEMPERATURE'][0].label}
+        precision={conditionValueRanges['TEMPERATURE']['precision']}
+        step={conditionValueRanges['TEMPERATURE']['step']}
+        value={action.workup['temperature_value']}
+        min={conditionValueRanges['TEMPERATURE']['min']}
+        max={conditionValueRanges['TEMPERATURE']['max']}
+        onWorkupChange={onWorkupChange}
+      />
+      <NumericalnputWithUnit
+        label="Pressure"
+        name='pressure_value'
+        unit={conditionUnitOptions['PRESSURE'][0].label}
+        precision={conditionValueRanges['PRESSURE']['precision']}
+        step={conditionValueRanges['PRESSURE']['step']}
+        value={action.workup['pressure_value']}
+        min={conditionValueRanges['PRESSURE']['min']}
+        max={conditionValueRanges['PRESSURE']['max']}
+        onWorkupChange={onWorkupChange}
+      />
+      {currentSampleActsAs === 'SOLVENT' &&
+        <FormGroup check className='mb-3'>
+          <Label check>
+            <Input type="checkbox" checked={action.workup['is_waterfree_solvent']} onChange={ (event) =>
+              onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.value })
+            } />
+            Water Free Solvent
+          </Label>
         </FormGroup>
-      </ListGroupItem >
-    </div>
+      }
+    </>
   )
 }
 

@@ -26,43 +26,25 @@ const ApplyEquipmentForm = ({ action, onWorkupChange, processStep }) => {
     }
   }
 
-  const renderEquipmentForm = () => {
-    if (applyExtraEquipment) {
-      return (
-        <Select
-          isMulti
-          name="equipment"
-          options={equipmentOptions}
-          value={equipmentOptions.filter(option => (action.workup['equipment'] || []).includes(option.value))}
-          onChange={selectedOptions => onWorkupChange({ name: 'equipment', value: selectedOptions.map(option => option.value) })}
-        />
-      )
-    } else {
-      return
-    }
-  }
-
   return (
     <>
-      <ListGroupItem>
-        <Row>
-          <Col md={1}>
-          </Col>
-          <Col md={5}>
-            <FormGroup className="mb-3">
-              <Label check>
-                <Input type="checkbox" checked={action.workup['apply_extra_equipment']} onChange={handleCheckbox} />
-                Apply Extra Equipment
-              </Label>
-            </FormGroup>
-          </Col>
-          <Col md={6}>
-            <FormGroup>
-              {renderEquipmentForm()}
-            </FormGroup>
-          </Col>
-        </Row>
-      </ListGroupItem>
+      <FormGroup check className='mb-3'>
+        <Label check>
+          <Input type="checkbox" checked={action.workup['apply_extra_equipment']} onChange={handleCheckbox} />
+          Apply Extra Equipment
+        </Label>
+      </FormGroup>
+      {applyExtraEquipment &&
+        <FormGroup>
+          <Select
+            isMulti
+            name="equipment"
+            options={equipmentOptions}
+            value={equipmentOptions.filter(option => (action.workup['equipment'] || []).includes(option.value))}
+            onChange={selectedOptions => onWorkupChange({ name: 'equipment', value: selectedOptions.map(option => option.value) })}
+          />
+        </FormGroup>
+      }
     </>
   )
 }

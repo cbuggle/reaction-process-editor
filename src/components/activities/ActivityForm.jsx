@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, ListGroupItem, FormGroup, Label, Input } from 'reactstrap'
+import { ListGroupItem, FormGroup, Label, Input, Form } from 'reactstrap'
 
 import AddSampleForm from './forms/AddSampleForm'
 import EquipmentForm from './forms/EquipmentForm'
@@ -29,10 +29,10 @@ const ActivityForm = (props) => {
         )
       default:
         return (
-          <b>
+          <>
             <ConditionForm {...props} />
             <ApplyEquipmentForm {...props} />
-          </b>
+          </>
         )
     }
   }
@@ -98,22 +98,20 @@ const ActivityForm = (props) => {
   }
 
   return (
-    <div className="action-form">
-      <ListGroupItem>
-        <FormGroup>
-          <Label>Description</Label>
-          {props.action.id ? "" : " (leave empty to autofill)"}
-          <Input
-            type="textarea"
-            value={props.action.workup.description}
-            placeholder="Description"
-            onChange={event => props.onWorkupChange({ name: 'description', value: event.target.value })}
-          />
-        </FormGroup>
-      </ListGroupItem>
+    <Form>
+      <FormGroup>
+        <Label>Description</Label>
+        {props.action.id ? "" : " (leave empty to autofill)"}
+        <Input
+          type="textarea"
+          value={props.action.workup.description}
+          placeholder="Description"
+          onChange={event => props.onWorkupChange({ name: 'description', value: event.target.value })}
+        />
+      </FormGroup>
       {customActionForm()}
       <FormButtons onSave={onSave} onCancel={props.onCancel} type='action' />
-    </div>
+    </Form>
   )
 }
 

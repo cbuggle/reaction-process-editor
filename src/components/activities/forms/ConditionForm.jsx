@@ -3,7 +3,7 @@ import { ListGroupItem, Row, Col, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 
 import { conditionTendencyOptions, conditionUnitOptions, conditionValueRanges, conditionAdditionalInformationOptions } from '../../../constants/dropdownOptions/conditionsOptions';
-import TemperatureInput from '../../utilities/TemperatureInput';
+import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 const ConditionForm = ({ action, onWorkupChange }) => {
 
@@ -88,7 +88,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
     return (
       <>
         <ListGroupItem>
-          <TemperatureInput
+          <NumericalnputWithUnit
             name='temperature_value'
             label='Temperature'
             value={action.workup['temperature_value'] || conditionValueRanges['TEMPERATURE']['default']}
@@ -99,7 +99,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
             step={conditionValueRanges['TEMPERATURE']['step']}
             onWorkupChange={onWorkupChange} />
           <br />
-          <TemperatureInput
+          <NumericalnputWithUnit
             name='pressure_value'
             label='Pressure'
             value={action.workup['pressure_value'] || conditionValueRanges['PRESSURE']['default']}
@@ -115,7 +115,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
             Power Ramp
           </Label>
           <br />
-          <TemperatureInput
+          <NumericalnputWithUnit
             name='power_start_value'
             label='Power (Start)'
             value={action.workup['power_start_value'] || conditionValueRanges['POWER']['default']}
@@ -128,7 +128,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
           {showPowerRampForm ?
             <>
               <br />
-              <TemperatureInput
+              <NumericalnputWithUnit
                 name='power_end_value'
                 label='Power (End)'
                 value={action.workup['power_end_value'] || conditionValueRanges['POWER']['default']}
@@ -155,7 +155,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
         </Row>
       </ListGroupItem>
       <ListGroupItem>
-        <TemperatureInput
+        <NumericalnputWithUnit
           name='condition_value'
           unit={currentSelectedUnitOption.label}
           precision={currentRangePrecision}
@@ -167,7 +167,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
       </ListGroupItem>
       <ListGroupItem>
         Duration
-        <TemperatureInput
+        <NumericalnputWithUnit
           name='duration_in_minutes'
           unit={'Minutes'}
           precision={0}

@@ -16,21 +16,20 @@ $max-label-width: 400px;
   }
   --bs-card-spacer-x: 0;
   --bs-card-spacer-y: 0;
+  &__info, &__form, &__details {
+    padding: 1rem;
+  }
   &__info {
     display: flex;
     font-size: $font-size-sm;
-    padding: 1rem;
     .sample-molecule-image {
       margin-right: 1rem;
     }
   }
-  &__details {
-    padding: 1rem;
-    & > * {
-      margin-bottom: 12px;
-      &:last-child {
-        margin-bottom: 0;
-      }
+  &__details > * {
+    margin-bottom: 12px;
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }
