@@ -16,7 +16,6 @@ const StepColumCard = (
   {
     processStep,
     reactionProcess,
-    onChange,
     onCancel
   }) => {
 
@@ -36,9 +35,7 @@ const StepColumCard = (
   }
 
   const deleteStep = () => {
-    api.deleteProcessStep(processStep.id).then(() => {
-      onChange()
-    })
+    api.deleteProcessStep(processStep.id)
   }
 
   const handleCancel = () => {
@@ -51,16 +48,12 @@ const StepColumCard = (
 
   const onSave = (stepForm) => {
     if (isInitialised) {
-      api.updateProcessStep(stepForm).then(() => {
-        setShowForm(false)
-        onChange()
-      })
+      api.updateProcessStep(stepForm)
+      setShowForm(false)
     } else {
-      api.createProcessStep(reactionProcess.id, stepForm).then(() => {
-        onCancel()
-        setShowForm(false)
-        onChange()
-      })
+      api.createProcessStep(reactionProcess.id, stepForm)
+      setShowForm(false)
+      onCancel()
     }
   }
 
@@ -91,11 +84,7 @@ const StepColumCard = (
   }), [processStep])
 
   const dropItem = (monitor, processStep) => {
-    console.log(monitor)
-    console.log(processStep)
-    api.updateProcessStepPosition(monitor.processStep.id, processStep.position).then(() => {
-      onChange()
-    })
+    api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
   }
 
 
@@ -116,7 +105,7 @@ const StepColumCard = (
           dragRef={dragRef}
         >
           <ProcedureCard.Info>
-            <StepInfo processStep={processStep} onChange={onChange} />
+            <StepInfo processStep={processStep} />
           </ProcedureCard.Info>
           <ProcedureCard.Form>
             <StepForm
@@ -130,9 +119,9 @@ const StepColumCard = (
           {isInitialised &&
             <ProcedureCard.Details>
               {processStep.actions.map(action => (
-                <Activity key={action.id} action={action} processStep={processStep} onChange={onChange} />
+                <Activity key={action.id} action={action} processStep={processStep} />
               ))}
-              <ActivityCreator processStep={processStep} onChange={onChange} />
+              <ActivityCreator processStep={processStep} />
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>

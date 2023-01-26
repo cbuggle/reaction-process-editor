@@ -3,13 +3,13 @@ import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import Preparation from "./Preparation";
 import ProcedureCard from "../utilities/ProcedureCard";
 
-const PreparationColumnCard = ({ reactionProcess, onChange }) => {
+const PreparationColumnCard = ({ reactionProcess }) => {
 
   const renderSamplePreparations = () => {
     return (
       <>
         {reactionProcess.samples_preparations.map((preparation, idx) => (
-          <Preparation key={idx} preparation={preparation} reactionProcess={reactionProcess} onChange={onChange} />
+          <Preparation key={idx} preparation={preparation} reactionProcess={reactionProcess}/>
         ))}
       </>
     )
@@ -26,7 +26,7 @@ const PreparationColumnCard = ({ reactionProcess, onChange }) => {
     >
       <ProcedureCard.Details>
         {renderSamplePreparations()}
-        <Preparation reactionProcess={reactionProcess} onChange={onChange} />
+        <Preparation reactionProcess={reactionProcess}/>
       </ProcedureCard.Details>
     </ColumnContainerCard>
   )

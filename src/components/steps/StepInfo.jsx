@@ -4,7 +4,7 @@ import StepEquipment from './header/StepEquipment'
 import StepSamples from './header/StepSamples'
 import StepVessel from './header/StepVessel'
 
-const StepInfo = ({ processStep, onChange }) => {
+const StepInfo = ({ processStep }) => {
   return (
     <>
       <StepVessel processStep={processStep} />

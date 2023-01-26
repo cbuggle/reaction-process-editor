@@ -1,18 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import CreateButton from "../utilities/CreateButton";
 import ActivityCard from "./ActivityCard";
-import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const ActivityCreator = ({onChange, processStep, insertNewBeforeIndex}) => {
+const ActivityCreator = ({ processStep, insertNewBeforeIndex }) => {
 
   const api = useReactionsFetcher()
   const [displayState, setDisplayState] = useState('buttons')
 
   const save = (actionForm) => {
     setDisplayState('buttons')
-    api.createAction(processStep.id, actionForm, insertNewBeforeIndex).then(() => {
-      onChange()
-    })
+    api.createAction(processStep.id, actionForm, insertNewBeforeIndex)
   }
 
   const cancel = () => {

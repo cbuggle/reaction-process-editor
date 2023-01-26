@@ -7,7 +7,7 @@ import StepColumCard from "./StepColumnCard";
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-const StepsContainer = ({ reactionProcess, onChange }) => {
+const StepsContainer = ({ reactionProcess }) => {
 
   const [displayNewStep, setDisplayNewStep] = useState(false)
 
@@ -23,7 +23,6 @@ const StepsContainer = ({ reactionProcess, onChange }) => {
             reactionProcess={reactionProcess}
             processStep={processStep}
             totalSteps={reactionProcess.reaction_process_steps.length}
-            onChange={onChange}
           />
         </Col>
       ))}
@@ -31,7 +30,6 @@ const StepsContainer = ({ reactionProcess, onChange }) => {
         {displayNewStep ?
           <StepColumCard
             reactionProcess={reactionProcess}
-            onChange={onChange}
             onCancel={toggleNewStep}
           />
           :

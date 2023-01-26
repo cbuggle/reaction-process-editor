@@ -5,20 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ProvenanceForm from './ProvenanceForm';
 
-const ProvenanceFormButton = ({ provenance, onChange }) => {
+const ProvenanceFormButton = ({ provenance }) => {
 
   const [showModal, setShowModal] = useState(false)
 
   const toggleModal = () => {
+    console.log("toggleModal")
     setShowModal(!showModal)
   }
-
-  const handleSave = () => {
-    setShowModal(false)
-    onChange()
-  }
-
-  const handleCancel = () => { setShowModal(false) }
 
   return (
     <>
@@ -28,12 +22,12 @@ const ProvenanceFormButton = ({ provenance, onChange }) => {
       < UncontrolledTooltip target={"provenance-button"} >
         Edit the Provenance metadata of the reaction.
       </UncontrolledTooltip >
-      <Modal isOpen={showModal} autoFocus={true} toggle={handleCancel} backdrop={"static"}>
+      <Modal isOpen={showModal} autoFocus={true} toggle={toggleModal} backdrop={"static"}>
         <ModalHeader>
           Reaction Process Provenance
         </ModalHeader>
         <ModalBody>
-          <ProvenanceForm provenance={provenance} handleCancel={handleCancel} handleSave={handleSave} />
+          <ProvenanceForm provenance={provenance} closeForm={toggleModal} />
         </ModalBody>
       </Modal>
     </>

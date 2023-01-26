@@ -6,7 +6,7 @@ import OrdDownloadButton from './OrdDownloadButton';
 
 import prettyMilliseconds from 'pretty-ms';
 
-const ReactionNavbar = ({ fetchReactionProcess, reactionProcess }) => {
+const ReactionNavbar = ({ reactionProcess }) => {
   return (
     <Navbar className="reaction-navbar" color='info' dark>
       <NavbarBrand>
@@ -16,7 +16,7 @@ const ReactionNavbar = ({ fetchReactionProcess, reactionProcess }) => {
         {reactionProcess.id}
       </Nav>
       <Nav>
-        <ProvenanceFormButton provenance={reactionProcess.provenance} onChange={fetchReactionProcess} />
+        <ProvenanceFormButton provenance={reactionProcess.provenance} />
         <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
       </Nav>
     </Navbar>

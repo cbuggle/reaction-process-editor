@@ -16,7 +16,6 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 
 const Reaction = () => {
-
   const api = useReactionsFetcher();
 
   const { reactionId } = useParams()
@@ -25,6 +24,29 @@ const Reaction = () => {
 
   const [reactionProcess, setReactionProcess] = useState()
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    const reloadDone = () => {
+      setIsLoading(false)
+    }
+    const indicateSave = () => {
+      setIsLoading(true)
+    }
+    const requireReload = () => {
+      fetchReactionProcess()
+      setIsLoading(true)
+    }
+
+    window.addEventListener('indicateSave', indicateSave);
+    window.addEventListener('requireReload', requireReload);
+    window.addEventListener('reloadDone', reloadDone);
+
+    return () => {
+      window.removeEventListener('indicateSave', indicateSave);
+      window.removeEventListener('requireReload', requireReload);
+      window.removeEventListener('reloadDone', reloadDone);
+    };
+  }, []);
 
   useEffect(() => {
     if (auth_token) {
@@ -36,17 +58,17 @@ const Reaction = () => {
     fetchReactionProcess()
   }, [])
 
+
   const fetchReactionProcess = () => {
-    setIsLoading(true)
     api.getReactionProcess(reactionId).then((data) => {
       setReactionProcess(data['reaction_process'])
-      setIsLoading(false)
+      window.dispatchEvent(new Event("reloadDone"))
     })
   }
 
   const renderReactionNavbar = () => {
     return (
-      isLoading ? <SpinnerWithMessage message={'Storing process data'} /> : <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
+      isLoading ? <SpinnerWithMessage message={'Storing process data'} /> : <ReactionNavbar reactionProcess={reactionProcess} />
     )
   }
 
@@ -54,18 +76,17 @@ const Reaction = () => {
     return (
       <>
         {renderReactionNavbar()}
-
         <Row className='g-0 flex-grow-1'>
           <Col md={10} className="scroll-body overflow-auto p-3">
             <Row className='flex-nowrap'>
               <Col className='flex-shrink-0'>
-                <PreparationColumnCard reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
+                <PreparationColumnCard reactionProcess={reactionProcess} />
               </Col>
-              <StepsContainer reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
+              <StepsContainer reactionProcess={reactionProcess} />
             </Row>
           </Col>
           <Col md={2} className="samples-select-bar scroll-body">
-            <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
+            <VesselsSelectBar reactionProcess={reactionProcess} />
             <SamplesSideBar reactionProcess={reactionProcess} />
           </Col>
         </Row>

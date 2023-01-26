@@ -10,7 +10,6 @@ const ActivityCard = (
     type,
     activity,
     onSave,
-    onChange,
     onCancel,
     processStep,
     dragRef
@@ -44,9 +43,7 @@ const ActivityCard = (
   }
 
   const onDelete = () => {
-    api.deleteAction(activity.id).then(() => {
-      onChange()
-    })
+    api.deleteAction(activity.id)
   }
 
   const handleCancel = () => {

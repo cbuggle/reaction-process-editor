@@ -8,15 +8,14 @@ import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 import ActivityCreator from "./ActivityCreator";
 
-const Activity = ({ action, processStep, onChange }) => {
+const Activity = ({ action, processStep }) => {
 
   const api = useReactionsFetcher()
 
   const onSave = (actionForm) => {
-    api.updateAction(actionForm).then(() => {
-      onChange()
-    })
+    api.updateAction(actionForm)
   }
+
   const isInDropRange = (dropAction) => {
     return dropAction.min_position <= action.position &&
       dropAction.max_position >= action.position
@@ -58,9 +57,7 @@ const Activity = ({ action, processStep, onChange }) => {
 
   const dropItem = (monitor) => {
     if (action.id !== monitor.action.id) {
-      api.updateActionPosition(monitor.action.id, action.position).then(() => {
-        onChange()
-      })
+      api.updateActionPosition(monitor.action.id, action.position)
     }
   }
 
@@ -76,7 +73,6 @@ const Activity = ({ action, processStep, onChange }) => {
           activity={action}
           type={type}
           onSave={onSave}
-          onChange={onChange}
           processStep={processStep}
           dragRef={dragRef}
         />
@@ -87,7 +83,7 @@ const Activity = ({ action, processStep, onChange }) => {
   return (
     <>
       {
-        action.action_name === "CONDITION_END" ? <ActivityCreator processStep={processStep} onChange={onChange} insertNewBeforeIndex={action.position} /> : <></>
+        action.action_name === "CONDITION_END" ? <ActivityCreator processStep={processStep} insertNewBeforeIndex={action.position} /> : <></>
       }
 
       <div ref={dropRef} >

@@ -8,7 +8,7 @@ import PreparationInfo from "./PreparationInfo"
 import PreparationForm from '../preparations/PreparationForm';
 import ProcedureCard from "../utilities/ProcedureCard";
 
-const Preparation = ({ preparation, reactionProcess, onChange }) => {
+const Preparation = ({ preparation, reactionProcess }) => {
 
   const api = useReactionsFetcher()
 
@@ -23,17 +23,13 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
   const cardTitle = preparation ? sampleName : 'New Preparation'
 
   const onDelete = () => {
-    api.deleteSamplePreparation(reactionProcess.id, preparation.id).then(() => {
-      closeForm()
-      onChange()
-    })
+    api.deleteSamplePreparation(reactionProcess.id, preparation.id)
+    closeForm()
   }
 
   const onSave = (preparationForm) => {
-    api.updateSamplePreparation(reactionProcess.id, preparationForm).then(() => {
-      closeForm()
-      onChange()
-    })
+    api.updateSamplePreparation(reactionProcess.id, preparationForm)
+    closeForm()
   }
 
   const openForm = () => {
@@ -57,7 +53,7 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
           <PreparationInfo preparation={preparation} />
         </ProcedureCard.Info>
         <ProcedureCard.Form>
-          <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
+          <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm} />
         </ProcedureCard.Form>
       </PreparationCard>
       : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />

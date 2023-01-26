@@ -11,25 +11,19 @@ import VesselCreateButton from './VesselCreateButton';
 import { useVesselsFetcher } from '../../fetchers/VesselsFetcher';
 
 
-const VesselsSelectBar = ({ reactionProcess, onChangeVessels}) => {
+const VesselsSelectBar = ({ reactionProcess }) => {
 
   const vesselApi = useVesselsFetcher();
 
   const onCreateVessel = (vessel, saveAsTemplate) => {
-    vesselApi.create(vessel, reactionProcess.id, saveAsTemplate).then(() => {
-      onChangeVessels()
-    })
+    vesselApi.create(vessel, reactionProcess.id, saveAsTemplate)
   }
   const onUpdateVessel = (vessel) => {
-    vesselApi.update(vessel).then(() => {
-      onChangeVessels()
-    })
+    vesselApi.update(vessel)
   }
 
   const onDeleteVessel = (vessel) => {
-    vesselApi.destroy(vessel.id).then(() => {
-      onChangeVessels()
-    })
+    vesselApi.destroy(vessel.id)
   }
 
   const onAssignVessel = (vesselId) => {
