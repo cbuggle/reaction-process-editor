@@ -64,15 +64,15 @@ export const actionTypeClusters = [
     types: [
       {
         id: 'remove_exchange_sample',
-        createLabel: 'Sample',
+        createLabel: 'Solvent',
         action: {
           action_name: 'REMOVE',
-          workup: { acts_as: 'SAMPLE' }
+          workup: { acts_as: 'DIVERSE_SOLVENT' }
         }
       },
       {
         id: 'remove_exchange_solvent',
-        createLabel: 'Solvent',
+        createLabel: 'Additive',
         action: {
           action_name: 'REMOVE',
           workup: { acts_as: 'ADDITIVE' }
