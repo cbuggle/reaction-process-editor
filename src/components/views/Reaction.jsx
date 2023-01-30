@@ -68,34 +68,38 @@ const Reaction = () => {
 
   const renderReactionNavbar = () => {
     return (
-      isLoading ? <SpinnerWithMessage message={'Storing process data'} /> : <ReactionNavbar reactionProcess={reactionProcess} />
-    )
-  }
-
-  const renderReaction = () => {
-    return (
       <>
-        {renderReactionNavbar()}
-        <Row className='g-0 flex-grow-1'>
-          <Col md={10} className="scroll-body overflow-auto p-3">
-            <Row className='flex-nowrap'>
-              <Col className='flex-shrink-0'>
-                <PreparationColumnCard reactionProcess={reactionProcess} />
-              </Col>
-              <StepsContainer reactionProcess={reactionProcess} />
-            </Row>
-          </Col>
-          <Col md={2} className="samples-select-bar scroll-body">
-            <VesselsSelectBar reactionProcess={reactionProcess} />
-            <SamplesSideBar reactionProcess={reactionProcess} />
-          </Col>
-        </Row>
+        <SpinnerWithMessage message={'Storing process data'} isOpen={isLoading} />
+        {!isLoading &&
+          <ReactionNavbar reactionProcess={reactionProcess} />
+        }
       </>
     )
   }
 
   return (
-    reactionProcess ? renderReaction() : <SpinnerWithMessage message={'Fetching reaction process data'} />
+    <>
+      <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={!reactionProcess}/>
+      {reactionProcess &&
+        <>
+          {renderReactionNavbar()}
+          <Row className='g-0 flex-grow-1'>
+            <Col md={10} className="scroll-body overflow-auto p-3">
+              <Row className='flex-nowrap'>
+                <Col className='flex-shrink-0'>
+                  <PreparationColumnCard reactionProcess={reactionProcess} />
+                </Col>
+                <StepsContainer reactionProcess={reactionProcess} />
+              </Row>
+            </Col>
+            <Col md={2} className="samples-select-bar scroll-body">
+              <VesselsSelectBar reactionProcess={reactionProcess} />
+              <SamplesSideBar reactionProcess={reactionProcess} />
+            </Col>
+          </Row>
+        </>
+      }
+    </>
   );
 }
 

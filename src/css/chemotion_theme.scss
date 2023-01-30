@@ -1,14 +1,22 @@
 /* colors */
 $theme-colors: (
+  "brand1": #2495cf,
+  "brand2": #ee474e,
+  "brand3": #d8e037,
+  "brand4": #337ab7,
+  "brand5": #4f5659,
   "preparation": #666F73,
   "step": #47AD5E,
   "action": #2E85E2,
   "condition": #3AB1B9
 );
 
+$body-bg: white;
 $min-contrast-ratio: 2.5;
 $input-btn-padding-5: 0.5rem;
 $input-btn-padding-y: 0.2rem;
+$modal-backdrop-bg: $body-bg;
+$modal-backdrop-opacity: 0.9;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
