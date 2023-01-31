@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Spinner} from "reactstrap";
+import {Modal, Spinner} from 'reactstrap';
 
 const SpinnerWithMessage = ({ message, isOpen }) => {
     return (
@@ -7,16 +7,16 @@ const SpinnerWithMessage = ({ message, isOpen }) => {
         <div className='spinner-with-message__content d-flex flex-column align-items-center justify-content-around'>
           <div className='spinner__container'>
             <div className='spinner-transformer'>
-              <Spinner color="brand1"/>
+              <Spinner className='text-brand1'/>
             </div>
             <div className='spinner-transformer'>
-              <Spinner animation="border" color="brand3"/>
+              <Spinner animation='border' className='text-brand3'/>
             </div>
             <div className='spinner-transformer'>
-              <Spinner color="brand2"/>
+              <Spinner className='text-brand2'/>
             </div>
           </div>
-          <p class="fw-bold text-white">{message}</p>
+          <p className='fw-bold text-white'>{message}</p>
         </div>
       </Modal>
     );
