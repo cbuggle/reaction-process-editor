@@ -10,6 +10,7 @@ function useReactionsFetcher() {
   return {
     index,
     svgImage,
+    sampleSvgImage,
     collectionSelectOptions,
     reactionSelectOptions,
     getReactionProcess,
@@ -39,6 +40,11 @@ function useReactionsFetcher() {
   function svgImage(reaction) {
     // Note that this is not an api call but a link target.
     return `${apiHostname}/images/reactions/${reaction.reaction_svg_file}`
+  }
+
+  function sampleSvgImage(sample) {
+    // Note that this is not an api call but a link target.
+    return `${apiHostname}/images/samples/${sample.sample_svg_file}`
   }
 
   function collectionSelectOptions() {

@@ -103,7 +103,9 @@ export const conditionTypeClusters = [
           action_name: 'CONDITION',
           workup: {
             condition_type: 'MOTION',
-            motion_type: 'OTHER'
+            motion_type: 'OTHER',
+            motion_speed: '1',
+            motion_unit: 'RPM'
           },
         },
       },

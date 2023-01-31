@@ -6,7 +6,7 @@ export const analysisTypeOptions = [{
   label: 'Gas Chromatography (GC)',
   value: 'GC'
 }, {
-  label: 'High Performance Liquid Chronatography (HPLC)',
+  label: 'High Performance Liquid Chromatography (HPLC)',
   value: 'HPLC'
 }, {
   label: 'Combined GC/MS (GC/MS)',

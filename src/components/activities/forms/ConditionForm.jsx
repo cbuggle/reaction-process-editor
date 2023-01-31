@@ -10,32 +10,11 @@ const ConditionForm = ({ action, onWorkupChange }) => {
 
   const currentType = useMemo(() => { return action.workup['condition_type'] }, [action.workup['condition_type']])
 
-  const currentUnitOptions = useMemo(() => { return conditionUnitOptions[currentType] }, [currentType])
   const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[currentType] }, [currentType])
-
-  const currentSelectedUnitOption = useMemo(() => {
-    return currentUnitOptions.find(option => option.value === action.workup['condition_unit']) || currentUnitOptions[0]
-  })
 
   const currentSelectedAdditionalInformationOption = useMemo(() => {
     return currentAdditionalInformationOptions.find(option => option.value === action.workup['condition_additional_information']) || currentAdditionalInformationOptions[0]
   })
-
-  const currentRangeMin = useMemo(() => { return conditionValueRanges[currentType]['min'] }, [currentType])
-  const currentRangePrecision = useMemo(() => { return conditionValueRanges[currentType]['precision'] }, [currentType])
-  const currentRangeStep = useMemo(() => { return conditionValueRanges[currentType]['step'] }, [currentType])
-  const currentRangeMax = useMemo(() => { return conditionValueRanges[currentType]['max'] }, [currentType])
-
-
-  useEffect(() => {
-    if (action.workup['condition_value'] == undefined) {
-      onWorkupChange({ name: 'condition_value', value: conditionValueRanges[currentType]['default'] })
-    } else {
-      onWorkupChange({ name: 'condition_value', value: action.workup['condition_value'] })
-    }
-    onWorkupChange({ name: 'condition_unit', value: conditionValueRanges[currentType]['unit'] })
-  }, [])
-
 
   const [showPowerRampForm, setShowPowerRampForm] = useState(action.workup['power_is_ramp'])
 
@@ -45,10 +24,8 @@ const ConditionForm = ({ action, onWorkupChange }) => {
 
     if (!event.target.checked) {
       onWorkupChange({ name: 'power_end_value', value: "" })
-
     }
   }
-
 
   const renderTendencySelect = () => {
     if (currentType === 'IRRADIATION') {
@@ -92,7 +69,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
           <NumericalnputWithUnit
             name='temperature_value'
             label='Temperature'
-            value={action.workup['temperature_value'] || conditionValueRanges['TEMPERATURE']['default']}
+            value={action.workup['temperature_value']}
             unit={conditionValueRanges['TEMPERATURE']['unit']}
             min={conditionValueRanges['TEMPERATURE']['min']}
             max={conditionValueRanges['TEMPERATURE']['max']}
@@ -103,7 +80,7 @@ const ConditionForm = ({ action, onWorkupChange }) => {
           <NumericalnputWithUnit
             name='pressure_value'
             label='Pressure'
-            value={action.workup['pressure_value'] || conditionValueRanges['PRESSURE']['default']}
+            value={action.workup['pressure_value']}
             unit={conditionValueRanges['PRESSURE']['unit']}
             min={conditionValueRanges['PRESSURE']['min']}
             max={conditionValueRanges['PRESSURE']['max']}
@@ -111,21 +88,32 @@ const ConditionForm = ({ action, onWorkupChange }) => {
             step={conditionValueRanges['PRESSURE']['step']}
             onWorkupChange={onWorkupChange} />
           <br />
-          <Label check>
-            <Input type="checkbox" checked={action.workup['power_is_ramp']} onChange={handleCheckbox} />
-            Power Ramp
-          </Label>
+          <NumericalnputWithUnit
+            name='ph_value'
+            label='PH'
+            value={action.workup['ph_value']}
+            unit={conditionValueRanges['PH']['unit']}
+            min={conditionValueRanges['PH']['min']}
+            max={conditionValueRanges['PH']['max']}
+            precision={conditionValueRanges['PH']['precision']}
+            step={conditionValueRanges['PH']['step']}
+            onWorkupChange={onWorkupChange} />
           <br />
           <NumericalnputWithUnit
             name='power_start_value'
             label='Power (Start)'
-            value={action.workup['power_start_value'] || conditionValueRanges['POWER']['default']}
+            value={action.workup['power_start_value']}
             unit={conditionValueRanges['POWER']['unit']}
             min={conditionValueRanges['POWER']['min']}
             max={conditionValueRanges['POWER']['max']}
             precision={conditionValueRanges['POWER']['precision']}
             step={conditionValueRanges['POWER']['step']}
             onWorkupChange={onWorkupChange} />
+          <br />
+          <Label check>
+            <Input type="checkbox" checked={action.workup['power_is_ramp']} onChange={handleCheckbox} />
+            Power Ramp
+          </Label>
           {showPowerRampForm ?
             <>
               <br />
@@ -154,17 +142,6 @@ const ConditionForm = ({ action, onWorkupChange }) => {
             {renderTendencySelect()}
           </Col>
         </Row>
-      </ListGroupItem>
-      <ListGroupItem>
-        <NumericalnputWithUnit
-          name='condition_value'
-          unit={currentSelectedUnitOption.label}
-          precision={currentRangePrecision}
-          step={currentRangeStep}
-          value={action.workup['condition_value']}
-          min={currentRangeMin}
-          max={currentRangeMax}
-          onWorkupChange={onWorkupChange} />
       </ListGroupItem>
       <ListGroupItem>
         Duration

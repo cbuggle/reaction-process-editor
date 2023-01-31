@@ -4,6 +4,7 @@ import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import ActivityInfo from "./ActivityInfo";
 import ActivityForm from "./ActivityForm";
+import ActivityDecorator from '../../decorators/ActivityDecorator';
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const ActivityCard = (
@@ -24,16 +25,21 @@ const ActivityCard = (
 
   const cardTitle = () => {
     if (isInitialised) {
-      return activity.label
+      return ActivityDecorator.numberedTitle(activity)
     } else {
       let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
-      const acts_as = activityForm && (activityForm.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activityForm.workup['acts_as'])
 
       if (activityForm) {
+        const acts_as_label = activityForm.workup.acts_as || ''
+
+        if (acts_as_label === 'DIVERSE_SOLVENT') {
+          acts_as_label = 'SOLVENT'
+        }
+
         activityForm.action_name === "CONDITION" ?
           label += ' ' + (activityForm.workup['condition_type'] || '')
           :
-          label += ' ' + activityForm.action_name + ' ' + (acts_as || '')
+          label += ' ' + activityForm.action_name + ' ' + acts_as_label
       }
       return label
     }
