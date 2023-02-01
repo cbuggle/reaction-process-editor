@@ -136,10 +136,10 @@ const ActivityInfo = ({ action }) => {
   }
 
   const renderExtraEquipment = () => {
-    if (workup.add_extra_equipment) {
+    if (workup.apply_extra_equipment) {
       return (
         <>
-          {(workup.equipment || 'noEquip').toString()}
+          {workup.equipment.join(', ')}
         </>
       )
     }
