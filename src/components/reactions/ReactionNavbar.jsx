@@ -1,25 +1,59 @@
-import React from 'react'
-import { Nav, Navbar, NavbarBrand } from 'reactstrap';
+import React, { useState } from 'react'
+import {Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBrand} from 'reactstrap';
 
 import ProvenanceFormButton from './ProvenanceFormButton';
 import OrdDownloadButton from './OrdDownloadButton';
 
 import prettyMilliseconds from 'pretty-ms';
+import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleDoubleUp, faAngleDoubleDown} from "@fortawesome/free-solid-svg-icons";
 
 const ReactionNavbar = ({ reactionProcess }) => {
+  const api = useReactionsFetcher();
+  const [open, setOpen] = useState('formula');
+  const toggleFormula = () => {
+    if (open) {
+      setOpen();
+    } else {
+      setOpen('formula');
+    }
+  };
   return (
-    <Navbar className="reaction-navbar" color='info' dark>
-      <NavbarBrand>
-        Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})
-      </NavbarBrand>
-      <Nav>
-        {reactionProcess.id}
-      </Nav>
-      <Nav>
-        <ProvenanceFormButton provenance={reactionProcess.provenance} />
-        <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
-      </Nav>
-    </Navbar>
+    <div className='reaction-header'>
+      <Navbar className='reaction-navbar bg-brand1' dark>
+        <NavbarBrand>
+          <span className='reaction-name'>Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})</span>
+          <span className='reaction-id'>{reactionProcess.id}</span>
+        </NavbarBrand>
+        <Nav>
+          <ProvenanceFormButton provenance={reactionProcess.provenance} />
+          <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
+        </Nav>
+      </Navbar>
+      <Accordion open={open} toggle={toggleFormula} flush className='bg-brand1 container-fluid pb-2 reaction-header__formula-accordion'>
+        <AccordionItem>
+          <AccordionBody accordionId='formula' className='text-center'>
+            <img
+              src={api.svgImage(reactionProcess)}
+              alt={reactionProcess.short_label}
+              className='reaction-header__formula-image'
+            />
+          </AccordionBody>
+        </AccordionItem>
+      </Accordion>
+      <div className='text-center'>
+        <Button
+          className='formula-drawer-button btn-brand1'
+          size='sm'
+          onClick={toggleFormula}
+        >
+          <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
+          <span>Formula</span>
+          <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
+        </Button>
+      </div>
+    </div>
   )
 }
 
