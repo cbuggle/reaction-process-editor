@@ -8,9 +8,6 @@ import PreparationColumnCard from '../preparations/PreparationColumnCard';
 
 import ReactionNavbar from '../reactions/ReactionNavbar';
 
-import VesselsSelectBar from '../vessels/VesselsSelectBar';
-import SamplesSideBar from '../samples/SamplesSideBar';
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
@@ -83,20 +80,14 @@ const Reaction = () => {
       {reactionProcess &&
         <>
           {renderReactionNavbar()}
-          <Row className='g-0 flex-grow-1'>
-            <Col md={10} className="scroll-body overflow-auto p-3">
-              <Row className='flex-nowrap'>
-                <Col className='flex-shrink-0'>
-                  <PreparationColumnCard reactionProcess={reactionProcess} />
-                </Col>
-                <StepsContainer reactionProcess={reactionProcess} />
-              </Row>
-            </Col>
-            <Col md={2} className="samples-select-bar scroll-body">
-              <VesselsSelectBar reactionProcess={reactionProcess} />
-              <SamplesSideBar reactionProcess={reactionProcess} />
-            </Col>
-          </Row>
+          <div className="scroll-body overflow-auto p-3 flex-grow-1">
+            <Row className='flex-nowrap'>
+              <Col className='flex-shrink-0'>
+                <PreparationColumnCard reactionProcess={reactionProcess} />
+              </Col>
+              <StepsContainer reactionProcess={reactionProcess} />
+            </Row>
+          </div>
         </>
       }
     </>
