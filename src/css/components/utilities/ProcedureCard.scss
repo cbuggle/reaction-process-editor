@@ -16,7 +16,7 @@ $max-label-width: 400px;
   }
   --bs-card-spacer-x: 0;
   --bs-card-spacer-y: 0;
-  &__info, &__form, &__details {
+  &__info, &__form, &__details, &__type-panel {
     padding: 1rem;
   }
   &__info {
