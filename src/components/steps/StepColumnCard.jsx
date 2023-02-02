@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 
+import ConditionNest from "../activities/ConditionNest";
 import StepForm from './StepForm';
 import StepInfo from './StepInfo';
 import Activity from "../activities/Activity";
@@ -22,6 +23,20 @@ const StepColumCard = (
   const [showForm, setShowForm] = useState(!isInitialised)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
+  const [conditionLevels, setConditionLevels] = useState(() => {
+    const levels = []
+    let currentOpenCondition
+    processStep.actions.forEach((action) => {
+      if(action.action_name === "CONDITION") {
+        levels[action.activity_number] = new ConditionNest(currentOpenCondition, action.id)
+        if(currentOpenCondition) {
+          currentOpenCondition.nestCondition(levels[action.activity_number])
+        }
+        currentOpenCondition = levels[action.activity_number]
+      }
+    })
+    return levels
+  })
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -86,6 +101,14 @@ const StepColumCard = (
     api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
   }
 
+  const getCardWidth = (action) => {
+    if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
+      const level = conditionLevels[action.activity_number].getConditionLevel()
+      return (374 + level * 20) + 'px'
+    } else {
+        return 'inherit'
+    }
+  }
 
   return (
     <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
@@ -118,7 +141,12 @@ const StepColumCard = (
           {isInitialised &&
             <ProcedureCard.Details>
               {processStep.actions.map(action => (
-                <Activity key={action.id} action={action} processStep={processStep} />
+                <Activity
+                  key={action.id}
+                  action={action}
+                  processStep={processStep}
+                  cardWidth={getCardWidth(action)}
+                />
               ))}
               <ActivityCreator processStep={processStep} />
             </ProcedureCard.Details>

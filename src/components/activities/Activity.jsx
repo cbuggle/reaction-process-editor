@@ -8,7 +8,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 import ActivityCreator from "./ActivityCreator";
 
-const Activity = ({ action, processStep }) => {
+const Activity = ({ action, processStep, cardWidth }) => {
 
   const api = useReactionsFetcher()
 
@@ -69,7 +69,7 @@ const Activity = ({ action, processStep }) => {
   const renderActivity = () => {
     if (action.action_name === "CONDITION_END") {
       return (
-        <ConditionFooter activity={action} dragRef={dragRef} />
+        <ConditionFooter activity={action} dragRef={dragRef} cardWidth={cardWidth}/>
       )
     } else {
       const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
@@ -80,6 +80,7 @@ const Activity = ({ action, processStep }) => {
           onSave={onSave}
           processStep={processStep}
           dragRef={dragRef}
+          cardWidth={cardWidth}
         />
       )
     }

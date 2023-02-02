@@ -17,6 +17,7 @@ const ProcedureCard = (
     onEdit,
     onDelete,
     onCancel,
+    cardWidth = 'inherit',
     customClass = '',
     headerTitleTag = 'h5',
     showEditBtn = true,
@@ -35,7 +36,7 @@ const ProcedureCard = (
   const details = childNodes.find(el => el.type === Details)
   const HeaderTitleTag = headerTitleTag
   return (
-    <Card className={'procedure-card procedure-card--' + type + ' ' + customClass}>
+    <Card className={'procedure-card procedure-card--' + type + ' ' + customClass} style={{width: cardWidth}}>
       <CardHeader className={'d-flex justify-content-between align-items-center bg-' + type}>
         <HeaderTitleTag className='procedure-card__header-label rounded-pill bg-white mb-0 px-3'>{title}</HeaderTitleTag>
         <div className='d-flex'>

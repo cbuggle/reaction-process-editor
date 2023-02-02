@@ -8,6 +8,9 @@ $max-label-width: 400px;
       max-width: $max-label-width - $condition-card-indentation;
     }
   }
+  &--action {
+    width: 514px !important;
+  }
   &__header-label {
     white-space: nowrap;
     overflow: hidden;

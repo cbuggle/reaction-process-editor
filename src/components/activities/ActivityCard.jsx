@@ -14,6 +14,7 @@ const ActivityCard = (
     onSave,
     onCancel,
     processStep,
+    cardWidth,
     dragRef
   }) => {
 
@@ -103,6 +104,7 @@ const ActivityCard = (
       showCancelBtn={editable}
       dragRef={dragRef}
       displayMode={displayMode}
+      cardWidth={cardWidth}
     >
       <ProcedureCard.Info>
         <ActivityInfo action={activity} />
