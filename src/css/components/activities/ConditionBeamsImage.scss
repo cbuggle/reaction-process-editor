@@ -1,0 +1,12 @@
+@use "sass:map";
+
+.condition-beams-image {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 0;
+}
+
+.condition-beam {
+  fill: map.get($theme-colors, "condition");
+}

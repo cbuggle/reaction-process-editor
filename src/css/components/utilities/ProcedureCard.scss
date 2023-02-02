@@ -7,9 +7,13 @@ $max-label-width: 400px;
     .procedure-card__header-label {
       max-width: $max-label-width - $condition-card-indentation;
     }
+    z-index: 1;
   }
   &--action {
     width: 514px !important;
+  }
+  &--step .procedure-card__details {
+    position: relative;
   }
   &__header-label {
     white-space: nowrap;

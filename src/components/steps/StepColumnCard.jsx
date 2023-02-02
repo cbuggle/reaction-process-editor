@@ -9,6 +9,7 @@ import ActivityCreator from "../activities/ActivityCreator";
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import ConditionBeamsImage from "../activities/ConditionBeamsImage";
 
 const StepColumCard = (
   {
@@ -163,6 +164,7 @@ const StepColumCard = (
                 />
               ))}
               <ActivityCreator processStep={processStep} />
+              <ConditionBeamsImage width={maxOpenConditions * 20} height={800} beams={conditionLevels} />
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>
