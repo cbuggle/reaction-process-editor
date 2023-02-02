@@ -16,7 +16,7 @@ export default class SamplesDecorator {
   }
 
   static labelForButtonSolvent = (sample) => {
-    return (sample.preferred_label || sample.short_label)
+    return (sample.short_label)
   }
 
   static infoForButtonSolvent = (sample) => {

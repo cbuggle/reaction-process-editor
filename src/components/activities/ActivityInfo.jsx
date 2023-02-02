@@ -97,7 +97,7 @@ const ActivityInfo = ({ action }) => {
       case "TRANSFER":
         return (
           <>
-            <div>{action.sample && (action.sample.preferred_label || action.sample.short_label)}</div>
+            <div>{action.sample && action.sample.short_label}</div>
             <div>{workup.transfer_percentage || workup.transfer_percentage}%</div>
           </>
         )
@@ -107,8 +107,6 @@ const ActivityInfo = ({ action }) => {
             {action.sample_names}
             {action.medium && action.medium.short_label}
             {action.sample && action.sample.short_label}
-            {action.medium && action.medium.preferred_label}
-            {action.sample && action.sample.preferred_label}
           </>
         )
       case "PURIFY":
