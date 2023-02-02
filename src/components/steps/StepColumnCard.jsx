@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
-
-import ConditionNest from "../activities/ConditionNest";
 import StepForm from './StepForm';
 import StepInfo from './StepInfo';
 import Activity from "../activities/Activity";
@@ -21,19 +19,34 @@ const StepColumCard = (
 
   const isInitialised = !!processStep
   const [showForm, setShowForm] = useState(!isInitialised)
+  const [maxOpenConditions, setMaxOpenConditions] = useState(0)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
+  const lanes = []
   const [conditionLevels, setConditionLevels] = useState(() => {
     const levels = []
-    let currentOpenCondition
-    processStep.actions.forEach((action) => {
+    let currentOpenConditions = 0
+    processStep.actions.forEach((action, index) => {
       if(action.action_name === "CONDITION") {
-        levels[action.activity_number] = new ConditionNest(currentOpenCondition, action.id)
-        if(currentOpenCondition) {
-          currentOpenCondition.nestCondition(levels[action.activity_number])
+        let freeLane = lanes.findIndex((element) => element === undefined)
+        if(freeLane == -1) {
+          freeLane = lanes.length
         }
-        currentOpenCondition = levels[action.activity_number]
+        levels[action.activity_number] = {
+          level: freeLane,
+          activityNumber: action.activity_number,
+          startIndex: index
+        }
+        lanes[freeLane] = action.activity_number
+        currentOpenConditions++
+        setMaxOpenConditions(Math.max(maxOpenConditions, currentOpenConditions))
+      } else if(action.action_name === "CONDITION_END") {
+        const laneIndex = lanes.findIndex((element) => element === action.activity_number)
+        lanes[laneIndex] = undefined
+        levels[action.activity_number].endIndex = index
+        currentOpenConditions--
       }
+      console.log(lanes)
     })
     return levels
   })
@@ -103,7 +116,7 @@ const StepColumCard = (
 
   const getCardWidth = (action) => {
     if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
-      const level = conditionLevels[action.activity_number].getConditionLevel()
+      const level = maxOpenConditions - conditionLevels[action.activity_number].level
       return (374 + level * 20) + 'px'
     } else {
         return 'inherit'
@@ -128,6 +141,7 @@ const StepColumCard = (
         >
           <ProcedureCard.Info>
             <StepInfo processStep={processStep} />
+            {'MaxOpenCondtions: ' + maxOpenConditions}
           </ProcedureCard.Info>
           <ProcedureCard.Form>
             <StepForm
