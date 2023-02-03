@@ -5,6 +5,7 @@ const ConditionBeamsImage = ({width, height, beams}) => {
     <svg width={width} height={height} viewBox={'0 0 ' + width + ' ' + height} className='condition-beams-image'>
       { Object.entries(beams).map((pair,key) =>
         <rect
+          id={'beam-' + pair[1].activityNumber}
           key={key}
           x={width - (pair[1].level * 20) - 6}
           y={pair[1].startY}

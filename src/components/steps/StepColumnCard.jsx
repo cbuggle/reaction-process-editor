@@ -27,8 +27,11 @@ const StepColumCard = (
   const api = useReactionsFetcher()
   const [stepsHeight, setStepsHeight] = useState(0)
   const lanes = []
-  const [conditionLevels, setConditionLevels] = useState(() => {
-    const levels = []
+
+  const defineLevels = () => {
+    console.log(lanes)
+    setMaxOpenConditions(0)
+    const levels = {}
     let currentOpenConditions = 0
     processStep.actions.forEach((action, index) => {
       if(action.action_name === "CONDITION") {
@@ -49,14 +52,20 @@ const StepColumCard = (
         currentOpenConditions++
         setMaxOpenConditions(Math.max(maxOpenConditions, currentOpenConditions))
       } else if(action.action_name === "CONDITION_END") {
+        console.log(lanes)
+        console.log('find: ' + action.activity_number)
         const laneIndex = lanes.findIndex((element) => element === action.activity_number)
+        console.log('remove: ' + laneIndex)
         lanes[laneIndex] = undefined
         levels[action.activity_number].endIndex = index
         currentOpenConditions--
       }
+      console.log(lanes)
     })
     return levels
-  })
+  }
+
+  const [conditionLevels, setConditionLevels] = useState(() => defineLevels())
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -140,7 +149,14 @@ const StepColumCard = (
     }
   }
 
-  const updateConditionBeams = (height) => {
+  const redrawConditionBeams = () => {
+    console.log('redraw')
+    lanes.length = 0
+    setConditionLevels(defineLevels())
+    updateConditionBeams()
+  }
+
+  const updateConditionBeams = (height= stepsHeight) => {
     setStepsHeight(height)
     for (const [key, value] of Object.entries(conditionLevels)) {
       value.startY = value.startRef.current.offsetTop
@@ -190,6 +206,7 @@ const StepColumCard = (
                         processStep={processStep}
                         cardWidth={getCardWidth(action)}
                         domRef={getRef(action)}
+                        onChangeActivities={redrawConditionBeams}
                       />
                     ))}
                   </div>
