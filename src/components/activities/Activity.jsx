@@ -87,11 +87,11 @@ const Activity = ({ action, processStep, cardWidth, domRef }) => {
   }
 
   return (
-    <div className='activity' ref={domRef}>
+    <div className='activity'>
       {
         action.action_name === "CONDITION_END" ? <ActivityCreator processStep={processStep} insertNewBeforeIndex={action.position} /> : <></>
       }
-      <div ref={dropRef} >
+      <div ref={dropRef} ref={domRef}>
         <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
         <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
           {renderActivity()}
