@@ -33,6 +33,9 @@ $max-label-width: 400px;
       margin-right: 1rem;
     }
   }
+  &__details-container > * {
+    margin-bottom: 12px;
+  }
   &__details > * {
     margin-bottom: 12px;
     &:last-child {

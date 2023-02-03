@@ -8,7 +8,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 import ActivityCreator from "./ActivityCreator";
 
-const Activity = ({ action, processStep, cardWidth }) => {
+const Activity = ({ action, processStep, cardWidth, domRef }) => {
 
   const api = useReactionsFetcher()
 
@@ -87,11 +87,10 @@ const Activity = ({ action, processStep, cardWidth }) => {
   }
 
   return (
-    <>
+    <div className='activity' ref={domRef}>
       {
         action.action_name === "CONDITION_END" ? <ActivityCreator processStep={processStep} insertNewBeforeIndex={action.position} /> : <></>
       }
-
       <div ref={dropRef} >
         <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
         <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
@@ -99,7 +98,7 @@ const Activity = ({ action, processStep, cardWidth }) => {
         </div>
         <div className={'bg-action'} style={isOverAfter ? { 'height': '1rem' } : {}}></div>
       </div>
-    </>
+    </div>
   )
 };
 

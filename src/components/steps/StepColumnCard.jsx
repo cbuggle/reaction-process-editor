@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, createRef } from 'react';
+import Measure from "react-measure";
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
@@ -10,6 +11,7 @@ import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import ConditionBeamsImage from "../activities/ConditionBeamsImage";
+import getContentRect from "react-measure/src/get-content-rect";
 
 const StepColumCard = (
   {
@@ -23,6 +25,7 @@ const StepColumCard = (
   const [maxOpenConditions, setMaxOpenConditions] = useState(0)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
+  const [stepsHeight, setStepsHeight] = useState(0)
   const lanes = []
   const [conditionLevels, setConditionLevels] = useState(() => {
     const levels = []
@@ -36,7 +39,11 @@ const StepColumCard = (
         levels[action.activity_number] = {
           level: freeLane,
           activityNumber: action.activity_number,
-          startIndex: index
+          startIndex: index,
+          startRef: React.createRef(),
+          endRef: React.createRef(),
+          startY: 0,
+          height: 0
         }
         lanes[freeLane] = action.activity_number
         currentOpenConditions++
@@ -47,7 +54,6 @@ const StepColumCard = (
         levels[action.activity_number].endIndex = index
         currentOpenConditions--
       }
-      console.log(lanes)
     })
     return levels
   })
@@ -124,6 +130,24 @@ const StepColumCard = (
     }
   }
 
+  const getRef = (action) => {
+    if (action.action_name === "CONDITION") {
+      return conditionLevels[action.activity_number].startRef
+    } else if (action.action_name === "CONDITION_END") {
+      return conditionLevels[action.activity_number].endRef
+    } else {
+      return undefined
+    }
+  }
+
+  const updateConditionBeams = (height) => {
+    setStepsHeight(height)
+    for (const [key, value] of Object.entries(conditionLevels)) {
+      value.startY = value.startRef.current.offsetTop
+      value.height = value.endRef.current.offsetTop - value.startRef.current.offsetTop
+    }
+  }
+
   return (
     <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
       <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
@@ -142,7 +166,6 @@ const StepColumCard = (
         >
           <ProcedureCard.Info>
             <StepInfo processStep={processStep} />
-            {'MaxOpenCondtions: ' + maxOpenConditions}
           </ProcedureCard.Info>
           <ProcedureCard.Form>
             <StepForm
@@ -155,16 +178,25 @@ const StepColumCard = (
           </ProcedureCard.Form>
           {isInitialised &&
             <ProcedureCard.Details>
-              {processStep.actions.map(action => (
-                <Activity
-                  key={action.id}
-                  action={action}
-                  processStep={processStep}
-                  cardWidth={getCardWidth(action)}
-                />
-              ))}
+              <Measure bounds onResize={contentRect => {
+                updateConditionBeams(contentRect.bounds.height)
+              }}>
+                {({ measureRef }) => (
+                  <div ref={measureRef} className='procedure-card__details-container'>
+                    {processStep.actions.map(action => (
+                      <Activity
+                        key={action.id}
+                        action={action}
+                        processStep={processStep}
+                        cardWidth={getCardWidth(action)}
+                        domRef={getRef(action)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </Measure>
               <ActivityCreator processStep={processStep} />
-              <ConditionBeamsImage width={maxOpenConditions * 20} height={800} beams={conditionLevels} />
+              <ConditionBeamsImage width={maxOpenConditions * 20} height={stepsHeight} beams={conditionLevels} />
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>
