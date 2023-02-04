@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import Measure from "react-measure";
 
 import { useDrag, useDrop } from 'react-dnd'
@@ -26,46 +26,65 @@ const StepColumCard = (
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
   const [stepsHeight, setStepsHeight] = useState(0)
-  const lanes = []
+  const [activities, setActivities] = useState([])
+  const [conditions, setConditions] = useState({})
+  const [lanes, setLanes] = useState([])
 
-  const defineLevels = () => {
-    console.log(lanes)
+  useEffect(() => {
+    console.log('init')
+    sortActivity()
+  }, []);
+
+  useEffect(() => {
+    console.log('update')
+    sortActivity()
+  }, [processStep]);
+
+  useEffect(() => {
+    console.log('activities updated')
+    updateConditionBeams()
+  }, [activities]);
+
+  const sortActivity = () => {
+    console.log('sortActivity ' + processStep.actions)
+    const activities = []
+    const conditions ={}
     setMaxOpenConditions(0)
-    const levels = {}
+    setLanes([])
     let currentOpenConditions = 0
     processStep.actions.forEach((action, index) => {
+      activities[index] = {
+        action: action,
+        condition: {beamRef: undefined}
+      }
       if(action.action_name === "CONDITION") {
         let freeLane = lanes.findIndex((element) => element === undefined)
-        if(freeLane == -1) {
+        if(freeLane === -1) {
           freeLane = lanes.length
         }
-        levels[action.activity_number] = {
+        conditions[action.activity_number] = {
           level: freeLane,
           activityNumber: action.activity_number,
-          startIndex: index,
           startRef: React.createRef(),
           endRef: React.createRef(),
           startY: 0,
           height: 0
         }
+        console.log(JSON.stringify(conditions))
         lanes[freeLane] = action.activity_number
         currentOpenConditions++
         setMaxOpenConditions(Math.max(maxOpenConditions, currentOpenConditions))
+        activities[index].condition = {...conditions[action.activity_number], beamRef: conditions[action.activity_number].startRef}
       } else if(action.action_name === "CONDITION_END") {
-        console.log(lanes)
-        console.log('find: ' + action.activity_number)
         const laneIndex = lanes.findIndex((element) => element === action.activity_number)
-        console.log('remove: ' + laneIndex)
         lanes[laneIndex] = undefined
-        levels[action.activity_number].endIndex = index
         currentOpenConditions--
+        activities[index].condition = {...conditions[action.activity_number], beamRef: conditions[action.activity_number].endRef}
       }
-      console.log(lanes)
     })
-    return levels
+    setConditions(conditions)
+    setActivities(activities)
   }
-
-  const [conditionLevels, setConditionLevels] = useState(() => defineLevels())
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -130,37 +149,14 @@ const StepColumCard = (
     api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
   }
 
-  const getCardWidth = (action) => {
-    if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
-      const level = maxOpenConditions - conditionLevels[action.activity_number].level
-      return (374 + level * 20) + 'px'
-    } else {
-        return 'inherit'
-    }
-  }
-
-  const getRef = (action) => {
-    if (action.action_name === "CONDITION") {
-      return conditionLevels[action.activity_number].startRef
-    } else if (action.action_name === "CONDITION_END") {
-      return conditionLevels[action.activity_number].endRef
-    } else {
-      return undefined
-    }
-  }
-
-  const redrawConditionBeams = () => {
-    console.log('redraw')
-    lanes.length = 0
-    setConditionLevels(defineLevels())
-    updateConditionBeams()
-  }
-
   const updateConditionBeams = (height= stepsHeight) => {
     setStepsHeight(height)
-    for (const [key, value] of Object.entries(conditionLevels)) {
-      value.startY = value.startRef.current.offsetTop
-      value.height = value.endRef.current.offsetTop - value.startRef.current.offsetTop
+    console.log('updateConditionBeams ')
+    for (const [key, value] of Object.entries(conditions)) {
+      if(value.startRef.current) {
+        value.startY = value.startRef.current.offsetTop
+        value.height = value.endRef.current.offsetTop - value.startRef.current.offsetTop
+      }
     }
   }
 
@@ -195,25 +191,24 @@ const StepColumCard = (
           {isInitialised &&
             <ProcedureCard.Details>
               <Measure bounds onResize={contentRect => {
+                console.log('resize')
                 updateConditionBeams(contentRect.bounds.height)
               }}>
                 {({ measureRef }) => (
                   <div ref={measureRef} className='procedure-card__details-container'>
-                    {processStep.actions.map(action => (
+                    {activities.map(activity => (
                       <Activity
-                        key={action.id}
-                        action={action}
+                        key={activity.action.id}
+                        activity={activity}
                         processStep={processStep}
-                        cardWidth={getCardWidth(action)}
-                        domRef={getRef(action)}
-                        onChangeActivities={redrawConditionBeams}
+                        maxOpenConditions={maxOpenConditions}
                       />
                     ))}
                   </div>
                 )}
               </Measure>
               <ActivityCreator processStep={processStep} />
-              <ConditionBeamsImage width={maxOpenConditions * 20} height={stepsHeight} beams={conditionLevels} />
+              <ConditionBeamsImage width={maxOpenConditions * 20} height={stepsHeight} beams={conditions}/>
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>

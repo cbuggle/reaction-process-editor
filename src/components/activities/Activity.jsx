@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ActivityCard from "./ActivityCard";
 import ConditionFooter from "./ConditionFooter";
 
@@ -8,15 +8,9 @@ import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 import ActivityCreator from "./ActivityCreator";
 
-const Activity = (
-  {
-    action,
-    processStep,
-    cardWidth,
-    domRef,
-    onChangeActivities
-  }) => {
-
+const Activity = ({activity, processStep, maxOpenConditions}) => {
+  const action = activity.action
+  const condition = activity.condition
   const api = useReactionsFetcher()
 
   const onSave = (actionForm) => {
@@ -71,13 +65,21 @@ const Activity = (
     if (action.id !== monitor.action.id) {
       api.updateActionPosition(monitor.action.id, action.position)
     }
-    onChangeActivities()
+  }
+
+  const getCardWidth = () => {
+    if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
+      const level = maxOpenConditions - condition.level
+      return (374 + level * 20) + 'px'
+    } else {
+      return 'inherit'
+    }
   }
 
   const renderActivity = () => {
     if (action.action_name === "CONDITION_END") {
       return (
-        <ConditionFooter activity={action} dragRef={dragRef} cardWidth={cardWidth}/>
+        <ConditionFooter activity={action} dragRef={dragRef} cardWidth={getCardWidth()}/>
       )
     } else {
       const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
@@ -88,7 +90,7 @@ const Activity = (
           onSave={onSave}
           processStep={processStep}
           dragRef={dragRef}
-          cardWidth={cardWidth}
+          cardWidth={getCardWidth()}
         />
       )
     }
@@ -102,7 +104,7 @@ const Activity = (
       <div ref={dropRef}>
         <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
         <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
-          <div ref={domRef}>
+          <div ref={condition.beamRef}>
             {renderActivity()}
           </div>
         </div>
