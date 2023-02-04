@@ -208,7 +208,7 @@ const StepColumCard = (
                 )}
               </Measure>
               <ActivityCreator processStep={processStep} />
-              <ConditionBeamsImage width={maxOpenConditions * 20} height={stepsHeight} beams={conditions}/>
+              <ConditionBeamsImage width={maxOpenConditions * 20} height={stepsHeight} beamsObject={conditions}/>
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>

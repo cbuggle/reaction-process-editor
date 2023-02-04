@@ -36,7 +36,7 @@ $max-label-width: 400px;
   &__details-container > * {
     margin-bottom: 12px;
   }
-  &__details > * {
+  &__details, .activity > * {
     margin-bottom: 12px;
     &:last-child {
       margin-bottom: 0;

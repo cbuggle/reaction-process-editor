@@ -1,18 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-const ConditionBeamsImage = ({width, height, beams}) => {
+const ConditionBeamsImage = ({width, height, beamsObject}) => {
+  const extractBeams = () => {
+    return Object.keys(beamsObject).map((key) => beamsObject[key])
+  }
+  const [beams, setBeams] = useState(extractBeams())
+  useEffect(() => {
+    setBeams(extractBeams())
+  }, [beamsObject]);
   return (
     <svg width={width} height={height} viewBox={'0 0 ' + width + ' ' + height} className='condition-beams-image'>
-      { Object.entries(beams).map((pair,key) =>
+      {beams.map((beam, index) => (
         <rect
-          id={'beam-' + pair[1].activityNumber}
-          key={key}
-          x={width - (pair[1].level * 20) - 6}
-          y={pair[1].startY}
+          id={'beam-' + beam.activityNumber}
+          key={index}
+          x={width - (beam.level * 20) - 6}
+          y={beam.startY}
           className='condition-beam'
           width='6'
-          height={pair[1].height}
-        />)
+          height={beam.height}
+        />))
       }
     </svg>
   );
