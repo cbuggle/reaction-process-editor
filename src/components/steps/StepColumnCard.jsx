@@ -46,10 +46,9 @@ const StepColumCard = (
   }, [activities]);
 
   const sortActivity = () => {
-    console.log('sortActivity ' + processStep.actions)
     const activities = []
     const conditions ={}
-    setMaxOpenConditions(0)
+    let maxOpenConditions = 0
     setLanes([])
     let currentOpenConditions = 0
     processStep.actions.forEach((action, index) => {
@@ -70,10 +69,9 @@ const StepColumCard = (
           startY: 0,
           height: 0
         }
-        console.log(JSON.stringify(conditions))
         lanes[freeLane] = action.activity_number
         currentOpenConditions++
-        setMaxOpenConditions(Math.max(maxOpenConditions, currentOpenConditions))
+        maxOpenConditions = Math.max(maxOpenConditions, currentOpenConditions)
         activities[index].condition = {...conditions[action.activity_number], beamRef: conditions[action.activity_number].startRef}
       } else if(action.action_name === "CONDITION_END") {
         const laneIndex = lanes.findIndex((element) => element === action.activity_number)
@@ -82,6 +80,7 @@ const StepColumCard = (
         activities[index].condition = {...conditions[action.activity_number], beamRef: conditions[action.activity_number].endRef}
       }
     })
+    setMaxOpenConditions(maxOpenConditions)
     setConditions(conditions)
     setActivities(activities)
   }
