@@ -80,7 +80,7 @@ const Reaction = () => {
       {reactionProcess &&
         <>
           {renderReactionNavbar()}
-          <div className="scroll-body overflow-auto p-3 flex-grow-1">
+          <div className="scroll-body overflow-auto px-3 py-4 flex-grow-1">
             <Row className='flex-nowrap'>
               <Col className='flex-shrink-0'>
                 <PreparationColumnCard reactionProcess={reactionProcess} />
