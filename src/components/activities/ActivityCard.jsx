@@ -30,7 +30,7 @@ const ActivityCard = (
       let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
 
       if (activityForm) {
-        const acts_as_label = activityForm.workup.acts_as || ''
+        let acts_as_label = activityForm.workup.acts_as || ''
 
         if (acts_as_label === 'DIVERSE_SOLVENT') {
           acts_as_label = 'SOLVENT'
