@@ -31,17 +31,14 @@ const StepColumCard = (
   const [lanes, setLanes] = useState([])
 
   useEffect(() => {
-    console.log('init')
     sortActivity()
   }, []);
 
   useEffect(() => {
-    console.log('update')
     sortActivity()
   }, [processStep]);
 
   useEffect(() => {
-    console.log('activities updated')
     updateConditionBeams()
   }, [activities]);
 
@@ -150,7 +147,6 @@ const StepColumCard = (
 
   const updateConditionBeams = (height= stepsHeight) => {
     setStepsHeight(height)
-    console.log('updateConditionBeams ')
     for (const [key, value] of Object.entries(conditions)) {
       if(value.startRef.current) {
         value.startY = value.startRef.current.offsetTop
@@ -190,7 +186,6 @@ const StepColumCard = (
           {isInitialised &&
             <ProcedureCard.Details>
               <Measure bounds onResize={contentRect => {
-                console.log('resize')
                 updateConditionBeams(contentRect.bounds.height)
               }}>
                 {({ measureRef }) => (
