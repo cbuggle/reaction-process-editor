@@ -61,6 +61,7 @@ const StepColumCard = (
         conditions[action.activity_number] = {
           level: freeLane,
           activityNumber: action.activity_number,
+          customClass: 'condition-accent--' + (action.activity_number % 5),
           startRef: React.createRef(),
           endRef: React.createRef(),
           startY: 0,
@@ -202,7 +203,7 @@ const StepColumCard = (
                 )}
               </Measure>
               <ActivityCreator processStep={processStep} />
-              <ConditionBeamsImage width={maxOpenConditions * 20} height={stepsHeight} beamsObject={conditions}/>
+              <ConditionBeamsImage width={maxOpenConditions * 16} height={stepsHeight} beamsObject={conditions}/>
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>

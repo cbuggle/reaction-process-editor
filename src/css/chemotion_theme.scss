@@ -1,3 +1,4 @@
+/* bootstrap vars */
 /* colors */
 $theme-colors: (
   "brand1": #2495cf,
@@ -5,10 +6,10 @@ $theme-colors: (
   "brand3": #d8e037,
   "brand4": #337ab7,
   "brand5": #4f5659,
-  "preparation": #666F73,
-  "step": #47AD5E,
-  "action": #2E85E2,
-  "condition": #3AB1B9
+  "preparation": #7C878C,
+  "step": #68BF7B,
+  "action": #2495cf,
+  "condition": #AAB9BF
 );
 
 $body-bg: white;
@@ -18,13 +19,16 @@ $input-btn-padding-y: 0.2rem;
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 
+/* component vars */
+$max-label-width: 400px;
+
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 /* styling for generic page layout */
 @import "layout";
 /* components */
 @import "components/reactions/ReactionNavbar";
-@import "components/activities/ConditionBeamsImage";
+@import "components/activities/ConditionCard";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";

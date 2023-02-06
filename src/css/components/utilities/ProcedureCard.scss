@@ -1,13 +1,11 @@
-$condition-card-indentation: 140px;
-$max-label-width: 400px;
+@use "sass:map";
 
 .procedure-card {
-  &--condition {
-    margin-left: $condition-card-indentation;
-    .procedure-card__header-label {
-      max-width: $max-label-width - $condition-card-indentation;
-    }
-    z-index: 1;
+  --bs-card-spacer-x: 0;
+  --bs-card-spacer-y: 0;
+  &--action, &--condition {
+    --bs-card-cap-padding-x: 0.75rem;
+    --bs-card-cap-padding-y: 0.35rem;
   }
   &--action {
     width: 514px !important;
@@ -20,11 +18,10 @@ $max-label-width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: $max-label-width;
+    padding: 0.125em 0.75em;
   }
-  --bs-card-spacer-x: 0;
-  --bs-card-spacer-y: 0;
   &__info, &__form, &__details, &__type-panel {
-    padding: 1rem;
+    padding: var(--bs-card-cap-padding-x);
   }
   &__info {
     display: flex;
@@ -34,6 +31,10 @@ $max-label-width: 400px;
     }
     h6 {
       margin-bottom: 0;
+    }
+    &:last-child {
+      border-bottom-left-radius: var(--bs-card-inner-border-radius);
+      border-bottom-right-radius: var(--bs-card-inner-border-radius);
     }
   }
   &__details-container > * {
@@ -48,7 +49,10 @@ $max-label-width: 400px;
 }
 
 @each $color, $value in $theme-colors {
-  .procedure-card--#{$color} .procedure-card__info {
-    background-color: tint-color($value, 80%);
+  .procedure-card--#{$color} {
+    --bs-card-border-color: #{$value};
+    .procedure-card__info {
+      background-color: tint-color($value, 80%);
+    }
   }
 }

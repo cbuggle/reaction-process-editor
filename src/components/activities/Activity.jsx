@@ -67,10 +67,18 @@ const Activity = ({activity, processStep, maxOpenConditions}) => {
     }
   }
 
+  const getCustomClass = () => {
+    if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
+      return condition.customClass
+    } else {
+      return ''
+    }
+  }
+
   const getCardWidth = () => {
     if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
       const level = maxOpenConditions - condition.level
-      return (374 + level * 20) + 'px'
+      return (374 + level * 16) + 'px'
     } else {
       return 'inherit'
     }
@@ -79,7 +87,12 @@ const Activity = ({activity, processStep, maxOpenConditions}) => {
   const renderActivity = () => {
     if (action.action_name === "CONDITION_END") {
       return (
-        <ConditionFooter activity={action} dragRef={dragRef} cardWidth={getCardWidth()}/>
+        <ConditionFooter
+          activity={action}
+          cardWidth={getCardWidth()}
+          customClass={getCustomClass()}
+          dragRef={dragRef}
+        />
       )
     } else {
       const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
@@ -89,8 +102,9 @@ const Activity = ({activity, processStep, maxOpenConditions}) => {
           type={type}
           onSave={onSave}
           processStep={processStep}
-          dragRef={dragRef}
+          customClass={getCustomClass()}
           cardWidth={getCardWidth()}
+          dragRef={dragRef}
         />
       )
     }

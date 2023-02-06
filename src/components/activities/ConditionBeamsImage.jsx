@@ -14,9 +14,9 @@ const ConditionBeamsImage = ({width, height, beamsObject}) => {
         <rect
           id={'beam-' + beam.activityNumber}
           key={index}
-          x={width - (beam.level * 20) - 6}
+          x={width - (beam.level * 16) - 6}
           y={beam.startY}
-          className='condition-beam'
+          className={'condition-beam ' + beam.customClass}
           width='6'
           height={beam.height}
         />))

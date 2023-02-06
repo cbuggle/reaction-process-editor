@@ -15,7 +15,8 @@ const ActivityCard = (
     onCancel,
     processStep,
     cardWidth,
-    dragRef
+    customClass,
+    dragRef,
   }) => {
 
   const api = useReactionsFetcher()
@@ -102,9 +103,11 @@ const ActivityCard = (
       showMoveYBtn={!editable}
       showDeleteBtn={!editable}
       showCancelBtn={editable}
-      dragRef={dragRef}
       displayMode={displayMode}
       cardWidth={cardWidth}
+      headerTitleTag='h6'
+      customClass={customClass}
+      dragRef={dragRef}
     >
       <ProcedureCard.Info>
         <ActivityInfo action={activity} />
