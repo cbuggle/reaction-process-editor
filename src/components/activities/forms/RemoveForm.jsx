@@ -5,7 +5,7 @@ import Select from 'react-select'
 import ActionFormGroup from "./ActionFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
-import { conditionUnitOptions, conditionValueRanges } from '../../../constants/dropdownOptions/conditionsOptions';
+import { conditionUnitOptions, conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
 
 const RemoveForm = ({ action, onWorkupChange, processStep }) => {
@@ -29,23 +29,15 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
         <NumericalnputWithUnit
           label='Temperature'
           name='remove_temperature'
-          unit={conditionUnitOptions['TEMPERATURE'][0].label}
-          precision={conditionValueRanges['TEMPERATURE']['precision']}
-          step={conditionValueRanges['TEMPERATURE']['step']}
-          value={action.workup['remove_temperature'] || conditionValueRanges['TEMPERATURE']['default']}
-          min={conditionValueRanges['TEMPERATURE']['min']}
-          max={conditionValueRanges['TEMPERATURE']['max']}
+          value={action.workup['remove_temperature'] || conditionInputRanges['TEMPERATURE']['default']}
+          inputRanges={conditionInputRanges['TEMPERATURE']}
           onWorkupChange={onWorkupChange}
         />
         <NumericalnputWithUnit
           label='Pressure'
           name='remove_pressure'
-          unit={conditionUnitOptions['PRESSURE'][0].label}
-          precision={conditionValueRanges['PRESSURE']['precision']}
-          step={conditionValueRanges['PRESSURE']['step']}
-          value={action.workup['remove_pressure'] || conditionValueRanges['PRESSURE']['default']}
-          min={conditionValueRanges['PRESSURE']['min']}
-          max={conditionValueRanges['PRESSURE']['max']}
+          value={action.workup['remove_pressure'] || conditionInputRanges['PRESSURE']['default']}
+          inputRanges={conditionInputRanges['PRESSURE']}
           onWorkupChange={onWorkupChange}
         />
       </>
@@ -101,23 +93,15 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
         <NumericalnputWithUnit
           label='Duration'
           name='duration_in_minutes'
-          unit={"Minutes"}
-          precision={conditionValueRanges['REMOVE_DURATION']['precision']}
-          step={conditionValueRanges['REMOVE_DURATION']['step']}
-          value={action.workup['duration_in_minutes'] || conditionValueRanges['REMOVE_DURATION']['default']}
-          min={conditionValueRanges['REMOVE_DURATION']['min']}
-          max={conditionValueRanges['REMOVE_DURATION']['max']}
+          value={action.workup['duration_in_minutes'] || conditionInputRanges['REMOVE_DURATION']['default']}
+          inputRanges={conditionInputRanges['REMOVE_DURATION']}
           onWorkupChange={onWorkupChange}
         />
         <NumericalnputWithUnit
           label='Repetition'
           name='remove_repetitions'
-          unit={"times"}
-          precision={conditionValueRanges['REMOVE_REPETITIONS']['precision']}
-          step={conditionValueRanges['REMOVE_REPETITIONS']['step']}
-          value={action.workup['remove_repetitions'] || conditionValueRanges['REMOVE_REPETITIONS']['default']}
-          min={conditionValueRanges['REMOVE_REPETITIONS']['min']}
-          max={conditionValueRanges['REMOVE_REPETITIONS']['max']}
+          value={action.workup['remove_repetitions'] || conditionInputRanges['REMOVE_REPETITIONS']['default']}
+          inputRanges={conditionInputRanges['REMOVE_REPETITIONS']}
           onWorkupChange={onWorkupChange}
         />
         <ActionFormGroup label='Replacement Medium'>

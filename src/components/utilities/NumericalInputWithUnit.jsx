@@ -4,7 +4,7 @@ import NumericInput from 'react-numeric-input';
 import { Label, Row, Col } from "reactstrap";
 import ActionFormGroup from "../activities/forms/ActionFormGroup";
 
-const NumericalInputWithUnit = ({ name, label, value, min, max, precision, step, unit, onWorkupChange, disabled }) => {
+const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChange, disabled }) => {
 
   const handleNumericInput = (value) => {
     onWorkupChange({ name: name, value: value })
@@ -15,11 +15,11 @@ const NumericalInputWithUnit = ({ name, label, value, min, max, precision, step,
       <Row className='gx-1'>
         <Col md={5}>
           <NumericInput
-            precision={precision}
-            step={step}
+            precision={inputRanges.precision}
+            step={inputRanges.step}
             value={value}
-            min={min}
-            max={max}
+            min={inputRanges.min}
+            max={inputRanges.max}
             size={8}
             disabled={disabled}
             onChange={handleNumericInput}
@@ -28,7 +28,7 @@ const NumericalInputWithUnit = ({ name, label, value, min, max, precision, step,
           />
         </Col>
         <Label className='col-7 col-form-label'>
-          {unit}
+          {inputRanges.unit}
         </Label>
       </Row>
     </ActionFormGroup>

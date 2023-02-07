@@ -6,6 +6,7 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import ActionFormGroup from "./ActionFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
+import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
 
@@ -74,11 +75,8 @@ const SaveSampleForm = ({ action, onWorkupChange }) => {
       <NumericalnputWithUnit
         label='Purity'
         name='purity'
-        precision={2}
-        step={0.01}
         value={sampleForm['purity']}
-        min={0}
-        max={1}
+        inputRanges={conditionInputRanges['PURITY']}
         onWorkupChange={onInputChange}
       />
       <ActionFormGroup label='Location'>

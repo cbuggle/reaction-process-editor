@@ -27,7 +27,7 @@ const ActivityCard = (
 
   const cardTitle = () => {
     if (isInitialised) {
-      return ActivityDecorator.numberedTitle(activity)
+      return ActivityDecorator.title(activity)
     } else {
       let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
 

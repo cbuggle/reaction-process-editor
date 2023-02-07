@@ -3,6 +3,7 @@ import Select from 'react-select'
 
 import ActionFormGroup from "./ActionFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
 const TransferForm = ({ action, processStep, onWorkupChange }) => {
 
@@ -39,12 +40,8 @@ const TransferForm = ({ action, processStep, onWorkupChange }) => {
       <NumericalnputWithUnit
         label='Percentage'
         name='transfer_percentage'
-        unit={'%'}
-        precision={1}
-        step={0.1}
         value={action.workup['transfer_percentage']}
-        min={0}
-        max={100}
+        inputRanges={conditionInputRanges['PERCENTAGE']}
         onWorkupChange={onWorkupChange}
       />
     </>

@@ -1,4 +1,6 @@
+
 export const conditionTypeClusters = [
+  // condition_unit currently unused as we work with SI defaults only.
   {
     id: 'conditions',
     types: [
@@ -24,7 +26,7 @@ export const conditionTypeClusters = [
             condition_type: 'PRESSURE',
             condition_tendency: 'INCREASE',
             condition_value: '1000',
-            condition_unit: 'mbar'
+            condition_unit: 'mBar'
           },
         },
       },
@@ -36,8 +38,8 @@ export const conditionTypeClusters = [
           workup: {
             condition_type: 'PH',
             condition_tendency: 'INCREASE',
-            condition_value: '1000',
-            condition_unit: ''
+            condition_value: '7',
+            condition_unit: 'pH'
           },
         },
       },

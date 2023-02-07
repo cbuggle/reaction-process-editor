@@ -11,31 +11,12 @@ export default class ActivityDecorator {
     return str.join(' ');
   }
 
-  static numberedTitle = (activity) => {
-    return this.numberPrefix(activity) + ' ' + this.title(activity)
-  }
-
-  static numberPrefix = (activity) => {
-    switch (activity.action_name) {
-      case 'CONDITION':
-        return activity.activity_number + ">"
-      case 'CONDITION_END':
-        return '<' + activity.activity_number
-      default:
-        return activity.activity_number
-    }
-  }
-
   static title = (activity) => {
-    return this.toTitleCase(this.rawTitle(activity) || 'NONE')
-  }
-
-  static rawTitle = (activity) => {
     const workup = activity.workup
 
     switch (activity.action_name) {
       case 'EQUIP':
-        return workup.mount_action + ' ' + workup.equipment
+        return this.toTitleCase(workup.mount_action + ' ' + workup.equipment)
       case 'PURIFY':
         return workup.purify_type
       case 'CONDITION':
@@ -43,16 +24,16 @@ export default class ActivityDecorator {
       case 'CONDITION_END':
         return ' '
       case 'ANALYSIS':
-        return activity.action_name + ' ' + workup.analysis_type
+        return this.toTitleCase(activity.action_name + ' ' + workup.analysis_type)
       case 'ADD':
       case 'SAVE':
       case 'TRANSFER':
       case 'REMOVE':
-        return activity.action_name + ' ' + activity.sample_names
+        return this.toTitleCase(activity.action_name) + ' ' + activity.sample_names
       case 'PAUSE':
       case 'WAIT':
       default:
-        return activity.action_name
+        return this.toTitleCase(activity.action_name)
     }
   }
 
@@ -79,14 +60,8 @@ export default class ActivityDecorator {
         conditionDetails.push(workup.motion_unit)
         break;
       default:
-        if (workup.temperature_value) {
-          conditionDetails.push(workup.temperature_value + ' ' + conditionUnitOptions['TEMPERATURE'][0].label)
-        }
-        if (workup.pressure_value) {
-          conditionDetails.push(workup.pressure_value + ' ' + conditionUnitOptions['PRESSURE'][0].label)
-        }
-        if (workup.ph_value) {
-          conditionDetails.push(workup.ph_value + ' ' + conditionUnitOptions['PH'][0].label)
+        if (workup.condition_value) {
+          conditionDetails.push(workup.condition_value + ' ' + conditionUnitOptions[workup.condition_type][0].label)
         }
     }
     return conditionDetails.toString()

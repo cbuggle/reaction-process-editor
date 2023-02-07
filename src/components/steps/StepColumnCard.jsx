@@ -151,7 +151,7 @@ const StepColumCard = (
     for (const [key, value] of Object.entries(conditions)) {
       if(value.startRef.current) {
         value.startY = value.startRef.current.offsetTop
-        value.height = value.endRef.current.offsetTop - value.startRef.current.offsetTop
+        value.height = 100 // value.endRef.current.offsetTop - value.startRef.current.offsetTop
       }
     }
   }

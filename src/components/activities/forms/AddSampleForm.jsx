@@ -8,7 +8,7 @@ import ActionFormGroup from "./ActionFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
-import { conditionUnitOptions, conditionValueRanges } from '../../../constants/dropdownOptions/conditionsOptions';
+import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
 const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
 
@@ -75,48 +75,32 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
       <NumericalnputWithUnit
         label='Percentage'
         name='sample_volume_percentage'
-        unit={'%'}
-        precision={1}
-        step={0.1}
         value={action.workup['sample_volume_percentage'] || 100}
-        min={0}
-        max={100}
-        disabled={!action.workup['sample_original_amount']}
-        onWorkupChange={handlePercentageInput}
+        inputRanges={conditionInputRanges['PERCENTAGE']}
+        onWorkupChange={onWorkupChange}
       />
       <NumericalnputWithUnit
         label="Speed"
         name='add_sample_speed'
-        unit={conditionUnitOptions['VELOCITY'][0].label}
-        precision={conditionValueRanges['VELOCITY']['precision']}
-        step={conditionValueRanges['VELOCITY']['step']}
         value={action.workup['add_sample_speed']}
-        min={conditionValueRanges['VELOCITY']['min']}
-        max={conditionValueRanges['VELOCITY']['max']}
+        inputRanges={conditionInputRanges['VELOCITY']}
         onWorkupChange={onWorkupChange}
       />
       <NumericalnputWithUnit
         label="Temperature"
         name='temperature_value'
-        unit={conditionUnitOptions['TEMPERATURE'][0].label}
-        precision={conditionValueRanges['TEMPERATURE']['precision']}
-        step={conditionValueRanges['TEMPERATURE']['step']}
         value={action.workup['temperature_value']}
-        min={conditionValueRanges['TEMPERATURE']['min']}
-        max={conditionValueRanges['TEMPERATURE']['max']}
+        inputRanges={conditionInputRanges['TEMPERATURE']}
         onWorkupChange={onWorkupChange}
       />
       <NumericalnputWithUnit
         label="Pressure"
         name='pressure_value'
-        unit={conditionUnitOptions['PRESSURE'][0].label}
-        precision={conditionValueRanges['PRESSURE']['precision']}
-        step={conditionValueRanges['PRESSURE']['step']}
         value={action.workup['pressure_value']}
-        min={conditionValueRanges['PRESSURE']['min']}
-        max={conditionValueRanges['PRESSURE']['max']}
+        inputRanges={conditionInputRanges['PRESSURE']}
         onWorkupChange={onWorkupChange}
       />
+
       {currentSampleActsAs === 'SOLVENT' &&
         <FormGroup check className='mb-3'>
           <Label check>

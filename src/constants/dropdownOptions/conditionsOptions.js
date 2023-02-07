@@ -6,14 +6,14 @@ export const conditionTendencyOptions = [{
   value: 'DECREASE'
 }]
 
-export const conditionValueRanges = {
+export const conditionInputRanges = {
   'TEMPERATURE': {
     min: -100,
     max: 400,
     precision: 1,
     step: 0.1,
     default: 20,
-    unit: 'CELSIUS'
+    unit: '°C'
   },
   'PH': {
     min: 0,
@@ -21,15 +21,15 @@ export const conditionValueRanges = {
     precision: 2,
     step: 0.01,
     default: 7,
-    unit: 'PH'
+    unit: 'pH'
   },
   'PRESSURE': {
     min: 0,
     max: 10000,
     precision: 3,
     step: 1,
-    default: 1000,
-    unit: 'MILLIBAR'
+    default: 1024,
+    unit: 'mBar'
   },
   'IRRADIATION': {
     min: 10,
@@ -37,7 +37,7 @@ export const conditionValueRanges = {
     precision: 0,
     step: 1,
     default: 254,
-    unit: 'NM'
+    unit: 'nm'
   },
   'POWER': {
     min: 0,
@@ -45,7 +45,7 @@ export const conditionValueRanges = {
     precision: 0,
     step: 10,
     default: 1000,
-    unit: 'WATT'
+    unit: 'Watt'
   },
   'VELOCITY': {
     min: 0,
@@ -53,21 +53,39 @@ export const conditionValueRanges = {
     precision: 1,
     step: 0.1,
     default: 0,
-    unit: 'MLPMIN'
+    unit: 'ml/min'
+  },
+  'PERCENTAGE': {
+    min: 0,
+    max: 1440,
+    precision: 0,
+    step: 1,
+    default: 0,
+    unit: '%'
+  },
+  'PURITY': {
+    min: 0,
+    max: 1,
+    precision: 2,
+    step: 0.01,
+    default: 1,
+    unit: ''
   },
   'REMOVE_DURATION': {
     min: 0,
     max: 1440,
     precision: 0,
     step: 1,
-    default: 0
+    default: 0,
+    unit: 'Minutes'
   },
   'REMOVE_REPETITIONS': {
     min: 0,
     max: 100,
     precision: 0,
     step: 1,
-    default: 1
+    default: 1,
+    unit: 'Times'
   },
 }
 
@@ -98,7 +116,7 @@ export const conditionUnitOptions = {
     value: 'NM'
   }],
   'VELOCITY': [{
-    label: 'ml / min',
+    label: 'ml/min',
     value: 'MLPMIN'
   }]
 }

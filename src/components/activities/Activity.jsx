@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ActivityCard from "./ActivityCard";
-import ConditionFooter from "./ConditionFooter";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
@@ -8,7 +7,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 import ActivityCreator from "./ActivityCreator";
 
-const Activity = ({activity, processStep, maxOpenConditions}) => {
+const Activity = ({ activity, processStep, maxOpenConditions }) => {
   const action = activity.action
   const condition = activity.condition
   const api = useReactionsFetcher()
@@ -68,7 +67,7 @@ const Activity = ({activity, processStep, maxOpenConditions}) => {
   }
 
   const getCustomClass = () => {
-    if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
+    if (action.action_name === "CONDITION") {
       return condition.customClass
     } else {
       return ''
@@ -76,7 +75,7 @@ const Activity = ({activity, processStep, maxOpenConditions}) => {
   }
 
   const getCardWidth = () => {
-    if (action.action_name === "CONDITION" || action.action_name === "CONDITION_END") {
+    if (action.action_name === "CONDITION") {
       const level = maxOpenConditions - condition.level
       return (374 + level * 16) + 'px'
     } else {
@@ -85,29 +84,18 @@ const Activity = ({activity, processStep, maxOpenConditions}) => {
   }
 
   const renderActivity = () => {
-    if (action.action_name === "CONDITION_END") {
-      return (
-        <ConditionFooter
-          activity={action}
-          cardWidth={getCardWidth()}
-          customClass={getCustomClass()}
-          dragRef={dragRef}
-        />
-      )
-    } else {
-      const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
-      return (
-        <ActivityCard
-          activity={action}
-          type={type}
-          onSave={onSave}
-          processStep={processStep}
-          customClass={getCustomClass()}
-          cardWidth={getCardWidth()}
-          dragRef={dragRef}
-        />
-      )
-    }
+    const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
+    return (
+      <ActivityCard
+        activity={action}
+        type={type}
+        onSave={onSave}
+        processStep={processStep}
+        customClass={getCustomClass()}
+        cardWidth={getCardWidth()}
+        dragRef={dragRef}
+      />
+    )
   }
 
   return (
