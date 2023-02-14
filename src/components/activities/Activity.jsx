@@ -8,7 +8,6 @@ import { DndItemTypes } from '../../constants/dndItemTypes';
 import ActivityCreator from "./ActivityCreator";
 
 const Activity = ({ activity, processStep, maxOpenConditions }) => {
-  const action = activity.action
   const condition = activity.condition
   const api = useReactionsFetcher()
 
@@ -17,31 +16,31 @@ const Activity = ({ activity, processStep, maxOpenConditions }) => {
   }
 
   const isInDropRange = (dropAction) => {
-    return dropAction.min_position <= action.position &&
-      dropAction.max_position >= action.position
+    return dropAction.min_position <= activity.position &&
+      dropAction.max_position >= activity.position
   }
 
   const isBefore = (dropAction) => {
-    return action.position < dropAction.source_position
+    return activity.position < dropAction.source_position
   }
 
   const isAfter = (dropAction) => {
-    return action.position > dropAction.source_position
+    return activity.position > dropAction.source_position
   }
 
   const isInSameStep = (dropAction) => {
-    return action.step_id === dropAction.step_id
+    return activity.step_id === dropAction.step_id
   }
 
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.ACTION,
     item: {
-      action: action,
-      source_position: action.position,
-      min_position: action.min_position,
-      max_position: action.max_position,
-      step_id: action.step_id
+      action: activity,
+      source_position: activity.position,
+      min_position: activity.min_position,
+      max_position: activity.max_position,
+      step_id: activity.step_id
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -61,38 +60,19 @@ const Activity = ({ activity, processStep, maxOpenConditions }) => {
   }), [processStep])
 
   const dropItem = (monitor) => {
-    if (action.id !== monitor.action.id) {
-      api.updateActionPosition(monitor.action.id, action.position)
-    }
-  }
-
-  const getCustomClass = () => {
-    if (action.action_name === "CONDITION") {
-      return condition.customClass
-    } else {
-      return ''
-    }
-  }
-
-  const getCardWidth = () => {
-    if (action.action_name === "CONDITION") {
-      const level = maxOpenConditions - condition.level
-      return (374 + level * 16) + 'px'
-    } else {
-      return 'inherit'
+    if (activity.id !== monitor.action.id) {
+      api.updateActionPosition(monitor.action.id, activity.position)
     }
   }
 
   const renderActivity = () => {
-    const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
+    const type = activity.action_name === 'CONDITION' ? 'condition' : 'action'
     return (
       <ActivityCard
-        activity={action}
+        activity={activity}
         type={type}
         onSave={onSave}
         processStep={processStep}
-        customClass={getCustomClass()}
-        cardWidth={getCardWidth()}
         dragRef={dragRef}
       />
     )
@@ -100,15 +80,10 @@ const Activity = ({ activity, processStep, maxOpenConditions }) => {
 
   return (
     <div className='activity'>
-      {
-        action.action_name === "CONDITION_END" ? <ActivityCreator processStep={processStep} insertNewBeforeIndex={action.position} /> : <></>
-      }
       <div ref={dropRef}>
         <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
         <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
-          <div ref={condition.beamRef}>
-            {renderActivity()}
-          </div>
+          {renderActivity()}
         </div>
         <div className={'bg-action'} style={isOverAfter ? { 'height': '1rem' } : {}}></div>
       </div>

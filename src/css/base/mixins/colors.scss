@@ -1,0 +1,5 @@
+@use "sass:map";
+
+@function border-color($name) {
+  @return shade-color(map.get($theme-colors, $name), 30%);
+}

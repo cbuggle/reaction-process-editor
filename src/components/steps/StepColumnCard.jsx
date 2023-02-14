@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createRef } from 'react';
-import Measure from "react-measure";
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
@@ -10,8 +9,6 @@ import ActivityCreator from "../activities/ActivityCreator";
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
-import ConditionBeamsImage from "../activities/ConditionBeamsImage";
-import getContentRect from "react-measure/src/get-content-rect";
 
 const StepColumCard = (
   {
@@ -22,66 +19,8 @@ const StepColumCard = (
 
   const isInitialised = !!processStep
   const [showForm, setShowForm] = useState(!isInitialised)
-  const [maxOpenConditions, setMaxOpenConditions] = useState(0)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
-  const [stepsHeight, setStepsHeight] = useState(0)
-  const [activities, setActivities] = useState([])
-  const [conditions, setConditions] = useState({})
-  const [lanes, setLanes] = useState([])
-
-  useEffect(() => {
-    sortActivity()
-  }, []);
-
-  useEffect(() => {
-    sortActivity()
-  }, [processStep]);
-
-  useEffect(() => {
-    updateConditionBeams()
-  }, [activities]);
-
-  const sortActivity = () => {
-    const activities = []
-    const conditions ={}
-    let maxOpenConditions = 0
-    setLanes([])
-    let currentOpenConditions = 0
-    processStep.actions.forEach((action, index) => {
-      activities[index] = {
-        action: action,
-        condition: {beamRef: undefined}
-      }
-      if(action.action_name === "CONDITION") {
-        let freeLane = lanes.findIndex((element) => element === undefined)
-        if(freeLane === -1) {
-          freeLane = lanes.length
-        }
-        conditions[action.activity_number] = {
-          level: freeLane,
-          activityNumber: action.activity_number,
-          customClass: 'condition-accent--' + (action.activity_number % 5),
-          startRef: React.createRef(),
-          endRef: React.createRef(),
-          startY: 0,
-          height: 0
-        }
-        lanes[freeLane] = action.activity_number
-        currentOpenConditions++
-        maxOpenConditions = Math.max(maxOpenConditions, currentOpenConditions)
-        activities[index].condition = {...conditions[action.activity_number], beamRef: conditions[action.activity_number].startRef}
-      } else if(action.action_name === "CONDITION_END") {
-        const laneIndex = lanes.findIndex((element) => element === action.activity_number)
-        lanes[laneIndex] = undefined
-        currentOpenConditions--
-        activities[index].condition = {...conditions[action.activity_number], beamRef: conditions[action.activity_number].endRef}
-      }
-    })
-    setMaxOpenConditions(maxOpenConditions)
-    setConditions(conditions)
-    setActivities(activities)
-  }
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -146,16 +85,6 @@ const StepColumCard = (
     api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
   }
 
-  const updateConditionBeams = (height= stepsHeight) => {
-    setStepsHeight(height)
-    for (const [key, value] of Object.entries(conditions)) {
-      if(value.startRef.current) {
-        value.startY = value.startRef.current.offsetTop
-        value.height = 100 // value.endRef.current.offsetTop - value.startRef.current.offsetTop
-      }
-    }
-  }
-
   return (
     <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
       <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
@@ -186,24 +115,16 @@ const StepColumCard = (
           </ProcedureCard.Form>
           {isInitialised &&
             <ProcedureCard.Details>
-              <Measure bounds onResize={contentRect => {
-                updateConditionBeams(contentRect.bounds.height)
-              }}>
-                {({ measureRef }) => (
-                  <div ref={measureRef} className='procedure-card__details-container'>
-                    {activities.map(activity => (
-                      <Activity
-                        key={activity.action.id}
-                        activity={activity}
-                        processStep={processStep}
-                        maxOpenConditions={maxOpenConditions}
-                      />
-                    ))}
-                  </div>
-                )}
-              </Measure>
-              <ActivityCreator processStep={processStep} />
-              <ConditionBeamsImage width={maxOpenConditions * 16} height={stepsHeight} beamsObject={conditions}/>
+              <div className='step-column-card__condition-container'>
+                {processStep.actions.map(activity => (
+                  <Activity
+                    key={activity.id}
+                    activity={activity}
+                    processStep={processStep}
+                  />
+                ))}
+                <ActivityCreator processStep={processStep} />
+              </div>
             </ProcedureCard.Details>
           }
         </ColumnContainerCard>

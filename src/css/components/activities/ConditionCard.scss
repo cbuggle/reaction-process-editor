@@ -1,41 +1,14 @@
 @use "sass:map";
 
 $condition-card-indentation: 140px;
-$conditionAccentColors: #C30000, #4D9E0E, #0E739E, #9418BF, #D9761B;
-
-.condition-beams-image {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  z-index: 1;
-}
-
-.condition-beam {
-  @for $i from 1 through length($conditionAccentColors) {
-    $color: nth($conditionAccentColors, $i);
-    &.condition-accent--#{$i} {
-      fill: $color;
-    }
-  }
-}
 
 .procedure-card--condition {
-  @for $i from 1 through length($conditionAccentColors) {
-    $color: nth($conditionAccentColors, $i);
-    &.condition-accent--#{$i} {
-      border-right-color: $color;
-    }
-  }
-  z-index: 0;
   background-color: map.get($theme-colors, "condition");
-  border-right-width: 6px;
+  border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   margin-left: $condition-card-indentation;
-  &.procedure-card__footer {
-    border-bottom-right-radius: var(--bs-card-border-radius) !important;
-  }
   .card-header {
-    width: 383px !important;
+    padding-right: 1.5rem;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
   }

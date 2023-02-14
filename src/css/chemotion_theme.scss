@@ -24,6 +24,9 @@ $max-label-width: 400px;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
+/* general functions */
+@import "base/mixins/colors";
+@import "base/mixins/spacing";
 /* styling for generic page layout */
 @import "layout";
 /* components */

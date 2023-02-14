@@ -14,7 +14,6 @@ const ActivityCard = (
     onSave,
     onCancel,
     processStep,
-    cardWidth,
     customClass,
     dragRef,
   }) => {
@@ -104,7 +103,6 @@ const ActivityCard = (
       showDeleteBtn={!editable}
       showCancelBtn={editable}
       displayMode={displayMode}
-      cardWidth={cardWidth}
       headerTitleTag='h6'
       customClass={customClass}
       dragRef={dragRef}

@@ -8,10 +8,7 @@
     --bs-card-cap-padding-y: 0.35rem;
   }
   &--action {
-    width: 514px !important;
-  }
-  &--step .procedure-card__details {
-    position: relative;
+    margin-right: 0.75rem;
   }
   &__header-label {
     white-space: nowrap;
@@ -37,14 +34,8 @@
       border-bottom-right-radius: var(--bs-card-inner-border-radius);
     }
   }
-  &__details-container > * {
-    margin-bottom: 12px;
-  }
-  &__details, .activity > * {
-    margin-bottom: 12px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+  &__details {
+    @include details-spacing
   }
 }
 
