@@ -1,11 +1,11 @@
 export const motionTypeOptions = [{
-  label: 'Unspecified',
+  label: 'Motion Unspecified',
   value: 'UNSPECIFIED'
 }, {
-  label: 'Custom',
+  label: 'Motion Custom',
   value: 'CUSTOM'
 }, {
-  label: 'None',
+  label: 'Motion None',
   value: 'NONE'
 }, {
   label: 'Stir',
@@ -24,7 +24,7 @@ export const motionTypeOptions = [{
   label: 'Sonication',
   value: 'SONICATION'
 }, {
-  label: 'Other',
+  label: 'Motion',
   value: 'OTHER'
 }]
 

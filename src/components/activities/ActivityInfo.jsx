@@ -26,8 +26,8 @@ const ActivityInfo = ({ action }) => {
         if (workup.add_sample_speed) {
           infoLines.push(
             workup.add_sample_speed + ' ml/min ' +
-              workup.temperature_value ? workup.temperature_value + ' °C ' : '' +
-                workup.pressure_value ? workup.pressure_value + ' mbar' : ''
+              workup.add_sample_temperature ? workup.add_sample_temperature + ' °C ' : '' +
+                workup.add_sample_pressure ? workup.add_sample_pressure + ' mbar' : ''
           )
         }
         if (workup.acts_as === 'SOLVENT') {
@@ -129,9 +129,23 @@ const ActivityInfo = ({ action }) => {
     )
   }
 
+  const renderCurrentConditions = () => {
+
+    const current_conditions = action.current_conditions || { 'conditions': "none" }
+
+    return (
+      <>
+        {Object.keys(current_conditions).map((key) => {
+          return (current_conditions[key])
+        }).join(', ')}
+      </>
+    )
+  }
+
   return (
     <>
       {renderActionInfo()}
+      {renderCurrentConditions()}
     </>
   )
 }

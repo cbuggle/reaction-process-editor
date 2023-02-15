@@ -88,15 +88,15 @@ const AddSampleForm = ({ action, processStep, onWorkupChange }) => {
       />
       <NumericalnputWithUnit
         label="Temperature"
-        name='temperature_value'
-        value={action.workup['temperature_value']}
+        name='add_sample_temperature'
+        value={action.workup['add_sample_temperature']}
         inputRanges={conditionInputRanges['TEMPERATURE']}
         onWorkupChange={onWorkupChange}
       />
       <NumericalnputWithUnit
         label="Pressure"
-        name='pressure_value'
-        value={action.workup['pressure_value']}
+        name='add_sample_pressure'
+        value={action.workup['add_sample_pressure']}
         inputRanges={conditionInputRanges['PRESSURE']}
         onWorkupChange={onWorkupChange}
       />

@@ -20,7 +20,7 @@ export default class ActivityDecorator {
       case 'PURIFY':
         return workup.purify_type
       case 'CONDITION':
-        return this.conditionTitle(activity)
+        return this.toTitleCase(this.conditionTitle(activity))
       case 'CONDITION_END':
         return ' '
       case 'ANALYSIS':
@@ -54,7 +54,8 @@ export default class ActivityDecorator {
     let conditionDetails = []
     switch (workup.condition_type) {
       case 'MOTION':
-        conditionDetails.push(motionTypeOptions.find(option => option.value === workup.motion_type).label)
+        workup.motion_type === 'OTHER' ? conditionDetails.push('Motion') : conditionDetails.push(motionTypeOptions.find(option => option.value === workup.motion_type).label)
+
         conditionDetails.push(motionModeOptions.find(option => option.value === workup.motion_mode).label)
         conditionDetails.push(workup.motion_speed)
         conditionDetails.push(workup.motion_unit)
@@ -62,6 +63,15 @@ export default class ActivityDecorator {
       default:
         if (workup.condition_value) {
           conditionDetails.push(workup.condition_value + ' ' + conditionUnitOptions[workup.condition_type][0].label)
+        }
+        if (workup.add_sample_temperature) {
+          conditionDetails.push(workup.add_sample_temperature + ' ' + conditionUnitOptions['TEMPERATURE'][0].label)
+        }
+        if (workup.add_sample_pressure) {
+          conditionDetails.push(workup.add_sample_pressure + ' ' + conditionUnitOptions['PRESSURE'][0].label)
+        }
+        if (workup.ph_value) {
+          conditionDetails.push(workup.ph_value + ' ' + conditionUnitOptions['PH'][0].label)
         }
     }
     return conditionDetails.toString()
