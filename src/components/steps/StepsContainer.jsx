@@ -16,17 +16,16 @@ const StepsContainer = ({ reactionProcess }) => {
   }
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      {reactionProcess.reaction_process_steps.map((processStep, index) => (
-        <Col key={processStep.id} className='flex-shrink-0'>
+    <>
+      <DndProvider backend={HTML5Backend}>
+        {reactionProcess.reaction_process_steps.map((processStep, index) => (
           <StepColumCard index={index}
+           key={processStep.id}
             reactionProcess={reactionProcess}
             processStep={processStep}
             totalSteps={reactionProcess.reaction_process_steps.length}
           />
-        </Col>
-      ))}
-      <Col className='flex-shrink-0'>
+        ))}
         {displayNewStep ?
           <StepColumCard
             reactionProcess={reactionProcess}
@@ -35,8 +34,8 @@ const StepsContainer = ({ reactionProcess }) => {
           :
           <CreateButton label='New Step' type='step' onClick={toggleNewStep} />
         }
-      </Col>
-    </DndProvider>
+      </DndProvider>
+    </>
   );
 };
 
