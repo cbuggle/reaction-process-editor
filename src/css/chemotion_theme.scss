@@ -31,7 +31,9 @@ $max-label-width: 400px;
 @import "layout";
 /* components */
 @import "components/reactions/ReactionNavbar";
+@import "components/activities/Activity";
 @import "components/activities/ConditionCard";
+@import "components/activities/InsertZone";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";

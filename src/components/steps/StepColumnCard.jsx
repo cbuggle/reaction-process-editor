@@ -1,11 +1,10 @@
-import React, { useState, useEffect, createRef } from 'react';
+import React, { useState } from 'react';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 import StepForm from './StepForm';
 import StepInfo from './StepInfo';
 import Activity from "../activities/Activity";
-import ActivityCreator from "../activities/ActivityCreator";
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
@@ -21,6 +20,12 @@ const StepColumCard = (
   const [showForm, setShowForm] = useState(!isInitialised)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
+  const placeholderActivity = {
+    position: processStep.actions.length,
+    step_id: processStep.id,
+    placeholder: true
+  }
+
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -123,7 +128,10 @@ const StepColumCard = (
                     processStep={processStep}
                   />
                 ))}
-                <ActivityCreator processStep={processStep} />
+                <Activity
+                  activity={placeholderActivity}
+                  processStep={processStep}
+                />
               </div>
             </ProcedureCard.Details>
           }

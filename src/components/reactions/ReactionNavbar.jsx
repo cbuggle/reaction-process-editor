@@ -14,7 +14,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
   const [open, setOpen] = useState('formula');
   const toggleFormula = () => {
     if (open) {
-      setOpen();
+      setOpen('');
     } else {
       setOpen('formula');
     }

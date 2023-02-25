@@ -1,0 +1,45 @@
+@use "sass:map";
+
+.insert-zone {
+  min-height: 0.75rem;
+  background-color: $gray-400;
+  margin-right: 0.75rem;
+  &.insert-zone--target {
+    height: 3rem;
+    border-color: map.get($theme-colors, "step");
+    border-style: dashed;
+    border-width: 3px;
+    background-color: tint-color(map.get($theme-colors, "step"), 90%);
+    display: flex;
+    align-items: center;
+  }
+  &.insert-zone--creator {
+    background-color: transparent;
+  }
+  &__drop-target-label {
+    display: block;
+    margin: 0 auto;
+    color: map.get($theme-colors, "step");
+    font-weight: bold;
+    animation: blinker 0.5s linear 1;
+  }
+  &.insert-zone--inactive {
+    display: none;
+  }
+  &__reveal-creator-button {
+    --bs-btn-hover-bg: var(--bs-btn-bg);
+    --bs-btn-hover-color: var(--bs-btn-color);
+    --bs-btn-hover-border-color: var(--bs-btn-border-color);
+    display: none;
+    width: 100%;
+  }
+  &--default:hover .insert-zone__reveal-creator-button {
+    display: block;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,14 @@
+.activity {
+  display: flex;
+  flex-direction: column;
+  > div:first-child {
+    margin-bottom: 0.75rem;
+  }
+  &.activity--below-drag-position {
+    flex-direction: column-reverse;
+    > div:first-child {
+      margin-bottom: 0;
+      margin-top: 0.75rem;
+    }
+  }
+}
