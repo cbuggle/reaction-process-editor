@@ -21,6 +21,11 @@ const Activity = ({ activity, processStep }) => {
     return activity.step_id === dropAction.step_id
   }
 
+  const dropClassName = () => {
+    return canDrop && activity.position > getItem.source_position ?
+      'activity--below-drag-position' : 'activity--above-drag-position'
+  }
+
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.ACTION,
@@ -37,13 +42,14 @@ const Activity = ({ activity, processStep }) => {
   }), [processStep])
 
   /* dropClassName currently under development */
-  const [{ isOver, dropClassName }, dropRef] = useDrop(() => ({
+  const [{ isOver, getItem, canDrop }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
     canDrop: (dropAction) => !processStep.locked && isInSameStep(dropAction),
     collect: (monitor) => ({
+      canDrop: monitor.canDrop(),
       isOver: monitor.isOver() && monitor.canDrop(),
-      dropClassName: (monitor.isOver() && isAfter(monitor.getItem())) ? 'activity--below-drag-position' : 'activity--above-drag-position'
+      getItem: monitor.getItem()
     }),
   }), [processStep])
 
@@ -77,7 +83,7 @@ const Activity = ({ activity, processStep }) => {
   }
 
   return (
-    <div ref={dropRef} className={'activity'}>
+    <div ref={dropRef} className={'activity ' + dropClassName()}>
       <InsertZone
         state={insertZoneState()}
         processStep={processStep}

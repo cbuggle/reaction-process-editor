@@ -12,7 +12,9 @@ const ActivityCreator = ({ processStep, insertNewBeforeIndex, showCloseButton, o
   const save = (actionForm) => {
     setDisplayState('buttons')
     api.createAction(processStep.id, actionForm, insertNewBeforeIndex)
-    onClose()
+    if(onClose) {
+      onClose()
+    }
   }
 
   const cancel = () => {

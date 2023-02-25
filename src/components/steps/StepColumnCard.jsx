@@ -8,6 +8,7 @@ import Activity from "../activities/Activity";
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import ActivityCreator from "../activities/ActivityCreator";
 
 const StepColumCard = (
   {
@@ -20,12 +21,6 @@ const StepColumCard = (
   const [showForm, setShowForm] = useState(!isInitialised)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
-  const placeholderActivity = {
-    position: processStep.actions.length,
-    step_id: processStep.id,
-    placeholder: true
-  }
-
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -128,9 +123,9 @@ const StepColumCard = (
                     processStep={processStep}
                   />
                 ))}
-                <Activity
-                  activity={placeholderActivity}
+                <ActivityCreator
                   processStep={processStep}
+                  insertNewBeforeIndex={processStep.actions.length}
                 />
               </div>
             </ProcedureCard.Details>
