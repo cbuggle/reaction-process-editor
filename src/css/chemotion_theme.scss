@@ -6,10 +6,10 @@ $theme-colors: (
   "brand3": #d8e037,
   "brand4": #337ab7,
   "brand5": #4f5659,
-  "preparation": #7C878C,
-  "step": #68BF7B,
-  "action": #2495cf,
-  "condition": #AAB9BF
+  "preparation": #AAB9BF,
+  "step": #68D47F,
+  "action": #52B7EB,
+  "condition": #EBCE6A
 );
 
 $body-bg: white;
@@ -27,6 +27,8 @@ $max-label-width: 400px;
 /* general functions */
 @import "base/mixins/colors";
 @import "base/mixins/spacing";
+/* overwrite bootstrap standard behaviour */
+@import "base/bootstrap_overwrite/btn";
 /* styling for generic page layout */
 @import "layout";
 /* components */

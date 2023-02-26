@@ -1,0 +1,12 @@
+.btn {
+  border-width: 1px;
+  border-style: solid;
+}
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    border-color: border-color($color);
+    &:hover {
+      border-color: shade-color($value, 15%);
+    }
+  }
+}

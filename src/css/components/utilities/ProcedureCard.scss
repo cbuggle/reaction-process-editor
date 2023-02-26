@@ -15,12 +15,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: $max-label-width;
-    padding: 0.125em 0.75em;
   }
   &__info, &__form, &__details, &__type-panel {
     padding: var(--bs-card-cap-padding-x);
   }
   &__info {
+    padding-top: 0;
     display: flex;
     font-size: $font-size-sm;
     .sample-molecule-image {
@@ -37,13 +37,16 @@
   &__details {
     @include details-spacing
   }
+  .card-header {
+    border-bottom: none;
+  }
 }
 
 @each $color, $value in $theme-colors {
   .procedure-card--#{$color} {
-    --bs-card-border-color: #{$value};
-    .procedure-card__info {
-      background-color: tint-color($value, 80%);
+    border-color: border-color($color);
+    .card-header, .procedure-card__info {
+      background-color: #{$value};
     }
   }
 }

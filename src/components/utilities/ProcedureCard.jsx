@@ -36,8 +36,8 @@ const ProcedureCard = (
   const HeaderTitleTag = headerTitleTag
   return (
     <Card className={'procedure-card procedure-card--' + type + ' ' + customClass}>
-      <CardHeader className={'d-flex justify-content-between align-items-center bg-' + type}>
-        <HeaderTitleTag className='procedure-card__header-label rounded-pill bg-white mb-0'>{title}</HeaderTitleTag>
+      <CardHeader className={'d-flex justify-content-between align-items-center'}>
+        <HeaderTitleTag className='procedure-card__header-label mb-0'>{title}</HeaderTitleTag>
         <div className='d-flex'>
           {showEditBtn &&
             <IconButton onClick={onEdit} icon='pen' />

@@ -3,9 +3,9 @@
 $condition-card-indentation: 140px;
 
 .procedure-card--condition {
-  background-color: map.get($theme-colors, "condition");
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+  border-right: none;
   margin-left: $condition-card-indentation;
   .card-header {
     padding-right: 1.5rem;
@@ -16,9 +16,6 @@ $condition-card-indentation: 140px;
     max-width: $max-label-width - $condition-card-indentation;
   }
   .procedure-card__info {
-    padding-top: 2px;
-    padding-bottom: 8px;
-    background-color: transparent !important;
     border-bottom-right-radius: 0 !important;
   }
 }
