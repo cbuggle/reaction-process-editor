@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import CreateButton from "../utilities/CreateButton";
 import ActivityCard from "./ActivityCard";
 import IconButton from "../utilities/IconButton";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import {Button} from "reactstrap";
 
 const ActivityCreator = ({ processStep, insertNewBeforeIndex, showCloseButton, onClose }) => {
 
@@ -32,13 +32,17 @@ const ActivityCreator = ({ processStep, insertNewBeforeIndex, showCloseButton, o
   return (
     <>
       {displayState === 'buttons' ?
-        <div className="d-flex justify-content-between">
+        <div className="activity-creator d-flex justify-content-between">
           <div className="d-grid gap-2 d-md-flex">
-            <CreateButton label='New Action' type='action' onClick={createAction} />
-            <CreateButton label='New Condition' type='condition' onClick={createCondition} />
+            <Button color='action' onClick={createAction}>New Action</Button>
+            <Button color='condition' onClick={createCondition}>Change Condition</Button>
           </div>
           {showCloseButton &&
-            <IconButton onClick={onClose} icon='times' className='icon-button--positive'/>
+            <IconButton
+              onClick={onClose}
+              icon='times'
+              className='icon-button--positive'
+            />
           }
         </div> :
         <ActivityCard
