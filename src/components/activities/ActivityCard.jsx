@@ -113,7 +113,7 @@ const ActivityCard = (
         <ActivityInfo action={activity} />
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
-        <TypeSelectionPanel onSelect={onSelectType} selectionType={type} />
+        <TypeSelectionPanel onSelect={onSelectType} />
       </ProcedureCard.TypePanel>
       <ProcedureCard.Form>
         {activityForm && !isCondition &&
