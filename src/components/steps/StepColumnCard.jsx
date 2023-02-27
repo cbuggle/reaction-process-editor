@@ -85,6 +85,18 @@ const StepColumCard = (
     api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
   }
 
+  const renderActivities = () => {
+    return (
+      processStep.actions.map(activity => (
+        <Activity
+          key={activity.id}
+          activity={activity}
+          processStep={processStep}
+        />
+      ))
+    )
+  }
+
   return (
     <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
       <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
@@ -116,13 +128,7 @@ const StepColumCard = (
           {isInitialised &&
             <ProcedureCard.Details>
               <div className='step-column-card__condition-container'>
-                {processStep.actions.map(activity => (
-                  <Activity
-                    key={activity.id}
-                    activity={activity}
-                    processStep={processStep}
-                  />
-                ))}
+                {renderActivities()}
                 <ActivityCreator
                   processStep={processStep}
                   insertNewBeforeIndex={processStep.actions.length}

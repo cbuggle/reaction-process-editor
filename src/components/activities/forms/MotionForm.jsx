@@ -6,7 +6,7 @@ import { RangeStepInput } from 'react-range-step-input';
 
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 
-const MotionForm = ({ action, onWorkupChange }) => {
+const MotionForm = ({ activity, onWorkupChange }) => {
 
   const handleRpmNumericInput = (value) => {
     onWorkupChange({ name: 'motion_speed', value: value })
@@ -17,7 +17,7 @@ const MotionForm = ({ action, onWorkupChange }) => {
   }
 
   const sliderStep = () => {
-    return motionTypeOptions.find(option => option.value === action.workup['motion_type']).step
+    return motionTypeOptions.find(option => option.value === activity.workup['motion_type']).step
   }
 
   return (
@@ -28,7 +28,7 @@ const MotionForm = ({ action, onWorkupChange }) => {
             <Select
               name="motion_mode"
               options={motionModeOptions}
-              value={motionModeOptions.find(option => option.value === action.workup['motion_mode'])}
+              value={motionModeOptions.find(option => option.value === activity.workup['motion_mode'])}
               onChange={selectedOption => onWorkupChange({ name: 'motion_mode', value: selectedOption.value })}
             />
           </Col>
@@ -37,13 +37,13 @@ const MotionForm = ({ action, onWorkupChange }) => {
       <ListGroupItem>
         <Row>
           <Col md={8}>
-            <RangeStepInput value={action.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(action.workup['motion_type'])} onChange={handleRpmSliderChange} snap />
+            <RangeStepInput value={activity.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(activity.workup['motion_type'])} onChange={handleRpmSliderChange} snap />
           </Col>
           <Col md={2}>
-            <NumericInput value={action.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(action.workup['motion_type'])} onChange={handleRpmNumericInput} snap />
+            <NumericInput value={activity.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(activity.workup['motion_type'])} onChange={handleRpmNumericInput} snap />
           </Col>
           <Col md={2}>
-            {action.workup['motion_unit']}
+            {activity.workup['motion_unit']}
           </Col>
 
         </Row>

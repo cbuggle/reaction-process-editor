@@ -4,12 +4,12 @@ import Select from 'react-select'
 import ActionFormGroup from "./ActionFormGroup";
 import { equipmentMountOptions } from '../../../constants/dropdownOptions/equipmentOptions'
 
-const EquipmentForm = ({ action, onWorkupChange, processStep }) => {
+const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
 
   const [equipmentOptions, setEquipmentOptions] = useState([])
 
   useEffect(() => {
-    changeMountOption(action.workup['mount_action'])
+    changeMountOption(activity.workup['mount_action'])
   }, [])
 
   const changeMountOption = (value) => {
@@ -28,7 +28,7 @@ const EquipmentForm = ({ action, onWorkupChange, processStep }) => {
         <Select
           name="mount_action"
           options={equipmentMountOptions}
-          value={equipmentMountOptions.find(option => option.value === action.workup['mount_action'])}
+          value={equipmentMountOptions.find(option => option.value === activity.workup['mount_action'])}
           onChange={selectedOption => changeMountOption(selectedOption.value)}
         />
       </ActionFormGroup>
@@ -36,7 +36,7 @@ const EquipmentForm = ({ action, onWorkupChange, processStep }) => {
         <Select
           name="equipment"
           options={equipmentOptions}
-          value={equipmentOptions.find(option => option.value === action.workup['equipment'])}
+          value={equipmentOptions.find(option => option.value === activity.workup['equipment'])}
           onChange={selectedOption => onWorkupChange({ name: 'equipment', value: selectedOption.value })}
         />
       </ActionFormGroup>

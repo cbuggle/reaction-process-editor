@@ -8,13 +8,13 @@ import ActionFormGroup from "./ActionFormGroup";
 import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 
 
-const PurifyForm = ({ action, onWorkupChange, processStep }) => {
+const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
 
   const purifySolventOptions = useMemo(() => { return processStep.materials_options['SOLVENT'] }, [])
 
-  const actionPurifySolventIds = useMemo(() => { return action.workup['purify_solvent_sample_ids'] || [] })
+  const actionPurifySolventIds = useMemo(() => { return activity.workup['purify_solvent_sample_ids'] || [] })
 
-  const filtrationModeKeepRetentate = useMemo(() => { return action.workup['filtration_mode'] == 'KEEP_RETENTATE' })
+  const filtrationModeKeepRetentate = useMemo(() => { return activity.workup['filtration_mode'] == 'KEEP_RETENTATE' })
 
   const toggleFiltrationMode = () => {
     const inverseFiltrationMode = filtrationModeKeepRetentate ? 'KEEP_PERMEATE' : 'KEEP_RETENTATE'
@@ -23,7 +23,7 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
   }
 
   const renderFilterMethodButtonToggle = () => {
-    if (action.workup['purify_type'] == 'FILTRATION') {
+    if (activity.workup['purify_type'] == 'FILTRATION') {
       return (
         <>
           <BootstrapSwitchButton
@@ -51,7 +51,7 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
         <Select
           name="purify_automation"
           options={purifyAutomationModeOptions}
-          value={purifyAutomationModeOptions.find(option => option.value === action.workup['purify_automation'])}
+          value={purifyAutomationModeOptions.find(option => option.value === activity.workup['purify_automation'])}
           onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
         />
       </FormGroup>
@@ -67,7 +67,7 @@ const PurifyForm = ({ action, onWorkupChange, processStep }) => {
       <ActionFormGroup label='Ratio'>
         <Input
           type="textarea"
-          value={action.workup['purify_ratio']}
+          value={activity.workup['purify_ratio']}
           placeholder="Ratio"
           onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
         />

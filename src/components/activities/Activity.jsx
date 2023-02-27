@@ -61,15 +61,15 @@ const Activity = ({ activity, processStep }) => {
 
   const renderActivity = () => {
     const type = activity.action_name === 'CONDITION' ? 'condition' : 'action'
-    return !activity.placeholder ?
+    return (
       <ActivityCard
         activity={activity}
         type={type}
         onSave={onSave}
         processStep={processStep}
         dragRef={dragRef}
-      /> :
-      <></>
+      />
+    )
   }
 
   const insertZoneState = () => {
@@ -87,8 +87,8 @@ const Activity = ({ activity, processStep }) => {
       <InsertZone
         state={insertZoneState()}
         processStep={processStep}
+        previousConditions={activity.current_conditions}
         insertNewBeforeIndex={activity.position}
-        noActivity={activity.placeholder}
       />
       <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : {}}>
         {renderActivity()}

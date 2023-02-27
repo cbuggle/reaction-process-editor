@@ -4,7 +4,7 @@ import IconButton from "../utilities/IconButton";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import {Button} from "reactstrap";
 
-const ActivityCreator = ({ processStep, insertNewBeforeIndex, showCloseButton, onClose }) => {
+const ActivityCreator = ({ processStep, previousConditions, insertNewBeforeIndex, onClose }) => {
 
   const api = useReactionsFetcher()
   const [displayState, setDisplayState] = useState('buttons')
@@ -12,9 +12,7 @@ const ActivityCreator = ({ processStep, insertNewBeforeIndex, showCloseButton, o
   const save = (actionForm) => {
     setDisplayState('buttons')
     api.createAction(processStep.id, actionForm, insertNewBeforeIndex)
-    if(onClose) {
-      onClose()
-    }
+    onClose()
   }
 
   const cancel = () => {
@@ -37,18 +35,17 @@ const ActivityCreator = ({ processStep, insertNewBeforeIndex, showCloseButton, o
             <Button color='action' onClick={createAction}>New Action</Button>
             <Button color='condition' onClick={createCondition}>Change Condition</Button>
           </div>
-          {showCloseButton &&
-            <IconButton
-              onClick={onClose}
-              icon='times'
-              className='icon-button--positive'
-            />
-          }
+          <IconButton
+            onClick={onClose}
+            icon='times'
+            className='icon-button--positive'
+          />
         </div> :
         <ActivityCard
           type={displayState}
           onSave={save}
           onCancel={cancel}
+          previousConditions={previousConditions}
           processStep={processStep}
         />
       }

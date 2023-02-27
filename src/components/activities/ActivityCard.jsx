@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import ActivityInfo from "./ActivityInfo";
-import ActivityForm from "./ActivityForm";
+import ConditionForm from "./forms/ConditionForm";
+import ActionForm from "./forms/ActionForm";
 import ActivityDecorator from '../../decorators/ActivityDecorator';
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
@@ -13,41 +14,42 @@ const ActivityCard = (
     activity,
     onSave,
     onCancel,
+    previousConditions,
     processStep,
     customClass,
     dragRef,
   }) => {
 
   const api = useReactionsFetcher()
+  const isCondition = type === 'condition'
   const isInitialised = !!activity
-  const [activityForm, setActivityForm] = useState(activity)
-  const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : 'type-panel')
+  const uninitialisedForm = isCondition ? {action_name: "CONDITION", workup: {}} : undefined
+  const uninitialisedMode = isCondition ? 'form' : 'type-panel'
+  const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
+  const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
   const editable = displayMode !== 'info'
 
   const cardTitle = () => {
     if (isInitialised) {
       return ActivityDecorator.title(activity)
     } else {
-      let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
+      let label = isCondition ? 'Change Condition' : 'New Action';
 
-      if (activityForm) {
+      if (activityForm && !isCondition) {
         let acts_as_label = activityForm.workup.acts_as || ''
 
         if (acts_as_label === 'DIVERSE_SOLVENT') {
           acts_as_label = 'SOLVENT'
         }
-
-        activityForm.action_name === "CONDITION" ?
-          label += ' ' + (activityForm.workup['condition_type'] || '')
-          :
-          label += ' ' + activityForm.action_name + ' ' + acts_as_label
       }
       return label
     }
   }
 
+
+
   const edit = () => {
-    setDisplayMode(isInitialised ? 'form' : 'type-panel')
+    setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
   }
 
   const onDelete = () => {
@@ -114,14 +116,23 @@ const ActivityCard = (
         <TypeSelectionPanel onSelect={onSelectType} selectionType={type} />
       </ProcedureCard.TypePanel>
       <ProcedureCard.Form>
-        {activityForm &&
-          <ActivityForm
-            action={activityForm}
+        {activityForm && !isCondition &&
+          <ActionForm
+            activity={activityForm}
             onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}
             setDuration={setDuration}
             processStep={processStep}
+          />
+        }
+        {isCondition &&
+          <ConditionForm
+            activity={activityForm}
+            previousConditions={previousConditions}
+            onCancel={handleCancel}
+            onSave={onSaveForm}
+            onWorkupChange={onWorkupChange}
           />
         }
       </ProcedureCard.Form>

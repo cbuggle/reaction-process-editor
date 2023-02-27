@@ -10,7 +10,7 @@ import { conditionInputRanges } from '../../../constants/dropdownOptions/conditi
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
 
-const SaveSampleForm = ({ action, onWorkupChange }) => {
+const SaveSampleForm = ({ activity, onWorkupChange }) => {
 
   const [sampleForm, setSampleForm] = useState({
     name: '',
@@ -21,12 +21,12 @@ const SaveSampleForm = ({ action, onWorkupChange }) => {
   })
 
   useEffect(() => {
-    setSampleForm(action.workup['sample'])
-  }, [action.workup['sample']])
+    setSampleForm(activity.workup['sample'])
+  }, [activity.workup['sample']])
 
   const onInputChange = (field) => {
     const { name, value } = field;
-    onWorkupChange(({ name: 'sample', value: { ...action.workup['sample'], [name]: value } }
+    onWorkupChange(({ name: 'sample', value: { ...activity.workup['sample'], [name]: value } }
     ));
   }
 
@@ -98,7 +98,7 @@ const SaveSampleForm = ({ action, onWorkupChange }) => {
       <ActionFormGroup label='Display in ELN'>
         <BootstrapSwitchButton
           width='200'
-          checked={action.workup['hide_in_eln']}
+          checked={activity.workup['hide_in_eln']}
           onlabel='Hide in ELN'
           onstyle='outline-danger'
           offlabel='Show in ELN'

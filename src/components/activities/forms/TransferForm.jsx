@@ -5,14 +5,14 @@ import ActionFormGroup from "./ActionFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
-const TransferForm = ({ action, processStep, onWorkupChange }) => {
+const TransferForm = ({ activity, processStep, onWorkupChange }) => {
 
   useEffect(() => {
     onWorkupChange({ name: 'transfer_source_step_id', value: processStep.id })
   }, [processStep])
 
   useEffect(() => {
-    onWorkupChange({ name: 'transfer_percentage', value: action.workup['transfer_percentage'] || 100 })
+    onWorkupChange({ name: 'transfer_percentage', value: activity.workup['transfer_percentage'] || 100 })
   }, [])
 
   const sampleOptions = useMemo(() => { return processStep.transfer_sample_options }, [])
@@ -24,23 +24,23 @@ const TransferForm = ({ action, processStep, onWorkupChange }) => {
         <Select
           name="sample_id"
           options={sampleOptions}
-          value={sampleOptions.find(option => option.value === action.workup['sample_id'])}
+          value={sampleOptions.find(option => option.value === activity.workup['sample_id'])}
           onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
         />
       </ActionFormGroup>
       <ActionFormGroup label='Transfer to Step'>
         <Select
           name="transfer_target_step_id"
-          isDisabled={!!action.id}
+          isDisabled={!!activity.id}
           options={transferToOptions}
-          value={transferToOptions.find(option => option.value === action.workup['transfer_target_step_id'])}
+          value={transferToOptions.find(option => option.value === activity.workup['transfer_target_step_id'])}
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
         />
       </ActionFormGroup>
       <NumericalnputWithUnit
         label='Percentage'
         name='transfer_percentage'
-        value={action.workup['transfer_percentage']}
+        value={activity.workup['transfer_percentage']}
         inputRanges={conditionInputRanges['PERCENTAGE']}
         onWorkupChange={onWorkupChange}
       />

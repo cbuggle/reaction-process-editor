@@ -8,15 +8,15 @@ import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { conditionUnitOptions, conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
 
-const RemoveForm = ({ action, onWorkupChange, processStep }) => {
+const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
 
   const mediumSelectOptions = processStep.added_materials_options['MEDIUM'].concat([{ value: "", label: "Undefined" }])
   const additivesSelectOptions = processStep.added_materials_options['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
   const diverseSolventsSelectOptions = processStep.added_materials_options['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
 
   const currentSampleIdValue = useMemo(() => {
-    return action.workup['sample_id']
-  }, [action.workup['sample_id']])
+    return activity.workup['sample_id']
+  }, [activity.workup['sample_id']])
 
   const handleActsAsChange = ({ actsAs }) => {
     onWorkupChange({ name: 'acts_as', value: actsAs })
@@ -29,14 +29,14 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
         <NumericalnputWithUnit
           label='Temperature'
           name='remove_temperature'
-          value={action.workup['remove_temperature'] || conditionInputRanges['TEMPERATURE']['default']}
+          value={activity.workup['remove_temperature'] || conditionInputRanges['TEMPERATURE']['default']}
           inputRanges={conditionInputRanges['TEMPERATURE']}
           onWorkupChange={onWorkupChange}
         />
         <NumericalnputWithUnit
           label='Pressure'
           name='remove_pressure'
-          value={action.workup['remove_pressure'] || conditionInputRanges['PRESSURE']['default']}
+          value={activity.workup['remove_pressure'] || conditionInputRanges['PRESSURE']['default']}
           inputRanges={conditionInputRanges['PRESSURE']}
           onWorkupChange={onWorkupChange}
         />
@@ -93,21 +93,21 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
         <NumericalnputWithUnit
           label='Duration'
           name='duration_in_minutes'
-          value={action.workup['duration_in_minutes'] || conditionInputRanges['REMOVE_DURATION']['default']}
+          value={activity.workup['duration_in_minutes'] || conditionInputRanges['REMOVE_DURATION']['default']}
           inputRanges={conditionInputRanges['REMOVE_DURATION']}
           onWorkupChange={onWorkupChange}
         />
         <NumericalnputWithUnit
           label='Repetition'
           name='remove_repetitions'
-          value={action.workup['remove_repetitions'] || conditionInputRanges['REMOVE_REPETITIONS']['default']}
+          value={activity.workup['remove_repetitions'] || conditionInputRanges['REMOVE_REPETITIONS']['default']}
           inputRanges={conditionInputRanges['REMOVE_REPETITIONS']}
           onWorkupChange={onWorkupChange}
         />
         <ActionFormGroup label='Replacement Medium'>
           <Input
             type="textarea"
-            value={action.workup['remove_replacement_medium']}
+            value={activity.workup['remove_replacement_medium']}
             placeholder="Replacement Medium"
             onChange={event => onWorkupChange({ name: 'remove_replacement_medium', value: event.target.value })}
           />
@@ -117,7 +117,7 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
   }
 
   const renderGenericRemoveFields = () => {
-    switch (action.workup['acts_as']) {
+    switch (activity.workup['acts_as']) {
       case 'ADDITIVE':
         return additiveRemoveFields()
       case 'DIVERSE_SOLVENT':
@@ -135,7 +135,7 @@ const RemoveForm = ({ action, onWorkupChange, processStep }) => {
         <Select
           name="acts_as"
           options={removeTypeOptions}
-          value={removeTypeOptions.find(option => option.value === action.workup['acts_as'])}
+          value={removeTypeOptions.find(option => option.value === activity.workup['acts_as'])}
           onChange={selectedOption => handleActsAsChange({ actsAs: selectedOption.value })}
         />
       </ActionFormGroup>
