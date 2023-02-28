@@ -136,7 +136,8 @@ const ActivityInfo = ({ action }) => {
     return (
       <>
         {Object.keys(current_conditions).map((key) => {
-          return (current_conditions[key])
+          // 'mode' is only relevant in MOTION and empty (undefined) else.
+          return ((current_conditions[key]['type'] || '') + (current_conditions[key]['mode'] || '') + current_conditions[key]['value'] + ' ' + current_conditions[key]['unit'])
         }).join(', ')}
       </>
     )
