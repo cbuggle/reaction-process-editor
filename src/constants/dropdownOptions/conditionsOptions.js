@@ -87,6 +87,13 @@ export const conditionInputRanges = {
     default: 1,
     unit: 'Times'
   },
+  'MOTION': {
+    min: 0,
+    max: 9999,
+    step: '',
+    default: 1,
+    unit: 'RPM'
+  }
 }
 
 export const conditionUnitOptions = {

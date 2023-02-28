@@ -1,0 +1,8 @@
+.condition-type-form-group {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: border-color('condition');
+  &.mb-3 {
+    margin-bottom: 0.5rem !important;
+  }
+}

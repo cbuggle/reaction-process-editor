@@ -18,6 +18,8 @@ $input-btn-padding-5: 0.5rem;
 $input-btn-padding-y: 0.2rem;
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
+$form-label-font-weight: 500;
+$input-border-radius: 4px;
 
 /* component vars */
 $max-label-width: 400px;
@@ -36,11 +38,13 @@ $max-label-width: 400px;
 @import "components/activities/Activity";
 @import "components/activities/ActivityCreator";
 @import "components/activities/ConditionCard";
+@import "components/activities/ConditionForm";
 @import "components/activities/InsertZone";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
 @import "components/utilities/IconButton";
+@import "components/utilities/Label";
 @import "components/utilities/NumericalInputWithUnit";
 @import "components/utilities/ProcedureCard";
 @import "components/utilities/SpinnerWithMessage";

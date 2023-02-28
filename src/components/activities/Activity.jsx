@@ -66,6 +66,7 @@ const Activity = ({ activity, processStep }) => {
         activity={activity}
         type={type}
         onSave={onSave}
+        previousConditions={activity.current_conditions}
         processStep={processStep}
         dragRef={dragRef}
       />

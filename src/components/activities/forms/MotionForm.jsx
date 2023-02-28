@@ -1,13 +1,13 @@
 import React from 'react'
-import { ListGroupItem, Row, Col } from 'reactstrap'
-import NumericInput from 'react-numeric-input';
+import {FormGroup, Label} from 'reactstrap'
 import Select from 'react-select'
-import { RangeStepInput } from 'react-range-step-input';
 
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
+import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
+import {conditionInputRanges} from "../../../constants/dropdownOptions/conditionsOptions";
 
-const MotionForm = ({ activity, onWorkupChange }) => {
-
+const MotionForm = ({ label, workup, onWorkupChange }) => {
+  const motionInputRange = conditionInputRanges['MOTION']
   const handleRpmNumericInput = (value) => {
     onWorkupChange({ name: 'motion_speed', value: value })
   }
@@ -17,37 +17,40 @@ const MotionForm = ({ activity, onWorkupChange }) => {
   }
 
   const sliderStep = () => {
-    return motionTypeOptions.find(option => option.value === activity.workup['motion_type']).step
+    if(motionTypeOptions.find(option => option.value === workup.motion_type)) {
+      return motionTypeOptions.find(option => option.value === workup.motion_type).step
+    } else {
+      return undefined
+    }
   }
 
   return (
     <div className="motion-form">
-      <ListGroupItem>
-        <Row>
-          <Col md={6}>
-            <Select
-              name="motion_mode"
-              options={motionModeOptions}
-              value={motionModeOptions.find(option => option.value === activity.workup['motion_mode'])}
-              onChange={selectedOption => onWorkupChange({ name: 'motion_mode', value: selectedOption.value })}
-            />
-          </Col>
-        </Row>
-      </ListGroupItem>
-      <ListGroupItem>
-        <Row>
-          <Col md={8}>
-            <RangeStepInput value={activity.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(activity.workup['motion_type'])} onChange={handleRpmSliderChange} snap />
-          </Col>
-          <Col md={2}>
-            <NumericInput value={activity.workup['motion_speed']} min={0} max={9999} size={4} step={sliderStep(activity.workup['motion_type'])} onChange={handleRpmNumericInput} snap />
-          </Col>
-          <Col md={2}>
-            {activity.workup['motion_unit']}
-          </Col>
-
-        </Row>
-      </ListGroupItem>
+      <Label>{label}</Label>
+      <FormGroup>
+        <Select
+          name="motion_mode"
+          options={motionTypeOptions}
+          value={motionTypeOptions.find(option => option.value === workup.motion_type) || motionTypeOptions[0]}
+          onChange={selectedOption => onWorkupChange({ name: 'motion_type', value: selectedOption.value })}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Select
+          name="motion_mode"
+          options={motionModeOptions}
+          value={motionModeOptions.find(option => option.value === workup.motion_mode) || motionModeOptions[0]}
+          onChange={selectedOption => onWorkupChange({ name: 'motion_mode', value: selectedOption.value })}
+        />
+      </FormGroup>
+      <FormGroup>
+        <NumericalInputWithUnit
+          label='Speed'
+          value={workup.motion_speed}
+          inputRanges={motionInputRange}
+          onWorkupChange={handleRpmNumericInput}
+        />
+      </FormGroup>
     </div>
   )
 }
