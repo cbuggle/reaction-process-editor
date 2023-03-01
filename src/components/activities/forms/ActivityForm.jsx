@@ -6,11 +6,19 @@ import { FormGroup, Label, Input, Form } from 'reactstrap'
 import FormButtons from "../../utilities/FormButtons";
 import ActionValidator from '../../../validators/ActionValidator'
 
-const ActivityForm = (props) => {
+const ActivityForm = (
+  {
+    type,
+    activity,
+    children,
+    onCancel,
+    onSave,
+    onWorkupChange,
+  }) => {
 
-  const onSave = () => {
-    if (ActionValidator.validate(props.activity)) {
-      props.onSave()
+  const onHandleSave = () => {
+    if (ActionValidator.validate(activity)) {
+      onSave()
     }
   }
 
@@ -18,16 +26,16 @@ const ActivityForm = (props) => {
     <Form>
       <FormGroup>
         <Label>Description</Label>
-        {props.activity.id ? "" : " (leave empty to autofill)"}
+        {activity.id ? "" : " (leave empty to autofill)"}
         <Input
           type="textarea"
-          value={props.activity.workup.description}
+          value={activity.workup.description}
           placeholder="Description"
-          onChange={event => props.onWorkupChange({ name: 'description', value: event.target.value })}
+          onChange={event => onWorkupChange({ name: 'description', value: event.target.value })}
         />
       </FormGroup>
-      {props.children}
-      <FormButtons onSave={onSave} onCancel={props.onCancel} type={props.type} />
+      {children}
+      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} />
     </Form>
   )
 }

@@ -1,12 +1,8 @@
 import React from 'react'
 
 import SamplesDecorator from '../samples/SamplesDecorator'
-
-import { conditionUnitOptions } from '../../constants/dropdownOptions/conditionsOptions';
-import { motionModeOptions, motionTypeOptions } from '../../constants/dropdownOptions/motionOptions'
 import { analysisTypeOptions } from '../../constants/dropdownOptions/analysisTypeOptions'
-
-// import ActionStartStopTimer from './ActionStartStopTimer'
+import ActivityDecorator from "../../decorators/ActivityDecorator";
 
 const prettyMilliseconds = require('pretty-ms');
 
@@ -50,21 +46,9 @@ const ActivityInfo = ({ action }) => {
         infoLines.push(workup.equipment)
         break;
       case 'CONDITION':
-        if (workup.condition_type === 'MOTION') {
-          infoTitle =
-            (workup.motion_type ? motionTypeOptions.find(option => option.value === workup.motion_type).label + ' ' : '') +
-            (workup.motion_mode ? motionModeOptions.find(option => option.value === workup.motion_mode).label + ' ' : '') +
-            (workup.motion_speed ? workup.motion_speed + ' ' : '') +
-            (workup.motion_unit ? workup.motion_unit : '')
-        } else {
-          infoTitle =
-            workup.condition_value ? workup.condition_value + ' ' + conditionUnitOptions[workup.condition_type][0].label + ' ' : ''
-
-          infoLines.push(
-            (workup.power_value || '') +
-            (workup.power_is_ramp ? ' - ' + workup.power_end_value : '') +
-            (workup.power_value ? ' W' : '')
-          )
+        infoTitle = ''
+        for (let [key, value] of Object.entries(workup)) {
+          infoLines.push(ActivityDecorator.conditionInfo(key, value));
         }
         break;
       case 'TRANSFER':
@@ -116,9 +100,8 @@ const ActivityInfo = ({ action }) => {
             {infoLines.length > 0 &&
               <p>
                 {infoLines.map((line, index) => (
-                  <span key={index}>
+                  <span key={index} className='procedure-card__info-line'>
                     {line}
-                    {index < infoLines.length - 1 && <br />}
                   </span>
                 ))}
               </p>
@@ -129,26 +112,7 @@ const ActivityInfo = ({ action }) => {
     )
   }
 
-  const renderCurrentConditions = () => {
-
-    const current_conditions = action.current_conditions || { 'conditions': "none" }
-
-    return (
-      <>
-        {Object.keys(current_conditions).map((key) => {
-          // 'mode' is only relevant in MOTION and empty (undefined) else.
-          return ((current_conditions[key]['type'] || '') + (current_conditions[key]['mode'] || '') + current_conditions[key]['value'] + ' ' + current_conditions[key]['unit'])
-        }).join(', ')}
-      </>
-    )
-  }
-
-  return (
-    <>
-      {renderActionInfo()}
-      {renderCurrentConditions()}
-    </>
-  )
+  return renderActionInfo()
 }
 
 export default ActivityInfo

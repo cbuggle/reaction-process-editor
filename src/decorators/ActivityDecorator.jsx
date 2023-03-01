@@ -20,9 +20,7 @@ export default class ActivityDecorator {
       case 'PURIFY':
         return workup.purify_type
       case 'CONDITION':
-        return this.toTitleCase(this.conditionTitle(activity))
-      case 'CONDITION_END':
-        return ' '
+        return 'Change Condition'
       case 'ANALYSIS':
         return this.toTitleCase(activity.action_name + ' ' + workup.analysis_type)
       case 'ADD':
@@ -37,42 +35,16 @@ export default class ActivityDecorator {
     }
   }
 
-  static conditionTitle = (activity) => {
-    const workup = activity.workup
-
-    switch (workup.condition_type) {
-      case 'MOTION':
-        return ' ' + motionTypeOptions.find(option => option.value === workup.motion_type).label + ' ' + workup.motion_speed + ' ' + workup.motion_unit
-      default:
-        return this.conditionInfo(activity)
-    }
-  }
-
-  static conditionInfo = (activity) => {
-    const workup = activity.workup
-
+  static conditionInfo = (type, value) => {
     let conditionDetails = []
-    switch (workup.condition_type) {
-      case 'MOTION':
-        workup.motion_type === 'OTHER' ? conditionDetails.push('Motion') : conditionDetails.push(motionTypeOptions.find(option => option.value === workup.motion_type).label)
-
-        conditionDetails.push(motionModeOptions.find(option => option.value === workup.motion_mode).label)
-        conditionDetails.push(workup.motion_speed)
-        conditionDetails.push(workup.motion_unit)
-        break;
-      default:
-        if (workup.condition_value) {
-          conditionDetails.push(workup.condition_value + ' ' + conditionUnitOptions[workup.condition_type][0].label)
-        }
-        if (workup.add_sample_temperature) {
-          conditionDetails.push(workup.add_sample_temperature + ' ' + conditionUnitOptions['TEMPERATURE'][0].label)
-        }
-        if (workup.add_sample_pressure) {
-          conditionDetails.push(workup.add_sample_pressure + ' ' + conditionUnitOptions['PRESSURE'][0].label)
-        }
-        if (workup.ph_value) {
-          conditionDetails.push(workup.ph_value + ' ' + conditionUnitOptions['PH'][0].label)
-        }
+    if(!!value.value) {
+      conditionDetails.push(value.create_label + ': ' + value.value + ' ' + value.unit)
+      if (type === 'MOTION') {
+        conditionDetails.push(motionTypeOptions.find(option => option.value === value.motion_type).label)
+        conditionDetails.push(motionModeOptions.find(option => option.value === value.motion_mode).label)
+      }
+    } else {
+      conditionDetails.push(value.create_label + ': -')
     }
     return conditionDetails.toString()
   }

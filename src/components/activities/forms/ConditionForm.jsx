@@ -20,6 +20,7 @@ const ConditionForm = (
       activity={activity}
       onSave={onSave}
       onCancel={onCancel}
+      onWorkupChange={onWorkupChange}
     >
       {
         formDimensions.map(type => (

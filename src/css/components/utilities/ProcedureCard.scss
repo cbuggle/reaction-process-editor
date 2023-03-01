@@ -26,8 +26,11 @@
     .sample-molecule-image {
       margin-right: 1rem;
     }
-    h6 {
+    h6, p {
       margin-bottom: 0;
+    }
+    &-line {
+      display: block;
     }
     &:last-child {
       border-bottom-left-radius: var(--bs-card-inner-border-radius);

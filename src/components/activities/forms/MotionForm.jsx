@@ -12,10 +12,10 @@ const MotionForm = ({ label, findInitialValue, onCancel, onSave }) => {
     return findInitialValue('value', conditionInputRanges.MOTION.default)
   }
   const resetMotionType = () => {
-    return findInitialValue('condition_tendency', motionTypeOptions[0])
+    return findInitialValue('motion_type', motionTypeOptions[0])
   }
   const resetMotionMode = () => {
-    return findInitialValue('power_value', motionModeOptions[0])
+    return findInitialValue('motion_mode', motionModeOptions[0])
   }
   const [value, setValue] = useState(resetValue())
   const [motionType, setMotionType] = useState(resetMotionType())

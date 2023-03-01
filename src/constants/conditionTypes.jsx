@@ -62,8 +62,8 @@ export const conditionTypes = [
         condition_type: 'MOTION',
         motion_type: 'UNSPECIFIED',
         motion_mode: 'AUTOMATIC',
-        motion_speed: '1',
-        motion_unit: 'RPM'
+        condition_value: '1',
+        condition_unit: 'RPM'
       },
     },
   }
