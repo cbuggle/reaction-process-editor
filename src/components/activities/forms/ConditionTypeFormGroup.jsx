@@ -3,9 +3,9 @@ import {Button, FormGroup, Label} from "reactstrap";
 import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 
-const ConditionTypeFormGroup = ({type, previousCondition, workup, onWorkUpChange}) => {
+const ConditionTypeFormGroup = ({type, previousCondition, workup, onSave}) => {
   const typeName = type.action.workup.condition_type
-  const hasPreviousCondition = !!previousCondition
+  const hasPreviousCondition = !!previousCondition.value
   const hasActivityCondition = workup.condition_type === typeName
   const conditionSummary = () => {
     if(hasActivityCondition) {
@@ -17,8 +17,24 @@ const ConditionTypeFormGroup = ({type, previousCondition, workup, onWorkUpChange
   const toggleFormButtonLabel = hasActivityCondition ? 'Change' : 'Set'
   const [showForm, setShowForm] = useState(false)
 
+  const findInitialValue = (key, fallBack) => {
+    if(workup[typeName] && workup[typeName][key]) {
+      return workup[typeName][key]
+    } else if (previousCondition[key]) {
+      return previousCondition[key]
+    } else {
+      return fallBack
+    }
+  }
+
   const toggleShowForm = () => {
     setShowForm(!showForm)
+  }
+
+  const handleSave = (condition) => {
+    console.log('handleSave : ' + JSON.stringify(condition))
+    onSave(typeName, condition)
+    toggleShowForm()
   }
 
   return (
@@ -36,21 +52,18 @@ const ConditionTypeFormGroup = ({type, previousCondition, workup, onWorkUpChange
           {typeName === 'MOTION' ?
             <MotionForm
               label={type.createLabel}
-              workup={workup}
-              onWorkupChange={onWorkUpChange}
+              findInitialValue={findInitialValue}
+              onSave={handleSave}
+              onCancel={toggleShowForm}
             />:
             <GenericConditionSubForm
               label={type.createLabel}
               typeName={typeName}
-              workup={workup}
-              onWorkupChange={onWorkUpChange}
+              findInitialValue={findInitialValue}
+              onSave={handleSave}
+              onCancel={toggleShowForm}
             />
           }
-
-          <div className="d-grid gap-2 d-md-flex justify-content-md-end pb-2">
-            <Button color='condition' onClick={toggleShowForm} outline>Cancel</Button>
-            <Button color='condition' onClick={toggleShowForm}>Set</Button>
-          </div>
         </div>
       }
     </FormGroup>

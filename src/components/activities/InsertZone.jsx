@@ -41,9 +41,7 @@ const InsertZone = (
             /> :
             <Button
               className='insert-zone__reveal-creator-button'
-              onClick={() => {
-                toggleShowCreator()
-              }}
+              onClick={toggleShowCreator}
             >
               + insert
             </Button>

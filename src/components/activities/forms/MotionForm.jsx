@@ -1,27 +1,64 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {FormGroup, Label} from 'reactstrap'
 import Select from 'react-select'
 
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import {conditionInputRanges} from "../../../constants/dropdownOptions/conditionsOptions";
+import { conditionInputRanges } from "../../../constants/dropdownOptions/conditionsOptions";
+import FormButtons from "../../utilities/FormButtons";
 
-const MotionForm = ({ label, workup, onWorkupChange }) => {
+const MotionForm = ({ label, findInitialValue, onCancel, onSave }) => {
+  const resetValue = () => {
+    return findInitialValue('value', conditionInputRanges.MOTION.default)
+  }
+  const resetMotionType = () => {
+    return findInitialValue('condition_tendency', motionTypeOptions[0])
+  }
+  const resetMotionMode = () => {
+    return findInitialValue('power_value', motionModeOptions[0])
+  }
+  const [value, setValue] = useState(resetValue())
+  const [motionType, setMotionType] = useState(resetMotionType())
+  const [motionMode, setMotionMode] = useState(resetMotionMode())
+
+  const resetFormData = () => {
+    setValue(resetValue())
+    setMotionType(resetMotionType())
+    setMotionMode(resetMotionMode())
+  }
+
   const motionInputRange = conditionInputRanges['MOTION']
-  const handleRpmNumericInput = (value) => {
-    onWorkupChange({ name: 'motion_speed', value: value })
-  }
 
+  /* use for slider input */
   const handleRpmSliderChange = (event) => {
-    onWorkupChange({ name: 'motion_speed', value: event.target.value })
+    setValue(event.target.value)
   }
 
-  const sliderStep = () => {
-    if(motionTypeOptions.find(option => option.value === workup.motion_type)) {
-      return motionTypeOptions.find(option => option.value === workup.motion_type).step
-    } else {
-      return undefined
-    }
+  const handleSave = () => {
+    onSave(
+      {
+        value: value,
+        motion_type: motionType,
+        motion_mode: motionMode
+      }
+    )
+  }
+
+  const handleCancel = () => {
+    resetFormData()
+    onCancel()
+  }
+
+  const motionTypeOption = () => {
+    return motionTypeOptions.find(option => option.value === motionType)
+  }
+
+  const speedStepSize = () => {
+    return (
+      motionTypeOption() && motionTypeOption().step ?
+      motionTypeOption().step :
+      100
+    )
   }
 
   return (
@@ -29,28 +66,36 @@ const MotionForm = ({ label, workup, onWorkupChange }) => {
       <Label>{label}</Label>
       <FormGroup>
         <Select
-          name="motion_mode"
+          name="motion_type"
           options={motionTypeOptions}
-          value={motionTypeOptions.find(option => option.value === workup.motion_type) || motionTypeOptions[0]}
-          onChange={selectedOption => onWorkupChange({ name: 'motion_type', value: selectedOption.value })}
+          value={motionTypeOption()}
+          onChange={selectedOption => setMotionType(selectedOption.value)}
         />
       </FormGroup>
       <FormGroup>
         <Select
           name="motion_mode"
           options={motionModeOptions}
-          value={motionModeOptions.find(option => option.value === workup.motion_mode) || motionModeOptions[0]}
-          onChange={selectedOption => onWorkupChange({ name: 'motion_mode', value: selectedOption.value })}
+          value={motionModeOptions.find(option => option.value === motionMode)}
+          onChange={selectedOption => setMotionMode(selectedOption.value)}
         />
       </FormGroup>
+      {/* include slider */}
       <FormGroup>
         <NumericalInputWithUnit
           label='Speed'
-          value={workup.motion_speed}
+          value={value}
+          step={speedStepSize()}
           inputRanges={motionInputRange}
-          onWorkupChange={handleRpmNumericInput}
+          onWorkupChange={setValue}
         />
       </FormGroup>
+      <FormButtons
+        type='condition'
+        onSave={handleSave}
+        onCancel={handleCancel}
+        saveLabel='Set'
+      />
     </div>
   )
 }

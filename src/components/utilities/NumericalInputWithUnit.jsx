@@ -1,22 +1,21 @@
 import React from 'react'
 
 import NumericInput from 'react-numeric-input';
-import {Label, Row, Col, FormGroup, Input} from "reactstrap";
+import {Label, Row, Col} from "reactstrap";
 import ActionFormGroup from "../activities/forms/ActionFormGroup";
-import Select from "react-select";
-import {conditionTendencyOptions} from "../../constants/dropdownOptions/conditionsOptions";
 
-const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChange, disabled, hasTendencyOption=false, tendencyValue }) => {
-
+const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChange, disabled, step }) => {
+  const stepSize = step ? step : inputRanges.step
   const handleNumericInput = (value) => {
-    onWorkupChange({ name: name, value: value })
+    const changeValue = name ? { name: name, value: value } : value
+    onWorkupChange(changeValue)
   }
 
-  const renderNumericInput = () => {
+  const renderInput = () => {
     return (
       <NumericInput
         precision={inputRanges.precision}
-        step={inputRanges.step}
+        step={stepSize}
         value={value}
         min={inputRanges.min}
         max={inputRanges.max}
@@ -29,43 +28,26 @@ const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChang
     )
   }
 
-  const renderTendencySelect = () => {
-    return (
-      <Select
-        name="condition_tendency"
-        options={ conditionTendencyOptions }
-        value={ conditionTendencyOptions.find(option => option.value == tendencyValue) || conditionTendencyOptions[0]}
-        onChange={selectedOption => onWorkupChange({ name: 'condition_tendency', value: selectedOption.value })}
-      />
-    )
-  }
-
   return (
-    hasTendencyOption ?
-      <FormGroup>
-        <Label>{label}</Label>
-        <Row className='gx-1'>
-          <Col md={4}>
-            {renderNumericInput()}
-          </Col>
-          <Label className='col-2 col-form-label'>
-            {inputRanges.unit}
-          </Label>
-          <Col md={6}>
-            {renderTendencySelect()}
-          </Col>
-        </Row>
-      </FormGroup>:
+    label ?
       <ActionFormGroup label={label}>
         <Row className='gx-1'>
           <Col md={5}>
-            {renderNumericInput()}
+            {renderInput()}
           </Col>
           <Label className='col-7 col-form-label'>
             {inputRanges.unit}
           </Label>
         </Row>
-      </ActionFormGroup>
+      </ActionFormGroup>:
+      <div className='numerical-input-with-unit'>
+        <div className='numerical-input-with-unit__input'>
+          {renderInput()}
+        </div>
+        <Label className='numerical-input-with-unit__unit'>
+          {inputRanges.unit}
+        </Label>
+      </div>
   )
 }
 

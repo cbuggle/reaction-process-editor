@@ -91,7 +91,7 @@ export const conditionInputRanges = {
     min: 0,
     max: 9999,
     step: '',
-    default: 1,
+    default: 500,
     unit: 'RPM'
   }
 }

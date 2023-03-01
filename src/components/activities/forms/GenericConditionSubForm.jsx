@@ -1,47 +1,80 @@
-import React, { useMemo } from 'react';
-import {Input, Label, FormGroup} from "reactstrap";
+import React, {useMemo, useState} from 'react';
+import {Input, Label, FormGroup, Row, Col} from "reactstrap";
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import { conditionAdditionalInformationOptions, conditionInputRanges } from "../../../constants/dropdownOptions/conditionsOptions";
+import {
+  conditionAdditionalInformationOptions,
+  conditionInputRanges,
+  conditionTendencyOptions
+} from "../../../constants/dropdownOptions/conditionsOptions";
 import Select from "react-select";
+import FormButtons from "../../utilities/FormButtons";
 
-const GenericConditionSubForm = ({label, typeName, workup, onWorkupChange}) => {
+const GenericConditionSubForm = ({label, typeName, findInitialValue, onSave, onCancel}) => {
+  const resetValue = () => {
+    return findInitialValue('value', conditionInputRanges[typeName].default)
+  }
+  const resetConditionTendency = () => {
+    return findInitialValue('condition_tendency', conditionTendencyOptions[0].value)
+  }
+  const resetPowerValue = () => {
+    return findInitialValue('power_value', conditionInputRanges['POWER'].default)
+  }
+  const resetPowerRamp = () => {
+    return findInitialValue('power_is_ramp', false)
+  }
+  const resetPowerEndValue = () => {
+    return findInitialValue('power_end_value', conditionInputRanges['POWER'].default)
+  }
+  const resetAdditionalInformation = () => {
+    return findInitialValue('condition_additional_information', [])
+  }
+  const [value, setValue] = useState(resetValue())
+  const [conditionTendency, setConditionTendency] = useState(resetConditionTendency())
+  const [powerValue, setPowerValue] = useState(resetPowerValue())
+  const [powerRamp, setPowerRamp] = useState(resetPowerRamp())
+  const [powerEndValue, setPowerEndValue] = useState(resetPowerEndValue())
+  const [additionalInformation, setAdditionalInformation] = useState(resetAdditionalInformation())
+
   const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[typeName] }, [typeName])
   const powerInputRange = conditionInputRanges['POWER']
-  const currentSelectedAdditionalInformationOption = useMemo(() => { return currentAdditionalInformationOptions.find(option => option.value === workup['condition_additional_information']) || currentAdditionalInformationOptions[0]})
+  const currentSelectedAdditionalInformationOption = useMemo(() => { return currentAdditionalInformationOptions.find(option => option.value === additionalInformation)})
+
+  const resetFormData = () => {
+    setValue(resetValue())
+    setConditionTendency(resetConditionTendency())
+    setPowerValue(resetPowerValue())
+    setPowerRamp(resetPowerRamp())
+    setPowerEndValue(resetPowerEndValue())
+    setAdditionalInformation(resetAdditionalInformation())
+  }
 
   const renderPowerForm = () => {
     return (
       <FormGroup>
         <NumericalInputWithUnit
           label='Power (Start)'
-          name='power_value'
-          value={workup['power_value']}
+          value={powerValue}
           inputRanges={powerInputRange}
-          onWorkupChange={onWorkupChange}
+          onWorkupChange={setPowerValue}
         />
         <FormGroup check className='mb-3'>
-          <Input type="checkbox" checked={workup['power_is_ramp']} onChange={handleCheckbox} />
+          <Input
+            type="checkbox"
+            checked={!!powerRamp}
+            onChange={event => setPowerRamp(event.target.checked)}
+          />
           <Label check>Power Ramp</Label>
         </FormGroup>
-        {workup['power_is_ramp'] &&
+        {!!powerRamp &&
           <NumericalInputWithUnit
             label='Power (End)'
-            name='power_end_value'
-            value={workup['power_end_value'] || workup['power_value'] || powerInputRange['default']}
+            value={powerEndValue}
             inputRanges={powerInputRange}
-            onWorkupChange={onWorkupChange}
+            onWorkupChange={setPowerEndValue}
           />
         }
       </FormGroup>
     )
-  }
-
-  const handleCheckbox = (event) => {
-    onWorkupChange({ name: 'power_is_ramp', value: event.target.checked })
-
-    if (!event.target.checked) {
-      onWorkupChange({ name: 'power_end_value', value: "" })
-    }
   }
 
   const renderAdditionalInformationSelect = () => {
@@ -55,25 +88,53 @@ const GenericConditionSubForm = ({label, typeName, workup, onWorkupChange}) => {
             name="condition_additional_information"
             options={currentAdditionalInformationOptions}
             value={currentSelectedAdditionalInformationOption}
-            onChange={selectedOption => onWorkupChange({ name: 'condition_additional_information', value: selectedOption.value })}
+            onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
           />
         </>:
       <></>
     )
   }
 
+  const handleSave = () => {
+    const condition = {
+      value: value,
+      condition_tendency: conditionTendency,
+      power_value: powerValue,
+      power_is_ramp: powerRamp,
+      additional_information: additionalInformation
+    }
+    if (powerRamp) {
+      condition.power_end_value = powerEndValue
+    }
+    onSave(condition)
+  }
+
+  const handleCancel = () => {
+    resetFormData()
+    onCancel()
+  }
+
   return (
     <>
       <FormGroup>
-        <NumericalInputWithUnit
-          label={label}
-          name='condition_value'
-          value={workup['condition_value']}
-          inputRanges={conditionInputRanges[typeName]}
-          onWorkupChange={onWorkupChange}
-          hasTendencyOption={true}
-          tendencyValue={workup.condition_tendency}
-        />
+        <Label>{label}</Label>
+        <Row className='gx-1'>
+          <Col md={6} className='generic-condition-sub-form__value'>
+            <NumericalInputWithUnit
+              value={value}
+              inputRanges={conditionInputRanges[typeName]}
+              onWorkupChange={setValue}
+            />
+          </Col>
+          <Col md={6}>
+            <Select
+              name="condition_tendency"
+              options={ conditionTendencyOptions }
+              value={ conditionTendencyOptions.find(option => option.value == conditionTendency)}
+              onChange={selectedOption => setConditionTendency(selectedOption.value)}
+            />
+          </Col>
+        </Row>
       </FormGroup>
       <FormGroup>
         {renderPowerForm()}
@@ -83,6 +144,12 @@ const GenericConditionSubForm = ({label, typeName, workup, onWorkupChange}) => {
           {renderAdditionalInformationSelect()}
         </FormGroup>
       }
+      <FormButtons
+        type='condition'
+        onSave={handleSave}
+        onCancel={handleCancel}
+        saveLabel='Set'
+      />
     </>
   );
 };
