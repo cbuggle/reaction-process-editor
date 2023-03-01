@@ -13,10 +13,6 @@ const Activity = ({ activity, processStep }) => {
     api.updateAction(actionForm)
   }
 
-  const isAfter = (dropAction) => {
-    return activity.position > dropAction.source_position
-  }
-
   const isInSameStep = (dropAction) => {
     return activity.step_id === dropAction.step_id
   }

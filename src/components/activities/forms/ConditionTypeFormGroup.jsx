@@ -3,7 +3,7 @@ import {Button, FormGroup, Label} from "reactstrap";
 import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 
-const ConditionTypeFormGroup = ({type, previousCondition, workup, onSave}) => {
+const ConditionTypeFormGroup = ({type, previousCondition, workup, onWorkupChange}) => {
   const typeName = type.action.workup.condition_type
   const hasPreviousCondition = !!previousCondition.value
   const hasActivityCondition = workup.condition_type === typeName
@@ -32,8 +32,10 @@ const ConditionTypeFormGroup = ({type, previousCondition, workup, onSave}) => {
   }
 
   const handleSave = (condition) => {
-    console.log('handleSave : ' + JSON.stringify(condition))
-    onSave(typeName, condition)
+    onWorkupChange({
+      name: typeName,
+      value: condition
+    })
     toggleShowForm()
   }
 
