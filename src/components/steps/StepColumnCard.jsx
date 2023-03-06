@@ -85,11 +85,6 @@ const StepColumCard = (
     api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
   }
 
-  const lastConditions =  () => {
-    const activities = processStep.actions
-    return activities[activities.length -1].pre_conditions
-  }
-
   const renderActivities = () => {
     return (
       processStep.actions.map(activity => (
@@ -136,7 +131,7 @@ const StepColumCard = (
                 {renderActivities()}
                 <ActivityCreator
                   processStep={processStep}
-                  preConditions={lastConditions()}
+                  preConditions={processStep.final_conditions}
                   insertNewBeforeIndex={processStep.actions.length}
                 />
               </div>
