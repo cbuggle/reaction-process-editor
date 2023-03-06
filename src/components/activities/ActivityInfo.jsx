@@ -90,12 +90,12 @@ const ActivityInfo = ({ action }) => {
       <>
         {infoImage && SamplesDecorator.sampleSvgFile(infoImage)}
         {(workup.description || infoTitle.length > 0 || infoLines.length > 0) &&
-          <div className='activity-info__text_block'>
+          <div className='activity-info__text-block'>
             {infoTitle.length > 0 &&
               <h6>{infoTitle}</h6>
             }
             {workup.description &&
-              <p>{workup.description}</p>
+              <p className='activity-info__description'>{'Description: ' + workup.description}</p>
             }
             {infoLines.length > 0 &&
               <p>

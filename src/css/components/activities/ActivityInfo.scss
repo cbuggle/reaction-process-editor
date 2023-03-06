@@ -1,0 +1,16 @@
+.activity-info {
+  &__text-block {
+    flex-grow: 1;
+  }
+  &__description {
+    padding-bottom: 4px;
+    border-bottom: 1px solid;
+    margin-bottom: 4px !important;
+    .procedure-card--condition & {
+      border-bottom-color: border-color('condition');
+    }
+    .procedure-card--action & {
+      border-bottom-color: border-color('action');
+    }
+  }
+}
