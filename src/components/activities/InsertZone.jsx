@@ -6,7 +6,7 @@ const InsertZone = (
   {
     state,
     processStep,
-    previousConditions,
+    preConditions,
     insertNewBeforeIndex
   }) => {
   const [showCreator, setShowCreator] = useState(false)
@@ -35,7 +35,7 @@ const InsertZone = (
           {showCreator ?
             <ActivityCreator
               processStep={processStep}
-              previousConditions={previousConditions}
+              preConditions={preConditions}
               insertNewBeforeIndex={insertNewBeforeIndex}
               onClose={toggleShowCreator}
             /> :

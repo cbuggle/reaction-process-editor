@@ -14,7 +14,7 @@ const ActivityCard = (
     activity,
     onSave,
     onCancel,
-    previousConditions,
+    preConditions,
     processStep,
     customClass,
     dragRef,
@@ -129,7 +129,7 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            previousConditions={previousConditions}
+            preConditions={preConditions}
             onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}

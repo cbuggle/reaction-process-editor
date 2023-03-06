@@ -4,15 +4,15 @@ import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
 
-const ConditionTypeFormGroup = ({type, previousCondition, workup, onWorkupChange}) => {
+const ConditionTypeFormGroup = ({type, preCondition, workup, onWorkupChange}) => {
   const typeName = type.action.workup.condition_type
-  const hasPreviousCondition = !!previousCondition[typeName] && !!previousCondition[typeName].value
+  const hasPreCondition = !!preCondition && !!preCondition.value
   const hasWorkupCondition = !!workup[typeName] && !!workup[typeName].value
   const conditionSummary = () => {
     if(hasWorkupCondition) {
       return ActivityDecorator.conditionInfo(typeName, workup[typeName])
-    } else if (hasPreviousCondition) {
-      return ActivityDecorator.conditionInfo(typeName, previousCondition[typeName])
+    } else if (hasPreCondition) {
+      return ActivityDecorator.conditionInfo(typeName, preCondition)
     } else {
       return ActivityDecorator.conditionInfo(typeName, {create_label: type.createLabel})
     }
@@ -23,8 +23,8 @@ const ConditionTypeFormGroup = ({type, previousCondition, workup, onWorkupChange
   const findInitialValue = (key, fallBack) => {
     if(workup[typeName] && workup[typeName][key]) {
       return workup[typeName][key]
-    } else if (previousCondition[key]) {
-      return previousCondition[key]
+    } else if (preCondition[key]) {
+      return preCondition[key]
     } else {
       return fallBack
     }

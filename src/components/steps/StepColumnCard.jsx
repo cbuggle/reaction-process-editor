@@ -87,7 +87,7 @@ const StepColumCard = (
 
   const lastConditions =  () => {
     const activities = processStep.actions
-    return activities[activities.length -1].current_conditions
+    return activities[activities.length -1].pre_conditions
   }
 
   const renderActivities = () => {
@@ -136,7 +136,7 @@ const StepColumCard = (
                 {renderActivities()}
                 <ActivityCreator
                   processStep={processStep}
-                  previousConditions={lastConditions()}
+                  preConditions={lastConditions()}
                   insertNewBeforeIndex={processStep.actions.length}
                 />
               </div>
