@@ -4,8 +4,6 @@ import SamplesDecorator from '../samples/SamplesDecorator'
 import { analysisTypeOptions } from '../../constants/dropdownOptions/analysisTypeOptions'
 import ActivityDecorator from "../../decorators/ActivityDecorator";
 
-const prettyMilliseconds = require('pretty-ms');
-
 const ActivityInfo = ({ action }) => {
   const infoLines = []
   let infoImage = undefined

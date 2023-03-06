@@ -29,10 +29,10 @@ const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => 
 
   const motionInputRange = conditionInputRanges['MOTION']
 
-  /* use for slider input */
+  /* use for slider input
   const handleRpmSliderChange = (event) => {
     setValue(event.target.value)
-  }
+  }*/
 
   const handleSave = () => {
     onSave(

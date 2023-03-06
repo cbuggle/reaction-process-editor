@@ -1,5 +1,4 @@
 import { motionTypeOptions, motionModeOptions } from '../constants/dropdownOptions/motionOptions';
-import { conditionUnitOptions } from '../constants/dropdownOptions/conditionsOptions';
 
 export default class ActivityDecorator {
 

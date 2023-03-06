@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { conditionTypes } from "../../../constants/conditionTypes";
 import ActivityForm from "./ActivityForm";
 import ConditionTypeFormGroup from "./ConditionTypeFormGroup";

@@ -37,7 +37,10 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
 
   const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[typeName] }, [typeName])
   const powerInputRange = conditionInputRanges['POWER']
-  const currentSelectedAdditionalInformationOption = useMemo(() => { return currentAdditionalInformationOptions.find(option => option.value === additionalInformation)})
+  const currentSelectedAdditionalInformationOption = useMemo(
+    () => {return currentAdditionalInformationOptions.find(option => option.value === additionalInformation)},
+    [currentAdditionalInformationOptions, additionalInformation]
+  )
 
   const resetFormData = () => {
     setValue(resetValue())
@@ -130,7 +133,7 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
             <Select
               name="condition_tendency"
               options={ conditionTendencyOptions }
-              value={ conditionTendencyOptions.find(option => option.value == conditionTendency)}
+              value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}
               onChange={selectedOption => setConditionTendency(selectedOption.value)}
             />
           </Col>

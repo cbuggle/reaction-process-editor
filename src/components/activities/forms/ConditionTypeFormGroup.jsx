@@ -33,7 +33,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
     return findInitialValue('equipment', [])
   }
   const [equipment, setEquipment] = useState(resetEquipment());
-  const equipmentOptions = useMemo(() => {return processStep.action_equipment_options.CONDITION[typeName]}, [])
+  const equipmentOptions = useMemo(() => {return processStep['action_equipment_options']['CONDITION'][typeName]}, [processStep, typeName])
 
   const toggleShowForm = () => {
     setShowForm(!showForm)

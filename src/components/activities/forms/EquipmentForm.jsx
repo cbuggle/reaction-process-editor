@@ -10,7 +10,7 @@ const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
 
   useEffect(() => {
     changeMountOption(activity.workup['mount_action'])
-  }, [])
+  })
 
   const changeMountOption = (value) => {
     if (value === "MOUNT") {

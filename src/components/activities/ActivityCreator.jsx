@@ -12,7 +12,9 @@ const ActivityCreator = ({ processStep, preConditions, insertNewBeforeIndex, onC
   const save = (actionForm) => {
     setDisplayState('buttons')
     api.createAction(processStep.id, actionForm, insertNewBeforeIndex)
-    onClose()
+    if(typeof onClose === 'function') {
+      onClose()
+    }
   }
 
   const cancel = () => {
@@ -35,11 +37,13 @@ const ActivityCreator = ({ processStep, preConditions, insertNewBeforeIndex, onC
             <Button color='action' onClick={createAction}>New Action</Button>
             <Button color='condition' onClick={createCondition}>Change Condition</Button>
           </div>
-          <IconButton
-            onClick={onClose}
-            icon='times'
-            className='icon-button--positive'
-          />
+          {onClose &&
+            <IconButton
+              onClick={onClose}
+              icon='times'
+              className='icon-button--positive'
+            />
+          }
         </div> :
         <ActivityCard
           type={displayState}
