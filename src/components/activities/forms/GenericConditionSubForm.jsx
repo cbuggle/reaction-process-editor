@@ -9,7 +9,7 @@ import {
 import Select from "react-select";
 import FormButtons from "../../utilities/FormButtons";
 
-const GenericConditionSubForm = ({label, typeName, findInitialValue, onSave, onCancel}) => {
+const GenericConditionSubForm = ({label, typeName, children, findInitialValue, onSave, onCancel}) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges[typeName].default)
   }
@@ -136,14 +136,17 @@ const GenericConditionSubForm = ({label, typeName, findInitialValue, onSave, onC
           </Col>
         </Row>
       </FormGroup>
-      <FormGroup>
-        {renderPowerForm()}
-      </FormGroup>
+      {typeName === 'IRRADIATION' &&
+        <FormGroup>
+          {renderPowerForm()}
+        </FormGroup>
+      }
       {currentAdditionalInformationOptions.length > 0 &&
         <FormGroup>
           {renderAdditionalInformationSelect()}
         </FormGroup>
       }
+      { children }
       <FormButtons
         type='condition'
         onSave={handleSave}

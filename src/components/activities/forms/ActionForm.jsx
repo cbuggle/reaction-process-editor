@@ -10,13 +10,27 @@ import PurifyForm from "./PurifyForm";
 import AnalysisForm from "./AnalysisForm";
 
 const ActionForm = (props) => {
+  const activity = props.activity
+  const workup = activity.workup
+  const processStep = props.processStep
+  const onWorkupChange = props.onWorkupChange
+  const actionName = activity.action_name
+  const equipmentOptions = processStep.action_equipment_options[actionName]
+  const setEquipment = (equipment) => {
+    onWorkupChange({ name: 'equipment', value: equipment })
+  }
+
   const customActionForm = () => {
-    switch (props.activity.action_name) {
+    switch (actionName) {
       case "ADD":
         return (
           <>
             <AddSampleForm {...props} />
-            <ApplyEquipmentForm {...props} />
+            <ApplyEquipmentForm
+              equipment={workup.equipment}
+              equipmentOptions={equipmentOptions}
+              onChangeEquipment={setEquipment}
+            />
           </>
         )
       case "SAVE":
@@ -31,21 +45,33 @@ const ActionForm = (props) => {
         return (
           <>
             <TransferForm {...props} />
-            <ApplyEquipmentForm {...props} />
+            <ApplyEquipmentForm
+              equipment={workup.equipment}
+              equipmentOptions={equipmentOptions}
+              onChangeEquipment={setEquipment}
+            />
           </>
         )
       case "REMOVE":
         return (
           <>
             <RemoveForm {...props} />
-            <ApplyEquipmentForm {...props} />
+            <ApplyEquipmentForm
+              equipment={workup.equipment}
+              equipmentOptions={equipmentOptions}
+              onChangeEquipment={setEquipment}
+            />
           </>
         )
       case "PURIFY":
         return (
           <>
             <PurifyForm {...props} />
-            <ApplyEquipmentForm {...props} />
+            <ApplyEquipmentForm
+              equipment={workup.equipment}
+              equipmentOptions={equipmentOptions}
+              onChangeEquipment={setEquipment}
+            />
           </>
         )
       case "ANALYSIS":
@@ -58,14 +84,14 @@ const ActionForm = (props) => {
       case "WAIT":
         return (<></>)
       default:
-        return (<div>Error in Sample Form: Unknown ACTION TYPE: {props.activity.activity_name} ***</div>)
+        return (<div>Error in Sample Form: Unknown ACTION TYPE: {actionName} ***</div>)
     }
   }
 
   return (
     <ActivityForm
       type='action'
-      activity={props.activity}
+      activity={activity}
       onCancel={props.onCancel}
       onSave={props.onSave}
     >

@@ -7,7 +7,7 @@ import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
 import { conditionInputRanges } from "../../../constants/dropdownOptions/conditionsOptions";
 import FormButtons from "../../utilities/FormButtons";
 
-const MotionForm = ({ label, findInitialValue, onCancel, onSave }) => {
+const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges.MOTION.default)
   }
@@ -90,6 +90,7 @@ const MotionForm = ({ label, findInitialValue, onCancel, onSave }) => {
           onWorkupChange={setValue}
         />
       </FormGroup>
+      { children }
       <FormButtons
         type='condition'
         onSave={handleSave}

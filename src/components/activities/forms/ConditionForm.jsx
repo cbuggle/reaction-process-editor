@@ -6,6 +6,7 @@ import ConditionTypeFormGroup from "./ConditionTypeFormGroup";
 const ConditionForm = (
   {
     activity,
+    processStep,
     preConditions,
     onSave,
     onCancel,
@@ -27,6 +28,7 @@ const ConditionForm = (
           <ConditionTypeFormGroup
             key={type.action.workup.condition_type}
             type={type}
+            processStep={processStep}
             preCondition={preConditions[type.action.workup.condition_type]}
             workup={activity.workup}
             onWorkupChange={onWorkupChange}

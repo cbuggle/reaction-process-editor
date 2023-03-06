@@ -1,13 +1,23 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Button, FormGroup, Label} from "reactstrap";
 import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
+import ApplyEquipmentForm from "./ApplyEquipmentForm";
 
-const ConditionTypeFormGroup = ({type, preCondition, workup, onWorkupChange}) => {
+const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWorkupChange}) => {
   const typeName = type.action.workup.condition_type
   const hasPreCondition = !!preCondition && !!preCondition.value
   const hasWorkupCondition = !!workup[typeName] && !!workup[typeName].value
+  const findInitialValue = (key, fallBack) => {
+    if(workup[typeName] && workup[typeName][key]) {
+      return workup[typeName][key]
+    } else if (preCondition[key]) {
+      return preCondition[key]
+    } else {
+      return fallBack
+    }
+  }
   const conditionSummary = () => {
     if(hasWorkupCondition) {
       return ActivityDecorator.conditionInfo(typeName, workup[typeName])
@@ -19,16 +29,11 @@ const ConditionTypeFormGroup = ({type, preCondition, workup, onWorkupChange}) =>
   }
   const toggleFormButtonLabel = hasWorkupCondition ? 'Change' : 'Set'
   const [showForm, setShowForm] = useState(false)
-
-  const findInitialValue = (key, fallBack) => {
-    if(workup[typeName] && workup[typeName][key]) {
-      return workup[typeName][key]
-    } else if (preCondition[key]) {
-      return preCondition[key]
-    } else {
-      return fallBack
-    }
+  const resetEquipment = () => {
+    return findInitialValue('equipment', [])
   }
+  const [equipment, setEquipment] = useState(resetEquipment());
+  const equipmentOptions = useMemo(() => {return processStep.action_equipment_options.CONDITION[typeName]}, [])
 
   const toggleShowForm = () => {
     setShowForm(!showForm)
@@ -37,6 +42,7 @@ const ConditionTypeFormGroup = ({type, preCondition, workup, onWorkupChange}) =>
   const handleSave = (condition) => {
     condition.unit = type.action.workup.condition_unit
     condition.create_label = type.createLabel
+    condition.equipment = equipment
     onWorkupChange({
       name: typeName,
       value: condition
@@ -62,14 +68,26 @@ const ConditionTypeFormGroup = ({type, preCondition, workup, onWorkupChange}) =>
               findInitialValue={findInitialValue}
               onSave={handleSave}
               onCancel={toggleShowForm}
-            />:
+            >
+              <ApplyEquipmentForm
+                equipment={equipment}
+                equipmentOptions={equipmentOptions}
+                onChangeEquipment={setEquipment}
+              />
+            </MotionForm>:
             <GenericConditionSubForm
               label={type.createLabel}
               typeName={typeName}
               findInitialValue={findInitialValue}
               onSave={handleSave}
               onCancel={toggleShowForm}
-            />
+            >
+              <ApplyEquipmentForm
+                equipment={equipment}
+                equipmentOptions={equipmentOptions}
+                onChangeEquipment={setEquipment}
+              />
+            </GenericConditionSubForm>
           }
         </div>
       }

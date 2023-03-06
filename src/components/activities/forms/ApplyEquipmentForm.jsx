@@ -1,28 +1,16 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import Select from 'react-select'
 
-import PropTypes from 'prop-types'
+const ApplyEquipmentForm = ({ equipment,  equipmentOptions, onChangeEquipment }) => {
 
-const ApplyEquipmentForm = ({ activity, onWorkupChange, processStep }) => {
-
-  const equipmentOptions = useMemo(() => {
-    if (activity.action_name == 'CONDITION') {
-      return processStep.action_equipment_options['CONDITION'][activity.workup['condition_type']]
-    } else {
-      return processStep.action_equipment_options[activity.action_name]
-    }
-  })
-
-  const [applyExtraEquipment, setApplyExtraEquipment] = useState(activity.workup['apply_extra_equipment'])
+  const [applyExtraEquipment, setApplyExtraEquipment] = useState(!!equipment && equipment.length > 0)
 
   const handleCheckbox = (event) => {
     setApplyExtraEquipment(event.target.checked)
-    onWorkupChange({ name: 'apply_extra_equipment', value: event.target.checked })
 
     if (!event.target.checked) {
-      onWorkupChange({ name: 'equipment', value: "" })
-
+      onChangeEquipment([])
     }
   }
 
@@ -30,7 +18,7 @@ const ApplyEquipmentForm = ({ activity, onWorkupChange, processStep }) => {
     <>
       <FormGroup check className='mb-3'>
         <Label check>
-          <Input type="checkbox" checked={activity.workup['apply_extra_equipment']} onChange={handleCheckbox} />
+          <Input type="checkbox" checked={applyExtraEquipment} onChange={handleCheckbox} />
           Apply Extra Equipment
         </Label>
       </FormGroup>
@@ -40,18 +28,13 @@ const ApplyEquipmentForm = ({ activity, onWorkupChange, processStep }) => {
             isMulti
             name="equipment"
             options={equipmentOptions}
-            value={equipmentOptions.filter(option => (activity.workup['equipment'] || []).includes(option.value))}
-            onChange={selectedOptions => onWorkupChange({ name: 'equipment', value: selectedOptions.map(option => option.value) })}
+            value={equipmentOptions.filter(option => (equipment || []).includes(option.value))}
+            onChange={selectedOptions => onChangeEquipment(selectedOptions.map(option => option.value))}
           />
         </FormGroup>
       }
     </>
   )
-}
-
-ApplyEquipmentForm.propTypes = {
-  activity: PropTypes.object.isRequired,
-  onWorkupChange: PropTypes.func.isRequired
 }
 
 export default ApplyEquipmentForm

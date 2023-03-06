@@ -46,8 +46,6 @@ const ActivityCard = (
     }
   }
 
-
-
   const edit = () => {
     setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
   }
@@ -119,16 +117,17 @@ const ActivityCard = (
         {activityForm && !isCondition &&
           <ActionForm
             activity={activityForm}
+            processStep={processStep}
             onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}
             setDuration={setDuration}
-            processStep={processStep}
           />
         }
         {isCondition &&
           <ConditionForm
             activity={activityForm}
+            processStep={processStep}
             preConditions={preConditions}
             onCancel={handleCancel}
             onSave={onSaveForm}
