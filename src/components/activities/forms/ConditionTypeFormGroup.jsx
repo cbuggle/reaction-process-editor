@@ -5,7 +5,7 @@ import GenericConditionSubForm from "./GenericConditionSubForm";
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
 import ApplyEquipmentForm from "./ApplyEquipmentForm";
 
-const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWorkupChange}) => {
+const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWorkupChange, onToggleFocus}) => {
   const typeName = type.action.workup.condition_type
   const hasPreCondition = !!preCondition && !!preCondition.value
   const hasWorkupCondition = !!workup[typeName] && !!workup[typeName].value
@@ -37,6 +37,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
 
   const toggleShowForm = () => {
     setShowForm(!showForm)
+    onToggleFocus()
   }
 
   const handleSave = (condition) => {
@@ -51,12 +52,14 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
   }
 
   return (
-    <FormGroup className={'condition-type-form-group mb-2 pt-2 condition-type-form-group--' + type.id}>
+    <FormGroup className={'condition-type-form-group mb-2 condition-type-form-group--' + type.id}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
           <Label className={'col-form-label' + (hasWorkupCondition ? '' : ' label--disabled')}>{conditionSummary()}</Label>
-          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <Button color='condition' onClick={toggleShowForm} outline>{toggleFormButtonLabel}</Button>
+          <div className='condition-type-form-group__open-controls'>
+            <div className="d-grid gap-2">
+              <Button color='condition' onClick={toggleShowForm} outline>{toggleFormButtonLabel}</Button>
+            </div>
           </div>
         </div>
       }

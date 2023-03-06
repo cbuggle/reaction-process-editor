@@ -1,11 +1,16 @@
-.condition-type-form-group {
+.condition-form .form-buttons, .condition-type-form-group {
+  padding-top: 0.5rem;
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: border-color('condition');
-  &.mb-3 {
-    margin-bottom: 0.5rem !important;
+}
+
+.condition-form--focus {
+  .condition-type-form-group__open-controls, > .form-buttons {
+    display: none !important;
   }
 }
+
 .generic-condition-sub-form__value {
   .numerical-input-with-unit {
     @extend .row;

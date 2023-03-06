@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { conditionTypes } from "../../../constants/conditionTypes";
 import ActivityForm from "./ActivityForm";
 import ConditionTypeFormGroup from "./ConditionTypeFormGroup";
@@ -13,7 +13,11 @@ const ConditionForm = (
     onWorkupChange
   }) => {
 
+  const [focus, setFocus] = useState(false);
   const formDimensions = conditionTypes
+  const toggleFocus = () => {
+    setFocus(!focus)
+  }
 
   return (
     <ActivityForm
@@ -22,6 +26,7 @@ const ConditionForm = (
       onSave={onSave}
       onCancel={onCancel}
       onWorkupChange={onWorkupChange}
+      className={focus ? 'condition-form--focus' : ''}
     >
       {
         formDimensions.map(type => (
@@ -32,6 +37,7 @@ const ConditionForm = (
             preCondition={preConditions[type.action.workup.condition_type]}
             workup={activity.workup}
             onWorkupChange={onWorkupChange}
+            onToggleFocus={toggleFocus}
           />
         ))
       }

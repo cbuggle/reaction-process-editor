@@ -14,6 +14,7 @@ const ActivityForm = (
     onCancel,
     onSave,
     onWorkupChange,
+    className=''
   }) => {
 
   const onHandleSave = () => {
@@ -23,7 +24,7 @@ const ActivityForm = (
   }
 
   return (
-    <Form>
+    <Form className={'activity-form ' + type + '-form ' + className}>
       <FormGroup>
         <Label>Description</Label>
         {activity.id ? "" : " (leave empty to autofill)"}
