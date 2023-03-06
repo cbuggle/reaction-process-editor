@@ -48,7 +48,9 @@ const ActivityInfo = ({ action }) => {
       case 'CONDITION':
         infoTitle = ''
         for (let [key, value] of Object.entries(workup)) {
-          infoLines.push(ActivityDecorator.conditionInfo(key, value));
+          if (["TEMPERATURE", "PRESSURE", "PH", "IRRADIATION", "MOTION"].includes(key)) {
+            infoLines.push(ActivityDecorator.conditionInfo(key, value));
+          }
         }
         break;
       case 'TRANSFER':

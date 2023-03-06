@@ -35,16 +35,16 @@ export default class ActivityDecorator {
     }
   }
 
-  static conditionInfo = (type, value) => {
+  static conditionInfo = (type, conditionWorkup) => {
     let conditionDetails = []
-    if(!!value.value) {
-      conditionDetails.push(value.create_label + ': ' + value.value + ' ' + value.unit)
+    if (!!conditionWorkup.value) {
+      conditionDetails.push(conditionWorkup.create_label + ': ' + conditionWorkup.value + ' ' + conditionWorkup.unit)
       if (type === 'MOTION') {
-        conditionDetails.push(motionTypeOptions.find(option => option.value === value.motion_type).label)
-        conditionDetails.push(motionModeOptions.find(option => option.value === value.motion_mode).label)
+        conditionDetails.push(motionTypeOptions.find(option => option.value === conditionWorkup.motion_type).label)
+        conditionDetails.push(motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label)
       }
     } else {
-      conditionDetails.push(value.create_label + ': -')
+      conditionDetails.push(conditionWorkup.create_label + ': -')
     }
     return conditionDetails.toString()
   }
