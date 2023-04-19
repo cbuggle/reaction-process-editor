@@ -18,7 +18,9 @@ import {
   faArrowsAltV,
   faArrowsAltH,
   faAngleDoubleUp,
-  faAngleDoubleDown
+  faAngleDoubleDown,
+  faSearchPlus,
+  faSearchMinus
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -35,7 +37,9 @@ library.add(
   faArrowsAltV,
   faArrowsAltH,
   faAngleDoubleUp,
-  faAngleDoubleDown
+  faAngleDoubleDown,
+  faSearchPlus,
+  faSearchMinus
 )
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

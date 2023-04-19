@@ -8,16 +8,23 @@ import prettyMilliseconds from 'pretty-ms';
 import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDoubleUp, faAngleDoubleDown} from "@fortawesome/free-solid-svg-icons";
+import IconButton from "../utilities/IconButton";
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
   const [open, setOpen] = useState('formula');
+  const [formulaIsEnlarged, setFormulaIsEnlarged] = useState(false);
+  const zoomIcon = formulaIsEnlarged ? 'search-minus' : 'search-plus'
+  const formulaImageClass = formulaIsEnlarged ? 'reaction-header__formula-image reaction-header__formula-image--enlarged' : 'reaction-header__formula-image'
   const toggleFormula = () => {
     if (open) {
       setOpen('');
     } else {
       setOpen('formula');
     }
+  };
+  const toggleFormulaEnlarge = () => {
+    setFormulaIsEnlarged(!formulaIsEnlarged)
   };
   return (
     <div className='reaction-header'>
@@ -34,11 +41,16 @@ const ReactionNavbar = ({ reactionProcess }) => {
       <Accordion open={open} toggle={toggleFormula} flush className='bg-brand1 container-fluid pb-2 reaction-header__formula-accordion'>
         <AccordionItem>
           <AccordionBody accordionId='formula' className='text-center'>
-            <img
-              src={api.svgImage(reactionProcess)}
-              alt={reactionProcess.short_label}
-              className='reaction-header__formula-image'
-            />
+            <div className='reaction-header__formula-container'>
+              <img
+                src={api.svgImage(reactionProcess)}
+                alt={reactionProcess.short_label}
+                className={formulaImageClass}
+              />
+              <div className='reaction-header__formula-enlarge-button-container'>
+                <IconButton icon={zoomIcon} className='icon-button--positive' onClick={toggleFormulaEnlarge} />
+              </div>
+            </div>
           </AccordionBody>
         </AccordionItem>
       </Accordion>

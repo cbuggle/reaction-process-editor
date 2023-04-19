@@ -4,13 +4,25 @@
 }
 
 .reaction-header__formula {
-  &-image {
-    height: 280px;
-    margin: 0 auto;
-  }
   &-accordion .accordion-body {
     padding: 0;
     overflow: hidden;
+  }
+  &-container {
+    position: relative;
+  }
+  &-image {
+    height: 280px;
+    margin: 0 auto;
+    &.reaction-header__formula-image--enlarged {
+      height: auto;
+      width: 100%;
+    }
+  }
+  &-enlarge-button-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 }
 .reaction-navbar {
