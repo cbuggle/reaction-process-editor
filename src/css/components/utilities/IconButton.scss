@@ -2,9 +2,14 @@
   border-radius: 50%;
   padding: 4px;
   --bs-btn-color: white;
-  --bs-btn-hover-color: black;
+  --bs-btn-hover-color: var(--bs-body-color);
   --bs-btn-hover-bg: white;
   line-height: 1em;
+  &.icon-button--positive {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: var(--bs-body-color);
+  }
   svg {
     width: 1em;
   }

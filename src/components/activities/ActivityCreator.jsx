@@ -32,7 +32,7 @@ const ActivityCreator = ({ processStep, preConditions, insertNewBeforeIndex, onC
   return (
     <>
       {displayState === 'buttons' ?
-        <div className="activity-creator d-flex justify-content-between">
+        <div className="activity-creator d-flex justify-content-between align-items-center">
           <div className="d-grid gap-2 d-md-flex">
             <Button color='action' onClick={createAction}>New Action</Button>
             <Button color='condition' onClick={createCondition}>Change Condition</Button>
