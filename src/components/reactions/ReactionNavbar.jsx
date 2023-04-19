@@ -42,7 +42,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
           </AccordionBody>
         </AccordionItem>
       </Accordion>
-      <div className='text-center'>
+      <div className='text-center formula-drawer-button-container'>
         <Button
           className='formula-drawer-button btn-brand1'
           size='sm'
