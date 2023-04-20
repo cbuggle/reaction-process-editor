@@ -19,6 +19,9 @@
   &__info, &__form, &__details, &__type-panel {
     padding: var(--bs-card-cap-padding-x);
   }
+  &__type-panel {
+    padding-top: 0;
+  }
   &__info {
     padding-top: 0;
     display: flex;

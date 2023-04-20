@@ -7,8 +7,8 @@ const TypeSelectionPanel = ({ onSelect }) => {
   return (
     <Row className='type-selection-panel'>
       {clusters.map((cluster, cIndex) => (
-        <Col key={cluster.id + cIndex} className='type-selection-panel__cluster col-4'>
-          <h6>{cluster.label}</h6>
+        <Col key={cluster.id + cIndex} className='type-selection-panel__cluster col-6'>
+          <h5>{cluster.label}</h5>
           {cluster.types.map((type, tIndex) => (
             <Button
               key={type.id + tIndex}

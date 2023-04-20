@@ -43,19 +43,54 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'time',
-    label: 'Time',
+    id: 'purify',
+    label: 'Separate / Purify',
     types: [
       {
-        id: 'time_wait',
-        createLabel: 'Wait',
-        action: { action_name: 'WAIT', workup: {} }
+        id: 'filtration',
+        createLabel: 'Filtration',
+        action: {
+          action_name: 'PURIFY',
+          workup: {
+            purify_type: 'FILTRATION',
+            purify_automation: 'AUTOMATIC',
+            filtration_mode: 'KEEP_PERMEATE'
+          }
+        }
       },
       {
-        id: 'time_pause',
-        createLabel: 'Pause',
-        action: { action_name: 'PAUSE', workup: {} }
-      }
+        id: 'extraction',
+        createLabel: 'Extraction',
+        action: {
+          action_name: 'PURIFY',
+          workup: {
+            purify_type: 'EXTRACTION',
+            purify_automation: 'AUTOMATIC'
+          }
+        }
+      },
+      {
+        id: 'chromatography',
+        createLabel: 'Chromatography',
+        action: {
+          action_name: 'PURIFY',
+          workup: {
+            purify_type: 'CHROMATOGRAPHY',
+            purify_automation: 'AUTOMATIC'
+          }
+        }
+      },
+      {
+        id: 'crystallization',
+        createLabel: 'Crystallizationn',
+        action: {
+          action_name: 'PURIFY',
+          workup: {
+            purify_type: 'CRYSTALLIZATION',
+            purify_automation: 'AUTOMATIC'
+          }
+        }
+      },
     ]
   },
   {
@@ -111,54 +146,19 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'purify',
-    label: 'Separate / Purify',
+    id: 'time',
+    label: 'Time',
     types: [
       {
-        id: 'filtration',
-        createLabel: 'Filtration',
-        action: {
-          action_name: 'PURIFY',
-          workup: {
-            purify_type: 'FILTRATION',
-            purify_automation: 'AUTOMATIC',
-            filtration_mode: 'KEEP_PERMEATE'
-          }
-        }
+        id: 'time_wait',
+        createLabel: 'Wait',
+        action: { action_name: 'WAIT', workup: {} }
       },
       {
-        id: 'extraction',
-        createLabel: 'Extraction',
-        action: {
-          action_name: 'PURIFY',
-          workup: {
-            purify_type: 'EXTRACTION',
-            purify_automation: 'AUTOMATIC'
-          }
-        }
-      },
-      {
-        id: 'chromatography',
-        createLabel: 'Chromatography',
-        action: {
-          action_name: 'PURIFY',
-          workup: {
-            purify_type: 'CHROMATOGRAPHY',
-            purify_automation: 'AUTOMATIC'
-          }
-        }
-      },
-      {
-        id: 'crystallization',
-        createLabel: 'Crystallizationn',
-        action: {
-          action_name: 'PURIFY',
-          workup: {
-            purify_type: 'CRYSTALLIZATION',
-            purify_automation: 'AUTOMATIC'
-          }
-        }
-      },
+        id: 'time_pause',
+        createLabel: 'Pause',
+        action: { action_name: 'PAUSE', workup: {} }
+      }
     ]
   },
   {
