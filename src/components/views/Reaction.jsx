@@ -81,7 +81,7 @@ const Reaction = () => {
         <>
           {renderReactionNavbar()}
           <div className="scroll-body overflow-auto flex-grow-1">
-            <div className='px-3 py-4 d-inline-block'>
+            <div className='px-3 py-5 d-inline-block'>
               <div className='d-inline-flex flex-nowrap align-items-start'>
                 <PreparationColumnCard reactionProcess={reactionProcess} />
                 <StepsContainer reactionProcess={reactionProcess} />

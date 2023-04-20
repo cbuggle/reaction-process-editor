@@ -2,10 +2,10 @@ import React from 'react'
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const IconButton = ({ icon, dragRef, className, ...props }) => {
+const IconButton = ({ icon, dragRef, className, size, ...props }) => {
 
   return (
-    <Button size="md" className={'icon-button ' + className} {...props}>
+    <Button size={size} className={'icon-button ' + className} {...props}>
       <div ref={dragRef}>
         <FontAwesomeIcon icon={icon} />
       </div>

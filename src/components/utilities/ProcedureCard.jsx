@@ -18,7 +18,7 @@ const ProcedureCard = (
     onDelete,
     onCancel,
     customClass = '',
-    headerTitleTag = 'h5',
+    headerTitleTag = 'h4',
     showEditBtn = true,
     showMoveXBtn = true,
     showMoveYBtn = true,

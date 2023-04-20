@@ -12,10 +12,21 @@ $theme-colors: (
   "condition": #EBCE6A
 );
 
+$font-size-root: 13px;
+$font-size-lg: 1.07692rem;
+$h6-font-size: 1rem;
+$h5-font-size: $font-size-lg;
+$h4-font-size: 1.23077rem;
+$h3-font-size: 1.38462rem;
+$h2-font-size: 1.61538rem;
+$h1-font-size: 1.84615rem;
+$h1-font-size: 2.15385rem;
 $body-bg: white;
 $min-contrast-ratio: 2.5;
-$input-btn-padding-5: 0.5rem;
-$input-btn-padding-y: 0.2rem;
+$input-btn-padding-x: .6rem;
+$input-btn-padding-y: .2rem;
+$input-btn-padding-x-lg: .8rem;
+$input-btn-padding-y-lg: .3rem;
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;

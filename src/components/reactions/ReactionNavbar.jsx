@@ -30,7 +30,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
     <div className='reaction-header'>
       <Navbar className='reaction-navbar bg-brand1' dark>
         <NavbarBrand>
-          <span className='reaction-name'>Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})</span>
+          <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})</span>
           <span className='reaction-id'>{reactionProcess.id}</span>
         </NavbarBrand>
         <Nav>
@@ -48,7 +48,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
                 className={formulaImageClass}
               />
               <div className='reaction-header__formula-enlarge-button-container'>
-                <IconButton icon={zoomIcon} className='icon-button--positive' onClick={toggleFormulaEnlarge} />
+                <IconButton icon={zoomIcon} className='icon-button--positive' size='lg' onClick={toggleFormulaEnlarge} />
               </div>
             </div>
           </AccordionBody>

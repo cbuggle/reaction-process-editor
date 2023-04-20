@@ -1,10 +1,10 @@
 .column-container-card {
-  margin-right: 20px;
+  margin-right: 1rem;
   &--preparation {
-    width: 424px;
+    width: 320px;
   }
   &--step {
-    width: 548px;
+    width: 416px;
     .step-column-card__condition-container {
       border-color: border-color('condition');
       border-style: solid;

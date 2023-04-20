@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CreateButton = ({ label, type, onClick }) => {
     return (
-        <Button color={type} onClick={onClick} className='create-button'>
+        <Button color={type} onClick={onClick} className='create-button' size='lg'>
             <FontAwesomeIcon icon={"plus"} />
             <span>{label}</span>
         </Button>

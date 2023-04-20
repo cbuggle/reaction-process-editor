@@ -137,7 +137,7 @@ const MainHeader = () => {
 
   return (
     <Navbar className='bg-brand4' dark>
-      <NavbarBrand href={brandHref()}>ELN Process Editor</NavbarBrand>
+      <NavbarBrand href={brandHref()}><span className='h2'>ELN Process Editor</span></NavbarBrand>
       {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
     </Navbar>
   )
