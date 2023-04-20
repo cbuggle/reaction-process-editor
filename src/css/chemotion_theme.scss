@@ -8,7 +8,7 @@ $theme-colors: (
   "brand5": #4f5659,
   "preparation": #AAB9BF,
   "step": #68D47F,
-  "action": #52B7EB,
+  "action": #6DC5F2,
   "condition": #EBCE6A
 );
 
@@ -30,10 +30,11 @@ $input-btn-padding-y-lg: .3rem;
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;
-$input-border-radius: 4px;
+$input-border-radius: .3rem;
+$card-border-radius: .5rem;
 
 /* component vars */
-$max-label-width: 400px;
+$max-label-width: 30rem;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";

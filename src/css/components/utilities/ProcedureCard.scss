@@ -3,10 +3,8 @@
 .procedure-card {
   --bs-card-spacer-x: 0;
   --bs-card-spacer-y: 0;
-  &--action, &--condition {
-    --bs-card-cap-padding-x: 0.75rem;
-    --bs-card-cap-padding-y: 0.35rem;
-  }
+  --bs-card-cap-padding-x: 0.75rem;
+  --bs-card-cap-padding-y: 0.35rem;
   &--action {
     margin-right: 0.75rem;
   }

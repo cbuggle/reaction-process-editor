@@ -5,13 +5,13 @@ import TooltipButton from "../../utilities/TooltipButton";
 const ActionFormGroup = ({ label, tooltip, tooltipId, children }) => {
   return (
     <FormGroup className='row gx-2'>
-      <Label className='col-4 col-form-label d-flex'>
+      <Label className='col-5 col-form-label d-flex'>
         {label}
         {tooltip &&
           <TooltipButton tooltip={tooltip} tooltipId={tooltipId} />
         }
       </Label>
-      <div className='col-8'>
+      <div className='col-7'>
         {children}
       </div>
     </FormGroup>
