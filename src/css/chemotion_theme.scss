@@ -12,6 +12,11 @@ $theme-colors: (
   "condition": #EBCE6A
 );
 
+/* general functions */
+@import "~bootstrap/scss/_functions";
+@import "base/mixins/colors";
+@import "base/mixins/spacing";
+
 $font-size-root: 13px;
 $font-size-lg: 1.07692rem;
 $h6-font-size: 1rem;
@@ -32,15 +37,14 @@ $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;
 $input-border-radius: .3rem;
 $card-border-radius: .5rem;
+$card-cap-bg: tint-color(color("preparation"), 30%);
+$card-border-color: shade-color($card-cap-bg, 30%);
 
 /* component vars */
 $max-label-width: 30rem;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
-/* general functions */
-@import "base/mixins/colors";
-@import "base/mixins/spacing";
 /* overwrite bootstrap standard behaviour */
 @import "base/bootstrap_overwrite/btn";
 /* styling for generic page layout */

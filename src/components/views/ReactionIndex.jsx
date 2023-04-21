@@ -50,7 +50,7 @@ const ReactionIndex = () => {
 
   return (
     <Container>
-      <Row className="justify-content-center align-items-top-third">
+      <Row className="justify-content-center pt-4">
         {reactions.length > 0 ? renderReactions() : reactionsNotLoadedHint()}
       </Row>
     </Container>

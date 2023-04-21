@@ -1,5 +1,15 @@
 import React from 'react'
-import { Card, CardBody, CardImg, CardTitle, CardSubtitle, UncontrolledTooltip, PopoverHeader, PopoverBody } from 'reactstrap'
+import {
+  Card,
+  CardBody,
+  CardImg,
+  CardTitle,
+  CardSubtitle,
+  UncontrolledTooltip,
+  PopoverHeader,
+  PopoverBody,
+  CardHeader, Container
+} from 'reactstrap'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -14,22 +24,26 @@ const ReactionIndexCard = ({ reaction }) => {
 
   return (
     <>
-      <Card id={"tooltip-reaction-link-" + reaction.id} className='reaction-index-card mb-2'>
+      <Card id={"tooltip-reaction-link-" + reaction.id} className='reaction-index-card mb-4'>
+        <CardHeader className='d-flex justify-content-between align-items-center'>
+          <CardTitle className='mb-0'>{reaction.short_label}</CardTitle>
+          <CardSubtitle className='mt-0'> ID: {reaction.id} </CardSubtitle>
+        </CardHeader>
         <CardBody onClick={() => navigateReaction(reaction.id)}>
-          <CardTitle>{reaction.short_label}</CardTitle>
-          <CardSubtitle> ID: {reaction.id} </CardSubtitle>
           <CardImg src={api.svgImage(reaction)} alt={reaction.short_label} />
         </CardBody>
       </Card>
       <UncontrolledTooltip placement="bottom" target={"tooltip-reaction-link-" + reaction.id}>
-        <PopoverHeader>
-          {reaction.short_label}
-          <br />
-          ID: {reaction.id}
-        </PopoverHeader>
-        <PopoverBody>
-          <CardImg src={api.svgImage(reaction)} alt={reaction.short_label} />
-        </PopoverBody>
+        <Container>
+          <PopoverHeader>
+            {reaction.short_label}
+            <br />
+            ID: {reaction.id}
+          </PopoverHeader>
+          <PopoverBody>
+            <CardImg src={api.svgImage(reaction)} alt={reaction.short_label} />
+          </PopoverBody>
+        </Container>
       </UncontrolledTooltip>
     </>
   )
