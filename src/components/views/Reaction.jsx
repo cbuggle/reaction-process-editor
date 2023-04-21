@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-import { Row, Col } from 'reactstrap';
-
 import StepsContainer from '../steps/StepsContainer';
 import PreparationColumnCard from '../preparations/PreparationColumnCard';
 
@@ -18,6 +16,7 @@ const Reaction = () => {
   const { reactionId } = useParams()
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
   const username = new URLSearchParams(useLocation().search).get('username');
+  const location = useLocation();
 
   const [reactionProcess, setReactionProcess] = useState()
   const [isLoading, setIsLoading] = useState(false)
@@ -54,6 +53,11 @@ const Reaction = () => {
     }
     fetchReactionProcess()
   }, [])
+
+  useEffect(() => {
+    setReactionProcess(false);
+    fetchReactionProcess()
+  }, [location]);
 
 
   const fetchReactionProcess = () => {

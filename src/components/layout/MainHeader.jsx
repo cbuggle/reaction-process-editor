@@ -4,13 +4,14 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   NavbarText,
 } from 'reactstrap';
+
+import {Link} from "react-router-dom";
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -42,7 +43,17 @@ const MainHeader = () => {
 
   const fetchReactionOptions = () => {
     api.reactionSelectOptions().then((data) => {
-      setReactionOptions(data['reactions'])
+      const options = data['reactions'].map(({id, short_label}) => ({
+        key: id,
+        url: "/reactions/" + id,
+        label: id + ': ' + short_label
+      }))
+      options.unshift({
+        kex: 'index',
+        url: '/reactions',
+        label: 'Reaction Index'
+      })
+      setReactionOptions(options)
     })
   }
 
@@ -57,15 +68,8 @@ const MainHeader = () => {
     fetchReactionOptions()
   }
 
-  const selectReaction = (event) => {
-    console.log("selectReaction " + event.target.value)
-    navigate("/reactions/" + event.target.value);
-    window.location.reload();
-  }
-
   const brandHref = () => {
     return localStorage.getItem('username') ? '/reactions' : '/'
-
   }
 
   const renderLoginHint = () => {
@@ -76,7 +80,6 @@ const MainHeader = () => {
             Please Login with your eln credentials
           </NavbarText>
         </NavItem>
-
       </>
     )
   }
@@ -84,47 +87,37 @@ const MainHeader = () => {
   const renderNavbarLoggedIn = () => {
     return (
       <>
-        <Nav navbar className="justify-content-evenly flex-grow-1">
+        <Nav navbar className="me-auto">
           <NavItem>
-            <NavLink href="/reactions">
-              Reaction Index
-            </NavLink>
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                Collections
+              </DropdownToggle>
+              <DropdownMenu>
+                {collectionOptions.map((collection) =>
+                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                    {collection.label}
+                  </DropdownItem>)}
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </NavItem>
           <NavItem>
-            <ul>
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  Collections
-                </DropdownToggle>
-                <DropdownMenu>
-                  {collectionOptions.map((collection) =>
-                    <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                      {collection.label}
-                    </DropdownItem>)}
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </ul>
-          </NavItem>
-          <NavItem>
-            <ul>
-
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  Reactions ({reactionOptions.length})
-                </DropdownToggle>
-                <DropdownMenu>
-                  {reactionOptions.map((reaction) =>
-                    <DropdownItem key={reaction.id} value={reaction.id} onClick={selectReaction}>{reaction.id + ': ' + reaction.short_label}</DropdownItem>)}
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </ul>
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                Reactions ({reactionOptions.length-1})
+              </DropdownToggle>
+              <DropdownMenu>
+                {reactionOptions.map((reaction) =>
+                  <DropdownItem key={reaction.id} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </NavItem>
         </Nav>
-        <Nav navbar className="justify-content-end">
-          <NavItem className="me-2">
-            <NavbarText className="d-flex" >
-              <FontAwesomeIcon icon="user-circle" className="pt-1 me-1" />
-              {localStorage.getItem('username')}
+        <Nav navbar className="justify-content-end align-items-center">
+          <NavItem className="me-3">
+            <NavbarText className="d-flex align-items-center" >
+              <FontAwesomeIcon icon="user-circle" className="pt-1 me-2 h2 mb-0" />
+              <span>{localStorage.getItem('username')}</span>
             </NavbarText>
           </NavItem>
           <NavItem>
@@ -136,8 +129,8 @@ const MainHeader = () => {
   }
 
   return (
-    <Navbar className='bg-brand4' dark>
-      <NavbarBrand href={brandHref()}><span className='h2'>ELN Process Editor</span></NavbarBrand>
+    <Navbar className='bg-brand4 main-header' dark expand={true}>
+      <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
       {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
     </Navbar>
   )

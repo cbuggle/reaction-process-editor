@@ -3,19 +3,23 @@
   border-style: solid;
 }
 @each $color, $value in $theme-colors {
-  .btn {
-    &-#{$color} {
-      border-color: border-color($color);
+  @if $color != 'white' {
+    .btn {
+      &-#{$color} {
+        border-color: border-color($color);
 
-      &:hover {
-        border-color: shade-color($value, 15%);
+        &:hover {
+          border-color: shade-color($value, 15%);
+        }
       }
-    }
-    &-outline-#{$color} {
-      color: $body-color;
-      &:hover {
-        background-color: tint-color($value, 85%);
-        border-color: shade-color($value, 5%);
+
+      &-outline-#{$color} {
+        color: $body-color;
+
+        &:hover {
+          background-color: tint-color($value, 85%);
+          border-color: shade-color($value, 5%);
+        }
       }
     }
   }

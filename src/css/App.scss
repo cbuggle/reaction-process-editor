@@ -1,28 +1,5 @@
 @import "chemotion_theme";
 
-.navbar-nav {
-  /* This should actually be default according to reactstrap docs */
-  flex-direction: row;
-}
-
-.navbar-sidebars {
-  font-size: 0.8rem;
-  background-color: whitesmoke;
-  border-top: 1px solid lightgray;
-}
-
-.navbar-sidebars input{
-  font-size: 0.75em;
-}
-
-.sidebar-item-additive {
-  text-align: left;
-  overflow: hidden;
-  padding: 2px 5px 2px 3px;
-  width: 100%;
-  background-color: white;
-}
-
 .cursor-wait {cursor: wait;}
 
 .vessel-icon {

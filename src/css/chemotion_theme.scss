@@ -9,7 +9,8 @@ $theme-colors: (
   "preparation": #AAB9BF,
   "step": #68D47F,
   "action": #6DC5F2,
-  "condition": #EBCE6A
+  "condition": #EBCE6A,
+  "white": #FFFFFF,
 );
 
 /* general functions */
@@ -39,6 +40,9 @@ $input-border-radius: .3rem;
 $card-border-radius: .5rem;
 $card-cap-bg: tint-color(color("preparation"), 30%);
 $card-border-color: shade-color($card-cap-bg, 30%);
+$navbar-nav-link-padding-x: 1rem;
+$navbar-brand-font-size: $h2-font-size;
+$navbar-dark-color: white;
 
 /* component vars */
 $max-label-width: 30rem;
@@ -57,6 +61,7 @@ $max-label-width: 30rem;
 @import "components/activities/ConditionCard";
 @import "components/activities/ConditionForm";
 @import "components/activities/InsertZone";
+@import "components/layout/MainHeader";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";

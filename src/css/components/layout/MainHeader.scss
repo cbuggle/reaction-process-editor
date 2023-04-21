@@ -1,0 +1,19 @@
+.main-header {
+  .nav-link, .navbar-text {
+    font-size: $h4-font-size;
+  }
+  &__brand {
+    display: flex;
+    align-items: center;
+    &-name {
+      font-size: $h2-font-size;
+    }
+    &:after {
+      margin-top: -.2rem;
+      display: inline-block;
+      content: '|';
+      font-size: $h1-font-size;
+      margin-left: $navbar-brand-margin-end + $navbar-nav-link-padding-x;
+    }
+  }
+}
