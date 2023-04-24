@@ -17,6 +17,7 @@
         color: $body-color;
 
         &:hover {
+          color: $body-color;
           background-color: tint-color($value, 85%);
           border-color: shade-color($value, 5%);
         }

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
-import ActionFormGroup from "./ActionFormGroup";
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { conditionUnitOptions, conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
@@ -48,14 +48,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
   const additiveRemoveFields = () => {
     return (
       <>
-        <ActionFormGroup label='Solvent (Additive)'>
+        <SingleLineFormGroup label='Solvent (Additive)'>
           <Select
             name="sample_id"
             options={additivesSelectOptions}
             value={additivesSelectOptions.find(option => option.value === currentSampleIdValue)}
             onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
           />
-        </ActionFormGroup>
+        </SingleLineFormGroup>
         {renderConditions()}
       </>
     )
@@ -65,14 +65,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
     // This is an exact clone of additiveRemoveFields, except the options hash in the Select. Might be tightened. cbuggle, 28.10.2021.
     return (
       <>
-        <ActionFormGroup label='Solvent (Divers)'>
+        <SingleLineFormGroup label='Solvent (Divers)'>
           <Select
             name="sample_id"
             options={diverseSolventsSelectOptions}
             value={diverseSolventsSelectOptions.find(option => option.value === currentSampleIdValue)}
             onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
           />
-        </ActionFormGroup>
+        </SingleLineFormGroup>
         {renderConditions()}
       </>
 
@@ -82,14 +82,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
   const mediumRemoveFields = () => {
     return (
       < >
-        <ActionFormGroup label='Sample'>
+        <SingleLineFormGroup label='Sample'>
           <Select
             name="sample_id"
             options={mediumSelectOptions}
             value={mediumSelectOptions.find(option => option.value === currentSampleIdValue)}
             onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
           />
-        </ActionFormGroup>
+        </SingleLineFormGroup>
         <NumericalnputWithUnit
           label='Duration'
           name='duration_in_minutes'
@@ -104,14 +104,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
           inputRanges={conditionInputRanges['REMOVE_REPETITIONS']}
           onWorkupChange={onWorkupChange}
         />
-        <ActionFormGroup label='Replacement Medium'>
+        <SingleLineFormGroup label='Replacement Medium'>
           <Input
             type="textarea"
             value={activity.workup['remove_replacement_medium']}
             placeholder="Replacement Medium"
             onChange={event => onWorkupChange({ name: 'remove_replacement_medium', value: event.target.value })}
           />
-        </ActionFormGroup>
+        </SingleLineFormGroup>
       </>
     )
   }
@@ -131,14 +131,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
 
   return (
     <>
-      <ActionFormGroup label='Type'>
+      <SingleLineFormGroup label='Type'>
         <Select
           name="acts_as"
           options={removeTypeOptions}
           value={removeTypeOptions.find(option => option.value === activity.workup['acts_as'])}
           onChange={selectedOption => handleActsAsChange({ actsAs: selectedOption.value })}
         />
-      </ActionFormGroup>
+      </SingleLineFormGroup>
       {renderGenericRemoveFields()}
     </>
   )

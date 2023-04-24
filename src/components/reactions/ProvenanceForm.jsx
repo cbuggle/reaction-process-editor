@@ -6,6 +6,8 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
 import DateTimePicker from 'react-datetime-picker'
 import FormButtons from "../utilities/FormButtons";
+import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
+import MultiInputFormGroup from "../utilities/MultiInputFormGroup";
 
 const ProvenanceForm = ({ provenance, closeForm }) => {
 
@@ -45,81 +47,81 @@ const ProvenanceForm = ({ provenance, closeForm }) => {
 
   return (
     <Form>
-      <FormGroup>
-        <Label>Reaction starts at</Label>
-        <br />
+      <SingleLineFormGroup label='Reaction starts at'>
         <DateTimePicker
           onChange={value => updateStartsAt(value)}
           format={dateTimePickerFormat}
           value={provenanceForm.starts_at}
         />
-        <br />
-        <Label>Reaction Name</Label>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Reaction Name'>
         <Input
           value={provenanceForm.name}
           placeholder="Reaction Name"
           onChange={event => onInputChange({ name: 'name', value: event.target.value })}
         />
-
-        <Label>Conducted by (Username)</Label>
-        <Input
-          value={provenanceForm.username}
-          placeholder="Conducted by"
-          onChange={event => onInputChange({ name: 'username', value: event.target.value })}
-          disabled={true}
-        />
-
-        <Label>Conducted by (Email)</Label>
-        <Input
-          value={provenanceForm.email}
-          placeholder="Email"
-          onChange={event => onInputChange({ name: 'email', value: event.target.value })}
-          disabled={true}
-        />
-
-        <Label>Place (City)</Label>
+      </SingleLineFormGroup>
+      <MultiInputFormGroup label='Conducted by' type='brand1'>
+        <SingleLineFormGroup label='Username'>
+          <Input
+            value={provenanceForm.username}
+            placeholder="Conducted by"
+            onChange={event => onInputChange({ name: 'username', value: event.target.value })}
+            disabled={true}
+          />
+        </SingleLineFormGroup>
+        <SingleLineFormGroup label='Email'>
+          <Input
+            value={provenanceForm.email}
+            placeholder="Email"
+            onChange={event => onInputChange({ name: 'email', value: event.target.value })}
+            disabled={true}
+          />
+        </SingleLineFormGroup>
+      </MultiInputFormGroup>
+      <SingleLineFormGroup label='Place (City)'>
         <Input
           value={provenanceForm.city}
           placeholder="Place (City)"
           onChange={event => onInputChange({ name: 'city', value: event.target.value })}
         />
-
-        <Label>DOI</Label>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='DOI'>
         <Input
           value={provenanceForm.doi}
           placeholder="DOI"
           onChange={event => onInputChange({ name: 'doi', value: event.target.value })}
         />
-
-        <Label>Patent</Label>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Patent'>
         <Input
           value={provenanceForm.patent}
           placeholder="Patent"
           onChange={event => onInputChange({ name: 'patent', value: event.target.value })}
         />
-
-        <Label>Publication URL</Label>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Publication URL'>
         <Input
           value={provenanceForm.publication_url}
           placeholder="Publication URL"
           onChange={event => onInputChange({ name: 'publication_url', value: event.target.value })}
         />
-
-        <Label>Orcid</Label>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Orcid'>
         <Input
           value={provenanceForm.orcid}
           placeholder="Orcid"
           onChange={event => onInputChange({ name: 'orcid', value: event.target.value })}
         />
-
-        <Label>Organisation</Label>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Organisation'>
         <Input
           value={provenanceForm.organization}
           placeholder="Organisation"
           onChange={event => onInputChange({ name: 'organization', value: event.target.value })}
         />
-      </FormGroup>
-      <FormButtons onSave={onSave} onCancel={closeForm} type='preparation' />
+      </SingleLineFormGroup>
+      <FormButtons onSave={onSave} onCancel={closeForm} type='brand1' />
     </Form >
   )
 }

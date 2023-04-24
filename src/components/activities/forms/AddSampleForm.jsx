@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import PropTypes from 'prop-types'
 
-import ActionFormGroup from "./ActionFormGroup";
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
@@ -49,29 +49,29 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
 
   return (
     <>
-      <ActionFormGroup label='Sample'>
+      <SingleLineFormGroup label='Sample'>
         <Select
           name="sample_id"
           options={currentSampleOptions}
           value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label == currentName)}
           onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
         />
-      </ActionFormGroup>
-      <ActionFormGroup label='Volume/Amount'>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Volume/Amount'>
         <Input
           value={activity.workup['target_amount_value']}
           placeholder="Amount"
           onChange={event => handleAmountInput({ value: event.target.value })}
         />
-      </ActionFormGroup>
-      <ActionFormGroup label='Unit'>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Unit'>
         <Select
           name="target_amount_unit"
           options={samplevolumeUnitOptions}
           value={samplevolumeUnitOptions.find(item => item.value === activity.workup['target_amount_unit'])}
           onChange={selectedOption => onWorkupChange({ name: 'target_amount_unit', value: selectedOption.value })}
         />
-      </ActionFormGroup>
+      </SingleLineFormGroup>
       <NumericalnputWithUnit
         label='Percentage'
         name='sample_volume_percentage'

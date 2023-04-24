@@ -1,9 +1,8 @@
 import React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import IconButton from "../utilities/IconButton";
 
 const OrdDownloadButton = ({ reactionId }) => {
 
@@ -11,9 +10,14 @@ const OrdDownloadButton = ({ reactionId }) => {
 
   return (
     <div>
-      <a id="ord-download-button" href={api.ordLinkTarget(reactionId)} target="_blank" size="sm" className='btn btn-info'>
-        <FontAwesomeIcon size="lg" icon='download' />
-      </a>
+      <IconButton
+        id='ord-download-button'
+        icon='download'
+        size='lg'
+        className='icon-button--positive'
+        href={api.ordLinkTarget(reactionId)}
+        target="_blank"
+      />
       <UncontrolledTooltip target={"ord-download-button"} >
         Download the reaction in ORD-KIT format (json).
       </UncontrolledTooltip >

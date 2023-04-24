@@ -18,6 +18,7 @@ $theme-colors: (
 @import "base/mixins/colors";
 @import "base/mixins/spacing";
 
+$spacer: .75rem;
 $font-size-root: 13px;
 $font-size-lg: 1.07692rem;
 $h6-font-size: 1rem;
@@ -40,6 +41,9 @@ $input-border-radius: .3rem;
 $card-border-radius: .5rem;
 $card-cap-bg: tint-color(color("preparation"), 30%);
 $card-border-color: shade-color($card-cap-bg, 30%);
+$modal-md: 400px;
+$modal-header-padding-x: .75rem;
+$modal-header-padding-y: .35rem;
 $navbar-nav-link-padding-x: 1rem;
 $navbar-brand-font-size: $h2-font-size;
 $navbar-dark-color: white;
@@ -51,6 +55,7 @@ $max-label-width: 30rem;
 @import "~bootstrap/scss/bootstrap";
 /* overwrite bootstrap standard behaviour */
 @import "base/bootstrap_overwrite/btn";
+@import "base/bootstrap_overwrite/modal";
 /* styling for generic page layout */
 @import "layout";
 /* components */
@@ -67,6 +72,7 @@ $max-label-width: 30rem;
 @import "components/utilities/CreateButton";
 @import "components/utilities/IconButton";
 @import "components/utilities/Label";
+@import "components/utilities/MultiInputFormGroup";
 @import "components/utilities/NumericalInputWithUnit";
 @import "components/utilities/ProcedureCard";
 @import "components/utilities/SpinnerWithMessage";

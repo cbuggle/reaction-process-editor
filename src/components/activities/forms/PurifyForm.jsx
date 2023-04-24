@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
-import ActionFormGroup from "./ActionFormGroup";
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 
 
@@ -55,7 +55,7 @@ const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
           onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
         />
       </FormGroup>
-      <ActionFormGroup label='Solvents'>
+      <SingleLineFormGroup label='Solvents'>
         <Select
           isMulti
           name="purify_solvent_sample_ids"
@@ -63,15 +63,15 @@ const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
           value={purifySolventOptions.filter(option => actionPurifySolventIds.includes(option.value))}
           onChange={selectedOptions => onWorkupChange({ name: 'purify_solvent_sample_ids', value: selectedOptions.map(option => option.value) })}
         />
-      </ActionFormGroup>
-      <ActionFormGroup label='Ratio'>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Ratio'>
         <Input
           type="textarea"
           value={activity.workup['purify_ratio']}
           placeholder="Ratio"
           onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
         />
-      </ActionFormGroup>
+      </SingleLineFormGroup>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react'
 import Select from 'react-select'
 
-import ActionFormGroup from "./ActionFormGroup";
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
@@ -20,15 +20,15 @@ const TransferForm = ({ activity, processStep, onWorkupChange }) => {
 
   return (
     <>
-      <ActionFormGroup label='Transfer Sample'>
+      <SingleLineFormGroup label='Transfer Sample'>
         <Select
           name="sample_id"
           options={sampleOptions}
           value={sampleOptions.find(option => option.value === activity.workup['sample_id'])}
           onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
         />
-      </ActionFormGroup>
-      <ActionFormGroup label='Transfer to Step'>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Transfer to Step'>
         <Select
           name="transfer_target_step_id"
           isDisabled={!!activity.id}
@@ -36,7 +36,7 @@ const TransferForm = ({ activity, processStep, onWorkupChange }) => {
           value={transferToOptions.find(option => option.value === activity.workup['transfer_target_step_id'])}
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
         />
-      </ActionFormGroup>
+      </SingleLineFormGroup>
       <NumericalnputWithUnit
         label='Percentage'
         name='transfer_percentage'

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 
-import ActionFormGroup from "./ActionFormGroup";
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import { equipmentMountOptions } from '../../../constants/dropdownOptions/equipmentOptions'
 
 const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
@@ -24,22 +24,22 @@ const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
 
   return (
     <>
-      <ActionFormGroup label='Replacement Medium'>
+      <SingleLineFormGroup label='Replacement Medium'>
         <Select
           name="mount_action"
           options={equipmentMountOptions}
           value={equipmentMountOptions.find(option => option.value === activity.workup['mount_action'])}
           onChange={selectedOption => changeMountOption(selectedOption.value)}
         />
-      </ActionFormGroup>
-      <ActionFormGroup label='Equipment'>
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label='Equipment'>
         <Select
           name="equipment"
           options={equipmentOptions}
           value={equipmentOptions.find(option => option.value === activity.workup['equipment'])}
           onChange={selectedOption => onWorkupChange({ name: 'equipment', value: selectedOption.value })}
         />
-      </ActionFormGroup>
+      </SingleLineFormGroup>
     </>
   )
 }

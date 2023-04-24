@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormGroup, Label } from "reactstrap";
-import TooltipButton from "../../utilities/TooltipButton";
+import TooltipButton from "./TooltipButton";
 
-const ActionFormGroup = ({ label, tooltip, tooltipId, children }) => {
+const SingleLineFormGroup = ({ label, tooltip, tooltipId, children }) => {
   return (
-    <FormGroup className='row gx-2'>
+    <FormGroup className='row gx-2 pt-1'>
       <Label className='col-5 col-form-label d-flex'>
         {label}
         {tooltip &&
@@ -18,4 +18,4 @@ const ActionFormGroup = ({ label, tooltip, tooltipId, children }) => {
   );
 };
 
-export default ActionFormGroup;
+export default SingleLineFormGroup;
