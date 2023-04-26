@@ -23,7 +23,7 @@ const ProvenanceFormButton = ({ provenance }) => {
         Edit the Provenance metadata of the reaction.
       </UncontrolledTooltip >
       <Modal
-        className='modal--brand1 d-flex align-items-center justify-content-center h-100'
+        className='modal--brand1 d-flex align-items-center justify-content-center'
         isOpen={showModal}
         autoFocus={true}
         toggle={toggleModal}
