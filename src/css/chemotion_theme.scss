@@ -1,16 +1,19 @@
+@use "sass:color";
+
 /* bootstrap vars */
 /* colors */
 $theme-colors: (
-  "brand1": #2495cf,
-  "brand2": #ee474e,
-  "brand3": #d8e037,
-  "brand4": #337ab7,
-  "brand5": #4f5659,
+  "primary": #2495cf,
+  "danger": #ee474e,
+  "warning": #d8e037,
+  "secondary": #337ab7,
+  "dark": #4f5659,
   "preparation": #AAB9BF,
   "step": #68D47F,
   "action": #6DC5F2,
   "condition": #EBCE6A,
   "white": #FFFFFF,
+  "transparent": transparent,
 );
 
 /* general functions */
@@ -34,6 +37,8 @@ $input-btn-padding-x: .6rem;
 $input-btn-padding-y: .2rem;
 $input-btn-padding-x-lg: .8rem;
 $input-btn-padding-y-lg: .3rem;
+$component-active-bg: color("primary");
+$input-focus-border-color: color.change(color("primary"), $alpha: 0.3);
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;
@@ -56,6 +61,8 @@ $max-label-width: 30rem;
 /* overwrite bootstrap standard behaviour */
 @import "base/bootstrap_overwrite/btn";
 @import "base/bootstrap_overwrite/modal";
+/* styling for components from other libraries */
+@import "base/other_libraries_overwrite/react_select";
 /* styling for generic page layout */
 @import "layout";
 /* components */
@@ -70,6 +77,7 @@ $max-label-width: 30rem;
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
+@import "components/utilities/FormButtons";
 @import "components/utilities/IconButton";
 @import "components/utilities/Label";
 @import "components/utilities/MultiInputFormGroup";

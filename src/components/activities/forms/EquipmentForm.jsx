@@ -26,6 +26,8 @@ const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
     <>
       <SingleLineFormGroup label='Replacement Medium'>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="mount_action"
           options={equipmentMountOptions}
           value={equipmentMountOptions.find(option => option.value === activity.workup['mount_action'])}
@@ -34,6 +36,8 @@ const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Equipment'>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="equipment"
           options={equipmentOptions}
           value={equipmentOptions.find(option => option.value === activity.workup['equipment'])}

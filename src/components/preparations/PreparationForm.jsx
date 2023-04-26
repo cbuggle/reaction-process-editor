@@ -30,6 +30,8 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
         <Label>Sample</Label>
         { }
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="sample_id"
           isDisabled={!!preparation}
           options={sampleOptions}
@@ -40,6 +42,8 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
       <FormGroup>
         <Label>Preparations</Label>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           isMulti
           name="preparations"
           options={preparationOptions.preparations}
@@ -50,6 +54,8 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
       <FormGroup>
         <Label>Equipment</Label>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           isMulti
           name="equipment"
           options={preparationOptions.equipment}

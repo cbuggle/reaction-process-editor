@@ -11,6 +11,8 @@ const AnalysisForm = ({ activity, onWorkupChange }) => {
     <>
       <SingleLineFormGroup label='Type'>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="analysis_type"
           options={analysisTypeOptions}
           value={analysisTypeOptions.find(option => option.value === activity.workup['analysis_type'])}

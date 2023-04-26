@@ -66,6 +66,8 @@ const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => 
       <Label>{label}</Label>
       <FormGroup>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="motion_type"
           options={motionTypeOptions}
           value={motionTypeOption()}
@@ -74,6 +76,8 @@ const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => 
       </FormGroup>
       <FormGroup>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="motion_mode"
           options={motionModeOptions}
           value={motionModeOptions.find(option => option.value === motionMode)}

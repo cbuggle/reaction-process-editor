@@ -61,7 +61,7 @@ const ProvenanceForm = ({ provenance, closeForm }) => {
           onChange={event => onInputChange({ name: 'name', value: event.target.value })}
         />
       </SingleLineFormGroup>
-      <MultiInputFormGroup label='Conducted by' type='brand1'>
+      <MultiInputFormGroup label='Conducted by' type='primary'>
         <SingleLineFormGroup label='Username'>
           <Input
             value={provenanceForm.username}
@@ -121,7 +121,7 @@ const ProvenanceForm = ({ provenance, closeForm }) => {
           onChange={event => onInputChange({ name: 'organization', value: event.target.value })}
         />
       </SingleLineFormGroup>
-      <FormButtons onSave={onSave} onCancel={closeForm} type='brand1' />
+      <FormButtons onSave={onSave} onCancel={closeForm} type='primary' />
     </Form >
   )
 }

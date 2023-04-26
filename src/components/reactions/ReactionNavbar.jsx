@@ -28,7 +28,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
   };
   return (
     <div className='reaction-header'>
-      <Navbar className='reaction-navbar bg-brand1' dark>
+      <Navbar className='reaction-navbar bg-primary' dark>
         <NavbarBrand>
           <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})</span>
           <span className='reaction-id'>{reactionProcess.id}</span>
@@ -38,7 +38,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
           <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
         </Nav>
       </Navbar>
-      <Accordion open={open} toggle={toggleFormula} flush className='bg-brand1 container-fluid pb-2 reaction-header__formula-accordion'>
+      <Accordion open={open} toggle={toggleFormula} flush className='bg-primary container-fluid pb-2 reaction-header__formula-accordion'>
         <AccordionItem>
           <AccordionBody accordionId='formula' className='text-center'>
             <div className='reaction-header__formula-container'>
@@ -56,7 +56,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
       </Accordion>
       <div className='text-center formula-drawer-button-container'>
         <Button
-          className='formula-drawer-button btn-brand1'
+          className='formula-drawer-button btn-primary'
           size='sm'
           onClick={toggleFormula}
         >

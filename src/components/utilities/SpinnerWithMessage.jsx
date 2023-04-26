@@ -7,13 +7,13 @@ const SpinnerWithMessage = ({ message, isOpen }) => {
         <div className='spinner-with-message__content d-flex flex-column align-items-center justify-content-around'>
           <div className='spinner__container'>
             <div className='spinner-transformer'>
-              <Spinner className='text-brand1'/>
+              <Spinner className='text-primary'/>
             </div>
             <div className='spinner-transformer'>
-              <Spinner animation='border' className='text-brand3'/>
+              <Spinner animation='border' className='text-warning'/>
             </div>
             <div className='spinner-transformer'>
-              <Spinner className='text-brand2'/>
+              <Spinner className='text-danger'/>
             </div>
           </div>
           <p className='fw-bold text-white'>{message}</p>

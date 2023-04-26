@@ -21,6 +21,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
             <Col md={5}>
               <Label>Vessel Type</Label>
               <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
                 name="vessel_type"
                 options={vesselOptions.vessel_types}
                 isSearchable={true}
@@ -41,6 +43,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
             <Col md={4}>
               <Label>Unit</Label>
               <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
                 name="volume_unit"
                 options={vesselOptions.volume_units}
                 value={vesselOptions.volume_units.find(item => item.value === vessel.volume_unit)}
@@ -57,6 +61,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
             {/* <Col md={5}>
               <Label>Vessel Preparation</Label>
               <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
                 name="vessel_preparation"
                 options={vesselOptions.vessel_preparations}
                 isSearchable={true}
@@ -83,6 +89,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
             <Col md={5}>
               <Label>Material</Label>
               <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
                 name="material_type"
                 options={vesselOptions.material_types}
                 value={vesselOptions.material_types.find(item => item.value === vessel.material_type)}
@@ -106,6 +114,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
             <Col md={5}>
               <Label>Environment</Label>
               <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
                 name="vessel_environment_type"
                 options={vesselOptions.environment_types}
                 value={vesselOptions.environment_types.find(item => item.value === vessel.environment_type)}
@@ -126,6 +136,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
             <Col md={5}>
               <Label>Automated</Label>
               <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
                 name="vessel_automation_type"
                 options={vesselOptions.automation_types}
                 value={vesselOptions.automation_types.find(item => item.value === vessel.automation_type)}
@@ -151,6 +163,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
 
                 <Label>Attachments</Label>
                 <Select
+                  className="react-select--overwrite"
+                  classNamePrefix="react-select"
                   isMulti
                   name="vessel_attachments"
                   options={vesselOptions.attachments}

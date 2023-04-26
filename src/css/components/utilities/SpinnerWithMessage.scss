@@ -1,11 +1,9 @@
-@use "sass:map";
-
 .spinner-with-message {
   --bs-modal-width: 100%;
   --bs-modal-border-radius: 0;
 
   .modal-content {
-    background-color: map.get($theme-colors, "brand4");
+    background-color: color("secondary");
     border: none;
     padding: 20px;
     margin-top: -100px;
@@ -21,7 +19,7 @@
     border-radius: 50%;
     border-width: 8px;
     border-style: solid;
-    border-color: map.get($theme-colors, "brand5");
+    border-color: color("dark");
     position: relative;
   }
   .spinner-transformer {

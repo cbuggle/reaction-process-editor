@@ -49,6 +49,8 @@ const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
       </FormGroup>
       <FormGroup>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="purify_automation"
           options={purifyAutomationModeOptions}
           value={purifyAutomationModeOptions.find(option => option.value === activity.workup['purify_automation'])}
@@ -57,6 +59,8 @@ const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
       </FormGroup>
       <SingleLineFormGroup label='Solvents'>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           isMulti
           name="purify_solvent_sample_ids"
           options={purifySolventOptions}

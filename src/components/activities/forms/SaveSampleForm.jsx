@@ -66,6 +66,8 @@ const SaveSampleForm = ({ activity, onWorkupChange }) => {
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Unit'>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="target_amount_unit"
           options={samplevolumeUnitOptions}
           value={samplevolumeUnitOptions.find(item => item.value === sampleForm['target_amount_unit'])}
@@ -89,6 +91,8 @@ const SaveSampleForm = ({ activity, onWorkupChange }) => {
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Sample Type'>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="intermediate_type"
           options={saveSampleTypeOptions}
           value={saveSampleTypeOptions.find(option => option.value === sampleForm['intermediate_type'])}

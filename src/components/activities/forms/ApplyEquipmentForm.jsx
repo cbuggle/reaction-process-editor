@@ -25,6 +25,8 @@ const ApplyEquipmentForm = ({ equipment,  equipmentOptions, onChangeEquipment })
       {applyExtraEquipment &&
         <FormGroup>
           <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
             isMulti
             name="equipment"
             options={equipmentOptions}

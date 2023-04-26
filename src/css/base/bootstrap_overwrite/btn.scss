@@ -1,9 +1,11 @@
+@use "sass:map";
+
 .btn {
   border-width: 1px;
   border-style: solid;
 }
 @each $color, $value in $theme-colors {
-  @if $color != 'white' {
+  @if $color != 'white' and $color != 'transparent' {
     .btn {
       &-#{$color} {
         border-color: border-color($color);

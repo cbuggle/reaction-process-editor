@@ -88,6 +88,8 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
             Additional Information
           </Label>
           <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
             name="condition_additional_information"
             options={currentAdditionalInformationOptions}
             value={currentSelectedAdditionalInformationOption}
@@ -131,6 +133,8 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
           </Col>
           <Col md={6}>
             <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
               name="condition_tendency"
               options={ conditionTendencyOptions }
               value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}

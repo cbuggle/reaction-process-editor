@@ -50,6 +50,8 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
       <>
         <SingleLineFormGroup label='Solvent (Additive)'>
           <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
             name="sample_id"
             options={additivesSelectOptions}
             value={additivesSelectOptions.find(option => option.value === currentSampleIdValue)}
@@ -67,6 +69,8 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
       <>
         <SingleLineFormGroup label='Solvent (Divers)'>
           <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
             name="sample_id"
             options={diverseSolventsSelectOptions}
             value={diverseSolventsSelectOptions.find(option => option.value === currentSampleIdValue)}
@@ -84,6 +88,8 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
       < >
         <SingleLineFormGroup label='Sample'>
           <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
             name="sample_id"
             options={mediumSelectOptions}
             value={mediumSelectOptions.find(option => option.value === currentSampleIdValue)}
@@ -133,6 +139,8 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
     <>
       <SingleLineFormGroup label='Type'>
         <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
           name="acts_as"
           options={removeTypeOptions}
           value={removeTypeOptions.find(option => option.value === activity.workup['acts_as'])}

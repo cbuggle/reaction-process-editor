@@ -24,7 +24,7 @@ const Login = () => {
 
   return (
     <>
-      <div className='bg-brand1 d-flex align-items-center justify-content-center h-100'>
+      <div className='bg-primary d-flex align-items-center justify-content-center h-100'>
         <Form className='h-75'>
           <FormGroup>
             <Input
