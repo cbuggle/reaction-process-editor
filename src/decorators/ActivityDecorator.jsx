@@ -33,8 +33,8 @@ export default class ActivityDecorator {
       case 'ADD':
       case 'REMOVE':
         title +=  ' '
-        if (workup.sample_names) {
-          title +=  workup.sample_names
+        if (activity.sample_names) {
+          title +=  activity.sample_names
         } else {
           title += workup.acts_as === 'DIVERSE_SOLVENT' ? 'Solvent' : workup.acts_as
         }
