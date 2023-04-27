@@ -12,26 +12,45 @@ export default class ActivityDecorator {
 
   static title = (activity) => {
     const workup = activity.workup
+    let title = activity.action_name
 
     switch (activity.action_name) {
       case 'EQUIP':
-        return this.toTitleCase(workup.mount_action + ' ' + workup.equipment)
+        title = workup.mount_action + ' '
+        title += workup.equipment ? workup.equipment : 'Equipment'
+        break
       case 'PURIFY':
-        return workup.purify_type
+        title = workup.purify_type
+        break
       case 'CONDITION':
-        return 'Change Condition'
+        title = 'Change Condition'
+        break
       case 'ANALYSIS':
-        return this.toTitleCase(activity.action_name + ' ' + workup.analysis_type)
+        if (workup.analysis_type) {
+          title +=  ' ' + workup.analysis_type
+        }
+        break
       case 'ADD':
-      case 'SAVE':
-      case 'TRANSFER':
       case 'REMOVE':
-        return this.toTitleCase(activity.action_name) + ' ' + activity.sample_names
+        title +=  ' '
+        if (workup.sample_names) {
+          title +=  workup.sample_names
+        } else {
+          title += workup.acts_as === 'DIVERSE_SOLVENT' ? 'Solvent' : workup.acts_as
+        }
+        break
+      case 'TRANSFER':
+      case 'SAVE':
+        if (workup.sample_names) {
+          title +=  ' ' + workup.sample_names
+        }
+        break
       case 'PAUSE':
       case 'WAIT':
       default:
-        return this.toTitleCase(activity.action_name)
+        return this.toTitleCase(title)
     }
+    return this.toTitleCase(title)
   }
 
   static conditionInfo = (type, conditionWorkup) => {

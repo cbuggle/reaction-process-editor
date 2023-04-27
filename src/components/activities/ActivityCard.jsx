@@ -20,6 +20,14 @@ const ActivityCard = (
     dragRef,
   }) => {
 
+  const initialCardTitle = () => {
+    if (isInitialised) {
+      return ActivityDecorator.title(activity)
+    } else {
+      return isCondition ? 'Change Condition' : 'New Action';
+    }
+  }
+
   const api = useReactionsFetcher()
   const isCondition = type === 'condition'
   const isInitialised = !!activity
@@ -27,24 +35,8 @@ const ActivityCard = (
   const uninitialisedMode = isCondition ? 'form' : 'type-panel'
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
+  const [cardTitle, setCardTitle] = useState(initialCardTitle());
   const editable = displayMode !== 'info'
-
-  const cardTitle = () => {
-    if (isInitialised) {
-      return ActivityDecorator.title(activity)
-    } else {
-      let label = isCondition ? 'Change Condition' : 'New Action';
-
-      if (activityForm && !isCondition) {
-        let acts_as_label = activityForm.workup.acts_as || ''
-
-        if (acts_as_label === 'DIVERSE_SOLVENT') {
-          acts_as_label = 'SOLVENT'
-        }
-      }
-      return label
-    }
-  }
 
   const edit = () => {
     setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
@@ -65,6 +57,7 @@ const ActivityCard = (
 
   const onSelectType = (activity) => () => {
     setActivityForm(activity)
+    setCardTitle(ActivityDecorator.title(activity))
     setDisplayMode('form')
   }
 
@@ -92,7 +85,7 @@ const ActivityCard = (
 
   return (
     <ProcedureCard
-      title={cardTitle()}
+      title={cardTitle}
       type={type}
       onEdit={edit}
       onDelete={onDelete}
