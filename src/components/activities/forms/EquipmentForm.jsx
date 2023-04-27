@@ -6,41 +6,23 @@ import { equipmentMountOptions } from '../../../constants/dropdownOptions/equipm
 
 const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
 
-  const [equipmentOptions, setEquipmentOptions] = useState([])
-
-  useEffect(() => {
-    changeMountOption(activity.workup['mount_action'])
-  })
-
-  const changeMountOption = (value) => {
-    if (value === "MOUNT") {
-      setEquipmentOptions(processStep.equipment_options)
+  const equipmentOptions = () => {
+    if (activity.workup['mount_action'] === "MOUNT") {
+      return processStep.equipment_options
     } else {
-      setEquipmentOptions(processStep.mounted_equipment_options)
+      return processStep.mounted_equipment_options
     }
-
-    onWorkupChange({ name: 'mount_action', value: value })
   }
 
   return (
     <>
-      <SingleLineFormGroup label='Replacement Medium'>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="mount_action"
-          options={equipmentMountOptions}
-          value={equipmentMountOptions.find(option => option.value === activity.workup['mount_action'])}
-          onChange={selectedOption => changeMountOption(selectedOption.value)}
-        />
-      </SingleLineFormGroup>
       <SingleLineFormGroup label='Equipment'>
         <Select
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="equipment"
-          options={equipmentOptions}
-          value={equipmentOptions.find(option => option.value === activity.workup['equipment'])}
+          options={equipmentOptions()}
+          value={equipmentOptions().find(option => option.value === activity.workup['equipment'])}
           onChange={selectedOption => onWorkupChange({ name: 'equipment', value: selectedOption.value })}
         />
       </SingleLineFormGroup>
