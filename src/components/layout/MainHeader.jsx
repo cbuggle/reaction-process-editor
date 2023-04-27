@@ -49,7 +49,7 @@ const MainHeader = () => {
         label: id + ': ' + short_label
       }))
       options.unshift({
-        kex: 'index',
+        key: 'index',
         url: '/reactions',
         label: 'Reaction Index'
       })
@@ -88,30 +88,26 @@ const MainHeader = () => {
     return (
       <>
         <Nav navbar className="me-auto">
-          <NavItem>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Collections
-              </DropdownToggle>
-              <DropdownMenu>
-                {collectionOptions.map((collection) =>
-                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                    {collection.label}
-                  </DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </NavItem>
-          <NavItem>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Reactions ({reactionOptions.length-1})
-              </DropdownToggle>
-              <DropdownMenu>
-                {reactionOptions.map((reaction) =>
-                  <DropdownItem key={reaction.id} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </NavItem>
+          <UncontrolledDropdown nav>
+            <DropdownToggle nav caret>
+              Collections
+            </DropdownToggle>
+            <DropdownMenu>
+              {collectionOptions.map((collection) =>
+                <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                  {collection.label}
+                </DropdownItem>)}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <UncontrolledDropdown nav>
+            <DropdownToggle nav caret>
+              Reactions ({reactionOptions.length-1})
+            </DropdownToggle>
+            <DropdownMenu>
+              {reactionOptions.map((reaction) =>
+                <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
+            </DropdownMenu>
+          </UncontrolledDropdown>
         </Nav>
         <Nav navbar className="justify-content-end align-items-center">
           <NavItem className="me-3">

@@ -43,7 +43,6 @@ const InsertZone = (
               color='transparent'
               className='insert-zone__reveal-creator-button'
               onClick={toggleShowCreator}
-              dark
             >
               + insert
             </Button>
