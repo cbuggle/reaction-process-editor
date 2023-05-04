@@ -5,15 +5,20 @@
   &__brand {
     display: flex;
     align-items: center;
+
     &-name {
       font-size: $h2-font-size;
     }
-    &:after {
+  }
+  &__nav {
+    &:before {
       margin-top: -.2rem;
       display: inline-block;
       content: '|';
+      color: $navbar-dark-color;
       font-size: $h1-font-size;
-      margin-left: $navbar-brand-margin-end + $navbar-nav-link-padding-x;
+      margin-left: $navbar-nav-link-padding-x;
+      margin-right: $navbar-brand-margin-end;
     }
   }
 }

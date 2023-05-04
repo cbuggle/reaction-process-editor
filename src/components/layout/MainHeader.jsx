@@ -25,6 +25,7 @@ const MainHeader = () => {
   const navigate = useNavigate();
   const api = useReactionsFetcher();
 
+  const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
   const filterCollectionId = localStorage.getItem('filter_collection_id')
@@ -43,7 +44,8 @@ const MainHeader = () => {
 
   const fetchReactionOptions = () => {
     api.reactionSelectOptions().then((data) => {
-      const options = data['reactions'].map(({id, short_label}) => ({
+      setReactions(data['reactions'])
+      const options = reactions.map(({id, short_label}) => ({
         key: id,
         url: "/reactions/" + id,
         label: id + ': ' + short_label
@@ -72,22 +74,18 @@ const MainHeader = () => {
     return localStorage.getItem('username') ? '/reactions' : '/'
   }
 
-  const renderLoginHint = () => {
+  const renderLoginButton = () => {
     return (
-      <>
-        <NavItem>
-          <NavbarText>
-            Please Login with your eln credentials
-          </NavbarText>
-        </NavItem>
-      </>
+      <Nav navbar className="justify-content-end align-items-center">
+        <a href='/' className='btn btn-outline-white btn-sm'>Login</a>
+      </Nav>
     )
   }
 
   const renderNavbarLoggedIn = () => {
     return (
       <>
-        <Nav navbar className="me-auto">
+        <Nav navbar className="me-auto main-header__nav">
           <UncontrolledDropdown nav>
             <DropdownToggle nav caret>
               Collections
@@ -101,7 +99,7 @@ const MainHeader = () => {
           </UncontrolledDropdown>
           <UncontrolledDropdown nav>
             <DropdownToggle nav caret>
-              Reactions ({reactionOptions.length-1})
+              Reactions ({reactions.length})
             </DropdownToggle>
             <DropdownMenu>
               {reactionOptions.map((reaction) =>
@@ -127,7 +125,7 @@ const MainHeader = () => {
   return (
     <Navbar className='bg-secondary main-header' dark expand={true}>
       <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
-      {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
+      {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginButton()}
     </Navbar>
   )
 }

@@ -25,27 +25,30 @@ const Login = () => {
   return (
     <>
       <div className='bg-primary d-flex align-items-center justify-content-center h-100'>
-        <Form className='h-75'>
-          <FormGroup>
-            <Input
-              type="textfield"
-              value={credentials.username}
-              placeholder="Username"
-              onChange={event => onInputChange({ name: 'username', value: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              type="password"
-              value={credentials.password}
-              placeholder="Password"
-              onChange={event => onInputChange({ name: 'password', value: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Button color="preparation" type="submit" onClick={handleSubmit} className="float-end">Submit</Button>
-          </FormGroup>
-        </Form>
+        <div className='d-flex flex-column align-items-center h-75'>
+          <h1 className='mb-4 text-light'>Please Login with your eln credentials</h1>
+          <Form>
+            <FormGroup>
+              <Input
+                type="textfield"
+                value={credentials.username}
+                placeholder="Username"
+                onChange={event => onInputChange({ name: 'username', value: event.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="password"
+                value={credentials.password}
+                placeholder="Password"
+                onChange={event => onInputChange({ name: 'password', value: event.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Button color="white" type="submit" onClick={handleSubmit} className="float-end">Submit</Button>
+            </FormGroup>
+          </Form>
+        </div>
       </div>
     </>
   )
