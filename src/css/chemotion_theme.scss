@@ -2,10 +2,14 @@
 
 /* bootstrap vars */
 /* colors */
+$white: #fff;
+$black: #000;
+
 $theme-colors: (
   "primary": #2495cf,
   "danger": #ee474e,
   "warning": #d8e037,
+  "success": #07bc0c,
   "secondary": #337ab7,
   "dark": #4f5659,
   "preparation": #AAB9BF,
@@ -20,7 +24,8 @@ $theme-colors: (
 @import "~bootstrap/scss/_functions";
 @import "base/mixins/colors";
 @import "base/mixins/spacing";
-
+$color-contrast-dark: $black;
+$color-contrast-light: $white;
 $spacer: .75rem;
 $font-size-root: 13px;
 $font-size-lg: 1.07692rem;
@@ -30,7 +35,7 @@ $h4-font-size: 1.23077rem;
 $h3-font-size: 1.38462rem;
 $h2-font-size: 1.61538rem;
 $h1-font-size: 1.84615rem;
-$body-bg: white;
+$body-bg: $white;
 $min-contrast-ratio: 2.5;
 $input-btn-padding-x: .6rem;
 $input-btn-padding-y: .2rem;
@@ -50,7 +55,12 @@ $modal-header-padding-x: .75rem;
 $modal-header-padding-y: .35rem;
 $navbar-nav-link-padding-x: 1rem;
 $navbar-brand-font-size: $h2-font-size;
-$navbar-dark-color: white;
+$navbar-dark-color: $color-contrast-light;
+$toast-background-color: $body-bg;
+$toast-border-radius: $card-border-radius;
+$toast-padding-x: 1rem;
+$toast-padding-y: 1rem;
+
 
 /* component vars */
 $max-label-width: 30rem;
@@ -62,6 +72,7 @@ $max-label-width: 30rem;
 @import "base/bootstrap_overwrite/modal";
 /* styling for components from other libraries */
 @import "base/other_libraries_overwrite/react_select";
+@import "base/other_libraries_overwrite/react-toastify";
 /* styling for generic page layout */
 @import "layout";
 /* components */
