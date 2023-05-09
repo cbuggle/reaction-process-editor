@@ -3,7 +3,7 @@ import { Input } from 'reactstrap'
 import Select from 'react-select'
 
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { conditionUnitOptions, conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
@@ -26,14 +26,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
   const renderConditions = () => {
     return (
       <>
-        <NumericalnputWithUnit
+        <NumericalInputWithUnit
           label='Temperature'
           name='remove_temperature'
           value={activity.workup['remove_temperature'] || conditionInputRanges['TEMPERATURE']['default']}
           inputRanges={conditionInputRanges['TEMPERATURE']}
           onWorkupChange={onWorkupChange}
         />
-        <NumericalnputWithUnit
+        <NumericalInputWithUnit
           label='Pressure'
           name='remove_pressure'
           value={activity.workup['remove_pressure'] || conditionInputRanges['PRESSURE']['default']}
@@ -96,14 +96,14 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
             onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
           />
         </SingleLineFormGroup>
-        <NumericalnputWithUnit
+        <NumericalInputWithUnit
           label='Duration'
           name='duration_in_minutes'
           value={activity.workup['duration_in_minutes'] || conditionInputRanges['REMOVE_DURATION']['default']}
           inputRanges={conditionInputRanges['REMOVE_DURATION']}
           onWorkupChange={onWorkupChange}
         />
-        <NumericalnputWithUnit
+        <NumericalInputWithUnit
           label='Repetition'
           name='remove_repetitions'
           value={activity.workup['remove_repetitions'] || conditionInputRanges['REMOVE_REPETITIONS']['default']}

@@ -1,11 +1,11 @@
-export const samplevolumeUnitOptions = [{
+export const sampleVolumeUnitOptions = [{
   label: 'Unit Unspecified',
   value: 'UNSPECIFIED'
 }, {
   label: 'Liter',
   value: 'l'
 }, {
-  // We uncomment all units which aere present in ORD but not common in ELN.
+  // We uncomment all units which are present in ORD but not common in ELN.
   //   label: 'Milliliter',
   //   value: 'ml'
   // }, {

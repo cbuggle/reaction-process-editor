@@ -4,10 +4,10 @@ import Select from 'react-select'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
-import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
+import { sampleVolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
 
 const SaveSampleForm = ({ activity, onWorkupChange }) => {
@@ -69,12 +69,12 @@ const SaveSampleForm = ({ activity, onWorkupChange }) => {
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="target_amount_unit"
-          options={samplevolumeUnitOptions}
-          value={samplevolumeUnitOptions.find(item => item.value === sampleForm['target_amount_unit'])}
+          options={sampleVolumeUnitOptions}
+          value={sampleVolumeUnitOptions.find(item => item.value === sampleForm['target_amount_unit'])}
           onChange={selectedOption => onInputChange({ name: 'target_amount_unit', value: selectedOption.value })}
         />
       </SingleLineFormGroup>
-      <NumericalnputWithUnit
+      <NumericalInputWithUnit
         label='Purity'
         name='purity'
         value={sampleForm['purity']}

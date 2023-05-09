@@ -23,6 +23,7 @@ $theme-colors: (
 /* general functions */
 @import "~bootstrap/scss/_functions";
 @import "base/mixins/colors";
+@import "base/mixins/borders";
 @import "base/mixins/spacing";
 $color-contrast-dark: $black;
 $color-contrast-light: $white;
@@ -88,6 +89,7 @@ $max-label-width: 30rem;
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
 @import "components/utilities/FormButtons";
+@import "components/utilities/FormSection";
 @import "components/utilities/IconButton";
 @import "components/utilities/Label";
 @import "components/utilities/MultiInputFormGroup";

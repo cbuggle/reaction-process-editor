@@ -52,7 +52,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
   }
 
   return (
-    <FormGroup className={'condition-type-form-group condition-type-form-group--' + type.id}>
+    <FormGroup className={'form-section form-section--condition condition-type-form-group--' + type.id}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
           <Label className={'col-form-label' + (hasWorkupCondition ? '' : ' label--disabled')}>{conditionSummary()}</Label>

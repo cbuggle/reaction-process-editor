@@ -44,11 +44,11 @@
   .card-header {
     border-bottom: none;
   }
+  @include type-border-color()
 }
 
 @each $color, $value in $theme-colors {
   .procedure-card--#{$color} {
-    border-color: border-color($color);
     .card-header, .procedure-card__info {
       background-color: #{$value};
     }

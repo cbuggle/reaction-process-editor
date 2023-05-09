@@ -36,7 +36,7 @@ const ActivityForm = (
         />
       </FormGroup>
       {children}
-      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} />
+      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} separator={true}/>
     </Form>
   )
 }

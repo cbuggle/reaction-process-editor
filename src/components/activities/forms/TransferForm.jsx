@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react'
 import Select from 'react-select'
 
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
 const TransferForm = ({ activity, processStep, onWorkupChange }) => {
@@ -41,7 +41,7 @@ const TransferForm = ({ activity, processStep, onWorkupChange }) => {
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
         />
       </SingleLineFormGroup>
-      <NumericalnputWithUnit
+      <NumericalInputWithUnit
         label='Percentage'
         name='transfer_percentage'
         value={activity.workup['transfer_percentage']}

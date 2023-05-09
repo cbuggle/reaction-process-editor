@@ -5,10 +5,11 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import NumericalnputWithUnit from '../../utilities/NumericalInputWithUnit';
+import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 
-import { samplevolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
+import AmountSelection from "../../utilities/AmountSelection";
+import FormSection from "../../utilities/FormSection";
 
 const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
 
@@ -18,20 +19,12 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
 
   const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
 
-  const handlePercentageInput = ({ value }) => {
-    var new_volume = (value * activity.workup['sample_original_amount']) / 100
-    if (value < 100) {
-      new_volume = new_volume.toFixed(5)
-    }
-
-    onWorkupChange({ name: 'target_amount_value', value: new_volume })
-    onWorkupChange({ name: 'sample_volume_percentage', value: value })
+  const handleAmountInput = (value) => {
+    onWorkupChange({ name: 'target_amount_value', value: value })
   }
 
-  const handleAmountInput = ({ value }) => {
-    const new_percentage = value * 100 / activity.workup['sample_original_amount']
-    onWorkupChange({ name: 'target_amount_value', value: value })
-    onWorkupChange({ name: 'sample_volume_percentage', value: new_percentage })
+  const handleUnitInput = ({ value }) => {
+    onWorkupChange({ name: 'target_amount_unit', value: value })
   }
 
   const handleSampleChange = ({ sampleId, label }) => {
@@ -49,73 +42,59 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
 
   return (
     <>
-      <SingleLineFormGroup label='Sample'>
-        <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-          name="sample_id"
-          options={currentSampleOptions}
-          value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label == currentName)}
-          onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
+      <FormSection type='action'>
+        <SingleLineFormGroup label='Sample'>
+          <Select
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+            name="sample_id"
+            options={currentSampleOptions}
+            value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label == currentName)}
+            onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
+          />
+        </SingleLineFormGroup>
+        <AmountSelection
+          amount={activity.workup['target_amount_value']}
+          maxAmount={activity.workup['sample_original_amount']}
+          unit={activity.workup['target_amount_unit']}
+          disableUnitSelection={!!activity.workup['sample_original_amount']}
+          onChangeAmount={handleAmountInput}
+          onChangeUnit={handleUnitInput}
         />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label='Volume/Amount'>
-        <Input
-          value={activity.workup['target_amount_value']}
-          placeholder="Amount"
-          onChange={event => handleAmountInput({ value: event.target.value })}
+      </FormSection>
+      <FormSection type='action'>
+        <NumericalInputWithUnit
+          label="Speed"
+          name='add_sample_speed'
+          value={activity.workup['add_sample_speed']}
+          inputRanges={conditionInputRanges['VELOCITY']}
+          onWorkupChange={onWorkupChange}
         />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label='Unit'>
-        <Select
-          isDisabled={!!activity.workup['sample_original_amount']}
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="target_amount_unit"
-          options={samplevolumeUnitOptions}
-          value={samplevolumeUnitOptions.find(item => item.value === activity.workup['target_amount_unit'])}
-          onChange={selectedOption => onWorkupChange({ name: 'target_amount_unit', value: selectedOption.value })}
+        <NumericalInputWithUnit
+          label="Temperature"
+          name='add_sample_temperature'
+          value={activity.workup['add_sample_temperature']}
+          inputRanges={conditionInputRanges['TEMPERATURE']}
+          onWorkupChange={onWorkupChange}
         />
-      </SingleLineFormGroup>
-      <NumericalnputWithUnit
-        label='Percentage'
-        name='sample_volume_percentage'
-        value={activity.workup['sample_volume_percentage'] || 100}
-        inputRanges={conditionInputRanges['PERCENTAGE']}
-        onWorkupChange={onWorkupChange}
-      />
-      <NumericalnputWithUnit
-        label="Speed"
-        name='add_sample_speed'
-        value={activity.workup['add_sample_speed']}
-        inputRanges={conditionInputRanges['VELOCITY']}
-        onWorkupChange={onWorkupChange}
-      />
-      <NumericalnputWithUnit
-        label="Temperature"
-        name='add_sample_temperature'
-        value={activity.workup['add_sample_temperature']}
-        inputRanges={conditionInputRanges['TEMPERATURE']}
-        onWorkupChange={onWorkupChange}
-      />
-      <NumericalnputWithUnit
-        label="Pressure"
-        name='add_sample_pressure'
-        value={activity.workup['add_sample_pressure']}
-        inputRanges={conditionInputRanges['PRESSURE']}
-        onWorkupChange={onWorkupChange}
-      />
-
-      {currentSampleActsAs === 'SOLVENT' &&
-        <FormGroup check className='mb-3'>
-          <Label check>
-            <Input type="checkbox" checked={activity.workup['is_waterfree_solvent']} onChange={(event) =>
-              onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.checked })
-            } />
-            Water Free Solvent
-          </Label>
-        </FormGroup>
-      }
+        <NumericalInputWithUnit
+          label="Pressure"
+          name='add_sample_pressure'
+          value={activity.workup['add_sample_pressure']}
+          inputRanges={conditionInputRanges['PRESSURE']}
+          onWorkupChange={onWorkupChange}
+        />
+        {currentSampleActsAs === 'SOLVENT' &&
+          <FormGroup check className='mb-3'>
+            <Label check>
+              <Input type="checkbox" checked={activity.workup['is_waterfree_solvent']} onChange={(event) =>
+                onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.checked })
+              } />
+              Water Free Solvent
+            </Label>
+          </FormGroup>
+        }
+      </FormSection>
     </>
   )
 }
