@@ -33,9 +33,12 @@ const MainHeader = () => {
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
 
   useEffect(() => {
+    console.log("Mount MainHeader")
+    console.log("auth_token:" + auth_token)
     if (auth_token) {
       localStorage.setItem('bearer_auth_token', auth_token);
     }
+    console.log("bearer_auth_token:" + localStorage.getItem('bearer_auth_token'))
     if (localStorage.getItem('bearer_auth_token')) {
       fetchCollectionOptions()
       fetchReactionOptions()
@@ -45,7 +48,7 @@ const MainHeader = () => {
   const fetchReactionOptions = () => {
     api.reactionSelectOptions().then((data) => {
       setReactions(data['reactions'])
-      const options = reactions.map(({id, short_label}) => ({
+      const options = data['reactions'].map(({id, short_label}) => ({
         key: id,
         url: "/reactions/" + id,
         label: id + ': ' + short_label
