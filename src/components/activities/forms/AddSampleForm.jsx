@@ -68,6 +68,7 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Unit'>
         <Select
+          isDisabled={!!activity.workup['sample_original_amount']}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="target_amount_unit"
