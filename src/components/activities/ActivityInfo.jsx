@@ -16,7 +16,7 @@ const ActivityInfo = ({ action }) => {
         if (workup.acts_as === 'SAMPLE') {
           infoImage = action.sample
         }
-        infoTitle = [workup.sample_name, workup.target_amount_value, workup.target_amount_unit].join(' ')
+        infoTitle = [workup.target_amount_value, workup.target_amount_unit].join(' ')
         if (workup.add_sample_speed) {
           infoLines.push(
             workup.add_sample_speed + ' ml/min ' +

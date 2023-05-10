@@ -28,8 +28,9 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
           <Col md={5}>
             <NumericInput
               value={amount || 0}
-              step={0.001}
-              max={maxAmount}
+              step={0.1}
+              min={0}
+              max={maxAmount || 10000000000000}
               size={8}
               onChange={onChangeAmount}
               className='form-control'
@@ -49,13 +50,15 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
           </Col>
         </Row>
       </SingleLineFormGroup>
-      <NumericalInputWithUnit
-        label='Percentage'
-        name='sample_volume_percentage'
-        value={calcPercentage()}
-        inputRanges={conditionInputRanges['PERCENTAGE']}
-        onWorkupChange={handlePercentageInput}
-      />
+      {maxAmount &&
+        <NumericalInputWithUnit
+          label='Percentage'
+          name='sample_volume_percentage'
+          value={calcPercentage()}
+          inputRanges={conditionInputRanges['PERCENTAGE']}
+          onWorkupChange={handlePercentageInput}
+        />
+      }
     </>
   );
 };
