@@ -10,45 +10,46 @@ export default class ActivityDecorator {
     return str.join(' ');
   }
 
-  static title = (activity) => {
-    const workup = activity.workup
-    let title = activity.action_name
+  static title = (actionName, workup) => {
+    let title = actionName
 
-    switch (activity.action_name) {
-      case 'EQUIP':
-        title = workup.mount_action + ' '
-        title += workup.equipment ? workup.equipment : 'Equipment'
-        break
-      case 'PURIFY':
-        title = workup.purify_type
-        break
-      case 'CONDITION':
-        title = 'Change Condition'
-        break
-      case 'ANALYSIS':
-        if (workup.analysis_type) {
-          title +=  ' ' + workup.analysis_type
-        }
-        break
-      case 'ADD':
-      case 'REMOVE':
-        title +=  ' '
-        if (activity.sample_names) {
-          title +=  activity.sample_names
-        } else {
-          title += workup.acts_as === 'DIVERSE_SOLVENT' ? 'Solvent' : workup.acts_as
-        }
-        break
-      case 'TRANSFER':
-      case 'SAVE':
-        if (workup.sample_names) {
-          title +=  ' ' + workup.sample_names
-        }
-        break
-      case 'PAUSE':
-      case 'WAIT':
-      default:
-        return this.toTitleCase(title)
+    if (workup && !!Object.keys(workup).length) {
+      switch (actionName) {
+        case 'EQUIP':
+          title = workup.mount_action + ' '
+          title += workup.equipment ? workup.equipment : 'Equipment'
+          break
+        case 'PURIFY':
+          title = workup.purify_type
+          break
+        case 'CONDITION':
+          title = 'Change Condition'
+          break
+        case 'ANALYSIS':
+          if (workup.analysis_type) {
+            title += ' ' + workup.analysis_type
+          }
+          break
+        case 'ADD':
+        case 'REMOVE':
+          title += ' '
+          if (workup.sample_name) {
+            title += workup.sample_name
+          } else {
+            title += workup.acts_as === 'DIVERSE_SOLVENT' ? 'Solvent' : workup.acts_as
+          }
+          break
+        case 'TRANSFER':
+        case 'SAVE':
+          if (workup.sample_name) {
+            title += ' ' + workup.sample_name
+          }
+          break
+        case 'PAUSE':
+        case 'WAIT':
+        default:
+          return this.toTitleCase(title)
+      }
     }
     return this.toTitleCase(title)
   }

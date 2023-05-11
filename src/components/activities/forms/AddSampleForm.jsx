@@ -36,7 +36,6 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
     onWorkupChange({ name: 'sample_name', value: label })
     onWorkupChange({ name: 'target_amount_value', value: sample.amount || '' })
     onWorkupChange({ name: 'sample_original_amount', value: sample.amount })
-    onWorkupChange({ name: 'sample_volume_percentage', value: 100 })
     onWorkupChange({ name: 'target_amount_unit', value: sample.unit })
   }
 
@@ -45,8 +44,8 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
       <FormSection type='action'>
         <SingleLineFormGroup label='Sample'>
           <Select
-              className="react-select--overwrite"
-              classNamePrefix="react-select"
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
             name="sample_id"
             options={currentSampleOptions}
             value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label == currentName)}

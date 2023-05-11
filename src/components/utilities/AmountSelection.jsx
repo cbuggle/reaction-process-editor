@@ -53,7 +53,7 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
       {maxAmount &&
         <NumericalInputWithUnit
           label='Percentage'
-          name='sample_volume_percentage'
+          name='percentage'
           value={calcPercentage()}
           inputRanges={conditionInputRanges['PERCENTAGE']}
           onWorkupChange={handlePercentageInput}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
@@ -20,23 +20,29 @@ const ActivityCard = (
     dragRef,
   }) => {
 
-  const initialCardTitle = () => {
-    if (isInitialised) {
-      return ActivityDecorator.title(activity)
-    } else {
-      return isCondition ? 'Change Condition' : 'New Action';
-    }
-  }
-
   const api = useReactionsFetcher()
   const isCondition = type === 'condition'
   const isInitialised = !!activity
-  const uninitialisedForm = isCondition ? {action_name: "CONDITION", workup: {}} : undefined
+  const [workup, setWorkup] = useState(isInitialised ? activity.workup : {});
+  const uninitialisedForm = isCondition ? {action_name: "CONDITION", workup: workup} : undefined
   const uninitialisedMode = isCondition ? 'form' : 'type-panel'
+  const uninitialisedTitle = isCondition ? 'Change Condition' : 'New Action'
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
-  const [cardTitle, setCardTitle] = useState(initialCardTitle());
+  const generateTitle = () => {
+    if (activityForm && activityForm.action_name) {
+      return ActivityDecorator.title(activityForm.action_name, workup);
+    } else {
+      return uninitialisedTitle;
+    }
+  }
+  const [cardTitle, setCardTitle] = useState(generateTitle());
   const editable = displayMode !== 'info'
+
+  useEffect(() => {
+    setActivityForm(prevState => ({...prevState, workup: workup}));
+    setCardTitle(generateTitle());
+  }, [workup]);
 
   const edit = () => {
     setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
@@ -55,9 +61,9 @@ const ActivityCard = (
     }
   }
 
-  const onSelectType = (activity) => () => {
-    setActivityForm(activity)
-    setCardTitle(ActivityDecorator.title(activity))
+  const onSelectType = (newActivity) => () => {
+    setActivityForm(newActivity)
+    setWorkup(newActivity.workup)
     setDisplayMode('form')
   }
 
@@ -72,9 +78,7 @@ const ActivityCard = (
 
   const onWorkupChange = (field) => {
     const { name, value } = field;
-    setActivityForm(prevState => ({
-      ...prevState, workup: { ...prevState.workup, [name]: value }
-    }));
+    setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }));
   }
 
 
