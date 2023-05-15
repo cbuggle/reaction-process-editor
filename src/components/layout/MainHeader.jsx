@@ -11,9 +11,9 @@ import {
   NavbarText,
 } from 'reactstrap';
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LogoutButton from '../login/LogoutButton';
@@ -22,7 +22,7 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 const MainHeader = () => {
 
-  const navigate = useNavigate();
+  const location = useLocation();
   const api = useReactionsFetcher();
 
   const [reactions, setReactions] = useState([])
@@ -33,22 +33,19 @@ const MainHeader = () => {
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
 
   useEffect(() => {
-    console.log("Mount MainHeader")
-    console.log("auth_token:" + auth_token)
     if (auth_token) {
       localStorage.setItem('bearer_auth_token', auth_token);
     }
-    console.log("bearer_auth_token:" + localStorage.getItem('bearer_auth_token'))
     if (localStorage.getItem('bearer_auth_token')) {
       fetchCollectionOptions()
       fetchReactionOptions()
     }
-  }, []);
+  }, [location]);
 
   const fetchReactionOptions = () => {
     api.reactionSelectOptions().then((data) => {
       setReactions(data['reactions'])
-      const options = data['reactions'].map(({id, short_label}) => ({
+      const options = data['reactions'].map(({ id, short_label }) => ({
         key: id,
         url: "/reactions/" + id,
         label: id + ': ' + short_label
