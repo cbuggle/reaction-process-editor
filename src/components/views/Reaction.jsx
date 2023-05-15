@@ -42,7 +42,7 @@ const Reaction = () => {
       window.removeEventListener('requireReload', requireReload);
       window.removeEventListener('reloadDone', reloadDone);
     };
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     if (auth_token) {
@@ -55,18 +55,13 @@ const Reaction = () => {
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('currentReactionId', reactionId);
-    //  We need to persist the route parameter in the localStorage because it is parsed differently when we call fetchReactionProcess() !?!
-    // reactionId is evaluated correctly here. If we use it again in fetchReactionProcess(), it will be no longer up to date,
-    //  but jumps back to the previous reactionId in navigation history.  What the #%*&%**%$, React.js?
     setReactionProcess(false);
     fetchReactionProcess()
   }, [location]);
 
 
   const fetchReactionProcess = () => {
-
-    api.getReactionProcess(localStorage.getItem('currentReactionId')).then((data) => {
+    api.getReactionProcess(reactionId).then((data) => {
       setReactionProcess(data['reaction_process'])
       window.dispatchEvent(new Event("reloadDone"))
     })
