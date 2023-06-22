@@ -26,7 +26,7 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
     return findInitialValue('power_end_value', conditionInputRanges['POWER'].default)
   }
   const resetAdditionalInformation = () => {
-    return findInitialValue('condition_additional_information', [])
+    return findInitialValue('additional_information', '')
   }
   const [value, setValue] = useState(resetValue())
   const [conditionTendency, setConditionTendency] = useState(resetConditionTendency())
@@ -90,7 +90,7 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
           <Select
             className="react-select--overwrite"
             classNamePrefix="react-select"
-            name="condition_additional_information"
+            name="additional_information"
             options={currentAdditionalInformationOptions}
             value={currentSelectedAdditionalInformationOption}
             onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
