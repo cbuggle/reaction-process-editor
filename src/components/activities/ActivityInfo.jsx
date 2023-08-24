@@ -4,7 +4,7 @@ import SamplesDecorator from '../samples/SamplesDecorator'
 import { analysisTypeOptions } from '../../constants/dropdownOptions/analysisTypeOptions'
 import ActivityDecorator from "../../decorators/ActivityDecorator";
 
-const ActivityInfo = ({ action }) => {
+const ActivityInfo = ({ action, equipmentOptions }) => {
   const infoLines = []
   let infoImage = undefined
   let infoTitle
@@ -46,8 +46,8 @@ const ActivityInfo = ({ action }) => {
       case 'CONDITION':
         infoTitle = ''
         for (let [key, value] of Object.entries(workup)) {
-          if (["TEMPERATURE", "PRESSURE", "PH", "IRRADIATION", "MOTION"].includes(key)) {
-            infoLines.push(ActivityDecorator.conditionInfo(key, value));
+          if (['TEMPERATURE', 'PRESSURE', 'PH', 'IRRADIATION', 'MOTION', 'EQUIPMENT'].includes(key)) {
+            infoLines.push(ActivityDecorator.conditionInfo(key, value, equipmentOptions));
           }
         }
         break;

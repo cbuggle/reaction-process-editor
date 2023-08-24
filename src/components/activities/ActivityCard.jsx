@@ -105,7 +105,7 @@ const ActivityCard = (
       dragRef={dragRef}
     >
       <ProcedureCard.Info>
-        <ActivityInfo action={activity} />
+        <ActivityInfo action={activity} equipmentOptions={processStep.equipment_options}/>
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
         <TypeSelectionPanel onSelect={onSelectType} />
