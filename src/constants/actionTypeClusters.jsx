@@ -82,7 +82,7 @@ export const actionTypeClusters = [
       },
       {
         id: 'crystallization',
-        createLabel: 'Crystallizationn',
+        createLabel: 'Crystallization',
         action: {
           action_name: 'PURIFY',
           workup: {
