@@ -3,7 +3,7 @@ import {Button, FormGroup, Label} from "reactstrap";
 import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
-import ApplyEquipmentForm from "./ApplyEquipmentForm";
+import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
 import EquipmentForm from "./EquipmentForm";
 
 const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWorkupChange, onToggleFocus}) => {
@@ -73,7 +73,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
               onSave={handleSave}
               onCancel={toggleShowForm}
             >
-              <ApplyEquipmentForm
+              <ApplyExtraEquipmentForm
                 equipment={equipment}
                 equipmentOptions={equipmentOptions}
                 onChangeEquipment={setEquipment}
@@ -97,7 +97,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
               onSave={handleSave}
               onCancel={toggleShowForm}
             >
-              <ApplyEquipmentForm
+              <ApplyExtraEquipmentForm
                 equipment={equipment}
                 equipmentOptions={equipmentOptions}
                 onChangeEquipment={setEquipment}
