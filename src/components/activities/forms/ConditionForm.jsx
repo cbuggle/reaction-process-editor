@@ -18,11 +18,6 @@ const ConditionForm = (
   const toggleFocus = () => {
     setFocus(!focus)
   }
-  // FIXME
-  const extendedPreConditions = {...preConditions, EQUIPMENT: {
-      value: null
-    }
-  }
 
   return (
     <ActivityForm
@@ -39,7 +34,7 @@ const ConditionForm = (
             key={type.action.workup.condition_type}
             type={type}
             processStep={processStep}
-            preCondition={extendedPreConditions[type.action.workup.condition_type]}
+            preCondition={preConditions[type.action.workup.condition_type]}
             workup={activity.workup}
             onWorkupChange={onWorkupChange}
             onToggleFocus={toggleFocus}
