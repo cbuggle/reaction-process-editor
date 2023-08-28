@@ -8,12 +8,6 @@ export default class ActionValidator {
     return errors
   }
 
-  static validateEquip = (action) => {
-    var errors = []
-    action.workup['equipment'] || errors.push("Please select an Equipment.")
-    return errors
-  }
-
   static validateTransfer = (action) => {
     var errors = []
     action.workup['sample_id'] && action.workup['transfer_target_step_id'] || errors.push("Please select Sample and Target.")
@@ -47,10 +41,6 @@ export default class ActionValidator {
         break;
       case "TRANSFER":
         errors = this.validateTransfer(action)
-        break;
-      case "EQUIP":
-        errors = this.validateEquip(action)
-
         break;
       case "REMOVE":
         errors = this.validateRemove(action)

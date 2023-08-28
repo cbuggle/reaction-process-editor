@@ -15,10 +15,6 @@ export default class ActivityDecorator {
 
     if (workup && !!Object.keys(workup).length) {
       switch (actionName) {
-        case 'EQUIP':
-          title = workup.mount_action + ' '
-          title += workup.equipment ? workup.equipment : 'Equipment'
-          break
         case 'PURIFY':
           title = workup.purify_type
           break

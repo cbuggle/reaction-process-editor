@@ -124,28 +124,6 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'equipment',
-    label: 'Equipment',
-    types: [
-      {
-        id: 'equipment_mount',
-        createLabel: 'Mount',
-        action: {
-          action_name: 'EQUIP',
-          workup: { mount_action: 'MOUNT' }
-        }
-      },
-      {
-        id: 'equipment_unmount',
-        createLabel: 'Unmount',
-        action: {
-          action_name: 'EQUIP',
-          workup: { mount_action: 'UNMOUNT' }
-        }
-      },
-    ]
-  },
-  {
     id: 'time',
     label: 'Time',
     types: [

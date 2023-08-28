@@ -3,7 +3,6 @@ import ActivityForm from "./ActivityForm";
 import AddSampleForm from "./AddSampleForm";
 import ApplyEquipmentForm from "./ApplyEquipmentForm";
 import SaveSampleForm from "./SaveSampleForm";
-import EquipmentForm from "./EquipmentForm";
 import TransferForm from "./TransferForm";
 import RemoveForm from "./RemoveForm";
 import PurifyForm from "./PurifyForm";
@@ -36,10 +35,6 @@ const ActionForm = (props) => {
       case "SAVE":
         return (
           <SaveSampleForm {...props} />
-        )
-      case "EQUIP":
-        return (
-          <EquipmentForm {...props} />
         )
       case "TRANSFER":
         return (

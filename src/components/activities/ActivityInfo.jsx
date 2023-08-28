@@ -39,10 +39,6 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
         }
         infoLines.push(workup.location)
         break;
-      case 'EQUIP':
-        infoTitle = workup.mount_action
-        infoLines.push(workup.equipment)
-        break;
       case 'CONDITION':
         infoTitle = ''
         for (let [key, value] of Object.entries(workup)) {
