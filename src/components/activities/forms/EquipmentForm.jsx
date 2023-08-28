@@ -1,31 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Select from 'react-select'
 
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import { equipmentMountOptions } from '../../../constants/dropdownOptions/equipmentOptions'
+import { Label, FormGroup } from "reactstrap";
+import FormButtons from "../../utilities/FormButtons";
 
-const EquipmentForm = ({ activity, onWorkupChange, processStep }) => {
+const EquipmentForm = ({ label, findInitialValue, equipmentOptions, onCancel, onSave }) => {
+  const resetEquipment = () => {
+    return findInitialValue('value', undefined)
+  }
 
-  const equipmentOptions = () => {
-    if (activity.workup['mount_action'] === "MOUNT") {
-      return processStep.equipment_options
-    } else {
-      return processStep.mounted_equipment_options
-    }
+  const [equipment, setEquipment] = useState(resetEquipment())
+
+  const handleSave = () => {
+    onSave(
+      {
+        value: equipment
+      }
+    )
+  }
+
+  const handleCancel = () => {
+    setEquipment(resetEquipment())
+    onCancel()
   }
 
   return (
     <>
-      <SingleLineFormGroup label='Equipment'>
+      <Label>{label}</Label>
+      <FormGroup>
         <Select
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="equipment"
-          options={equipmentOptions()}
-          value={equipmentOptions().find(option => option.value === activity.workup['equipment'])}
-          onChange={selectedOption => onWorkupChange({ name: 'equipment', value: selectedOption.value })}
+          isMulti
+          options={equipmentOptions}
+          value={equipmentOptions.filter(option => (equipment || []).includes(option.value))}
+          onChange={selectedOptions => setEquipment(selectedOptions.map(option => option.value))}
         />
-      </SingleLineFormGroup>
+      </FormGroup>
+      <FormButtons
+        type='condition'
+        onSave={handleSave}
+        onCancel={handleCancel}
+        saveLabel='Set'
+      />
     </>
   )
 }

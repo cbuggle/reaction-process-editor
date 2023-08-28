@@ -3,7 +3,8 @@ import {Button, FormGroup, Label} from "reactstrap";
 import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
-import ApplyEquipmentForm from "./ApplyEquipmentForm";
+import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
+import EquipmentForm from "./EquipmentForm";
 
 const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWorkupChange, onToggleFocus}) => {
   const typeName = type.action.workup.condition_type
@@ -20,7 +21,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
   }
   const conditionSummary = () => {
     if(hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(typeName, workup[typeName])
+      return ActivityDecorator.conditionInfo(typeName, workup[typeName], processStep.equipment_options)
     } else if (hasPreCondition) {
       return ActivityDecorator.conditionInfo(typeName, preCondition)
     } else {
@@ -65,19 +66,30 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
       }
       {showForm &&
         <div className="condition-sub-form">
-          {typeName === 'MOTION' ?
+          {typeName === 'MOTION' &&
             <MotionForm
               label={type.createLabel}
               findInitialValue={findInitialValue}
               onSave={handleSave}
               onCancel={toggleShowForm}
             >
-              <ApplyEquipmentForm
+              <ApplyExtraEquipmentForm
                 equipment={equipment}
                 equipmentOptions={equipmentOptions}
                 onChangeEquipment={setEquipment}
               />
-            </MotionForm>:
+            </MotionForm>
+          }
+          {typeName === 'EQUIPMENT' &&
+            <EquipmentForm
+              label={type.createLabel}
+              findInitialValue={findInitialValue}
+              equipmentOptions={processStep.equipment_options}
+              onSave={handleSave}
+              onCancel={toggleShowForm}
+            />
+          }
+          {(typeName !== 'EQUIPMENT' & typeName !== 'MOTION') &&
             <GenericConditionSubForm
               label={type.createLabel}
               typeName={typeName}
@@ -85,7 +97,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
               onSave={handleSave}
               onCancel={toggleShowForm}
             >
-              <ApplyEquipmentForm
+              <ApplyExtraEquipmentForm
                 equipment={equipment}
                 equipmentOptions={equipmentOptions}
                 onChangeEquipment={setEquipment}

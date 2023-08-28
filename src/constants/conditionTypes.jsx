@@ -66,5 +66,16 @@ export const conditionTypes = [
         condition_unit: 'RPM'
       },
     },
+  },
+  {
+    id: 'equipment',
+    createLabel: 'Equipment',
+    action: {
+      action_name: 'EQUIPMENT',
+      workup: {
+        condition_type: 'EQUIPMENT',
+        condition_value: undefined
+      },
+    },
   }
 ]

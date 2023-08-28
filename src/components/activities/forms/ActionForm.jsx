@@ -1,9 +1,8 @@
 import React from 'react';
 import ActivityForm from "./ActivityForm";
 import AddSampleForm from "./AddSampleForm";
-import ApplyEquipmentForm from "./ApplyEquipmentForm";
+import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
 import SaveSampleForm from "./SaveSampleForm";
-import EquipmentForm from "./EquipmentForm";
 import TransferForm from "./TransferForm";
 import RemoveForm from "./RemoveForm";
 import PurifyForm from "./PurifyForm";
@@ -26,7 +25,7 @@ const ActionForm = (props) => {
         return (
           <>
             <AddSampleForm {...props} />
-            <ApplyEquipmentForm
+            <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
               onChangeEquipment={setEquipment}
@@ -37,15 +36,11 @@ const ActionForm = (props) => {
         return (
           <SaveSampleForm {...props} />
         )
-      case "EQUIP":
-        return (
-          <EquipmentForm {...props} />
-        )
       case "TRANSFER":
         return (
           <>
             <TransferForm {...props} />
-            <ApplyEquipmentForm
+            <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
               onChangeEquipment={setEquipment}
@@ -56,7 +51,7 @@ const ActionForm = (props) => {
         return (
           <>
             <RemoveForm {...props} />
-            <ApplyEquipmentForm
+            <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
               onChangeEquipment={setEquipment}
@@ -67,7 +62,7 @@ const ActionForm = (props) => {
         return (
           <>
             <PurifyForm {...props} />
-            <ApplyEquipmentForm
+            <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
               onChangeEquipment={setEquipment}

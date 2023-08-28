@@ -15,10 +15,6 @@ export default class ActivityDecorator {
 
     if (workup && !!Object.keys(workup).length) {
       switch (actionName) {
-        case 'EQUIP':
-          title = workup.mount_action + ' '
-          title += workup.equipment ? workup.equipment : 'Equipment'
-          break
         case 'PURIFY':
           title = workup.purify_type
           break
@@ -54,17 +50,27 @@ export default class ActivityDecorator {
     return this.toTitleCase(title)
   }
 
-  static conditionInfo = (type, conditionWorkup) => {
-    let conditionDetails = []
+  static conditionInfo = (type, conditionWorkup, equipmentOptions) => {
+    let info = conditionWorkup.create_label + ': '
     if (!!conditionWorkup.value) {
-      conditionDetails.push(conditionWorkup.create_label + ': ' + conditionWorkup.value + ' ' + conditionWorkup.unit)
+      if (type === 'EQUIPMENT') {
+        info += conditionWorkup.value.map(value => {
+          const matchingOption = equipmentOptions.find(option => option.value === value);
+          return matchingOption ? matchingOption.label : null;
+        }).toString()
+      } else {
+        info += (conditionWorkup.value + ' ' + conditionWorkup.unit)
+      }
       if (type === 'MOTION') {
-        conditionDetails.push(motionTypeOptions.find(option => option.value === conditionWorkup.motion_type).label)
-        conditionDetails.push(motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label)
+        info = [
+          info,
+          motionTypeOptions.find(option => option.value === conditionWorkup.motion_type).label,
+          motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label
+        ].toString()
       }
     } else {
-      conditionDetails.push(conditionWorkup.create_label + ': -')
+      info += '-'
     }
-    return conditionDetails.toString()
+    return info
   }
 }
