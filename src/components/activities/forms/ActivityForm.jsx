@@ -14,7 +14,7 @@ const ActivityForm = (
     onCancel,
     onSave,
     onWorkupChange,
-    className=''
+    className = ''
   }) => {
 
   const onHandleSave = () => {
@@ -25,9 +25,9 @@ const ActivityForm = (
 
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
+      {children}
       <FormGroup>
         <Label>Description</Label>
-        {activity.id ? "" : " (leave empty to autofill)"}
         <Input
           type="textarea"
           value={activity.workup.description}
@@ -35,8 +35,7 @@ const ActivityForm = (
           onChange={event => onWorkupChange({ name: 'description', value: event.target.value })}
         />
       </FormGroup>
-      {children}
-      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} separator={true}/>
+      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} separator={true} />
     </Form>
   )
 }
