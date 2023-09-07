@@ -89,6 +89,7 @@ const ActionForm = (props) => {
       activity={activity}
       onCancel={props.onCancel}
       onSave={props.onSave}
+      onWorkupChange={onWorkupChange}
     >
       {customActionForm()}
     </ActivityForm>

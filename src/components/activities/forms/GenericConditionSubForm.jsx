@@ -7,9 +7,9 @@ import {
   conditionTendencyOptions
 } from "../../../constants/dropdownOptions/conditionsOptions";
 import Select from "react-select";
-import FormButtons from "../../utilities/FormButtons";
+import OptionalFormSet from "./OptionalFormSet";
 
-const GenericConditionSubForm = ({label, typeName, children, findInitialValue, onSave, onCancel}) => {
+const GenericConditionSubForm = ({label, valueSummary, typeName, children, findInitialValue, onSave}) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges[typeName].default)
   }
@@ -116,13 +116,16 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
 
   const handleCancel = () => {
     resetFormData()
-    onCancel()
   }
 
   return (
-    <>
+    <OptionalFormSet
+      groupLabel={label}
+      valueSummary={valueSummary}
+      onSave={handleSave}
+      onCancel={handleCancel}
+    >
       <FormGroup>
-        <Label>{label}</Label>
         <Row className='gx-1'>
           <Col md={6} className='generic-condition-sub-form__value'>
             <NumericalInputWithUnit
@@ -154,13 +157,7 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
         </FormGroup>
       }
       { children }
-      <FormButtons
-        type='condition'
-        onSave={handleSave}
-        onCancel={handleCancel}
-        saveLabel='Set'
-      />
-    </>
+    </OptionalFormSet>
   );
 };
 

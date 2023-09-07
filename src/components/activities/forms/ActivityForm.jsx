@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import { FormGroup, Label, Input, Form } from 'reactstrap'
+import { FormGroup, Input, Form } from 'reactstrap'
 
 import FormButtons from "../../utilities/FormButtons";
 import ActionValidator from '../../../validators/ActionValidator'
+import OptionalFormSet from "./OptionalFormSet";
 
 const ActivityForm = (
   {
@@ -16,26 +17,43 @@ const ActivityForm = (
     onWorkupChange,
     className = ''
   }) => {
+  const [description, setDescription] = useState(activity.workup.description)
+  const descriptionLabel = 'Description'
 
-  const onHandleSave = () => {
+  const handleSave = () => {
     if (ActionValidator.validate(activity)) {
       onSave()
     }
   }
 
+  const handleSaveDescription = () => {
+    onWorkupChange({ name: 'description', value: description })
+  }
+
+  const handleCancelDescription = () => {
+    setDescription(activity.workup.description)
+  }
+
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
-      <FormGroup>
-        <Label>Description</Label>
-        <Input
-          type="textarea"
-          value={activity.workup.description}
-          placeholder="Description"
-          onChange={event => onWorkupChange({ name: 'description', value: event.target.value })}
-        />
-      </FormGroup>
-      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} separator={true} />
+      <OptionalFormSet
+        groupLabel={descriptionLabel}
+        valueSummary={activity.workup.description}
+        onSave={handleSaveDescription}
+        onCancel={handleCancelDescription}
+        type={type}
+      >
+        <FormGroup>
+          <Input
+            type="textarea"
+            name="motion_mode"
+            value={description}
+            onChange={event => setDescription(event.target.value)}
+          />
+        </FormGroup>
+      </OptionalFormSet>
+      <FormButtons onSave={handleSave} onCancel={onCancel} type={type} separator={true} />
     </Form>
   )
 }
