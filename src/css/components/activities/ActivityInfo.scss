@@ -3,14 +3,14 @@
     flex-grow: 1;
   }
   &__description {
-    padding-bottom: 4px;
-    border-bottom: 1px solid;
-    margin-bottom: 4px !important;
+    padding-top: 4px;
+    border-top: 1px solid;
+    margin-top: 4px !important;
     .procedure-card--condition & {
-      border-bottom-color: border-color('condition');
+      border-top-color: border-color('condition');
     }
     .procedure-card--action & {
-      border-bottom-color: border-color('action');
+      border-top-color: border-color('action');
     }
   }
 }
