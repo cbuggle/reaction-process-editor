@@ -4,7 +4,15 @@ import Select from 'react-select'
 import { FormGroup } from "reactstrap";
 import OptionalFormSet from "./OptionalFormSet";
 
-const EquipmentForm = ({ label, valueSummary, findInitialValue, equipmentOptions, onSave }) => {
+const EquipmentForm = (
+  {
+    label,
+    valueSummary,
+    findInitialValue,
+    equipmentOptions,
+    onSave,
+    onChangeSubFormOpenState
+  }) => {
   const resetEquipment = () => {
     return findInitialValue('value', undefined)
   }
@@ -29,6 +37,7 @@ const EquipmentForm = ({ label, valueSummary, findInitialValue, equipmentOptions
       valueSummary={valueSummary}
       onSave={handleSave}
       onCancel={handleCancel}
+      onChangeSubFormOpenState={onChangeSubFormOpenState}
     >
       <FormGroup>
         <Select

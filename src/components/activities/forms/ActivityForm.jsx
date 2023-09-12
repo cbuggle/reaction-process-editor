@@ -12,9 +12,11 @@ const ActivityForm = (
     type,
     activity,
     children,
+    subFormOpenState,
     onCancel,
     onSave,
     onWorkupChange,
+    onChangeSubFormOpenState,
     className = ''
   }) => {
   const [description, setDescription] = useState(activity.workup.description)
@@ -42,18 +44,25 @@ const ActivityForm = (
         valueSummary={activity.workup.description}
         onSave={handleSaveDescription}
         onCancel={handleCancelDescription}
+        onChangeSubFormOpenState={onChangeSubFormOpenState}
         type={type}
       >
         <FormGroup>
           <Input
             type="textarea"
-            name="motion_mode"
+            name="description"
             value={description}
             onChange={event => setDescription(event.target.value)}
           />
         </FormGroup>
       </OptionalFormSet>
-      <FormButtons onSave={handleSave} onCancel={onCancel} type={type} separator={true} />
+      <FormButtons
+        onSave={handleSave}
+        onCancel={onCancel}
+        disabled={subFormOpenState}
+        type={type}
+        separator={true}
+      />
     </Form>
   )
 }

@@ -2,9 +2,19 @@ import {Button, FormGroup, Label} from "reactstrap";
 import React, {useState} from "react";
 import FormButtons from "../../utilities/FormButtons";
 
-const OptionalFormSet = ({groupLabel, valueSummary, onSave, onCancel, children, type='condition'}) => {
+const OptionalFormSet = (
+  {
+    groupLabel,
+    valueSummary,
+    onSave,
+    onCancel,
+    onChangeSubFormOpenState,
+    children,
+    type='condition'
+  }) => {
   const [showForm, setShowForm] = useState(false)
   const toggleShowForm = () => {
+    onChangeSubFormOpenState(!showForm)
     setShowForm(!showForm)
   }
 

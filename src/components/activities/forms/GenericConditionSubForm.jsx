@@ -9,7 +9,16 @@ import {
 import Select from "react-select";
 import OptionalFormSet from "./OptionalFormSet";
 
-const GenericConditionSubForm = ({label, valueSummary, typeName, children, findInitialValue, onSave}) => {
+const GenericConditionSubForm = (
+  {
+    label,
+    valueSummary,
+    typeName,
+    children,
+    findInitialValue,
+    onSave,
+    onChangeSubFormOpenState
+  }) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges[typeName].default)
   }
@@ -124,6 +133,7 @@ const GenericConditionSubForm = ({label, valueSummary, typeName, children, findI
       valueSummary={valueSummary}
       onSave={handleSave}
       onCancel={handleCancel}
+      onChangeSubFormOpenState={onChangeSubFormOpenState}
     >
       <FormGroup>
         <Row className='gx-1'>

@@ -5,7 +5,15 @@ import ActivityDecorator from "../../../decorators/ActivityDecorator";
 import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
 import EquipmentForm from "./EquipmentForm";
 
-const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWorkupChange, onToggleFocus}) => {
+const ConditionTypeFormGroup = (
+  {
+    type,
+    processStep,
+    preCondition,
+    workup,
+    onWorkupChange,
+    onChangeSubFormOpenState
+  }) => {
   const typeName = type.action.workup.condition_type
   const hasPreCondition = !!preCondition && !!preCondition.value
   const hasWorkupCondition = !!workup[typeName] && !!workup[typeName].value
@@ -51,6 +59,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
           valueSummary={summary()}
           findInitialValue={findInitialValue}
           onSave={handleSave}
+          onChangeSubFormOpenState={onChangeSubFormOpenState}
         >
           <ApplyExtraEquipmentForm
             equipment={equipment}
@@ -66,6 +75,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
           findInitialValue={findInitialValue}
           equipmentOptions={processStep.equipment_options}
           onSave={handleSave}
+          onChangeSubFormOpenState={onChangeSubFormOpenState}
         />
       }
       {!!(typeName !== 'EQUIPMENT' & typeName !== 'MOTION') &&
@@ -75,6 +85,7 @@ const ConditionTypeFormGroup = ({type, processStep, preCondition, workup, onWork
           typeName={typeName}
           findInitialValue={findInitialValue}
           onSave={handleSave}
+          onChangeSubFormOpenState={onChangeSubFormOpenState}
         >
           <ApplyExtraEquipmentForm
             equipment={equipment}
