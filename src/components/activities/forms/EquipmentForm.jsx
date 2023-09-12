@@ -11,7 +11,7 @@ const EquipmentForm = (
     findInitialValue,
     equipmentOptions,
     onSave,
-    onChangeSubFormOpenState
+    onToggleSubform
   }) => {
   const resetEquipment = () => {
     return findInitialValue('value', undefined)
@@ -37,7 +37,7 @@ const EquipmentForm = (
       valueSummary={valueSummary}
       onSave={handleSave}
       onCancel={handleCancel}
-      onChangeSubFormOpenState={onChangeSubFormOpenState}
+      onToggleSubform={onToggleSubform}
     >
       <FormGroup>
         <Select

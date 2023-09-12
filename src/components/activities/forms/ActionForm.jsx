@@ -12,12 +12,12 @@ const ActionForm = (
   {
     activity,
     processStep,
-    subFormOpenState,
+    openSubFormLabel,
     onCancel,
     onSave,
     onWorkupChange,
     setDuration,
-    onChangeSubFormOpenState
+    onToggleSubform
   }) => {
   const workup = activity.workup
   const actionName = activity.action_name
@@ -117,11 +117,11 @@ const ActionForm = (
     <ActivityForm
       type='action'
       activity={activity}
-      subFormOpenState={subFormOpenState}
+      openSubFormLabel={openSubFormLabel}
       onCancel={onCancel}
       onSave={onSave}
       onWorkupChange={onWorkupChange}
-      onChangeSubFormOpenState={onChangeSubFormOpenState}
+      onToggleSubform={onToggleSubform}
     >
       {customActionForm()}
     </ActivityForm>

@@ -15,7 +15,7 @@ const MotionForm = (
     findInitialValue,
     children,
     onSave,
-    onChangeSubFormOpenState
+    onToggleSubform
   }) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges.MOTION.default)
@@ -75,7 +75,7 @@ const MotionForm = (
       valueSummary={valueSummary}
       onSave={handleSave}
       onCancel={handleCancel}
-      onChangeSubFormOpenState={onChangeSubFormOpenState}
+      onToggleSubform={onToggleSubform}
     >
       <div className="motion-form">
         <FormGroup>

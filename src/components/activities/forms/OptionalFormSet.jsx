@@ -8,13 +8,13 @@ const OptionalFormSet = (
     valueSummary,
     onSave,
     onCancel,
-    onChangeSubFormOpenState,
+    onToggleSubform,
     children,
     type='condition'
   }) => {
   const [showForm, setShowForm] = useState(false)
   const toggleShowForm = () => {
-    onChangeSubFormOpenState(!showForm)
+    onToggleSubform(showForm ? undefined : groupLabel)
     setShowForm(!showForm)
   }
 

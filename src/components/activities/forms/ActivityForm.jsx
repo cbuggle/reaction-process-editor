@@ -12,11 +12,11 @@ const ActivityForm = (
     type,
     activity,
     children,
-    subFormOpenState,
+    openSubFormLabel,
     onCancel,
     onSave,
     onWorkupChange,
-    onChangeSubFormOpenState,
+    onToggleSubform,
     className = ''
   }) => {
   const [description, setDescription] = useState(activity.workup.description)
@@ -36,6 +36,10 @@ const ActivityForm = (
     setDescription(activity.workup.description)
   }
 
+  const subFormOpenState = () => {
+    return openSubFormLabel !== undefined
+  }
+
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
@@ -44,7 +48,7 @@ const ActivityForm = (
         valueSummary={activity.workup.description}
         onSave={handleSaveDescription}
         onCancel={handleCancelDescription}
-        onChangeSubFormOpenState={onChangeSubFormOpenState}
+        onToggleSubform={onToggleSubform}
         type={type}
       >
         <FormGroup>
@@ -59,7 +63,7 @@ const ActivityForm = (
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
-        disabled={subFormOpenState}
+        disabled={subFormOpenState()}
         type={type}
         separator={true}
       />

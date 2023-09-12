@@ -12,7 +12,7 @@ const ConditionTypeFormGroup = (
     preCondition,
     workup,
     onWorkupChange,
-    onChangeSubFormOpenState
+    onToggleSubform
   }) => {
   const typeName = type.action.workup.condition_type
   const hasPreCondition = !!preCondition && !!preCondition.value
@@ -59,7 +59,7 @@ const ConditionTypeFormGroup = (
           valueSummary={summary()}
           findInitialValue={findInitialValue}
           onSave={handleSave}
-          onChangeSubFormOpenState={onChangeSubFormOpenState}
+          onToggleSubform={onToggleSubform}
         >
           <ApplyExtraEquipmentForm
             equipment={equipment}
@@ -75,7 +75,7 @@ const ConditionTypeFormGroup = (
           findInitialValue={findInitialValue}
           equipmentOptions={processStep.equipment_options}
           onSave={handleSave}
-          onChangeSubFormOpenState={onChangeSubFormOpenState}
+          onToggleSubform={onToggleSubform}
         />
       }
       {!!(typeName !== 'EQUIPMENT' & typeName !== 'MOTION') &&
@@ -85,7 +85,7 @@ const ConditionTypeFormGroup = (
           typeName={typeName}
           findInitialValue={findInitialValue}
           onSave={handleSave}
-          onChangeSubFormOpenState={onChangeSubFormOpenState}
+          onToggleSubform={onToggleSubform}
         >
           <ApplyExtraEquipmentForm
             equipment={equipment}

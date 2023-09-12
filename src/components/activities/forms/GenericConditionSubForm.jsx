@@ -17,7 +17,7 @@ const GenericConditionSubForm = (
     children,
     findInitialValue,
     onSave,
-    onChangeSubFormOpenState
+    onToggleSubform
   }) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges[typeName].default)
@@ -133,7 +133,7 @@ const GenericConditionSubForm = (
       valueSummary={valueSummary}
       onSave={handleSave}
       onCancel={handleCancel}
-      onChangeSubFormOpenState={onChangeSubFormOpenState}
+      onToggleSubform={onToggleSubform}
     >
       <FormGroup>
         <Row className='gx-1'>
