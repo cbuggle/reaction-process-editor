@@ -8,6 +8,7 @@ const EquipmentForm = (
   {
     label,
     valueSummary,
+    openSubFormLabel,
     findInitialValue,
     equipmentOptions,
     onSave,
@@ -35,6 +36,7 @@ const EquipmentForm = (
     <OptionalFormSet
       groupLabel={label}
       valueSummary={valueSummary}
+      openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
       onCancel={handleCancel}
       onToggleSubform={onToggleSubform}

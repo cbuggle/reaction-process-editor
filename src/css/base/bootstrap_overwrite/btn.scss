@@ -16,6 +16,7 @@
       }
 
       &-outline-#{$color} {
+        background-color: $body-bg;
         color: $body-color;
 
         &:hover {

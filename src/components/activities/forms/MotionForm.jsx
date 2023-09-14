@@ -5,13 +5,13 @@ import Select from 'react-select'
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
 import { conditionInputRanges } from "../../../constants/dropdownOptions/conditionsOptions";
-import FormButtons from "../../utilities/FormButtons";
 import OptionalFormSet from "./OptionalFormSet";
 
 const MotionForm = (
   {
     label,
     valueSummary,
+    openSubFormLabel,
     findInitialValue,
     children,
     onSave,
@@ -73,6 +73,7 @@ const MotionForm = (
     <OptionalFormSet
       groupLabel={label}
       valueSummary={valueSummary}
+      openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
       onCancel={handleCancel}
       onToggleSubform={onToggleSubform}

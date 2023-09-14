@@ -40,6 +40,7 @@ const ConditionForm = (
             processStep={processStep}
             preCondition={preConditions[type.action.workup.condition_type]}
             workup={activity.workup}
+            openSubFormLabel={openSubFormLabel}
             onWorkupChange={onWorkupChange}
             onToggleFocus={toggleFocus}
             onToggleSubform={onToggleSubform}

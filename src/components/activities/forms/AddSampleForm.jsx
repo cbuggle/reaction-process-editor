@@ -11,7 +11,13 @@ import { conditionInputRanges } from '../../../constants/dropdownOptions/conditi
 import AmountSelection from "../../utilities/AmountSelection";
 import FormSection from "../../utilities/FormSection";
 
-const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
+const AddSampleForm = (
+  {
+    activity,
+    processStep,
+    openSubFormLabel,
+    onWorkupChange
+  }) => {
 
   const currentSampleId = activity.workup['sample_id']
   const currentName = activity.workup['sample_name']
@@ -41,7 +47,7 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
 
   return (
     <>
-      <FormSection type='action'>
+      <FormSection type='action' openSubFormLabel={openSubFormLabel}>
         <SingleLineFormGroup label='Sample'>
           <Select
             className="react-select--overwrite"
@@ -61,7 +67,7 @@ const AddSampleForm = ({ activity, processStep, onWorkupChange }) => {
           onChangeUnit={handleUnitInput}
         />
       </FormSection>
-      <FormSection type='action'>
+      <FormSection type='action' openSubFormLabel={openSubFormLabel}>
         <NumericalInputWithUnit
           label="Speed"
           name='add_sample_speed'

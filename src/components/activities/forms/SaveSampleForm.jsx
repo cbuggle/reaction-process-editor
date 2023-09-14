@@ -9,8 +9,14 @@ import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { sampleVolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
+import FormSection from "../../utilities/FormSection";
 
-const SaveSampleForm = ({ activity, onWorkupChange }) => {
+const SaveSampleForm = (
+  {
+    activity,
+    openSubFormLabel,
+    onWorkupChange
+  }) => {
 
   const [sampleForm, setSampleForm] = useState({
     name: '',
@@ -31,7 +37,7 @@ const SaveSampleForm = ({ activity, onWorkupChange }) => {
   }
 
   return (
-    <>
+    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <FormGroup>
         <Label>Name (optional / autofill)</Label>
         <Input
@@ -46,15 +52,6 @@ const SaveSampleForm = ({ activity, onWorkupChange }) => {
           value={sampleForm.short_label}
           placeholder="Short Label"
           onChange={event => onInputChange({ name: 'short_label', value: event.target.value })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Description</Label>
-        <Input
-          type="textarea"
-          value={sampleForm.description}
-          placeholder="Description"
-          onChange={event => onInputChange({ name: 'description', value: event.target.value })}
         />
       </FormGroup>
       <SingleLineFormGroup label='Volume/Amount'>
@@ -112,7 +109,7 @@ const SaveSampleForm = ({ activity, onWorkupChange }) => {
           }}
         />
       </SingleLineFormGroup>
-    </ >
+    </FormSection>
   )
 }
 

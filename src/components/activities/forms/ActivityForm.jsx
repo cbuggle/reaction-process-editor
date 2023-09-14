@@ -46,26 +46,24 @@ const ActivityForm = (
       <OptionalFormSet
         groupLabel={descriptionLabel}
         valueSummary={activity.workup.description}
+        openSubFormLabel={openSubFormLabel}
         onSave={handleSaveDescription}
         onCancel={handleCancelDescription}
         onToggleSubform={onToggleSubform}
         type={type}
       >
-        <FormGroup>
-          <Input
-            type="textarea"
-            name="description"
-            value={description}
-            onChange={event => setDescription(event.target.value)}
-          />
-        </FormGroup>
+        <Input
+          type="textarea"
+          name="description"
+          value={description}
+          onChange={event => setDescription(event.target.value)}
+        />
       </OptionalFormSet>
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
         disabled={subFormOpenState()}
         type={type}
-        separator={true}
       />
     </Form>
   )

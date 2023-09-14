@@ -6,9 +6,16 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
+import FormSection from "../../utilities/FormSection";
 
 
-const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
+const PurifyForm = (
+  {
+    activity,
+    processStep,
+    openSubFormLabel,
+    onWorkupChange
+  }) => {
 
   const purifySolventOptions = useMemo(() => { return processStep.materials_options['SOLVENT'] }, [])
 
@@ -43,7 +50,7 @@ const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
   }
 
   return (
-    <>
+    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <FormGroup>
         {renderFilterMethodButtonToggle()}
       </FormGroup>
@@ -76,7 +83,7 @@ const PurifyForm = ({ activity, onWorkupChange, processStep }) => {
           onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
         />
       </SingleLineFormGroup>
-    </>
+    </FormSection>
   )
 }
 

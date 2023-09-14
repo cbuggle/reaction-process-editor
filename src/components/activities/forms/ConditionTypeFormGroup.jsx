@@ -11,6 +11,7 @@ const ConditionTypeFormGroup = (
     processStep,
     preCondition,
     workup,
+    openSubFormLabel,
     onWorkupChange,
     onToggleSubform
   }) => {
@@ -57,6 +58,7 @@ const ConditionTypeFormGroup = (
         <MotionForm
           label={type.createLabel}
           valueSummary={summary()}
+          openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
           onSave={handleSave}
           onToggleSubform={onToggleSubform}
@@ -65,6 +67,7 @@ const ConditionTypeFormGroup = (
             equipment={equipment}
             equipmentOptions={equipmentOptions}
             onChangeEquipment={setEquipment}
+            activityType='condition'
           />
         </MotionForm>
       }
@@ -72,6 +75,7 @@ const ConditionTypeFormGroup = (
         <EquipmentForm
           label={type.createLabel}
           valueSummary={summary()}
+          openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
           equipmentOptions={processStep.equipment_options}
           onSave={handleSave}
@@ -82,6 +86,7 @@ const ConditionTypeFormGroup = (
         <GenericConditionSubForm
           label={type.createLabel}
           valueSummary={summary()}
+          openSubFormLabel={openSubFormLabel}
           typeName={typeName}
           findInitialValue={findInitialValue}
           onSave={handleSave}

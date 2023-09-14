@@ -1,11 +1,13 @@
 import {Button, FormGroup, Label} from "reactstrap";
 import React, {useState} from "react";
 import FormButtons from "../../utilities/FormButtons";
+import FormSection from "../../utilities/FormSection";
 
 const OptionalFormSet = (
   {
     groupLabel,
     valueSummary,
+    openSubFormLabel,
     onSave,
     onCancel,
     onToggleSubform,
@@ -33,7 +35,7 @@ const OptionalFormSet = (
   }
 
   return (
-    <FormGroup className={'form-section form-section--' + type + ' optional-form-group--' + groupLabel.toLowerCase()}>
+    <FormSection name={groupLabel} openSubFormLabel={openSubFormLabel} type={type}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
           <Label className={'col-form-label' + (valueSummary ? '' : ' label--disabled')}>{labelWithSummary}</Label>
@@ -58,7 +60,7 @@ const OptionalFormSet = (
           />
         </>
       }
-    </FormGroup>
+    </FormSection>
   );
 };
 

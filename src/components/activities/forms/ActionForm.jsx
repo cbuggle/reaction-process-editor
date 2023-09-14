@@ -7,6 +7,7 @@ import TransferForm from "./TransferForm";
 import RemoveForm from "./RemoveForm";
 import PurifyForm from "./PurifyForm";
 import AnalysisForm from "./AnalysisForm";
+import FormSection from "../../utilities/FormSection";
 
 const ActionForm = (
   {
@@ -35,36 +36,43 @@ const ActionForm = (
             <AddSampleForm
               activity={activity}
               processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
-            <ApplyExtraEquipmentForm
-              equipment={workup.equipment}
-              equipmentOptions={equipmentOptions}
-              onChangeEquipment={setEquipment}
-            />
+            <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+              <ApplyExtraEquipmentForm
+                equipment={workup.equipment}
+                equipmentOptions={equipmentOptions}
+                openSubFormLabel={openSubFormLabel}
+                onChangeEquipment={setEquipment}
+              />
+            </FormSection>
           </>
         )
       case "SAVE":
         return (
           <SaveSampleForm
             activity={activity}
+            openSubFormLabel={openSubFormLabel}
             onWorkupChange={onWorkupChange}
           />
         )
       case "TRANSFER":
         return (
-          <>
+          <FormSection type='action' openSubFormLabel={openSubFormLabel}>
             <TransferForm
               activity={activity}
               processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
             <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
+              openSubFormLabel={openSubFormLabel}
               onChangeEquipment={setEquipment}
             />
-          </>
+          </FormSection>
         )
       case "REMOVE":
         return (
@@ -72,11 +80,13 @@ const ActionForm = (
             <RemoveForm
               activity={activity}
               processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
             <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
+              openSubFormLabel={openSubFormLabel}
               onChangeEquipment={setEquipment}
             />
           </>
@@ -87,13 +97,17 @@ const ActionForm = (
             <PurifyForm
               activity={activity}
               processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
-            <ApplyExtraEquipmentForm
-              equipment={workup.equipment}
-              equipmentOptions={equipmentOptions}
-              onChangeEquipment={setEquipment}
-            />
+            <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+              <ApplyExtraEquipmentForm
+                equipment={workup.equipment}
+                equipmentOptions={equipmentOptions}
+                openSubFormLabel={openSubFormLabel}
+                onChangeEquipment={setEquipment}
+              />
+            </FormSection>
           </>
         )
       case "ANALYSIS":
@@ -101,6 +115,7 @@ const ActionForm = (
           <>
             <AnalysisForm
               activity={activity}
+              openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
           </>

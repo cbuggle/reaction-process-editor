@@ -14,6 +14,7 @@ const GenericConditionSubForm = (
     label,
     valueSummary,
     typeName,
+    openSubFormLabel,
     children,
     findInitialValue,
     onSave,
@@ -62,14 +63,14 @@ const GenericConditionSubForm = (
 
   const renderPowerForm = () => {
     return (
-      <FormGroup>
+      <>
         <NumericalInputWithUnit
           label='Power (Start)'
           value={powerValue}
           inputRanges={powerInputRange}
           onWorkupChange={setPowerValue}
         />
-        <FormGroup check className='mb-3'>
+        <FormGroup check>
           <Input
             type="checkbox"
             checked={!!powerRamp}
@@ -85,7 +86,7 @@ const GenericConditionSubForm = (
             onWorkupChange={setPowerEndValue}
           />
         }
-      </FormGroup>
+      </>
     )
   }
 
@@ -131,31 +132,30 @@ const GenericConditionSubForm = (
     <OptionalFormSet
       groupLabel={label}
       valueSummary={valueSummary}
+      openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
       onCancel={handleCancel}
       onToggleSubform={onToggleSubform}
     >
-      <FormGroup>
-        <Row className='gx-1'>
-          <Col md={6} className='generic-condition-sub-form__value'>
-            <NumericalInputWithUnit
-              value={value}
-              inputRanges={conditionInputRanges[typeName]}
-              onWorkupChange={setValue}
-            />
-          </Col>
-          <Col md={6}>
-            <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-              name="condition_tendency"
-              options={ conditionTendencyOptions }
-              value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}
-              onChange={selectedOption => setConditionTendency(selectedOption.value)}
-            />
-          </Col>
-        </Row>
-      </FormGroup>
+      <Row className='gx-1 mb-3'>
+        <Col md={6} className='generic-condition-sub-form__value'>
+          <NumericalInputWithUnit
+            value={value}
+            inputRanges={conditionInputRanges[typeName]}
+            onWorkupChange={setValue}
+          />
+        </Col>
+        <Col md={6}>
+          <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
+            name="condition_tendency"
+            options={ conditionTendencyOptions }
+            value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}
+            onChange={selectedOption => setConditionTendency(selectedOption.value)}
+          />
+        </Col>
+      </Row>
       {typeName === 'IRRADIATION' &&
         <FormGroup>
           {renderPowerForm()}
