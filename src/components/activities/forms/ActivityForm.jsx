@@ -6,6 +6,7 @@ import { FormGroup, Input, Form } from 'reactstrap'
 import FormButtons from "../../utilities/FormButtons";
 import ActionValidator from '../../../validators/ActionValidator'
 import OptionalFormSet from "./OptionalFormSet";
+import DescriptionFormSet from "./DescriptionFormSet";
 
 const ActivityForm = (
   {
@@ -19,21 +20,11 @@ const ActivityForm = (
     onToggleSubform,
     className = ''
   }) => {
-  const [description, setDescription] = useState(activity.workup.description)
-  const descriptionLabel = 'Description'
 
   const handleSave = () => {
     if (ActionValidator.validate(activity)) {
       onSave()
     }
-  }
-
-  const handleSaveDescription = () => {
-    onWorkupChange({ name: 'description', value: description })
-  }
-
-  const handleCancelDescription = () => {
-    setDescription(activity.workup.description)
   }
 
   const subFormOpenState = () => {
@@ -43,22 +34,13 @@ const ActivityForm = (
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
-      <OptionalFormSet
-        groupLabel={descriptionLabel}
-        valueSummary={activity.workup.description}
+      <DescriptionFormSet
+        activityType={type}
+        activity={activity}
         openSubFormLabel={openSubFormLabel}
-        onSave={handleSaveDescription}
-        onCancel={handleCancelDescription}
         onToggleSubform={onToggleSubform}
-        type={type}
-      >
-        <Input
-          type="textarea"
-          name="description"
-          value={description}
-          onChange={event => setDescription(event.target.value)}
-        />
-      </OptionalFormSet>
+        onWorkupChange={onWorkupChange}
+      />
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
