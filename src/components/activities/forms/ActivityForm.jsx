@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import ActionValidator from '../../../validators/ActionValidator'
 import DescriptionFormSet from "./DescriptionFormSet";
 import FormButtons from "../../utilities/FormButtons";
+import TimingFormSet from "./TimingFormSet";
 
 const ActivityForm = (
   {
@@ -15,6 +16,7 @@ const ActivityForm = (
     onCancel,
     onSave,
     onWorkupChange,
+    onChangeDuration,
     onToggleSubform,
     className = ''
   }) => {
@@ -38,6 +40,13 @@ const ActivityForm = (
         openSubFormLabel={openSubFormLabel}
         onToggleSubform={onToggleSubform}
         onWorkupChange={onWorkupChange}
+      />
+      <TimingFormSet
+        activityType={type}
+        activity={activity}
+        openSubFormLabel={openSubFormLabel}
+        onToggleSubform={onToggleSubform}
+        onChangeDuration={onChangeDuration}
       />
       <FormButtons
         onSave={handleSave}

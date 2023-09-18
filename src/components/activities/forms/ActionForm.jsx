@@ -17,7 +17,7 @@ const ActionForm = (
     onCancel,
     onSave,
     onWorkupChange,
-    setDuration,
+    onChangeDuration,
     onToggleSubform
   }) => {
   const workup = activity.workup
@@ -136,6 +136,7 @@ const ActionForm = (
       onCancel={onCancel}
       onSave={onSave}
       onWorkupChange={onWorkupChange}
+      onChangeDuration={onChangeDuration}
       onToggleSubform={onToggleSubform}
     >
       {customActionForm()}
