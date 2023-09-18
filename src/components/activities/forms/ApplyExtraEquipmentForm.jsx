@@ -3,7 +3,14 @@ import { FormGroup, Input, Label } from 'reactstrap'
 import Select from 'react-select'
 import FormSection from "../../utilities/FormSection";
 
-const ApplyEquipmentForm = ({ equipment,  equipmentOptions, onChangeEquipment }) => {
+const ApplyEquipmentForm = (
+  {
+    equipment,
+    equipmentOptions,
+    openSubFormLabel,
+    onChangeEquipment,
+    activityType='action'
+  }) => {
 
   const [applyExtraEquipment, setApplyExtraEquipment] = useState(!!equipment && equipment.length > 0)
 
@@ -16,7 +23,7 @@ const ApplyEquipmentForm = ({ equipment,  equipmentOptions, onChangeEquipment })
   }
 
   return (
-    <FormSection type='action'>
+    <>
       <FormGroup check className='mb-3'>
         <Label check>
           <Input type="checkbox" checked={applyExtraEquipment} onChange={handleCheckbox} />
@@ -36,7 +43,7 @@ const ApplyEquipmentForm = ({ equipment,  equipmentOptions, onChangeEquipment })
           />
         </FormGroup>
       }
-    </FormSection>
+    </>
   )
 }
 

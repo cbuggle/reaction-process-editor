@@ -90,9 +90,6 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
             {infoTitle.length > 0 &&
               <h6>{infoTitle}</h6>
             }
-            {workup.description &&
-              <p className='activity-info__description'>{'Description: ' + workup.description}</p>
-            }
             {infoLines.length > 0 &&
               <p>
                 {infoLines.map((line, index) => (
@@ -101,6 +98,9 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
                   </span>
                 ))}
               </p>
+            }
+            {workup.description &&
+              <p className='activity-info__description'>{'Description: ' + workup.description}</p>
             }
           </div>
         }

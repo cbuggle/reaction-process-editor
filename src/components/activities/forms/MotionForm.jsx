@@ -5,9 +5,18 @@ import Select from 'react-select'
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
 import { conditionInputRanges } from "../../../constants/dropdownOptions/conditionsOptions";
-import FormButtons from "../../utilities/FormButtons";
+import OptionalFormSet from "./OptionalFormSet";
 
-const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => {
+const MotionForm = (
+  {
+    label,
+    valueSummary,
+    openSubFormLabel,
+    findInitialValue,
+    children,
+    onSave,
+    onToggleSubform
+  }) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges.MOTION.default)
   }
@@ -46,7 +55,6 @@ const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => 
 
   const handleCancel = () => {
     resetFormData()
-    onCancel()
   }
 
   const motionTypeOption = () => {
@@ -62,46 +70,48 @@ const MotionForm = ({ label, findInitialValue, children, onCancel, onSave }) => 
   }
 
   return (
-    <div className="motion-form">
-      <Label>{label}</Label>
-      <FormGroup>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="motion_type"
-          options={motionTypeOptions}
-          value={motionTypeOption()}
-          onChange={selectedOption => setMotionType(selectedOption.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="motion_mode"
-          options={motionModeOptions}
-          value={motionModeOptions.find(option => option.value === motionMode)}
-          onChange={selectedOption => setMotionMode(selectedOption.value)}
-        />
-      </FormGroup>
-      {/* include slider */}
-      <FormGroup>
-        <NumericalInputWithUnit
-          label='Speed'
-          value={value}
-          step={speedStepSize()}
-          inputRanges={motionInputRange}
-          onWorkupChange={setValue}
-        />
-      </FormGroup>
-      { children }
-      <FormButtons
-        type='condition'
-        onSave={handleSave}
-        onCancel={handleCancel}
-        saveLabel='Set'
-      />
-    </div>
+    <OptionalFormSet
+      groupLabel={label}
+      valueSummary={valueSummary}
+      openSubFormLabel={openSubFormLabel}
+      onSave={handleSave}
+      onCancel={handleCancel}
+      onToggleSubform={onToggleSubform}
+    >
+      <div className="motion-form">
+        <FormGroup>
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="motion_type"
+            options={motionTypeOptions}
+            value={motionTypeOption()}
+            onChange={selectedOption => setMotionType(selectedOption.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="motion_mode"
+            options={motionModeOptions}
+            value={motionModeOptions.find(option => option.value === motionMode)}
+            onChange={selectedOption => setMotionMode(selectedOption.value)}
+          />
+        </FormGroup>
+        {/* include slider */}
+        <FormGroup>
+          <NumericalInputWithUnit
+            label='Speed'
+            value={value}
+            step={speedStepSize()}
+            inputRanges={motionInputRange}
+            onWorkupChange={setValue}
+          />
+        </FormGroup>
+        { children }
+      </div>
+    </OptionalFormSet>
   )
 }
 

@@ -8,9 +8,11 @@ const ConditionForm = (
     activity,
     processStep,
     preConditions,
+    openSubFormLabel,
     onSave,
     onCancel,
-    onWorkupChange
+    onWorkupChange,
+    onToggleSubform
   }) => {
 
   const [focus, setFocus] = useState(false);
@@ -23,9 +25,11 @@ const ConditionForm = (
     <ActivityForm
       type='condition'
       activity={activity}
+      openSubFormLabel={openSubFormLabel}
       onSave={onSave}
       onCancel={onCancel}
       onWorkupChange={onWorkupChange}
+      onToggleSubform={onToggleSubform}
       className={focus ? 'condition-form--focus' : ''}
     >
       {
@@ -36,8 +40,10 @@ const ConditionForm = (
             processStep={processStep}
             preCondition={preConditions[type.action.workup.condition_type]}
             workup={activity.workup}
+            openSubFormLabel={openSubFormLabel}
             onWorkupChange={onWorkupChange}
             onToggleFocus={toggleFocus}
+            onToggleSubform={onToggleSubform}
           />
         ))
       }

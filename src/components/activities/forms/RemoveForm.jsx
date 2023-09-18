@@ -7,8 +7,15 @@ import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 
 import { conditionUnitOptions, conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
+import FormSection from "../../utilities/FormSection";
 
-const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
+const RemoveForm = (
+  {
+    activity,
+    processStep,
+    openSubFormLabel,
+    onWorkupChange
+  }) => {
 
   const mediumSelectOptions = processStep.added_materials_options['MEDIUM'].concat([{ value: "", label: "Undefined" }])
   const additivesSelectOptions = processStep.added_materials_options['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
@@ -136,7 +143,7 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
   }
 
   return (
-    <>
+    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <SingleLineFormGroup label='Type'>
         <Select
             className="react-select--overwrite"
@@ -148,7 +155,7 @@ const RemoveForm = ({ activity, onWorkupChange, processStep }) => {
         />
       </SingleLineFormGroup>
       {renderGenericRemoveFields()}
-    </>
+    </FormSection>
   )
 }
 

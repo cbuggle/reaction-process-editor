@@ -5,7 +5,13 @@ import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 
-const TransferForm = ({ activity, processStep, onWorkupChange }) => {
+const TransferForm = (
+  {
+    activity,
+    processStep,
+    openSubFormLabel,
+    onWorkupChange
+  }) => {
 
   useEffect(() => {
     onWorkupChange({ name: 'transfer_source_step_id', value: processStep.id })

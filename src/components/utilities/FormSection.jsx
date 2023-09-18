@@ -1,9 +1,28 @@
 import React from 'react';
-const FormSection = ( {children, type = 'preparation'} ) => {
+import {FormGroup} from "reactstrap";
+const FormSection = (
+  {
+    children,
+    name,
+    openSubFormLabel,
+    type = 'preparation'
+  }) => {
+
+  const classNames = () => {
+    let classNames = 'form-section form-section--' + type
+    if(!!name && openSubFormLabel === name) {
+      classNames += ' form-section--active'
+    } else if (openSubFormLabel !== undefined) {
+      classNames += ' form-section--disabled'
+    }
+    return classNames
+  }
+
+
   return (
-    <div className={'form-section form-section--' + type}>
+    <FormGroup className={classNames()}>
       {children}
-    </div>
+    </FormGroup>
   )
 }
 

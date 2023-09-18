@@ -7,3 +7,7 @@
 @function border-color($name) {
   @return shade-color(color($name), 30%);
 }
+
+@function highlight-color($name) {
+  @return tint-color(color($name), 80%);
+}

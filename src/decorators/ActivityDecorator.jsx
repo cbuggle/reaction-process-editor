@@ -51,25 +51,21 @@ export default class ActivityDecorator {
   }
 
   static conditionInfo = (type, conditionWorkup, equipmentOptions) => {
-    let info = conditionWorkup.create_label + ': '
-    if (!!conditionWorkup.value) {
-      if (type === 'EQUIPMENT') {
-        info += conditionWorkup.value.map(value => {
-          const matchingOption = equipmentOptions.find(option => option.value === value);
-          return matchingOption ? matchingOption.label : null;
-        }).toString()
-      } else {
-        info += (conditionWorkup.value + ' ' + conditionWorkup.unit)
-      }
-      if (type === 'MOTION') {
-        info = [
-          info,
-          motionTypeOptions.find(option => option.value === conditionWorkup.motion_type).label,
-          motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label
-        ].toString()
-      }
+    let info
+    if (type === 'EQUIPMENT') {
+      info = conditionWorkup.value.map(value => {
+        const matchingOption = equipmentOptions.find(option => option.value === value);
+        return matchingOption ? matchingOption.label : null;
+      }).toString()
     } else {
-      info += '-'
+      info = (conditionWorkup.value + ' ' + conditionWorkup.unit)
+    }
+    if (type === 'MOTION') {
+      info = [
+        info,
+        motionTypeOptions.find(option => option.value === conditionWorkup.motion_type).label,
+        motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label
+      ].toString()
     }
     return info
   }

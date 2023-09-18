@@ -1,41 +1,52 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import { FormGroup, Label, Input, Form } from 'reactstrap'
+import { FormGroup, Input, Form } from 'reactstrap'
 
 import FormButtons from "../../utilities/FormButtons";
 import ActionValidator from '../../../validators/ActionValidator'
+import OptionalFormSet from "./OptionalFormSet";
+import DescriptionFormSet from "./DescriptionFormSet";
 
 const ActivityForm = (
   {
     type,
     activity,
     children,
+    openSubFormLabel,
     onCancel,
     onSave,
     onWorkupChange,
+    onToggleSubform,
     className = ''
   }) => {
 
-  const onHandleSave = () => {
+  const handleSave = () => {
     if (ActionValidator.validate(activity)) {
       onSave()
     }
   }
 
+  const subFormOpenState = () => {
+    return openSubFormLabel !== undefined
+  }
+
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
-      <FormGroup>
-        <Label>Description</Label>
-        <Input
-          type="textarea"
-          value={activity.workup.description}
-          placeholder="Description"
-          onChange={event => onWorkupChange({ name: 'description', value: event.target.value })}
-        />
-      </FormGroup>
-      <FormButtons onSave={onHandleSave} onCancel={onCancel} type={type} separator={true} />
+      <DescriptionFormSet
+        activityType={type}
+        activity={activity}
+        openSubFormLabel={openSubFormLabel}
+        onToggleSubform={onToggleSubform}
+        onWorkupChange={onWorkupChange}
+      />
+      <FormButtons
+        onSave={handleSave}
+        onCancel={onCancel}
+        disabled={subFormOpenState()}
+        type={type}
+      />
     </Form>
   )
 }

@@ -29,6 +29,7 @@ const ActivityCard = (
   const uninitialisedTitle = isCondition ? 'Change Condition' : 'New Action'
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
+  const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
   const generateTitle = () => {
     if (activityForm && activityForm.action_name) {
       return ActivityDecorator.title(activityForm.action_name, workup);
@@ -59,6 +60,10 @@ const ActivityCard = (
     } else {
       onCancel()
     }
+  }
+
+  const handleToggleSubform = (openSubformLabel) => {
+    setOpenSubFormLabel(openSubformLabel)
   }
 
   const onSelectType = (newActivity) => () => {
@@ -115,10 +120,12 @@ const ActivityCard = (
           <ActionForm
             activity={activityForm}
             processStep={processStep}
+            openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}
             setDuration={setDuration}
+            onToggleSubform={handleToggleSubform}
           />
         }
         {isCondition &&
@@ -126,9 +133,11 @@ const ActivityCard = (
             activity={activityForm}
             processStep={processStep}
             preConditions={preConditions}
+            openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={onWorkupChange}
+            onToggleSubform={handleToggleSubform}
           />
         }
       </ProcedureCard.Form>

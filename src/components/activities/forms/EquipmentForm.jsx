@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 
-import { Label, FormGroup } from "reactstrap";
-import FormButtons from "../../utilities/FormButtons";
+import { FormGroup } from "reactstrap";
+import OptionalFormSet from "./OptionalFormSet";
 
-const EquipmentForm = ({ label, findInitialValue, equipmentOptions, onCancel, onSave }) => {
+const EquipmentForm = (
+  {
+    label,
+    valueSummary,
+    openSubFormLabel,
+    findInitialValue,
+    equipmentOptions,
+    onSave,
+    onToggleSubform
+  }) => {
   const resetEquipment = () => {
     return findInitialValue('value', undefined)
   }
@@ -21,12 +30,17 @@ const EquipmentForm = ({ label, findInitialValue, equipmentOptions, onCancel, on
 
   const handleCancel = () => {
     setEquipment(resetEquipment())
-    onCancel()
   }
 
   return (
-    <>
-      <Label>{label}</Label>
+    <OptionalFormSet
+      groupLabel={label}
+      valueSummary={valueSummary}
+      openSubFormLabel={openSubFormLabel}
+      onSave={handleSave}
+      onCancel={handleCancel}
+      onToggleSubform={onToggleSubform}
+    >
       <FormGroup>
         <Select
           className="react-select--overwrite"
@@ -38,13 +52,7 @@ const EquipmentForm = ({ label, findInitialValue, equipmentOptions, onCancel, on
           onChange={selectedOptions => setEquipment(selectedOptions.map(option => option.value))}
         />
       </FormGroup>
-      <FormButtons
-        type='condition'
-        onSave={handleSave}
-        onCancel={handleCancel}
-        saveLabel='Set'
-      />
-    </>
+    </OptionalFormSet>
   )
 }
 

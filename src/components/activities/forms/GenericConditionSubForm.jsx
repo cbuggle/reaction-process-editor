@@ -7,9 +7,19 @@ import {
   conditionTendencyOptions
 } from "../../../constants/dropdownOptions/conditionsOptions";
 import Select from "react-select";
-import FormButtons from "../../utilities/FormButtons";
+import OptionalFormSet from "./OptionalFormSet";
 
-const GenericConditionSubForm = ({label, typeName, children, findInitialValue, onSave, onCancel}) => {
+const GenericConditionSubForm = (
+  {
+    label,
+    valueSummary,
+    typeName,
+    openSubFormLabel,
+    children,
+    findInitialValue,
+    onSave,
+    onToggleSubform
+  }) => {
   const resetValue = () => {
     return findInitialValue('value', conditionInputRanges[typeName].default)
   }
@@ -53,14 +63,14 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
 
   const renderPowerForm = () => {
     return (
-      <FormGroup>
+      <>
         <NumericalInputWithUnit
           label='Power (Start)'
           value={powerValue}
           inputRanges={powerInputRange}
           onWorkupChange={setPowerValue}
         />
-        <FormGroup check className='mb-3'>
+        <FormGroup check>
           <Input
             type="checkbox"
             checked={!!powerRamp}
@@ -76,7 +86,7 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
             onWorkupChange={setPowerEndValue}
           />
         }
-      </FormGroup>
+      </>
     )
   }
 
@@ -116,33 +126,36 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
 
   const handleCancel = () => {
     resetFormData()
-    onCancel()
   }
 
   return (
-    <>
-      <FormGroup>
-        <Label>{label}</Label>
-        <Row className='gx-1'>
-          <Col md={6} className='generic-condition-sub-form__value'>
-            <NumericalInputWithUnit
-              value={value}
-              inputRanges={conditionInputRanges[typeName]}
-              onWorkupChange={setValue}
-            />
-          </Col>
-          <Col md={6}>
-            <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-              name="condition_tendency"
-              options={ conditionTendencyOptions }
-              value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}
-              onChange={selectedOption => setConditionTendency(selectedOption.value)}
-            />
-          </Col>
-        </Row>
-      </FormGroup>
+    <OptionalFormSet
+      groupLabel={label}
+      valueSummary={valueSummary}
+      openSubFormLabel={openSubFormLabel}
+      onSave={handleSave}
+      onCancel={handleCancel}
+      onToggleSubform={onToggleSubform}
+    >
+      <Row className='gx-1 mb-3'>
+        <Col md={6} className='generic-condition-sub-form__value'>
+          <NumericalInputWithUnit
+            value={value}
+            inputRanges={conditionInputRanges[typeName]}
+            onWorkupChange={setValue}
+          />
+        </Col>
+        <Col md={6}>
+          <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
+            name="condition_tendency"
+            options={ conditionTendencyOptions }
+            value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}
+            onChange={selectedOption => setConditionTendency(selectedOption.value)}
+          />
+        </Col>
+      </Row>
       {typeName === 'IRRADIATION' &&
         <FormGroup>
           {renderPowerForm()}
@@ -154,13 +167,7 @@ const GenericConditionSubForm = ({label, typeName, children, findInitialValue, o
         </FormGroup>
       }
       { children }
-      <FormButtons
-        type='condition'
-        onSave={handleSave}
-        onCancel={handleCancel}
-        saveLabel='Set'
-      />
-    </>
+    </OptionalFormSet>
   );
 };
 

@@ -7,14 +7,23 @@ import TransferForm from "./TransferForm";
 import RemoveForm from "./RemoveForm";
 import PurifyForm from "./PurifyForm";
 import AnalysisForm from "./AnalysisForm";
+import FormSection from "../../utilities/FormSection";
 
-const ActionForm = (props) => {
-  const activity = props.activity
+const ActionForm = (
+  {
+    activity,
+    processStep,
+    openSubFormLabel,
+    onCancel,
+    onSave,
+    onWorkupChange,
+    setDuration,
+    onToggleSubform
+  }) => {
   const workup = activity.workup
-  const processStep = props.processStep
-  const onWorkupChange = props.onWorkupChange
   const actionName = activity.action_name
   const equipmentOptions = processStep.action_equipment_options[actionName]
+
   const setEquipment = (equipment) => {
     onWorkupChange({ name: 'equipment', value: equipment })
   }
@@ -24,36 +33,60 @@ const ActionForm = (props) => {
       case "ADD":
         return (
           <>
-            <AddSampleForm {...props} />
-            <ApplyExtraEquipmentForm
-              equipment={workup.equipment}
-              equipmentOptions={equipmentOptions}
-              onChangeEquipment={setEquipment}
+            <AddSampleForm
+              activity={activity}
+              processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
+              onWorkupChange={onWorkupChange}
             />
+            <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+              <ApplyExtraEquipmentForm
+                equipment={workup.equipment}
+                equipmentOptions={equipmentOptions}
+                openSubFormLabel={openSubFormLabel}
+                onChangeEquipment={setEquipment}
+              />
+            </FormSection>
           </>
         )
       case "SAVE":
         return (
-          <SaveSampleForm {...props} />
+          <SaveSampleForm
+            activity={activity}
+            openSubFormLabel={openSubFormLabel}
+            onWorkupChange={onWorkupChange}
+          />
         )
       case "TRANSFER":
         return (
-          <>
-            <TransferForm {...props} />
+          <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+            <TransferForm
+              activity={activity}
+              processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
+              onWorkupChange={onWorkupChange}
+            />
             <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
+              openSubFormLabel={openSubFormLabel}
               onChangeEquipment={setEquipment}
             />
-          </>
+          </FormSection>
         )
       case "REMOVE":
         return (
           <>
-            <RemoveForm {...props} />
+            <RemoveForm
+              activity={activity}
+              processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
+              onWorkupChange={onWorkupChange}
+            />
             <ApplyExtraEquipmentForm
               equipment={workup.equipment}
               equipmentOptions={equipmentOptions}
+              openSubFormLabel={openSubFormLabel}
               onChangeEquipment={setEquipment}
             />
           </>
@@ -61,18 +94,30 @@ const ActionForm = (props) => {
       case "PURIFY":
         return (
           <>
-            <PurifyForm {...props} />
-            <ApplyExtraEquipmentForm
-              equipment={workup.equipment}
-              equipmentOptions={equipmentOptions}
-              onChangeEquipment={setEquipment}
+            <PurifyForm
+              activity={activity}
+              processStep={processStep}
+              openSubFormLabel={openSubFormLabel}
+              onWorkupChange={onWorkupChange}
             />
+            <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+              <ApplyExtraEquipmentForm
+                equipment={workup.equipment}
+                equipmentOptions={equipmentOptions}
+                openSubFormLabel={openSubFormLabel}
+                onChangeEquipment={setEquipment}
+              />
+            </FormSection>
           </>
         )
       case "ANALYSIS":
         return (
           <>
-            <AnalysisForm {...props} />
+            <AnalysisForm
+              activity={activity}
+              openSubFormLabel={openSubFormLabel}
+              onWorkupChange={onWorkupChange}
+            />
           </>
         )
       case 'PAUSE':
@@ -87,8 +132,11 @@ const ActionForm = (props) => {
     <ActivityForm
       type='action'
       activity={activity}
-      onCancel={props.onCancel}
-      onSave={props.onSave}
+      openSubFormLabel={openSubFormLabel}
+      onCancel={onCancel}
+      onSave={onSave}
+      onWorkupChange={onWorkupChange}
+      onToggleSubform={onToggleSubform}
     >
       {customActionForm()}
     </ActivityForm>

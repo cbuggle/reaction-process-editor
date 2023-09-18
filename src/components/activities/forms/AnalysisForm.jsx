@@ -4,11 +4,18 @@ import Select from 'react-select'
 
 import { analysisTypeOptions } from '../../../constants/dropdownOptions/analysisTypeOptions'
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import FormSection from "../../utilities/FormSection";
 
 
-const AnalysisForm = ({ activity, onWorkupChange }) => {
+const AnalysisForm = (
+  {
+    activity,
+    openSubFormLabel,
+    onWorkupChange
+  }) => {
+
   return (
-    <>
+    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <SingleLineFormGroup label='Type'>
         <Select
           className="react-select--overwrite"
@@ -35,7 +42,7 @@ const AnalysisForm = ({ activity, onWorkupChange }) => {
           onChange={event => onWorkupChange({ name: 'analysis_number', value: event.target.value })}
         />
       </SingleLineFormGroup>
-    </>
+    </FormSection>
   )
 }
 

@@ -1,6 +1,3 @@
 .form-buttons {
-  padding-top: .25rem;
-  &--separated.form-buttons {
-    @include separator-border
-  }
+  padding: 0.5rem 0;
 }
