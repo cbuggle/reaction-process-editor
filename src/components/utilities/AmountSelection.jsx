@@ -1,15 +1,20 @@
-import {Row, Col, Input} from "reactstrap";
+import { Row, Col } from "reactstrap";
 import { sampleVolumeUnitOptions } from '../../constants/dropdownOptions/samplesOptions';
 import React from "react";
 import Select from "react-select";
 import NumericalInputWithUnit from "./NumericalInputWithUnit";
 import SingleLineFormGroup from "./SingleLineFormGroup";
-import {conditionInputRanges} from "../../constants/dropdownOptions/conditionsOptions";
 import NumericInput from "react-numeric-input";
 
-const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChangeUnit, onChangeAmount}) => {
+import { conditionTypes } from "../../constants/conditionTypes";
 
-  const handlePercentageInput = ({value} ) => {
+const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChangeUnit, onChangeAmount }) => {
+
+  // Hardcoded default until we implement unit switching
+  const defaultPercentageUnit = conditionTypes['PERCENTAGE'].defaultUnit
+  const percentageUnitType = conditionTypes['PERCENTAGE'].unitTypes[defaultPercentageUnit]
+
+  const handlePercentageInput = ({ value }) => {
     let newAmount = value * maxAmount / 100
     if (value < 100) {
       newAmount = newAmount.toFixed(5)
@@ -29,6 +34,7 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
             <NumericInput
               value={amount || 0}
               step={0.1}
+              precision = {1}
               min={0}
               max={maxAmount || 10000000000000}
               size={8}
@@ -52,10 +58,10 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
       </SingleLineFormGroup>
       {maxAmount &&
         <NumericalInputWithUnit
-          label='Percentage'
+          label={percentageUnitType.label}
           name='percentage'
           value={calcPercentage()}
-          inputRanges={conditionInputRanges['PERCENTAGE']}
+          unitType={percentageUnitType}
           onWorkupChange={handlePercentageInput}
         />
       }

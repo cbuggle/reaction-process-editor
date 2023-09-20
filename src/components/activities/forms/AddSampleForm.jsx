@@ -4,12 +4,12 @@ import Select from 'react-select'
 
 import PropTypes from 'prop-types'
 
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
-
-import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import AmountSelection from "../../utilities/AmountSelection";
 import FormSection from "../../utilities/FormSection";
+import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+
+import { conditionTypes } from '../../../constants/conditionTypes';
 
 const AddSampleForm = (
   {
@@ -24,6 +24,15 @@ const AddSampleForm = (
   const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
 
   const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
+
+  const unitType = (conditionType, conditionUnit) => {
+    const currentUnit = conditionUnit || conditionTypes[conditionType].defaultUnit
+    return conditionTypes[conditionType].unitTypes[currentUnit]
+  }
+
+  const label = (conditionType) => {
+    return conditionTypes[conditionType].label
+  }
 
   const handleAmountInput = (value) => {
     onWorkupChange({ name: 'target_amount_value', value: value })
@@ -62,31 +71,31 @@ const AddSampleForm = (
           amount={activity.workup['target_amount_value']}
           maxAmount={activity.workup['sample_original_amount']}
           unit={activity.workup['target_amount_unit']}
-          disableUnitSelection={!!activity.workup['sample_original_amount']}
+          disableunitelection={!!activity.workup['sample_original_amount']}
           onChangeAmount={handleAmountInput}
           onChangeUnit={handleUnitInput}
         />
       </FormSection>
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
         <NumericalInputWithUnit
-          label="Speed"
-          name='add_sample_speed'
-          value={activity.workup['add_sample_speed']}
-          inputRanges={conditionInputRanges['VELOCITY']}
+          label={label('VELOCITY')}
+          name='add_sample_velocity'
+          value={activity.workup['add_sample_velocity']}
+          unitType={unitType('VELOCITY')}
           onWorkupChange={onWorkupChange}
         />
         <NumericalInputWithUnit
-          label="Temperature"
+          label={label('TEMPERATURE')}
           name='add_sample_temperature'
           value={activity.workup['add_sample_temperature']}
-          inputRanges={conditionInputRanges['TEMPERATURE']}
+          unitType={unitType('TEMPERATURE')}
           onWorkupChange={onWorkupChange}
         />
         <NumericalInputWithUnit
-          label="Pressure"
+          label={label('VELOCITY')}
           name='add_sample_pressure'
           value={activity.workup['add_sample_pressure']}
-          inputRanges={conditionInputRanges['PRESSURE']}
+          unitType={unitType('PRESSURE')}
           onWorkupChange={onWorkupChange}
         />
         {currentSampleActsAs === 'SOLVENT' &&

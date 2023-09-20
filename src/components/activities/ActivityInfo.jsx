@@ -17,9 +17,9 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
           infoImage = action.sample
         }
         infoTitle = [workup.target_amount_value, workup.target_amount_unit].join(' ')
-        if (workup.add_sample_speed) {
+        if (workup.add_sample_velocity) {
           infoLines.push(
-            workup.add_sample_speed + ' ml/min ' +
+            workup.add_sample_velocity + ' ml/min ' +
               workup.add_sample_temperature ? workup.add_sample_temperature + ' °C ' : '' +
                 workup.add_sample_pressure ? workup.add_sample_pressure + ' mbar' : ''
           )

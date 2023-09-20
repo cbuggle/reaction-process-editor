@@ -6,7 +6,7 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 
-import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
+import { conditionTypes } from '../../../constants/conditionTypes';
 import { sampleVolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
 import FormSection from "../../utilities/FormSection";
@@ -25,6 +25,8 @@ const SaveSampleForm = (
     target_amount_value: '',
     location: ''
   })
+
+  const purityInputType = conditionTypes['PERCENTAGE'].unitTypes['PURITY']
 
   useEffect(() => {
     setSampleForm(activity.workup['sample'])
@@ -75,7 +77,7 @@ const SaveSampleForm = (
         label='Purity'
         name='purity'
         value={sampleForm['purity']}
-        inputRanges={conditionInputRanges['PURITY']}
+        unitType={purityInputType}
         onWorkupChange={onInputChange}
       />
       <SingleLineFormGroup label='Location'>

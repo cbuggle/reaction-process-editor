@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, { useMemo, useState } from 'react';
 import MotionForm from "./MotionForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
@@ -7,7 +7,8 @@ import EquipmentForm from "./EquipmentForm";
 
 const ConditionTypeFormGroup = (
   {
-    type,
+    conditionTypeName,
+    conditionType,
     processStep,
     preCondition,
     workup,
@@ -15,12 +16,12 @@ const ConditionTypeFormGroup = (
     onWorkupChange,
     onToggleSubform
   }) => {
-  const typeName = type.action.workup.condition_type
   const hasPreCondition = !!preCondition && !!preCondition.value
-  const hasWorkupCondition = !!workup[typeName] && !!workup[typeName].value
+  const hasWorkupCondition = !!workup[conditionTypeName] && !!workup[conditionTypeName].value
+
   const findInitialValue = (key, fallBack) => {
-    if(workup[typeName] && workup[typeName][key]) {
-      return workup[typeName][key]
+    if (workup[conditionTypeName] && workup[conditionTypeName][key]) {
+      return workup[conditionTypeName][key]
     } else if (preCondition[key]) {
       return preCondition[key]
     } else {
@@ -28,10 +29,10 @@ const ConditionTypeFormGroup = (
     }
   }
   const summary = () => {
-    if(hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(typeName, workup[typeName], processStep.equipment_options)
+    if (hasWorkupCondition) {
+      return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], processStep.equipment_options)
     } else if (hasPreCondition) {
-      return ActivityDecorator.conditionInfo(typeName, preCondition)
+      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition)
     } else {
       return undefined
     }
@@ -40,23 +41,22 @@ const ConditionTypeFormGroup = (
     return findInitialValue('equipment', [])
   }
   const [equipment, setEquipment] = useState(resetEquipment());
-  const equipmentOptions = useMemo(() => {return processStep['action_equipment_options']['CONDITION'][typeName]}, [processStep, typeName])
+  const equipmentOptions = useMemo(() => { return processStep['action_equipment_options']['CONDITION'][conditionTypeName] }, [processStep, conditionTypeName])
 
   const handleSave = (condition) => {
-    condition.unit = type.action.workup.condition_unit
-    condition.create_label = type.createLabel
+    condition.unit = conditionType.defaultUnit
     condition.equipment = equipment
     onWorkupChange({
-      name: typeName,
+      name: conditionTypeName,
       value: condition
     })
   }
 
   return (
     <>
-      {typeName === 'MOTION' &&
+      {conditionTypeName === 'MOTION' &&
         <MotionForm
-          label={type.createLabel}
+          label={conditionType.label}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
@@ -71,9 +71,9 @@ const ConditionTypeFormGroup = (
           />
         </MotionForm>
       }
-      {typeName === 'EQUIPMENT' &&
+      {conditionTypeName === 'EQUIPMENT' &&
         <EquipmentForm
-          label={type.createLabel}
+          label={conditionType.label}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
@@ -82,12 +82,13 @@ const ConditionTypeFormGroup = (
           onToggleSubform={onToggleSubform}
         />
       }
-      {!!(typeName !== 'EQUIPMENT' & typeName !== 'MOTION') &&
+      {!!(conditionTypeName !== 'EQUIPMENT' & conditionTypeName !== 'MOTION') &&
         <GenericConditionSubForm
-          label={type.createLabel}
+          label={conditionTypeName}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
-          typeName={typeName}
+          conditionTypeName={conditionTypeName}
+          conditionType={conditionType}
           findInitialValue={findInitialValue}
           onSave={handleSave}
           onToggleSubform={onToggleSubform}

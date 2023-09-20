@@ -1,19 +1,17 @@
-import React, {useMemo, useState} from 'react';
-import {Input, Label, FormGroup, Row, Col} from "reactstrap";
+import React, { useMemo, useState } from 'react';
+import { Input, Label, FormGroup, Row, Col } from "reactstrap";
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import {
-  conditionAdditionalInformationOptions,
-  conditionInputRanges,
-  conditionTendencyOptions
-} from "../../../constants/dropdownOptions/conditionsOptions";
 import Select from "react-select";
-import OptionalFormSet from "./OptionalFormSet";
+import OptionalFormSet from "./OptionalFormSet"
+  ;
+import { conditionAdditionalInformationOptions } from "../../../constants/dropdownOptions/conditionsOptions";
+import { conditionTypes } from '../../../constants/conditionTypes';
 
 const GenericConditionSubForm = (
   {
     label,
     valueSummary,
-    typeName,
+    conditionTypeName,
     openSubFormLabel,
     children,
     findInitialValue,
@@ -21,40 +19,45 @@ const GenericConditionSubForm = (
     onToggleSubform
   }) => {
   const resetValue = () => {
-    return findInitialValue('value', conditionInputRanges[typeName].default)
-  }
-  const resetConditionTendency = () => {
-    return findInitialValue('condition_tendency', conditionTendencyOptions[0].value)
+    console.log("resetValue: " + conditionTypeName)
+    return findInitialValue('value', defaultValue(conditionTypeName))
   }
   const resetPowerValue = () => {
-    return findInitialValue('power_value', conditionInputRanges['POWER'].default)
+    return findInitialValue('power_value', defaultValue('POWER'))
   }
   const resetPowerRamp = () => {
     return findInitialValue('power_is_ramp', false)
   }
   const resetPowerEndValue = () => {
-    return findInitialValue('power_end_value', conditionInputRanges['POWER'].default)
+    return findInitialValue('power_end_value', defaultValue('POWER'))
   }
   const resetAdditionalInformation = () => {
     return findInitialValue('additional_information', '')
   }
+  const defaultValue = (typeName) => {
+    return currentUnitType(typeName).inputRange.default
+  }
+
+  const currentUnitType = (typeName) => {
+    // hardcoded defaultUnit  until we implement unit switching.
+    const defaultUnit = conditionTypes[typeName].defaultUnit
+    return conditionTypes[typeName].unitTypes[defaultUnit]
+  }
+
   const [value, setValue] = useState(resetValue())
-  const [conditionTendency, setConditionTendency] = useState(resetConditionTendency())
   const [powerValue, setPowerValue] = useState(resetPowerValue())
   const [powerRamp, setPowerRamp] = useState(resetPowerRamp())
   const [powerEndValue, setPowerEndValue] = useState(resetPowerEndValue())
   const [additionalInformation, setAdditionalInformation] = useState(resetAdditionalInformation())
 
-  const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[typeName] }, [typeName])
-  const powerInputRange = conditionInputRanges['POWER']
+  const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[conditionTypeName] }, [conditionTypeName])
   const currentSelectedAdditionalInformationOption = useMemo(
-    () => {return currentAdditionalInformationOptions.find(option => option.value === additionalInformation)},
+    () => { return currentAdditionalInformationOptions.find(option => option.value === additionalInformation) },
     [currentAdditionalInformationOptions, additionalInformation]
   )
 
   const resetFormData = () => {
     setValue(resetValue())
-    setConditionTendency(resetConditionTendency())
     setPowerValue(resetPowerValue())
     setPowerRamp(resetPowerRamp())
     setPowerEndValue(resetPowerEndValue())
@@ -67,7 +70,7 @@ const GenericConditionSubForm = (
         <NumericalInputWithUnit
           label='Power (Start)'
           value={powerValue}
-          inputRanges={powerInputRange}
+          unitType={currentUnitType('POWER')}
           onWorkupChange={setPowerValue}
         />
         <FormGroup check>
@@ -82,7 +85,7 @@ const GenericConditionSubForm = (
           <NumericalInputWithUnit
             label='Power (End)'
             value={powerEndValue}
-            inputRanges={powerInputRange}
+            unitType={currentUnitType('POWER')}
             onWorkupChange={setPowerEndValue}
           />
         }
@@ -105,15 +108,14 @@ const GenericConditionSubForm = (
             value={currentSelectedAdditionalInformationOption}
             onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
           />
-        </>:
-      <></>
+        </> :
+        <></>
     )
   }
 
   const handleSave = () => {
     const condition = {
       value: value,
-      condition_tendency: conditionTendency,
       power_value: powerValue,
       power_is_ramp: powerRamp,
       additional_information: additionalInformation
@@ -140,23 +142,14 @@ const GenericConditionSubForm = (
       <Row className='gx-1 mb-3'>
         <Col md={6} className='generic-condition-sub-form__value'>
           <NumericalInputWithUnit
+            name={conditionTypeName}
             value={value}
-            inputRanges={conditionInputRanges[typeName]}
+            unitType={currentUnitType(conditionTypeName)}
             onWorkupChange={setValue}
           />
         </Col>
-        <Col md={6}>
-          <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-            name="condition_tendency"
-            options={ conditionTendencyOptions }
-            value={ conditionTendencyOptions.find(option => option.value === conditionTendency)}
-            onChange={selectedOption => setConditionTendency(selectedOption.value)}
-          />
-        </Col>
       </Row>
-      {typeName === 'IRRADIATION' &&
+      {conditionTypeName === 'IRRADIATION' &&
         <FormGroup>
           {renderPowerForm()}
         </FormGroup>
@@ -166,7 +159,7 @@ const GenericConditionSubForm = (
           {renderAdditionalInformationSelect()}
         </FormGroup>
       }
-      { children }
+      {children}
     </OptionalFormSet>
   );
 };

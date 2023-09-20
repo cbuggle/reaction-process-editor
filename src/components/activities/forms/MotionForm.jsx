@@ -1,11 +1,12 @@
-import React, {useState} from 'react'
-import {FormGroup, Label} from 'reactstrap'
+import React, { useState } from 'react'
+import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import { conditionInputRanges } from "../../../constants/dropdownOptions/conditionsOptions";
 import OptionalFormSet from "./OptionalFormSet";
+
+import { conditionTypes } from '../../../constants/conditionTypes';
 
 const MotionForm = (
   {
@@ -17,8 +18,13 @@ const MotionForm = (
     onSave,
     onToggleSubform
   }) => {
+
+
+  // Hardcoded until we implement unit switching.
+  const currentMotionUnit = () => { return conditionTypes['MOTION'].defaultUnit }
+
   const resetValue = () => {
-    return findInitialValue('value', conditionInputRanges.MOTION.default)
+    return findInitialValue('value', conditionTypes['MOTION'].unitTypes[currentMotionUnit()].default)
   }
   const resetMotionType = () => {
     return findInitialValue('motion_type', motionTypeOptions[0])
@@ -35,8 +41,6 @@ const MotionForm = (
     setMotionType(resetMotionType())
     setMotionMode(resetMotionMode())
   }
-
-  const motionInputRange = conditionInputRanges['MOTION']
 
   /* use for slider input
   const handleRpmSliderChange = (event) => {
@@ -57,15 +61,15 @@ const MotionForm = (
     resetFormData()
   }
 
-  const motionTypeOption = () => {
+  const currentMotionTypeOption = () => {
     return motionTypeOptions.find(option => option.value === motionType)
   }
 
-  const speedStepSize = () => {
+  const velocityStepSize = () => {
     return (
-      motionTypeOption() && motionTypeOption().step ?
-      motionTypeOption().step :
-      100
+      currentMotionTypeOption() && currentMotionTypeOption().step ?
+        currentMotionTypeOption().step :
+        100
     )
   }
 
@@ -85,7 +89,7 @@ const MotionForm = (
             classNamePrefix="react-select"
             name="motion_type"
             options={motionTypeOptions}
-            value={motionTypeOption()}
+            value={currentMotionTypeOption()}
             onChange={selectedOption => setMotionType(selectedOption.value)}
           />
         </FormGroup>
@@ -102,14 +106,14 @@ const MotionForm = (
         {/* include slider */}
         <FormGroup>
           <NumericalInputWithUnit
-            label='Speed'
+            label={conditionTypes['MOTION'].label}
             value={value}
-            step={speedStepSize()}
-            inputRanges={motionInputRange}
+            step={velocityStepSize()}
+            unitType={conditionTypes['MOTION'].unitTypes[currentMotionUnit()]}
             onWorkupChange={setValue}
           />
         </FormGroup>
-        { children }
+        {children}
       </div>
     </OptionalFormSet>
   )

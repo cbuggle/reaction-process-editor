@@ -4,21 +4,27 @@ import NumericInput from 'react-numeric-input';
 import {Label, Row, Col} from "reactstrap";
 import SingleLineFormGroup from "./SingleLineFormGroup";
 
-const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChange, disabled, step }) => {
-  const stepSize = step ? step : inputRanges.step
+const NumericalInputWithUnit = ({ name, label, value, unitType, onWorkupChange, disabled, step }) => {
+
+  const inputRange = unitType.inputRange
+  const stepSize = step ? step : inputRange.step
+
   const handleNumericInput = (value) => {
+    console.log("hanldeNumericinput")
+    console.log("name: " + name)
+    console.log("value: " + value)
     const changeValue = name ? { name: name, value: value } : value
-    onWorkupChange(changeValue)
+    onWorkupChange(value)
   }
 
   const renderInput = () => {
     return (
       <NumericInput
-        precision={inputRanges.precision}
+        precision={inputRange.precision}
         step={stepSize}
         value={value}
-        min={inputRanges.min}
-        max={inputRanges.max}
+        min={inputRange.min}
+        max={inputRange.max}
         size={8}
         disabled={disabled}
         onChange={handleNumericInput}
@@ -36,7 +42,7 @@ const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChang
             {renderInput()}
           </Col>
           <Label className='col-7 col-form-label'>
-            {inputRanges.unit}
+            {unitType.label}
           </Label>
         </Row>
       </SingleLineFormGroup>:
@@ -45,7 +51,7 @@ const NumericalInputWithUnit = ({ inputRanges, label, name, value, onWorkupChang
           {renderInput()}
         </div>
         <Label className='numerical-input-with-unit__unit'>
-          {inputRanges.unit}
+          {unitType.label}
         </Label>
       </div>
   )

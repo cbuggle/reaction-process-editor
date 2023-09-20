@@ -5,9 +5,10 @@ import Select from 'react-select'
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 
-import { conditionUnitOptions, conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
 import FormSection from "../../utilities/FormSection";
+
+import { conditionTypes } from '../../../constants/conditionTypes';
 
 const RemoveForm = (
   {
@@ -25,6 +26,20 @@ const RemoveForm = (
     return activity.workup['sample_id']
   }, [activity.workup['sample_id']])
 
+
+  const defaultValue = (typeName) => {
+    return currentUnitType(typeName).inputRange.default
+  }
+
+  const currentUnitType = (typeName) => {
+    // hardcoded defaultUnit  until we implement unit switching.
+    console.log("currentUnitType")
+    console.log(typeName)
+    console.log(conditionTypes[typeName])
+    const defaultUnit = conditionTypes[typeName].defaultUnit
+    return conditionTypes[typeName].unitTypes[defaultUnit]
+  }
+
   const handleActsAsChange = ({ actsAs }) => {
     onWorkupChange({ name: 'acts_as', value: actsAs })
     onWorkupChange({ name: 'sample_id', value: '' })
@@ -36,15 +51,15 @@ const RemoveForm = (
         <NumericalInputWithUnit
           label='Temperature'
           name='remove_temperature'
-          value={activity.workup['remove_temperature'] || conditionInputRanges['TEMPERATURE']['default']}
-          inputRanges={conditionInputRanges['TEMPERATURE']}
+          value={activity.workup['remove_temperature'] || defaultValue('TEMPERATURE')}
+          unitType={currentUnitType('TEMPERATURE')}
           onWorkupChange={onWorkupChange}
         />
         <NumericalInputWithUnit
           label='Pressure'
           name='remove_pressure'
-          value={activity.workup['remove_pressure'] || conditionInputRanges['PRESSURE']['default']}
-          inputRanges={conditionInputRanges['PRESSURE']}
+          value={activity.workup['remove_pressure'] || defaultValue('PRESSURE')}
+          unitType={currentUnitType('PRESSURE')}
           onWorkupChange={onWorkupChange}
         />
       </>
@@ -104,17 +119,17 @@ const RemoveForm = (
           />
         </SingleLineFormGroup>
         <NumericalInputWithUnit
-          label='Duration'
+          label={conditionTypes['DURATION'].label}
           name='duration_in_minutes'
-          value={activity.workup['duration_in_minutes'] || conditionInputRanges['REMOVE_DURATION']['default']}
-          inputRanges={conditionInputRanges['REMOVE_DURATION']}
+          value={activity.workup['duration_in_minutes'] || defaultValue('DURATION')}
+          unitType={currentUnitType('DURATION')}
           onWorkupChange={onWorkupChange}
         />
         <NumericalInputWithUnit
-          label='Repetition'
+          label={conditionTypes['REPETITIONS'].label}
           name='remove_repetitions'
-          value={activity.workup['remove_repetitions'] || conditionInputRanges['REMOVE_REPETITIONS']['default']}
-          inputRanges={conditionInputRanges['REMOVE_REPETITIONS']}
+          value={activity.workup['remove_repetitions'] || defaultValue('REPETITIONS')}
+          unitType={currentUnitType('REPETITIONS')}
           onWorkupChange={onWorkupChange}
         />
         <SingleLineFormGroup label='Replacement Medium'>
@@ -146,8 +161,8 @@ const RemoveForm = (
     <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <SingleLineFormGroup label='Type'>
         <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           name="acts_as"
           options={removeTypeOptions}
           value={removeTypeOptions.find(option => option.value === activity.workup['acts_as'])}

@@ -46,8 +46,8 @@ const VesselForm = ({ vessel, vesselOptions, onInputChange }) => {
                 className="react-select--overwrite"
                 classNamePrefix="react-select"
                 name="volume_unit"
-                options={vesselOptions.volume_units}
-                value={vesselOptions.volume_units.find(item => item.value === vessel.volume_unit)}
+                options={vesselOptions.volume_unit}
+                value={vesselOptions.volume_unit.find(item => item.value === vessel.volume_unit)}
                 onChange={selectedOption => onInputChange({ name: 'volume_unit', value: selectedOption.value })}
               />
             </Col>

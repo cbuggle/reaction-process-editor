@@ -3,13 +3,14 @@ import Select from 'react-select'
 
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
-import { conditionInputRanges } from '../../../constants/dropdownOptions/conditionsOptions';
+
+import { conditionTypes } from '../../../constants/conditionTypes';
 
 const TransferForm = (
   {
     activity,
     processStep,
-    openSubFormLabel,
+    openSubFormLabel, // unused ?
     onWorkupChange
   }) => {
 
@@ -23,6 +24,10 @@ const TransferForm = (
 
   const sampleOptions = useMemo(() => { return processStep.transfer_sample_options }, [])
   const transferToOptions = useMemo(() => { return processStep.transfer_to_options }, [])
+
+  // Hardcoded default until we implement unit switching
+  const defaultPercentageUnit = conditionTypes['PERCENTAGE'].defaultUnit
+  const percentageUnitType = conditionTypes['PERCENTAGE'].unitTypes[defaultPercentageUnit]
 
   return (
     <>
@@ -48,10 +53,10 @@ const TransferForm = (
         />
       </SingleLineFormGroup>
       <NumericalInputWithUnit
-        label='Percentage'
+        label={conditionTypes['PERCENTAGE'].label}
         name='transfer_percentage'
         value={activity.workup['transfer_percentage']}
-        inputRanges={conditionInputRanges['PERCENTAGE']}
+        unitType={percentageUnitType}
         onWorkupChange={onWorkupChange}
       />
     </>
