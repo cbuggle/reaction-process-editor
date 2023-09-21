@@ -18,11 +18,11 @@ const ConditionTypeFormGroup = (
     onToggleSubform
   }) => {
 
-  const hasPreCondition = !!preCondition && !!preCondition.value
-  const hasWorkupCondition = !!workup[conditionTypeName] && !!workup[conditionTypeName].value
+  const hasPreCondition = !!preCondition && preCondition.value !== null
+  const hasWorkupCondition = !!workup[conditionTypeName] && workup[conditionTypeName].value !== null
 
   const findInitialValue = (key, fallBackValue) => {
-    if (workup[conditionTypeName] && workup[conditionTypeName][key]) {
+    if (workup[conditionTypeName] && workup[conditionTypeName][key] !== null) {
       return workup[conditionTypeName][key]
     } else if (preCondition[key]) {
       return preCondition[key]
