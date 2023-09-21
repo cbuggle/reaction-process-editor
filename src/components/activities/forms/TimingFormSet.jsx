@@ -15,9 +15,9 @@ const TimingFormSet = (
     onWorkupChange
   }) => {
   const [duration, setDuration] = useState(!!activity.workup.duration ? activity.workup.duration : 0)
-  const [defineTimeSpan, setDefineTimeSpan] = useState(false)
-  const [startTime, setStartTime] = useState(new Date())
-  const [endTime, setEndTime] = useState(new Date())
+  const [defineTimeSpan, setDefineTimeSpan] = useState(!!activity.workup.starts_at)
+  const [startTime, setStartTime] = useState(!!activity.workup.starts_at ? new Date(activity.workup.starts_at) : new Date())
+  const [endTime, setEndTime] = useState(!!activity.workup.ends_at ? new Date(activity.workup.ends_at) : new Date())
 
   const dateTimePickerFormat = "HH:mm:ss dd.MM.y"
 
