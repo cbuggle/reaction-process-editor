@@ -1,6 +1,6 @@
 import TimeDecorator from "../../decorators/TimeDecorator";
 import React, {useState, useEffect} from "react";
-import {Row, Col, Label} from "reactstrap";
+import {Label, FormGroup} from "reactstrap";
 import NumericInput from "react-numeric-input";
 
 const DurationSelection = ({ duration, onChangeDuration}) => {
@@ -12,6 +12,13 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
   useEffect(() => {
     calculateDuration()
   }, [hours, minutes, seconds]);
+
+  useEffect(() => {
+    const newTimeObject = TimeDecorator.hourBasedTimespan(duration)
+    setHours(newTimeObject.hours)
+    setMinutes(newTimeObject.minutes)
+    setSeconds(newTimeObject.seconds)
+  }, [duration])
 
   const calculateDuration = () => {
     onChangeDuration(
@@ -26,8 +33,11 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
   }
 
   return (
-    <Row className='gx-1'>
-      <Col md={3}>
+    <FormGroup className='row gx-2 pt-1 duration-selection'>
+      <Label className='col-3 col-form-label d-flex'>
+        Duration
+      </Label>
+      <div className='duration-selection__input-container'>
         <NumericInput
           id='hoursInput'
           value={hours}
@@ -38,9 +48,9 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
           className='form-control'
           snap
         />
-      </Col>
-      <Label className='col-1 col-form-label'>h</Label>
-      <Col md={3}>
+      </div>
+      <Label className='col-form-label duration-selection__form-label'>h</Label>
+      <div className='duration-selection__input-container'>
         <NumericInput
           id='minutesInput'
           value={minutes}
@@ -52,9 +62,9 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
           className='form-control'
           snap
         />
-      </Col>
-      <Label className='col-1 col-form-label'>min</Label>
-      <Col md={3}>
+      </div>
+      <Label className='col-form-label duration-selection__form-label'>min</Label>
+      <div className='duration-selection__input-container'>
         <NumericInput
           id='secondsInput'
           value={seconds}
@@ -66,9 +76,9 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
           className='form-control'
           snap
         />
-      </Col>
-      <Label className='col-1 col-form-label'>s</Label>
-    </Row>
+      </div>
+      <Label className='col-form-label duration-selection__form-label'>s</Label>
+    </FormGroup>
   );
 };
 

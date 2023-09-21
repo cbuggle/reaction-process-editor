@@ -47,6 +47,7 @@ const ActivityForm = (
         openSubFormLabel={openSubFormLabel}
         onToggleSubform={onToggleSubform}
         onChangeDuration={onChangeDuration}
+        onWorkupChange={onWorkupChange}
       />
       <FormButtons
         onSave={handleSave}
