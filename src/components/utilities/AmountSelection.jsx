@@ -1,20 +1,17 @@
 import { Row, Col } from "reactstrap";
-import { sampleVolumeUnitOptions } from '../../constants/dropdownOptions/samplesOptions';
 import React from "react";
 import Select from "react-select";
-import NumericalInputWithUnit from "./NumericalInputWithUnit";
-import SingleLineFormGroup from "./SingleLineFormGroup";
 import NumericInput from "react-numeric-input";
 
-import { conditionTypes } from "../../constants/conditionTypes";
+import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
+import NumericalInputWithUnit from "./NumericalInputWithUnit";
+import SingleLineFormGroup from "./SingleLineFormGroup";
+
+import { sampleVolumeUnitOptions } from '../../constants/dropdownOptions/samplesOptions';
 
 const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChangeUnit, onChangeAmount }) => {
 
-  // Hardcoded default until we implement unit switching
-  const defaultPercentageUnit = conditionTypes['PERCENTAGE'].defaultUnit
-  const percentageUnitType = conditionTypes['PERCENTAGE'].unitTypes[defaultPercentageUnit]
-
-  const handlePercentageInput = ({ value }) => {
+  const handlePercentageInput = (value) => {
     let newAmount = value * maxAmount / 100
     if (value < 100) {
       newAmount = newAmount.toFixed(5)
@@ -34,7 +31,7 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
             <NumericInput
               value={amount || 0}
               step={0.1}
-              precision = {1}
+              precision={1}
               min={0}
               max={maxAmount || 10000000000000}
               size={8}
@@ -51,18 +48,17 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
               name="target_amount_unit"
               options={sampleVolumeUnitOptions}
               value={sampleVolumeUnitOptions.find(item => item.value === unit)}
-              onChange={onChangeUnit}
+              onChange={selected => onChangeUnit(selected.value)}
             />
           </Col>
         </Row>
       </SingleLineFormGroup>
       {maxAmount &&
         <NumericalInputWithUnit
-          label={percentageUnitType.label}
-          name='percentage'
+          label={ConditionTypeDecorator.label('PERCENTAGE')}
           value={calcPercentage()}
-          unitType={percentageUnitType}
-          onWorkupChange={handlePercentageInput}
+          unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
+          onChange={handlePercentageInput}
         />
       }
     </>

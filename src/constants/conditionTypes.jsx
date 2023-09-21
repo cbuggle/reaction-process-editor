@@ -9,196 +9,216 @@ export const conditionTypes = {
   'TEMPERATURE': {
     label: 'Temperature',
     defaultUnit: 'CELSIUS',
-    unitTypes: {
-      'CELSIUS': {
-        label: '°C',
-        inputRange: {
-          min: -100,
-          max: 400,
-          precision: 1,
-          step: 0.1,
-          default: 20,
-        }
-      },
-      'KELVIN': {
-        label: 'K',
-        inputRange: {
-          min: 173.15,
-          max: 573.15,
-          precision: 1,
-          step: 0.1,
-          default: 293.15,
-        }
-      }
-    },
+    units: ['CELSIUS', 'KELVIN']
   },
   'PH': {
     label: 'pH',
     defaultUnit: 'PH',
-    unitTypes: {
-      'PH': {
-        label: 'pH',
-        inputRange: {
-          min: 0,
-          max: 14,
-          precision: 2,
-          step: 0.01,
-          default: 7,
-        }
-      }
-    }
+    units: ['PH']
   },
   'PRESSURE': {
     label: 'Pressure',
-    defaultUnit: "MBAR",
-    unitTypes: {
-      'MBAR': {
-        label: 'mBar',
-        inputRange: {
-
-          min: 0,
-          max: 10000,
-          precision: 3,
-          step: 1,
-          default: 1024,
-        }
-      }
-    }
+    defaultUnit: 'MBAR',
+    units: ['MBAR']
   },
   'IRRADIATION': {
     label: 'Irradiation',
     defaultUnit: 'NM',
-    unitTypes: {
-      'NM': {
-        label: 'nm',
-        inputRange: {
-          min: 10,
-          max: 800,
-          precision: 0,
-          step: 1,
-          default: 254,
-        }
-      }
-    }
+    units: ['NM']
   },
   'POWER': {
     label: 'Power',
     defaultUnit: 'WATT',
-    unitTypes: {
-      'WATT': {
-        label: 'Watt',
-        inputRange: {
-
-          min: 0,
-          max: 10000,
-          precision: 0,
-          step: 10,
-          default: 1000,
-        }
-      }
-    }
+    units: ['WATT']
+  },
+  'POWER_START': {
+    label: 'Power',
+    defaultUnit: 'WATT',
+    units: ['WATT']
+  },
+  'POWER_END': {
+    label: 'Power (End)',
+    defaultUnit: 'WATT',
+    units: ['WATT']
+  },
+  'POWER_RAMP': {
+    label: 'Power Ramp'
   },
   'VELOCITY': {
     label: 'Velocity',
     defaultUnit: 'MLMIN',
-    unitTypes: {
-      'MLMIN': {
-        label: 'ml/min',
-        inputRange: {
-          min: 0,
-          max: 100,
-          precision: 1,
-          step: 0.1,
-          default: 0,
-        }
-      }
-    }
+    units: ['MLMIN']
   },
   'PERCENTAGE': {
     label: 'Percentage',
     defaultUnit: 'PERCENT',
-    unitTypes: {
-      'PERCENT':
-      {
-        label: '%',
-        inputRange: {
-          min: 0,
-          max: 200, // we allow > 100% as the sample amounts are somewhat fuzzy.
-          precision: 0,
-          step: 1,
-          default: 0,
-        }
-      },
-      'FRACTION': {
-        // experimental
-        label: '[fraction]',
-        inputRange: {
-
-          min: 0,
-          max: 10,
-          precision: 2,
-          step: 0.01,
-          default: 0,
-        }
-      },
-      'PURITY': {
-        label: '',
-        inputRange: {
-          min: 0,
-          max: 1,
-          precision: 2,
-          step: 0.01,
-          default: 1,
-        }
-      }
-    }
+    units: ['PERCENT', 'FRACTION']
+  },
+  'PURITY': {
+    label: 'Purity',
+    defaultUnit: 'PURITY',
+    units: ['PURITY']
   },
   'MOTION': {
     label: 'Motion',
     defaultUnit: 'RPM',
-    unitTypes: {
-      'RPM': {
-        label: 'rpm',
-        inputRange: {
-          min: 0,
-          max: 9999,
-          step: '',
-          default: 500,
-        }
-      }
-    }
+    units: ['RPM']
   },
   'DURATION': {
     label: 'Duration',
     defaultUnit: 'MINUTES',
-    unitTypes: {
-      'MINUTES': {
-        label: 'minutes',
-        inputRange: {
-          min: 0,
-          max: 1440,
-          precision: 0,
-          step: 1,
-          default: 0,
-        }
-      }
-    }
+    units: ['MINUTES']
   },
   'REPETITIONS': {
     label: 'Repetitions',
     defaultUnit: 'TIMES',
-    unitTypes: {
-      'TIMES': {
-        label: 'times',
-        inputRange: {
-          min: 0,
-          max: 100,
-          precision: 0,
-          step: 1,
-          default: 1,
-        }
-      }
-    }
+    units: ['TIMES']
   }
 }
 
+export const unitTypes = {
+  'CELSIUS': {
+    name: 'CELSIUS',
+    label: '°C',
+    inputRange: {
+      min: -100,
+      max: 400,
+      precision: 1,
+      step: 0.1,
+      default: 120,
+    }
+  },
+  'KELVIN': {
+    name: 'KELVIN',
+    label: 'K',
+    inputRange: {
+      min: 173.15,
+      max: 573.15,
+      precision: 1,
+      step: 0.1,
+      default: 293.15,
+    }
+  },
+  'PH': {
+    name: 'PH',
+    label: '',
+    inputRange: {
+      min: 0,
+      max: 14,
+      precision: 2,
+      step: 0.01,
+      default: 7,
+    }
+  },
+  'MBAR': {
+    name: 'MBAR',
+    label: 'mBar',
+    inputRange: {
+      min: 0,
+      max: 10000,
+      precision: 3,
+      step: 1,
+      default: 1024,
+    }
+  },
+  'WATT': {
+    name: 'WATT',
+    label: 'Watt',
+    inputRange: {
+      min: 0,
+      max: 10000,
+      precision: 0,
+      step: 10,
+      default: 1000,
+    }
+  },
+  'MLMIN': {
+    name: 'MLMIN',
+    label: 'ml/min',
+    inputRange: {
+      min: 0,
+      max: 100,
+      precision: 1,
+      step: 0.1,
+      default: 0,
+    }
+  },
+  'PERCENT': {
+    name: 'PERCENT',
+    label: '%',
+    inputRange: {
+      min: 0,
+      max: 200, // we allow > 100% as the sample amounts are somewhat fuzzy.
+      precision: 0,
+      step: 1,
+      default: 0,
+    }
+  },
+  'FRACTION': {
+    // experimental
+    name: 'FRACTION',
+    label: '[fraction]',
+    inputRange: {
+      min: 0,
+      max: 10,
+      precision: 2,
+      step: 0.01,
+      default: 0,
+    }
+  },
+  'PURITY': {
+    name: 'PURITY',
+    label: '[purity]',
+    inputRange: {
+      min: 0,
+      max: 1,
+      precision: 2,
+      step: 0.01,
+      default: 1,
+    }
+  },
+  'NM': {
+    name: 'NM',
+    label: 'nm',
+    inputRange: {
+      min: 10,
+      max: 800,
+      precision: 0,
+      step: 1,
+      default: 254,
+    },
+  },
+  'RPM': {
+    name: 'RPM',
+    label: 'rpm',
+    inputRange: {
+      min: 0,
+      max: 9999,
+      precision: 0,
+      step: 100,
+      default: 500,
+    }
+  },
+  'MINUTES': {
+    name: 'MINUTES',
+    label: 'minutes',
+    inputRange: {
+      min: 0,
+      max: 1440,
+      precision: 0,
+      step: 1,
+      default: 0,
+    }
+  },
+  'TIMES': {
+    name: 'TIMES',
+    label: 'times',
+    inputRange: {
+      min: 0,
+      max: 100,
+      precision: 0,
+      step: 1,
+      default: 1,
+    }
+  }
+}

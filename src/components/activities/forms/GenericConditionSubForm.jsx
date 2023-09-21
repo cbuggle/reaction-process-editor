@@ -1,54 +1,49 @@
 import React, { useMemo, useState } from 'react';
 import { Input, Label, FormGroup, Row, Col } from "reactstrap";
-import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
 import Select from "react-select";
-import OptionalFormSet from "./OptionalFormSet"
-  ;
+
+import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
+import OptionalFormSet from "./OptionalFormSet";
+
 import { conditionAdditionalInformationOptions } from "../../../constants/dropdownOptions/conditionsOptions";
-import { conditionTypes } from '../../../constants/conditionTypes';
+
 
 const GenericConditionSubForm = (
   {
-    label,
-    valueSummary,
     conditionTypeName,
+    valueSummary,
     openSubFormLabel,
     children,
     findInitialValue,
     onSave,
     onToggleSubform
   }) => {
-  const resetValue = () => {
-    console.log("resetValue: " + conditionTypeName)
-    return findInitialValue('value', defaultValue(conditionTypeName))
+  const initialValue = () => {
+    return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName))
   }
-  const resetPowerValue = () => {
-    return findInitialValue('power_value', defaultValue('POWER'))
+  const initialUnit = () => {
+    return findInitialValue('unit', ConditionTypeDecorator.defaultUnit(conditionTypeName))
   }
-  const resetPowerRamp = () => {
+  const initialPowerValue = () => {
+    return findInitialValue('power_value', ConditionTypeDecorator.defaultValueInDefaultUnit('POWER'))
+  }
+  const initialPowerRamp = () => {
     return findInitialValue('power_is_ramp', false)
   }
-  const resetPowerEndValue = () => {
-    return findInitialValue('power_end_value', defaultValue('POWER'))
+  const initialPowerEndValue = () => {
+    return findInitialValue('power_end_value', ConditionTypeDecorator.defaultValueInDefaultUnit('POWER'))
   }
-  const resetAdditionalInformation = () => {
+  const initialAdditionalInformation = () => {
     return findInitialValue('additional_information', '')
   }
-  const defaultValue = (typeName) => {
-    return currentUnitType(typeName).inputRange.default
-  }
 
-  const currentUnitType = (typeName) => {
-    // hardcoded defaultUnit  until we implement unit switching.
-    const defaultUnit = conditionTypes[typeName].defaultUnit
-    return conditionTypes[typeName].unitTypes[defaultUnit]
-  }
-
-  const [value, setValue] = useState(resetValue())
-  const [powerValue, setPowerValue] = useState(resetPowerValue())
-  const [powerRamp, setPowerRamp] = useState(resetPowerRamp())
-  const [powerEndValue, setPowerEndValue] = useState(resetPowerEndValue())
-  const [additionalInformation, setAdditionalInformation] = useState(resetAdditionalInformation())
+  const [value, setValue] = useState(initialValue())
+  const [unit, setUnit] = useState(initialUnit())
+  const [powerValue, setPowerValue] = useState(initialPowerValue())
+  const [powerRamp, setPowerRamp] = useState(initialPowerRamp())
+  const [powerEndValue, setPowerEndValue] = useState(initialPowerEndValue())
+  const [additionalInformation, setAdditionalInformation] = useState(initialAdditionalInformation())
 
   const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[conditionTypeName] }, [conditionTypeName])
   const currentSelectedAdditionalInformationOption = useMemo(
@@ -57,38 +52,39 @@ const GenericConditionSubForm = (
   )
 
   const resetFormData = () => {
-    setValue(resetValue())
-    setPowerValue(resetPowerValue())
-    setPowerRamp(resetPowerRamp())
-    setPowerEndValue(resetPowerEndValue())
-    setAdditionalInformation(resetAdditionalInformation())
+    setValue(initialValue())
+    setUnit(initialUnit())
+    setPowerValue(initialPowerValue())
+    setPowerRamp(initialPowerRamp())
+    setPowerEndValue(initialPowerEndValue())
+    setAdditionalInformation(initialAdditionalInformation())
   }
 
   const renderPowerForm = () => {
     return (
       <>
-        <NumericalInputWithUnit
-          label='Power (Start)'
-          value={powerValue}
-          unitType={currentUnitType('POWER')}
-          onWorkupChange={setPowerValue}
-        />
         <FormGroup check>
           <Input
             type="checkbox"
             checked={!!powerRamp}
             onChange={event => setPowerRamp(event.target.checked)}
           />
-          <Label check>Power Ramp</Label>
-        </FormGroup>
+          <Label check>{ConditionTypeDecorator.label('POWER_RAMP')}</Label>
+          </FormGroup>
+        <NumericalInputWithUnit
+          label={ConditionTypeDecorator.label('POWER_START')}
+          value={powerValue}
+          unitType={ConditionTypeDecorator.defaultUnitType('POWER')}
+          onChange={setPowerValue}
+          />
         {!!powerRamp &&
           <NumericalInputWithUnit
-            label='Power (End)'
-            value={powerEndValue}
-            unitType={currentUnitType('POWER')}
-            onWorkupChange={setPowerEndValue}
-          />
-        }
+          label={ConditionTypeDecorator.label('POWER_END')}
+          value={powerEndValue}
+            unitType={ConditionTypeDecorator.defaultUnitType('POWER')}
+            onChange={setPowerEndValue}
+            />
+          }
       </>
     )
   }
@@ -114,14 +110,18 @@ const GenericConditionSubForm = (
   }
 
   const handleSave = () => {
-    const condition = {
+    var condition = {
       value: value,
-      power_value: powerValue,
-      power_is_ramp: powerRamp,
+      unit: unit,
       additional_information: additionalInformation
-    }
-    if (powerRamp) {
-      condition.power_end_value = powerEndValue
+    };
+
+    if (conditionTypeName === 'IRRADIATION') {
+      condition.power_value = powerValue
+      condition.power_is_ramp = powerRamp
+      if (powerRamp) {
+        condition.power_end_value = powerEndValue
+      }
     }
     onSave(condition)
   }
@@ -132,7 +132,7 @@ const GenericConditionSubForm = (
 
   return (
     <OptionalFormSet
-      groupLabel={label}
+      groupLabel={ConditionTypeDecorator.label(conditionTypeName)}
       valueSummary={valueSummary}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
@@ -142,10 +142,10 @@ const GenericConditionSubForm = (
       <Row className='gx-1 mb-3'>
         <Col md={6} className='generic-condition-sub-form__value'>
           <NumericalInputWithUnit
-            name={conditionTypeName}
             value={value}
-            unitType={currentUnitType(conditionTypeName)}
-            onWorkupChange={setValue}
+            unitType={ConditionTypeDecorator.defaultUnitType(conditionTypeName)}
+            onChange={setValue}
+            isMultiLine={true}
           />
         </Col>
       </Row>

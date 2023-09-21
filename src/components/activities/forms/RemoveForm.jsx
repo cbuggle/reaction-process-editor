@@ -8,7 +8,7 @@ import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
 import FormSection from "../../utilities/FormSection";
 
-import { conditionTypes } from '../../../constants/conditionTypes';
+import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 
 const RemoveForm = (
   {
@@ -26,41 +26,29 @@ const RemoveForm = (
     return activity.workup['sample_id']
   }, [activity.workup['sample_id']])
 
-
-  const defaultValue = (typeName) => {
-    return currentUnitType(typeName).inputRange.default
-  }
-
-  const currentUnitType = (typeName) => {
-    // hardcoded defaultUnit  until we implement unit switching.
-    console.log("currentUnitType")
-    console.log(typeName)
-    console.log(conditionTypes[typeName])
-    const defaultUnit = conditionTypes[typeName].defaultUnit
-    return conditionTypes[typeName].unitTypes[defaultUnit]
-  }
-
   const handleActsAsChange = ({ actsAs }) => {
     onWorkupChange({ name: 'acts_as', value: actsAs })
     onWorkupChange({ name: 'sample_id', value: '' })
+  }
+
+  const handleValueChange = (name) => (value) => {
+    return onWorkupChange({ name: name, value: value })
   }
 
   const renderConditions = () => {
     return (
       <>
         <NumericalInputWithUnit
-          label='Temperature'
-          name='remove_temperature'
-          value={activity.workup['remove_temperature'] || defaultValue('TEMPERATURE')}
-          unitType={currentUnitType('TEMPERATURE')}
-          onWorkupChange={onWorkupChange}
+          label={ConditionTypeDecorator.label('TEMPERATURE')}
+          value={activity.workup['remove_temperature'] || ConditionTypeDecorator.defaultValueInDefaultUnit('TEMPERATURE')}
+          unitType={ConditionTypeDecorator.defaultUnitType('TEMPERATURE')}
+          onChange={handleValueChange('remove_temperature')}
         />
         <NumericalInputWithUnit
-          label='Pressure'
-          name='remove_pressure'
-          value={activity.workup['remove_pressure'] || defaultValue('PRESSURE')}
-          unitType={currentUnitType('PRESSURE')}
-          onWorkupChange={onWorkupChange}
+          label={ConditionTypeDecorator.label('PRESSURE')}
+          value={activity.workup['remove_pressure'] || ConditionTypeDecorator.defaultValueInDefaultUnit('PRESSURE')}
+          unitType={ConditionTypeDecorator.defaultUnitType('PRESSURE')}
+          onChange={handleValueChange('remove_pressure')}
         />
       </>
     )
@@ -77,7 +65,7 @@ const RemoveForm = (
             name="sample_id"
             options={additivesSelectOptions}
             value={additivesSelectOptions.find(option => option.value === currentSampleIdValue)}
-            onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
+            onChange={selectedOption => handleValueChange('sample_id')(selectedOption.value)}
           />
         </SingleLineFormGroup>
         {renderConditions()}
@@ -96,7 +84,7 @@ const RemoveForm = (
             name="sample_id"
             options={diverseSolventsSelectOptions}
             value={diverseSolventsSelectOptions.find(option => option.value === currentSampleIdValue)}
-            onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
+            onChange={selectedOption => handleValueChange('sample_id')(selectedOption.value)}
           />
         </SingleLineFormGroup>
         {renderConditions()}
@@ -119,18 +107,16 @@ const RemoveForm = (
           />
         </SingleLineFormGroup>
         <NumericalInputWithUnit
-          label={conditionTypes['DURATION'].label}
-          name='duration_in_minutes'
-          value={activity.workup['duration_in_minutes'] || defaultValue('DURATION')}
-          unitType={currentUnitType('DURATION')}
-          onWorkupChange={onWorkupChange}
+          label={ConditionTypeDecorator.label('DURATION')}
+          value={activity.workup['duration_in_minutes'] || ConditionTypeDecorator.defaultValueInDefaultUnit('DURATION')}
+          unitType={ConditionTypeDecorator.defaultUnitType('DURATION')}
+          onChange={handleValueChange('duration_in_minutes')}
         />
         <NumericalInputWithUnit
-          label={conditionTypes['REPETITIONS'].label}
-          name='remove_repetitions'
-          value={activity.workup['remove_repetitions'] || defaultValue('REPETITIONS')}
-          unitType={currentUnitType('REPETITIONS')}
-          onWorkupChange={onWorkupChange}
+          label={ConditionTypeDecorator.label('REPETITIONS')}
+          value={activity.workup['remove_repetitions'] || ConditionTypeDecorator.defaultValueInDefaultUnit('REPETITIONS')}
+          unitType={ConditionTypeDecorator.defaultUnitType('REPETITIONS')}
+          onChange={handleValueChange('remove_repetitions')}
         />
         <SingleLineFormGroup label='Replacement Medium'>
           <Input

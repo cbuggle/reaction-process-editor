@@ -1,21 +1,13 @@
 import React from 'react'
-
+import { Label, Row, Col } from "reactstrap";
 import NumericInput from 'react-numeric-input';
-import {Label, Row, Col} from "reactstrap";
+
 import SingleLineFormGroup from "./SingleLineFormGroup";
 
-const NumericalInputWithUnit = ({ name, label, value, unitType, onWorkupChange, disabled, step }) => {
+const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, step, isMultiLine }) => {
 
   const inputRange = unitType.inputRange
   const stepSize = step ? step : inputRange.step
-
-  const handleNumericInput = (value) => {
-    console.log("hanldeNumericinput")
-    console.log("name: " + name)
-    console.log("value: " + value)
-    const changeValue = name ? { name: name, value: value } : value
-    onWorkupChange(value)
-  }
 
   const renderInput = () => {
     return (
@@ -27,7 +19,7 @@ const NumericalInputWithUnit = ({ name, label, value, unitType, onWorkupChange, 
         max={inputRange.max}
         size={8}
         disabled={disabled}
-        onChange={handleNumericInput}
+        onChange={onChange}
         className='form-control'
         snap
       />
@@ -35,7 +27,15 @@ const NumericalInputWithUnit = ({ name, label, value, unitType, onWorkupChange, 
   }
 
   return (
-    label ?
+    isMultiLine ?
+      <div className='numerical-input-with-unit'>
+        <div className='numerical-input-with-unit__input'>
+          {renderInput()}
+        </div>
+        <Label className='numerical-input-with-unit__unit'>
+          {unitType.label}
+        </Label>
+      </div> :
       <SingleLineFormGroup label={label}>
         <Row className='gx-1'>
           <Col md={5}>
@@ -45,15 +45,7 @@ const NumericalInputWithUnit = ({ name, label, value, unitType, onWorkupChange, 
             {unitType.label}
           </Label>
         </Row>
-      </SingleLineFormGroup>:
-      <div className='numerical-input-with-unit'>
-        <div className='numerical-input-with-unit__input'>
-          {renderInput()}
-        </div>
-        <Label className='numerical-input-with-unit__unit'>
-          {unitType.label}
-        </Label>
-      </div>
+      </SingleLineFormGroup>
   )
 }
 

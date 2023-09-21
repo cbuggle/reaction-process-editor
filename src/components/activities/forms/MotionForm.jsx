@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
+import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "./OptionalFormSet";
 
-import { conditionTypes } from '../../../constants/conditionTypes';
+import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
 
 const MotionForm = (
   {
@@ -19,27 +19,29 @@ const MotionForm = (
     onToggleSubform
   }) => {
 
-
-  // Hardcoded until we implement unit switching.
-  const currentMotionUnit = () => { return conditionTypes['MOTION'].defaultUnit }
-
-  const resetValue = () => {
-    return findInitialValue('value', conditionTypes['MOTION'].unitTypes[currentMotionUnit()].default)
+  const initialValue = () => {
+    return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit('MOTION'))
   }
-  const resetMotionType = () => {
+  const initialUnit = () => {
+    return findInitialValue('unit', ConditionTypeDecorator.defaultUnit('MOTION'))
+  }
+  const initialMotionType = () => {
     return findInitialValue('motion_type', motionTypeOptions[0])
   }
-  const resetMotionMode = () => {
+  const initialMotionMode = () => {
     return findInitialValue('motion_mode', motionModeOptions[0])
   }
-  const [value, setValue] = useState(resetValue())
-  const [motionType, setMotionType] = useState(resetMotionType())
-  const [motionMode, setMotionMode] = useState(resetMotionMode())
+
+  const [value, setValue] = useState(initialValue())
+  const [unit, setUnit] = useState(initialUnit())
+  const [motionType, setMotionType] = useState(initialMotionType())
+  const [motionMode, setMotionMode] = useState(initialMotionMode())
 
   const resetFormData = () => {
-    setValue(resetValue())
-    setMotionType(resetMotionType())
-    setMotionMode(resetMotionMode())
+    setValue(initialValue())
+    setUnit(initialUnit())
+    setMotionType(initialMotionType())
+    setMotionMode(initialMotionMode())
   }
 
   /* use for slider input
@@ -51,6 +53,7 @@ const MotionForm = (
     onSave(
       {
         value: value,
+        unit: unit,
         motion_type: motionType,
         motion_mode: motionMode
       }
@@ -106,11 +109,11 @@ const MotionForm = (
         {/* include slider */}
         <FormGroup>
           <NumericalInputWithUnit
-            label={conditionTypes['MOTION'].label}
+            label={ConditionTypeDecorator.label('MOTION')}
             value={value}
+            unitType={ConditionTypeDecorator.defaultUnitType('MOTION')}
             step={velocityStepSize()}
-            unitType={conditionTypes['MOTION'].unitTypes[currentMotionUnit()]}
-            onWorkupChange={setValue}
+            onChange={setValue}
           />
         </FormGroup>
         {children}

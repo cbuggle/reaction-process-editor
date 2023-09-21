@@ -1,10 +1,9 @@
 import React, { useMemo, useEffect } from 'react'
 import Select from 'react-select'
 
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
-
-import { conditionTypes } from '../../../constants/conditionTypes';
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
 const TransferForm = (
   {
@@ -24,10 +23,6 @@ const TransferForm = (
 
   const sampleOptions = useMemo(() => { return processStep.transfer_sample_options }, [])
   const transferToOptions = useMemo(() => { return processStep.transfer_to_options }, [])
-
-  // Hardcoded default until we implement unit switching
-  const defaultPercentageUnit = conditionTypes['PERCENTAGE'].defaultUnit
-  const percentageUnitType = conditionTypes['PERCENTAGE'].unitTypes[defaultPercentageUnit]
 
   return (
     <>
@@ -53,11 +48,10 @@ const TransferForm = (
         />
       </SingleLineFormGroup>
       <NumericalInputWithUnit
-        label={conditionTypes['PERCENTAGE'].label}
-        name='transfer_percentage'
+        label={ConditionTypeDecorator.label('PERCENTAGE')}
         value={activity.workup['transfer_percentage']}
-        unitType={percentageUnitType}
-        onWorkupChange={onWorkupChange}
+        unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
+        onChange={value => onWorkupChange({name: 'transfer_percentage', value: value}) }
       />
     </>
   )

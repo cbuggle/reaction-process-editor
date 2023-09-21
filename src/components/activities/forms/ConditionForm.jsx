@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+
 import ActivityForm from "./ActivityForm";
 import ConditionTypeFormGroup from "./ConditionTypeFormGroup";
 
-import { conditionTypes, conditionFormTypeNames } from "../../../constants/conditionTypes";
+import { conditionFormTypeNames } from "../../../constants/conditionTypes.jsx";
 
 const ConditionForm = (
   {
@@ -15,7 +16,6 @@ const ConditionForm = (
     onWorkupChange,
     onToggleSubform
   }) => {
-
   const [focus, setFocus] = useState(false);
   const toggleFocus = () => {
     setFocus(!focus)
@@ -37,7 +37,6 @@ const ConditionForm = (
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
-            conditionType={conditionTypes[conditionTypeName]}
             processStep={processStep}
             preCondition={preConditions[conditionTypeName]}
             workup={activity.workup}

@@ -100,7 +100,7 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
               </p>
             }
             {workup.description &&
-              <p className='activity-info__description'>{'Description: ' + workup.description}</p>
+              <p className='activity-info__description'>{workup.description}</p>
             }
           </div>
         }

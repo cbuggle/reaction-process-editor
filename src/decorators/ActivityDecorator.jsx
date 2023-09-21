@@ -1,4 +1,5 @@
 import { motionTypeOptions, motionModeOptions } from '../constants/dropdownOptions/motionOptions';
+import ConditionTypeDecorator from './ConditionTypeDecorator';
 
 export default class ActivityDecorator {
 
@@ -58,7 +59,7 @@ export default class ActivityDecorator {
         return matchingOption ? matchingOption.label : null;
       }).toString()
     } else {
-      info = (conditionWorkup.value + ' ' + conditionWorkup.unit)
+      info = (conditionWorkup.value + ' ' + ConditionTypeDecorator.unitLabel(conditionWorkup.unit))
     }
     if (type === 'MOTION') {
       info = [

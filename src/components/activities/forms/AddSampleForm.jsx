@@ -1,15 +1,13 @@
 import React from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
-
 import PropTypes from 'prop-types'
 
 import AmountSelection from "../../utilities/AmountSelection";
+import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-
-import { conditionTypes } from '../../../constants/conditionTypes';
 
 const AddSampleForm = (
   {
@@ -25,23 +23,6 @@ const AddSampleForm = (
 
   const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
 
-  const unitType = (conditionType, conditionUnit) => {
-    const currentUnit = conditionUnit || conditionTypes[conditionType].defaultUnit
-    return conditionTypes[conditionType].unitTypes[currentUnit]
-  }
-
-  const label = (conditionType) => {
-    return conditionTypes[conditionType].label
-  }
-
-  const handleAmountInput = (value) => {
-    onWorkupChange({ name: 'target_amount_value', value: value })
-  }
-
-  const handleUnitInput = ({ value }) => {
-    onWorkupChange({ name: 'target_amount_unit', value: value })
-  }
-
   const handleSampleChange = ({ sampleId, label }) => {
     // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
     const sample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
@@ -52,6 +33,10 @@ const AddSampleForm = (
     onWorkupChange({ name: 'target_amount_value', value: sample.amount || '' })
     onWorkupChange({ name: 'sample_original_amount', value: sample.amount })
     onWorkupChange({ name: 'target_amount_unit', value: sample.unit })
+  }
+
+  const handleValueChange = (name) => (value) => {
+    onWorkupChange({name: name, value: value})
   }
 
   return (
@@ -72,37 +57,34 @@ const AddSampleForm = (
           maxAmount={activity.workup['sample_original_amount']}
           unit={activity.workup['target_amount_unit']}
           disableunitelection={!!activity.workup['sample_original_amount']}
-          onChangeAmount={handleAmountInput}
-          onChangeUnit={handleUnitInput}
+          onChangeAmount={handleValueChange('target_amount_value')}
+          onChangeUnit={handleValueChange('target_amount_unit')}
         />
       </FormSection>
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
         <NumericalInputWithUnit
-          label={label('VELOCITY')}
-          name='add_sample_velocity'
+          label={ConditionTypeDecorator.label('VELOCITY')}
           value={activity.workup['add_sample_velocity']}
-          unitType={unitType('VELOCITY')}
-          onWorkupChange={onWorkupChange}
+          unitType={ConditionTypeDecorator.defaultUnitType('VELOCITY')}
+          onChange={handleValueChange('add_sample_velocity')}
         />
         <NumericalInputWithUnit
-          label={label('TEMPERATURE')}
-          name='add_sample_temperature'
+          label={ConditionTypeDecorator.label('TEMPERATURE')}
           value={activity.workup['add_sample_temperature']}
-          unitType={unitType('TEMPERATURE')}
-          onWorkupChange={onWorkupChange}
-        />
+          unitType={ConditionTypeDecorator.defaultUnitType('TEMPERATURE')}
+          onChange={handleValueChange('add_sample_temperature')}
+          />
         <NumericalInputWithUnit
-          label={label('VELOCITY')}
-          name='add_sample_pressure'
+          label={ConditionTypeDecorator.label('PRESSURE')}
           value={activity.workup['add_sample_pressure']}
-          unitType={unitType('PRESSURE')}
-          onWorkupChange={onWorkupChange}
+          unitType={ConditionTypeDecorator.defaultUnitType('PRESSURE')}
+          onChange={handleValueChange('add_sample_pressure')}
         />
         {currentSampleActsAs === 'SOLVENT' &&
           <FormGroup check className='mb-3'>
             <Label check>
               <Input type="checkbox" checked={activity.workup['is_waterfree_solvent']} onChange={(event) =>
-                onWorkupChange({ name: 'is_waterfree_solvent', value: event.target.checked })
+                handleValueChange('is_waterfree_solvent')(event.target.checked)
               } />
               Water Free Solvent
             </Label>
