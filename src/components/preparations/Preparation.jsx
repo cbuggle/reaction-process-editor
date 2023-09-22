@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
@@ -14,7 +14,7 @@ const Preparation = ({ preparation, reactionProcess }) => {
 
   const [showForm, setShowForm] = useState(false)
   const [initPreparation, setInitPreparation] = useState(false)
-  const preparationOptions = useMemo(() => { return reactionProcess.select_options.samples_preparations })
+  const preparationOptions = reactionProcess.select_options.samples_preparations
 
   const showCard = preparation || initPreparation
   const sampleName = preparation

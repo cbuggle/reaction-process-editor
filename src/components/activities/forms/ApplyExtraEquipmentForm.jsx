@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import Select from 'react-select'
-import FormSection from "../../utilities/FormSection";
 
-const ApplyEquipmentForm = (
+const ApplyExtraEquipmentForm = (
   {
     equipment,
     equipmentOptions,
-    openSubFormLabel,
+    openSubFormLabel, // unused?
     onChangeEquipment,
-    activityType='action'
   }) => {
 
   const [applyExtraEquipment, setApplyExtraEquipment] = useState(!!equipment && equipment.length > 0)
@@ -47,4 +45,4 @@ const ApplyEquipmentForm = (
   )
 }
 
-export default ApplyEquipmentForm
+export default ApplyExtraEquipmentForm

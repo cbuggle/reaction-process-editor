@@ -28,7 +28,7 @@ const SaveSampleForm = (
 
   useEffect(() => {
     setSampleForm(activity.workup['sample'])
-  }, [activity.workup['sample']])
+  }, [activity.workup])
 
   const handleSampleChange = (name) => (value) => {
     onWorkupChange({ name: 'sample', value: { ...activity.workup['sample'], [name]: value } })

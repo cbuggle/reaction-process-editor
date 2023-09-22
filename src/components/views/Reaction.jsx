@@ -14,9 +14,9 @@ const Reaction = () => {
   const api = useReactionsFetcher();
 
   const { reactionId } = useParams()
+  const location = useLocation();
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
   const username = new URLSearchParams(useLocation().search).get('username');
-  const location = useLocation();
 
   const [reactionProcess, setReactionProcess] = useState()
   const [isLoading, setIsLoading] = useState(false)
@@ -42,6 +42,8 @@ const Reaction = () => {
       window.removeEventListener('requireReload', requireReload);
       window.removeEventListener('reloadDone', reloadDone);
     };
+    // We ignore the warnings which is recommended only when you know exactly what you are doing which I do not. cbuggle.
+    // eslint-disable-next-line
   }, [location]);
 
   useEffect(() => {
@@ -51,14 +53,18 @@ const Reaction = () => {
     if (username) {
       localStorage.setItem('username', username)
     }
+    setReactionProcess(null);
     fetchReactionProcess()
-  }, [])
-
-  useEffect(() => {
-    setReactionProcess(false);
-    fetchReactionProcess()
-  }, [location]);
-
+    // React's state model requires `fetchReactionProcess` in the dependencies array to assert state consistency.
+    // When done however it will be called every time when dependencies are checked (i.e. after refetch),
+    // triggering another refetch (endless loop).
+    // Wrapping fetchReactionProcess in a useCallback as recommended by the React guidelines
+    // does not work either as it depends on the api = useReactionsFetcher(),
+    // which then again can not be used in hooks as useReactionsFetcher() is a hook itself.
+    //
+    // We ignore the warnings which is recommended only when you know exactly what you are doing which I do not. cbuggle.
+    // eslint-disable-next-line
+  }, [location, auth_token, username])
 
   const fetchReactionProcess = () => {
     api.getReactionProcess(reactionId).then((data) => {

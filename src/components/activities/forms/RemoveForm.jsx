@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
@@ -22,9 +22,7 @@ const RemoveForm = (
   const additivesSelectOptions = processStep.added_materials_options['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
   const diverseSolventsSelectOptions = processStep.added_materials_options['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
 
-  const currentSampleIdValue = useMemo(() => {
-    return activity.workup['sample_id']
-  }, [activity.workup['sample_id']])
+  const currentSampleIdValue = activity.workup['sample_id'];
 
   const handleActsAsChange = ({ actsAs }) => {
     onWorkupChange({ name: 'acts_as', value: actsAs })

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormGroup, Form, Input, Button, Container, Row, Col } from 'reactstrap'
+import { FormGroup, Form, Input, Button } from 'reactstrap'
 
 import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
@@ -18,7 +18,6 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     authenticationFetcher.signIn(credentials)
   }
 

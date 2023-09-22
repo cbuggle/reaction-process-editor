@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Col } from 'reactstrap';
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'

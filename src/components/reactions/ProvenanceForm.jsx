@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
+import { Form, Input } from 'reactstrap'
+import DateTimePicker from 'react-datetime-picker'
 
-import { Form, FormGroup, Label, Input } from 'reactstrap'
+import FormButtons from "../utilities/FormButtons";
+import MultiInputFormGroup from "../utilities/MultiInputFormGroup";
+import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
-
-import DateTimePicker from 'react-datetime-picker'
-import FormButtons from "../utilities/FormButtons";
-import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
-import MultiInputFormGroup from "../utilities/MultiInputFormGroup";
 
 const ProvenanceForm = ({ provenance, closeForm }) => {
 

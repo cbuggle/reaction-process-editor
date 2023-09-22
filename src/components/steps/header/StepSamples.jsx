@@ -8,11 +8,11 @@ const StepSamples = ({ processStep }) => {
   const renderSampleBox = (action) => {
     switch (action.workup['acts_as']) {
       case 'SAMPLE':
-        return (<SampleBox key={action.id} action={action} />)
+        return <SampleBox key={action.id} action={action} />
       case 'SOLVENT':
-        return (<SolventBox key={action.id} action={action} />)
+        return <SolventBox key={action.id} action={action} />
       case 'MEDIUM':
-        return (<MediumBox key={action.id} action={action} />)
+        return <MediumBox key={action.id} action={action} />
       default:
         break;
     }
@@ -23,7 +23,9 @@ const StepSamples = ({ processStep }) => {
       {
         processStep.actions.map((action) => {
           if (action.action_name === "ADD") {
-            return renderSampleBox(action)
+            return renderSampleBox(action);
+          } else {
+            return null;
           }
         })
       }

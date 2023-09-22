@@ -38,7 +38,12 @@ export const actionTypeClusters = [
       {
         id: 'add_transfer',
         createLabel: 'Transfer',
-        action: { action_name: 'TRANSFER', workup: {} }
+        action: {
+          action_name: 'TRANSFER',
+          workup: {
+            transfer_percentage: 100
+          }
+        }
       },
     ]
   },

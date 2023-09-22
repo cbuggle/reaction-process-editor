@@ -18,7 +18,7 @@ function useAuthenticationFetcher() {
   }
 
   function signIn(credentials) {
-    const promise = fetch(`${apiBasePath}/sign_in`, {
+    fetch(`${apiBasePath}/sign_in`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

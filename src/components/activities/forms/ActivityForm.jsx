@@ -1,12 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
+import { Form } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-import { FormGroup, Input, Form } from 'reactstrap'
-
-import FormButtons from "../../utilities/FormButtons";
 import ActionValidator from '../../../validators/ActionValidator'
-import OptionalFormSet from "./OptionalFormSet";
 import DescriptionFormSet from "./DescriptionFormSet";
+import FormButtons from "../../utilities/FormButtons";
 
 const ActivityForm = (
   {

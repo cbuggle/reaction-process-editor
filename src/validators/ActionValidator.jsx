@@ -10,7 +10,8 @@ export default class ActionValidator {
 
   static validateTransfer = (action) => {
     var errors = []
-    action.workup['sample_id'] && action.workup['transfer_target_step_id'] || errors.push("Please select Sample and Target.")
+    action.workup['sample_id'] || errors.push("Please select Sample.")
+    action.workup['transfer_target_step_id'] || errors.push("Please select Target.")
     return errors
   }
 

@@ -48,7 +48,7 @@ const AddSampleForm = (
             classNamePrefix="react-select"
             name="sample_id"
             options={currentSampleOptions}
-            value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label == currentName)}
+            value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label === currentName)}
             onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
           />
         </SingleLineFormGroup>

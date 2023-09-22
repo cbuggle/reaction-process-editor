@@ -1,13 +1,12 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Input, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+
 import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 import FormSection from "../../utilities/FormSection";
-
 
 const PurifyForm = (
   {
@@ -17,20 +16,17 @@ const PurifyForm = (
     onWorkupChange
   }) => {
 
-  const purifySolventOptions = useMemo(() => { return processStep.materials_options['SOLVENT'] }, [])
-
-  const actionPurifySolventIds = useMemo(() => { return activity.workup['purify_solvent_sample_ids'] || [] })
-
-  const filtrationModeKeepRetentate = useMemo(() => { return activity.workup['filtration_mode'] == 'KEEP_RETENTATE' })
+  const purifySolventOptions = processStep.materials_options['SOLVENT']
+  const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
+  const filtrationModeKeepRetentate = activity.workup['filtration_mode'] === 'KEEP_RETENTATE'
 
   const toggleFiltrationMode = () => {
     const inverseFiltrationMode = filtrationModeKeepRetentate ? 'KEEP_PERMEATE' : 'KEEP_RETENTATE'
-
     onWorkupChange({ name: 'filtration_mode', value: inverseFiltrationMode })
   }
 
   const renderFilterMethodButtonToggle = () => {
-    if (activity.workup['purify_type'] == 'FILTRATION') {
+    if (activity.workup['purify_type'] === 'FILTRATION') {
       return (
         <>
           <BootstrapSwitchButton

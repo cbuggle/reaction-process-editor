@@ -12,11 +12,21 @@ const ReactionIndex = () => {
   const [reactions, setReactions] = useState([])
   const [fetchingReactions, setFetchingReactions] = useState(true)
 
+
+
+
   useEffect(() => {
+    console.log("useEffect ReactionIndex")
     fetchReactions()
+
+    window.addEventListener('indexRequiresReload', fetchReactions);
+    return () => {
+      window.removeEventListener('indexRequiresReload', fetchReactions);
+    };
   }, []);
 
   const fetchReactions = () => {
+    console.log('fetch reactions')
     setFetchingReactions(true)
     reactionApi.index().then((data) => {
       setReactions(data['reactions'])

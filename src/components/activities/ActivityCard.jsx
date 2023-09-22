@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import ProcedureCard from "../utilities/ProcedureCard";
-import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
-import ActivityInfo from "./ActivityInfo";
-import ConditionForm from "./forms/ConditionForm";
 import ActionForm from "./forms/ActionForm";
 import ActivityDecorator from '../../decorators/ActivityDecorator';
+import ActivityInfo from "./ActivityInfo";
+import ConditionForm from "./forms/ConditionForm";
+import ProcedureCard from "../utilities/ProcedureCard";
+import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
+
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const ActivityCard = (
@@ -24,25 +25,23 @@ const ActivityCard = (
   const isCondition = type === 'condition'
   const isInitialised = !!activity
   const [workup, setWorkup] = useState(isInitialised ? activity.workup : {});
-  const uninitialisedForm = isCondition ? {action_name: "CONDITION", workup: workup} : undefined
+  const uninitialisedForm = isCondition ? { action_name: "CONDITION", workup: workup } : undefined
   const uninitialisedMode = isCondition ? 'form' : 'type-panel'
   const uninitialisedTitle = isCondition ? 'Change Condition' : 'New Action'
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
   const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
-  const generateTitle = () => {
-    if (activityForm && activityForm.action_name) {
-      return ActivityDecorator.title(activityForm.action_name, workup);
-    } else {
-      return uninitialisedTitle;
-    }
-  }
-  const [cardTitle, setCardTitle] = useState(generateTitle());
+
+  const cardTitle =
+    (activityForm && !!activityForm.action_name) ?
+      ActivityDecorator.title(activityForm.action_name, workup)
+      :
+      uninitialisedTitle
+
   const editable = displayMode !== 'info'
 
   useEffect(() => {
-    setActivityForm(prevState => ({...prevState, workup: workup}));
-    setCardTitle(generateTitle());
+    setActivityForm(prevState => ({ ...prevState, workup: workup }));
   }, [workup]);
 
   const edit = () => {
@@ -110,7 +109,7 @@ const ActivityCard = (
       dragRef={dragRef}
     >
       <ProcedureCard.Info>
-        <ActivityInfo action={activity} equipmentOptions={processStep.equipment_options}/>
+        <ActivityInfo action={activity} equipmentOptions={processStep.equipment_options} />
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
         <TypeSelectionPanel onSelect={onSelectType} />

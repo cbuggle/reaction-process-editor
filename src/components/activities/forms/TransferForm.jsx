@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Select from 'react-select'
 
 import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
@@ -15,14 +15,11 @@ const TransferForm = (
 
   useEffect(() => {
     onWorkupChange({ name: 'transfer_source_step_id', value: processStep.id })
+    // eslint-disable-next-line
   }, [processStep])
 
-  useEffect(() => {
-    onWorkupChange({ name: 'transfer_percentage', value: activity.workup['transfer_percentage'] || 100 })
-  }, [])
-
-  const sampleOptions = useMemo(() => { return processStep.transfer_sample_options }, [])
-  const transferToOptions = useMemo(() => { return processStep.transfer_to_options }, [])
+  const sampleOptions = processStep.transfer_sample_options
+  const transferToOptions = processStep.transfer_to_options
 
   return (
     <>
@@ -51,7 +48,7 @@ const TransferForm = (
         label={ConditionTypeDecorator.label('PERCENTAGE')}
         value={activity.workup['transfer_percentage']}
         unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
-        onChange={value => onWorkupChange({name: 'transfer_percentage', value: value}) }
+        onChange={value => onWorkupChange({ name: 'transfer_percentage', value: value })}
       />
     </>
   )
