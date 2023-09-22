@@ -1,8 +1,8 @@
 import TimeDecorator from "../../../decorators/TimeDecorator";
 import OptionalFormSet from "./OptionalFormSet";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DurationSelection from "../../utilities/DurationSelection";
-import {FormGroup, Input, Label} from "reactstrap";
+import {Button, FormGroup, Input, Label} from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
 
 const TimingFormSet = (
@@ -14,12 +14,29 @@ const TimingFormSet = (
     onChangeDuration,
     onWorkupChange
   }) => {
+
   const [duration, setDuration] = useState(!!activity.workup.duration ? activity.workup.duration : 0)
   const [defineTimeSpan, setDefineTimeSpan] = useState(!!activity.workup.starts_at)
   const [startTime, setStartTime] = useState(!!activity.workup.starts_at ? new Date(activity.workup.starts_at) : new Date())
   const [endTime, setEndTime] = useState(!!activity.workup.ends_at ? new Date(activity.workup.ends_at) : new Date())
+  const [timerRunning, setTimerRunning] = useState(false)
+  const [timerIntervalId, setTimerIntervalId] = useState(NaN)
+  const [summary, setSummary] = useState(TimeDecorator.summary(activity.workup))
 
   const dateTimePickerFormat = "HH:mm:ss dd.MM.y"
+
+  useEffect(() => {
+    if (timerRunning) {
+      setTimerIntervalId(setInterval(updateTimer, 1000))
+    } else {
+      clearInterval(timerIntervalId)
+      setTimerIntervalId(NaN)
+    }
+  }, [timerRunning])
+
+  useEffect(() => {
+    setSummary(TimeDecorator.summary(activity.workup))
+  }, [activity])
 
   const handleCheckboxTimeSpan = (event) => {
     setDefineTimeSpan(event.target.checked)
@@ -57,6 +74,21 @@ const TimingFormSet = (
     }
   }
 
+  const updateTimer = () => {
+    handleEndTime(new Date())
+  }
+
+  const toggleTimer = () => {
+    if(!timerRunning) {
+      setDefineTimeSpan(true)
+      const timerStartDate = new Date()
+      setStartTime(timerStartDate)
+      setEndTime(timerStartDate)
+      setDuration(0)
+    }
+    setTimerRunning(!timerRunning)
+  }
+
   const handleSaveTiming = () => {
     onChangeDuration(duration)
     if(defineTimeSpan) {
@@ -75,17 +107,35 @@ const TimingFormSet = (
   return (
     <OptionalFormSet
       groupLabel='Timing'
-      valueSummary={!!duration ? TimeDecorator.timeString(duration) : undefined}
+      valueSummary={summary}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSaveTiming}
       onCancel={handleCancelTiming}
       onToggleSubform={onToggleSubform}
       type={activityType}
+      disableFormButtons={timerRunning}
     >
-      <DurationSelection duration={duration} onChangeDuration={handleDuration} />
+      <OptionalFormSet.ExtraButton>
+        <Button
+          color='danger'
+          onClick={toggleTimer}
+        >
+          {(timerRunning ? 'Stop' : 'Start') + ' Timer'}
+        </Button>
+      </OptionalFormSet.ExtraButton>
+      <DurationSelection
+        duration={duration}
+        onChangeDuration={handleDuration}
+        disabled={timerRunning}
+      />
       <FormGroup check className='mb-3'>
         <Label check>
-          <Input type="checkbox" checked={defineTimeSpan} onChange={handleCheckboxTimeSpan} />
+          <Input
+            type="checkbox"
+            checked={defineTimeSpan}
+            onChange={handleCheckboxTimeSpan}
+            disabled={timerRunning}
+          />
           Time Span
         </Label>
       </FormGroup>
@@ -101,6 +151,7 @@ const TimingFormSet = (
                 format={dateTimePickerFormat}
                 value={startTime}
                 className='react-datetime-picker--overwrite'
+                disabled={timerRunning}
               />
             </div>
           </FormGroup>
@@ -114,6 +165,7 @@ const TimingFormSet = (
                 format={dateTimePickerFormat}
                 value={endTime}
                 className='react-datetime-picker--overwrite'
+                disabled={timerRunning}
               />
             </div>
           </FormGroup>

@@ -8,6 +8,7 @@ const FormButtons = (
     type,
     disabled,
     saveLabel='Save',
+    children
   }) => {
   const classNames = (
     'form-buttons d-grid gap-2 d-md-flex justify-content-md-end' +
@@ -16,6 +17,7 @@ const FormButtons = (
 
   return (
     <div className={classNames}>
+      {children}
       <Button
         color={type}
         onClick={onCancel}

@@ -3,7 +3,12 @@ import React, {useState, useEffect} from "react";
 import {Label, FormGroup} from "reactstrap";
 import NumericInput from "react-numeric-input";
 
-const DurationSelection = ({ duration, onChangeDuration}) => {
+const DurationSelection = (
+  {
+    duration,
+    onChangeDuration,
+    disabled
+  }) => {
   const timeObject = TimeDecorator.hourBasedTimespan(duration)
   const [hours, setHours] = useState(timeObject.hours)
   const [minutes, setMinutes] = useState(timeObject.minutes)
@@ -47,6 +52,7 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
           onChange={setHours}
           className='form-control'
           snap
+          disabled={disabled}
         />
       </div>
       <Label className='col-form-label duration-selection__form-label'>h</Label>
@@ -61,6 +67,7 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
           onChange={setMinutes}
           className='form-control'
           snap
+          disabled={disabled}
         />
       </div>
       <Label className='col-form-label duration-selection__form-label'>min</Label>
@@ -75,6 +82,7 @@ const DurationSelection = ({ duration, onChangeDuration}) => {
           onChange={setSeconds}
           className='form-control'
           snap
+          disabled={disabled}
         />
       </div>
       <Label className='col-form-label duration-selection__form-label'>s</Label>
