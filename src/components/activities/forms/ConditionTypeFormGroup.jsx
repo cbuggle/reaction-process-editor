@@ -34,7 +34,7 @@ const ConditionTypeFormGroup = (
     if (hasWorkupCondition) {
       return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], processStep.equipment_options)
     } else if (hasPreCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition)
+      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition, processStep.equipment_options)
     } else {
       return undefined
     }
