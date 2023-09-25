@@ -2,21 +2,21 @@ import React from 'react'
 
 import { UncontrolledTooltip, PopoverHeader, PopoverBody, } from 'reactstrap'
 
-import SamplesDecorator from '../../samples/SamplesDecorator'
+import SamplesDecorator from '../../../decorators/SamplesDecorator'
 
-const SampleBox = ({ action }) => {
+const SampleBox = ({ material }) => {
   return (
     <>
-      <div id={"tooltip-sample-" + action.id}>
-        {SamplesDecorator.labelForButtonSolvent(action.sample)}
+      <div id={"tooltip-sample-" + material.id}>
+        {material.label}
       </div>
-      <UncontrolledTooltip placement="top" target={"tooltip-sample-" + action.id} >
+      <UncontrolledTooltip placement="top" target={"tooltip-sample-" + material.id} >
         <PopoverHeader>
-          {SamplesDecorator.labelForButtonSolvent(action.sample)}
+          {material.label}
         </PopoverHeader>
         <PopoverBody>
           <div>
-            {SamplesDecorator.sampleSvgFile(action.sample)}
+            {SamplesDecorator.sampleSvgFile(material)}
           </div>
         </PopoverBody>
       </UncontrolledTooltip>

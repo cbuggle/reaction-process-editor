@@ -18,9 +18,9 @@ const RemoveForm = (
     onWorkupChange
   }) => {
 
-  const mediumSelectOptions = processStep.added_materials_options['MEDIUM'].concat([{ value: "", label: "Undefined" }])
-  const additivesSelectOptions = processStep.added_materials_options['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
-  const diverseSolventsSelectOptions = processStep.added_materials_options['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
+  const mediumSelectOptions = processStep.removable_materials_options['MEDIUM'].concat([{ value: "", label: "Undefined" }])
+  const additivesSelectOptions = processStep.removable_materials_options['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
+  const diverseSolventsSelectOptions = processStep.removable_materials_options['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
 
   const currentSampleIdValue = activity.workup['sample_id'];
 

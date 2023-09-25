@@ -5,15 +5,18 @@ import SolventBox from './SolventBox'
 
 const StepSamples = ({ processStep }) => {
 
-  const renderSampleBox = (action) => {
-    switch (action.workup['acts_as']) {
+  const renderSampleBox = (material) => {
+    console.log("material: ")
+    console.log(material)
+    switch (material.acts_as) {
       case 'SAMPLE':
-        return <SampleBox key={action.id} action={action} />
+        return <SampleBox key={material.id} material={material} />
       case 'SOLVENT':
-        return <SolventBox key={action.id} action={action} />
+        return <SolventBox key={material.id} material={material} />
       case 'MEDIUM':
-        return <MediumBox key={action.id} action={action} />
+        return <MediumBox key={material.id} material={material} />
       default:
+        // ADDITIVE and DIVERSE_SOLVENT will not be displayed in StepHeader
         break;
     }
   }
@@ -21,12 +24,8 @@ const StepSamples = ({ processStep }) => {
   return (
     <>
       {
-        processStep.actions.map((action) => {
-          if (action.action_name === "ADD") {
-            return renderSampleBox(action);
-          } else {
-            return null;
-          }
+        processStep.added_materials_options.map((material) => {
+          return renderSampleBox(material)
         })
       }
     </>

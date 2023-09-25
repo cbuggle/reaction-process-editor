@@ -19,6 +19,8 @@ const AddSampleForm = (
 
   const currentSampleId = activity.workup['sample_id']
   const currentName = activity.workup['sample_name']
+
+  // DIVERSE_SOLVENT is to be included in 'SOLVENT' as requiired by NJung.n
   const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
 
   const currentSampleOptions = processStep.materials_options[currentSampleActsAs]

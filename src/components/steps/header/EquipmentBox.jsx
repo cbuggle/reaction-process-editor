@@ -1,9 +1,9 @@
 import React from 'react'
 
-const EquipmentBox = ({ action }) => {
+const EquipmentBox = ({ equipment }) => {
   return (
     <div>
-      {action.workup['equipment']}
+      {equipment.label}
     </div>
   )
 }

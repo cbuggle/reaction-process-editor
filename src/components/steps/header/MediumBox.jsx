@@ -1,15 +1,15 @@
 import React from 'react'
 import { PopoverHeader, UncontrolledTooltip } from 'reactstrap'
 
-const MediumBox = ({ action }) => {
+const MediumBox = ({ material }) => {
   return (
     <>
-      <div id={"tooltip-medium-" + action.id}>
-        {action.medium.label}
+      <div id={"tooltip-medium-" + material.id}>
+        {material.label}
       </div>
-      < UncontrolledTooltip placement="top" target={"tooltip-medium-" + action.id} >
+      < UncontrolledTooltip placement="top" target={"tooltip-medium-" + material.id} >
         <PopoverHeader>
-          {action.medium.label}
+          {material.label}
         </PopoverHeader>
       </UncontrolledTooltip >
     </>
