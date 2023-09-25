@@ -8,7 +8,7 @@ export default class ConditionTypeDecorator {
     return this.conditionType(typeName).label
   }
   static unitLabel = (unit) => {
-    return unitTypes[unit].label
+    return unitTypes[unit].label || unit // This is for PH only which has no unit label but we want to display somethin
   }
   // Hardcoded defaultUnit until we implement unit switching.
   static defaultUnit = (typeName) => {
@@ -21,7 +21,7 @@ export default class ConditionTypeDecorator {
   static defaultUnitType = (typeName) => {
     return unitTypes[this.defaultUnit(typeName)]
   }
-  // This is actually UnitType decoration but as long as it's just 1
+  // This is actually UnitType decoration but as long as it's just this one we can keep it here.
   static defaultValue = (unit) => {
     return unitTypes[unit].inputRange.default
   }
