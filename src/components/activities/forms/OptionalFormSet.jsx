@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import FormButtons from "../../utilities/FormButtons";
 import FormSection from "../../utilities/FormSection";
 
+const ExtraButton = () => null
+
 const OptionalFormSet = (
   {
     groupLabel,
@@ -12,8 +14,12 @@ const OptionalFormSet = (
     onCancel,
     onToggleSubform,
     children,
-    type='condition'
+    type='condition',
+    disableFormButtons
   }) => {
+  const childNodes = React.Children.toArray(children);
+  const extraButton = childNodes.find(el => el.type === ExtraButton)
+
   const [showForm, setShowForm] = useState(false)
   const toggleShowForm = () => {
     onToggleSubform(showForm ? undefined : groupLabel)
@@ -57,11 +63,16 @@ const OptionalFormSet = (
             onSave={handleSave}
             onCancel={handleCancel}
             saveLabel='Set'
-          />
+            disabled={disableFormButtons}
+          >
+            {extraButton && extraButton.props.children}
+          </FormButtons>
         </>
       }
     </FormSection>
   );
 };
+
+OptionalFormSet.ExtraButton = ExtraButton
 
 export default OptionalFormSet;

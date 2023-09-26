@@ -42,12 +42,14 @@ $input-btn-padding-x: .6rem;
 $input-btn-padding-y: .2rem;
 $input-btn-padding-x-lg: .8rem;
 $input-btn-padding-y-lg: .3rem;
+$input-disabled-bg: tint-color(color("preparation"), 80%);
 $component-active-bg: color("primary");
 $input-focus-border-color: color.change(color("primary"), $alpha: 0.3);
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;
 $input-border-radius: .3rem;
+
 $card-border-radius: .5rem;
 $card-cap-bg: tint-color(color("preparation"), 30%);
 $card-border-color: shade-color($card-cap-bg, 30%);
@@ -63,15 +65,20 @@ $toast-padding-x: 1rem;
 $toast-padding-y: 1rem;
 
 
-/* component vars */
-$max-label-width: 30rem;
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
+
+/* component vars */
+$max-label-width: 30rem;
+$input-disabled-color: tint-color($input-color, 40%);
+
 /* overwrite bootstrap standard behaviour */
 @import "base/bootstrap_overwrite/btn";
+@import "base/bootstrap_overwrite/form-control";
 @import "base/bootstrap_overwrite/modal";
 /* styling for components from other libraries */
+@import "base/other_libraries_overwrite/react-datetime-picker";
 @import "base/other_libraries_overwrite/react_select";
 @import "base/other_libraries_overwrite/react-toastify";
 /* styling for generic page layout */
@@ -88,6 +95,7 @@ $max-label-width: 30rem;
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
+@import "components/utilities/DurationSelection";
 @import "components/utilities/FormButtons";
 @import "components/utilities/FormSection";
 @import "components/utilities/IconButton";

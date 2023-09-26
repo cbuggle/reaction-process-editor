@@ -6,8 +6,7 @@ const ApplyExtraEquipmentForm = (
   {
     equipment,
     equipmentOptions,
-    openSubFormLabel, // unused?
-    onChangeEquipment,
+    onChangeEquipment
   }) => {
 
   const [applyExtraEquipment, setApplyExtraEquipment] = useState(!!equipment && equipment.length > 0)

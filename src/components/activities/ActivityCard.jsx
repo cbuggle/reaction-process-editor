@@ -80,15 +80,14 @@ const ActivityCard = (
     }
   }
 
-  const onWorkupChange = (field) => {
+  const handleWorkupChange = (field) => {
     const { name, value } = field;
     setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }));
   }
 
 
   const setDuration = (value) => {
-    setActivityForm({ name: "duration", value: value })
-    onWorkupChange({ name: "duration", value: value })
+    handleWorkupChange({ name: "duration", value: value })
   }
 
   return (
@@ -122,8 +121,8 @@ const ActivityCard = (
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
             onSave={onSaveForm}
-            onWorkupChange={onWorkupChange}
-            setDuration={setDuration}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
             onToggleSubform={handleToggleSubform}
           />
         }
@@ -135,7 +134,8 @@ const ActivityCard = (
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
             onSave={onSaveForm}
-            onWorkupChange={onWorkupChange}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
             onToggleSubform={handleToggleSubform}
           />
         }

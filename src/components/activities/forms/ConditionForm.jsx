@@ -14,6 +14,7 @@ const ConditionForm = (
     onSave,
     onCancel,
     onWorkupChange,
+    onChangeDuration,
     onToggleSubform
   }) => {
   const [focus, setFocus] = useState(false);
@@ -29,6 +30,7 @@ const ConditionForm = (
       onSave={onSave}
       onCancel={onCancel}
       onWorkupChange={onWorkupChange}
+      onChangeDuration={onChangeDuration}
       onToggleSubform={onToggleSubform}
       className={focus ? 'condition-form--focus' : ''}
     >
