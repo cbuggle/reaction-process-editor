@@ -58,7 +58,7 @@ const AddSampleForm = (
           amount={activity.workup['target_amount_value']}
           maxAmount={activity.workup['sample_original_amount']}
           unit={activity.workup['target_amount_unit']}
-          disableunitelection={!!activity.workup['sample_original_amount']}
+          disableUnitSelection={!!activity.workup['sample_original_amount']}
           onChangeAmount={handleValueChange('target_amount_value')}
           onChangeUnit={handleValueChange('target_amount_unit')}
         />
