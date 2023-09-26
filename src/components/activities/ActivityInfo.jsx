@@ -1,8 +1,8 @@
 import React from 'react'
 
-import SamplesDecorator from '../samples/SamplesDecorator'
 import { analysisTypeOptions } from '../../constants/dropdownOptions/analysisTypeOptions'
-import ActivityDecorator from "../../decorators/ActivityDecorator";
+import ActivityDecorator from '../../decorators/ActivityDecorator';
+import SamplesDecorator from '../../decorators/SamplesDecorator'
 
 const ActivityInfo = ({ action, equipmentOptions }) => {
   const infoLines = []
