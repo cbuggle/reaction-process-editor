@@ -77,6 +77,39 @@ export const conditionTypes = {
 }
 
 export const unitTypes = {
+  // Definition of availble units for use in NumericalInputs etc.
+  // mg, mmol, ml are downcase for consistency with ELN.
+  // All others are unaltered (upcase) ORD constants.
+  'mmol': {
+    name: 'MMOL',
+    label: 'mmol',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 10,
+      default: 0,
+    }
+  },
+  'mg': {
+    name: 'MG',
+    label: 'mg',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 10,
+      default: 0,
+    }
+  },
+  'ml': {
+    name: 'ML',
+    label: 'ml',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 10,
+      default: 0,
+    }
+  },
   'CELSIUS': {
     name: 'CELSIUS',
     label: '°C',
