@@ -85,7 +85,7 @@ export const unitTypes = {
       max: 400,
       precision: 1,
       step: 0.1,
-      default: 120,
+      default: 21,
     }
   },
   'KELVIN': {
@@ -116,9 +116,9 @@ export const unitTypes = {
     inputRange: {
       min: 0,
       max: 10000,
-      precision: 3,
+      precision: 0,
       step: 1,
-      default: 1024,
+      default: 1013,
     }
   },
   'WATT': {
