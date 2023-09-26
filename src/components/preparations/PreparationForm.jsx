@@ -4,6 +4,8 @@ import Select from 'react-select'
 
 import FormButtons from "../utilities/FormButtons";
 
+import { samplePreparationOptions } from '../../constants/samplePreparationTypes';
+
 const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) => {
 
   const [preparationForm, updatePreparationForm] = useState(preparation || {details: ''})
@@ -55,8 +57,8 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           classNamePrefix="react-select"
           isMulti
           name="preparations"
-          options={preparationOptions.preparations}
-          value={preparationOptions.preparations.filter(option => (preparationForm.preparations || []).includes(option.value))}
+          options={samplePreparationOptions}
+          value={samplePreparationOptions.filter(option => (preparationForm.preparations || []).includes(option.value))}
           onChange={selectedOptions => onInputChange({ name: 'preparations', value: selectedOptions.map(option => option.value) })}
         />
       </FormGroup>

@@ -3,9 +3,23 @@ import { UncontrolledTooltip } from 'reactstrap'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
-const PreparationInfo = ({ preparation }) => {
+import { samplePreparationTypes } from '../../constants/samplePreparationTypes'
+
+const PreparationInfo = ({ preparation, preparationOptions }) => {
 
   const api = useReactionsFetcher()
+
+  const renderPreparationsInfo = () => {
+    return (preparation.preparations.map((preparation) => {
+      return samplePreparationTypes[preparation]
+    }))
+  }
+
+  const renderEquipmentsInfo = () => {
+    return preparation.equipment.map((equipment) => {
+      return preparationOptions.equipment.find(option => option.value === equipment).label
+    })
+  }
 
   return (
     <>
@@ -15,16 +29,16 @@ const PreparationInfo = ({ preparation }) => {
         className='sample-molecule-image bg-white border rounded-3'
       />
       <div id={"sample-preparation-" + preparation.id}>
-        {preparation.preparations.join(', ')}
+        {renderPreparationsInfo()}
         <br />
-        {preparation.equipment.join(', ')}
+        {renderEquipmentsInfo()}
         <br />
         {preparation.details}
       </div>
       < UncontrolledTooltip target={"sample-preparation-" + preparation.id} >
-        {preparation.preparations.join(', ')}
+        {renderPreparationsInfo()}
         <br />
-        {preparation.equipment.join(', ')}
+        {renderEquipmentsInfo()}
         <br />
         {preparation.details}
       </UncontrolledTooltip >

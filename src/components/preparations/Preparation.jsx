@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
-
 import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "../preparations/PreparationCard";
 import PreparationInfo from "./PreparationInfo"
 import PreparationForm from '../preparations/PreparationForm';
 import ProcedureCard from "../utilities/ProcedureCard";
+
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
 const Preparation = ({ preparation, reactionProcess }) => {
 
@@ -50,7 +50,7 @@ const Preparation = ({ preparation, reactionProcess }) => {
     showCard ?
       <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={closeForm} showForm={showForm} >
         <ProcedureCard.Info>
-          <PreparationInfo preparation={preparation} />
+          <PreparationInfo preparation={preparation} preparationOptions={preparationOptions} />
         </ProcedureCard.Info>
         <ProcedureCard.Form>
           <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm} />

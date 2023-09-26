@@ -84,7 +84,7 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
     }
     return (
       <>
-        {infoImage && SamplesDecorator.sampleSvgFile(infoImage)}
+        {infoImage && SamplesDecorator.sampleSvgImg(infoImage)}
         {(workup.description || infoTitle.length > 0 || infoLines.length > 0) &&
           <div className='activity-info__text-block'>
             {infoTitle.length > 0 &&

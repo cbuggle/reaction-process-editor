@@ -16,7 +16,7 @@ const SampleBox = ({ material }) => {
         </PopoverHeader>
         <PopoverBody>
           <div>
-            {SamplesDecorator.sampleSvgFile(material)}
+            {SamplesDecorator.sampleSvgImg(material)}
           </div>
         </PopoverBody>
       </UncontrolledTooltip>
