@@ -1,9 +1,15 @@
 .react-datetime-picker--overwrite {
   width: 100%;
 
-  .react-datetime-picker--disabled {
-    background-color: $input-disabled-bg;
-    color: #6d6d6d;
+  &.react-datetime-picker--disabled {
+    .react-datetime-picker__wrapper {
+      background-color: $input-disabled-bg;
+      border-color: $input-disabled-border-color;
+      color: $input-disabled-color;
+      input {
+        color: $input-disabled-color;
+      }
+    }
   }
 
   .react-datetime-picker__wrapper {
