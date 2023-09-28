@@ -1,4 +1,4 @@
-import { apiHostname } from '../Constants';
+import { apiHostname } from '../constants';
 import { useFetchWrapper } from './fetch-wrapper'
 
 export { useReactionsFetcher };

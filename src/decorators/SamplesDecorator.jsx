@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { apiHostname } from '../Constants'
+import { apiHostname } from '../constants'
 
 export default class SamplesDecorator {
   static sampleSvgImg = (sample) => {

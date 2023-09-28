@@ -1,4 +1,4 @@
-import { apiBasePath } from "../Constants";
+import { apiBasePath } from "../constants";
 
 import { useNavigate } from "react-router-dom";
 

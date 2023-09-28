@@ -3,7 +3,7 @@ import { useFetchWrapper } from './fetch-wrapper';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-import { apiBasePath, afterSignInPath, afterSignOutPath } from '../Constants';
+import { apiBasePath, afterSignInPath, afterSignOutPath } from '../constants';
 
 export { useAuthenticationFetcher };
 
