@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import ReactionIndexCard from '../reactions/ReactionIndexCard'
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 const ReactionIndex = () => {
 
@@ -11,9 +12,6 @@ const ReactionIndex = () => {
 
   const [reactions, setReactions] = useState([])
   const [fetchingReactions, setFetchingReactions] = useState(true)
-
-
-
 
   useEffect(() => {
     console.log("useEffect ReactionIndex")
@@ -23,6 +21,7 @@ const ReactionIndex = () => {
     return () => {
       window.removeEventListener('indexRequiresReload', fetchReactions);
     };
+    // eslint-disable-next-line
   }, []);
 
   const fetchReactions = () => {

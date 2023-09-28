@@ -3,20 +3,20 @@ import { toast } from 'react-toastify';
 export default class ActionValidator {
 
   static validateAdd = (action) => {
-    var errors = []
+    let errors = []
     action.workup['sample_id'] || errors.push("Please select a Sample.")
     return errors
   }
 
   static validateTransfer = (action) => {
-    var errors = []
+    let errors = []
     action.workup['sample_id'] || errors.push("Please select Sample.")
     action.workup['transfer_target_step_id'] || errors.push("Please select Target.")
     return errors
   }
 
   static validateRemove = (action) => {
-    var errors = []
+    let errors = []
     // currently no mandatory fields; sample_id is optional! cbuggle, 07.11.2021.
     return errors
   }
@@ -34,7 +34,7 @@ export default class ActionValidator {
   }
 
   static validate = (action) => {
-    var errors = []
+    let errors = []
 
     switch (action.action_name) {
       case "ADD":

@@ -1,6 +1,4 @@
-import {timeMeasurements} from "../constants/timeMeasurements";
-import {useState} from "react";
-
+import { timeMeasurements } from "../constants/timeMeasurements";
 export default class TimeDecorator {
   static hourBasedTimespan = (duration) => {
     const timeObject = {}
@@ -14,10 +12,10 @@ export default class TimeDecorator {
     timeObject.milliSeconds = Math.floor(
       (duration % timeMeasurements.msInSecond)
     )
-    return(timeObject)
+    return (timeObject)
   }
   static calculateDuration = (timeObject) => {
-    return(
+    return (
       timeObject.hours * timeMeasurements.msInHour +
       timeObject.minutes * timeMeasurements.msInMinute +
       timeObject.seconds * timeMeasurements.msInSecond
@@ -26,13 +24,13 @@ export default class TimeDecorator {
   static timeString = (duration) => {
     let timeObject = TimeDecorator.hourBasedTimespan(duration)
     let timeString = timeObject.seconds + 's'
-    if(timeObject.minutes > 0 || timeObject.hours > 0) {
+    if (timeObject.minutes > 0 || timeObject.hours > 0) {
       timeString = timeObject.minutes + 'min ' + timeString
     }
-    if(timeObject.hours > 0) {
+    if (timeObject.hours > 0) {
       timeString = timeObject.hours + 'h ' + timeString
     }
-    return(timeString)
+    return (timeString)
   }
 
   static daytime = (dateString) => {
@@ -51,9 +49,9 @@ export default class TimeDecorator {
   }
 
   static summary = (workup) => {
-    if(!!workup.duration) {
+    if (!!workup.duration) {
       const durationString = TimeDecorator.timeString(workup.duration)
-      if(!!workup.starts_at) {
+      if (!!workup.starts_at) {
         return (
           durationString +
           ' (' +

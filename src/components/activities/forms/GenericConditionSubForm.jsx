@@ -110,7 +110,7 @@ const GenericConditionSubForm = (
   }
 
   const handleSave = () => {
-    var condition = {
+    let condition = {
       value: value,
       unit: unit,
       additional_information: additionalInformation

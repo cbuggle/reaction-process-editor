@@ -1,6 +1,6 @@
 import TimeDecorator from "../../decorators/TimeDecorator";
-import React, {useState, useEffect} from "react";
-import {Label, FormGroup} from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Label, FormGroup } from "reactstrap";
 import NumericInput from "react-numeric-input";
 
 const DurationSelection = (
@@ -16,6 +16,7 @@ const DurationSelection = (
 
   useEffect(() => {
     calculateDuration()
+    // eslint-disable-next-line
   }, [hours, minutes, seconds]);
 
   useEffect(() => {

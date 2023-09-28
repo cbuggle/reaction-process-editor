@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import {Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBrand} from 'reactstrap';
+import { Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBrand } from 'reactstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDoubleUp, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
-import ProvenanceFormButton from './ProvenanceFormButton';
-import OrdDownloadButton from './OrdDownloadButton';
-
-import prettyMilliseconds from 'pretty-ms';
-import {useReactionsFetcher} from "../../fetchers/ReactionsFetcher";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDoubleUp, faAngleDoubleDown} from "@fortawesome/free-solid-svg-icons";
 import IconButton from "../utilities/IconButton";
+import OrdDownloadButton from './OrdDownloadButton';
+import ProvenanceFormButton from './ProvenanceFormButton';
+
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
@@ -30,7 +29,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
     <div className='reaction-header'>
       <Navbar className='reaction-navbar bg-primary' dark>
         <NavbarBrand>
-          <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label} ({prettyMilliseconds(reactionProcess.duration * 1000)})</span>
+          <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label}</span>
           <span className='reaction-id'>{reactionProcess.id}</span>
         </NavbarBrand>
         <Nav>
