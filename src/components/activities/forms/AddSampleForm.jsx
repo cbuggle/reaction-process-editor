@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
-import AmountSelection from "../../utilities/AmountSelection";
+import AmountInputSet from "../../utilities/AmountInputSet";
 import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
@@ -17,24 +17,23 @@ const AddSampleForm = (
     onWorkupChange
   }) => {
 
-  const currentSampleId = activity.workup['sample_id']
-  const currentName = activity.workup['sample_name']
-
   // 'DIVERSE_SOLVENT' need to be included as 'SOLVENT' for UI selects, as requested by NJung.
   const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
-
   const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
+  const [sample, setSample] = useState(currentSampleOptions.find(sample => sample.value === activity.workup['sample_id'] && sample.label === activity.workup['sample_name']))
 
   const handleSampleChange = ({ sampleId, label }) => {
     // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
-    const sample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
-
-    onWorkupChange({ name: 'acts_as', value: sample.acts_as || activity.workup['acts_as'] })
-    onWorkupChange({ name: 'sample_id', value: sampleId })
-    onWorkupChange({ name: 'sample_name', value: label })
-    onWorkupChange({ name: 'target_amount_value', value: sample.amount || '' })
-    onWorkupChange({ name: 'sample_original_amount', value: sample.amount })
-    onWorkupChange({ name: 'target_amount_unit', value: sample.unit })
+    const newSample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
+    if(newSample) {
+      onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
+      onWorkupChange({ name: 'sample_id', value: newSample.value })
+      onWorkupChange({ name: 'sample_name', value: newSample.label })
+      onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
+      onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
+      onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
+    }
+    setSample(newSample)
   }
 
   const handleValueChange = (name) => (value) => {
@@ -50,15 +49,14 @@ const AddSampleForm = (
             classNamePrefix="react-select"
             name="sample_id"
             options={currentSampleOptions}
-            value={currentSampleOptions.find(sample => sample.value === currentSampleId && sample.label === currentName)}
+            value={sample}
             onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
           />
         </SingleLineFormGroup>
-        <AmountSelection
+        <AmountInputSet
           amount={activity.workup['target_amount_value']}
-          maxAmount={activity.workup['sample_original_amount']}
+          maxAmounts={sample ? sample['unit_amounts'] : undefined}
           unit={activity.workup['target_amount_unit']}
-          disableUnitSelection={!!activity.workup['sample_original_amount']}
           onChangeAmount={handleValueChange('target_amount_value')}
           onChangeUnit={handleValueChange('target_amount_unit')}
         />

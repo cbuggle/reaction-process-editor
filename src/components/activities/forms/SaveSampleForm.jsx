@@ -8,7 +8,7 @@ import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import { sampleVolumeUnitOptions } from '../../../constants/dropdownOptions/samplesOptions'
+import { substanceUnitOptions } from '../../../constants/substanceUnitOptions'
 import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
 
 const SaveSampleForm = (
@@ -64,8 +64,8 @@ const SaveSampleForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="target_amount_unit"
-          options={sampleVolumeUnitOptions}
-          value={sampleVolumeUnitOptions.find(item => item.value === sampleForm['target_amount_unit'])}
+          options={substanceUnitOptions}
+          value={substanceUnitOptions.find(item => item.value === sampleForm['target_amount_unit'])}
           onChange={selectedOption => handleSampleChange('target_amount_unit')(selectedOption.value)}
         />
       </SingleLineFormGroup>

@@ -6,8 +6,6 @@ import SolventBox from './SolventBox'
 const StepSamples = ({ processStep }) => {
 
   const renderSampleBox = (material) => {
-    console.log("material: ")
-    console.log(material)
     switch (material.acts_as) {
       case 'SAMPLE':
         return <SampleBox key={material.id} material={material} />
