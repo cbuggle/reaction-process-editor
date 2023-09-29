@@ -62,24 +62,26 @@ const MainHeader = () => {
 
   const fetchReactionOptions = () => {
     reactionApi.index().then((data) => {
-      setReactions(data['reactions'])
-      const options = data['reactions'].map(({ id, short_label }) => ({
-        key: id,
-        url: reactionLinkTarget(id),
-        label: id + ': ' + short_label
-      }))
-      options.unshift({
-        key: 'index',
-        url: reactionIndexLinkTarget,
-        label: 'Reaction Index'
-      })
-      setReactionOptions(options)
+      if (data) {
+        setReactions(data['reactions'])
+        const options = data['reactions'].map(({ id, short_label }) => ({
+          key: id,
+          url: reactionLinkTarget(id),
+          label: id + ': ' + short_label
+        }))
+        options.unshift({
+          key: 'index',
+          url: reactionIndexLinkTarget,
+          label: 'Reaction Index'
+        })
+        setReactionOptions(options)
+      }
     })
   }
 
   const fetchCollectionOptions = () => {
     reactionApi.collectionSelectOptions().then((data) => {
-      setCollectionOptions(data['collection_select_options'])
+      data && setCollectionOptions(data['collection_select_options'])
     })
   }
 

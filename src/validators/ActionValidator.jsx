@@ -1,5 +1,7 @@
 import { toast } from 'react-toastify';
 
+import { toastAutoCloseOnWarning } from '../constants';
+
 export default class ActionValidator {
 
   static validateAdd = (action) => {
@@ -30,7 +32,7 @@ export default class ActionValidator {
   }
 
   static displayNotifications = (errors) => {
-    errors.forEach(error => toast.error(error, { autoClose: 1500 }))
+    errors.forEach(error => toast.warning(error, { autoClose: toastAutoCloseOnWarning }))
   }
 
   static validate = (action) => {

@@ -68,7 +68,7 @@ const Reaction = () => {
 
   const fetchReactionProcess = () => {
     api.getReactionProcess(reactionId).then((data) => {
-      setReactionProcess(data['reaction_process'])
+      data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
       window.dispatchEvent(new Event("reloadDone"))
     })
   }

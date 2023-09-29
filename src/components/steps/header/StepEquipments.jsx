@@ -6,7 +6,6 @@ const StepEquipments = ({ processStep }) => {
   return (
     <>
       {processStep.mounted_equipment_options.map((equipment) => {
-        console.log(equipment)
         return <EquipmentBox key={equipment.label} equipment={equipment} />
       })}
     </>

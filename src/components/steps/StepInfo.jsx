@@ -8,8 +8,6 @@ const StepInfo = ({ processStep }) => {
 
   return (
     <>
-      {console.log(processStep.mounted_equipment_options)
-}
       <StepVessel processStep={processStep} />
       <StepSamples processStep={processStep} />
       <StepEquipments processStep={processStep} />
