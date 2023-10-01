@@ -17,13 +17,8 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
           infoImage = action.sample
         }
         infoTitle = [workup.target_amount_value, workup.target_amount_unit].join(' ')
-        if (workup.add_sample_velocity) {
-          infoLines.push(
-            workup.add_sample_velocity + ' ml/min ' +
-              workup.add_sample_temperature ? workup.add_sample_temperature + ' °C ' : '' +
-                workup.add_sample_pressure ? workup.add_sample_pressure + ' mbar' : ''
-          )
-        }
+        infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
+
         if (workup.acts_as === 'SOLVENT') {
           infoLines.push(workup.is_waterfree_solvent ? 'waterfree' : 'not waterfree')
         }

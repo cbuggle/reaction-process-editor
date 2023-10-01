@@ -1,6 +1,6 @@
 import { motionTypeOptions, motionModeOptions } from '../constants/dropdownOptions/motionOptions';
 import ConditionTypeDecorator from './ConditionTypeDecorator';
-
+import { unitTypes } from '../constants/conditionTypes';
 export default class ActivityDecorator {
 
   static toTitleCase = (str) => {
@@ -68,6 +68,23 @@ export default class ActivityDecorator {
         motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label
       ].toString()
     }
-    return info
+    return info;
+  }
+
+  static addSampleConditionInfoLine = (workup) => {
+    let info = ''
+    if (workup.add_sample_velocity_value) {
+      info = info.concat(workup.add_sample_velocity_value + ' ')
+      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_velocity_unit) + ', ')
+    }
+    if (workup.add_sample_temperature_value) {
+      info = info.concat(workup.add_sample_temperature_value + ' ')
+      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_temperature_unit) + ', ')
+    }
+    if (workup.add_sample_pressure_value) {
+      info = info.concat(workup.add_sample_pressure_value + ' ')
+      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_pressure_unit) + ' ')
+    }
+    return info;
   }
 }

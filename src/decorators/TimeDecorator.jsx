@@ -60,6 +60,9 @@ export default class TimeDecorator {
           TimeDecorator.daytime(workup.ends_at) +
           ')'
         )
+      } else { 
+        return durationString;
+
       }
     } else {
       return undefined
