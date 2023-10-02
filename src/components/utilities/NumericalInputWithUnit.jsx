@@ -1,8 +1,8 @@
 import React from 'react'
 import { Label, Row, Col } from "reactstrap";
-import NumericInput from 'react-numeric-input';
-
 import SingleLineFormGroup from "./SingleLineFormGroup";
+
+import NumericalInput from './NumericalInput';
 
 const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, step, isMultiLine }) => {
 
@@ -11,10 +11,11 @@ const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, st
 
   const renderInput = () => {
     return (
-      <NumericInput
+      <NumericalInput
         precision={inputRange.precision}
         step={stepSize}
         value={value}
+        defaultStepValue={120}
         min={inputRange.min}
         max={inputRange.max}
         size={8}

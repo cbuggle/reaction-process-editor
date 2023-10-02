@@ -11,3 +11,4 @@ export const unauthorizedRedirectPath = afterSignOutPath
 
 export const toastAutoCloseOnWarning = 1000
 export const toastAutoCloseOnError = 1500
+

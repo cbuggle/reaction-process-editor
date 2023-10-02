@@ -1,9 +1,9 @@
 import { Row, Col } from "reactstrap";
 import React from "react";
 import Select from "react-select";
-import NumericInput from "react-numeric-input";
 
 import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
+import NumericalInput from "./NumericalInput";
 import NumericalInputWithUnit from "./NumericalInputWithUnit";
 import SingleLineFormGroup from "./SingleLineFormGroup";
 
@@ -20,18 +20,19 @@ const AmountSelection = ({ amount, maxAmount, unit, disableUnitSelection, onChan
   }
 
   const calcPercentage = () => {
-    return (amount / maxAmount * 100).toFixed(5)
+    return ((amount * 100) / maxAmount).toFixed(5)
   }
 
   return (
+    // Having the inputRanges hard coded for now as the input will be rewritten for multi-units soon anyway.
     <>
       <SingleLineFormGroup label='Amount'>
         <Row className='gx-1'>
           <Col md={5}>
-            <NumericInput
+            <NumericalInput
               value={amount || 0}
               step={0.1}
-              precision={1}
+              precision={3}
               min={0}
               max={maxAmount || 10000000000000}
               size={8}

@@ -80,11 +80,9 @@ const ActivityCard = (
     }
   }
 
-  const handleWorkupChange = (field) => {
-    const { name, value } = field;
+  const handleWorkupChange = ({ name, value }) => {
     setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }));
   }
-
 
   const setDuration = (value) => {
     handleWorkupChange({ name: "duration", value: value })

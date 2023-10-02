@@ -37,7 +37,7 @@ const AddSampleForm = (
   }
 
   // This is tedious. We set workup to default units, but the first rendering happens before useEffect,
-  // thus NumericInput which will raise an exception when using a undefined workup.add_sample_[…]_unit
+  // thus NumericalInput will raise an exception when using a undefined workup.add_sample_[…]_unit
   // Therefore we also set currentAddSampleUnitType and thereby reinvent the fallback to default.
   useEffect(() => {
     activity.workup['add_sample_temperature_unit'] ||
