@@ -88,6 +88,7 @@ type NumericalInputState = {
 class NumericalInput extends Component {
   static propTypes = {
     step: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+    defaultStepValue: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     min: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     max: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     precision: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
@@ -134,6 +135,7 @@ class NumericalInput extends Component {
    */
   static defaultProps = {
     step: 1,
+    defaultStepValue: 0,
     min: Number.MIN_SAFE_INTEGER || -9007199254740991,
     max: Number.MAX_SAFE_INTEGER || 9007199254740991,
     precision: null,
@@ -676,20 +678,24 @@ class NumericalInput extends Component {
       )
     );
 
-
-    // KIT-Adaption
-    // parsing input also asserts min/max
-    let _n = this._toNumber((this.state.value || 0) + _step * n);
-
-    let _min = +access(this.props, "min", NumericalInput.defaultProps.min,);
+    // Adaption for KIT-RPE.
+    // * Fix stepping to max
+    // * Fix float precission issue
+    // * Introduce defaultStepValue
+    let _min = +access(this.props, "min", NumericalInput.defaultProps.min);
     let _max = +access(this.props, "max", NumericalInput.defaultProps.max);
+    let _defaultStepValue = +access(this.props, "defaultStepValue", NumericalInput.defaultProps.defaultStepValue);
 
-    // We do not want to snap when margins reached.
+    let _n = (this.state.value || this.state.value === 0) ? this.state.value + _step * n : _defaultStepValue
+
+    // We already parsed the value but parsing in toNumber() also asserts min/max
+    _n = this._toNumber(_n);
+    // We do not want to snap when min/max reached.
     if (this.props.snap && _n > _min && _n < _max) {
 
       _n = Math.round(_n / _step) * _step
       // _n.toFixed() eliminates rounding errors,
-      // parseFloat() trailing zeros as toFixed() returns a String.
+      // parseFloat() removes trailing zeros as toFixed() returns a String with potentially lots of them.
       _n = parseFloat(_n.toFixed(12))
     }
 
