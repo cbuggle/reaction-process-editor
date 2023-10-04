@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import ActivityDecorator from "../../../decorators/ActivityDecorator";
 import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
@@ -10,7 +10,7 @@ import MotionForm from "./MotionForm";
 const ConditionTypeFormGroup = (
   {
     conditionTypeName,
-    processStep,
+    equipmentOptions,
     preCondition,
     workup,
     openSubFormLabel,
@@ -32,9 +32,9 @@ const ConditionTypeFormGroup = (
   }
   const summary = () => {
     if (hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], processStep.equipment_options)
+      return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], equipmentOptions)
     } else if (hasPreCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition, processStep.equipment_options)
+      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition, equipmentOptions)
     } else {
       return undefined
     }
@@ -43,7 +43,7 @@ const ConditionTypeFormGroup = (
     return findInitialValue('equipment', [])
   }
   const [equipment, setEquipment] = useState(resetEquipment());
-  const equipmentOptions = useMemo(() => { return processStep['action_equipment_options']['CONDITION'][conditionTypeName] }, [processStep, conditionTypeName])
+  // const equipmentOptions = useMemo(() => { return  }, [processStep, conditionTypeName])
 
   const handleSave = (condition) => {
     condition.equipment = equipment
@@ -78,7 +78,7 @@ const ConditionTypeFormGroup = (
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
-          equipmentOptions={processStep.equipment_options}
+          equipmentOptions={equipmentOptions}
           onSave={handleSave}
           onToggleSubform={onToggleSubform}
         />

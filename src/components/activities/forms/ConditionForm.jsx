@@ -8,7 +8,7 @@ import { conditionFormTypeNames } from "../../../constants/conditionTypes.jsx";
 const ConditionForm = (
   {
     activity,
-    processStep,
+    conditionEquipmentOptions,
     preConditions,
     openSubFormLabel,
     onSave,
@@ -39,7 +39,7 @@ const ConditionForm = (
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
-            processStep={processStep}
+            equipmentOptions={conditionEquipmentOptions[conditionTypeName]}
             preCondition={preConditions[conditionTypeName]}
             workup={activity.workup}
             openSubFormLabel={openSubFormLabel}

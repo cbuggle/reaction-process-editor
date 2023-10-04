@@ -127,7 +127,7 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            processStep={processStep}
+            conditionEquipmentOptions={processStep['action_type_equipment_options']['CONDITION']}
             preConditions={preConditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
