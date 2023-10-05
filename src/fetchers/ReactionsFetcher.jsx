@@ -1,11 +1,13 @@
 import { apiHostname } from '../constants';
 import { useElnApi } from './elnApi';
+import { useRequestWrapper } from "./requestWrapper";
 
 export { useReactionsFetcher };
 
 function useReactionsFetcher() {
 
   const api = useElnApi();
+  const requestWrapper = useRequestWrapper();
 
   return {
     index,
@@ -18,7 +20,7 @@ function useReactionsFetcher() {
     updateReactionDefaultConditions,
     updateUserDefaultConditions,
     updateProvenance,
-    ordLinkTarget,
+    downloadOrd,
     updateSamplePreparation,
     deleteSamplePreparation,
     createProcessStep,
@@ -83,9 +85,8 @@ function useReactionsFetcher() {
       { 'default_conditions': default_conditions });
   }
 
-  function ordLinkTarget(id) {
-    // Note that this is not an api call but a link target.
-    return `${apiHostname}/reactions/${id}/ord`
+  function downloadOrd(id) {
+    return requestWrapper.request('GET', `/reaction_processes/${id}/ord`)
   }
 
   function updateSamplePreparation(reactionProcessId, samplePreparation) {

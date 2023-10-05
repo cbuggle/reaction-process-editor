@@ -41,7 +41,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
             scope={'Reaction'}
           />
           <ProvenanceFormButton provenance={reactionProcess.provenance} />
-          <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
+          <OrdDownloadButton reactionProcessId={reactionProcess.id} />
         </Nav>
       </Navbar>
       <Accordion open={open} toggle={toggleFormula} flush className='bg-primary container-fluid pb-2 reaction-header__formula-accordion'>
