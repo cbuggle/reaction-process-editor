@@ -1,6 +1,5 @@
 import { motionTypeOptions, motionModeOptions } from '../constants/dropdownOptions/motionOptions';
 import ConditionTypeDecorator from './ConditionTypeDecorator';
-import { unitTypes } from '../constants/conditionTypes';
 export default class ActivityDecorator {
 
   static toTitleCase = (str) => {

@@ -3,11 +3,12 @@ import { Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBra
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleUp, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
-import IconButton from "../utilities/IconButton";
+import DefaultConditionsFormButton from './DefaultConditionsFormButton';
+import IconButton from "../../utilities/IconButton";
 import OrdDownloadButton from './OrdDownloadButton';
 import ProvenanceFormButton from './ProvenanceFormButton';
 
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
@@ -33,6 +34,10 @@ const ReactionNavbar = ({ reactionProcess }) => {
           <span className='reaction-id'>{reactionProcess.id}</span>
         </NavbarBrand>
         <Nav>
+          <DefaultConditionsFormButton
+            defaultConditions={reactionProcess.default_conditions}
+            conditionEquipmentOptions={reactionProcess.action_type_equipment_options['CONDITION']}
+          />
           <ProvenanceFormButton provenance={reactionProcess.provenance} />
           <OrdDownloadButton reactionId={reactionProcess.reaction_id} />
         </Nav>

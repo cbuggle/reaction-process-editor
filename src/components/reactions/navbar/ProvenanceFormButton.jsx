@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Modal, ModalHeader, ModalBody, UncontrolledTooltip } from 'reactstrap';
 
 import ProvenanceForm from './ProvenanceForm';
-import IconButton from "../utilities/IconButton";
+import IconButton from "../../utilities/IconButton";
 
 const ProvenanceFormButton = ({ provenance }) => {
 

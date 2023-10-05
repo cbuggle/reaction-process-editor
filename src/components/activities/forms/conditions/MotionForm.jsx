@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
-import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import OptionalFormSet from "./OptionalFormSet";
+import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
+import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
+import OptionalFormSet from "../OptionalFormSet";
 
-import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
+import { motionModeOptions, motionTypeOptions } from '../../../../constants/dropdownOptions/motionOptions'
 
 const MotionForm = (
   {

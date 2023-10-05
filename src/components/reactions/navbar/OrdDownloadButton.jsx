@@ -1,8 +1,8 @@
 import React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
-import IconButton from "../utilities/IconButton";
+import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher';
+import IconButton from "../../utilities/IconButton";
 
 const OrdDownloadButton = ({ reactionId }) => {
 

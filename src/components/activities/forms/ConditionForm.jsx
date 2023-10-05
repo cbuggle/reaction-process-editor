@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import ActivityForm from "./ActivityForm";
-import ConditionTypeFormGroup from "./ConditionTypeFormGroup";
+import ConditionTypeFormGroup from "./conditions/ConditionTypeFormGroup";
 
 import { conditionFormTypeNames } from "../../../constants/conditionTypes.jsx";
 
@@ -17,10 +17,6 @@ const ConditionForm = (
     onChangeDuration,
     onToggleSubform
   }) => {
-  const [focus, setFocus] = useState(false);
-  const toggleFocus = () => {
-    setFocus(!focus)
-  }
 
   return (
     <ActivityForm
@@ -32,7 +28,6 @@ const ConditionForm = (
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}
       onToggleSubform={onToggleSubform}
-      className={focus ? 'condition-form--focus' : ''}
     >
       {
         conditionFormTypeNames.map((conditionTypeName) => (
@@ -44,7 +39,6 @@ const ConditionForm = (
             workup={activity.workup}
             openSubFormLabel={openSubFormLabel}
             onWorkupChange={onWorkupChange}
-            onToggleFocus={toggleFocus}
             onToggleSubform={onToggleSubform}
           />)
         )

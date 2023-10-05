@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import ActivityDecorator from "../../../decorators/ActivityDecorator";
-import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+import ActivityDecorator from "../../../../decorators/ActivityDecorator";
+import ApplyExtraEquipmentForm from "../ApplyExtraEquipmentForm";
+import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
 import EquipmentForm from "./EquipmentForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import MotionForm from "./MotionForm";
@@ -83,7 +83,7 @@ const ConditionTypeFormGroup = (
           onToggleSubform={onToggleSubform}
         />
       }
-      {!!(conditionTypeName !== 'EQUIPMENT' & conditionTypeName !== 'MOTION') &&
+      {['EQUIPMENT', 'MOTION'].includes(conditionTypeName) ||
         <GenericConditionSubForm
           conditionTypeName={conditionTypeName}
           valueSummary={summary()}

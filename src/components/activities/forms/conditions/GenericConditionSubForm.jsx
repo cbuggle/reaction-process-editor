@@ -2,11 +2,11 @@ import React, { useMemo, useState } from 'react';
 import { Input, Label, FormGroup, Row, Col } from "reactstrap";
 import Select from "react-select";
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
-import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import OptionalFormSet from "./OptionalFormSet";
+import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
+import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
+import OptionalFormSet from "../OptionalFormSet";
 
-import { conditionAdditionalInformationOptions } from "../../../constants/dropdownOptions/conditionsOptions";
+import { conditionAdditionalInformationOptions } from "../../../../constants/dropdownOptions/conditionsOptions";
 
 
 const GenericConditionSubForm = (

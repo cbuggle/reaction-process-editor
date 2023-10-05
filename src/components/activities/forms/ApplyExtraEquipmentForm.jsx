@@ -9,7 +9,7 @@ const ApplyExtraEquipmentForm = (
     onChangeEquipment
   }) => {
 
-  const equipmentAvailable = equipmentOptions.length > 0
+  const equipmentAvailable = equipmentOptions && (equipmentOptions.length > 0)
   const [applyExtraEquipment, setApplyExtraEquipment] = useState(!!equipment && equipment.length > 0)
 
   const handleCheckbox = (event) => {
