@@ -5,22 +5,24 @@ import { Modal, ModalHeader, ModalBody, UncontrolledTooltip } from 'reactstrap';
 import DefaultConditionsForm from './DefaultConditionsForm';
 import IconButton from "../../utilities/IconButton";
 
-const DefaultConditionsFormButton = ({ defaultConditions, conditionEquipmentOptions }) => {
+const DefaultConditionsFormButton = ({ preConditions, defaultConditions, conditionsEquipmentOptions, scope }) => {
 
   const [showModal, setShowModal] = useState(false)
   const toggleModal = () => { setShowModal(!showModal) }
 
+  const iconClassName = scope === 'Reaction' ? '--positive' : ''
+
   return (
     <>
       <IconButton
-        id="default-conditions-button"
+        id={"default-conditions-button-" + scope}
         icon='temperature-high'
         size='lg'
-        className='icon-button--positive'
+        className={'icon-button' + iconClassName}
         onClick={toggleModal}
       />
-      < UncontrolledTooltip target={"default-conditions-button"} >
-        Set the default conditions of the reaction.
+      < UncontrolledTooltip target={"default-conditions-button-" + scope} >
+        Set the default conditions of the {scope}.
       </UncontrolledTooltip >
       <Modal
         className='modal--primary d-flex align-items-center justify-content-center'
@@ -29,11 +31,14 @@ const DefaultConditionsFormButton = ({ defaultConditions, conditionEquipmentOpti
         toggle={toggleModal}
         backdrop={"static"}
       >
-        <ModalHeader>Reaction Process Default Conditions</ModalHeader>
+        <ModalHeader>{scope} Default Conditions</ModalHeader>
         <ModalBody>
-          <DefaultConditionsForm defaultConditions={defaultConditions}
-            conditionEquipmentOptions={conditionEquipmentOptions}
+          <DefaultConditionsForm
+            defaultConditions={defaultConditions}
+            preConditions={preConditions}
+            conditionsEquipmentOptions={conditionsEquipmentOptions}
             closeForm={toggleModal}
+            scope={scope}
           />
         </ModalBody>
       </Modal>

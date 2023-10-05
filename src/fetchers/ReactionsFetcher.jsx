@@ -14,8 +14,10 @@ function useReactionsFetcher() {
     collectionSelectOptions,
     reactionSelectOptions,
     getReactionProcess,
+    geDefaultConditions,
+    updateReactionDefaultConditions,
+    updateUserDefaultConditions,
     updateProvenance,
-    updateDefaultConditions,
     ordLinkTarget,
     updateSamplePreparation,
     deleteSamplePreparation,
@@ -52,6 +54,10 @@ function useReactionsFetcher() {
     return api.get(`/reaction_processes/collection_select_options`);
   }
 
+  function geDefaultConditions() {
+    return api.get(`/reaction_processes/default_conditions`);
+  }
+
   function reactionSelectOptions() {
     // {label:, value:} are piggybacked onto the reaction processes
     // so index can be used conveniently for select options as well.
@@ -67,8 +73,13 @@ function useReactionsFetcher() {
       { 'provenance': provenance });
   }
 
-  function updateDefaultConditions(default_conditions) {
-    return api.put(`/reaction_processes/${default_conditions.reaction_process_id}/default_conditions.json`,
+  function updateReactionDefaultConditions(default_conditions) {
+    return api.put(`/reaction_processes/${default_conditions.reaction_process_id}/reaction_default_conditions.json`,
+      { 'default_conditions': default_conditions });
+  }
+
+  function updateUserDefaultConditions(default_conditions) {
+    return api.put(`/reaction_processes/user_default_conditions.json`,
       { 'default_conditions': default_conditions });
   }
 

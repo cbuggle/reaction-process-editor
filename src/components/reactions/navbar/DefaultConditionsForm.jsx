@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import FormButtons from "../../utilities/FormButtons";
+import { Form } from 'reactstrap';
 
 import ConditionTypeFormGroup from '../../activities/forms/conditions/ConditionTypeFormGroup';
+import FormButtons from "../../utilities/FormButtons";
 
 import { conditionFormTypeNames } from '../../../constants/conditionTypes';
 
 import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher'
 
 
-const DefaultConditionsForm = ({ defaultConditions, conditionEquipmentOptions, closeForm }) => {
+const DefaultConditionsForm = ({ defaultConditions, preConditions, conditionsEquipmentOptions, closeForm, scope }) => {
 
   const api = useReactionsFetcher();
 
@@ -23,7 +24,18 @@ const DefaultConditionsForm = ({ defaultConditions, conditionEquipmentOptions, c
   }
 
   const handleSave = () => {
-    api.updateDefaultConditions(defaultConditionsForm)
+    switch (scope) {
+      case 'User':
+        api.updateUserDefaultConditions(defaultConditionsForm).then(() => {
+          window.dispatchEvent(new Event("userDefaultConditionsRequiresReload"))
+        });
+        break;
+      case 'Reaction':
+        api.updateReactionDefaultConditions(defaultConditionsForm)
+        break;
+      default:
+        break;
+    }
     closeForm()
   }
 
@@ -32,21 +44,19 @@ const DefaultConditionsForm = ({ defaultConditions, conditionEquipmentOptions, c
   }
 
   const anySubFormOpen = () => {
-    console.log("any subform open")
-    console.log(conditionEquipmentOptions)
     return openSubFormLabel !== undefined
   }
 
   return (
-    <>
+    <Form className={'activity-form condition-form'}>
       {
         conditionFormTypeNames.map((conditionTypeName) => (
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
-            equipmentOptions={conditionEquipmentOptions[conditionTypeName]}
-            preCondition={defaultConditions[conditionTypeName]}
-            workup={defaultConditionsForm}
+            equipmentOptions={conditionsEquipmentOptions[conditionTypeName]}
+            preCondition={preConditions[conditionTypeName]}
+            workup={defaultConditionsForm }
             openSubFormLabel={openSubFormLabel}
             onWorkupChange={handleWorkupChange}
             onToggleSubform={handleToggleSubform}
@@ -54,7 +64,7 @@ const DefaultConditionsForm = ({ defaultConditions, conditionEquipmentOptions, c
         )
       }
       <FormButtons onSave={handleSave} onCancel={closeForm} type='primary' disabled={anySubFormOpen()} />
-    </>
+    </Form>
 
   )
 }

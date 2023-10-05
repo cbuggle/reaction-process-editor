@@ -11,25 +11,26 @@ import {
   NavbarText,
 } from 'reactstrap';
 
-import { Link } from "react-router-dom";
-
-import { useLocation } from 'react-router-dom';
-
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import DefaultConditionsFormButton from '../reactions/navbar/DefaultConditionsFormButton';
 import LogoutButton from '../login/LogoutButton';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 const MainHeader = () => {
-
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
 
   const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
-  const filterCollectionId = localStorage.getItem('filter_collection_id')
+  const [conditionEquipmentOptions, setConditionEquipmentOptions] = useState([])
+  const [userDefaultConditions, setUserDefaultConditions] = useState([])
+  const [globalDefaultConditions, setGlobalDefaultConditions] = useState([])
 
+  const filterCollectionId = localStorage.getItem('filter_collection_id')
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
 
   useEffect(() => {
@@ -39,10 +40,13 @@ const MainHeader = () => {
     if (localStorage.getItem('bearer_auth_token')) {
       fetchCollectionOptions()
       fetchReactionOptions()
+      fetchUserDefaultConditions()
     }
     window.addEventListener('indexRequiresReload', fetchReactionOptions);
+    window.addEventListener('userDefaultConditionsRequiresReload', fetchUserDefaultConditions);
     return () => {
       window.removeEventListener('indexRequiresReload', fetchReactionOptions);
+      window.removeEventListener('userDefaultConditionsRequiresReload', fetchUserDefaultConditions);
     };
 
     // React's state model requires `fetchReactionOptions` in the dependencies array to assert state consistency.
@@ -82,6 +86,14 @@ const MainHeader = () => {
   const fetchCollectionOptions = () => {
     reactionApi.collectionSelectOptions().then((data) => {
       data && setCollectionOptions(data['collection_select_options'])
+    })
+  }
+
+  const fetchUserDefaultConditions = () => {
+    reactionApi.geDefaultConditions().then((default_conditions) => {
+      setGlobalDefaultConditions(default_conditions['global'])
+      setUserDefaultConditions(default_conditions['user'])
+      setConditionEquipmentOptions(default_conditions['conditions_equipment_options'])
     })
   }
 
@@ -128,6 +140,16 @@ const MainHeader = () => {
           </UncontrolledDropdown>
         </Nav>
         <Nav navbar className="justify-content-end align-items-center">
+          <NavItem className='me-3'>
+            <NavbarText className="d-flex align-items-center" >
+              <DefaultConditionsFormButton
+                defaultConditions={userDefaultConditions}
+                preConditions={globalDefaultConditions}
+                conditionsEquipmentOptions={conditionEquipmentOptions}
+                scope={'User'}
+              />
+            </NavbarText>
+          </NavItem>
           <NavItem className="me-3">
             <NavbarText className="d-flex align-items-center" >
               <FontAwesomeIcon icon="user-circle" className="pt-1 me-2 h2 mb-0" />

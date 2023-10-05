@@ -24,7 +24,7 @@ const ConditionTypeFormGroup = (
   const findInitialValue = (key, fallBackValue) => {
     if (workup[conditionTypeName] && workup[conditionTypeName][key] !== null) {
       return workup[conditionTypeName][key]
-    } else if (preCondition[key]) {
+    } else if (preCondition && preCondition[key] !== null) {
       return preCondition[key]
     } else {
       return fallBackValue
