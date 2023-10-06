@@ -16,22 +16,17 @@ const AmountInputSet = (
   }) => {
 
   const validMeasurementTypes = substanceUnitOptions.filter(item => item.type !== 'unspecified')
-
-  const [measurementType, setMeasurementType] = useState(
-    AmountDecorator.unitMeasurementType(unit) ? AmountDecorator.unitMeasurementType(unit).type : undefined
-  )
   const [share, setShare] = useState(1);
 
   const handlePercentageInput = (value) => {
     const newShare = value / 100
-    const maxUnit = AmountDecorator.measurementTypeObject(measurementType).maxUnit
+    const maxUnit = AmountDecorator.unitMeasurementType(unit)['maxUnit']
     const newAmount = newShare * (maxAmounts[maxUnit] / AmountDecorator.unitScale(maxUnit)) * AmountDecorator.unitScale(unit)
     handleChangeAmountInput(
       {
         amount: newAmount,
         unit: unit,
-        share: newShare,
-        type: measurementType
+        share: newShare
       }
     )
   }
@@ -50,7 +45,6 @@ const AmountInputSet = (
             measurementType={itemMeasurementType}
             maxAmount={maxAmounts ? maxAmounts[itemMeasurementType.maxUnit] : undefined}
             share={share}
-            currentMeasurementType={measurementType}
             currentAmount={amount}
             currentUnit={unit}
             key={itemMeasurementType.type}

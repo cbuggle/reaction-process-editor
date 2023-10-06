@@ -29,7 +29,7 @@ const AmountInput = (
   },[share, maxAmount, currentAmount, currentUnit])
 
   const handleChangeAmount = (value) => {
-    const localShare = (value * unitScale(localUnit)) / (maxAmount * unitScale(maxUnit))
+    const localShare = (value * AmountDecorator.unitScale(localUnit)) / (maxAmount * AmountDecorator.unitScale(maxUnit))
     onChangeAmountInput({
       amount: value,
       unit: localUnit,
@@ -37,13 +37,9 @@ const AmountInput = (
     })
   }
 
-  const unitScale = (unitValue) => {
-    return unitObjects.find(item => item.value === unitValue).scale
-  }
-
   const handleChangeUnit = (value) => {
-    const newAmount = localAmount / unitScale(localUnit) * unitScale(value)
-    const localShare = (newAmount / unitScale(value)) / (maxAmount / unitScale(maxUnit))
+    const newAmount = localAmount / AmountDecorator.unitScale(localUnit) * AmountDecorator.unitScale(value)
+    const localShare = (newAmount / AmountDecorator.unitScale(value)) / (maxAmount / AmountDecorator.unitScale(maxUnit))
     onChangeAmountInput({
       amount: newAmount,
       unit: value,
