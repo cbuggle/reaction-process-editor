@@ -74,9 +74,9 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
       default:
         infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + action.action_name + '***'
     }
-    if (workup.apply_extra_equipment) {
-      infoLines.push('Equipment: ' + workup.equipment.join(', '))
-    }
+
+    infoLines.push(ActivityDecorator.equipmentInfoLine(workup.equipment, equipmentOptions))
+
     return (
       <>
         {infoImage && SamplesDecorator.sampleSvgImg(infoImage)}

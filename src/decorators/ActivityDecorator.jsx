@@ -53,10 +53,7 @@ export default class ActivityDecorator {
   static conditionInfo = (type, conditionWorkup, equipmentOptions) => {
     let info
     if (type === 'EQUIPMENT') {
-      info = conditionWorkup.value.map(value => {
-        const matchingOption = equipmentOptions.find(option => option.value === value);
-        return matchingOption ? matchingOption.label : null;
-      }).toString()
+      info = this.equipmentInfoLine(conditionWorkup.value, equipmentOptions)
     } else {
       info = (conditionWorkup.value + ' ' + ConditionTypeDecorator.unitLabel(conditionWorkup.unit))
     }
@@ -68,6 +65,13 @@ export default class ActivityDecorator {
       ].toString()
     }
     return info;
+  }
+
+  static equipmentInfoLine = (equipments, equipmentOptions) => {
+    return equipments && equipments.map( (equipmentValue) => {
+      let matchingOption = equipmentOptions.find((option) => option.value === equipmentValue)
+      return matchingOption ? matchingOption.label : ''
+    }).join(', ')
   }
 
   static addSampleConditionInfoLine = (workup) => {
