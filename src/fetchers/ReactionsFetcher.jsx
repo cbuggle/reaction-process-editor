@@ -1,11 +1,13 @@
-import { apiHostname } from '../Constants';
-import { useFetchWrapper } from './fetch-wrapper'
+import { apiHostname } from '../constants';
+import { useElnApi } from './elnApi';
+import { useRequestWrapper } from "./requestWrapper";
 
 export { useReactionsFetcher };
 
 function useReactionsFetcher() {
 
-  const api = useFetchWrapper();
+  const api = useElnApi();
+  const requestWrapper = useRequestWrapper();
 
   return {
     index,
@@ -14,8 +16,11 @@ function useReactionsFetcher() {
     collectionSelectOptions,
     reactionSelectOptions,
     getReactionProcess,
+    geDefaultConditions,
+    updateReactionDefaultConditions,
+    updateUserDefaultConditions,
     updateProvenance,
-    ordLinkTarget,
+    downloadOrd,
     updateSamplePreparation,
     deleteSamplePreparation,
     createProcessStep,
@@ -51,8 +56,13 @@ function useReactionsFetcher() {
     return api.get(`/reaction_processes/collection_select_options`);
   }
 
+  function geDefaultConditions() {
+    return api.get(`/reaction_processes/default_conditions`);
+  }
+
   function reactionSelectOptions() {
-    // {label:, value:} are piggybacked onto the reaction processes so index can be used conveniently for select options as well.
+    // {label:, value:} are piggybacked onto the reaction processes
+    // so index can be used conveniently for select options as well.
     return index();
   }
 
@@ -61,16 +71,27 @@ function useReactionsFetcher() {
   }
 
   function updateProvenance(provenance) {
-    return api.put(`/reaction_processes/${provenance.reaction_process_id}/provenance.json`, { 'provenance': provenance });
+    return api.put(`/reaction_processes/${provenance.reaction_process_id}/provenance.json`,
+      { 'provenance': provenance });
   }
 
-  function ordLinkTarget(id) {
-    // Note that this is not an api call but a link target.
-    return `${apiHostname}/reactions/${id}/ord`
+  function updateReactionDefaultConditions(default_conditions) {
+    return api.put(`/reaction_processes/${default_conditions.reaction_process_id}/reaction_default_conditions.json`,
+      { 'default_conditions': default_conditions });
+  }
+
+  function updateUserDefaultConditions(default_conditions) {
+    return api.put(`/reaction_processes/user_default_conditions.json`,
+      { 'default_conditions': default_conditions });
+  }
+
+  function downloadOrd(id) {
+    return requestWrapper.request('GET', `/reaction_processes/${id}/ord`)
   }
 
   function updateSamplePreparation(reactionProcessId, samplePreparation) {
-    return api.put(`/reaction_processes/${reactionProcessId}/samples_preparations`, { 'sample_preparation': samplePreparation })
+    return api.put(`/reaction_processes/${reactionProcessId}/samples_preparations`,
+      { 'sample_preparation': samplePreparation })
   }
 
   function deleteSamplePreparation(reactionProcessId, id) {
@@ -78,7 +99,8 @@ function useReactionsFetcher() {
   }
 
   function createProcessStep(reactionProcessId, processStep) {
-    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
+    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`,
+      { 'reaction_process_step': processStep })
   }
 
   function updateProcessStep(processStep) {
@@ -94,7 +116,8 @@ function useReactionsFetcher() {
   }
 
   function createAction(processStepId, action, insertBefore) {
-    return api.post(`/reaction_process_steps/${processStepId}/actions`, { 'action': action, 'insert_before': insertBefore })
+    return api.post(`/reaction_process_steps/${processStepId}/actions`,
+      { 'action': action, 'insert_before': insertBefore })
   }
 
   function updateAction(action) {

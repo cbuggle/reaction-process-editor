@@ -1,6 +1,5 @@
 import { motionTypeOptions, motionModeOptions } from '../constants/dropdownOptions/motionOptions';
 import ConditionTypeDecorator from './ConditionTypeDecorator';
-
 export default class ActivityDecorator {
 
   static toTitleCase = (str) => {
@@ -54,10 +53,7 @@ export default class ActivityDecorator {
   static conditionInfo = (type, conditionWorkup, equipmentOptions) => {
     let info
     if (type === 'EQUIPMENT') {
-      info = conditionWorkup.value.map(value => {
-        const matchingOption = equipmentOptions.find(option => option.value === value);
-        return matchingOption ? matchingOption.label : null;
-      }).toString()
+      info = this.equipmentInfoLine(conditionWorkup.value, equipmentOptions)
     } else {
       info = (conditionWorkup.value + ' ' + ConditionTypeDecorator.unitLabel(conditionWorkup.unit))
     }
@@ -68,6 +64,30 @@ export default class ActivityDecorator {
         motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label
       ].toString()
     }
-    return info
+    return info;
+  }
+
+  static equipmentInfoLine = (equipments, equipmentOptions) => {
+    return equipments && equipments.map( (equipmentValue) => {
+      let matchingOption = equipmentOptions.find((option) => option.value === equipmentValue)
+      return matchingOption ? matchingOption.label : ''
+    }).join(', ')
+  }
+
+  static addSampleConditionInfoLine = (workup) => {
+    let info = ''
+    if (workup.add_sample_velocity_value) {
+      info = info.concat(workup.add_sample_velocity_value + ' ')
+      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_velocity_unit) + ', ')
+    }
+    if (workup.add_sample_temperature_value) {
+      info = info.concat(workup.add_sample_temperature_value + ' ')
+      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_temperature_unit) + ', ')
+    }
+    if (workup.add_sample_pressure_value) {
+      info = info.concat(workup.add_sample_pressure_value + ' ')
+      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_pressure_unit) + ' ')
+    }
+    return info;
   }
 }

@@ -8,7 +8,9 @@ export default class ConditionTypeDecorator {
     return this.conditionType(typeName).label
   }
   static unitLabel = (unit) => {
-    return unitTypes[unit].label || unit // This is for PH only which has no unit label but we want to display somethin
+    let label = unitTypes[unit] && unitTypes[unit].label
+    // The `|| unit` is for PH only which has no unit label but we want to display something
+    return label || unit
   }
   // Hardcoded defaultUnit until we implement unit switching.
   static defaultUnit = (typeName) => {

@@ -1,10 +1,10 @@
-import { useFetchWrapper } from './fetch-wrapper'
+import { useElnApi } from "./elnApi";
 
 export { useVesselsFetcher };
 
 function useVesselsFetcher() {
 
-  const api = useFetchWrapper()
+  const api = useElnApi()
 
   return {
     index,

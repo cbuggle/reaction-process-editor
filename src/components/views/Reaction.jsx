@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import StepsContainer from '../steps/StepsContainer';
 import PreparationColumnCard from '../preparations/PreparationColumnCard';
 
-import ReactionNavbar from '../reactions/ReactionNavbar';
+import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
@@ -68,7 +68,7 @@ const Reaction = () => {
 
   const fetchReactionProcess = () => {
     api.getReactionProcess(reactionId).then((data) => {
-      setReactionProcess(data['reaction_process'])
+      data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
       window.dispatchEvent(new Event("reloadDone"))
     })
   }

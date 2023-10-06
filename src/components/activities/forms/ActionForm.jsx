@@ -21,15 +21,15 @@ const ActionForm = (
     onToggleSubform
   }) => {
   const workup = activity.workup
-  const actionName = activity.action_name
-  const equipmentOptions = processStep.action_equipment_options[actionName]
+  const actionTypeName = activity.action_name
+  const equipmentOptions = processStep.action_type_equipment_options[actionTypeName]
 
   const setEquipment = (equipment) => {
     onWorkupChange({ name: 'equipment', value: equipment })
   }
 
   const customActionForm = () => {
-    switch (actionName) {
+    switch (actionTypeName) {
       case "ADD":
         return (
           <>
@@ -124,7 +124,7 @@ const ActionForm = (
       case "WAIT":
         return (<></>)
       default:
-        return (<div>Error in Sample Form: Unknown ACTION TYPE: {actionName} ***</div>)
+        return (<div>Error in Sample Form: Unknown ACTION TYPE: {actionTypeName} ***</div>)
     }
   }
 

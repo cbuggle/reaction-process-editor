@@ -9,6 +9,7 @@ const ApplyExtraEquipmentForm = (
     onChangeEquipment
   }) => {
 
+  const equipmentAvailable = equipmentOptions && (equipmentOptions.length > 0)
   const [applyExtraEquipment, setApplyExtraEquipment] = useState(!!equipment && equipment.length > 0)
 
   const handleCheckbox = (event) => {
@@ -21,13 +22,15 @@ const ApplyExtraEquipmentForm = (
 
   return (
     <>
-      <FormGroup check className='mb-3'>
-        <Label check>
-          <Input type="checkbox" checked={applyExtraEquipment} onChange={handleCheckbox} />
-          Apply Extra Equipment
-        </Label>
-      </FormGroup>
-      {applyExtraEquipment &&
+      {equipmentAvailable &&
+        <FormGroup check className='mb-3'>
+          <Label check>
+            <Input type="checkbox" checked={applyExtraEquipment} onChange={handleCheckbox} />
+            Apply Extra Equipment
+          </Label>
+        </FormGroup>
+      }
+      {equipmentAvailable && applyExtraEquipment &&
         <FormGroup>
           <Select
             className="react-select--overwrite"
@@ -40,6 +43,7 @@ const ApplyExtraEquipmentForm = (
           />
         </FormGroup>
       }
+
     </>
   )
 }

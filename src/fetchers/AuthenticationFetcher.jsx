@@ -1,15 +1,14 @@
-import { useFetchWrapper } from './fetch-wrapper';
-
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-import { apiBasePath, afterSignInPath, afterSignOutPath } from '../Constants';
+import { toast } from 'react-toastify';
+
+import { useRequestWrapper } from './requestWrapper';
+import { afterSignInPath, afterSignOutPath, toastAutoCloseOnError } from '../constants';
 
 export { useAuthenticationFetcher };
 
 function useAuthenticationFetcher() {
-
-  const api = useFetchWrapper();
+  const requestWrapper = useRequestWrapper();
   const navigate = useNavigate();
 
   return {
@@ -18,49 +17,44 @@ function useAuthenticationFetcher() {
   }
 
   function signIn(credentials) {
-    fetch(`${apiBasePath}/sign_in`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        user: { login: credentials.username, password: credentials.password }
-      })
-    }).then((response) => {
-      switch (response.status) {
-        case 200:
-          const bearer_auth_token = response.headers.get('Authorization').split('Bearer ')[1];
-          localStorage.setItem('username', credentials.username);
-          localStorage.setItem('bearer_auth_token', bearer_auth_token);
 
-          navigate(afterSignInPath)
-          return;
-        case 401:
-          resetSession();
-          toast.error("Username or Password wrong.")
-          return;
-        default:
-          resetSession();
-          toast.error("Unknown Error: " + response.status)
-          return;
+    let body = { user: { login: credentials.username, password: credentials.password } }
+
+    requestWrapper.request('POST', `/sign_in`, body).then((response) => {
+      if (response) {
+        switch (response.status) {
+          case 200:
+            let token = response.headers.get('Authorization').split('Bearer ')[1]
+            createSession(credentials.username, token)
+            return;
+          case 401:
+            toast.error("Username or Password wrong.", { autoClose: toastAutoCloseOnError })
+            destroySession();
+            return;
+          default:
+            toast.error("Unknown Error: " +
+              (response && response.status) + " Message: " + (response && response.statusText),
+              { autoClose: toastAutoCloseOnError })
+            destroySession();
+            return;
+        }
       }
     })
   }
 
   function signOut() {
-    return api.delete('/sign_out').then(() => {
-      resetSession();
-      navigate(afterSignOutPath)
-      return;
-    })
+    return requestWrapper.request('DELETE', '/sign_out').then(() => { destroySession(); })
   }
 
-  function resetSession() {
+  function createSession(username, token) {
+    localStorage.setItem('username', username);
+    localStorage.setItem('bearer_auth_token', token);
+    navigate(afterSignInPath)
+  }
+
+  function destroySession() {
     localStorage.removeItem('username');
     localStorage.removeItem('bearer_auth_token');
+    navigate(afterSignOutPath);
   }
 }
-
-

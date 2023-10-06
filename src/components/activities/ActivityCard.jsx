@@ -80,11 +80,9 @@ const ActivityCard = (
     }
   }
 
-  const handleWorkupChange = (field) => {
-    const { name, value } = field;
+  const handleWorkupChange = ({ name, value }) => {
     setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }));
   }
-
 
   const setDuration = (value) => {
     handleWorkupChange({ name: "duration", value: value })
@@ -129,7 +127,7 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            processStep={processStep}
+            conditionEquipmentOptions={processStep['action_type_equipment_options']['CONDITION']}
             preConditions={preConditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}

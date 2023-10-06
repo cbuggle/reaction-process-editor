@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormGroup} from "reactstrap";
+import { FormGroup } from "reactstrap";
 const FormSection = (
   {
     children,
@@ -10,7 +10,7 @@ const FormSection = (
 
   const classNames = () => {
     let classNames = 'form-section form-section--' + type
-    if(!!name && openSubFormLabel === name) {
+    if (!!name && openSubFormLabel === name) {
       classNames += ' form-section--active'
     } else if (openSubFormLabel !== undefined) {
       classNames += ' form-section--disabled'

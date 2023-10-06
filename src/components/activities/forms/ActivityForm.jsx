@@ -27,7 +27,7 @@ const ActivityForm = (
     }
   }
 
-  const subFormOpenState = () => {
+  const anySubFormOpen = () => {
     return openSubFormLabel !== undefined
   }
 
@@ -52,7 +52,7 @@ const ActivityForm = (
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
-        disabled={subFormOpenState()}
+        disabled={anySubFormOpen()}
         type={type}
       />
     </Form>

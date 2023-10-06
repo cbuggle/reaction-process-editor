@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
-import NumericalInputWithUnit from "../../utilities/NumericalInputWithUnit";
-import OptionalFormSet from "./OptionalFormSet";
+import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
+import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
+import OptionalFormSet from "../OptionalFormSet";
 
-import { motionModeOptions, motionTypeOptions } from '../../../constants/dropdownOptions/motionOptions'
+import { motionModeOptions, motionTypeOptions } from '../../../../constants/dropdownOptions/motionOptions'
 
 const MotionForm = (
   {
@@ -26,10 +26,10 @@ const MotionForm = (
     return findInitialValue('unit', ConditionTypeDecorator.defaultUnit('MOTION'))
   }
   const initialMotionType = () => {
-    return findInitialValue('motion_type', motionTypeOptions[0])
+    return findInitialValue('motion_type', motionTypeOptions[0].value)
   }
   const initialMotionMode = () => {
-    return findInitialValue('motion_mode', motionModeOptions[0])
+    return findInitialValue('motion_mode', motionModeOptions[0].value)
   }
 
   const [value, setValue] = useState(initialValue())

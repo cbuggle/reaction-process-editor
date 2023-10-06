@@ -1,6 +1,6 @@
 import SingleLineFormGroup from "./SingleLineFormGroup";
 import {Col, Row} from "reactstrap";
-import NumericInput from "react-numeric-input";
+import NumericalInput from "./NumericalInput";
 import Select from "react-select";
 import React, {useEffect, useState} from "react";
 import AmountDecorator from "../../decorators/AmountDecorator";
@@ -56,10 +56,10 @@ const AmountInput = (
       <SingleLineFormGroup label={measurementType.type}>
         <Row className={'gx-1'}>
           <Col md={5}>
-            <NumericInput
+            <NumericalInput
               value={localAmount}
               step={0.1}
-              precision={1}
+              precision={3}
               min={0}
               max={maxAmount ? maxAmount : 10000000000000}
               size={8}

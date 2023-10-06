@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from "react";
+import { Label, FormGroup } from "reactstrap";
+
+import NumericalInput from "./NumericalInput";
 import TimeDecorator from "../../decorators/TimeDecorator";
-import React, {useState, useEffect} from "react";
-import {Label, FormGroup} from "reactstrap";
-import NumericInput from "react-numeric-input";
 
 const DurationSelection = (
   {
@@ -16,6 +17,7 @@ const DurationSelection = (
 
   useEffect(() => {
     calculateDuration()
+    // eslint-disable-next-line
   }, [hours, minutes, seconds]);
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const DurationSelection = (
         Duration
       </Label>
       <div className='duration-selection__input-container'>
-        <NumericInput
+        <NumericalInput
           id='hoursInput'
           value={hours}
           step={1}
@@ -57,7 +59,7 @@ const DurationSelection = (
       </div>
       <Label className='col-form-label duration-selection__form-label'>h</Label>
       <div className='duration-selection__input-container'>
-        <NumericInput
+        <NumericalInput
           id='minutesInput'
           value={minutes}
           step={1}
@@ -72,7 +74,7 @@ const DurationSelection = (
       </div>
       <Label className='col-form-label duration-selection__form-label'>min</Label>
       <div className='duration-selection__input-container'>
-        <NumericInput
+        <NumericalInput
           id='secondsInput'
           value={seconds}
           step={1}

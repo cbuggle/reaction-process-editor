@@ -1,8 +1,8 @@
 import TimeDecorator from "../../../decorators/TimeDecorator";
 import OptionalFormSet from "./OptionalFormSet";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DurationSelection from "../../utilities/DurationSelection";
-import {Button, FormGroup, Input, Label} from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
 
 const TimingFormSet = (
@@ -32,6 +32,7 @@ const TimingFormSet = (
       clearInterval(timerIntervalId)
       setTimerIntervalId(NaN)
     }
+    // eslint-disable-next-line
   }, [timerRunning])
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const TimingFormSet = (
 
   const handleDuration = (value) => {
     setDuration(value)
-    if(defineTimeSpan) {
+    if (defineTimeSpan) {
       const endDate = new Date(startTime)
       endDate.setMilliseconds(startTime.getMilliseconds() + value)
       setEndTime(endDate)
@@ -79,7 +80,7 @@ const TimingFormSet = (
   }
 
   const toggleTimer = () => {
-    if(!timerRunning) {
+    if (!timerRunning) {
       setDefineTimeSpan(true)
       const timerStartDate = new Date()
       setStartTime(timerStartDate)
@@ -91,12 +92,12 @@ const TimingFormSet = (
 
   const handleSaveTiming = () => {
     onChangeDuration(duration)
-    if(defineTimeSpan) {
-      onWorkupChange({name: 'starts_at', value: startTime})
-      onWorkupChange({name: 'ends_at', value: endTime})
+    if (defineTimeSpan) {
+      onWorkupChange({ name: 'starts_at', value: startTime })
+      onWorkupChange({ name: 'ends_at', value: endTime })
     } else {
-      onWorkupChange({name: 'starts_at', value: undefined})
-      onWorkupChange({name: 'ends_at', value: undefined})
+      onWorkupChange({ name: 'starts_at', value: undefined })
+      onWorkupChange({ name: 'ends_at', value: undefined })
     }
   }
 
