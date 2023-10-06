@@ -26,10 +26,10 @@ const MotionForm = (
     return findInitialValue('unit', ConditionTypeDecorator.defaultUnit('MOTION'))
   }
   const initialMotionType = () => {
-    return findInitialValue('motion_type', motionTypeOptions[0])
+    return findInitialValue('motion_type', motionTypeOptions[0].value)
   }
   const initialMotionMode = () => {
-    return findInitialValue('motion_mode', motionModeOptions[0])
+    return findInitialValue('motion_mode', motionModeOptions[0].value)
   }
 
   const [value, setValue] = useState(initialValue())
