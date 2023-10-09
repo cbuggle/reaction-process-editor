@@ -23,6 +23,7 @@ $theme-colors: (
 /* general functions */
 @import "~bootstrap/scss/_functions";
 @import "base/mixins/colors";
+@import "base/mixins/backgrounds";
 @import "base/mixins/borders";
 @import "base/mixins/spacing";
 $color-contrast-dark: $black;
@@ -93,6 +94,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/activities/InsertZone";
 @import "components/layout/MainHeader";
 @import "components/samples/SampleMoleculeImage";
+@import "components/utilities/AmountInput";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
 @import "components/utilities/DurationSelection";

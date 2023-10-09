@@ -22,20 +22,7 @@
   };
   &--active {
     &.form-section {
-      @each $color, $value in $theme-colors {
-        &--#{$color} {
-          &:before {
-            content: "";
-            background-color: highlight-color($color);
-            position: absolute;
-            top: 0;
-            right:-0.75rem;
-            bottom: 0;
-            left:-0.75rem;
-            z-index: 0;
-          }
-        }
-      }
+      @include type-active-background-color(0)
     }
   }
 }
