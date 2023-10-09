@@ -10,6 +10,7 @@ import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
 import { unitTypes } from '../../../constants/conditionTypes';
+import AmountDecorator from "../../../decorators/AmountDecorator";
 
 const AddSampleForm = (
   {
@@ -90,7 +91,7 @@ const AddSampleForm = (
         </SingleLineFormGroup>
         <AmountInputSet
           amount={activity.workup['target_amount_value']}
-          maxAmounts={sample ? sample['unit_amounts'] : undefined}
+          maxAmounts={AmountDecorator.sampleHasMaxAmounts(sample) ? sample['unit_amounts'] : undefined}
           unit={activity.workup['target_amount_unit']}
           onChangeAmount={handleValueChange('target_amount_value')}
           onChangeUnit={handleValueChange('target_amount_unit')}

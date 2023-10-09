@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
 import NumericalInputWithUnit from "./NumericalInputWithUnit";
-
-import { substanceUnitOptions } from '../../constants/substanceUnitOptions';
 import AmountInput from "./AmountInput";
 import AmountDecorator from "../../decorators/AmountDecorator";
 
@@ -15,7 +13,6 @@ const AmountInputSet = (
     onChangeAmount
   }) => {
 
-  const validMeasurementTypes = substanceUnitOptions.filter(item => item.type !== 'unspecified')
   const [share, setShare] = useState(1);
 
   const handlePercentageInput = (value) => {
@@ -40,7 +37,7 @@ const AmountInputSet = (
   return (
     <>
       {
-        validMeasurementTypes.map((itemMeasurementType) => (
+        AmountDecorator.validMeasurementTypes.map((itemMeasurementType) => (
           <AmountInput
             measurementType={itemMeasurementType}
             maxAmount={maxAmounts ? maxAmounts[itemMeasurementType.maxUnit] : undefined}
@@ -52,12 +49,14 @@ const AmountInputSet = (
           />
         ))
       }
-      <NumericalInputWithUnit
-        label={ConditionTypeDecorator.label('PERCENTAGE')}
-        value={share * 100}
-        unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
-        onChange={handlePercentageInput}
-      />
+      {maxAmounts &&
+        <NumericalInputWithUnit
+          label={ConditionTypeDecorator.label('PERCENTAGE')}
+          value={share * 100}
+          unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
+          onChange={handlePercentageInput}
+        />
+      }
     </>
   );
 };
