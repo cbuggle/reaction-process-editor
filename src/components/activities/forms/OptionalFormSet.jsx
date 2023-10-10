@@ -14,6 +14,7 @@ const OptionalFormSet = (
     onCancel,
     onToggleSubform,
     children,
+    isEqualToPredefinedValue = false,
     typeColor='condition',
     disableFormButtons
   }) => {
@@ -26,7 +27,9 @@ const OptionalFormSet = (
     setShowForm(!showForm)
   }
 
-  const toggleFormButtonLabel = valueSummary ? 'Change' : 'Set'
+  const hasLocalValue = !!valueSummary && !isEqualToPredefinedValue
+
+  const toggleFormButtonLabel = hasLocalValue ? 'Change' : 'Set'
 
   const labelWithSummary = groupLabel + ': ' + (valueSummary ? valueSummary : '-')
 
@@ -44,7 +47,7 @@ const OptionalFormSet = (
     <FormSection name={groupLabel} openSubFormLabel={openSubFormLabel} type={typeColor}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
-          <Label className={'col-form-label' + (valueSummary ? '' : ' label--disabled')}>{labelWithSummary}</Label>
+          <Label className={'col-form-label' + (hasLocalValue ? '' : ' label--disabled')}>{labelWithSummary}</Label>
           <div className='optional-form-group__open-controls'>
             <div className="d-grid gap-2">
               <Button color={typeColor} onClick={toggleShowForm} outline>{toggleFormButtonLabel}</Button>

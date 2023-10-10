@@ -91,6 +91,7 @@ const ConditionTypeFormGroup = (
           findInitialValue={findInitialValue}
           onSave={handleSave}
           onToggleSubform={onToggleSubform}
+          isEqualToPredefinedValue={!hasWorkupCondition}
           typeColor={typeColor}
         >
           <ApplyExtraEquipmentForm

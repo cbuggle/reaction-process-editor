@@ -18,6 +18,7 @@ const GenericConditionSubForm = (
     findInitialValue,
     onSave,
     onToggleSubform,
+    isEqualToPredefinedValue = false,
     typeColor='condition'
   }) => {
   const initialValue = () => {
@@ -139,6 +140,7 @@ const GenericConditionSubForm = (
       onSave={handleSave}
       onCancel={handleCancel}
       onToggleSubform={onToggleSubform}
+      isEqualToPredefinedValue={isEqualToPredefinedValue}
       typeColor={typeColor}
     >
       <Row className='gx-1 mb-3'>
