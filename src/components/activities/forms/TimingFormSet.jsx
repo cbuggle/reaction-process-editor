@@ -113,7 +113,7 @@ const TimingFormSet = (
       onSave={handleSaveTiming}
       onCancel={handleCancelTiming}
       onToggleSubform={onToggleSubform}
-      type={activityType}
+      typeColor={activityType}
       disableFormButtons={timerRunning}
     >
       <OptionalFormSet.ExtraButton>

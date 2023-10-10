@@ -4,7 +4,7 @@ import { Form } from 'reactstrap';
 import ConditionTypeFormGroup from '../activities/forms/conditions/ConditionTypeFormGroup';
 import FormButtons from "../utilities/FormButtons";
 
-import { conditionFormTypeNames } from '../../constants/conditionTypes';
+import { conditionFormTypeNames, conditionTypes } from '../../constants/conditionTypes';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
@@ -15,10 +15,12 @@ const DefaultConditionsForm = (
     preConditions,
     conditionEquipmentOptions,
     closeForm,
-    scope
+    scope,
+    typeColor
   }) => {
 
   const api = useReactionsFetcher();
+  const predefinedTypeNames = conditionFormTypeNames.filter(item => conditionTypes[item].predefined === true);
 
   const [defaultConditionsForm, updateDefaultConditionsForm] = useState(defaultConditions)
   const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
@@ -57,7 +59,7 @@ const DefaultConditionsForm = (
   return (
     <Form className={'activity-form condition-form'}>
       {
-        conditionFormTypeNames.map((conditionTypeName) => (
+        predefinedTypeNames.map((conditionTypeName) => (
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
@@ -67,10 +69,16 @@ const DefaultConditionsForm = (
             openSubFormLabel={openSubFormLabel}
             onWorkupChange={handleWorkupChange}
             onToggleSubform={handleToggleSubform}
+            typeColor={typeColor}
           />)
         )
       }
-      <FormButtons onSave={handleSave} onCancel={closeForm} type='primary' disabled={anySubFormOpen()} />
+      <FormButtons
+        onSave={handleSave}
+        onCancel={closeForm}
+        type={typeColor}
+        disabled={anySubFormOpen()}
+      />
     </Form>
 
   )

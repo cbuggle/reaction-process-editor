@@ -17,7 +17,8 @@ const GenericConditionSubForm = (
     children,
     findInitialValue,
     onSave,
-    onToggleSubform
+    onToggleSubform,
+    typeColor='condition'
   }) => {
   const initialValue = () => {
     return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName))
@@ -138,6 +139,7 @@ const GenericConditionSubForm = (
       onSave={handleSave}
       onCancel={handleCancel}
       onToggleSubform={onToggleSubform}
+      typeColor={typeColor}
     >
       <Row className='gx-1 mb-3'>
         <Col md={6} className='generic-condition-sub-form__value'>

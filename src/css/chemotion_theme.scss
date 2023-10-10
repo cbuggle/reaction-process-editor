@@ -4,6 +4,7 @@
 /* colors */
 $white: #fff;
 $black: #000;
+$gray-900: #212529 !default;
 
 $theme-colors: (
   "primary": #2495cf,
@@ -26,6 +27,7 @@ $theme-colors: (
 @import "base/mixins/backgrounds";
 @import "base/mixins/borders";
 @import "base/mixins/spacing";
+$body-color: $gray-900 !default;
 $color-contrast-dark: $black;
 $color-contrast-light: $white;
 $spacer: .75rem;
@@ -39,6 +41,7 @@ $h2-font-size: 1.61538rem;
 $h1-font-size: 1.84615rem;
 $body-bg: $white;
 $min-contrast-ratio: 2.5;
+$input-color: $body-color !default;
 $input-btn-padding-x: .6rem;
 $input-btn-padding-y: .2rem;
 $input-btn-padding-x-lg: .8rem;
@@ -64,8 +67,6 @@ $toast-background-color: $body-bg;
 $toast-border-radius: $card-border-radius;
 $toast-padding-x: 1rem;
 $toast-padding-y: 1rem;
-
-
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";

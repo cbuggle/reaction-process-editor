@@ -9,17 +9,20 @@ export const conditionTypes = {
   'TEMPERATURE': {
     label: 'Temperature',
     defaultUnit: 'CELSIUS',
-    units: ['CELSIUS', 'KELVIN']
+    units: ['CELSIUS', 'KELVIN'],
+    predefined: true
   },
   'PH': {
     label: 'pH',
     defaultUnit: 'PH',
-    units: ['PH']
+    units: ['PH'],
+    predefined: true
   },
   'PRESSURE': {
     label: 'Pressure',
     defaultUnit: 'MBAR',
-    units: ['MBAR']
+    units: ['MBAR'],
+    predefined: true
   },
   'IRRADIATION': {
     label: 'Irradiation',

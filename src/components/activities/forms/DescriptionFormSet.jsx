@@ -28,7 +28,7 @@ const DescriptionFormSet = (
       onSave={handleSaveDescription}
       onCancel={handleCancelDescription}
       onToggleSubform={onToggleSubform}
-      type={activityType}
+      typeColor={activityType}
     >
       <Input
         type="textarea"

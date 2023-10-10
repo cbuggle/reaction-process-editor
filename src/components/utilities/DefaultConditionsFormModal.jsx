@@ -14,9 +14,11 @@ const DefaultConditionsFormModal = (
     scope
   }) => {
 
+  const typeColor = scope === 'User' ? 'secondary' : 'primary'
+
   return (
     <Modal
-      className='modal--primary d-flex align-items-center justify-content-center'
+      className={'d-flex align-items-center justify-content-center modal--' + typeColor}
       isOpen={isOpen}
       autoFocus={true}
       toggle={onToggleModal}
@@ -29,6 +31,7 @@ const DefaultConditionsFormModal = (
           preConditions={preConditions}
           conditionEquipmentOptions={conditionEquipmentOptions}
           closeForm={onToggleModal}
+          typeColor={typeColor}
           scope={scope}
         />
       </ModalBody>

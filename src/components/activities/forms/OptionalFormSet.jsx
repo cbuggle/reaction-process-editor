@@ -14,7 +14,7 @@ const OptionalFormSet = (
     onCancel,
     onToggleSubform,
     children,
-    type='condition',
+    typeColor='condition',
     disableFormButtons
   }) => {
   const childNodes = React.Children.toArray(children);
@@ -41,13 +41,13 @@ const OptionalFormSet = (
   }
 
   return (
-    <FormSection name={groupLabel} openSubFormLabel={openSubFormLabel} type={type}>
+    <FormSection name={groupLabel} openSubFormLabel={openSubFormLabel} type={typeColor}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
           <Label className={'col-form-label' + (valueSummary ? '' : ' label--disabled')}>{labelWithSummary}</Label>
           <div className='optional-form-group__open-controls'>
             <div className="d-grid gap-2">
-              <Button color={type} onClick={toggleShowForm} outline>{toggleFormButtonLabel}</Button>
+              <Button color={typeColor} onClick={toggleShowForm} outline>{toggleFormButtonLabel}</Button>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ const OptionalFormSet = (
             {children}
           </FormGroup>
           <FormButtons
-            type={type}
+            type={typeColor}
             onSave={handleSave}
             onCancel={handleCancel}
             saveLabel='Set'

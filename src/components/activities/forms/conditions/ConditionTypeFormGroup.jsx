@@ -15,7 +15,8 @@ const ConditionTypeFormGroup = (
     workup,
     openSubFormLabel,
     onWorkupChange,
-    onToggleSubform
+    onToggleSubform,
+    typeColor='condition'
   }) => {
 
   const hasPreCondition = !!preCondition && preCondition.value !== null
@@ -90,6 +91,7 @@ const ConditionTypeFormGroup = (
           findInitialValue={findInitialValue}
           onSave={handleSave}
           onToggleSubform={onToggleSubform}
+          typeColor={typeColor}
         >
           <ApplyExtraEquipmentForm
             equipment={equipment}
