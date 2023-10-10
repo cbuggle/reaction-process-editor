@@ -3,7 +3,7 @@ import { Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBra
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleUp, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
-import DefaultConditionsFormButton from './DefaultConditionsFormButton';
+import ReactionConditionsFormButton from './ReactionConditionsFormButton';
 import IconButton from "../../utilities/IconButton";
 import OrdDownloadButton from './OrdDownloadButton';
 import ProvenanceFormButton from './ProvenanceFormButton';
@@ -34,11 +34,10 @@ const ReactionNavbar = ({ reactionProcess }) => {
           <span className='reaction-id'>{reactionProcess.id}</span>
         </NavbarBrand>
         <Nav>
-          <DefaultConditionsFormButton
+          <ReactionConditionsFormButton
             defaultConditions={reactionProcess.reaction_default_conditions}
             preConditions={reactionProcess.user_default_conditions}
-            conditionsEquipmentOptions={reactionProcess.conditions_equipment_options}
-            scope={'Reaction'}
+            conditionEquipmentOptions={reactionProcess.conditions_equipment_options}
           />
           <ProvenanceFormButton provenance={reactionProcess.provenance} />
           <OrdDownloadButton reactionProcessId={reactionProcess.id} />

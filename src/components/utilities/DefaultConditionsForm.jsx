@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import { Form } from 'reactstrap';
 
-import ConditionTypeFormGroup from '../../activities/forms/conditions/ConditionTypeFormGroup';
-import FormButtons from "../../utilities/FormButtons";
+import ConditionTypeFormGroup from '../activities/forms/conditions/ConditionTypeFormGroup';
+import FormButtons from "../utilities/FormButtons";
 
-import { conditionFormTypeNames } from '../../../constants/conditionTypes';
+import { conditionFormTypeNames } from '../../constants/conditionTypes';
 
-import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher'
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
 
-const DefaultConditionsForm = ({ defaultConditions, preConditions, conditionsEquipmentOptions, closeForm, scope }) => {
+const DefaultConditionsForm = (
+  {
+    defaultConditions,
+    preConditions,
+    conditionEquipmentOptions,
+    closeForm,
+    scope
+  }) => {
 
   const api = useReactionsFetcher();
 
@@ -54,7 +61,7 @@ const DefaultConditionsForm = ({ defaultConditions, preConditions, conditionsEqu
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
-            equipmentOptions={conditionsEquipmentOptions[conditionTypeName]}
+            equipmentOptions={conditionEquipmentOptions[conditionTypeName]}
             preCondition={preConditions[conditionTypeName]}
             workup={defaultConditionsForm }
             openSubFormLabel={openSubFormLabel}

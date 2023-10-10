@@ -21,7 +21,8 @@ import {
   faAngleDoubleDown,
   faSearchPlus,
   faSearchMinus,
-  faTemperatureHigh
+  faTemperatureHigh,
+  faSignOut
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -41,7 +42,8 @@ library.add(
   faAngleDoubleDown,
   faSearchPlus,
   faSearchMinus,
-  faTemperatureHigh
+  faTemperatureHigh,
+  faSignOut
 )
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

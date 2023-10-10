@@ -1,5 +1,8 @@
 .main-header {
-  .nav-link, .navbar-text {
+  .dropdown-item {
+    font-size: $h4-font-size;
+  }
+  .nav-link, .navbar-text, .btn {
     font-size: $h4-font-size;
   }
   &__brand {
@@ -20,5 +23,15 @@
       margin-left: $navbar-nav-link-padding-x;
       margin-right: $navbar-brand-margin-end;
     }
+  }
+}
+
+.user-drop-down {
+  &__toggle {
+    --bs-btn-padding-y: 0.4rem;
+    display: flex;
+    align-items: center;
+    background-color: border-color('secondary');
+    border: none;
   }
 }

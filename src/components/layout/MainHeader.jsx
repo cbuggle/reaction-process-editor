@@ -3,21 +3,17 @@ import {
   Navbar,
   NavbarBrand,
   Nav,
-  NavItem,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText,
 } from 'reactstrap';
 
 import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import DefaultConditionsFormButton from '../reactions/navbar/DefaultConditionsFormButton';
-import LogoutButton from '../login/LogoutButton';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import UserMenu from "./UserMenu";
+
 
 const MainHeader = () => {
   const location = useLocation();
@@ -106,68 +102,42 @@ const MainHeader = () => {
     return localStorage.getItem('username') ? '/reactions' : '/'
   }
 
-  const renderLoginButton = () => {
-    return (
-      <Nav navbar className="justify-content-end align-items-center">
-        <a href='/' className='btn btn-outline-white btn-sm'>Login</a>
-      </Nav>
-    )
-  }
-
-  const renderNavbarLoggedIn = () => {
-    return (
-      <>
-        <Nav navbar className="me-auto main-header__nav">
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav caret>
-              Collections
-            </DropdownToggle>
-            <DropdownMenu>
-              {collectionOptions.map((collection) =>
-                <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                  {collection.label}
-                </DropdownItem>)}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-          <UncontrolledDropdown nav>
-            <DropdownToggle nav caret>
-              Reactions ({reactions.length})
-            </DropdownToggle>
-            <DropdownMenu>
-              {reactionOptions.map((reaction) =>
-                <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </Nav>
-        <Nav navbar className="justify-content-end align-items-center">
-          <NavItem className='me-3'>
-            <NavbarText className="d-flex align-items-center" >
-              <DefaultConditionsFormButton
-                defaultConditions={userDefaultConditions}
-                preConditions={globalDefaultConditions}
-                conditionsEquipmentOptions={conditionEquipmentOptions}
-                scope={'User'}
-              />
-            </NavbarText>
-          </NavItem>
-          <NavItem className="me-3">
-            <NavbarText className="d-flex align-items-center" >
-              <FontAwesomeIcon icon="user-circle" className="pt-1 me-2 h2 mb-0" />
-              <span>{localStorage.getItem('username')}</span>
-            </NavbarText>
-          </NavItem>
-          <NavItem>
-            <LogoutButton />
-          </NavItem>
-        </Nav>
-      </>
-    )
-  }
-
   return (
     <Navbar className='bg-secondary main-header' dark expand={true}>
       <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
-      {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginButton()}
+      {localStorage.getItem('username') &&
+        <>
+          <Nav navbar className="me-auto main-header__nav">
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                Collections
+              </DropdownToggle>
+              <DropdownMenu>
+                {collectionOptions.map((collection) =>
+                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                    {collection.label}
+                  </DropdownItem>)}
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                Reactions ({reactions.length})
+              </DropdownToggle>
+              <DropdownMenu>
+                {reactionOptions.map((reaction) =>
+                  <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          <Nav navbar className="justify-content-end align-items-center">
+            <UserMenu
+              defaultConditions={userDefaultConditions}
+              preConditions={globalDefaultConditions}
+              conditionEquipmentOptions={conditionEquipmentOptions}
+            />
+          </Nav>
+        </>
+      }
     </Navbar>
   )
 }

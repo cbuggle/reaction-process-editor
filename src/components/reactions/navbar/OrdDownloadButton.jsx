@@ -37,7 +37,7 @@ const OrdDownloadButton = ({ reactionProcessId }) => {
         target="_blank"
       />
       <UncontrolledTooltip target={"ord-download-button"} >
-        Download the reaction in ORD-KIT format (json).
+        Download the reaction in ORD-KIT format (JSON)
       </UncontrolledTooltip >
     </div>
   )
