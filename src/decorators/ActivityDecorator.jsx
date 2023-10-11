@@ -37,14 +37,10 @@ export default class ActivityDecorator {
           break
         case 'TRANSFER':
         case 'SAVE':
-          if (workup.sample_name) {
-            title += ' ' + workup.sample_name
-          }
-          break
         case 'PAUSE':
         case 'WAIT':
         default:
-          return this.toTitleCase(title)
+          break
       }
     }
     return this.toTitleCase(title)
@@ -68,7 +64,7 @@ export default class ActivityDecorator {
   }
 
   static equipmentInfoLine = (equipments, equipmentOptions) => {
-    return equipments && equipments.map( (equipmentValue) => {
+    return equipments && equipments.map((equipmentValue) => {
       let matchingOption = equipmentOptions.find((option) => option.value === equipmentValue)
       return matchingOption ? matchingOption.label : ''
     }).join(', ')

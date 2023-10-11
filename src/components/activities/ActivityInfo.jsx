@@ -2,6 +2,7 @@ import React from 'react'
 
 import { analysisTypeOptions } from '../../constants/dropdownOptions/analysisTypeOptions'
 import ActivityDecorator from '../../decorators/ActivityDecorator';
+import ConditionTypeDecorator from '../../decorators/ConditionTypeDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
 const ActivityInfo = ({ action, equipmentOptions }) => {
@@ -24,13 +25,12 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
         }
         break;
       case 'SAVE':
-        infoTitle = workup.sample.intermediate_type
+        infoTitle = (workup.intermediate_type || '- Obsolete Data. Please edit & resave - ') + ' ' + workup.short_label
+        infoLines.push(workup.name)
+        infoLines.push(workup.short_label)
         infoLines.push(workup.description)
-        infoLines.push(workup.sample.name)
-        infoLines.push(workup.sample.description)
-        infoLines.push(workup.sample.short_label)
-        if (workup.sample.target_amount_value) {
-          infoLines.push(workup.sample.target_amount_value + ' ' + workup.sample.target_amount_unit)
+        if (workup.target_amount_value) {
+          infoLines.push(workup.target_amount_value + ' ' + ConditionTypeDecorator.unitLabel(workup.target_amount_unit))
         }
         infoLines.push(workup.location)
         break;
@@ -44,11 +44,12 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
         break;
       case 'TRANSFER':
         if (action.sample) {
-          infoTitle = action.sample.short_label
+          infoTitle = action.intermediate_type + ' ' + (action.sample.name || action.sample.short_label)
         }
         if (workup.transfer_percentage) {
           infoLines.push(workup.transfer_percentage + '%')
         }
+        infoLines.push("From: " + action.source_step_name)
         break;
       case 'REMOVE':
         infoTitle = action.sample_names

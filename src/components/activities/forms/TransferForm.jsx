@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
-import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
+import AmountInputSet from '../../utilities/AmountInputSet';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import SamplesDecorator from '../../../decorators/SamplesDecorator';
 
 const TransferForm = (
   {
     activity,
     processStep,
-    openSubFormLabel, // unused ?
     onWorkupChange
   }) => {
 
@@ -21,6 +20,26 @@ const TransferForm = (
   const sampleOptions = processStep.transfer_sample_options
   const transferToOptions = processStep.transfer_to_options
 
+  const [sample, setSample] = useState(sampleOptions.find(sample => sample.value === activity.workup['sample_id']))
+
+  const handleSampleChange = ({ sampleId, label }) => {
+    // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
+    const newSample = sampleOptions.find(sample => sample.value === sampleId && sample.label === label)
+    if (newSample) {
+      onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
+      onWorkupChange({ name: 'sample_id', value: newSample.value })
+      onWorkupChange({ name: 'sample_name', value: newSample.label })
+      onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
+      onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
+      onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
+    }
+    setSample(newSample)
+  }
+
+  const handleValueChange = (name) => (value) => {
+    onWorkupChange({ name: name, value: value })
+  }
+
   return (
     <>
       <SingleLineFormGroup label='Transfer Sample'>
@@ -29,9 +48,9 @@ const TransferForm = (
           classNamePrefix="react-select"
           name="sample_id"
           options={sampleOptions}
-          value={sampleOptions.find(option => option.value === activity.workup['sample_id'])}
-          onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
-        />
+          value={sample}
+          onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
+         />
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Transfer to Step'>
         <Select
@@ -44,11 +63,12 @@ const TransferForm = (
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
         />
       </SingleLineFormGroup>
-      <NumericalInputWithUnit
-        label={ConditionTypeDecorator.label('PERCENTAGE')}
-        value={activity.workup['transfer_percentage']}
-        unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
-        onChange={value => onWorkupChange({ name: 'transfer_percentage', value: value })}
+      <AmountInputSet
+        amount={activity.workup['target_amount_value']}
+        maxAmounts={sample?.unit_amounts}
+        unit={activity.workup['target_amount_unit']}
+        onChangeAmount={handleValueChange('target_amount_value')}
+        onChangeUnit={handleValueChange('target_amount_unit')}
       />
     </>
   )

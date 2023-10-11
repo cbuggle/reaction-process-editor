@@ -190,7 +190,7 @@ export const unitTypes = {
   'FRACTION': {
     // experimental
     name: 'FRACTION',
-    label: '[fraction]',
+    label: '',
     inputRange: {
       min: 0,
       max: 10,
@@ -201,7 +201,7 @@ export const unitTypes = {
   },
   'PURITY': {
     name: 'PURITY',
-    label: '[purity]',
+    label: '',
     inputRange: {
       min: 0,
       max: 1,

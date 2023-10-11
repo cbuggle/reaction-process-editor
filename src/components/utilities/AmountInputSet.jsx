@@ -1,8 +1,11 @@
-import React, {useState} from "react";
-import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
-import NumericalInputWithUnit from "./NumericalInputWithUnit";
+import React, { useState } from "react";
+
 import AmountInput from "./AmountInput";
+import NumericalInputWithUnit from "./NumericalInputWithUnit";
+
 import AmountDecorator from "../../decorators/AmountDecorator";
+import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
+import SamplesDecorator from "../../decorators/SamplesDecorator";
 
 const AmountInputSet = (
   {
@@ -14,15 +17,25 @@ const AmountInputSet = (
   }) => {
 
   const [share, setShare] = useState(1);
+  const maxUnit = maxAmounts && unit && AmountDecorator.unitMeasurementType(unit)['maxUnit']
 
   const handlePercentageInput = (value) => {
     const newShare = value / 100
-    const maxUnit = AmountDecorator.unitMeasurementType(unit)['maxUnit']
     const newAmount = newShare * (maxAmounts[maxUnit] / AmountDecorator.unitScale(maxUnit)) * AmountDecorator.unitScale(unit)
+
+    let newUnit = unit
+
+    if (!maxAmounts[maxUnit]) {
+      // When want to switch to a unit with maxAmount when handling percentages. Those without are pointless.
+      newUnit = maxAmounts['mg'] ? 'mg'
+        : maxAmounts['ml'] ? 'ml'
+          : maxAmounts['mmol'] ? 'mmol'
+            : unit
+    }
     handleChangeAmountInput(
       {
-        amount: newAmount,
-        unit: unit,
+        amount: parseFloat(newAmount.toFixed(12)),
+        unit: newUnit,
         share: newShare
       }
     )
@@ -36,11 +49,12 @@ const AmountInputSet = (
 
   return (
     <>
+      {SamplesDecorator.availableAmountsInfoLine(maxAmounts)}
       {
         AmountDecorator.validMeasurementTypes.map((itemMeasurementType) => (
           <AmountInput
             measurementType={itemMeasurementType}
-            maxAmount={maxAmounts ? maxAmounts[itemMeasurementType.maxUnit] : undefined}
+            maxAmount={maxAmounts && maxAmounts[itemMeasurementType.maxUnit]}
             share={share}
             currentAmount={amount}
             currentUnit={unit}
@@ -49,7 +63,7 @@ const AmountInputSet = (
           />
         ))
       }
-      {maxAmounts &&
+      {maxUnit && maxAmounts[maxUnit] &&
         <NumericalInputWithUnit
           label={ConditionTypeDecorator.label('PERCENTAGE')}
           value={share * 100}

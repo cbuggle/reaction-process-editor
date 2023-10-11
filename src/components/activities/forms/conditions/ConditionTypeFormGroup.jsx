@@ -43,7 +43,6 @@ const ConditionTypeFormGroup = (
     return findInitialValue('equipment', [])
   }
   const [equipment, setEquipment] = useState(resetEquipment());
-  // const equipmentOptions = useMemo(() => { return  }, [processStep, conditionTypeName])
 
   const handleSave = (condition) => {
     condition.equipment = equipment

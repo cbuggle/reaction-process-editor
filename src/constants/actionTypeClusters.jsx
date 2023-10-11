@@ -159,11 +159,9 @@ export const actionTypeClusters = [
         action: {
           action_name: 'SAVE',
           workup: {
-            sample: {
-              intermediate_type: 'CRUDE',
-              target_amount_unit: 'l',
-              purity: 1
-            }
+            intermediate_type: 'CRUDE',
+            target_amount_unit: 'ml',
+            purity: 1
           }
         }
       }
