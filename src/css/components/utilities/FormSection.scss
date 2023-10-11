@@ -22,6 +22,7 @@
   };
   &--active {
     &.form-section {
+      z-index: 2;
       @include type-active-background-color(0)
     }
   }
