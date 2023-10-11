@@ -62,7 +62,8 @@ const ReactionNavbar = ({ reactionProcess }) => {
       </Accordion>
       <div className='text-center formula-drawer-button-container'>
         <Button
-          className='formula-drawer-button btn-primary'
+          color='primary'
+          className='formula-drawer-button'
           size='sm'
           onClick={toggleFormula}
         >
