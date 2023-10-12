@@ -46,12 +46,19 @@ export default class ActivityDecorator {
     return this.toTitleCase(title)
   }
 
-  static conditionInfo = (type, conditionWorkup, equipmentOptions) => {
+  static conditionInfo = (type, conditionWorkup, equipmentOptions, precondition) => {
     let info
     if (type === 'EQUIPMENT') {
       info = this.equipmentInfoLine(conditionWorkup.value, equipmentOptions)
     } else {
-      info = (conditionWorkup.value + ' ' + ConditionTypeDecorator.unitLabel(conditionWorkup.unit))
+      info = conditionWorkup.value + ' ' + ConditionTypeDecorator.unitLabel(conditionWorkup.unit)
+      if (!!precondition) {
+        let valueDiff = (Math.round((conditionWorkup.value - precondition.value)  * 100) / 100).toString()
+        if (valueDiff > 0) {
+          valueDiff = '+' + valueDiff
+        }
+        info += ' (' + valueDiff + ')'
+      }
     }
     if (type === 'MOTION') {
       info = [

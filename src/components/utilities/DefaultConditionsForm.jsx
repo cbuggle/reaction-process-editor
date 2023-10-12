@@ -12,7 +12,7 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 const DefaultConditionsForm = (
   {
     defaultConditions,
-    preConditions,
+    preconditions,
     conditionEquipmentOptions,
     closeForm,
     scope,
@@ -64,7 +64,7 @@ const DefaultConditionsForm = (
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
             equipmentOptions={conditionEquipmentOptions[conditionTypeName]}
-            preCondition={preConditions[conditionTypeName]}
+            preCondition={preconditions[conditionTypeName]}
             workup={defaultConditionsForm}
             openSubFormLabel={openSubFormLabel}
             onWorkupChange={handleWorkupChange}

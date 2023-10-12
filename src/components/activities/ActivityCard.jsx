@@ -15,7 +15,7 @@ const ActivityCard = (
     activity,
     onSave,
     onCancel,
-    preConditions,
+    preconditions,
     processStep,
     customClass,
     dragRef,
@@ -106,7 +106,11 @@ const ActivityCard = (
       dragRef={dragRef}
     >
       <ProcedureCard.Info>
-        <ActivityInfo action={activity} equipmentOptions={processStep.equipment_options} />
+        <ActivityInfo
+          action={activity}
+          equipmentOptions={processStep.equipment_options}
+          preconditions={preconditions}
+        />
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
         <TypeSelectionPanel onSelect={onSelectType} />
@@ -128,7 +132,7 @@ const ActivityCard = (
           <ConditionForm
             activity={activityForm}
             conditionEquipmentOptions={processStep['action_type_equipment_options']['CONDITION']}
-            preConditions={preConditions}
+            preconditions={preconditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
             onSave={onSaveForm}

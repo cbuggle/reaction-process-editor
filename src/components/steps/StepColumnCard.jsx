@@ -131,7 +131,7 @@ const StepColumCard = (
                 {renderActivities()}
                 <ActivityCreator
                   processStep={processStep}
-                  preConditions={processStep.final_conditions}
+                  preconditions={processStep.final_conditions}
                   insertNewBeforeIndex={processStep.actions.length}
                 />
               </div>

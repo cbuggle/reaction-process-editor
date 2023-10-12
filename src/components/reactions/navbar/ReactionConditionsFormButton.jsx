@@ -7,7 +7,7 @@ import DefaultConditionsFormModal from "../../utilities/DefaultConditionsFormMod
 
 const ReactionConditionsFormButton = (
   {
-    preConditions,
+    preconditions,
     defaultConditions,
     conditionEquipmentOptions
   }) => {
@@ -28,7 +28,7 @@ const ReactionConditionsFormButton = (
         Set the reaction's base conditions
       </UncontrolledTooltip >
       <DefaultConditionsFormModal
-        preConditions={preConditions}
+        preconditions={preconditions}
         defaultConditions={defaultConditions}
         conditionEquipmentOptions={conditionEquipmentOptions}
         scope='Reaction'

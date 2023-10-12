@@ -9,7 +9,7 @@ const ConditionForm = (
   {
     activity,
     conditionEquipmentOptions,
-    preConditions,
+    preconditions,
     openSubFormLabel,
     onSave,
     onCancel,
@@ -35,7 +35,7 @@ const ConditionForm = (
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
             equipmentOptions={conditionEquipmentOptions[conditionTypeName]}
-            preCondition={preConditions[conditionTypeName]}
+            preCondition={preconditions[conditionTypeName]}
             workup={activity.workup}
             openSubFormLabel={openSubFormLabel}
             onWorkupChange={onWorkupChange}

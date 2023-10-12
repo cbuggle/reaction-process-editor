@@ -6,7 +6,7 @@ import {useAuthenticationFetcher} from "../../fetchers/AuthenticationFetcher";
 
 const UserMenu = (
   {
-    preConditions,
+    preconditions,
     defaultConditions,
     conditionEquipmentOptions
   }) => {
@@ -18,7 +18,7 @@ const UserMenu = (
   return (
     <>
       <DefaultConditionsFormModal
-        preConditions={preConditions}
+        preconditions={preconditions}
         defaultConditions={defaultConditions}
         conditionEquipmentOptions={conditionEquipmentOptions}
         scope='User'

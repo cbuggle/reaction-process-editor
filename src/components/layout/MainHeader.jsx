@@ -132,7 +132,7 @@ const MainHeader = () => {
           <Nav navbar className="justify-content-end align-items-center">
             <UserMenu
               defaultConditions={userDefaultConditions}
-              preConditions={globalDefaultConditions}
+              preconditions={globalDefaultConditions}
               conditionEquipmentOptions={conditionEquipmentOptions}
             />
           </Nav>

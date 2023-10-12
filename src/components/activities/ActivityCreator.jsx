@@ -4,7 +4,7 @@ import IconButton from "../utilities/IconButton";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import {Button} from "reactstrap";
 
-const ActivityCreator = ({ processStep, preConditions, insertNewBeforeIndex, onClose }) => {
+const ActivityCreator = ({ processStep, preconditions, insertNewBeforeIndex, onClose }) => {
 
   const api = useReactionsFetcher()
   const [displayState, setDisplayState] = useState('buttons')
@@ -49,7 +49,7 @@ const ActivityCreator = ({ processStep, preConditions, insertNewBeforeIndex, onC
           type={displayState}
           onSave={save}
           onCancel={cancel}
-          preConditions={preConditions}
+          preconditions={preconditions}
           processStep={processStep}
         />
       }

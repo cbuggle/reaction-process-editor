@@ -36,7 +36,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
         <Nav>
           <ReactionConditionsFormButton
             defaultConditions={reactionProcess.reaction_default_conditions}
-            preConditions={reactionProcess.user_default_conditions}
+            preconditions={reactionProcess.user_default_conditions}
             conditionEquipmentOptions={reactionProcess.conditions_equipment_options}
           />
           <ProvenanceFormButton provenance={reactionProcess.provenance} />

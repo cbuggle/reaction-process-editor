@@ -5,13 +5,18 @@ import ActivityDecorator from '../../decorators/ActivityDecorator';
 import ConditionTypeDecorator from '../../decorators/ConditionTypeDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
-const ActivityInfo = ({ action, equipmentOptions }) => {
+const ActivityInfo = (
+  {
+    action,
+    equipmentOptions,
+    preconditions
+  }) => {
   const infoLines = []
   let infoImage = undefined
   let infoTitle
   const workup = action.workup
 
-  const renderActionInfo = () => {
+  const renderActivityInfo = () => {
     switch (action.action_name) {
       case 'ADD':
         if (workup.acts_as === 'SAMPLE') {
@@ -38,7 +43,7 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
         infoTitle = ''
         for (let [key, value] of Object.entries(workup)) {
           if (['TEMPERATURE', 'PRESSURE', 'PH', 'IRRADIATION', 'MOTION', 'EQUIPMENT'].includes(key)) {
-            infoLines.push(ActivityDecorator.conditionInfo(key, value, equipmentOptions));
+            infoLines.push(ActivityDecorator.conditionInfo(key, value, equipmentOptions, preconditions[key]));
           }
         }
         break;
@@ -104,7 +109,7 @@ const ActivityInfo = ({ action, equipmentOptions }) => {
     )
   }
 
-  return renderActionInfo()
+  return renderActivityInfo()
 }
 
 export default ActivityInfo

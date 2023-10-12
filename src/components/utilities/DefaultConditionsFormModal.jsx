@@ -6,7 +6,7 @@ import DefaultConditionsForm from './DefaultConditionsForm';
 
 const DefaultConditionsFormModal = (
   {
-    preConditions,
+    preconditions,
     defaultConditions,
     conditionEquipmentOptions,
     onToggleModal,
@@ -28,7 +28,7 @@ const DefaultConditionsFormModal = (
       <ModalBody>
         <DefaultConditionsForm
           defaultConditions={defaultConditions}
-          preConditions={preConditions}
+          preconditions={preconditions}
           conditionEquipmentOptions={conditionEquipmentOptions}
           closeForm={onToggleModal}
           typeColor={typeColor}
