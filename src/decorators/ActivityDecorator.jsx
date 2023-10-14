@@ -49,11 +49,11 @@ export default class ActivityDecorator {
   static conditionInfo = (type, conditionWorkup, equipmentOptions, precondition) => {
     let info
     if (type === 'EQUIPMENT') {
-      info = this.equipmentInfoLine(conditionWorkup.value, equipmentOptions)
+      info = this.infoLineEquipment(conditionWorkup.value, equipmentOptions)
     } else {
-      info = conditionWorkup.value + ' ' + ConditionTypeDecorator.unitLabel(conditionWorkup.unit)
+      info = ConditionTypeDecorator.infoLineValueWithUnit(conditionWorkup.value, conditionWorkup.unit)
       if (!!precondition) {
-        let valueDiff = (Math.round((conditionWorkup.value - precondition.value)  * 100) / 100).toString()
+        let valueDiff = (Math.round((conditionWorkup.value - precondition.value) * 100) / 100).toString()
         if (valueDiff > 0) {
           valueDiff = '+' + valueDiff
         }
@@ -70,7 +70,7 @@ export default class ActivityDecorator {
     return info;
   }
 
-  static equipmentInfoLine = (equipments, equipmentOptions) => {
+  static infoLineEquipment = (equipments, equipmentOptions) => {
     return equipments && equipments.map((equipmentValue) => {
       let matchingOption = equipmentOptions.find((option) => option.value === equipmentValue)
       return matchingOption ? matchingOption.label : ''
@@ -78,19 +78,9 @@ export default class ActivityDecorator {
   }
 
   static addSampleConditionInfoLine = (workup) => {
-    let info = ''
-    if (workup.add_sample_velocity_value) {
-      info = info.concat(workup.add_sample_velocity_value + ' ')
-      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_velocity_unit) + ', ')
-    }
-    if (workup.add_sample_temperature_value) {
-      info = info.concat(workup.add_sample_temperature_value + ' ')
-      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_temperature_unit) + ', ')
-    }
-    if (workup.add_sample_pressure_value) {
-      info = info.concat(workup.add_sample_pressure_value + ' ')
-      info = info.concat(ConditionTypeDecorator.unitLabel(workup.add_sample_pressure_unit) + ' ')
-    }
-    return info;
+    return ['add_sample_velocity', 'add_sample_temperature', 'add_sample_pressure'].map((metric) => {
+      return (workup[metric + '_value'] || workup[metric + '_value'] === 0)
+        && ConditionTypeDecorator.infoLineValueWithUnit(workup[metric + '_value'], workup[metric + '_unit'])
+    }).filter((el) => el).join(', ')
   }
 }

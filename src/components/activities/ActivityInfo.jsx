@@ -22,7 +22,7 @@ const ActivityInfo = (
         if (workup.acts_as === 'SAMPLE') {
           infoImage = action.sample
         }
-        infoTitle = [workup.target_amount_value, workup.target_amount_unit].join(' ')
+        infoTitle = ConditionTypeDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit)
         infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
 
         if (workup.acts_as === 'SOLVENT') {
@@ -35,7 +35,7 @@ const ActivityInfo = (
         infoLines.push(workup.short_label)
         infoLines.push(workup.description)
         if (workup.target_amount_value) {
-          infoLines.push(workup.target_amount_value + ' ' + ConditionTypeDecorator.unitLabel(workup.target_amount_unit))
+          infoLines.push(ConditionTypeDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit))
         }
         infoLines.push(workup.location)
         break;
@@ -52,7 +52,7 @@ const ActivityInfo = (
           infoTitle = action.intermediate_type + ' ' + (action.sample.name || action.sample.short_label)
         }
         if (workup.transfer_percentage) {
-          infoLines.push(workup.transfer_percentage + '%')
+          infoLines.push(ConditionTypeDecorator.infoLineValueWithUnit(workup.transfer_percentage, 'PERCENT'))
         }
         infoLines.push("From: " + action.source_step_name)
         break;
@@ -81,7 +81,7 @@ const ActivityInfo = (
         infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + action.action_name + '***'
     }
 
-    infoLines.push(ActivityDecorator.equipmentInfoLine(workup.equipment, equipmentOptions))
+    infoLines.push(ActivityDecorator.infoLineEquipment(workup.equipment, equipmentOptions))
 
     return (
       <>
