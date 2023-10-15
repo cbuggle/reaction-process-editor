@@ -119,6 +119,7 @@ const ActivityCard = (
         {activityForm && !isCondition &&
           <ActionForm
             activity={activityForm}
+            preconditions={preconditions}
             processStep={processStep}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}

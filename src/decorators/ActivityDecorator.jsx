@@ -79,7 +79,7 @@ export default class ActivityDecorator {
 
   static addSampleConditionInfoLine = (workup) => {
     return ['add_sample_velocity', 'add_sample_temperature', 'add_sample_pressure'].map((metric) => {
-      return (workup[metric + '_value'] || workup[metric + '_value'] === 0)
+      return (workup[metric + '_value'] !== undefined)
         && ConditionTypeDecorator.infoLineValueWithUnit(workup[metric + '_value'], workup[metric + '_unit'])
     }).filter((el) => el).join(', ')
   }

@@ -12,6 +12,7 @@ import FormSection from "../../utilities/FormSection";
 const ActionForm = (
   {
     activity,
+    preconditions,
     processStep,
     openSubFormLabel,
     onCancel,
@@ -35,6 +36,7 @@ const ActionForm = (
           <>
             <AddSampleForm
               activity={activity}
+              preconditions={preconditions}
               processStep={processStep}
               openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}

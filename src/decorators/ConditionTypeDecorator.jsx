@@ -11,20 +11,19 @@ export default class ConditionTypeDecorator {
     return label || unit
   }
   // Hardcoded defaultUnit until we implement unit switching.
-  static defaultUnit = (typeName) =>  this.conditionType(typeName).defaultUnit
+  static defaultUnit = (typeName) => this.conditionType(typeName).defaultUnit
 
   // Hardcoded defaultValue in defaultUnit until we implement unit switching.
-  static defaultValueInDefaultUnit = (typeName) =>  this.defaultValueForUnit(this.defaultUnit(typeName))
+  static defaultValueInDefaultUnit = (typeName) => this.defaultValueForUnitType(this.defaultUnitType(typeName))
 
-  static defaultUnitType = (typeName) =>  unitTypes[this.defaultUnit(typeName)]
+  static defaultUnitType = (typeName) => unitTypes[this.defaultUnit(typeName)]
 
   // This is actually UnitType decoration but as long as it's just this one we can keep it here.
-  static defaultValueForUnit = (unit) => unitTypes[unit].inputRange.default
+  static defaultValueForUnitType = (unitType) => unitType.inputRange.default
 
-  static infoLineValueWithUnit(value, unit, precision = 3) {
-    // Dividing by 1 removes trailing `0` (essentially it's a parseFloat)
-    value = parseFloat(value).toPrecision(precision) / 1
-
+  static infoLineValueWithUnit(value, unit) {
+    // toPrecision() removes float artefacts, dividing by 1 removes trailing `0` (essentially equalling parseFloat)
+    value = parseFloat(value).toPrecision(12) / 1
     return value + ' ' + this.unitLabel(unit)
   }
 }

@@ -15,53 +15,31 @@ import AmountDecorator from "../../../decorators/AmountDecorator";
 const AddSampleForm = (
   {
     activity,
+    preconditions,
     processStep,
     openSubFormLabel,
     onWorkupChange
   }) => {
 
+  const conditionInputs = [
+    ['VELOCITY', 'add_sample_velocity'],
+    ['TEMPERATURE', 'add_sample_temperature'],
+    ['PRESSURE', 'add_sample_pressure']
+  ]
+
   // 'DIVERSE_SOLVENT' need to be included as 'SOLVENT' for UI selects, as requested by NJung.
   const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
   const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
-  const [sample, setSample] = useState(currentSampleOptions.find(sample => sample.value === activity.workup['sample_id'] && sample.label === activity.workup['sample_name']))
+  const [sample, setSample] = useState(currentSampleOptions.find(sample =>
+    sample.value === activity.workup['sample_id'] &&
+    sample.label === activity.workup['sample_name']))
 
-  const currentAddSampleUnitType = {
-    TEMPERATURE: unitTypes[activity.workup['add_sample_temperature_unit']] ||
-      ConditionTypeDecorator.defaultUnitType('TEMPERATURE'),
-    PRESSURE: unitTypes[activity.workup['add_sample_pressure_unit']] ||
-      ConditionTypeDecorator.defaultUnitType('PRESSURE'),
-    VELOCITY: unitTypes[activity.workup['add_sample_velocity_unit']] ||
-      ConditionTypeDecorator.defaultUnitType('VELOCITY'),
-  }
-
-  // This is tedious. We set workup to default units, but the first rendering happens before useEffect,
-  // thus NumericalInput will raise an exception when using a undefined workup.add_sample_[…]_unit
-  // Therefore we also set currentAddSampleUnitType and thereby reinvent the fallback to default.
-  useEffect(() => {
-    activity.workup['add_sample_temperature_unit'] ||
-      onWorkupChange({
-        name: 'add_sample_temperature_unit',
-        value: ConditionTypeDecorator.defaultUnit('TEMPERATURE')
-      })
-    activity.workup['add_sample_pressure_unit'] ||
-      onWorkupChange({
-        name: 'add_sample_pressure_unit',
-        value: ConditionTypeDecorator.defaultUnit('PRESSURE')
-      })
-
-    activity.workup['add_sample_velocity_unit']
-      || onWorkupChange({
-        name: 'add_sample_velocity_unit',
-        value: ConditionTypeDecorator.defaultUnit('VELOCITY')
-      })
-    return () => {
-    }
-  })
 
   const handleSampleChange = ({ sampleId, label }) => {
-    // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
+    // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord
+    // models (Solvent, DiverseSolvent). So we also compare the label.
     const newSample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
-    if(newSample) {
+    if (newSample) {
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
       onWorkupChange({ name: 'sample_name', value: newSample.label })
@@ -76,6 +54,30 @@ const AddSampleForm = (
     onWorkupChange({ name: name, value: value })
   }
 
+  const renderConditionInputs = () => {
+    return conditionInputs.map(([conditionTypeName, workupKey]) => {
+      // Seriously, Javascript? We need to go a long way to avoid fallback to default when value === 0 (aka "false").
+      let value = activity.workup[workupKey + '_value']
+      value = value !== undefined ? value : preconditions[conditionTypeName]?.value
+      value = value !== undefined ? value : ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName)
+
+      const unitType = unitTypes[activity.workup[workupKey + '_unit']] ||
+        unitTypes[preconditions[conditionTypeName]?.unit] ||
+        ConditionTypeDecorator.defaultUnitType(conditionTypeName)
+
+      return (
+        <>
+          <NumericalInputWithUnit
+            label={ConditionTypeDecorator.label(conditionTypeName)}
+            value={value}
+            unitType={unitType}
+            onChange={handleValueChange(workupKey + '_value')}
+          />
+        </>
+      )
+    })
+  }
+
   return (
     <>
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
@@ -86,7 +88,7 @@ const AddSampleForm = (
             name="sample_id"
             options={currentSampleOptions}
             value={sample}
-            onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
+            onChange={selected => handleSampleChange({ sampleId: selected.value, label: selected.label })}
           />
         </SingleLineFormGroup>
         <AmountInputSet
@@ -98,24 +100,7 @@ const AddSampleForm = (
         />
       </FormSection>
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
-        <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('VELOCITY')}
-          value={activity.workup['add_sample_velocity_value']}
-          unitType={currentAddSampleUnitType['VELOCITY']}
-          onChange={handleValueChange('add_sample_velocity_value')}
-        />
-        <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('TEMPERATURE')}
-          value={activity.workup['add_sample_temperature_value']}
-          unitType={currentAddSampleUnitType['TEMPERATURE']}
-          onChange={handleValueChange('add_sample_temperature_value')}
-        />
-        <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('PRESSURE')}
-          value={activity.workup['add_sample_pressure_value']}
-          unitType={currentAddSampleUnitType['PRESSURE']}
-          onChange={handleValueChange('add_sample_pressure_value')}
-        />
+        {renderConditionInputs()}
         {currentSampleActsAs === 'SOLVENT' &&
           <FormGroup check className='mb-3'>
             <Label check>

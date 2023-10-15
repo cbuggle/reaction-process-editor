@@ -12,7 +12,7 @@ const ActivityInfo = (
     preconditions
   }) => {
   const infoLines = []
-  let infoImage = undefined
+  let imageSample
   let infoTitle
   const workup = action.workup
 
@@ -20,7 +20,7 @@ const ActivityInfo = (
     switch (action.action_name) {
       case 'ADD':
         if (workup.acts_as === 'SAMPLE') {
-          infoImage = action.sample
+          imageSample = action.sample
         }
         infoTitle = ConditionTypeDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit)
         infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
@@ -85,7 +85,7 @@ const ActivityInfo = (
 
     return (
       <>
-        {infoImage && SamplesDecorator.sampleSvgImg(infoImage)}
+        {SamplesDecorator.sampleSvgImg(imageSample)}
         {(workup.description || infoTitle.length > 0 || infoLines.length > 0) &&
           <div className='activity-info__text-block'>
             {infoTitle.length > 0 &&
