@@ -4,6 +4,8 @@ import Select from 'react-select'
 
 import FormButtons from "../utilities/FormButtons";
 
+import SamplesDecorator from '../../decorators/SamplesDecorator';
+
 import { samplePreparationOptions } from '../../constants/samplePreparationTypes';
 
 const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) => {
@@ -46,6 +48,7 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           value={sampleOptions.filter(option => (option.value === preparationForm.sample_id))}
           onChange={selectedOption => onInputChange({ name: 'sample_id', value: selectedOption.value })}
         />
+        {SamplesDecorator.sampleSvgImg(sampleOptions.find(option => (option.value === preparationForm.sample_id)))}
         <FormFeedback>
           Please select a sample!
         </FormFeedback>
