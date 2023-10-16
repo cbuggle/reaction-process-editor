@@ -10,11 +10,12 @@ export default class ActivityDecorator {
     return str.join(' ');
   }
 
-  static title = (actionName, workup) => {
-    let title = actionName
+  static cardTitle = (activity) => {
+    let title = activity.action_name
+    const workup = activity.workup
 
     if (workup && !!Object.keys(workup).length) {
-      switch (actionName) {
+      switch (activity.action_name) {
         case 'PURIFY':
           title = workup.purify_type
           break

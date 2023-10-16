@@ -9,7 +9,7 @@ const ReactionConditionsFormButton = (
   {
     preconditions,
     defaultConditions,
-    conditionEquipmentOptions
+    conditionTypesEquipmentOptions
   }) => {
 
   const [showModal, setShowModal] = useState(false)
@@ -30,7 +30,7 @@ const ReactionConditionsFormButton = (
       <DefaultConditionsFormModal
         preconditions={preconditions}
         defaultConditions={defaultConditions}
-        conditionEquipmentOptions={conditionEquipmentOptions}
+        conditionTypesEquipmentOptions={conditionTypesEquipmentOptions}
         scope='Reaction'
         onToggleModal={toggleModal}
         isOpen={showModal}

@@ -13,7 +13,7 @@ const DefaultConditionsForm = (
   {
     defaultConditions,
     preconditions,
-    conditionEquipmentOptions,
+    conditionTypesEquipmentOptions,
     closeForm,
     scope,
     typeColor
@@ -63,7 +63,7 @@ const DefaultConditionsForm = (
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}
-            equipmentOptions={conditionEquipmentOptions[conditionTypeName]}
+            equipmentOptions={conditionTypesEquipmentOptions[conditionTypeName]}
             preCondition={preconditions[conditionTypeName]}
             workup={defaultConditionsForm}
             openSubFormLabel={openSubFormLabel}

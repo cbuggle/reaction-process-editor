@@ -3,15 +3,13 @@ import { UncontrolledTooltip } from 'reactstrap'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
-import { samplePreparationTypes } from '../../constants/samplePreparationTypes'
-
 const PreparationInfo = ({ preparation, preparationOptions }) => {
 
   const api = useReactionsFetcher()
 
   const renderPreparationsInfo = () => {
-    return (preparation.preparations.map((preparation) => {
-      return samplePreparationTypes[preparation]
+    return (preparation.preparations.map((preparationType) => {
+      return preparationOptions.preparation_types.find(option => option.value === preparationType).label
     }))
   }
 

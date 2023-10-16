@@ -34,7 +34,7 @@ const ActivityCard = (
 
   const cardTitle =
     (activityForm && !!activityForm.action_name) ?
-      ActivityDecorator.title(activityForm.action_name, workup)
+      ActivityDecorator.cardTitle(activityForm)
       :
       uninitialisedTitle
 
@@ -132,7 +132,7 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            conditionEquipmentOptions={processStep['action_type_equipment_options']['CONDITION']}
+            conditionTypesEquipmentOptions={processStep['action_type_equipment_options']['CONDITION']}
             preconditions={preconditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}

@@ -5,7 +5,6 @@ import NumericalInputWithUnit from "./NumericalInputWithUnit";
 
 import AmountDecorator from "../../decorators/AmountDecorator";
 import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
-import SamplesDecorator from "../../decorators/SamplesDecorator";
 
 const AmountInputSet = (
   {
@@ -49,7 +48,6 @@ const AmountInputSet = (
 
   return (
     <>
-      {SamplesDecorator.availableAmountsInfoLine(maxAmounts)}
       {
         AmountDecorator.validMeasurementTypes.map((itemMeasurementType) => (
           <AmountInput

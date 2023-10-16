@@ -6,22 +6,20 @@ import FormButtons from "../utilities/FormButtons";
 
 import SamplesDecorator from '../../decorators/SamplesDecorator';
 
-import { samplePreparationOptions } from '../../constants/samplePreparationTypes';
-
 const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) => {
 
-  const [preparationForm, updatePreparationForm] = useState(preparation || {details: ''})
+  const [preparationForm, updatePreparationForm] = useState(preparation || { details: '' })
   const [formIncomplete, setFormIncomplete] = useState(false)
 
-
   const sampleOptions = preparation ? preparationOptions.prepared_samples : preparationOptions.unprepared_samples
+  const samplePreparationOptions = preparationOptions.preparation_types
 
   const onInputChange = (field) => {
     const { name, value } = field;
     updatePreparationForm(prevState => ({
       ...prevState, [name]: value
     }));
-    if(formIncomplete && name === 'sample_id') {
+    if (formIncomplete && name === 'sample_id') {
       setFormIncomplete(!value)
     }
   }

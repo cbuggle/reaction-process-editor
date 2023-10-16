@@ -37,7 +37,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
           <ReactionConditionsFormButton
             defaultConditions={reactionProcess.reaction_default_conditions}
             preconditions={reactionProcess.user_default_conditions}
-            conditionEquipmentOptions={reactionProcess.conditions_equipment_options}
+            conditionTypesEquipmentOptions={reactionProcess.select_options.condition_types_equipment}
           />
           <ProvenanceFormButton provenance={reactionProcess.provenance} />
           <OrdDownloadButton reactionProcessId={reactionProcess.id} />

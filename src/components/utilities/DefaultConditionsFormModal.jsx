@@ -8,7 +8,7 @@ const DefaultConditionsFormModal = (
   {
     preconditions,
     defaultConditions,
-    conditionEquipmentOptions,
+    conditionTypesEquipmentOptions,
     onToggleModal,
     isOpen,
     scope
@@ -29,7 +29,7 @@ const DefaultConditionsFormModal = (
         <DefaultConditionsForm
           defaultConditions={defaultConditions}
           preconditions={preconditions}
-          conditionEquipmentOptions={conditionEquipmentOptions}
+          conditionTypesEquipmentOptions={conditionTypesEquipmentOptions}
           closeForm={onToggleModal}
           typeColor={typeColor}
           scope={scope}

@@ -22,7 +22,7 @@ const MainHeader = () => {
   const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
-  const [conditionEquipmentOptions, setConditionEquipmentOptions] = useState([])
+  const [conditionTypesEquipmentOptions, setConditionTypesEquipmentOptions] = useState([])
   const [userDefaultConditions, setUserDefaultConditions] = useState([])
   const [globalDefaultConditions, setGlobalDefaultConditions] = useState([])
 
@@ -89,7 +89,7 @@ const MainHeader = () => {
     reactionApi.geDefaultConditions().then((default_conditions) => {
       setGlobalDefaultConditions(default_conditions['global'])
       setUserDefaultConditions(default_conditions['user'])
-      setConditionEquipmentOptions(default_conditions['conditions_equipment_options'])
+      setConditionTypesEquipmentOptions(default_conditions['conditions_equipment_options'])
     })
   }
 
@@ -133,7 +133,7 @@ const MainHeader = () => {
             <UserMenu
               defaultConditions={userDefaultConditions}
               preconditions={globalDefaultConditions}
-              conditionEquipmentOptions={conditionEquipmentOptions}
+              conditionTypesEquipmentOptions={conditionTypesEquipmentOptions}
             />
           </Nav>
         </>
