@@ -97,8 +97,13 @@ const AddSampleForm = (
             value={sample}
             onChange={selected => handleSampleChange({ sampleId: selected.value, label: selected.label })}
           />
-          {SamplesDecorator.sampleSvgImg(sample)}
         </SingleLineFormGroup>
+
+        <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(sample)}>
+          {sample && SamplesDecorator.availableAmountsInfoLine(sample['unit_amounts'])}
+
+        </SingleLineFormGroup>
+
         <AmountInputSet
           amount={activity.workup['target_amount_value']}
           maxAmounts={AmountDecorator.sampleHasMaxAmounts(sample) ? sample['unit_amounts'] : undefined}
@@ -106,7 +111,7 @@ const AddSampleForm = (
           onChangeAmount={handleValueChange('target_amount_value')}
           onChangeUnit={handleValueChange('target_amount_unit')}
         />
-      </FormSection>
+      </FormSection >
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
         <SingleLineFormGroup label='Addition'>
           <Select
