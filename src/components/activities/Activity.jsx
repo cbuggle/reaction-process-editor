@@ -62,7 +62,7 @@ const Activity = ({ activity, processStep }) => {
         activity={activity}
         type={type}
         onSave={onSave}
-        preconditions={activity.pre_conditions}
+        preconditions={activity.preconditions}
         processStep={processStep}
         dragRef={dragRef}
       />
@@ -84,7 +84,7 @@ const Activity = ({ activity, processStep }) => {
       <InsertZone
         state={insertZoneState()}
         processStep={processStep}
-        preconditions={activity.pre_conditions}
+        preconditions={activity.preconditions}
         insertNewBeforeIndex={activity.position}
       />
       <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : {}}>

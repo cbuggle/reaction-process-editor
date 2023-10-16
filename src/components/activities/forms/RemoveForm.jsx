@@ -13,14 +13,14 @@ import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 const RemoveForm = (
   {
     activity,
-    processStep,
+    removableMaterialsOptions,
     openSubFormLabel,
     onWorkupChange
   }) => {
 
-  const mediumSelectOptions = processStep.removable_materials_options['MEDIUM'].concat([{ value: "", label: "Undefined" }])
-  const additivesSelectOptions = processStep.removable_materials_options['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
-  const diverseSolventsSelectOptions = processStep.removable_materials_options['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
+  const mediumSelectOptions = removableMaterialsOptions['MEDIUM'].concat([{ value: "", label: "Undefined" }])
+  const additivesSelectOptions = removableMaterialsOptions['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
+  const diverseSolventsSelectOptions = removableMaterialsOptions['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
 
   const currentSampleIdValue = activity.workup['sample_id'];
 

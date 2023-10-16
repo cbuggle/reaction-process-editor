@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
 import AmountInputSet from "../../utilities/AmountInputSet";
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import { unitTypes } from '../../../constants/conditionTypes';
 import AmountDecorator from "../../../decorators/AmountDecorator";
+import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+import SamplesDecorator from '../../../decorators/SamplesDecorator';
+
+import { unitTypes } from '../../../constants/conditionTypes';
 
 const AddSampleForm = (
   {
     activity,
     preconditions,
-    processStep,
     openSubFormLabel,
+    materialsOptions,
+    additionSpeedTypeOptions,
     onWorkupChange
   }) => {
 
@@ -27,16 +30,19 @@ const AddSampleForm = (
     ['PRESSURE', 'add_sample_pressure']
   ]
 
-  // 'DIVERSE_SOLVENT' need to be included as 'SOLVENT' for UI selects, as requested by NJung.
+  // 'DIVERSE_SOLVENT' shall be categorized as 'SOLVENT' in AddSample, requested by NJung.
   const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
-  const currentSampleOptions = processStep.materials_options[currentSampleActsAs]
+  const currentSampleOptions = materialsOptions[currentSampleActsAs]
   const [sample, setSample] = useState(currentSampleOptions.find(sample =>
     sample.value === activity.workup['sample_id'] &&
     sample.label === activity.workup['sample_name']))
 
+  const currentAdditionSpeedType = additionSpeedTypeOptions.find((option) =>
+    option.value === activity.workup['addition_speed_type']) || additionSpeedTypeOptions[2]
+
 
   const handleSampleChange = ({ sampleId, label }) => {
-    // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord
+    // We have a risk of collisions on sampleID alone as we are coping with 2 different ActiveRecord
     // models (Solvent, DiverseSolvent). So we also compare the label.
     const newSample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
     if (newSample) {
@@ -51,6 +57,7 @@ const AddSampleForm = (
   }
 
   const handleValueChange = (name) => (value) => {
+    console.log(name, value)
     onWorkupChange({ name: name, value: value })
   }
 
@@ -90,6 +97,7 @@ const AddSampleForm = (
             value={sample}
             onChange={selected => handleSampleChange({ sampleId: selected.value, label: selected.label })}
           />
+          {SamplesDecorator.sampleSvgImg(sample)}
         </SingleLineFormGroup>
         <AmountInputSet
           amount={activity.workup['target_amount_value']}
@@ -100,6 +108,17 @@ const AddSampleForm = (
         />
       </FormSection>
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+        <SingleLineFormGroup label='Addition'>
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="addition_speed_type"
+            options={additionSpeedTypeOptions}
+            value={currentAdditionSpeedType}
+            onChange={selected => handleValueChange('addition_speed_type')(selected.value)}
+          />
+        </SingleLineFormGroup>
+
         {renderConditionInputs()}
         {currentSampleActsAs === 'SOLVENT' &&
           <FormGroup check className='mb-3'>

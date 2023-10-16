@@ -37,8 +37,9 @@ const ActionForm = (
             <AddSampleForm
               activity={activity}
               preconditions={preconditions}
-              processStep={processStep}
               openSubFormLabel={openSubFormLabel}
+              materialsOptions={processStep.materials_options}
+              additionSpeedTypeOptions={processStep.addition_speed_type_options}
               onWorkupChange={onWorkupChange}
             />
             <FormSection type='action' openSubFormLabel={openSubFormLabel}>
@@ -81,7 +82,7 @@ const ActionForm = (
           <>
             <RemoveForm
               activity={activity}
-              processStep={processStep}
+              removableMaterialsOptions={processStep.removable_materials_options}
               openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
@@ -126,7 +127,7 @@ const ActionForm = (
       case "WAIT":
         return (<></>)
       default:
-        return (<div>Error in Sample Form: Unknown ACTION TYPE: {actionTypeName} ***</div>)
+        return (<div>Error in ActionForm: Unknown ACTION TYPE: {actionTypeName} ***</div>)
     }
   }
 
