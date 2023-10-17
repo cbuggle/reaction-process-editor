@@ -1,19 +1,14 @@
 import { timeMeasurements } from "../constants/timeMeasurements";
 export default class TimeDecorator {
   static hourBasedTimespan = (duration) => {
-    const timeObject = {}
-    timeObject.hours = Math.floor(duration / timeMeasurements.msInHour)
-    timeObject.minutes = Math.floor(
-      (duration % timeMeasurements.msInHour) / timeMeasurements.msInMinute
-    )
-    timeObject.seconds = Math.floor(
-      (duration % timeMeasurements.msInMinute) / timeMeasurements.msInSecond
-    )
-    timeObject.milliSeconds = Math.floor(
-      (duration % timeMeasurements.msInSecond)
-    )
-    return (timeObject)
+    return {
+      hours: Math.floor(duration / timeMeasurements.msInHour),
+      minutes: Math.floor((duration % timeMeasurements.msInHour) / timeMeasurements.msInMinute),
+      seconds: Math.floor((duration % timeMeasurements.msInMinute) / timeMeasurements.msInSecond),
+      milliSeconds: Math.floor((duration % timeMeasurements.msInSecond))
+    }
   }
+
   static calculateDuration = (timeObject) => {
     return (
       timeObject.hours * timeMeasurements.msInHour +
@@ -21,6 +16,7 @@ export default class TimeDecorator {
       timeObject.seconds * timeMeasurements.msInSecond
     )
   }
+
   static timeString = (duration) => {
     let timeObject = TimeDecorator.hourBasedTimespan(duration)
     let timeString = timeObject.seconds + 's'
@@ -60,7 +56,7 @@ export default class TimeDecorator {
           TimeDecorator.daytime(workup.ends_at) +
           ')'
         )
-      } else { 
+      } else {
         return durationString;
 
       }

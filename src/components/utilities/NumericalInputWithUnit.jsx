@@ -6,7 +6,7 @@ import NumericalInput from './NumericalInput';
 
 const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, step, isMultiLine }) => {
 
-  const inputRange = unitType.inputRange
+  const inputRange = unitType?.inputRange || {}
   const stepSize = step ? step : inputRange.step
 
   const renderInput = () => {
@@ -34,7 +34,7 @@ const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, st
           {renderInput()}
         </div>
         <Label className='numerical-input-with-unit__unit'>
-          {unitType.label}
+          {unitType?.label}
         </Label>
       </div> :
       <SingleLineFormGroup label={label}>
@@ -43,7 +43,7 @@ const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, st
             {renderInput()}
           </Col>
           <Label className='col-7 col-form-label'>
-            {unitType.label}
+            {unitType?.label}
           </Label>
         </Row>
       </SingleLineFormGroup>

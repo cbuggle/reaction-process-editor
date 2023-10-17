@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
@@ -30,6 +30,25 @@ const AddSampleForm = (
     ['PRESSURE', 'add_sample_pressure']
   ]
 
+  useEffect(() => {
+    conditionInputs.forEach(([conditionTypeName, workupKey]) => {
+      const unit = activity.workup[workupKey + '_unit'] ||
+        preconditions[conditionTypeName]?.unit ||
+        ConditionTypeDecorator.defaultUnit(conditionTypeName)
+
+      let value = activity.workup[workupKey + '_value']
+      // Seriously, Javascript? We need to go a long way to avoid fallback to default when a value === 0 (aka "false").
+      value = value === 0 ? 0 : value || preconditions[conditionTypeName]?.value
+      value = value === 0 ? 0 : value || ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName)
+
+      activity.workup[workupKey + '_unit'] ||
+        onWorkupChange({ name: workupKey + '_unit', value: unit })
+
+      activity.workup[workupKey + '_value'] ||
+        onWorkupChange({ name: workupKey + '_value', value: value })
+    })
+  }, [])
+
   // 'DIVERSE_SOLVENT' shall be categorized as 'SOLVENT' in AddSample, requested by NJung.
   const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
   const currentSampleOptions = materialsOptions[currentSampleActsAs]
@@ -37,9 +56,11 @@ const AddSampleForm = (
     sample.value === activity.workup['sample_id'] &&
     sample.label === activity.workup['sample_name']))
 
-  const currentAdditionSpeedType = additionSpeedTypeOptions.find((option) =>
-    option.value === activity.workup['addition_speed_type']) || additionSpeedTypeOptions[2]
-
+  const currentAdditionSpeedType =
+    // TODO: additionSpeedTypeOptions come weirdly ordered (differing from ORD constant definition, changing over time)
+    // The default [0] seems to change over time?!? Why? Fix?
+    additionSpeedTypeOptions.find((option) => option.value === activity.workup['addition_speed_type'])
+    || additionSpeedTypeOptions[0]
 
   const handleSampleChange = ({ sampleId, label }) => {
     // We have a risk of collisions on sampleID alone as we are coping with 2 different ActiveRecord
@@ -49,10 +70,13 @@ const AddSampleForm = (
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
       onWorkupChange({ name: 'sample_name', value: newSample.label })
-      onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
-      onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
-      onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
+
+      // We want to retain current amounts in workup when selected Sample has unspecified amount (Additives, Solvents …)
+      newSample.amount && onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
+      newSample.amount && onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
+      newSample.amount && onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
     }
+
     setSample(newSample)
   }
 
@@ -63,21 +87,12 @@ const AddSampleForm = (
 
   const renderConditionInputs = () => {
     return conditionInputs.map(([conditionTypeName, workupKey]) => {
-      // Seriously, Javascript? We need to go a long way to avoid fallback to default when value === 0 (aka "false").
-      let value = activity.workup[workupKey + '_value']
-      value = value !== undefined ? value : preconditions[conditionTypeName]?.value
-      value = value !== undefined ? value : ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName)
-
-      const unitType = unitTypes[activity.workup[workupKey + '_unit']] ||
-        unitTypes[preconditions[conditionTypeName]?.unit] ||
-        ConditionTypeDecorator.defaultUnitType(conditionTypeName)
-
       return (
         <>
           <NumericalInputWithUnit
             label={ConditionTypeDecorator.label(conditionTypeName)}
-            value={value}
-            unitType={unitType}
+            value={activity.workup[workupKey + '_value']}
+            unitType={unitTypes[activity.workup[workupKey + '_unit']]}
             onChange={handleValueChange(workupKey + '_value')}
           />
         </>

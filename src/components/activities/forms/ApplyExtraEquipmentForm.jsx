@@ -26,7 +26,7 @@ const ApplyExtraEquipmentForm = (
         <FormGroup check className='mb-3'>
           <Label check>
             <Input type="checkbox" checked={applyExtraEquipment} onChange={handleCheckbox} />
-            Apply Extra Equipment
+             Extra Equipment
           </Label>
         </FormGroup>
       }
