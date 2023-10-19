@@ -6,12 +6,10 @@ import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorato
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../OptionalFormSet";
 
-import { conditionAdditionalInformationOptions } from "../../../../constants/dropdownOptions/conditionsOptions";
-
-
 const GenericConditionSubForm = (
   {
     conditionTypeName,
+    equipmentOptions,
     valueSummary,
     openSubFormLabel,
     children,
@@ -47,11 +45,8 @@ const GenericConditionSubForm = (
   const [powerEndValue, setPowerEndValue] = useState(initialPowerEndValue())
   const [additionalInformation, setAdditionalInformation] = useState(initialAdditionalInformation())
 
-  const currentAdditionalInformationOptions = useMemo(() => { return conditionAdditionalInformationOptions[conditionTypeName] }, [conditionTypeName])
-  const currentSelectedAdditionalInformationOption = useMemo(
-    () => { return currentAdditionalInformationOptions.find(option => option.value === additionalInformation) },
-    [currentAdditionalInformationOptions, additionalInformation]
-  )
+  const currentSelectedAdditionalInformationOption = equipmentOptions.find(option =>
+    option.value === additionalInformation)
 
   const resetFormData = () => {
     setValue(initialValue())
@@ -93,7 +88,7 @@ const GenericConditionSubForm = (
 
   const renderAdditionalInformationSelect = () => {
     return (
-      currentAdditionalInformationOptions.length > 0 ?
+      equipmentOptions.length > 0 ?
         <>
           <Label>
             Additional Information
@@ -102,7 +97,7 @@ const GenericConditionSubForm = (
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="additional_information"
-            options={currentAdditionalInformationOptions}
+            options={equipmentOptions}
             value={currentSelectedAdditionalInformationOption}
             onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
           />
@@ -158,7 +153,7 @@ const GenericConditionSubForm = (
           {renderPowerForm()}
         </FormGroup>
       }
-      {currentAdditionalInformationOptions.length > 0 &&
+      {equipmentOptions.length > 0 &&
         <FormGroup>
           {renderAdditionalInformationSelect()}
         </FormGroup>

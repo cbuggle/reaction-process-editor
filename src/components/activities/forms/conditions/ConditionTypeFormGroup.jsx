@@ -86,6 +86,7 @@ const ConditionTypeFormGroup = (
       {['EQUIPMENT', 'MOTION'].includes(conditionTypeName) ||
         <GenericConditionSubForm
           conditionTypeName={conditionTypeName}
+          equipmentOptions={equipmentOptions}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}

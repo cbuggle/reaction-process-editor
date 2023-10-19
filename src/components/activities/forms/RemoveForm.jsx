@@ -119,9 +119,9 @@ const RemoveForm = (
         <SingleLineFormGroup label='Replacement Medium'>
           <Input
             type="textarea"
-            value={activity.workup['remove_replacement_medium']}
+            value={activity.workup['replacement_medium']}
             placeholder="Replacement Medium"
-            onChange={event => onWorkupChange({ name: 'remove_replacement_medium', value: event.target.value })}
+            onChange={event => onWorkupChange({ name: 'replacement_medium', value: event.target.value })}
           />
         </SingleLineFormGroup>
       </>

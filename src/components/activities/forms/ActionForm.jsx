@@ -26,7 +26,7 @@ const ActionForm = (
   const equipmentOptions = processStep.action_type_equipment_options[actionTypeName]
 
   const setEquipment = (equipment) => {
-    onWorkupChange({ name: 'equipment', value: equipment })
+    onWorkupChange({ name: 'EQUIPMENT', value: equipment })
   }
 
   const customActionForm = () => {

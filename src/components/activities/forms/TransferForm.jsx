@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Select from 'react-select'
 
 import AmountInputSet from '../../utilities/AmountInputSet';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import SamplesDecorator from '../../../decorators/SamplesDecorator';
 
 const TransferForm = (
   {
@@ -11,11 +10,6 @@ const TransferForm = (
     processStep,
     onWorkupChange
   }) => {
-
-  useEffect(() => {
-    onWorkupChange({ name: 'transfer_source_step_id', value: processStep.id })
-    // eslint-disable-next-line
-  }, [processStep])
 
   const sampleOptions = processStep.transfer_sample_options
   const transferToOptions = processStep.transfer_to_options

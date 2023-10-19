@@ -9,8 +9,7 @@ export const motionTypeOptions = [{
   value: 'NONE'
 }, {
   label: 'Stir',
-  value: 'STIR_BAR',
-  step: 100
+  value: 'STIR_BAR'
 }, {
   label: 'Overhead Mixer',
   value: 'OVERHEAD_MIXER'
