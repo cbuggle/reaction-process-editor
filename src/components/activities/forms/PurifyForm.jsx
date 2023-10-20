@@ -5,18 +5,21 @@ import Select from 'react-select'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import { purifyAutomationModeOptions } from '../../../constants/dropdownOptions/purifyOptions'
 import FormSection from "../../utilities/FormSection";
+
+import { SelectOptions } from '../../views/Reaction';
+import { useContext } from 'react';
 
 const PurifyForm = (
   {
     activity,
-    processStep,
     openSubFormLabel,
     onWorkupChange
   }) => {
 
-  const purifySolventOptions = processStep.materials_options['SOLVENT']
+  const selectOptions = useContext(SelectOptions)
+
+  const purifySolventOptions = selectOptions.materials['SOLVENT']
   const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
   const filtrationModeKeepRetentate = activity.workup['filtration_mode'] === 'KEEP_RETENTATE'
 
@@ -54,9 +57,9 @@ const PurifyForm = (
         <Select
           className="react-select--overwrite"
           classNamePrefix="react-select"
-          name="purify_automation"
-          options={purifyAutomationModeOptions}
-          value={purifyAutomationModeOptions.find(option => option.value === activity.workup['purify_automation'])}
+          name="automation_mode"
+          options={selectOptions.automation_modes}
+          value={selectOptions.automation_modes.find(option => option.value === activity.workup['purify_automation'])}
           onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
         />
       </FormGroup>

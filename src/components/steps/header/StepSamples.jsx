@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import MediumBox from './MediumBox'
 import SampleBox from './SampleBox'
 import SolventBox from './SolventBox'
 
-const StepSamples = ({ processStep }) => {
+import { StepSelectOptions } from '../StepColumnCard'
+
+const StepSamples = () => {
+
+  const stepSelectOptions = useContext(StepSelectOptions)
 
   const renderSampleBox = (material) => {
     switch (material.acts_as) {
@@ -22,7 +26,7 @@ const StepSamples = ({ processStep }) => {
   return (
     <>
       {
-        processStep.added_materials_options.map((material) => {
+        stepSelectOptions.added_materials.map((material) => {
           return renderSampleBox(material)
         })
       }

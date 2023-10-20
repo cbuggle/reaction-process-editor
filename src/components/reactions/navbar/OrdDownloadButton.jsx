@@ -23,7 +23,7 @@ const OrdDownloadButton = ({ reactionProcessId }) => {
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
         });
-    })
+    }).catch(console.log("CATCH DOWNLOAD ORD ERROR"))
   }
 
   return (

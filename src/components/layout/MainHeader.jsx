@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import {
   Navbar,
   NavbarBrand,
@@ -11,18 +11,21 @@ import {
 
 import { Link, useLocation } from "react-router-dom";
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import UserMenu from "./UserMenu";
 
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+
+export const MainHeaderSelectOptions = createContext()
 
 const MainHeader = () => {
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
 
+
   const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
-  const [conditionTypesEquipmentOptions, setConditionTypesEquipmentOptions] = useState([])
+  const [actionTypeEquipmentOptions, setActionTypeEquipmentOptions] = useState([])
   const [userDefaultConditions, setUserDefaultConditions] = useState([])
   const [globalDefaultConditions, setGlobalDefaultConditions] = useState([])
 
@@ -89,7 +92,7 @@ const MainHeader = () => {
     reactionApi.geDefaultConditions().then((default_conditions) => {
       setGlobalDefaultConditions(default_conditions['global'])
       setUserDefaultConditions(default_conditions['user'])
-      setConditionTypesEquipmentOptions(default_conditions['conditions_equipment_options'])
+      setActionTypeEquipmentOptions(default_conditions['default_conditions_form_options'])
     })
   }
 
@@ -130,11 +133,13 @@ const MainHeader = () => {
             </UncontrolledDropdown>
           </Nav>
           <Nav navbar className="justify-content-end align-items-center">
-            <UserMenu
-              defaultConditions={userDefaultConditions}
-              preconditions={globalDefaultConditions}
-              conditionTypesEquipmentOptions={conditionTypesEquipmentOptions}
-            />
+            <MainHeaderSelectOptions.Provider value={actionTypeEquipmentOptions}>
+              <UserMenu
+                defaultConditions={userDefaultConditions}
+                preconditions={globalDefaultConditions}
+
+              />
+            </MainHeaderSelectOptions.Provider>
           </Nav>
         </>
       }

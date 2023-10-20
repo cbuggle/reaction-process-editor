@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { toast } from 'react-toastify';
 
-import { apiBasePath, afterSignOutPath } from "../constants";
+import { apiBasePath, afterSignOutPath, toastAutoCloseOnError } from "../constants";
 
 export { useRequestWrapper };
 
@@ -35,8 +35,9 @@ function useRequestWrapper() {
   function handleRequestFailure() {
     localStorage.removeItem('username');
     localStorage.removeItem('bearer_auth_token');
-    toast.error("Network connection to Backend failed. Is the ELN server running and reachable?")
+    toast.error("Network connection to Backend failed. Is the ELN server running and reachable?",
+      { autoClose: toastAutoCloseOnError })
     navigate(afterSignOutPath)
-    return ;
+    return;
   }
 }

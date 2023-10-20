@@ -8,7 +8,6 @@ const UserMenu = (
   {
     preconditions,
     defaultConditions,
-    conditionTypesEquipmentOptions
   }) => {
 
   const api = useAuthenticationFetcher()
@@ -20,7 +19,6 @@ const UserMenu = (
       <DefaultConditionsFormModal
         preconditions={preconditions}
         defaultConditions={defaultConditions}
-        conditionTypesEquipmentOptions={conditionTypesEquipmentOptions}
         scope='User'
         onToggleModal={toggleModal}
         isOpen={showModal}

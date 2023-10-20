@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React  from 'react'
 
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
@@ -8,7 +8,6 @@ const DefaultConditionsFormModal = (
   {
     preconditions,
     defaultConditions,
-    conditionTypesEquipmentOptions,
     onToggleModal,
     isOpen,
     scope
@@ -29,7 +28,6 @@ const DefaultConditionsFormModal = (
         <DefaultConditionsForm
           defaultConditions={defaultConditions}
           preconditions={preconditions}
-          conditionTypesEquipmentOptions={conditionTypesEquipmentOptions}
           closeForm={onToggleModal}
           typeColor={typeColor}
           scope={scope}

@@ -1,11 +1,15 @@
 
-import React from 'react'
+import React, { useContext } from 'react'
 import EquipmentBox from './EquipmentBox'
 
-const StepEquipments = ({ processStep }) => {
+import { StepSelectOptions } from '../StepColumnCard'
+
+const StepEquipments = () => {
+
+  const stepSelectOptions = useContext(StepSelectOptions)
   return (
     <>
-      {processStep.mounted_equipment_options.map((equipment) => {
+      {stepSelectOptions.mounted_equipment.map((equipment) => {
         return <EquipmentBox key={equipment.label} equipment={equipment} />
       })}
     </>

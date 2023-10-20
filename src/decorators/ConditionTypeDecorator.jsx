@@ -22,8 +22,9 @@ export default class ConditionTypeDecorator {
   static defaultValueForUnitType = (unitType) => unitType.inputRange.default
 
   static infoLineValueWithUnit(value, unit) {
-    // toPrecision() removes float artefacts, dividing by 1 removes trailing `0` (essentially equalling parseFloat)
-    value = parseFloat(value).toPrecision(12) / 1
-    return value + ' ' + this.unitLabel(unit)
+    if (value > 0) {
+      value = parseFloat(value).toPrecision(12) / 1
+      return value + ' ' + this.unitLabel(unit)
+    }
   }
 }

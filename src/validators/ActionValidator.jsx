@@ -17,22 +17,14 @@ export default class ActionValidator {
     return errors
   }
 
-  static validateRemove = (action) => {
+  static validateRemove = () => {
     let errors = []
     // currently no mandatory fields; sample_id is optional! cbuggle, 07.11.2021.
     return errors
   }
 
-  static validateExtraEquipment = (action) => {
-    if (action.workup['apply_extra_equipment'] && !action.workup['equipment']) {
-      return ["Please choose the extra Equipment to apply."]
-    } else {
-      return []
-    }
-  }
-
   static displayNotifications = (errors) => {
-    errors.forEach(error => toast.warning(error, { autoClose: toastAutoCloseOnWarning }))
+    errors.forEach(error => toast.warning(error, { toastId: 2, autoClose: toastAutoCloseOnWarning }))
   }
 
   static validate = (action) => {
@@ -52,7 +44,6 @@ export default class ActionValidator {
         break;
     }
 
-    errors = errors.concat(this.validateExtraEquipment(action))
     this.displayNotifications(errors)
 
     return errors.length === 0

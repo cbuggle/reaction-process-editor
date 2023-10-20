@@ -1,4 +1,3 @@
-import { motionTypeOptions, motionModeOptions } from '../constants/dropdownOptions/motionOptions';
 import ConditionTypeDecorator from './ConditionTypeDecorator';
 export default class ActivityDecorator {
 
@@ -47,9 +46,11 @@ export default class ActivityDecorator {
     return this.toTitleCase(title)
   }
 
-  static conditionInfo = (type, conditionWorkup, equipmentOptions, precondition) => {
+  static conditionInfo = (conditionTypeName, conditionWorkup, selectOptions, precondition) => {
+    const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][conditionTypeName]
+
     let info
-    if (type === 'EQUIPMENT') {
+    if (conditionTypeName === 'EQUIPMENT') {
       info = this.infoLineEquipment(conditionWorkup.value, equipmentOptions)
     } else {
       info = ConditionTypeDecorator.infoLineValueWithUnit(conditionWorkup.value, conditionWorkup.unit)
@@ -61,18 +62,18 @@ export default class ActivityDecorator {
         info += ' (' + valueDiff + ')'
       }
     }
-    if (type === 'MOTION') {
+    if (conditionTypeName === 'MOTION') {
       info = [
         info,
-        motionTypeOptions.find(option => option.value === conditionWorkup.motion_type).label,
-        motionModeOptions.find(option => option.value === conditionWorkup.motion_mode).label
+        selectOptions.motion_types.find(option => option.value === conditionWorkup.motion_type).label,
+        selectOptions.automation_modes.find(option => option.value === conditionWorkup.motion_mode).label
       ].toString()
     }
     return info;
   }
 
-  static infoLineEquipment = (equipments, equipmentOptions) => {
-    return equipments && equipments.map((equipmentValue) => {
+  static infoLineEquipment = (equipment, equipmentOptions) => {
+    return equipment && equipment.map((equipmentValue) => {
       let matchingOption = equipmentOptions.find((option) => option.value === equipmentValue)
       return matchingOption ? matchingOption.label : ''
     }).join(', ')
@@ -80,8 +81,11 @@ export default class ActivityDecorator {
 
   static addSampleConditionInfoLine = (workup) => {
     return ['add_sample_velocity', 'add_sample_temperature', 'add_sample_pressure'].map((metric) => {
-      return (workup[metric + '_value'] !== undefined)
-        && ConditionTypeDecorator.infoLineValueWithUnit(workup[metric + '_value'], workup[metric + '_unit'])
+      let metricValue = metric + '_value'
+      let metricUnit = metric + '_unit'
+
+      return (workup[metricValue] !== undefined)
+        && ConditionTypeDecorator.infoLineValueWithUnit(workup[metricValue], workup[metricUnit])
     }).filter((el) => el).join(', ')
   }
 }

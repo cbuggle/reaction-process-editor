@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-import StepsContainer from '../steps/StepsContainer';
-import PreparationColumnCard from '../preparations/PreparationColumnCard';
-
 import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
+import PreparationColumnCard from '../preparations/PreparationColumnCard';
+import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+import StepsContainer from '../steps/StepsContainer';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+
+export const SelectOptions = createContext()
 
 const Reaction = () => {
   const api = useReactionsFetcher();
@@ -42,7 +43,7 @@ const Reaction = () => {
       window.removeEventListener('requireReload', requireReload);
       window.removeEventListener('reloadDone', reloadDone);
     };
-    // We ignore the warnings which is recommended only when you know exactly what you are doing which I do not. cbuggle.
+    // We ignore the warnings which is recommended only if you know exactly what you are doing which I do not. cbuggle.
     // eslint-disable-next-line
   }, [location]);
 
@@ -62,7 +63,7 @@ const Reaction = () => {
     // does not work either as it depends on the api = useReactionsFetcher(),
     // which then again can not be used in hooks as useReactionsFetcher() is a hook itself.
     //
-    // We ignore the warnings which is recommended only when you know exactly what you are doing which I do not. cbuggle.
+    // We ignore the warnings which is recommended only if you know exactly what you are doing which I do not. cbuggle.
     // eslint-disable-next-line
   }, [location, auth_token, username])
 
@@ -76,8 +77,9 @@ const Reaction = () => {
   const renderReactionNavbar = () => {
     return (
       <>
-        <SpinnerWithMessage message={'Storing process data'} isOpen={isLoading} />
-        {!isLoading &&
+        {isLoading ?
+          <SpinnerWithMessage message={'Storing process data'} isOpen={true} />
+          :
           <ReactionNavbar reactionProcess={reactionProcess} />
         }
       </>
@@ -86,9 +88,8 @@ const Reaction = () => {
 
   return (
     <>
-      <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={!reactionProcess} />
-      {reactionProcess &&
-        <>
+      {reactionProcess ?
+        <SelectOptions.Provider value={reactionProcess.select_options}>
           {renderReactionNavbar()}
           <div className="scroll-body overflow-auto flex-grow-1">
             <div className='px-3 py-5 d-inline-block'>
@@ -98,7 +99,9 @@ const Reaction = () => {
               </div>
             </div>
           </div>
-        </>
+        </SelectOptions.Provider>
+        :
+        <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={true} />
       }
     </>
   );

@@ -87,7 +87,6 @@ export const unitTypes = {
   // mg, mmol, ml are downcase for consistency with ELN.
   // All others are unaltered (upcase) ORD constants.
   'mmol': {
-    name: 'MMOL',
     label: 'mmol',
     inputRange: {
       min: 0,
@@ -97,7 +96,6 @@ export const unitTypes = {
     }
   },
   'mg': {
-    name: 'MG',
     label: 'mg',
     inputRange: {
       min: 0,
@@ -107,7 +105,6 @@ export const unitTypes = {
     }
   },
   'ml': {
-    name: 'ML',
     label: 'ml',
     inputRange: {
       min: 0,
@@ -117,13 +114,12 @@ export const unitTypes = {
     }
   },
   'CELSIUS': {
-    name: 'CELSIUS',
     label: '°C',
     inputRange: {
       min: -100,
       max: 400,
       precision: 1,
-      step: 0.1,
+      step: 1,
       default: 21,
     }
   },
@@ -139,7 +135,6 @@ export const unitTypes = {
     }
   },
   'PH': {
-    name: 'PH',
     label: '',
     inputRange: {
       min: 0,
@@ -150,7 +145,6 @@ export const unitTypes = {
     }
   },
   'MBAR': {
-    name: 'MBAR',
     label: 'mBar',
     inputRange: {
       min: 0,
@@ -161,7 +155,6 @@ export const unitTypes = {
     }
   },
   'WATT': {
-    name: 'WATT',
     label: 'Watt',
     inputRange: {
       min: 0,
@@ -172,30 +165,27 @@ export const unitTypes = {
     }
   },
   'MLMIN': {
-    name: 'MLMIN',
     label: 'ml/min',
     inputRange: {
       min: 0,
       max: 100,
       precision: 1,
-      step: 0.1,
+      step: 10,
       default: 0,
     }
   },
   'PERCENT': {
-    name: 'PERCENT',
     label: '%',
     inputRange: {
       min: 0,
-      max: 200, // we allow > 100% as the sample amounts are somewhat fuzzy.
+      max: 100 * allowedAmountOverscale,
       precision: 0,
       step: 1,
       default: 0,
     }
   },
   'FRACTION': {
-    // experimental
-    name: 'FRACTION',
+    // experimental, unused
     label: '',
     inputRange: {
       min: 0,
@@ -206,7 +196,6 @@ export const unitTypes = {
     }
   },
   'PURITY': {
-    name: 'PURITY',
     label: '',
     inputRange: {
       min: 0,
@@ -217,7 +206,6 @@ export const unitTypes = {
     }
   },
   'NM': {
-    name: 'NM',
     label: 'nm',
     inputRange: {
       min: 10,
@@ -228,7 +216,6 @@ export const unitTypes = {
     },
   },
   'RPM': {
-    name: 'RPM',
     label: 'rpm',
     inputRange: {
       min: 0,
@@ -239,7 +226,6 @@ export const unitTypes = {
     }
   },
   'MINUTES': {
-    name: 'MINUTES',
     label: 'minutes',
     inputRange: {
       min: 0,
@@ -250,7 +236,6 @@ export const unitTypes = {
     }
   },
   'TIMES': {
-    name: 'TIMES',
     label: 'times',
     inputRange: {
       min: 0,

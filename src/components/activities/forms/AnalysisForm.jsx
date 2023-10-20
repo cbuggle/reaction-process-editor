@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
-import { analysisTypeOptions } from '../../../constants/dropdownOptions/analysisTypeOptions'
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 import FormSection from "../../utilities/FormSection";
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
+import { SelectOptions } from '../../views/Reaction';
 
 const AnalysisForm = (
   {
@@ -14,6 +14,8 @@ const AnalysisForm = (
     onWorkupChange
   }) => {
 
+  const selectOptions = useContext(SelectOptions)
+
   return (
     <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <SingleLineFormGroup label='Type'>
@@ -21,8 +23,8 @@ const AnalysisForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="analysis_type"
-          options={analysisTypeOptions}
-          value={analysisTypeOptions.find(option => option.value === activity.workup['analysis_type'])}
+          options={selectOptions.analysis_types}
+          value={selectOptions.analysis_types.find(option => option.value === activity.workup['analysis_type'])}
           onChange={selectedOption => onWorkupChange({ name: 'analysis_type', value: selectedOption.value })}
         />
       </SingleLineFormGroup>

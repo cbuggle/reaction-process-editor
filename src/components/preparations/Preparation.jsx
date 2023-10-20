@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "../preparations/PreparationCard";
@@ -8,13 +8,17 @@ import ProcedureCard from "../utilities/ProcedureCard";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
-const Preparation = ({ preparation, reactionProcess }) => {
+import { SelectOptions } from '../views/Reaction';
+
+const Preparation = ({ preparation, reactionProcessId }) => {
 
   const api = useReactionsFetcher()
 
+  const selectOptions = useContext(SelectOptions)
+
   const [showForm, setShowForm] = useState(false)
   const [initPreparation, setInitPreparation] = useState(false)
-  const preparationOptions = reactionProcess.select_options.samples_preparations
+  const preparationOptions = selectOptions.samples_preparations
 
   const showCard = preparation || initPreparation
   const sampleName = preparation
@@ -23,12 +27,12 @@ const Preparation = ({ preparation, reactionProcess }) => {
   const cardTitle = preparation ? sampleName : 'New Preparation'
 
   const onDelete = () => {
-    api.deleteSamplePreparation(reactionProcess.id, preparation.id)
+    api.deleteSamplePreparation(reactionProcessId, preparation.id)
     closeForm()
   }
 
   const onSave = (preparationForm) => {
-    api.updateSamplePreparation(reactionProcess.id, preparationForm)
+    api.updateSamplePreparation(reactionProcessId, preparationForm)
     closeForm()
   }
 

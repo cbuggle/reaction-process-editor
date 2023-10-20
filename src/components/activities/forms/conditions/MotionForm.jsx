@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
@@ -6,7 +6,7 @@ import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorato
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../OptionalFormSet";
 
-import { motionModeOptions, motionTypeOptions } from '../../../../constants/dropdownOptions/motionOptions'
+import { SelectOptions } from '../../../views/Reaction';
 
 const MotionForm = (
   {
@@ -19,6 +19,11 @@ const MotionForm = (
     onToggleSubform
   }) => {
 
+  const selectOptions = useContext(SelectOptions)
+  const automationModeOptions = selectOptions.automation_modes
+  const motionTypeOptions = selectOptions.motion_types
+
+
   const initialValue = () => {
     return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit('MOTION'))
   }
@@ -29,7 +34,7 @@ const MotionForm = (
     return findInitialValue('motion_type', motionTypeOptions[0].value)
   }
   const initialMotionMode = () => {
-    return findInitialValue('motion_mode', motionModeOptions[0].value)
+    return findInitialValue('automation_mode', automationModeOptions[0].value)
   }
 
   const [value, setValue] = useState(initialValue())
@@ -100,9 +105,9 @@ const MotionForm = (
           <Select
             className="react-select--overwrite"
             classNamePrefix="react-select"
-            name="motion_mode"
-            options={motionModeOptions}
-            value={motionModeOptions.find(option => option.value === motionMode)}
+            name="automation_mode"
+            options={automationModeOptions}
+            value={automationModeOptions.find(option => option.value === motionMode)}
             onChange={selectedOption => setMotionMode(selectedOption.value)}
           />
         </FormGroup>

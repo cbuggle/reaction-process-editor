@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
 import ActivityForm from "./ActivityForm";
 import AddSampleForm from "./AddSampleForm";
+import AnalysisForm from "./AnalysisForm";
 import ApplyExtraEquipmentForm from "./ApplyExtraEquipmentForm";
+import FormSection from "../../utilities/FormSection";
+import PurifyForm from "./PurifyForm";
+import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
-import RemoveForm from "./RemoveForm";
-import PurifyForm from "./PurifyForm";
-import AnalysisForm from "./AnalysisForm";
-import FormSection from "../../utilities/FormSection";
+
+import { SelectOptions } from '../../views/Reaction';
 
 const ActionForm = (
   {
     activity,
     preconditions,
-    processStep,
     openSubFormLabel,
     onCancel,
     onSave,
@@ -21,9 +23,11 @@ const ActionForm = (
     onChangeDuration,
     onToggleSubform
   }) => {
-  const workup = activity.workup
+
   const actionTypeName = activity.action_name
-  const equipmentOptions = processStep.action_type_equipment_options[actionTypeName]
+  const workup = activity.workup
+  const selectOptions = useContext(SelectOptions)
+  const equipmentOptions = selectOptions.action_type_equipment[actionTypeName]
 
   const setEquipment = (equipment) => {
     onWorkupChange({ name: 'EQUIPMENT', value: equipment })
@@ -38,8 +42,7 @@ const ActionForm = (
               activity={activity}
               preconditions={preconditions}
               openSubFormLabel={openSubFormLabel}
-              materialsOptions={processStep.materials_options}
-              additionSpeedTypeOptions={processStep.addition_speed_type_options}
+              materialsOptions={selectOptions.materials}
               onWorkupChange={onWorkupChange}
             />
             <FormSection type='action' openSubFormLabel={openSubFormLabel}>
@@ -65,7 +68,6 @@ const ActionForm = (
           <FormSection type='action' openSubFormLabel={openSubFormLabel}>
             <TransferForm
               activity={activity}
-              processStep={processStep}
               openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
@@ -82,7 +84,6 @@ const ActionForm = (
           <>
             <RemoveForm
               activity={activity}
-              removableMaterialsOptions={processStep.removable_materials_options}
               openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
@@ -99,7 +100,6 @@ const ActionForm = (
           <>
             <PurifyForm
               activity={activity}
-              processStep={processStep}
               openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />

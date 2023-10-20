@@ -9,6 +9,9 @@ import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
+import { SelectOptions } from '../views/Reaction';
+import { useContext } from 'react';
+
 const ActivityCard = (
   {
     type,
@@ -39,6 +42,8 @@ const ActivityCard = (
       uninitialisedTitle
 
   const editable = displayMode !== 'info'
+
+  const selectOptions = useContext(SelectOptions)
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
@@ -108,7 +113,6 @@ const ActivityCard = (
       <ProcedureCard.Info>
         <ActivityInfo
           action={activity}
-          equipmentOptions={processStep.equipment_options}
           preconditions={preconditions}
         />
       </ProcedureCard.Info>
@@ -132,7 +136,7 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            conditionTypesEquipmentOptions={processStep['action_type_equipment_options']['CONDITION']}
+            conditionTypesEquipmentOptions={selectOptions.action_type_equipment['CONDITION']}
             preconditions={preconditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
@@ -141,8 +145,7 @@ const ActivityCard = (
             onChangeDuration={setDuration}
             onToggleSubform={handleToggleSubform}
           />
-        }
-      </ProcedureCard.Form>
+        }      </ProcedureCard.Form>
     </ProcedureCard>
   );
 };

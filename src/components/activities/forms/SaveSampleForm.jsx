@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
@@ -9,7 +9,7 @@ import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import { saveSampleTypeOptions } from '../../../constants/dropdownOptions/transferOptions';
+import { SelectOptions } from '../../views/Reaction'
 
 const SaveSampleForm = (
   {
@@ -17,6 +17,8 @@ const SaveSampleForm = (
     openSubFormLabel,
     onWorkupChange
   }) => {
+
+  const selectOptions = useContext(SelectOptions)
 
   const [sampleForm, setSampleForm] = useState({
     name: '',
@@ -38,26 +40,26 @@ const SaveSampleForm = (
   return (
     <FormSection type='action' openSubFormLabel={openSubFormLabel}>
       <FormGroup>
-        <Label>Name (Leave blank to autofill)</Label>
+        <Label>Name</Label>
         <Input
           value={sampleForm.name}
-          placeholder="Name"
+          placeholder="Name (Leave blank to autofill)"
           onChange={event => handleSampleChange('name')(event.target.value)}
         />
       </FormGroup>
       <FormGroup>
-        <Label>Short Label (Leave blank to autofill)</Label>
+        <Label>Short Label</Label>
         <Input
           value={sampleForm.short_label}
-          placeholder="Short Label"
+          placeholder="Short Label (Leave blank to autofill)"
           onChange={event => handleSampleChange('short_label')(event.target.value)}
         />
       </FormGroup>
 
       <AmountInputSet
         amount={sampleForm['target_amount_value']}
-        maxAmounts={undefined}
         unit={sampleForm['target_amount_unit']}
+        maxAmounts={undefined}
         onChangeAmount={handleSampleChange('target_amount_value')}
         onChangeUnit={handleSampleChange('target_amount_unit')}
       />
@@ -80,8 +82,8 @@ const SaveSampleForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="intermediate_type"
-          options={saveSampleTypeOptions}
-          value={saveSampleTypeOptions.find(option => option.value === sampleForm['intermediate_type'])}
+          options={selectOptions.save_sample_types}
+          value={selectOptions.save_sample_types.find(option => option.value === sampleForm['intermediate_type'])}
           onChange={selectedOption => handleSampleChange('intermediate_type')(selectedOption.value)}
         />
       </SingleLineFormGroup>

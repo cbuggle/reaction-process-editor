@@ -4,10 +4,10 @@ import React from 'react'
 import { Button } from 'reactstrap'
 import VesselDecorator from '../../vessels/VesselDecorator'
 
-const StepVessel = ({ processStep }) => {
+const StepVessel = ({ vessel }) => {
   return (
     <Button size="sm" color="outline-secondary" disabled>
-      {VesselDecorator.renderVesselProcessStepInfo(processStep.vessel)}
+      {VesselDecorator.renderVesselProcessStepInfo(vessel)}
     </Button>
   )
 }

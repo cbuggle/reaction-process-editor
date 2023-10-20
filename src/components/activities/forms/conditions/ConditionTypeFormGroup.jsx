@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import ActivityDecorator from "../../../../decorators/ActivityDecorator";
 import ApplyExtraEquipmentForm from "../ApplyExtraEquipmentForm";
@@ -7,17 +7,22 @@ import EquipmentForm from "./EquipmentForm";
 import GenericConditionSubForm from "./GenericConditionSubForm";
 import MotionForm from "./MotionForm";
 
+import { SelectOptions } from '../../../views/Reaction';
+import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
+
 const ConditionTypeFormGroup = (
   {
     conditionTypeName,
-    equipmentOptions,
     preCondition,
     workup,
     openSubFormLabel,
     onWorkupChange,
     onToggleSubform,
-    typeColor='condition'
+    typeColor = 'condition'
   }) => {
+  const headerSelectOptions = useContext(MainHeaderSelectOptions)
+  const selectOptions = useContext(SelectOptions) || headerSelectOptions
+  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][conditionTypeName]
 
   const hasPreCondition = !!preCondition && preCondition.value !== null
   const hasWorkupCondition = !!workup[conditionTypeName] && workup[conditionTypeName].value !== null
@@ -33,9 +38,9 @@ const ConditionTypeFormGroup = (
   }
   const summary = () => {
     if (hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], equipmentOptions)
+      return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], selectOptions)
     } else if (hasPreCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition, equipmentOptions)
+      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition, selectOptions)
     } else {
       return undefined
     }

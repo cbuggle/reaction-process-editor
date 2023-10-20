@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import { analysisTypeOptions } from '../../constants/dropdownOptions/analysisTypeOptions'
 import ActivityDecorator from '../../decorators/ActivityDecorator';
 import ConditionTypeDecorator from '../../decorators/ConditionTypeDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
+import { SelectOptions } from '../views/Reaction';
+
 const ActivityInfo = (
   {
     action,
-    equipmentOptions,
     preconditions
   }) => {
+
+  const selectOptions = useContext(SelectOptions)
+
   const infoLines = []
   let imageSample
   let infoTitle
@@ -43,7 +46,7 @@ const ActivityInfo = (
         infoTitle = ''
         for (let [key, value] of Object.entries(workup)) {
           if (['TEMPERATURE', 'PRESSURE', 'PH', 'IRRADIATION', 'MOTION', 'EQUIPMENT'].includes(key)) {
-            infoLines.push(ActivityDecorator.conditionInfo(key, value, equipmentOptions, preconditions[key]));
+            infoLines.push(ActivityDecorator.conditionInfo(key, value, selectOptions, preconditions[key]));
           }
         }
         break;
@@ -54,7 +57,7 @@ const ActivityInfo = (
         if (workup.transfer_percentage) {
           infoLines.push(ConditionTypeDecorator.infoLineValueWithUnit(workup.transfer_percentage, 'PERCENT'))
         }
-        infoLines.push("From: " + action.source_step_name)
+        infoLines.push("From: " + action.transfer_source_step_name)
         break;
       case 'REMOVE':
         infoTitle = action.sample_names
@@ -71,7 +74,7 @@ const ActivityInfo = (
         infoLines.push(action.sample_names)
         break;
       case 'ANALYSIS':
-        infoTitle = analysisTypeOptions.find(option => option.value === workup.analysis_type).label
+        infoTitle = selectOptions.analysis_types.find(option => option.value === workup.analysis_type).label
         break;
       case 'PAUSE':
       case 'WAIT':
@@ -81,17 +84,17 @@ const ActivityInfo = (
         infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + action.action_name + '***'
     }
 
-    infoLines.push(ActivityDecorator.infoLineEquipment(workup.equipment, equipmentOptions))
+    infoLines.push(ActivityDecorator.infoLineEquipment(workup.equipment, selectOptions.equipment))
 
     return (
       <>
         {SamplesDecorator.sampleSvgImg(imageSample)}
-        {(workup.description || infoTitle.length > 0 || infoLines.length > 0) &&
+        {(workup.description || infoTitle?.length > 0 || infoLines?.length > 0) &&
           <div className='activity-info__text-block'>
-            {infoTitle.length > 0 &&
+            {infoTitle?.length > 0 &&
               <h6>{infoTitle}</h6>
             }
-            {infoLines.length > 0 &&
+            {infoLines?.length > 0 &&
               <p>
                 {infoLines.map((line, index) => (
                   <span key={index} className='procedure-card__info-line'>

@@ -8,9 +8,9 @@ const StepInfo = ({ processStep }) => {
 
   return (
     <>
-      <StepVessel processStep={processStep} />
-      <StepSamples processStep={processStep} />
-      <StepEquipments processStep={processStep} />
+      <StepVessel vessel={processStep.vessel} />
+      <StepSamples />
+      <StepEquipments />
     </>
   )
 }

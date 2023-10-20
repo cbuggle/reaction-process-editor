@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Select from 'react-select'
 
 import AmountInputSet from '../../utilities/AmountInputSet';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
+import { StepSelectOptions } from '../../steps/StepColumnCard';
+
 const TransferForm = (
   {
     activity,
-    processStep,
     onWorkupChange
   }) => {
 
-  const sampleOptions = processStep.transfer_sample_options
-  const transferToOptions = processStep.transfer_to_options
+  const stepSelectOptions = useContext(StepSelectOptions)
+  const sampleOptions = stepSelectOptions.transferable_samples
 
   const [sample, setSample] = useState(sampleOptions.find(sample => sample.value === activity.workup['sample_id']))
+
+  var transferToOptions = stepSelectOptions.transferable_to
+    .filter(transferTarget => !transferTarget.saved_sample_ids.includes(sample?.id))
 
   const handleSampleChange = ({ sampleId, label }) => {
     // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
@@ -27,6 +31,14 @@ const TransferForm = (
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
       onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
     }
+
+    let currentTarget = stepSelectOptions.transferable_to
+      .find(transferTarget => transferTarget.value === activity.workup['transfer_target_step_id'])
+
+    if (currentTarget && currentTarget.saved_sample_ids.includes(newSample.id)) {
+      onWorkupChange({ name: 'transfer_target_step_id', value: '' })
+    }
+
     setSample(newSample)
   }
 
@@ -44,17 +56,18 @@ const TransferForm = (
           options={sampleOptions}
           value={sample}
           onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
-         />
+          isDisabled={!!activity.id}
+        />
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Transfer to Step'>
         <Select
+          name="transfer_target_step_id"
           className="react-select--overwrite"
           classNamePrefix="react-select"
-          name="transfer_target_step_id"
-          isDisabled={!!activity.id}
           options={transferToOptions}
-          value={transferToOptions.find(option => option.value === activity.workup['transfer_target_step_id'])}
+          value={transferToOptions.filter(option => option.value === activity.workup['transfer_target_step_id'])}
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
+          isDisabled={!!activity.id}
         />
       </SingleLineFormGroup>
       <AmountInputSet

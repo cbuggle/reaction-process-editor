@@ -1,26 +1,32 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
-import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
-
-import { removeTypeOptions } from '../../../constants/dropdownOptions/removeFormOptions';
 import FormSection from "../../utilities/FormSection";
+import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
+import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
 import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+
+import { StepSelectOptions } from '../../steps/StepColumnCard';
+import { SelectOptions } from '../../views/Reaction';
 
 const RemoveForm = (
   {
     activity,
-    removableMaterialsOptions,
     openSubFormLabel,
     onWorkupChange
   }) => {
 
-  const mediumSelectOptions = removableMaterialsOptions['MEDIUM'].concat([{ value: "", label: "Undefined" }])
-  const additivesSelectOptions = removableMaterialsOptions['ADDITIVE'].concat([{ value: "", label: "Undefined" }])
-  const diverseSolventsSelectOptions = removableMaterialsOptions['DIVERSE_SOLVENT'].concat([{ value: "", label: "Undefined" }])
+  const stepSelectOptions = useContext(StepSelectOptions)
+  const selectOptions = useContext(SelectOptions)
+
+  const mediumSelectOptions = stepSelectOptions.removable_materials['MEDIUM']
+  // .concat([{ value: "", label: "Undefined" }])
+  const additivesSelectOptions = stepSelectOptions.removable_materials['ADDITIVE']
+  // .concat([{ value: "", label: "Undefined" }])
+  const diverseSolventsSelectOptions = stepSelectOptions.removable_materials['DIVERSE_SOLVENT']
+  // .concat([{ value: "", label: "Undefined" }])
 
   const currentSampleIdValue = activity.workup['sample_id'];
 
@@ -148,8 +154,8 @@ const RemoveForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="acts_as"
-          options={removeTypeOptions}
-          value={removeTypeOptions.find(option => option.value === activity.workup['acts_as'])}
+          options={selectOptions.remove_types}
+          value={selectOptions.remove_types.find(option => option.value === activity.workup['acts_as'])}
           onChange={selectedOption => handleActsAsChange({ actsAs: selectedOption.value })}
         />
       </SingleLineFormGroup>

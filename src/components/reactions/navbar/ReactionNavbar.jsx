@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBrand } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleUp, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
-import ReactionConditionsFormButton from './ReactionConditionsFormButton';
 import IconButton from "../../utilities/IconButton";
 import OrdDownloadButton from './OrdDownloadButton';
 import ProvenanceFormButton from './ProvenanceFormButton';
+import ReactionConditionsFormButton from './ReactionConditionsFormButton';
 
 import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 
@@ -16,6 +16,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
   const [formulaIsEnlarged, setFormulaIsEnlarged] = useState(false);
   const zoomIcon = formulaIsEnlarged ? 'search-minus' : 'search-plus'
   const formulaImageClass = formulaIsEnlarged ? 'reaction-header__formula-image reaction-header__formula-image--enlarged' : 'reaction-header__formula-image'
+
   const toggleFormula = () => {
     if (open) {
       setOpen('');
@@ -37,7 +38,6 @@ const ReactionNavbar = ({ reactionProcess }) => {
           <ReactionConditionsFormButton
             defaultConditions={reactionProcess.reaction_default_conditions}
             preconditions={reactionProcess.user_default_conditions}
-            conditionTypesEquipmentOptions={reactionProcess.select_options.condition_types_equipment}
           />
           <ProvenanceFormButton provenance={reactionProcess.provenance} />
           <OrdDownloadButton reactionProcessId={reactionProcess.id} />

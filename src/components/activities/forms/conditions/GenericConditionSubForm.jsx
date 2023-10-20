@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Input, Label, FormGroup, Row, Col } from "reactstrap";
 import Select from "react-select";
 
@@ -6,10 +6,12 @@ import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorato
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../OptionalFormSet";
 
+import { SelectOptions } from '../../../views/Reaction';
+import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
+
 const GenericConditionSubForm = (
   {
     conditionTypeName,
-    equipmentOptions,
     valueSummary,
     openSubFormLabel,
     children,
@@ -17,8 +19,15 @@ const GenericConditionSubForm = (
     onSave,
     onToggleSubform,
     isEqualToPredefinedValue = false,
-    typeColor='condition'
+    typeColor = 'condition'
   }) => {
+
+  const headerSelectOptions = useContext(MainHeaderSelectOptions)
+  const selectOptions = useContext(SelectOptions) || headerSelectOptions
+
+  const additionalInformationOptions = selectOptions.condition_additional_information[conditionTypeName]
+  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][conditionTypeName]
+
   const initialValue = () => {
     return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName))
   }
@@ -45,7 +54,7 @@ const GenericConditionSubForm = (
   const [powerEndValue, setPowerEndValue] = useState(initialPowerEndValue())
   const [additionalInformation, setAdditionalInformation] = useState(initialAdditionalInformation())
 
-  const currentSelectedAdditionalInformationOption = equipmentOptions.find(option =>
+  const currentSelectedAdditionalInformationOption = additionalInformationOptions.find(option =>
     option.value === additionalInformation)
 
   const resetFormData = () => {
@@ -67,28 +76,28 @@ const GenericConditionSubForm = (
             onChange={event => setPowerRamp(event.target.checked)}
           />
           <Label check>{ConditionTypeDecorator.label('POWER_RAMP')}</Label>
-          </FormGroup>
+        </FormGroup>
         <NumericalInputWithUnit
           label={ConditionTypeDecorator.label('POWER_START')}
           value={powerValue}
           unitType={ConditionTypeDecorator.defaultUnitType('POWER')}
           onChange={setPowerValue}
-          />
+        />
         {!!powerRamp &&
           <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('POWER_END')}
-          value={powerEndValue}
+            label={ConditionTypeDecorator.label('POWER_END')}
+            value={powerEndValue}
             unitType={ConditionTypeDecorator.defaultUnitType('POWER')}
             onChange={setPowerEndValue}
-            />
-          }
+          />
+        }
       </>
     )
   }
 
   const renderAdditionalInformationSelect = () => {
     return (
-      equipmentOptions.length > 0 ?
+      additionalInformationOptions.length > 0 ?
         <>
           <Label>
             Additional Information
@@ -97,7 +106,7 @@ const GenericConditionSubForm = (
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="additional_information"
-            options={equipmentOptions}
+            options={additionalInformationOptions}
             value={currentSelectedAdditionalInformationOption}
             onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
           />

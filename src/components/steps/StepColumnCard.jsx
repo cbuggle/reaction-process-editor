@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
-import StepForm from './StepForm';
-import StepInfo from './StepInfo';
+
 import Activity from "../activities/Activity";
+import ActivityCreator from "../activities/ActivityCreator";
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
+import StepInfo from './StepInfo';
+import StepForm from './StepForm';
+
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
-import ActivityCreator from "../activities/ActivityCreator";
+
+export const StepSelectOptions = createContext();
 
 const StepColumCard = (
   {
@@ -78,7 +82,7 @@ const StepColumCard = (
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
     }),
-    canDrop: (monitor) => processStep && !processStep.locked
+    canDrop: () => processStep && !processStep.locked
   }), [processStep])
 
   const dropItem = (monitor, processStep) => {
@@ -98,48 +102,50 @@ const StepColumCard = (
   }
 
   return (
-    <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
-      <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
-        <ColumnContainerCard
-          title={cardTitle}
-          type='step'
-          showEditBtn={!showForm}
-          showMoveXBtn={!showForm}
-          showDeleteBtn={!showForm}
-          showCancelBtn={showForm}
-          onDelete={confirmDeleteStep}
-          onEdit={toggleForm}
-          onCancel={handleCancel}
-          displayMode={displayMode()}
-          dragRef={dragRef}
-        >
-          <ProcedureCard.Info>
-            <StepInfo processStep={processStep} />
-          </ProcedureCard.Info>
-          <ProcedureCard.Form>
-            <StepForm
-              processStep={processStep}
-              reactionProcess={reactionProcess}
-              nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
-              onSave={onSave}
-              onCancel={handleCancel}
-            />
-          </ProcedureCard.Form>
-          {isInitialised &&
-            <ProcedureCard.Details>
-              <div className='step-column-card__condition-container'>
-                {renderActivities()}
-                <ActivityCreator
-                  processStep={processStep}
-                  preconditions={processStep.final_conditions}
-                  insertNewBeforeIndex={processStep.actions.length}
-                />
-              </div>
-            </ProcedureCard.Details>
-          }
-        </ColumnContainerCard>
+    <StepSelectOptions.Provider value={processStep?.select_options}>
+      <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
+        <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
+          <ColumnContainerCard
+            title={cardTitle}
+            type='step'
+            showEditBtn={!showForm}
+            showMoveXBtn={!showForm}
+            showDeleteBtn={!showForm}
+            showCancelBtn={showForm}
+            onDelete={confirmDeleteStep}
+            onEdit={toggleForm}
+            onCancel={handleCancel}
+            displayMode={displayMode()}
+            dragRef={dragRef}
+          >
+            <ProcedureCard.Info>
+              <StepInfo processStep={processStep} />
+            </ProcedureCard.Info>
+            <ProcedureCard.Form>
+              <StepForm
+                processStep={processStep}
+                reactionProcess={reactionProcess}
+                nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
+                onSave={onSave}
+                onCancel={handleCancel}
+              />
+            </ProcedureCard.Form>
+            {isInitialised &&
+              <ProcedureCard.Details>
+                <div className='step-column-card__condition-container'>
+                  {renderActivities()}
+                  <ActivityCreator
+                    processStep={processStep}
+                    preconditions={processStep.final_conditions}
+                    insertNewBeforeIndex={processStep.actions.length}
+                  />
+                </div>
+              </ProcedureCard.Details>
+            }
+          </ColumnContainerCard>
+        </div>
       </div>
-    </div>
+    </StepSelectOptions.Provider>
   );
 };
 
