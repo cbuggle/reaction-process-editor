@@ -1,6 +1,7 @@
 
 // These conditions will be included in the conditionForm, in order of desired appearance.
 export const conditionFormTypeNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
+export const removeFormConditionTypeNames = ['TEMPERATURE', 'PRESSURE']
 
 // We want to allow 120% of sample amounts for
 export const allowedAmountOverscale = 1.2

@@ -21,7 +21,8 @@ const TransferForm = (
     .filter(transferTarget => !transferTarget.saved_sample_ids.includes(sample?.id))
 
   const handleSampleChange = ({ sampleId, label }) => {
-    // We have a chance of collisions on sampleID alone as we are coping with 2 different ActiveRecord models (Solvent, DiverseSolvent).
+    // We have a chance of collisions on sampleID as we are coping with 2 different ActiveRecord models
+    // (Solvent, DiverseSolvent).
     const newSample = sampleOptions.find(sample => sample.value === sampleId && sample.label === label)
     if (newSample) {
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })

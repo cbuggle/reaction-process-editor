@@ -5,6 +5,7 @@ import ConditionTypeDecorator from '../../decorators/ConditionTypeDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
 import { SelectOptions } from '../views/Reaction';
+import { removeFormConditionTypeNames } from '../../constants/conditionTypes';
 
 const ActivityInfo = (
   {
@@ -61,11 +62,12 @@ const ActivityInfo = (
         break;
       case 'REMOVE':
         infoTitle = action.sample_names
-        if (action.medium) {
-          infoLines.push(action.medium.short_label)
-        }
-        if (action.sample) {
-          infoLines.push(action.sample.short_label)
+
+        for (let [key, value] of Object.entries(workup)) {
+          if (removeFormConditionTypeNames.includes(key)) {
+            infoLines.push(ActivityDecorator.conditionInfo(key, value, selectOptions));
+          }
+          // infoLines.push(action.sample.short_label)
         }
         break;
       case 'PURIFY':

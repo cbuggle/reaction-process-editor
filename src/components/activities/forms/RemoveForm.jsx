@@ -10,6 +10,7 @@ import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 
 import { StepSelectOptions } from '../../steps/StepColumnCard';
 import { SelectOptions } from '../../views/Reaction';
+import { removeFormConditionTypeNames } from '../../../constants/conditionTypes';
 
 const RemoveForm = (
   {
@@ -22,56 +23,80 @@ const RemoveForm = (
   const selectOptions = useContext(SelectOptions)
 
   const mediumSelectOptions = stepSelectOptions.removable_materials['MEDIUM']
-  // .concat([{ value: "", label: "Undefined" }])
+    .concat([{ value: "", label: "Undefined" }])
   const additivesSelectOptions = stepSelectOptions.removable_materials['ADDITIVE']
-  // .concat([{ value: "", label: "Undefined" }])
+    .concat([{ value: "", label: "Undefined" }])
   const diverseSolventsSelectOptions = stepSelectOptions.removable_materials['DIVERSE_SOLVENT']
-  // .concat([{ value: "", label: "Undefined" }])
-
-  const currentSampleIdValue = activity.workup['sample_id'];
+    .concat([{ value: "", label: "Undefined" }])
 
   const handleActsAsChange = ({ actsAs }) => {
     onWorkupChange({ name: 'acts_as', value: actsAs })
     onWorkupChange({ name: 'sample_id', value: '' })
+
+    // reset workup n/a in current actsAs-specific Form.
+    if (actsAs === 'MEDIUM') {
+      removeFormConditionTypeNames.forEach(typeName =>
+        onWorkupChange({ name: typeName, value: null }))
+    } else {
+      onWorkupChange({ name: 'duration_in_minutes', value: null })
+      onWorkupChange({ name: 'remove_repetitions', value: null })
+      onWorkupChange({ name: 'replacement_medium', value: null })
+    }
   }
 
   const handleValueChange = (name) => (value) => {
     return onWorkupChange({ name: name, value: value })
   }
 
+  const handleConditionChange = (typeName) => (value) => {
+    onWorkupChange({ name: typeName, value: { value: value, unit: ConditionTypeDecorator.defaultUnit(typeName) } })
+  }
+
+  const valueFor = (typeName) => (
+    (activity.workup[typeName] && activity.workup[typeName]['value'])
+    || ConditionTypeDecorator.defaultValueInDefaultUnit(typeName)
+  )
+
   const renderConditions = () => {
     return (
-      <>
-        <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('TEMPERATURE')}
-          value={activity.workup['remove_temperature'] || ConditionTypeDecorator.defaultValueInDefaultUnit('TEMPERATURE')}
-          unitType={ConditionTypeDecorator.defaultUnitType('TEMPERATURE')}
-          onChange={handleValueChange('remove_temperature')}
-        />
-        <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('PRESSURE')}
-          value={activity.workup['remove_pressure'] || ConditionTypeDecorator.defaultValueInDefaultUnit('PRESSURE')}
-          unitType={ConditionTypeDecorator.defaultUnitType('PRESSURE')}
-          onChange={handleValueChange('remove_pressure')}
-        />
-      </>
-    )
+      removeFormConditionTypeNames.map(typeName =>
+        <>
+          <NumericalInputWithUnit
+            label={ConditionTypeDecorator.label(typeName)}
+            value={valueFor(typeName)}
+            unitType={ConditionTypeDecorator.defaultUnitType(typeName)}
+            onChange={handleConditionChange(typeName)}
+          />
+        </>
 
+      )
+    )
+  }
+
+  const renderSampleSelect = (label, selectOptions) => {
+    return (
+      <SingleLineFormGroup label={label}>
+        <Select
+          // Setting key forces re-render when label changes, as a change on value={activity.workup['sample_id']} alone
+          // will retain the previous selection (which isn't even in the also changed selectOptions).
+          // React state model for the glory.
+          key={label}
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
+          name="sample_id"
+          options={selectOptions}
+          value={selectOptions.find(option => option.value === activity.workup['sample_id'])}
+          onChange={selectedOption => handleValueChange('sample_id')(selectedOption.value)}
+        />
+      </SingleLineFormGroup>
+
+    )
   }
 
   const additiveRemoveFields = () => {
     return (
       <>
-        <SingleLineFormGroup label='Solvent (Additive)'>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="sample_id"
-            options={additivesSelectOptions}
-            value={additivesSelectOptions.find(option => option.value === currentSampleIdValue)}
-            onChange={selectedOption => handleValueChange('sample_id')(selectedOption.value)}
-          />
-        </SingleLineFormGroup>
+        {renderSampleSelect('Solvent (Additive)', additivesSelectOptions)}
         {renderConditions()}
       </>
     )
@@ -81,35 +106,16 @@ const RemoveForm = (
     // This is an exact clone of additiveRemoveFields, except the options hash in the Select. Might be tightened. cbuggle, 28.10.2021.
     return (
       <>
-        <SingleLineFormGroup label='Solvent (Divers)'>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="sample_id"
-            options={diverseSolventsSelectOptions}
-            value={diverseSolventsSelectOptions.find(option => option.value === currentSampleIdValue)}
-            onChange={selectedOption => handleValueChange('sample_id')(selectedOption.value)}
-          />
-        </SingleLineFormGroup>
+        {renderSampleSelect('Solvent (Diverse)', diverseSolventsSelectOptions)}
         {renderConditions()}
       </>
-
     )
   }
 
   const mediumRemoveFields = () => {
     return (
       < >
-        <SingleLineFormGroup label='Sample'>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="sample_id"
-            options={mediumSelectOptions}
-            value={mediumSelectOptions.find(option => option.value === currentSampleIdValue)}
-            onChange={selectedOption => onWorkupChange({ name: 'sample_id', value: selectedOption.value })}
-          />
-        </SingleLineFormGroup>
+        {renderSampleSelect('Sample', mediumSelectOptions)}
         <NumericalInputWithUnit
           label={ConditionTypeDecorator.label('DURATION')}
           value={activity.workup['duration_in_minutes'] || ConditionTypeDecorator.defaultValueInDefaultUnit('DURATION')}
