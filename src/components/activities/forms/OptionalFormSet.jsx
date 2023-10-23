@@ -7,7 +7,7 @@ const ExtraButton = () => null
 
 const OptionalFormSet = (
   {
-    groupLabel,
+    subFormLabel,
     valueSummary,
     openSubFormLabel,
     onSave,
@@ -23,7 +23,7 @@ const OptionalFormSet = (
 
   const [showForm, setShowForm] = useState(false)
   const toggleShowForm = () => {
-    onToggleSubform(showForm ? undefined : groupLabel)
+    onToggleSubform(showForm ? undefined : subFormLabel)
     setShowForm(!showForm)
   }
 
@@ -31,7 +31,7 @@ const OptionalFormSet = (
 
   const toggleFormButtonLabel = hasLocalValue ? 'Change' : 'Set'
 
-  const labelWithSummary = groupLabel + ': ' + (valueSummary ? valueSummary : '-')
+  const labelWithSummary = subFormLabel + ': ' + (valueSummary ? valueSummary : '-')
 
   const handleSave = (data) => {
     onSave(data)
@@ -44,7 +44,7 @@ const OptionalFormSet = (
   }
 
   return (
-    <FormSection name={groupLabel} openSubFormLabel={openSubFormLabel} type={typeColor}>
+    <FormSection name={subFormLabel} openSubFormLabel={openSubFormLabel} type={typeColor}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
           <Label className={'col-form-label' + (hasLocalValue ? '' : ' label--disabled')}>{labelWithSummary}</Label>
@@ -58,7 +58,7 @@ const OptionalFormSet = (
       {showForm &&
         <>
           <FormGroup>
-            <Label>{groupLabel}</Label>
+            <Label>{subFormLabel}</Label>
             {children}
           </FormGroup>
           <FormButtons

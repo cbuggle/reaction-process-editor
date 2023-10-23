@@ -22,7 +22,7 @@ const DescriptionFormSet = (
 
   return (
     <OptionalFormSet
-      groupLabel='Description'
+      subFormLabel='Description'
       valueSummary={activity.workup.description}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSaveDescription}

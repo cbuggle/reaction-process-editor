@@ -107,7 +107,7 @@ const TimingFormSet = (
 
   return (
     <OptionalFormSet
-      groupLabel='Timing'
+      subFormLabel='Timing'
       valueSummary={summary}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSaveTiming}

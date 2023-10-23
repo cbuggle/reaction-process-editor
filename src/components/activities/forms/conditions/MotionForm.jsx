@@ -83,7 +83,7 @@ const MotionForm = (
 
   return (
     <OptionalFormSet
-      groupLabel={label}
+      subFormLabel={label}
       valueSummary={valueSummary}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSave}

@@ -138,7 +138,7 @@ const GenericConditionSubForm = (
 
   return (
     <OptionalFormSet
-      groupLabel={ConditionTypeDecorator.label(conditionTypeName)}
+      subFormLabel={ConditionTypeDecorator.label(conditionTypeName)}
       valueSummary={valueSummary}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
