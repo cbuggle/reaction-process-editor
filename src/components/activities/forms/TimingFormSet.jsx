@@ -9,8 +9,6 @@ const TimingFormSet = (
   {
     activityType,
     activity,
-    openSubFormLabel,
-    onToggleSubform,
     onChangeDuration,
     onWorkupChange
   }) => {
@@ -105,14 +103,17 @@ const TimingFormSet = (
     setDuration(activity.workup.duration)
   }
 
+  // Do nothing. Toggling the TimingForm will not affect other subForms so propagation needs to be suppressed.
+  const ignoreToggleSubForm = () => {}
+
   return (
     <OptionalFormSet
       subFormLabel='Timing'
       valueSummary={summary}
-      openSubFormLabel={openSubFormLabel}
+      openSubFormLabel={undefined} // TimingForm is not affected by open other subForms.
       onSave={handleSaveTiming}
       onCancel={handleCancelTiming}
-      onToggleSubform={onToggleSubform}
+      onToggleSubform={ignoreToggleSubForm}
       typeColor={activityType}
       disableFormButtons={timerRunning}
     >
@@ -140,7 +141,7 @@ const TimingFormSet = (
           Time Span
         </Label>
       </FormGroup>
-      {defineTimeSpan &&
+      {defineTimeSpan && !timerRunning &&
         <>
           <FormGroup className='row gx-2 pt-1'>
             <Label className='col-3 col-form-label d-flex'>

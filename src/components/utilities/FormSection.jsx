@@ -8,16 +8,18 @@ const FormSection = (
     type = 'preparation'
   }) => {
 
+  const isCurrentOpenSubForm = !!name && openSubFormLabel === name
+  const isOtherSubFormOpen = openSubFormLabel !== undefined
+
   const classNames = () => {
     let classNames = 'form-section form-section--' + type
-    if (!!name && openSubFormLabel === name) {
+    if (isCurrentOpenSubForm) {
       classNames += ' form-section--active'
-    } else if (openSubFormLabel !== undefined) {
+    } else if (isOtherSubFormOpen) {
       classNames += ' form-section--disabled'
     }
     return classNames
   }
-
 
   return (
     <FormGroup className={classNames()}>

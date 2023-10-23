@@ -44,8 +44,6 @@ const ActivityForm = (
       <TimingFormSet
         activityType={type}
         activity={activity}
-        openSubFormLabel={openSubFormLabel}
-        onToggleSubform={onToggleSubform}
         onChangeDuration={onChangeDuration}
         onWorkupChange={onWorkupChange}
       />
