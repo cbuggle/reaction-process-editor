@@ -15,6 +15,7 @@ import { removeFormMetricNames } from '../../../constants/metrics';
 const RemoveForm = (
   {
     activity,
+    preconditions,
     openSubFormLabel,
     onWorkupChange
   }) => {
@@ -52,10 +53,14 @@ const RemoveForm = (
     onWorkupChange({ name: typeName, value: { value: value, unit: MetricsDecorator.defaultUnit(typeName) } })
   }
 
-  const valueFor = (typeName) => (
-    (activity.workup[typeName] && activity.workup[typeName]['value'])
-    || MetricsDecorator.defaultValueInDefaultUnit(typeName)
-  )
+  const valueFor = (typeName) => {
+    console.log(activity)
+    return activity.workup[typeName]
+      && (activity.workup[typeName]['value'] || activity.workup[typeName]['value'] === 0) ?
+      activity.workup[typeName]['value']
+      :
+      preconditions[typeName]?.value
+  }
 
   const renderConditions = () => {
     return (

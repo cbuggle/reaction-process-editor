@@ -84,6 +84,7 @@ const ActionForm = (
           <>
             <RemoveForm
               activity={activity}
+              preconditions={preconditions}
               openSubFormLabel={openSubFormLabel}
               onWorkupChange={onWorkupChange}
             />
