@@ -8,10 +8,10 @@ import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../../decorators/SamplesDecorator';
 
-import { unitTypes } from '../../../constants/conditionTypes';
+import { unitTypes } from '../../../constants/metrics';
 import { SelectOptions } from '../../views/Reaction';
 
 const AddSampleForm = (
@@ -31,18 +31,18 @@ const AddSampleForm = (
   const selectOptions = useContext(SelectOptions)
 
   useEffect(() => {
-    conditionInputs.forEach(([conditionTypeName, workupKey]) => {
+    conditionInputs.forEach(([metricName, workupKey]) => {
       const unitKey = workupKey + '_unit'
       const valueKey = workupKey + '_value'
 
       const unit = activity.workup[unitKey] ||
-        preconditions[conditionTypeName]?.unit ||
-        ConditionTypeDecorator.defaultUnit(conditionTypeName)
+        preconditions[metricName]?.unit ||
+        MetricsDecorator.defaultUnit(metricName)
 
       let value = activity.workup[valueKey]
       // Seriously, Javascript? We need to go a long way to avoid fallback to default when a value === 0 (aka "false").
-      value = value === 0 ? 0 : value || preconditions[conditionTypeName]?.value
-      value = value === 0 ? 0 : value || ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName)
+      value = value === 0 ? 0 : value || preconditions[metricName]?.value
+      value = value === 0 ? 0 : value || MetricsDecorator.defaultValueInDefaultUnit(metricName)
 
       activity.workup[unitKey] || onWorkupChange({ name: unitKey, value: unit })
       activity.workup[valueKey] || onWorkupChange({ name: valueKey, value: value })
@@ -87,11 +87,11 @@ const AddSampleForm = (
   }
 
   const renderConditionInputs = () => {
-    return conditionInputs.map(([conditionTypeName, workupKey]) => {
+    return conditionInputs.map(([metricName, workupKey]) => {
       return (
         <>
           <NumericalInputWithUnit
-            label={ConditionTypeDecorator.label(conditionTypeName)}
+            label={MetricsDecorator.label(metricName)}
             value={activity.workup[workupKey + '_value']}
             unitType={unitTypes[activity.workup[workupKey + '_unit']]}
             onChange={handleValueChange(workupKey + '_value')}

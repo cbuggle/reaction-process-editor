@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 import NumericalInput from "./NumericalInput";
 import SingleLineFormGroup from "./SingleLineFormGroup";
 
-import { allowedAmountOverscale, conditionTypes, unitTypes } from "../../constants/conditionTypes";
+import { allowedAmountOverscale, metrics, unitTypes } from "../../constants/metrics";
 
 const AmountInput = (
   {
@@ -20,8 +20,8 @@ const AmountInput = (
   }) => {
   const baseCSSClass = 'amount-input amount-input--' + activityType
 
-  const baseUnit = conditionTypes[metricName].defaultUnit
-  const availableUnits = conditionTypes[metricName].units
+  const baseUnit = metrics[metricName].defaultUnit
+  const availableUnits = metrics[metricName].units
   const availableUnitOptions = availableUnits.map(unit => ({ value: unit, label: unitTypes[unit].label }))
   const isCurrentMetric = availableUnits.includes(currentUnit)
 
@@ -61,7 +61,7 @@ const AmountInput = (
 
   return (
     <div className={baseCSSClass + (isCurrentMetric ? ' amount-input--active' : ' amount-input--passive')}>
-      <SingleLineFormGroup label={conditionTypes[metricName].label}>
+      <SingleLineFormGroup label={metrics[metricName].label}>
         <Row className={'gx-1'}>
           <Col md={6}>
             <NumericalInput
@@ -83,7 +83,7 @@ const AmountInput = (
               key={localUnit}
               className="react-select--overwrite"
               classNamePrefix="react-select"
-              name={"target_amount_unit_" + conditionTypes[metricName].label}
+              name={"target_amount_unit_" + metrics[metricName].label}
               options={availableUnitOptions}
               value={availableUnitOptions.find(unit => unit.value === localUnit)}
               onChange={selectedOption => handleChangeUnit(localUnit)(selectedOption.value)}

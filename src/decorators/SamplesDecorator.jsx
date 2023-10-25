@@ -2,7 +2,7 @@ import React from 'react'
 
 import { apiHostname } from '../constants'
 
-import ConditionTypeDecorator from './ConditionTypeDecorator'
+import MetricsDecorator from './MetricsDecorator'
 
 export default class SamplesDecorator {
   static sampleSvgImg = (sample) => {
@@ -21,7 +21,7 @@ export default class SamplesDecorator {
     const units = ['ml', 'mg', 'mmol'] // reference units sloppily hardcoded.
     const infoLines = units.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
-      ConditionTypeDecorator.infoLineValueWithUnit(availableAmounts[unit], unit)
+      MetricsDecorator.infoLineValueWithUnit(availableAmounts[unit], unit)
     ).filter((el) => el)
     return infoLines.length > 0 && 'Available: ' + infoLines.join(', ')
   }

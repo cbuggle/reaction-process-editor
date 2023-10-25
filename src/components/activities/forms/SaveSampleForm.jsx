@@ -8,7 +8,7 @@ import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../../decorators/MetricsDecorator';
 
 import { SelectOptions } from '../../views/Reaction'
 
@@ -61,9 +61,9 @@ const SaveSampleForm = (
         onChangeAmount={handleChangeAmountInput}
       />
       <NumericalInputWithUnit
-        label={ConditionTypeDecorator.label('PURITY')}
+        label={MetricsDecorator.label('PURITY')}
         value={sampleForm.purity}
-        unitType={ConditionTypeDecorator.defaultUnitType('PURITY')}
+        unitType={MetricsDecorator.defaultUnitType('PURITY')}
         onChange={handleChangeSampleWorkup('purity')}
       />
       <SingleLineFormGroup label='Location'>

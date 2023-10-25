@@ -1,9 +1,9 @@
-import { conditionTypes, unitTypes } from '../constants/conditionTypes.jsx';
+import { metrics, unitTypes } from '../constants/metrics.jsx';
 
-export default class ConditionTypeDecorator {
-  static conditionType = (typeName) => conditionTypes[typeName]
+export default class MetricsDecorator {
+  static metric = (typeName) => metrics[typeName]
 
-  static label = (typeName) => this.conditionType(typeName).label
+  static label = (typeName) => this.metric(typeName).label
 
   static unitLabel = (unit) => {
     const label = unitTypes[unit] && unitTypes[unit].label
@@ -11,14 +11,13 @@ export default class ConditionTypeDecorator {
     return label || unit
   }
   // Hardcoded defaultUnit until we implement unit switching.
-  static defaultUnit = (typeName) => this.conditionType(typeName).defaultUnit
+  static defaultUnit = (typeName) => this.metric(typeName).defaultUnit
 
   // Hardcoded defaultValue in defaultUnit until we implement unit switching.
   static defaultValueInDefaultUnit = (typeName) => this.defaultValueForUnitType(this.defaultUnitType(typeName))
 
   static defaultUnitType = (typeName) => unitTypes[this.defaultUnit(typeName)]
 
-  // This is actually UnitType decoration but as long as it's just this one we can keep it here.
   static defaultValueForUnitType = (unitType) => unitType.inputRange.default
 
   static infoLineValueWithUnit(value, unit) {

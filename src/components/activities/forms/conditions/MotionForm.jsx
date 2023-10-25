@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../OptionalFormSet";
 
@@ -25,10 +25,10 @@ const MotionForm = (
 
 
   const initialValue = () => {
-    return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit('MOTION'))
+    return findInitialValue('value', MetricsDecorator.defaultValueInDefaultUnit('MOTION'))
   }
   const initialUnit = () => {
-    return findInitialValue('unit', ConditionTypeDecorator.defaultUnit('MOTION'))
+    return findInitialValue('unit', MetricsDecorator.defaultUnit('MOTION'))
   }
   const initialMotionType = () => {
     return findInitialValue('motion_type', motionTypeOptions[0].value)
@@ -114,9 +114,9 @@ const MotionForm = (
         {/* include slider */}
         <FormGroup>
           <NumericalInputWithUnit
-            label={ConditionTypeDecorator.label('MOTION')}
+            label={MetricsDecorator.label('MOTION')}
             value={value}
-            unitType={ConditionTypeDecorator.defaultUnitType('MOTION')}
+            unitType={MetricsDecorator.defaultUnitType('MOTION')}
             step={velocityStepSize()}
             onChange={setValue}
           />

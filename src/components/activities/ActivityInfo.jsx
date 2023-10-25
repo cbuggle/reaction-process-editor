@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 
 import ActivityDecorator from '../../decorators/ActivityDecorator';
-import ConditionTypeDecorator from '../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
 import { SelectOptions } from '../views/Reaction';
-import { removeFormConditionTypeNames } from '../../constants/conditionTypes';
+import { removeFormMetricNames } from '../../constants/metrics';
 
 const ActivityInfo = (
   {
@@ -26,7 +26,7 @@ const ActivityInfo = (
         if (workup.acts_as === 'SAMPLE') {
           imageSample = action.sample
         }
-        infoTitle = ConditionTypeDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit)
+        infoTitle = MetricsDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit)
         infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
 
         if (workup.acts_as === 'SOLVENT') {
@@ -39,7 +39,7 @@ const ActivityInfo = (
         infoLines.push(workup.short_label)
         infoLines.push(workup.description)
         if (workup.target_amount_value) {
-          infoLines.push(ConditionTypeDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit))
+          infoLines.push(MetricsDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit))
         }
         infoLines.push(workup.location)
         break;
@@ -56,7 +56,7 @@ const ActivityInfo = (
           infoTitle = action.intermediate_type + ' ' + (action.sample.name || action.sample.short_label)
         }
         if (workup.transfer_percentage) {
-          infoLines.push(ConditionTypeDecorator.infoLineValueWithUnit(workup.transfer_percentage, 'PERCENT'))
+          infoLines.push(MetricsDecorator.infoLineValueWithUnit(workup.transfer_percentage, 'PERCENT'))
         }
         infoLines.push("From: " + action.transfer_source_step_name)
         break;
@@ -64,7 +64,7 @@ const ActivityInfo = (
         infoTitle = action.sample_names
 
         for (let [key, value] of Object.entries(workup)) {
-          if (removeFormConditionTypeNames.includes(key)) {
+          if (removeFormMetricNames.includes(key)) {
             infoLines.push(ActivityDecorator.conditionInfo(key, value, selectOptions));
           }
           // infoLines.push(action.sample.short_label)

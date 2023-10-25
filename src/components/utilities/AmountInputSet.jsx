@@ -3,9 +3,9 @@ import React from "react";
 import AmountInput from "./AmountInput";
 import NumericalInputWithUnit from "./NumericalInputWithUnit";
 
-import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
+import MetricsDecorator from "../../decorators/MetricsDecorator";
 
-import { amountInputMetricNames, conditionTypes, unitTypes } from "../../constants/conditionTypes";
+import { amountInputMetricNames, metrics, unitTypes } from "../../constants/metrics";
 
 const AmountInputSet = (
   {
@@ -15,13 +15,13 @@ const AmountInputSet = (
     onChangeAmount
   }) => {
 
-  const currentConditionType = Object.values(conditionTypes).find(conditionType => conditionType.units.includes(unit))
-  const currentBaseUnit = currentConditionType?.defaultUnit || conditionTypes['WEIGHT'].defaultUnit
+  const currentMetric = Object.values(metrics).find(metric => metric.units.includes(unit))
+  const currentBaseUnit = currentMetric?.defaultUnit || metrics['WEIGHT'].defaultUnit
   const currentFraction = maxAmounts?.[currentBaseUnit] ?
     unitTypes[unit]?.toBase(amount) / maxAmounts[currentBaseUnit]
     : NaN
 
-  const maxAmountInBaseUnit = (metricName) => maxAmounts?.[conditionTypes[metricName].defaultUnit]
+  const maxAmountInBaseUnit = (metricName) => maxAmounts?.[metrics[metricName].defaultUnit]
 
   const handlePercentageInput = (percentage) => {
     const newAmount = unitTypes[unit].fromBase(maxAmounts[currentBaseUnit]) * percentage / 100
@@ -44,15 +44,15 @@ const AmountInputSet = (
             currentAmount={amount}
             currentUnit={unit}
             currentFraction={currentFraction}
-            onChangeAmountInput={handleChangeAmountInput(conditionTypes[metricName].defaultUnit)}
+            onChangeAmountInput={handleChangeAmountInput(metrics[metricName].defaultUnit)}
           />
         ))
       }
       {maxAmounts?.[currentBaseUnit] > 0 &&
         <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('PERCENTAGE')}
+          label={MetricsDecorator.label('PERCENTAGE')}
           value={currentFraction * 100}
-          unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
+          unitType={MetricsDecorator.defaultUnitType('PERCENTAGE')}
           onChange={handlePercentageInput}
         />
       }

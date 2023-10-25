@@ -136,7 +136,7 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            conditionTypesEquipmentOptions={selectOptions.action_type_equipment['CONDITION']}
+            metricsEquipmentOptions={selectOptions.action_type_equipment['CONDITION']}
             preconditions={preconditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}

@@ -2,16 +2,16 @@ import React, { useContext, useState } from 'react';
 import { Input, Label, FormGroup, Row, Col } from "reactstrap";
 import Select from "react-select";
 
-import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../OptionalFormSet";
 
 import { SelectOptions } from '../../../views/Reaction';
 import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
 
-const GenericConditionSubForm = (
+const GenericMetricSubForm = (
   {
-    conditionTypeName,
+    metricName,
     valueSummary,
     openSubFormLabel,
     children,
@@ -25,23 +25,23 @@ const GenericConditionSubForm = (
   const headerSelectOptions = useContext(MainHeaderSelectOptions)
   const selectOptions = useContext(SelectOptions) || headerSelectOptions
 
-  const additionalInformationOptions = selectOptions.condition_additional_information[conditionTypeName]
-  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][conditionTypeName]
+  const additionalInformationOptions = selectOptions.condition_additional_information[metricName]
+  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
 
   const initialValue = () => {
-    return findInitialValue('value', ConditionTypeDecorator.defaultValueInDefaultUnit(conditionTypeName))
+    return findInitialValue('value', MetricsDecorator.defaultValueInDefaultUnit(metricName))
   }
   const initialUnit = () => {
-    return findInitialValue('unit', ConditionTypeDecorator.defaultUnit(conditionTypeName))
+    return findInitialValue('unit', MetricsDecorator.defaultUnit(metricName))
   }
   const initialPowerValue = () => {
-    return findInitialValue('power_value', ConditionTypeDecorator.defaultValueInDefaultUnit('POWER'))
+    return findInitialValue('power_value', MetricsDecorator.defaultValueInDefaultUnit('POWER'))
   }
   const initialPowerRamp = () => {
     return findInitialValue('power_is_ramp', false)
   }
   const initialPowerEndValue = () => {
-    return findInitialValue('power_end_value', ConditionTypeDecorator.defaultValueInDefaultUnit('POWER'))
+    return findInitialValue('power_end_value', MetricsDecorator.defaultValueInDefaultUnit('POWER'))
   }
   const initialAdditionalInformation = () => {
     return findInitialValue('additional_information', '')
@@ -78,16 +78,16 @@ const GenericConditionSubForm = (
           <Label check>{'Power Ramp'}</Label>
         </FormGroup>
         <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('POWER_START')}
+          label={MetricsDecorator.label('POWER_START')}
           value={powerValue}
-          unitType={ConditionTypeDecorator.defaultUnitType('POWER')}
+          unitType={MetricsDecorator.defaultUnitType('POWER')}
           onChange={setPowerValue}
         />
         {!!powerRamp &&
           <NumericalInputWithUnit
-            label={ConditionTypeDecorator.label('POWER_END')}
+            label={MetricsDecorator.label('POWER_END')}
             value={powerEndValue}
-            unitType={ConditionTypeDecorator.defaultUnitType('POWER')}
+            unitType={MetricsDecorator.defaultUnitType('POWER')}
             onChange={setPowerEndValue}
           />
         }
@@ -122,7 +122,7 @@ const GenericConditionSubForm = (
       additional_information: additionalInformation
     };
 
-    if (conditionTypeName === 'IRRADIATION') {
+    if (metricName === 'IRRADIATION') {
       condition.power_value = powerValue
       condition.power_is_ramp = powerRamp
       if (powerRamp) {
@@ -138,7 +138,7 @@ const GenericConditionSubForm = (
 
   return (
     <OptionalFormSet
-      subFormLabel={ConditionTypeDecorator.label(conditionTypeName)}
+      subFormLabel={MetricsDecorator.label(metricName)}
       valueSummary={valueSummary}
       openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
@@ -151,13 +151,13 @@ const GenericConditionSubForm = (
         <Col md={6} className='generic-condition-sub-form__value'>
           <NumericalInputWithUnit
             value={value}
-            unitType={ConditionTypeDecorator.defaultUnitType(conditionTypeName)}
+            unitType={MetricsDecorator.defaultUnitType(metricName)}
             onChange={setValue}
             isMultiLine={true}
           />
         </Col>
       </Row>
-      {conditionTypeName === 'IRRADIATION' &&
+      {metricName === 'IRRADIATION' &&
         <FormGroup>
           {renderPowerForm()}
         </FormGroup>
@@ -172,4 +172,4 @@ const GenericConditionSubForm = (
   );
 };
 
-export default GenericConditionSubForm;
+export default GenericMetricSubForm;

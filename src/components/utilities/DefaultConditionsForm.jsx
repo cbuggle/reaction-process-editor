@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Form } from 'reactstrap';
 
-import ConditionTypeFormGroup from '../activities/forms/conditions/ConditionTypeFormGroup';
+import MetricFormGroup from '../activities/forms/conditions/MetricFormGroup';
 import FormButtons from "../utilities/FormButtons";
 
-import { predefinableConditionTypeNames } from '../../constants/conditionTypes';
+import { predefinableMetricNames } from '../../constants/metrics';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
@@ -57,11 +57,11 @@ const DefaultConditionsForm = (
   return (
     <Form className={'activity-form condition-form'}>
       {
-        predefinableConditionTypeNames.map((conditionTypeName) => (
-          <ConditionTypeFormGroup
-            key={conditionTypeName}
-            conditionTypeName={conditionTypeName}
-            preCondition={preconditions[conditionTypeName]}
+        predefinableMetricNames.map((metricName) => (
+          <MetricFormGroup
+            key={metricName}
+            metricName={metricName}
+            preCondition={preconditions[metricName]}
             workup={defaultConditionsForm}
             openSubFormLabel={openSubFormLabel}
             onWorkupChange={handleWorkupChange}

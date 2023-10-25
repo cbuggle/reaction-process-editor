@@ -1,4 +1,4 @@
-import ConditionTypeDecorator from './ConditionTypeDecorator';
+import MetricsDecorator from './MetricsDecorator';
 export default class ActivityDecorator {
 
   static toTitleCase = (str) => {
@@ -46,14 +46,14 @@ export default class ActivityDecorator {
     return this.toTitleCase(title)
   }
 
-  static conditionInfo = (conditionTypeName, conditionWorkup, selectOptions, precondition) => {
-    const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][conditionTypeName]
+  static conditionInfo = (metricName, conditionWorkup, selectOptions, precondition) => {
+    const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
 
     let info
-    if (conditionTypeName === 'EQUIPMENT') {
+    if (metricName === 'EQUIPMENT') {
       info = this.infoLineEquipment(conditionWorkup.value, equipmentOptions)
     } else {
-      info = ConditionTypeDecorator.infoLineValueWithUnit(conditionWorkup.value, conditionWorkup.unit)
+      info = MetricsDecorator.infoLineValueWithUnit(conditionWorkup.value, conditionWorkup.unit)
       if (!!precondition) {
         let valueDiff = (Math.round((conditionWorkup.value - precondition.value) * 100) / 100).toString()
         if (valueDiff > 0) {
@@ -62,7 +62,7 @@ export default class ActivityDecorator {
         info += ' (' + valueDiff + ')'
       }
     }
-    if (conditionTypeName === 'MOTION') {
+    if (metricName === 'MOTION') {
       info = [
         info,
         selectOptions.motion_types.find(option => option.value === conditionWorkup.motion_type).label,
@@ -85,7 +85,7 @@ export default class ActivityDecorator {
       let metricUnit = metric + '_unit'
 
       return (workup[metricValue] !== undefined)
-        && ConditionTypeDecorator.infoLineValueWithUnit(workup[metricValue], workup[metricUnit])
+        && MetricsDecorator.infoLineValueWithUnit(workup[metricValue], workup[metricUnit])
     }).filter((el) => el).join(', ')
   }
 }

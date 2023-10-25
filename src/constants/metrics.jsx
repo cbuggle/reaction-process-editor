@@ -3,14 +3,14 @@
 export const amountInputMetricNames = ['VOLUME', 'WEIGHT', 'MOLAR']
 
 export const conditionFormTypeNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
-export const predefinableConditionTypeNames = ['TEMPERATURE', 'PH', 'PRESSURE']
+export const predefinableMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE']
 
-export const removeFormConditionTypeNames = ['TEMPERATURE', 'PRESSURE']
+export const removeFormMetricNames = ['TEMPERATURE', 'PRESSURE']
 
 // We want to allow 120% of sample amounts for
 export const allowedAmountOverscale = 1.2
 
-export const conditionTypes = {
+export const metrics = {
   'TEMPERATURE': {
     label: 'Temperature',
     defaultUnit: 'CELSIUS',

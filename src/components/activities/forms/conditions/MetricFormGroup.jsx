@@ -2,17 +2,17 @@ import React, { useState, useContext } from 'react';
 
 import ActivityDecorator from "../../../../decorators/ActivityDecorator";
 import ApplyExtraEquipmentForm from "../ApplyExtraEquipmentForm";
-import ConditionTypeDecorator from '../../../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import EquipmentForm from "./EquipmentForm";
-import GenericConditionSubForm from "./GenericConditionSubForm";
+import GenericMetricSubForm from "./GenericMetricSubForm";
 import MotionForm from "./MotionForm";
 
 import { SelectOptions } from '../../../views/Reaction';
 import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
 
-const ConditionTypeFormGroup = (
+const MetricFormGroup = (
   {
-    conditionTypeName,
+    metricName,
     preCondition,
     workup,
     openSubFormLabel,
@@ -20,16 +20,17 @@ const ConditionTypeFormGroup = (
     onToggleSubform,
     typeColor = 'condition'
   }) => {
+    // This Component is ancestor of either Reaction or MainHeader which both define the required context.
   const headerSelectOptions = useContext(MainHeaderSelectOptions)
   const selectOptions = useContext(SelectOptions) || headerSelectOptions
-  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][conditionTypeName]
+  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
 
   const hasPreCondition = !!preCondition && preCondition.value !== null
-  const hasWorkupCondition = !!workup[conditionTypeName] && workup[conditionTypeName].value !== null
+  const hasWorkupCondition = !!workup[metricName] && workup[metricName].value !== null
 
   const findInitialValue = (key, fallBackValue) => {
-    if (workup[conditionTypeName] && workup[conditionTypeName][key] !== null) {
-      return workup[conditionTypeName][key]
+    if (workup[metricName] && workup[metricName][key] !== null) {
+      return workup[metricName][key]
     } else if (preCondition && preCondition[key] !== null) {
       return preCondition[key]
     } else {
@@ -38,9 +39,9 @@ const ConditionTypeFormGroup = (
   }
   const summary = () => {
     if (hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, workup[conditionTypeName], selectOptions)
+      return ActivityDecorator.conditionInfo(metricName, workup[metricName], selectOptions)
     } else if (hasPreCondition) {
-      return ActivityDecorator.conditionInfo(conditionTypeName, preCondition, selectOptions)
+      return ActivityDecorator.conditionInfo(metricName, preCondition, selectOptions)
     } else {
       return undefined
     }
@@ -53,16 +54,16 @@ const ConditionTypeFormGroup = (
   const handleSave = (condition) => {
     condition.equipment = equipment
     onWorkupChange({
-      name: conditionTypeName,
+      name: metricName,
       value: condition
     })
   }
 
   return (
     <>
-      {conditionTypeName === 'MOTION' &&
+      {metricName === 'MOTION' &&
         <MotionForm
-          label={ConditionTypeDecorator.label(conditionTypeName)}
+          label={MetricsDecorator.label(metricName)}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
@@ -77,7 +78,7 @@ const ConditionTypeFormGroup = (
           />
         </MotionForm>
       }
-      {conditionTypeName === 'EQUIPMENT' &&
+      {metricName === 'EQUIPMENT' &&
         <EquipmentForm
           label={'Equipment'}
           valueSummary={summary()}
@@ -88,9 +89,9 @@ const ConditionTypeFormGroup = (
           onToggleSubform={onToggleSubform}
         />
       }
-      {['EQUIPMENT', 'MOTION'].includes(conditionTypeName) ||
-        <GenericConditionSubForm
-          conditionTypeName={conditionTypeName}
+      {['EQUIPMENT', 'MOTION'].includes(metricName) ||
+        <GenericMetricSubForm
+          metricName={metricName}
           equipmentOptions={equipmentOptions}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
@@ -106,10 +107,10 @@ const ConditionTypeFormGroup = (
             onChangeEquipment={setEquipment}
             activityType='condition'
           />
-        </GenericConditionSubForm >
+        </GenericMetricSubForm >
       }
     </>
   );
 };
 
-export default ConditionTypeFormGroup;
+export default MetricFormGroup;

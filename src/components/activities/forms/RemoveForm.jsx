@@ -6,11 +6,11 @@ import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
+import MetricsDecorator from '../../../decorators/MetricsDecorator';
 
 import { StepSelectOptions } from '../../steps/StepColumnCard';
 import { SelectOptions } from '../../views/Reaction';
-import { removeFormConditionTypeNames } from '../../../constants/conditionTypes';
+import { removeFormMetricNames } from '../../../constants/metrics';
 
 const RemoveForm = (
   {
@@ -35,7 +35,7 @@ const RemoveForm = (
 
     // reset workup n/a in current actsAs-specific Form.
     if (actsAs === 'MEDIUM') {
-      removeFormConditionTypeNames.forEach(typeName =>
+      removeFormMetricNames.forEach(typeName =>
         onWorkupChange({ name: typeName, value: null }))
     } else {
       onWorkupChange({ name: 'duration_in_minutes', value: null })
@@ -49,22 +49,22 @@ const RemoveForm = (
   }
 
   const handleConditionChange = (typeName) => (value) => {
-    onWorkupChange({ name: typeName, value: { value: value, unit: ConditionTypeDecorator.defaultUnit(typeName) } })
+    onWorkupChange({ name: typeName, value: { value: value, unit: MetricsDecorator.defaultUnit(typeName) } })
   }
 
   const valueFor = (typeName) => (
     (activity.workup[typeName] && activity.workup[typeName]['value'])
-    || ConditionTypeDecorator.defaultValueInDefaultUnit(typeName)
+    || MetricsDecorator.defaultValueInDefaultUnit(typeName)
   )
 
   const renderConditions = () => {
     return (
-      removeFormConditionTypeNames.map(typeName =>
+      removeFormMetricNames.map(typeName =>
         <>
           <NumericalInputWithUnit
-            label={ConditionTypeDecorator.label(typeName)}
+            label={MetricsDecorator.label(typeName)}
             value={valueFor(typeName)}
-            unitType={ConditionTypeDecorator.defaultUnitType(typeName)}
+            unitType={MetricsDecorator.defaultUnitType(typeName)}
             onChange={handleConditionChange(typeName)}
           />
         </>
@@ -117,15 +117,15 @@ const RemoveForm = (
       < >
         {renderSampleSelect('Sample', mediumSelectOptions)}
         <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('DURATION')}
-          value={activity.workup['duration_in_minutes'] || ConditionTypeDecorator.defaultValueInDefaultUnit('DURATION')}
-          unitType={ConditionTypeDecorator.defaultUnitType('DURATION')}
+          label={MetricsDecorator.label('DURATION')}
+          value={activity.workup['duration_in_minutes'] || MetricsDecorator.defaultValueInDefaultUnit('DURATION')}
+          unitType={MetricsDecorator.defaultUnitType('DURATION')}
           onChange={handleValueChange('duration_in_minutes')}
         />
         <NumericalInputWithUnit
-          label={ConditionTypeDecorator.label('REPETITIONS')}
-          value={activity.workup['remove_repetitions'] || ConditionTypeDecorator.defaultValueInDefaultUnit('REPETITIONS')}
-          unitType={ConditionTypeDecorator.defaultUnitType('REPETITIONS')}
+          label={MetricsDecorator.label('REPETITIONS')}
+          value={activity.workup['remove_repetitions'] || MetricsDecorator.defaultValueInDefaultUnit('REPETITIONS')}
+          unitType={MetricsDecorator.defaultUnitType('REPETITIONS')}
           onChange={handleValueChange('remove_repetitions')}
         />
         <SingleLineFormGroup label='Replacement Medium'>
