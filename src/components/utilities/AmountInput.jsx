@@ -1,86 +1,92 @@
-import SingleLineFormGroup from "./SingleLineFormGroup";
-import { Col, Row } from "reactstrap";
-import NumericalInput from "./NumericalInput";
-import Select from "react-select";
 import React, { useEffect, useState } from "react";
-import AmountDecorator from "../../decorators/AmountDecorator";
+import Select from "react-select";
+import { Col, Row } from "reactstrap";
+
+import NumericalInput from "./NumericalInput";
+import SingleLineFormGroup from "./SingleLineFormGroup";
+
+import { allowedAmountOverscale, conditionTypes, unitTypes } from "../../constants/conditionTypes";
 
 const AmountInput = (
   {
-    measurementType,
-    maxAmount,
-    share,
+    metricName,
+    maxAmountInBaseUnit,
     currentAmount,
     currentUnit,
+    currentFraction,
+    activityType = 'action',
     onChangeAmountInput,
-    activityType = 'action'
+    disabled = false
   }) => {
-
-  const unitObjects = measurementType.units
-  const maxUnit = measurementType.maxUnit
   const baseCSSClass = 'amount-input amount-input--' + activityType
-  const isCurrentMeasurementType = currentUnit ? measurementType.type === AmountDecorator.unitMeasurementType(currentUnit).type : false
-  const [localUnit, setLocalUnit] = useState(isCurrentMeasurementType ? currentUnit : maxUnit)
-  const [localAmount, setLocalAmount] = useState(isCurrentMeasurementType ? currentAmount : share * maxAmount)
 
+  const baseUnit = conditionTypes[metricName].defaultUnit
+  const availableUnits = conditionTypes[metricName].units
+  const availableUnitOptions = availableUnits.map(unit => ({ value: unit, label: unitTypes[unit].label }))
+  const isCurrentMetric = availableUnits.includes(currentUnit)
+
+  const [localUnit, setLocalUnit] = useState(baseUnit)
+  const [localAmount, setLocalAmount] = useState()
+  const [localMax, setLocalMax] = useState()
 
   useEffect(() => {
-    let convertedAmount = maxAmount && share ? share * maxAmount : NaN
-    setLocalUnit(isCurrentMeasurementType ? currentUnit : maxUnit)
-    setLocalAmount(isCurrentMeasurementType ? currentAmount : convertedAmount)
-    // eslint-disable-next-line
-  }, [share, maxAmount, currentAmount, currentUnit])
+    let localUnitType = unitTypes[localUnit]
+    let currentUnitType = unitTypes[currentUnit]
 
-  const handleChangeAmount = (value) => {
-    // localShare only applies when there's a maxAmount to calculate it from. Else we want an empty input (NaN).
-    const localShare = maxAmount && value ?
-      value * AmountDecorator.unitScale(localUnit) / (maxAmount * AmountDecorator.unitScale(maxUnit))
-      : NaN
+    if (isCurrentMetric) {
+      // The current metric is always shown as is.
+      setLocalAmount(currentAmount)
+      setLocalUnit(currentUnit)
+      maxAmountInBaseUnit && setLocalMax(currentUnitType.fromBase(maxAmountInBaseUnit) * allowedAmountOverscale)
+    } else if (localUnitType && maxAmountInBaseUnit) {
+      // non-current metric calculates as fraction from maxAmountInBaseUnit
+      // In TransferForm, only 1 of 3 metrics is set and currentFraction calculates to NaN => empty input as desired.
+      setLocalAmount(currentFraction * localUnitType.fromBase(maxAmountInBaseUnit))
+      setLocalMax(allowedAmountOverscale * localUnitType.fromBase(maxAmountInBaseUnit))
+    } else {
+      // When there's no local maxAmount we want all non-current metrics empty.
+      setLocalAmount(NaN)
+      setLocalMax(localUnitType?.max)
+    }
+  }, [currentFraction, currentAmount, currentUnit, localUnit, maxAmountInBaseUnit, isCurrentMetric])
 
-    onChangeAmountInput({
-      amount: value,
-      unit: localUnit,
-      share: localShare
-    })
-  }
+  const inputRange = (unitName) => unitTypes[unitName]?.inputRange || {}
 
-  const handleChangeUnit = (newUnit) => {
-    const newAmount = localAmount * AmountDecorator.unitScale(newUnit) / AmountDecorator.unitScale(localUnit)
+  const handleChangeAmount = (amount) => { onChangeAmountInput({ amount: amount, unit: localUnit }) }
 
-    const localShare = (newAmount / AmountDecorator.unitScale(newUnit)) / (maxAmount / AmountDecorator.unitScale(maxUnit))
-
-    onChangeAmountInput({
-      amount: newAmount,
-      unit: newUnit,
-      share: localShare
-    })
+  const handleChangeUnit = (oldUnit) => (newUnit) => {
+    setLocalUnit(newUnit)
+    onChangeAmountInput({ unit: newUnit, amount: unitTypes[newUnit].fromBase(unitTypes[oldUnit].toBase(localAmount)) })
   }
 
   return (
-    <div className={baseCSSClass + (isCurrentMeasurementType ? ' amount-input--active' : ' amount-input--passive')}>
-      <SingleLineFormGroup label={measurementType.type}>
+    <div className={baseCSSClass + (isCurrentMetric ? ' amount-input--active' : ' amount-input--passive')}>
+      <SingleLineFormGroup label={conditionTypes[metricName].label}>
         <Row className={'gx-1'}>
-          <Col md={5}>
+          <Col md={6}>
             <NumericalInput
               value={localAmount}
-              step={0.1}
-              precision={3}
-              min={0}
-              max={maxAmount ? maxAmount : 10000000000000}
+              precision={inputRange(localUnit).precision}
+              step={inputRange(localUnit).step}
+              initialStepValue={inputRange(localUnit).initialStepValue}
+              min={inputRange(localUnit).min}
+              max={localMax}
               size={8}
+              disabled={disabled}
               onChange={handleChangeAmount}
               className='form-control'
               snap
             />
           </Col>
-          <Col md={7}>
+          <Col md={6}>
             <Select
+              key={localUnit}
               className="react-select--overwrite"
               classNamePrefix="react-select"
-              name={"target_amount_unit_" + measurementType.type}
-              options={unitObjects}
-              value={unitObjects.find(item => item.value === localUnit)}
-              onChange={selectedOption => handleChangeUnit(selectedOption.value)}
+              name={"target_amount_unit_" + conditionTypes[metricName].label}
+              options={availableUnitOptions}
+              value={availableUnitOptions.find(unit => unit.value === localUnit)}
+              onChange={selectedOption => handleChangeUnit(localUnit)(selectedOption.value)}
             />
           </Col>
         </Row>

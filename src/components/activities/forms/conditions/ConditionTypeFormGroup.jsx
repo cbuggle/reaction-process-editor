@@ -79,7 +79,7 @@ const ConditionTypeFormGroup = (
       }
       {conditionTypeName === 'EQUIPMENT' &&
         <EquipmentForm
-          label={ConditionTypeDecorator.label(conditionTypeName)}
+          label={'Equipment'}
           valueSummary={summary()}
           openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}

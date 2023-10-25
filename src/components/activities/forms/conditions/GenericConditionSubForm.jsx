@@ -75,7 +75,7 @@ const GenericConditionSubForm = (
             checked={!!powerRamp}
             onChange={event => setPowerRamp(event.target.checked)}
           />
-          <Label check>{ConditionTypeDecorator.label('POWER_RAMP')}</Label>
+          <Label check>{'Power Ramp'}</Label>
         </FormGroup>
         <NumericalInputWithUnit
           label={ConditionTypeDecorator.label('POWER_START')}

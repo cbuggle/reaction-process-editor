@@ -1,32 +1,30 @@
 
 // These conditions will be included in the conditionForm, in order of desired appearance.
+export const amountInputMetricNames = ['VOLUME', 'WEIGHT', 'MOLAR']
+
 export const conditionFormTypeNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
+export const predefinableConditionTypeNames = ['TEMPERATURE', 'PH', 'PRESSURE']
+
 export const removeFormConditionTypeNames = ['TEMPERATURE', 'PRESSURE']
 
 // We want to allow 120% of sample amounts for
 export const allowedAmountOverscale = 1.2
 
 export const conditionTypes = {
-  'EQUIPMENT': {
-    label: 'Equipment'
-  },
   'TEMPERATURE': {
     label: 'Temperature',
     defaultUnit: 'CELSIUS',
     units: ['CELSIUS', 'KELVIN'],
-    predefined: true
   },
   'PH': {
     label: 'pH',
     defaultUnit: 'PH',
     units: ['PH'],
-    predefined: true
   },
   'PRESSURE': {
     label: 'Pressure',
     defaultUnit: 'MBAR',
     units: ['MBAR'],
-    predefined: true
   },
   'IRRADIATION': {
     label: 'Irradiation',
@@ -47,9 +45,6 @@ export const conditionTypes = {
     label: 'Power (End)',
     defaultUnit: 'WATT',
     units: ['WATT']
-  },
-  'POWER_RAMP': {
-    label: 'Power Ramp'
   },
   'VELOCITY': {
     label: 'Velocity',
@@ -80,21 +75,85 @@ export const conditionTypes = {
     label: 'Repetitions',
     defaultUnit: 'TIMES',
     units: ['TIMES']
+  },
+  'WEIGHT': {
+    label: 'gravimetric',
+    defaultUnit: 'mg',
+    units: ['mg', 'g', 'mcg']
+  },
+  'VOLUME': {
+    label: 'volumetric',
+    defaultUnit: 'ml',
+    units: ['ml', 'l']
+  },
+  'MOLAR': {
+    label: 'molar',
+    defaultUnit: 'mmol',
+    units: ['mol', 'mmol', 'mcmol', 'nmol']
   }
 }
 
 export const unitTypes = {
   // Definition of availble units for use in NumericalInputs etc.
-  // mg, mmol, ml are downcase for consistency with ELN.
+
+  // mg, mmol, ml, etc. are downcase for consistency with ELN.
   // All others are unaltered (upcase) ORD constants.
+  // MOL / molar
+  'mol': {
+    label: 'mol',
+    inputRange: {
+      min: 0,
+      precision: 1,
+      step: 1,
+      initialStepValue: 1,
+    },
+    fromBase: (value) => value / 1000,
+    toBase: (value) => value * 1000,
+  },
   'mmol': {
     label: 'mmol',
     inputRange: {
       min: 0,
       precision: 0,
       step: 10,
-      default: 0,
-    }
+      initialStepValue: 10,
+    },
+    fromBase: (value) => value,
+    toBase: (value) => value,
+  },
+  'mcmol': {
+    label: 'mcmol',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 10,
+      initialStepValue: 10,
+    },
+    fromBase: (value) => value * 1000,
+    toBase: (value) => value / 1000,
+  },
+  'nmol': {
+    label: 'nmol',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 10,
+      initialStepValue: 10,
+    },
+    fromBase: (value) => value * (1000 * 1000),
+    toBase: (value) => value / (1000 * 1000),
+  },
+  // WEIGHT / gravimetric
+  'g': {
+    label: 'g',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 1,
+      initialStepValue: 1,
+    },
+    fromBase: (value) => value / 1000,
+    toBase: (value) => value * 1000,
   },
   'mg': {
     label: 'mg',
@@ -102,17 +161,44 @@ export const unitTypes = {
       min: 0,
       precision: 0,
       step: 10,
-      default: 0,
-    }
+      initialStepValue: 10,
+    },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
+  'mcg': {
+    label: 'mcg',
+    inputRange: {
+      min: 0,
+      precision: 0,
+      step: 10,
+      initialStepValue: 10,
+    },
+    fromBase: (value) => value * 1000,
+    toBase: (value) => value / 1000,
+  },
+  // VOLUME / volumetric
   'ml': {
     label: 'ml',
     inputRange: {
       min: 0,
       precision: 0,
       step: 10,
-      default: 0,
-    }
+      initialStepValue: 10,
+    },
+    fromBase: (value) => value,
+    toBase: (value) => value,
+  },
+  'l': {
+    label: 'l',
+    inputRange: {
+      min: 0,
+      precision: 1,
+      step: 1,
+      initialStepValue: 1,
+    },
+    fromBase: (value) => value / 1000,
+    toBase: (value) => value * 1000,
   },
   'CELSIUS': {
     label: '°C',
@@ -121,8 +207,10 @@ export const unitTypes = {
       max: 400,
       precision: 1,
       step: 1,
-      default: 21,
-    }
+      initialStepValue: 21,
+    },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'KELVIN': {
     name: 'KELVIN',
@@ -131,9 +219,11 @@ export const unitTypes = {
       min: 173.15,
       max: 573.15,
       precision: 1,
-      step: 0.1,
-      default: 293.15,
-    }
+      step: 1,
+      initialStepValue: 294.15,
+    },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'PH': {
     label: '',
@@ -142,7 +232,7 @@ export const unitTypes = {
       max: 14,
       precision: 2,
       step: 0.01,
-      default: 7,
+      initialStepValue: 7,
     }
   },
   'MBAR': {
@@ -152,7 +242,7 @@ export const unitTypes = {
       max: 10000,
       precision: 0,
       step: 1,
-      default: 1013,
+      initialStepValue: 1013,
     }
   },
   'WATT': {
@@ -162,7 +252,7 @@ export const unitTypes = {
       max: 10000,
       precision: 0,
       step: 10,
-      default: 1000,
+      initialStepValue: 1000,
     }
   },
   'MLMIN': {
@@ -172,7 +262,7 @@ export const unitTypes = {
       max: 100,
       precision: 1,
       step: 10,
-      default: 0,
+      initialStepValue: 0,
     }
   },
   'PERCENT': {
@@ -182,7 +272,7 @@ export const unitTypes = {
       max: 100 * allowedAmountOverscale,
       precision: 0,
       step: 1,
-      default: 0,
+      initialStepValue: 0,
     }
   },
   'FRACTION': {
@@ -193,7 +283,7 @@ export const unitTypes = {
       max: 10,
       precision: 2,
       step: 0.01,
-      default: 0,
+      initialStepValue: 0,
     }
   },
   'PURITY': {
@@ -203,7 +293,7 @@ export const unitTypes = {
       max: 1,
       precision: 2,
       step: 0.01,
-      default: 1,
+      initialStepValue: 1,
     }
   },
   'NM': {
@@ -213,7 +303,7 @@ export const unitTypes = {
       max: 800,
       precision: 0,
       step: 1,
-      default: 254,
+      initialStepValue: 254,
     },
   },
   'RPM': {
@@ -223,7 +313,7 @@ export const unitTypes = {
       max: 9999,
       precision: 0,
       step: 100,
-      default: 500,
+      initialStepValue: 500,
     }
   },
   'MINUTES': {
@@ -233,7 +323,7 @@ export const unitTypes = {
       max: 1440,
       precision: 0,
       step: 1,
-      default: 0,
+      initialStepValue: 0,
     }
   },
   'TIMES': {
@@ -243,7 +333,7 @@ export const unitTypes = {
       max: 100,
       precision: 0,
       step: 1,
-      default: 1,
+      initialStepValue: 1,
     }
   }
 }

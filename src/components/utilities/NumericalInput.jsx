@@ -88,7 +88,7 @@ type NumericalInputState = {
 class NumericalInput extends Component {
   static propTypes = {
     step: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-    defaultStepValue: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+    initialStepValue: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     min: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     max: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     precision: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
@@ -135,7 +135,7 @@ class NumericalInput extends Component {
    */
   static defaultProps = {
     step: 1,
-    defaultStepValue: 0,
+    initialStepValue: 0,
     min: Number.MIN_SAFE_INTEGER || -9007199254740991,
     max: Number.MAX_SAFE_INTEGER || 9007199254740991,
     precision: null,
@@ -618,6 +618,7 @@ class NumericalInput extends Component {
       let _max = +access(this.props, "max", NumericalInput.defaultProps.max, this);
       n = Math.min(Math.max(n, _min), _max);
       n = Math.round(n * q) / q;
+      console.log("numericalmax " + _max)
     }
 
     return n;
@@ -681,15 +682,15 @@ class NumericalInput extends Component {
     // Adaption for KIT-RPE.
     // * Fix stepping to max
     // * Fix float precission issue
-    // * Introduce defaultStepValue
+    // * Introduce initialStepValue
     let _min = +access(this.props, "min", NumericalInput.defaultProps.min);
     let _max = +access(this.props, "max", NumericalInput.defaultProps.max);
-    let _defaultStepValue = +access(this.props, "defaultStepValue", NumericalInput.defaultProps.defaultStepValue);
+    let _initialStepValue = +access(this.props, "initialStepValue", NumericalInput.defaultProps.initialStepValue);
 
-    let _n = (this.state.value || this.state.value === 0) ? this.state.value + _step * n : _defaultStepValue
+    let _n = (this.state.value || this.state.value === 0) ? this.state.value + _step * n : _initialStepValue
 
-    // We already parsed the value but parsing in toNumber() also asserts min/max
-    _n = this._toNumber(_n);
+    _n = Math.min(Math.max(_n, _min), _max);
+
     // We do not want to snap when min/max reached.
     if (this.props.snap && _n > _min && _n < _max) {
 

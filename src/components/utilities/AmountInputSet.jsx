@@ -1,70 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
 
 import AmountInput from "./AmountInput";
 import NumericalInputWithUnit from "./NumericalInputWithUnit";
 
-import AmountDecorator from "../../decorators/AmountDecorator";
 import ConditionTypeDecorator from "../../decorators/ConditionTypeDecorator";
+
+import { amountInputMetricNames, conditionTypes, unitTypes } from "../../constants/conditionTypes";
 
 const AmountInputSet = (
   {
     amount,
-    maxAmounts,
     unit,
-    onChangeUnit,
+    maxAmounts,
     onChangeAmount
   }) => {
 
-  const [share, setShare] = useState(1);
-  const maxUnit = maxAmounts && unit && AmountDecorator.unitMeasurementType(unit)['maxUnit']
+  const currentConditionType = Object.values(conditionTypes).find(conditionType => conditionType.units.includes(unit))
+  const currentBaseUnit = currentConditionType?.defaultUnit || conditionTypes['WEIGHT'].defaultUnit
+  const currentFraction = maxAmounts?.[currentBaseUnit] ?
+    unitTypes[unit]?.toBase(amount) / maxAmounts[currentBaseUnit]
+    : NaN
 
-  const handlePercentageInput = (value) => {
-    const newShare = value / 100
-    const newAmount = newShare * (maxAmounts[maxUnit] / AmountDecorator.unitScale(maxUnit)) * AmountDecorator.unitScale(unit)
+  const maxAmountInBaseUnit = (metricName) => maxAmounts?.[conditionTypes[metricName].defaultUnit]
 
-    let newUnit = unit
-
-    if (!maxAmounts[maxUnit]) {
-      // When want to switch to a unit with maxAmount when handling percentages. Those without are pointless.
-      newUnit = maxAmounts['mg'] ? 'mg'
-        : maxAmounts['ml'] ? 'ml'
-          : maxAmounts['mmol'] ? 'mmol'
-            : unit
-    }
-    handleChangeAmountInput(
-      {
-        amount: parseFloat(newAmount.toFixed(12)),
-        unit: newUnit,
-        share: newShare
-      }
-    )
+  const handlePercentageInput = (percentage) => {
+    const newAmount = unitTypes[unit].fromBase(maxAmounts[currentBaseUnit]) * percentage / 100
+    onChangeAmount({ value: newAmount, unit: unit, percentage: percentage })
   }
 
-  const handleChangeAmountInput = (amountInputData) => {
-    onChangeAmount(amountInputData.amount)
-    onChangeUnit(amountInputData.unit)
-    setShare(amountInputData.share)
+  const handleChangeAmountInput = (baseUnit) => ({ amount, unit }) => {
+    const fraction = maxAmounts?.[baseUnit] ? unitTypes[unit].toBase(amount) / maxAmounts[baseUnit] : 1
+    onChangeAmount({ value: amount, unit: unit, percentage: 100 * fraction })
   }
 
   return (
     <>
       {
-        AmountDecorator.validMeasurementTypes.map((itemMeasurementType) => (
+        amountInputMetricNames.map((metricName) => (
           <AmountInput
-            measurementType={itemMeasurementType}
-            maxAmount={maxAmounts && maxAmounts[itemMeasurementType.maxUnit]}
-            share={share}
+            key={metricName}
+            metricName={metricName}
+            maxAmountInBaseUnit={maxAmountInBaseUnit(metricName)}
             currentAmount={amount}
             currentUnit={unit}
-            key={itemMeasurementType.type}
-            onChangeAmountInput={handleChangeAmountInput}
+            currentFraction={currentFraction}
+            onChangeAmountInput={handleChangeAmountInput(conditionTypes[metricName].defaultUnit)}
           />
         ))
       }
-      {maxUnit && maxAmounts[maxUnit] &&
+      {maxAmounts?.[currentBaseUnit] > 0 &&
         <NumericalInputWithUnit
           label={ConditionTypeDecorator.label('PERCENTAGE')}
-          value={share * 100}
+          value={currentFraction * 100}
           unitType={ConditionTypeDecorator.defaultUnitType('PERCENTAGE')}
           onChange={handlePercentageInput}
         />

@@ -4,7 +4,7 @@ import { Form } from 'reactstrap';
 import ConditionTypeFormGroup from '../activities/forms/conditions/ConditionTypeFormGroup';
 import FormButtons from "../utilities/FormButtons";
 
-import { conditionFormTypeNames, conditionTypes } from '../../constants/conditionTypes';
+import { predefinableConditionTypeNames } from '../../constants/conditionTypes';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
@@ -19,7 +19,6 @@ const DefaultConditionsForm = (
   }) => {
 
   const api = useReactionsFetcher();
-  const predefinedTypeNames = conditionFormTypeNames.filter(item => conditionTypes[item].predefined === true);
 
   const [defaultConditionsForm, updateDefaultConditionsForm] = useState(defaultConditions)
   const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
@@ -58,7 +57,7 @@ const DefaultConditionsForm = (
   return (
     <Form className={'activity-form condition-form'}>
       {
-        predefinedTypeNames.map((conditionTypeName) => (
+        predefinableConditionTypeNames.map((conditionTypeName) => (
           <ConditionTypeFormGroup
             key={conditionTypeName}
             conditionTypeName={conditionTypeName}

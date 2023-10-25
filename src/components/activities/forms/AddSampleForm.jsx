@@ -8,7 +8,6 @@ import FormSection from "../../utilities/FormSection";
 import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
 
-import AmountDecorator from "../../../decorators/AmountDecorator";
 import ConditionTypeDecorator from '../../../decorators/ConditionTypeDecorator';
 import SamplesDecorator from '../../../decorators/SamplesDecorator';
 
@@ -58,8 +57,6 @@ const AddSampleForm = (
     sample.label === activity.workup['sample_name']))
 
   const currentAdditionSpeedType =
-    // TODO: additionSpeedTypeOptions come weirdly ordered (differing from ORD constant definition, changing over time)
-    // The default [0] seems to change over time?!? Why? Fix?
     selectOptions.addition_speed_types.find((option) => option.value === activity.workup['addition_speed_type'])
     || selectOptions.addition_speed_types[0]
 
@@ -74,15 +71,19 @@ const AddSampleForm = (
 
       // We want to retain current amounts in workup when selected Sample has unspecified amount (Additives, Solvents …)
       newSample.amount && onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
-      newSample.amount && onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
       newSample.amount && onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
+      newSample.amount && onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
     }
-
     setSample(newSample)
   }
 
   const handleValueChange = (name) => (value) => {
     onWorkupChange({ name: name, value: value })
+  }
+
+  const handleChangeAmount = ({ value, unit }) => {
+    onWorkupChange({ name: "target_amount_value", value: value })
+    onWorkupChange({ name: "target_amount_unit", value: unit })
   }
 
   const renderConditionInputs = () => {
@@ -116,15 +117,13 @@ const AddSampleForm = (
 
         <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(sample)}>
           {sample && SamplesDecorator.availableAmountsInfoLine(sample['unit_amounts'])}
-
         </SingleLineFormGroup>
 
         <AmountInputSet
           amount={activity.workup['target_amount_value']}
-          maxAmounts={AmountDecorator.sampleHasMaxAmounts(sample) ? sample['unit_amounts'] : undefined}
           unit={activity.workup['target_amount_unit']}
-          onChangeAmount={handleValueChange('target_amount_value')}
-          onChangeUnit={handleValueChange('target_amount_unit')}
+          maxAmounts={sample?.unit_amounts}
+          onChangeAmount={handleChangeAmount}
         />
       </FormSection >
       <FormSection type='action' openSubFormLabel={openSubFormLabel}>
