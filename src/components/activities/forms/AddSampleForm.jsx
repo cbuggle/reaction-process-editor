@@ -22,7 +22,8 @@ const AddSampleForm = (
     onWorkupChange
   }) => {
 
-  const conditionInputs = [
+  // TODO: move to metrics.jsx (and restrict to keys; requires some work as workup_keys depend on it)
+  const inputMetrics = [
     ['VELOCITY', 'add_sample_velocity'],
     ['TEMPERATURE', 'add_sample_temperature'],
     ['PRESSURE', 'add_sample_pressure']
@@ -31,7 +32,7 @@ const AddSampleForm = (
   const selectOptions = useContext(SelectOptions)
 
   useEffect(() => {
-    conditionInputs.forEach(([metricName, workupKey]) => {
+    inputMetrics.forEach(([metricName, workupKey]) => {
       const unitKey = workupKey + '_unit'
       const valueKey = workupKey + '_value'
 
@@ -87,7 +88,7 @@ const AddSampleForm = (
   }
 
   const renderConditionInputs = () => {
-    return conditionInputs.map(([metricName, workupKey]) => {
+    return inputMetrics.map(([metricName, workupKey]) => {
       return (
         <>
           <NumericalInputWithUnit
@@ -139,6 +140,7 @@ const AddSampleForm = (
         </SingleLineFormGroup>
 
         {renderConditionInputs()}
+
         {currentSampleActsAs === 'SOLVENT' &&
           <FormGroup check className='mb-3'>
             <Label check>

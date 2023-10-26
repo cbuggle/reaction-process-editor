@@ -2,7 +2,7 @@
 // These conditions will be included in the conditionForm, in order of desired appearance.
 export const amountInputMetricNames = ['VOLUME', 'WEIGHT', 'MOLAR']
 
-export const conditionFormTypeNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
+export const conditionFormMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
 export const predefinableMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE']
 
 export const removeFormMetricNames = ['TEMPERATURE', 'PRESSURE']

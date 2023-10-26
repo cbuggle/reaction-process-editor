@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Label, FormGroup } from "reactstrap";
 
 import NumericalInput from "./NumericalInput";

@@ -10,7 +10,7 @@ import MotionForm from "./MotionForm";
 import { SelectOptions } from '../../../views/Reaction';
 import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
 
-const MetricFormGroup = (
+const MetricsFormGroup = (
   {
     metricName,
     preCondition,
@@ -113,4 +113,4 @@ const MetricFormGroup = (
   );
 };
 
-export default MetricFormGroup;
+export default MetricsFormGroup;

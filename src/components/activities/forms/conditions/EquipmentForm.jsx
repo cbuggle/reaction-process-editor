@@ -21,11 +21,7 @@ const EquipmentForm = (
   const [equipment, setEquipment] = useState(resetEquipment())
 
   const handleSave = () => {
-    onSave(
-      {
-        value: equipment
-      }
-    )
+    onSave(equipment)
   }
 
   const handleCancel = () => {

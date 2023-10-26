@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form } from 'reactstrap';
 
-import MetricFormGroup from '../activities/forms/conditions/MetricFormGroup';
+import MetricsFormGroup from '../activities/forms/conditions/MetricsFormGroup';
 import FormButtons from "../utilities/FormButtons";
 
 import { predefinableMetricNames } from '../../constants/metrics';
@@ -58,7 +58,7 @@ const DefaultConditionsForm = (
     <Form className={'activity-form condition-form'}>
       {
         predefinableMetricNames.map((metricName) => (
-          <MetricFormGroup
+          <MetricsFormGroup
             key={metricName}
             metricName={metricName}
             preCondition={preconditions[metricName]}

@@ -1,9 +1,9 @@
 import React from 'react'
 
 import ActivityForm from "./ActivityForm";
-import MetricFormGroup from "./conditions/MetricFormGroup";
+import MetricsFormGroup from "./conditions/MetricsFormGroup";
 
-import { conditionFormTypeNames } from "../../../constants/metrics.jsx";
+import { conditionFormMetricNames } from "../../../constants/metrics.jsx";
 
 const ConditionForm = (
   {
@@ -29,8 +29,8 @@ const ConditionForm = (
       onToggleSubform={onToggleSubform}
     >
       {
-        conditionFormTypeNames.map((metricName) => (
-          <MetricFormGroup
+        conditionFormMetricNames.map((metricName) => (
+          <MetricsFormGroup
             key={metricName}
             metricName={metricName}
             preCondition={preconditions[metricName]}

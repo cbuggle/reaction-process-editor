@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ActionForm from "./forms/ActionForm";
 import ActivityDecorator from '../../decorators/ActivityDecorator';
@@ -136,7 +136,6 @@ const ActivityCard = (
         {isCondition &&
           <ConditionForm
             activity={activityForm}
-            metricsEquipmentOptions={selectOptions.action_type_equipment['CONDITION']}
             preconditions={preconditions}
             openSubFormLabel={openSubFormLabel}
             onCancel={handleCancel}
