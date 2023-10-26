@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBrand } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleUp, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,7 @@ import ProvenanceFormButton from './ProvenanceFormButton';
 import ReactionConditionsFormButton from './ReactionConditionsFormButton';
 
 import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
+import { SubFormController, SubFormToggle } from '../../../contexts/SubFormController';
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
@@ -28,50 +29,52 @@ const ReactionNavbar = ({ reactionProcess }) => {
     setFormulaIsEnlarged(!formulaIsEnlarged)
   };
   return (
-    <div className='reaction-header'>
-      <Navbar className='reaction-navbar bg-primary' dark>
-        <NavbarBrand>
-          <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label}</span>
-          <span className='reaction-id'>{reactionProcess.id}</span>
-        </NavbarBrand>
-        <Nav>
-          <ReactionConditionsFormButton
-            defaultConditions={reactionProcess.reaction_default_conditions}
-            preconditions={reactionProcess.user_default_conditions}
-          />
-          <ProvenanceFormButton provenance={reactionProcess.provenance} />
-          <OrdDownloadButton reactionProcessId={reactionProcess.id} />
-        </Nav>
-      </Navbar>
-      <Accordion open={open} toggle={toggleFormula} flush className='bg-primary container-fluid pb-2 reaction-header__formula-accordion'>
-        <AccordionItem>
-          <AccordionBody accordionId='formula' className='text-center'>
-            <div className='reaction-header__formula-container'>
-              <img
-                src={api.svgImage(reactionProcess)}
-                alt={reactionProcess.short_label}
-                className={formulaImageClass}
-              />
-              <div className='reaction-header__formula-enlarge-button-container'>
-                <IconButton icon={zoomIcon} className='icon-button--positive' size='lg' onClick={toggleFormulaEnlarge} />
+    <SubFormController.Provider value={SubFormToggle()}>
+      <div className='reaction-header'>
+        <Navbar className='reaction-navbar bg-primary' dark>
+          <NavbarBrand>
+            <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label}</span>
+            <span className='reaction-id'>{reactionProcess.id}</span>
+          </NavbarBrand>
+          <Nav>
+            <ReactionConditionsFormButton
+              defaultConditions={reactionProcess.reaction_default_conditions}
+              preconditions={reactionProcess.user_default_conditions}
+            />
+            <ProvenanceFormButton provenance={reactionProcess.provenance} />
+            <OrdDownloadButton reactionProcessId={reactionProcess.id} />
+          </Nav>
+        </Navbar>
+        <Accordion open={open} toggle={toggleFormula} flush className='bg-primary container-fluid pb-2 reaction-header__formula-accordion'>
+          <AccordionItem>
+            <AccordionBody accordionId='formula' className='text-center'>
+              <div className='reaction-header__formula-container'>
+                <img
+                  src={api.svgImage(reactionProcess)}
+                  alt={reactionProcess.short_label}
+                  className={formulaImageClass}
+                />
+                <div className='reaction-header__formula-enlarge-button-container'>
+                  <IconButton icon={zoomIcon} className='icon-button--positive' size='lg' onClick={toggleFormulaEnlarge} />
+                </div>
               </div>
-            </div>
-          </AccordionBody>
-        </AccordionItem>
-      </Accordion>
-      <div className='text-center formula-drawer-button-container'>
-        <Button
-          color='primary'
-          className='formula-drawer-button'
-          size='sm'
-          onClick={toggleFormula}
-        >
-          <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
-          <span>Formula</span>
-          <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
-        </Button>
+            </AccordionBody>
+          </AccordionItem>
+        </Accordion>
+        <div className='text-center formula-drawer-button-container'>
+          <Button
+            color='primary'
+            className='formula-drawer-button'
+            size='sm'
+            onClick={toggleFormula}
+          >
+            <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
+            <span>Formula</span>
+            <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
+          </Button>
+        </div>
       </div>
-    </div>
+    </SubFormController.Provider>
   )
 }
 

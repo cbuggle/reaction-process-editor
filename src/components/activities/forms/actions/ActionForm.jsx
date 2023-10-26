@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
@@ -9,17 +9,14 @@ import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
 
-
 const ActionForm = (
   {
     activity,
     preconditions,
-    openSubFormLabel,
     onCancel,
     onSave,
     onWorkupChange,
     onChangeDuration,
-    onToggleSubform
   }) => {
 
   const actionTypeName = activity.action_name
@@ -28,11 +25,11 @@ const ActionForm = (
     switch (actionTypeName) {
       case "ADD":
         // AddForm has multiple FormSections in it. So it is the only one that can not be wrapped in FormSet
-        // here and subsequently AddSampleForm needs prop openSubFormLabel.  Maybe we can fix this?
+        // here. Maybe we can fix this?
         return customActionForm()
       default:
         // All others have only one Section so we wrap it here.
-        return (<FormSection type='action' openSubFormLabel={openSubFormLabel}>
+        return (<FormSection type='action'>
           {customActionForm()}
         </FormSection>
         )
@@ -46,7 +43,6 @@ const ActionForm = (
           <AddSampleForm
             activity={activity}
             preconditions={preconditions}
-            openSubFormLabel={openSubFormLabel}
             onWorkupChange={onWorkupChange}
           />
         )
@@ -102,13 +98,11 @@ const ActionForm = (
     <ActivityForm
       type='action'
       activity={activity}
-      openSubFormLabel={openSubFormLabel}
       onCancel={onCancel}
       onSave={onSave}
       onWorkupChange={onWorkupChange}
-      onChangeDuration={onChangeDuration}
-      onToggleSubform={onToggleSubform}
-    >
+      onChangeDuration={onChangeDuration}>
+
       {customActionForminFormSet()}
     </ActivityForm>
   );

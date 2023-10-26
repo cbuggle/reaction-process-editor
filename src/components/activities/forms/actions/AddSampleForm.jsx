@@ -18,7 +18,6 @@ const AddSampleForm = (
   {
     activity,
     preconditions,
-    openSubFormLabel,
     onWorkupChange
   }) => {
 
@@ -104,7 +103,7 @@ const AddSampleForm = (
 
   return (
     <>
-      <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+      <FormSection type='action'>
         <SingleLineFormGroup label='Sample'>
           <Select
             className="react-select--overwrite"
@@ -127,7 +126,7 @@ const AddSampleForm = (
           onChangeAmount={handleChangeAmount}
         />
       </FormSection >
-      <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+      <FormSection type='action'>
         <SingleLineFormGroup label='Addition'>
           <Select
             className="react-select--overwrite"
@@ -159,7 +158,6 @@ const AddSampleForm = (
 AddSampleForm.propTypes = {
   activity: PropTypes.object.isRequired,
   preconditions: PropTypes.object.isRequired,
-  openSubFormLabel: PropTypes.string.isRequired,
   onWorkupChange: PropTypes.func.isRequired,
 }
 

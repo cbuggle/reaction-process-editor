@@ -618,7 +618,6 @@ class NumericalInput extends Component {
       let _max = +access(this.props, "max", NumericalInput.defaultProps.max, this);
       n = Math.min(Math.max(n, _min), _max);
       n = Math.round(n * q) / q;
-      console.log("numericalmax " + _max)
     }
 
     return n;

@@ -15,7 +15,6 @@ const RemoveForm = (
   {
     activity,
     preconditions,
-    openSubFormLabel,
     onWorkupChange
   }) => {
 
@@ -33,7 +32,7 @@ const RemoveForm = (
     onWorkupChange({ name: 'acts_as', value: actsAs })
     onWorkupChange({ name: 'sample_id', value: '' })
 
-    // reset workup n/a in current actsAs-specific Form.
+    // reset those non-applicable workups in current actsAs
     if (actsAs === 'MEDIUM') {
       removeFormMetricNames.forEach(typeName =>
         onWorkupChange({ name: typeName, value: null }))
@@ -44,18 +43,14 @@ const RemoveForm = (
     }
   }
 
-  const handleValueChange = (name) => (value) => {
-    return onWorkupChange({ name: name, value: value })
-  }
+  const handleValueChange = (name) => (value) => onWorkupChange({ name: name, value: value })
 
   const handleConditionChange = (typeName) => (value) => {
     onWorkupChange({ name: typeName, value: { value: value, unit: MetricsDecorator.defaultUnit(typeName) } })
   }
 
   const valueFor = (typeName) => {
-    console.log(activity)
-    return activity.workup[typeName]
-      && (activity.workup[typeName]['value'] || activity.workup[typeName]['value'] === 0) ?
+    return activity.workup[typeName]?.['value'] || activity.workup[typeName]?.['value'] === 0 ?
       activity.workup[typeName]['value']
       :
       preconditions[typeName]?.value
@@ -82,7 +77,7 @@ const RemoveForm = (
       <SingleLineFormGroup label={label}>
         <Select
           // Setting key forces re-render when label changes, as a change on value={activity.workup['sample_id']} alone
-          // will retain the previous selection (which isn't even in the also changed selectOptions).
+          // will retain the previous selection (which isn't even in the selectOptions anymore, they change alongside).
           // React state model for the glory.
           key={label}
           className="react-select--overwrite"
@@ -97,20 +92,10 @@ const RemoveForm = (
     )
   }
 
-  const additiveRemoveFields = () => {
+  const solventRemoveFields = (label, solventOptions) => {
     return (
       <>
-        {renderSampleSelect('Solvent (Additive)', additivesSelectOptions)}
-        {renderConditions()}
-      </>
-    )
-  }
-
-  const diverseSolventRemoveFields = () => {
-    // This is an exact clone of additiveRemoveFields, except the options hash in the Select. Might be tightened. cbuggle, 28.10.2021.
-    return (
-      <>
-        {renderSampleSelect('Solvent (Diverse)', diverseSolventsSelectOptions)}
+        {renderSampleSelect(label, solventOptions)}
         {renderConditions()}
       </>
     )
@@ -147,9 +132,9 @@ const RemoveForm = (
   const renderGenericRemoveFields = () => {
     switch (activity.workup['acts_as']) {
       case 'ADDITIVE':
-        return additiveRemoveFields()
+        return solventRemoveFields('Solvent (Additive)', additivesSelectOptions)
       case 'DIVERSE_SOLVENT':
-        return diverseSolventRemoveFields()
+        return solventRemoveFields('Solvent (Diverse)', additivesSelectOptions)
       case 'MEDIUM':
         return mediumRemoveFields()
       default:

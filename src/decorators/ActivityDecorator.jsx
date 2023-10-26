@@ -48,7 +48,6 @@ export default class ActivityDecorator {
 
   static conditionInfo = (metricName, conditionWorkup, selectOptions, precondition) => {
     const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName] || []
-    console.log(selectOptions)
 
     let info
     if (metricName === 'EQUIPMENT') {

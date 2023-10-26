@@ -103,17 +103,12 @@ const TimingFormSet = (
     setDuration(activity.workup.duration)
   }
 
-  // Do nothing. Toggling the TimingForm will not affect other subForms so propagation needs to be suppressed.
-  const ignoreToggleSubForm = () => {}
-
   return (
     <OptionalFormSet
       subFormLabel='Timing'
       valueSummary={summary}
-      openSubFormLabel={undefined} // TimingForm is not affected by open other subForms.
       onSave={handleSaveTiming}
       onCancel={handleCancelTiming}
-      onToggleSubform={ignoreToggleSubForm}
       typeColor={activityType}
       disableFormButtons={timerRunning}
     >

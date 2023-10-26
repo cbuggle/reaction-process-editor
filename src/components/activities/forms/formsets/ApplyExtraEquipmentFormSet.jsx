@@ -3,16 +3,13 @@ import Select from 'react-select'
 
 import OptionalFormSet from './OptionalFormSet'
 
-import { SelectOptions } from '../../../../contexts/SelectOptions'
-
 import ActivityDecorator from '../../../../decorators/ActivityDecorator'
+import { SelectOptions } from '../../../../contexts/SelectOptions'
 
 const ApplyExtraEquipmentFormSet = (
   {
     activityType,
     activity,
-    openSubFormLabel,
-    onToggleSubform,
     onWorkupChange
   }) => {
 
@@ -31,11 +28,9 @@ const ApplyExtraEquipmentFormSet = (
         <OptionalFormSet
           subFormLabel='Equipment'
           valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['equipment'], equipmentOptions)}
-          openSubFormLabel={openSubFormLabel}
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
-          onToggleSubform={onToggleSubform}
-          typeColor={activityType}
+                    typeColor={activityType}
         >
           <Select
             className="react-select--overwrite"

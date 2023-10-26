@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Form } from 'reactstrap';
 
 import MetricsFormGroup from '../activities/forms/conditions/MetricsFormGroup';
@@ -8,6 +8,7 @@ import { predefinableMetricNames } from '../../constants/metrics';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
+import { SubFormController } from '../../contexts/SubFormController';
 
 const DefaultConditionsForm = (
   {
@@ -20,8 +21,9 @@ const DefaultConditionsForm = (
 
   const api = useReactionsFetcher();
 
+  const subFormController = useContext(SubFormController)
+
   const [defaultConditionsForm, updateDefaultConditionsForm] = useState(defaultConditions)
-  const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
 
   const handleWorkupChange = (field) => {
     const { name, value } = field;
@@ -46,14 +48,6 @@ const DefaultConditionsForm = (
     closeForm()
   }
 
-  const handleToggleSubform = (openSubformLabel) => {
-    setOpenSubFormLabel(openSubformLabel)
-  }
-
-  const anySubFormOpen = () => {
-    return openSubFormLabel !== undefined
-  }
-
   return (
     <Form className={'activity-form condition-form'}>
       {
@@ -63,9 +57,7 @@ const DefaultConditionsForm = (
             metricName={metricName}
             preCondition={preconditions[metricName]}
             workup={defaultConditionsForm}
-            openSubFormLabel={openSubFormLabel}
             onWorkupChange={handleWorkupChange}
-            onToggleSubform={handleToggleSubform}
             typeColor={typeColor}
           />)
         )
@@ -74,7 +66,7 @@ const DefaultConditionsForm = (
         onSave={handleSave}
         onCancel={closeForm}
         type={typeColor}
-        disabled={anySubFormOpen()}
+        disabled={subFormController.anySubFormOpen()}
       />
     </Form>
 

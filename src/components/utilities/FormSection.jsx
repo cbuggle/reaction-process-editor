@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
 import { FormGroup } from "reactstrap";
+import { SubFormController } from '../../contexts/SubFormController';
+
 const FormSection = (
   {
     children,
     name,
-    openSubFormLabel,
     type = 'preparation'
   }) => {
 
-  const isCurrentOpenSubForm = !!name && openSubFormLabel === name
-  const isOtherSubFormOpen = openSubFormLabel !== undefined
+  const subForm = useContext(SubFormController)
 
   const classNames = () => {
     let classNames = 'form-section form-section--' + type
-    if (isCurrentOpenSubForm) {
+    if (subForm.isCurrentOpen(name)) {
       classNames += ' form-section--active'
-    } else if (isOtherSubFormOpen) {
+    } else if (subForm.isBlockedByOther(name) ) {
       classNames += ' form-section--disabled'
     }
     return classNames

@@ -1,9 +1,9 @@
 import { metrics, unitTypes } from '../constants/metrics.jsx';
 
 export default class MetricsDecorator {
-  static metric = (typeName) => metrics[typeName]
+  static metric = (metricName) => metrics[metricName]
 
-  static label = (typeName) => this.metric(typeName).label
+  static label = (metricName) => this.metric(metricName).label
 
   static unitLabel = (unit) => {
     const label = unitTypes[unit] && unitTypes[unit].label
@@ -11,14 +11,14 @@ export default class MetricsDecorator {
     return label || unit
   }
   // Hardcoded defaultUnit until we implement unit switching.
-  static defaultUnit = (typeName) => this.metric(typeName).defaultUnit
+  static defaultUnit = (metricName) => this.metric(metricName).defaultUnit
 
   // Hardcoded defaultValue in defaultUnit until we implement unit switching.
-  static defaultValueInDefaultUnit = (typeName) => this.defaultValueForUnitType(this.defaultUnitType(typeName))
+  static defaultValueInDefaultUnit = (metricName) => this.defaultValueForUnitType(this.defaultUnitType(metricName))
 
-  static defaultUnitType = (typeName) => unitTypes[this.defaultUnit(typeName)]
+  static defaultUnitType = (metricName) => unitTypes[this.defaultUnit(metricName)]
 
-  static defaultValueForUnitType = (unitType) => unitType.inputRange.default
+  static defaultValueForUnitType = (unitType) => unitType.inputRange.initialStepValue
 
   static infoLineValueWithUnit(value, unit) {
     if (value > 0) {

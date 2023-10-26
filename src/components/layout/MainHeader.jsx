@@ -5,12 +5,13 @@ import { Link, useLocation } from "react-router-dom";
 import UserMenu from "./UserMenu";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+
 import { SelectOptions } from '../../contexts/SelectOptions'
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
 
 const MainHeader = () => {
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
-
 
   const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
@@ -96,44 +97,46 @@ const MainHeader = () => {
   }
 
   return (
-    <Navbar className='bg-secondary main-header' dark expand={true}>
-      <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
-      {localStorage.getItem('username') &&
-        <>
-          <Nav navbar className="me-auto main-header__nav">
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Collections
-              </DropdownToggle>
-              <DropdownMenu>
-                {collectionOptions.map((collection) =>
-                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                    {collection.label}
-                  </DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Reactions ({reactions.length})
-              </DropdownToggle>
-              <DropdownMenu>
-                {reactionOptions.map((reaction) =>
-                  <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </Nav>
-          <Nav navbar className="justify-content-end align-items-center">
-            <SelectOptions.Provider value={actionTypeEquipmentOptions}>
-              <UserMenu
-                defaultConditions={userDefaultConditions}
-                preconditions={globalDefaultConditions}
+    <SelectOptions.Provider value={actionTypeEquipmentOptions}>
+      <SubFormController.Provider value={SubFormToggle()}>
+        <Navbar className='bg-secondary main-header' dark expand={true}>
+          <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
+          {localStorage.getItem('username') &&
+            <>
+              <Nav navbar className="me-auto main-header__nav">
+                <UncontrolledDropdown nav>
+                  <DropdownToggle nav caret>
+                    Collections
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {collectionOptions.map((collection) =>
+                      <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                        {collection.label}
+                      </DropdownItem>)}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+                <UncontrolledDropdown nav>
+                  <DropdownToggle nav caret>
+                    Reactions ({reactions.length})
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {reactionOptions.map((reaction) =>
+                      <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </Nav>
+              <Nav navbar className="justify-content-end align-items-center">
+                <UserMenu
+                  defaultConditions={userDefaultConditions}
+                  preconditions={globalDefaultConditions}
 
-              />
-            </SelectOptions.Provider>
-          </Nav>
-        </>
-      }
-    </Navbar>
+                />
+              </Nav>
+            </>
+          }
+        </Navbar>
+      </SubFormController.Provider>
+    </SelectOptions.Provider>
   )
 }
 

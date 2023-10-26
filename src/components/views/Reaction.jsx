@@ -9,7 +9,6 @@ import StepsContainer from '../steps/StepsContainer';
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import { SelectOptions } from '../../contexts/SelectOptions';
 
-
 const Reaction = () => {
   const api = useReactionsFetcher();
 

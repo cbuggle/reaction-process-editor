@@ -9,8 +9,7 @@ import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-import { SelectOptions } from '../views/Reaction';
-import { useContext } from 'react';
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
 
 const ActivityCard = (
   {
@@ -33,42 +32,18 @@ const ActivityCard = (
   const uninitialisedTitle = isCondition ? 'Change Condition' : 'New Action'
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
-  const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
 
-  const cardTitle =
-    (activityForm && !!activityForm.action_name) ?
-      ActivityDecorator.cardTitle(activityForm)
-      :
-      uninitialisedTitle
+  const cardTitle = !!activityForm?.action_name ? ActivityDecorator.cardTitle(activityForm) : uninitialisedTitle
 
   const editable = displayMode !== 'info'
-
-  const selectOptions = useContext(SelectOptions)
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
   }, [workup]);
 
-  const edit = () => {
-    setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
-  }
+  const edit = () => setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
 
-  const onDelete = () => {
-    api.deleteAction(activity.id)
-  }
-
-  const handleCancel = () => {
-    if (isInitialised) {
-      setActivityForm(activity)
-      setDisplayMode('info')
-    } else {
-      onCancel()
-    }
-  }
-
-  const handleToggleSubform = (openSubformLabel) => {
-    setOpenSubFormLabel(openSubformLabel)
-  }
+  const onDelete = () => api.deleteAction(activity.id)
 
   const onSelectType = (newActivity) => () => {
     setActivityForm(newActivity)
@@ -84,69 +59,71 @@ const ActivityCard = (
       setActivityForm({ workup: {} })
     }
   }
-
-  const handleWorkupChange = ({ name, value }) => {
-    setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }));
+  const handleCancel = () => {
+    if (isInitialised) {
+      setActivityForm(activity)
+      setDisplayMode('info')
+    } else {
+      onCancel()
+    }
   }
 
-  const setDuration = (value) => {
-    handleWorkupChange({ name: "duration", value: value })
-  }
+  const handleWorkupChange = ({ name, value }) => setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }))
+
+  const setDuration = (value) => handleWorkupChange({ name: "duration", value: value })
 
   return (
-    <ProcedureCard
-      title={cardTitle}
-      type={type}
-      onEdit={edit}
-      onDelete={onDelete}
-      onCancel={handleCancel}
-      showEditBtn={!editable}
-      showMoveXBtn={false}
-      showMoveYBtn={!editable}
-      showDeleteBtn={!editable}
-      showCancelBtn={editable}
-      displayMode={displayMode}
-      headerTitleTag='h6'
-      customClass={customClass}
-      dragRef={dragRef}
-    >
-      <ProcedureCard.Info>
-        <ActivityInfo
-          action={activity}
-          preconditions={preconditions}
-        />
-      </ProcedureCard.Info>
-      <ProcedureCard.TypePanel>
-        <TypeSelectionPanel onSelect={onSelectType} />
-      </ProcedureCard.TypePanel>
-      <ProcedureCard.Form>
-        {activityForm && !isCondition &&
-          <ActionForm
-            activity={activityForm}
+    <SubFormController.Provider value={SubFormToggle()}>
+      <ProcedureCard
+        title={cardTitle}
+        type={type}
+        onEdit={edit}
+        onDelete={onDelete}
+        onCancel={handleCancel}
+        showEditBtn={!editable}
+        showMoveXBtn={false}
+        showMoveYBtn={!editable}
+        showDeleteBtn={!editable}
+        showCancelBtn={editable}
+        displayMode={displayMode}
+        headerTitleTag='h6'
+        customClass={customClass}
+        dragRef={dragRef}
+      >
+        <ProcedureCard.Info>
+          <ActivityInfo
+            action={activity}
             preconditions={preconditions}
-            processStep={processStep}
-            openSubFormLabel={openSubFormLabel}
-            onCancel={handleCancel}
-            onSave={onSaveForm}
-            onWorkupChange={handleWorkupChange}
-            onChangeDuration={setDuration}
-            onToggleSubform={handleToggleSubform}
           />
-        }
-        {isCondition &&
-          <ConditionForm
-            activity={activityForm}
-            preconditions={preconditions}
-            openSubFormLabel={openSubFormLabel}
-            onCancel={handleCancel}
-            onSave={onSaveForm}
-            onWorkupChange={handleWorkupChange}
-            onChangeDuration={setDuration}
-            onToggleSubform={handleToggleSubform}
-          />
-        }
-      </ProcedureCard.Form>
-    </ProcedureCard>
+        </ProcedureCard.Info>
+        <ProcedureCard.TypePanel>
+          <TypeSelectionPanel onSelect={onSelectType} />
+        </ProcedureCard.TypePanel>
+        <ProcedureCard.Form>
+          {activityForm && !isCondition &&
+            <ActionForm
+              activity={activityForm}
+              preconditions={preconditions}
+              processStep={processStep}
+              onCancel={handleCancel}
+              onSave={onSaveForm}
+              onWorkupChange={handleWorkupChange}
+              onChangeDuration={setDuration}
+            />
+          }
+          {isCondition &&
+            <ConditionForm
+              activity={activityForm}
+              preconditions={preconditions}
+              onCancel={handleCancel}
+              onSave={onSaveForm}
+              onWorkupChange={handleWorkupChange}
+              onChangeDuration={setDuration}
+            />
+          }
+        </ProcedureCard.Form>
+      </ProcedureCard>
+    </SubFormController.Provider>
   );
 };
 

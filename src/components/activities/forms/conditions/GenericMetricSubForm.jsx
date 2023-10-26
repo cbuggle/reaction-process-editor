@@ -12,11 +12,9 @@ const GenericMetricSubForm = (
   {
     metricName,
     valueSummary,
-    openSubFormLabel,
     children,
     findInitialValue,
     onSave,
-    onToggleSubform,
     isEqualToPredefinedValue = false,
     typeColor = 'condition'
   }) => {
@@ -133,10 +131,8 @@ const GenericMetricSubForm = (
     <OptionalFormSet
       subFormLabel={MetricsDecorator.label(metricName)}
       valueSummary={valueSummary}
-      openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
       onCancel={handleCancel}
-      onToggleSubform={onToggleSubform}
       isEqualToPredefinedValue={isEqualToPredefinedValue}
       typeColor={typeColor}
     >

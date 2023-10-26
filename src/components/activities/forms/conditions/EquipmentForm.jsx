@@ -1,41 +1,31 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
-
 import { FormGroup } from "reactstrap";
+
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
 const EquipmentForm = (
   {
     label,
     valueSummary,
-    openSubFormLabel,
     findInitialValue,
     equipmentOptions,
     onSave,
-    onToggleSubform
   }) => {
-  const resetEquipment = () => {
-    return findInitialValue('value', undefined)
-  }
+  const resetEquipment = () => findInitialValue('value', undefined)
 
   const [equipment, setEquipment] = useState(resetEquipment())
 
-  const handleSave = () => {
-    onSave(equipment)
-  }
+  const handleSave = () => onSave(equipment)
 
-  const handleCancel = () => {
-    setEquipment(resetEquipment())
-  }
+  const handleCancel = () => setEquipment(resetEquipment())
 
   return (
     <OptionalFormSet
       subFormLabel={label}
       valueSummary={valueSummary}
-      openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
       onCancel={handleCancel}
-      onToggleSubform={onToggleSubform}
     >
       <FormGroup>
         <Select

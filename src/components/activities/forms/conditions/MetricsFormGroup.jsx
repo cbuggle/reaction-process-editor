@@ -14,14 +14,13 @@ const MetricsFormGroup = (
     metricName,
     preCondition,
     workup,
-    openSubFormLabel,
     onWorkupChange,
-    onToggleSubform,
     typeColor = 'condition'
   }) => {
 
     // This Component is descendant of either Reaction or MainHeader which both define the required context.
   const selectOptions = useContext(SelectOptions)
+
   const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
 
   const hasPreCondition = !!preCondition && preCondition.value !== null
@@ -45,10 +44,12 @@ const MetricsFormGroup = (
       return undefined
     }
   }
+
   const resetEquipment = () => {
     return findInitialValue('equipment', [])
   }
   const [equipment, setEquipment] = useState(resetEquipment());
+
 
   const handleSave = (condition) => {
     condition.equipment = equipment
@@ -64,11 +65,9 @@ const MetricsFormGroup = (
         <MotionForm
           label={MetricsDecorator.label(metricName)}
           valueSummary={summary()}
-          openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
           onSave={handleSave}
-          onToggleSubform={onToggleSubform}
-        >
+                  >
           <ApplyExtraEquipmentForm
             equipment={equipment}
             equipmentOptions={equipmentOptions}
@@ -81,23 +80,19 @@ const MetricsFormGroup = (
         <EquipmentForm
           label={'Equipment'}
           valueSummary={summary()}
-          openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
           equipmentOptions={equipmentOptions}
           onSave={handleSave}
-          onToggleSubform={onToggleSubform}
-        />
+                  />
       }
       {['EQUIPMENT', 'MOTION'].includes(metricName) ||
         <GenericMetricSubForm
           metricName={metricName}
           equipmentOptions={equipmentOptions}
           valueSummary={summary()}
-          openSubFormLabel={openSubFormLabel}
           findInitialValue={findInitialValue}
           onSave={handleSave}
-          onToggleSubform={onToggleSubform}
-          isEqualToPredefinedValue={!hasWorkupCondition}
+                    isEqualToPredefinedValue={!hasWorkupCondition}
           typeColor={typeColor}
         >
           <ApplyExtraEquipmentForm

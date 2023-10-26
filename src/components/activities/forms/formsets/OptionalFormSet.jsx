@@ -1,7 +1,10 @@
-import {Button, FormGroup, Label} from "reactstrap";
-import React, {useState} from "react";
+import React, { useContext, useState } from "react";
+import { Button, FormGroup, Label } from "reactstrap";
+
 import FormButtons from "../../../utilities/FormButtons";
 import FormSection from "../../../utilities/FormSection";
+
+import { SubFormController } from "../../../../contexts/SubFormController";
 
 const ExtraButton = () => null
 
@@ -9,29 +12,30 @@ const OptionalFormSet = (
   {
     subFormLabel,
     valueSummary,
-    openSubFormLabel,
     onSave,
     onCancel,
-    onToggleSubform,
     children,
     isEqualToPredefinedValue = false,
-    typeColor='condition',
+    typeColor = 'condition',
     disableFormButtons
   }) => {
+
+  const subFormController = useContext(SubFormController)
+
   const childNodes = React.Children.toArray(children);
   const extraButton = childNodes.find(el => el.type === ExtraButton)
 
   const [showForm, setShowForm] = useState(false)
+
   const toggleShowForm = () => {
-    onToggleSubform(showForm ? undefined : subFormLabel)
+    subFormController.toggleSubform(showForm ? undefined : subFormLabel)
     setShowForm(!showForm)
   }
 
   const hasLocalValue = !!valueSummary && !isEqualToPredefinedValue
-
   const toggleFormButtonLabel = hasLocalValue ? 'Change' : 'Set'
 
-  const labelWithSummary = subFormLabel + ': ' + (valueSummary ? valueSummary : '-')
+  const labelWithSummary = subFormLabel + ': ' + (valueSummary || '-')
 
   const handleSave = (data) => {
     onSave(data)
@@ -44,7 +48,7 @@ const OptionalFormSet = (
   }
 
   return (
-    <FormSection name={subFormLabel} openSubFormLabel={openSubFormLabel} type={typeColor}>
+    <FormSection name={subFormLabel} type={typeColor}>
       {!showForm &&
         <div className='d-flex justify-content-between align-self-center'>
           <Label className={'col-form-label' + (hasLocalValue ? '' : ' label--disabled')}>{labelWithSummary}</Label>

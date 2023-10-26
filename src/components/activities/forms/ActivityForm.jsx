@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Form } from 'reactstrap'
 import PropTypes from 'prop-types'
 
@@ -9,23 +9,23 @@ import TimingFormSet from "./formsets/TimingFormSet";
 
 import ActionValidator from '../../../validators/ActionValidator'
 
+import { SubFormController } from '../../../contexts/SubFormController';
+
 const ActivityForm = (
   {
     type,
     activity,
     children,
-    openSubFormLabel,
     onCancel,
     onSave,
     onWorkupChange,
     onChangeDuration,
-    onToggleSubform,
     className = ''
   }) => {
 
-  const handleSave = () => ActionValidator.validate(activity) && onSave()
+  const subFormController = useContext(SubFormController)
 
-  const anySubFormOpen = () => openSubFormLabel !== undefined
+  const handleSave = () => ActionValidator.validate(activity) && onSave()
 
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
@@ -33,16 +33,12 @@ const ActivityForm = (
       <ApplyExtraEquipmentFormSet
         activityType={type}
         activity={activity}
-        openSubFormLabel={openSubFormLabel}
-        onToggleSubform={onToggleSubform}
         onWorkupChange={onWorkupChange}
       />
       <DescriptionFormSet
         activityType={type}
         activity={activity}
-        openSubFormLabel={openSubFormLabel}
-        onToggleSubform={onToggleSubform}
-        onWorkupChange={onWorkupChange}
+                onWorkupChange={onWorkupChange}
       />
       <TimingFormSet
         activityType={type}
@@ -53,7 +49,7 @@ const ActivityForm = (
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
-        disabled={anySubFormOpen()}
+        disabled={subFormController.anySubFormOpen()}
         type={type}
       />
     </Form>

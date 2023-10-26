@@ -12,11 +12,9 @@ const MotionForm = (
   {
     label,
     valueSummary,
-    openSubFormLabel,
     findInitialValue,
     children,
     onSave,
-    onToggleSubform
   }) => {
 
   const selectOptions = useContext(SelectOptions)
@@ -65,30 +63,18 @@ const MotionForm = (
     )
   }
 
-  const handleCancel = () => {
-    resetFormData()
-  }
+  const handleCancel = () => resetFormData()
 
-  const currentMotionTypeOption = () => {
-    return motionTypeOptions.find(option => option.value === motionType)
-  }
+  const currentMotionTypeOption = () => motionTypeOptions.find(option => option.value === motionType)
 
-  const velocityStepSize = () => {
-    return (
-      currentMotionTypeOption() && currentMotionTypeOption().step ?
-        currentMotionTypeOption().step :
-        100
-    )
-  }
+  const velocityStepSize = () => currentMotionTypeOption()?.step || 100
 
   return (
     <OptionalFormSet
       subFormLabel={label}
       valueSummary={valueSummary}
-      openSubFormLabel={openSubFormLabel}
       onSave={handleSave}
       onCancel={handleCancel}
-      onToggleSubform={onToggleSubform}
     >
       <div className="motion-form">
         <FormGroup>
