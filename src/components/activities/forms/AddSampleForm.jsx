@@ -158,7 +158,9 @@ const AddSampleForm = (
 
 AddSampleForm.propTypes = {
   activity: PropTypes.object.isRequired,
-  onWorkupChange: PropTypes.func.isRequired
+  preconditions: PropTypes.object.isRequired,
+  openSubFormLabel: PropTypes.string.isRequired,
+  onWorkupChange: PropTypes.func.isRequired,
 }
 
 export default AddSampleForm

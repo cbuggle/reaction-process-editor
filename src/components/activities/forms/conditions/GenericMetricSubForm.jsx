@@ -26,7 +26,6 @@ const GenericMetricSubForm = (
   const selectOptions = useContext(SelectOptions) || headerSelectOptions
 
   const additionalInformationOptions = selectOptions.condition_additional_information[metricName]
-  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
 
   const initialValue = () => {
     return findInitialValue('value', MetricsDecorator.defaultValueInDefaultUnit(metricName))
@@ -116,16 +115,12 @@ const GenericMetricSubForm = (
   }
 
   const handleSave = () => {
-    let condition = {
-      value: value,
-      unit: unit,
-      additional_information: additionalInformation
-    };
+    let condition = { value: value, unit: unit, additional_information: additionalInformation };
 
     if (metricName === 'IRRADIATION') {
       condition.power_value = powerValue
-      condition.power_is_ramp = powerRamp
       if (powerRamp) {
+        condition.power_is_ramp = powerRamp
         condition.power_end_value = powerEndValue
       }
     }
@@ -162,11 +157,9 @@ const GenericMetricSubForm = (
           {renderPowerForm()}
         </FormGroup>
       }
-      {equipmentOptions.length > 0 &&
-        <FormGroup>
-          {renderAdditionalInformationSelect()}
-        </FormGroup>
-      }
+      <FormGroup>
+        {renderAdditionalInformationSelect()}
+      </FormGroup>
       {children}
     </OptionalFormSet>
   );

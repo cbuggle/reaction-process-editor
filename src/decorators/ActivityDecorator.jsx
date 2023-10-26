@@ -47,7 +47,8 @@ export default class ActivityDecorator {
   }
 
   static conditionInfo = (metricName, conditionWorkup, selectOptions, precondition) => {
-    const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
+    const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName] || []
+    console.log(selectOptions)
 
     let info
     if (metricName === 'EQUIPMENT') {
@@ -73,10 +74,9 @@ export default class ActivityDecorator {
   }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {
-    return equipment && equipment.map((equipmentValue) => {
-      let matchingOption = equipmentOptions.find((option) => option.value === equipmentValue)
-      return matchingOption ? matchingOption.label : ''
-    }).join(', ')
+    return equipment && equipment.map((equipmentValue) => (
+      equipmentOptions.find((option) => option.value === equipmentValue)?.label
+    )).join(', ')
   }
 
   static addSampleConditionInfoLine = (workup) => {
