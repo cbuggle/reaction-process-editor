@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import ActionForm from "./forms/ActionForm";
+import ActionForm from "./forms/actions/ActionForm";
 import ActivityDecorator from '../../decorators/ActivityDecorator';
 import ActivityInfo from "./ActivityInfo";
-import ConditionForm from "./forms/ConditionForm";
+import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 
@@ -144,7 +144,8 @@ const ActivityCard = (
             onChangeDuration={setDuration}
             onToggleSubform={handleToggleSubform}
           />
-        }      </ProcedureCard.Form>
+        }
+      </ProcedureCard.Form>
     </ProcedureCard>
   );
 };

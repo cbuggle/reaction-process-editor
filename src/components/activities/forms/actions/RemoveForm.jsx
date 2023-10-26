@@ -2,15 +2,14 @@ import React, { useContext } from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
-import FormSection from "../../utilities/FormSection";
-import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import NumericalInputWithUnit from '../../../utilities/NumericalInputWithUnit';
+import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import MetricsDecorator from '../../../decorators/MetricsDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-import { StepSelectOptions } from '../../steps/StepColumnCard';
-import { SelectOptions } from '../../views/Reaction';
-import { removeFormMetricNames } from '../../../constants/metrics';
+import { StepSelectOptions } from '../../../steps/StepColumnCard';
+import { SelectOptions } from '../../../views/Reaction';
+import { removeFormMetricNames } from '../../../../constants/metrics';
 
 const RemoveForm = (
   {
@@ -159,7 +158,7 @@ const RemoveForm = (
   }
 
   return (
-    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+    <>
       <SingleLineFormGroup label='Type'>
         <Select
           className="react-select--overwrite"
@@ -171,7 +170,7 @@ const RemoveForm = (
         />
       </SingleLineFormGroup>
       {renderGenericRemoveFields()}
-    </FormSection>
+    </ >
   )
 }
 

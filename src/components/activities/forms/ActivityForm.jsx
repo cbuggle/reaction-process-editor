@@ -2,10 +2,10 @@ import React from 'react'
 import { Form } from 'reactstrap'
 import PropTypes from 'prop-types'
 
-import ApplyExtraEquipmentFormSet from './ApplyExtraEquipmentFormSet';
-import DescriptionFormSet from "./DescriptionFormSet";
+import ApplyExtraEquipmentFormSet from './formsets/ApplyExtraEquipmentFormSet';
+import DescriptionFormSet from "./formsets/DescriptionFormSet";
 import FormButtons from "../../utilities/FormButtons";
-import TimingFormSet from "./TimingFormSet";
+import TimingFormSet from "./formsets/TimingFormSet";
 
 import ActionValidator from '../../../validators/ActionValidator'
 

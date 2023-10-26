@@ -3,16 +3,16 @@ import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
-import AmountInputSet from "../../utilities/AmountInputSet";
-import FormSection from "../../utilities/FormSection";
-import NumericalInputWithUnit from '../../utilities/NumericalInputWithUnit';
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import AmountInputSet from "../../../utilities/AmountInputSet";
+import FormSection from "../../../utilities/FormSection";
+import NumericalInputWithUnit from '../../../utilities/NumericalInputWithUnit';
+import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import MetricsDecorator from '../../../decorators/MetricsDecorator';
-import SamplesDecorator from '../../../decorators/SamplesDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
+import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
-import { unitTypes } from '../../../constants/metrics';
-import { SelectOptions } from '../../views/Reaction';
+import { unitTypes } from '../../../../constants/metrics';
+import { SelectOptions } from '../../../views/Reaction';
 
 const AddSampleForm = (
   {

@@ -4,7 +4,7 @@ import Select from "react-select";
 
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
-import OptionalFormSet from "../OptionalFormSet";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import { SelectOptions } from '../../../views/Reaction';
 import { MainHeaderSelectOptions } from '../../../layout/MainHeader';

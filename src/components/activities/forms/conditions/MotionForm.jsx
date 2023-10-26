@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
-import OptionalFormSet from "../OptionalFormSet";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import { SelectOptions } from '../../../views/Reaction';
 

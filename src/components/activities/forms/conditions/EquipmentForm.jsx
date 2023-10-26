@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Select from 'react-select'
 
 import { FormGroup } from "reactstrap";
-import OptionalFormSet from "../OptionalFormSet";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 const EquipmentForm = (
   {

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import ActivityForm from "./ActivityForm";
-import MetricsFormGroup from "./conditions/MetricsFormGroup";
+import ActivityForm from "../ActivityForm";
+import MetricsFormGroup from "./MetricsFormGroup";
 
-import { conditionFormMetricNames } from "../../../constants/metrics.jsx";
+import { conditionFormMetricNames } from "../../../../constants/metrics.jsx";
 
 const ConditionForm = (
   {

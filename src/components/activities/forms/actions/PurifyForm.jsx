@@ -3,23 +3,20 @@ import { Input, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import FormSection from "../../utilities/FormSection";
-
-import { SelectOptions } from '../../views/Reaction';
+import { SelectOptions } from '../../../views/Reaction';
 import { useContext } from 'react';
 
 const PurifyForm = (
   {
     activity,
-    openSubFormLabel,
     onWorkupChange
   }) => {
 
   const selectOptions = useContext(SelectOptions)
-
   const purifySolventOptions = selectOptions.materials['SOLVENT']
+
   const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
   const filtrationModeKeepRetentate = activity.workup['filtration_mode'] === 'KEEP_RETENTATE'
 
@@ -36,8 +33,8 @@ const PurifyForm = (
             width='200'
             checked={filtrationModeKeepRetentate}
             onlabel='Keep Retentate'
-            onstyle='outline-secondary'
             offlabel='Keep Permeate'
+            onstyle='outline-secondary'
             offstyle='outline-info'
             onChange={() => {
               toggleFiltrationMode()
@@ -49,7 +46,7 @@ const PurifyForm = (
   }
 
   return (
-    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+    <>
       <FormGroup>
         {renderFilterMethodButtonToggle()}
       </FormGroup>
@@ -82,7 +79,7 @@ const PurifyForm = (
           onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
         />
       </SingleLineFormGroup>
-    </FormSection>
+    </>
   )
 }
 

@@ -1,7 +1,7 @@
 import {Button, FormGroup, Label} from "reactstrap";
 import React, {useState} from "react";
-import FormButtons from "../../utilities/FormButtons";
-import FormSection from "../../utilities/FormSection";
+import FormButtons from "../../../utilities/FormButtons";
+import FormSection from "../../../utilities/FormSection";
 
 const ExtraButton = () => null
 

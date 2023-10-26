@@ -3,9 +3,9 @@ import Select from 'react-select'
 
 import OptionalFormSet from './OptionalFormSet'
 
-import { SelectOptions } from '../../views/Reaction'
+import { SelectOptions } from '../../../views/Reaction'
 
-import ActivityDecorator from '../../../decorators/ActivityDecorator'
+import ActivityDecorator from '../../../../decorators/ActivityDecorator'
 
 const ApplyExtraEquipmentFormSet = (
   {

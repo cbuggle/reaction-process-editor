@@ -2,22 +2,21 @@ import React, { useContext } from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
-import FormSection from "../../utilities/FormSection";
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import FormSection from "../../../utilities/FormSection";
+import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import { SelectOptions } from '../../views/Reaction';
+import { SelectOptions } from '../../../views/Reaction';
 
 const AnalysisForm = (
   {
     activity,
-    openSubFormLabel,
     onWorkupChange
   }) => {
 
   const selectOptions = useContext(SelectOptions)
 
   return (
-    <FormSection type='action' openSubFormLabel={openSubFormLabel}>
+    <>
       <SingleLineFormGroup label='Type'>
         <Select
           className="react-select--overwrite"
@@ -44,7 +43,7 @@ const AnalysisForm = (
           onChange={event => onWorkupChange({ name: 'analysis_number', value: event.target.value })}
         />
       </SingleLineFormGroup>
-    </FormSection>
+    </>
   )
 }
 

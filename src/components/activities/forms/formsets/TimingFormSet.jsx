@@ -1,7 +1,7 @@
-import TimeDecorator from "../../../decorators/TimeDecorator";
+import TimeDecorator from "../../../../decorators/TimeDecorator";
 import OptionalFormSet from "./OptionalFormSet";
 import React, { useEffect, useState } from "react";
-import DurationSelection from "../../utilities/DurationSelection";
+import DurationSelection from "../../../utilities/DurationSelection";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
 

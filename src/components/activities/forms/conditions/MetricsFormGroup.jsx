@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import ActivityDecorator from "../../../../decorators/ActivityDecorator";
-import ApplyExtraEquipmentForm from "../ApplyExtraEquipmentForm";
+import ApplyExtraEquipmentForm from './ApplyExtraEquipmentForm';
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import EquipmentForm from "./EquipmentForm";
 import GenericMetricSubForm from "./GenericMetricSubForm";
@@ -20,7 +20,8 @@ const MetricsFormGroup = (
     onToggleSubform,
     typeColor = 'condition'
   }) => {
-    // This Component is ancestor of either Reaction or MainHeader which both define the required context.
+
+    // This Component is descendant of either Reaction or MainHeader which both define the required context.
   const headerSelectOptions = useContext(MainHeaderSelectOptions)
   const selectOptions = useContext(SelectOptions) || headerSelectOptions
   const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
