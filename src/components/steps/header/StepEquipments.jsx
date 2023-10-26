@@ -2,7 +2,7 @@
 import React, { useContext } from 'react'
 import EquipmentBox from './EquipmentBox'
 
-import { StepSelectOptions } from '../StepColumnCard'
+import { StepSelectOptions } from '../../../contexts/StepSelectOptions'
 
 const StepEquipments = () => {
 

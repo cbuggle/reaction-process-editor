@@ -7,8 +7,8 @@ import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-import { StepSelectOptions } from '../../../steps/StepColumnCard';
-import { SelectOptions } from '../../../views/Reaction';
+import { StepSelectOptions } from '../../../../contexts/StepSelectOptions';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 import { removeFormMetricNames } from '../../../../constants/metrics';
 
 const RemoveForm = (

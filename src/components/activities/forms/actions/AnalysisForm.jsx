@@ -2,10 +2,9 @@ import React, { useContext } from 'react'
 import { Input } from 'reactstrap'
 import Select from 'react-select'
 
-import FormSection from "../../../utilities/FormSection";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import { SelectOptions } from '../../../views/Reaction';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const AnalysisForm = (
   {

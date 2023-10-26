@@ -6,7 +6,7 @@ import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
-import { SelectOptions } from '../../../views/Reaction';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const MotionForm = (
   {

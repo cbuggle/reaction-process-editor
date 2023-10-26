@@ -7,8 +7,7 @@ import EquipmentForm from "./EquipmentForm";
 import GenericMetricSubForm from "./GenericMetricSubForm";
 import MotionForm from "./MotionForm";
 
-import { SelectOptions } from '../../../views/Reaction';
-import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const MetricsFormGroup = (
   {
@@ -22,8 +21,7 @@ const MetricsFormGroup = (
   }) => {
 
     // This Component is descendant of either Reaction or MainHeader which both define the required context.
-  const headerSelectOptions = useContext(MainHeaderSelectOptions)
-  const selectOptions = useContext(SelectOptions) || headerSelectOptions
+  const selectOptions = useContext(SelectOptions)
   const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
 
   const hasPreCondition = !!preCondition && preCondition.value !== null

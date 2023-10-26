@@ -5,7 +5,7 @@ import Select from 'react-select'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import { SelectOptions } from '../../../views/Reaction';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 import { useContext } from 'react';
 
 const PurifyForm = (

@@ -6,8 +6,7 @@ import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
-import { SelectOptions } from '../../../views/Reaction';
-import { MainHeaderSelectOptions } from '../../../layout/MainHeader';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const GenericMetricSubForm = (
   {
@@ -22,8 +21,7 @@ const GenericMetricSubForm = (
     typeColor = 'condition'
   }) => {
 
-  const headerSelectOptions = useContext(MainHeaderSelectOptions)
-  const selectOptions = useContext(SelectOptions) || headerSelectOptions
+  const selectOptions = useContext(SelectOptions)
 
   const additionalInformationOptions = selectOptions.condition_additional_information[metricName]
 

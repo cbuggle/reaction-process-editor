@@ -3,7 +3,7 @@ import Select from 'react-select'
 
 import OptionalFormSet from './OptionalFormSet'
 
-import { SelectOptions } from '../../../views/Reaction'
+import { SelectOptions } from '../../../../contexts/SelectOptions'
 
 import ActivityDecorator from '../../../../decorators/ActivityDecorator'
 

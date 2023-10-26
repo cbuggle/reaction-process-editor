@@ -12,7 +12,7 @@ import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
 import { unitTypes } from '../../../../constants/metrics';
-import { SelectOptions } from '../../../views/Reaction';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const AddSampleForm = (
   {

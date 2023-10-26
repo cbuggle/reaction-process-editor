@@ -9,7 +9,6 @@ import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
 
-import { SelectOptions } from '../../../views/Reaction';
 
 const ActionForm = (
   {

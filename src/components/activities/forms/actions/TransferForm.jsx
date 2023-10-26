@@ -6,7 +6,7 @@ import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
-import { StepSelectOptions } from '../../../steps/StepColumnCard';
+import { StepSelectOptions } from '../../../../contexts/StepSelectOptions';
 
 const TransferForm = (
   {

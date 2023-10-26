@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
@@ -7,9 +7,8 @@ import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 import StepsContainer from '../steps/StepsContainer';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import { SelectOptions } from '../../contexts/SelectOptions';
 
-
-export const SelectOptions = createContext()
 
 const Reaction = () => {
   const api = useReactionsFetcher();

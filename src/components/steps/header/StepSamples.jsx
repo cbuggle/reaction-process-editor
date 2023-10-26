@@ -3,7 +3,7 @@ import MediumBox from './MediumBox'
 import SampleBox from './SampleBox'
 import SolventBox from './SolventBox'
 
-import { StepSelectOptions } from '../StepColumnCard'
+import { StepSelectOptions } from '../../../contexts/StepSelectOptions'
 
 const StepSamples = () => {
 

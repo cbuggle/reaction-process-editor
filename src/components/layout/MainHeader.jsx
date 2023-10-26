@@ -1,21 +1,11 @@
-import React, { useEffect, useState, createContext } from 'react'
-import {
-  Navbar,
-  NavbarBrand,
-  Nav,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-
+import React, { useEffect, useState } from 'react'
+import { DropdownMenu, DropdownItem, DropdownToggle, Navbar, NavbarBrand, Nav, UncontrolledDropdown } from 'reactstrap'
 import { Link, useLocation } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
-
-export const MainHeaderSelectOptions = createContext()
+import { SelectOptions } from '../../contexts/SelectOptions'
 
 const MainHeader = () => {
   const location = useLocation();
@@ -133,13 +123,13 @@ const MainHeader = () => {
             </UncontrolledDropdown>
           </Nav>
           <Nav navbar className="justify-content-end align-items-center">
-            <MainHeaderSelectOptions.Provider value={actionTypeEquipmentOptions}>
+            <SelectOptions.Provider value={actionTypeEquipmentOptions}>
               <UserMenu
                 defaultConditions={userDefaultConditions}
                 preconditions={globalDefaultConditions}
 
               />
-            </MainHeaderSelectOptions.Provider>
+            </SelectOptions.Provider>
           </Nav>
         </>
       }

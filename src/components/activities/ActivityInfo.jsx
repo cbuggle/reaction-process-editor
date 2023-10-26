@@ -4,8 +4,8 @@ import ActivityDecorator from '../../decorators/ActivityDecorator';
 import MetricsDecorator from '../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
-import { SelectOptions } from '../views/Reaction';
 import { removeFormMetricNames } from '../../constants/metrics';
+import { SelectOptions } from '../../contexts/SelectOptions';
 
 const ActivityInfo = (
   {

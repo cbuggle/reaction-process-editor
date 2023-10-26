@@ -9,7 +9,7 @@ import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-import { SelectOptions } from '../../../views/Reaction'
+import { SelectOptions } from '../../../../contexts/SelectOptions'
 
 const SaveSampleForm = (
   {

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState } from 'react';
 
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
@@ -12,7 +12,7 @@ import StepForm from './StepForm';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-export const StepSelectOptions = createContext();
+import { StepSelectOptions } from '../../contexts/StepSelectOptions';
 
 const StepColumCard = (
   {

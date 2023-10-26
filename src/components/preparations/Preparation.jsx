@@ -8,7 +8,7 @@ import ProcedureCard from "../utilities/ProcedureCard";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
-import { SelectOptions } from '../views/Reaction';
+import { SelectOptions } from '../../contexts/SelectOptions';
 
 const Preparation = ({ preparation, reactionProcessId }) => {
 
