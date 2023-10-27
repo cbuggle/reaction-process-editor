@@ -27,7 +27,7 @@ const ApplyExtraEquipmentFormSet = (
       {equipmentOptions.length > 0 &&
         <OptionalFormSet
           subFormLabel='Equipment'
-          valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['EQUIPMENT'], equipmentOptions)}
+          valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['EQUIPMENT']?.value, equipmentOptions)}
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
           typeColor={activityType}
