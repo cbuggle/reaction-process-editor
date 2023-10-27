@@ -17,7 +17,6 @@ const GenericMetricSubForm = (
     onSave,
     onCancel,
     isEqualToPredefinedValue = false,
-    resetEquipment,
     typeColor = 'condition'
   }) => {
 

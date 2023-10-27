@@ -16,7 +16,7 @@ const MainHeader = () => {
   const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
-  const [actionTypeEquipmentOptions, setActionTypeEquipmentOptions] = useState([])
+  const [selectOptions, setSelectOptions] = useState([])
   const [userDefaultConditions, setUserDefaultConditions] = useState([])
   const [globalDefaultConditions, setGlobalDefaultConditions] = useState([])
 
@@ -80,10 +80,12 @@ const MainHeader = () => {
   }
 
   const fetchUserDefaultConditions = () => {
-    reactionApi.geDefaultConditions().then((default_conditions) => {
-      setGlobalDefaultConditions(default_conditions['global'])
-      setUserDefaultConditions(default_conditions['user'])
-      setActionTypeEquipmentOptions(default_conditions['default_conditions_form_options'])
+    reactionApi.geDefaultConditions().then((defaultConditions) => {
+      console.log("defaultConditions in Mainheader")
+      console.log(defaultConditions)
+      setGlobalDefaultConditions(defaultConditions['global'])
+      setUserDefaultConditions(defaultConditions['user'])
+      setSelectOptions(defaultConditions['select_options'])
     })
   }
 
@@ -97,7 +99,7 @@ const MainHeader = () => {
   }
 
   return (
-    <SelectOptions.Provider value={actionTypeEquipmentOptions}>
+    <SelectOptions.Provider value={selectOptions}>
       <SubFormController.Provider value={SubFormToggle()}>
         <Navbar className='bg-secondary main-header' dark expand={true}>
           <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
