@@ -100,7 +100,6 @@ const MetricFormGroup = (
           typeColor={typeColor}
           onCancel={handleCancel}
         >
-          {equipment}
           <EquipmentSubsetFormSection
             metricName={metricName}
             equipment={equipment}
