@@ -44,9 +44,10 @@ const AddSampleForm = (
       value = value === 0 ? 0 : value || preconditions[metricName]?.value
       value = value === 0 ? 0 : value || MetricsDecorator.defaultValueInDefaultUnit(metricName)
 
-      activity.workup[unitKey] || onWorkupChange({ name: unitKey, value: unit })
-      activity.workup[valueKey] || onWorkupChange({ name: valueKey, value: value })
+      onWorkupChange({ name: unitKey, value: unit })
+      onWorkupChange({ name: valueKey, value: value })
     })
+    // eslint-disable-next-line
   }, [])
 
   // 'DIVERSE_SOLVENT' shall be categorized as 'SOLVENT' in AddSample, requested by NJung.

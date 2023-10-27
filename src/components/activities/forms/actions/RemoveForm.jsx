@@ -67,7 +67,6 @@ const RemoveForm = (
             onChange={handleConditionChange(typeName)}
           />
         </>
-
       )
     )
   }
@@ -134,7 +133,7 @@ const RemoveForm = (
       case 'ADDITIVE':
         return solventRemoveFields('Solvent (Additive)', additivesSelectOptions)
       case 'DIVERSE_SOLVENT':
-        return solventRemoveFields('Solvent (Diverse)', additivesSelectOptions)
+        return solventRemoveFields('Solvent (Diverse)', diverseSolventsSelectOptions)
       case 'MEDIUM':
         return mediumRemoveFields()
       default:
