@@ -28,7 +28,7 @@ const OptionalFormSet = (
   const [showForm, setShowForm] = useState(false)
 
   const toggleShowForm = () => {
-    subFormController.toggleSubform(showForm ? undefined : subFormLabel)
+    subFormController.toggleSubform(subFormLabel)
     setShowForm(!showForm)
   }
 

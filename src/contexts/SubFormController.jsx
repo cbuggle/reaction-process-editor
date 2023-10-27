@@ -2,16 +2,23 @@ import { createContext, useState } from "react";
 
 export const SubFormToggle = () => {
   const nonBlockingSubForms = ['Timing']
+  const nonBlockableSubForms = nonBlockingSubForms
 
-  const [openSubFormLabel, setOpenSubFormLabel] = useState(undefined)
+  const [openSubFormLabel, setOpenSubFormLabel] = useState([])
 
-  const toggleSubform = (name) => nonBlockingSubForms.includes(name) || setOpenSubFormLabel(name)
+  const toggleSubform = (toggled) => openSubFormLabel.includes(toggled) ?
+    setOpenSubFormLabel(openSubFormLabel.filter(label => toggled !== label))
+    :
+    setOpenSubFormLabel(openSubFormLabel.concat(toggled))
 
-  const anySubFormOpen = () => openSubFormLabel !== undefined
 
-  const isBlockedByOther = (name) => anySubFormOpen() && !nonBlockingSubForms.includes(name)
+  const anySubFormOpen = () => openSubFormLabel.length > 0
 
-  const isCurrentOpen = (name) => !!name && openSubFormLabel === name
+  const anyBlockingSubformOpen = () => openSubFormLabel.find(label => !nonBlockingSubForms.includes(label))
+
+  const isBlockedByOther = (label) => !nonBlockableSubForms.includes(label) && anyBlockingSubformOpen()
+
+  const isCurrentOpen = (label) => openSubFormLabel.includes(label)
 
   return {
     openSubFormLabel,
@@ -20,7 +27,6 @@ export const SubFormToggle = () => {
     isCurrentOpen,
     isBlockedByOther
   }
-
 }
 
 export const SubFormController = createContext();

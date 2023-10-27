@@ -24,7 +24,7 @@ const ApplyExtraEquipmentFormSet = (
 
   return (
     <>
-      {equipmentOptions.length > 0 &&
+      {equipmentOptions?.length > 0 &&
         <OptionalFormSet
           subFormLabel='Equipment'
           valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['EQUIPMENT']?.value, equipmentOptions)}
