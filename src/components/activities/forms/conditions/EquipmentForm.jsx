@@ -1,41 +1,32 @@
-import React, { useState } from 'react'
-import Select from 'react-select'
+import React from 'react'
 import { FormGroup } from "reactstrap";
 
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
+import EquipmentSubsetForm from './EquipmentSubsetForm';
+
 const EquipmentForm = (
   {
-    label,
+    metricName,
+    equipment,
     valueSummary,
-    findInitialValue,
-    equipmentOptions,
+    onChangeEquipment,
     onSave,
+    onCancel
   }) => {
-  const resetEquipment = () => findInitialValue('value', undefined)
-
-  const [equipment, setEquipment] = useState(resetEquipment())
-
-  const handleSave = () => onSave(equipment)
-
-  const handleCancel = () => setEquipment(resetEquipment())
 
   return (
     <OptionalFormSet
-      subFormLabel={label}
+      subFormLabel={'Equipment'}
       valueSummary={valueSummary}
-      onSave={handleSave}
-      onCancel={handleCancel}
+      onCancel={onCancel}
+      onSave={onSave}
     >
       <FormGroup>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="equipment"
-          isMulti
-          options={equipmentOptions}
-          value={equipmentOptions.filter(option => (equipment || []).includes(option.value))}
-          onChange={selectedOptions => setEquipment(selectedOptions.map(option => option.value))}
+        <EquipmentSubsetForm
+          metricName={metricName}
+          equipment={equipment}
+          onChangeEquipment={onChangeEquipment}
         />
       </FormGroup>
     </OptionalFormSet>

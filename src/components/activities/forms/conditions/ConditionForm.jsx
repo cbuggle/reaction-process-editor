@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ActivityForm from "../ActivityForm";
-import MetricsFormGroup from "./MetricsFormGroup";
+import MetricFormGroup from "./MetricFormGroup";
 
 import { conditionFormMetricNames } from "../../../../constants/metrics.jsx";
 
@@ -23,16 +23,16 @@ const ConditionForm = (
       onCancel={onCancel}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}
-          >
+    >
       {
         conditionFormMetricNames.map((metricName) => (
-          <MetricsFormGroup
+          <MetricFormGroup
             key={metricName}
             metricName={metricName}
-            preCondition={preconditions[metricName]}
+            precondition={preconditions[metricName]}
             workup={activity.workup}
             onWorkupChange={onWorkupChange}
-                      />)
+          />)
         )
       }
     </ActivityForm >

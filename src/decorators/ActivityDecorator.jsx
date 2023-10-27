@@ -73,8 +73,8 @@ export default class ActivityDecorator {
   }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {
-    return equipment && equipment.map((equipmentValue) => (
-      equipmentOptions.find((option) => option.value === equipmentValue)?.label
+    return equipment?.map((item) => (
+      equipmentOptions.find((option) => option.value === item)?.label
     )).join(', ')
   }
 

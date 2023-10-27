@@ -13,12 +13,12 @@ const ApplyExtraEquipmentFormSet = (
     onWorkupChange
   }) => {
 
-  const [equipment, setEquipment] = useState(activity.workup.equipment)
+  const [equipment, setEquipment] = useState(activity.workup.EQUIPMENT?.value)
 
   const selectOptions = useContext(SelectOptions)
   const equipmentOptions = selectOptions.action_type_equipment[activity.action_name]
 
-  const handleSaveEquipment = () => onWorkupChange({ name: 'equipment', value: equipment })
+  const handleSaveEquipment = () => onWorkupChange({ name: 'EQUIPMENT', value: { value: equipment } })
 
   const handleCancelEquipment = () => setEquipment(activity.workup.equipment)
 
@@ -27,16 +27,16 @@ const ApplyExtraEquipmentFormSet = (
       {equipmentOptions.length > 0 &&
         <OptionalFormSet
           subFormLabel='Equipment'
-          valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['equipment'], equipmentOptions)}
+          valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['EQUIPMENT'], equipmentOptions)}
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
-                    typeColor={activityType}
+          typeColor={activityType}
         >
           <Select
             className="react-select--overwrite"
             classNamePrefix="react-select"
             isMulti
-            name="equipment"
+            name="EQUIPMENT"
             options={equipmentOptions}
             value={equipmentOptions.filter(option => (equipment || []).includes(option.value))}
             onChange={selectedOptions => setEquipment(selectedOptions.map(option => option.value))}
