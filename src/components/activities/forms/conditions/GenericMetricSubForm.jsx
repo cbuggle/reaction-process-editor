@@ -64,7 +64,7 @@ const GenericMetricSubForm = (
 
   const renderPowerForm = () => {
     return (
-      <>
+      <FormGroup>
         <FormGroup check>
           <Input
             type="checkbox"
@@ -87,27 +87,25 @@ const GenericMetricSubForm = (
             onChange={setPowerEndValue}
           />
         }
-      </>
+      </FormGroup>
     )
   }
 
   const renderAdditionalInformationSelect = () => {
     return (
-      additionalInformationOptions.length > 0 ?
-        <>
-          <Label>
-            Additional Information
-          </Label>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="additional_information"
-            options={additionalInformationOptions}
-            value={currentSelectedAdditionalInformationOption}
-            onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
-          />
-        </> :
-        <></>
+      <FormGroup>
+        <Label>
+          Additional Information
+        </Label>
+        <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
+          name="additional_information"
+          options={additionalInformationOptions}
+          value={currentSelectedAdditionalInformationOption}
+          onChange={selectedOption => setAdditionalInformation(selectedOption.value)}
+        />
+      </FormGroup>
     )
   }
 
@@ -148,14 +146,8 @@ const GenericMetricSubForm = (
           />
         </Col>
       </Row>
-      {metricName === 'IRRADIATION' &&
-        <FormGroup>
-          {renderPowerForm()}
-        </FormGroup>
-      }
-      <FormGroup>
-        {renderAdditionalInformationSelect()}
-      </FormGroup>
+      {metricName === 'IRRADIATION' && renderPowerForm()}
+      {additionalInformationOptions.length > 0 && renderAdditionalInformationSelect()}
       {children}
     </OptionalFormSet>
   );
