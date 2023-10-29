@@ -37,7 +37,6 @@ const RemoveForm = (
       removeFormMetricNames.forEach(typeName =>
         onWorkupChange({ name: typeName, value: null }))
     } else {
-      onWorkupChange({ name: 'duration_in_minutes', value: null })
       onWorkupChange({ name: 'remove_repetitions', value: null })
       onWorkupChange({ name: 'replacement_medium', value: null })
     }
@@ -104,12 +103,6 @@ const RemoveForm = (
     return (
       < >
         {renderSampleSelect('Sample', mediumSelectOptions)}
-        <NumericalInputWithUnit
-          label={MetricsDecorator.label('DURATION')}
-          value={activity.workup['duration_in_minutes'] || MetricsDecorator.defaultValueInDefaultUnit('DURATION')}
-          unitType={MetricsDecorator.defaultUnitType('DURATION')}
-          onChange={handleValueChange('duration_in_minutes')}
-        />
         <NumericalInputWithUnit
           label={MetricsDecorator.label('REPETITIONS')}
           value={activity.workup['remove_repetitions'] || MetricsDecorator.defaultValueInDefaultUnit('REPETITIONS')}

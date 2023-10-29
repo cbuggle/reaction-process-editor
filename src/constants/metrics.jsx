@@ -7,7 +7,7 @@ export const predefinableMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE']
 
 export const removeFormMetricNames = ['TEMPERATURE', 'PRESSURE']
 
-// We want to allow 120% of sample amounts for
+// We want to allow 120% of sample amounts when Adding/Transfering
 export const allowedAmountOverscale = 1.2
 
 export const metrics = {
@@ -98,242 +98,148 @@ export const unitTypes = {
 
   // mg, mmol, ml, etc. are downcase for consistency with ELN.
   // All others are unaltered (upcase) ORD constants.
+
+  // fromBase, toBase are required technically only on metrics bearing more than one but better have it complete.
+
   // MOL / molar
   'mol': {
     label: 'mol',
-    inputRange: {
-      min: 0,
-      precision: 1,
-      step: 1,
-      initialStepValue: 1,
-    },
+    inputRange: { min: 0, precision: 1, step: 1, initialStepValue: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
   'mmol': {
     label: 'mmol',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 10,
-      initialStepValue: 10,
-    },
+    inputRange: { min: 0, precision: 0, step: 10, initialStepValue: 10, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'mcmol': {
     label: 'mcmol',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 10,
-      initialStepValue: 10,
-    },
+    inputRange: { min: 0, precision: 0, step: 10, initialStepValue: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
   },
   'nmol': {
     label: 'nmol',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 10,
-      initialStepValue: 10,
-    },
+    inputRange: { min: 0, precision: 0, step: 10, initialStepValue: 10, },
     fromBase: (value) => value * (1000 * 1000),
     toBase: (value) => value / (1000 * 1000),
   },
   // WEIGHT / gravimetric
   'g': {
     label: 'g',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 1,
-      initialStepValue: 1,
-    },
+    inputRange: { min: 0, precision: 0, step: 1, initialStepValue: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
   'mg': {
     label: 'mg',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 10,
-      initialStepValue: 10,
-    },
+    inputRange: { min: 0, precision: 0, step: 10, initialStepValue: 10, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'mcg': {
     label: 'mcg',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 10,
-      initialStepValue: 10,
-    },
+    inputRange: { min: 0, precision: 0, step: 10, initialStepValue: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
   },
   // VOLUME / volumetric
   'ml': {
     label: 'ml',
-    inputRange: {
-      min: 0,
-      precision: 0,
-      step: 10,
-      initialStepValue: 10,
-    },
+    inputRange: { min: 0, precision: 0, step: 10, initialStepValue: 10, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'l': {
     label: 'l',
-    inputRange: {
-      min: 0,
-      precision: 1,
-      step: 1,
-      initialStepValue: 1,
-    },
+    inputRange: { min: 0, precision: 1, step: 1, initialStepValue: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
   'CELSIUS': {
     label: '°C',
-    inputRange: {
-      min: -100,
-      max: 400,
-      precision: 1,
-      step: 1,
-      initialStepValue: 21,
-    },
+    inputRange: { min: -100, max: 400, precision: 1, step: 1, initialStepValue: 21, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'KELVIN': {
-    name: 'KELVIN',
     label: 'K',
-    inputRange: {
-      min: 173.15,
-      max: 573.15,
-      precision: 1,
-      step: 1,
-      initialStepValue: 294.15,
-    },
-    fromBase: (value) => value,
-    toBase: (value) => value,
+    inputRange: { min: 173.15, max: 673.15, precision: 1, step: 1, initialStepValue: 294.15, },
+    fromBase: (value) => value - 273.15,
+    toBase: (value) => value + 273.15,
+  },
+  'FAHRENHEIT': {
+    label: '°F',
+    inputRange: { min: -148, max: 752, precision: 1, step: 1, initialStepValue: 69.8, },
+    fromBase: (value) => 32 + (value * 9 / 5),
+    toBase: (value) => (value - 32) * 5 / 9,
   },
   'PH': {
     label: '',
-    inputRange: {
-      min: 0,
-      max: 14,
-      precision: 2,
-      step: 0.01,
-      initialStepValue: 7,
-    }
+    inputRange: { min: 0, max: 14, precision: 2, step: 0.01, initialStepValue: 7, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'MBAR': {
     label: 'mBar',
-    inputRange: {
-      min: 0,
-      max: 10000,
-      precision: 0,
-      step: 1,
-      initialStepValue: 1013,
-    }
+    inputRange: { min: 0, max: 10000, precision: 0, step: 1, initialStepValue: 1013, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'WATT': {
     label: 'Watt',
-    inputRange: {
-      min: 0,
-      max: 10000,
-      precision: 0,
-      step: 10,
-      initialStepValue: 1000,
-    }
+    inputRange: { min: 0, max: 10000, precision: 0, step: 10, initialStepValue: 1000, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'MLMIN': {
     label: 'ml/min',
-    inputRange: {
-      min: 0,
-      max: 100,
-      precision: 1,
-      step: 10,
-      initialStepValue: 0,
-    }
+    inputRange: { min: 0, max: 100, precision: 1, step: 10, initialStepValue: 0, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'PERCENT': {
     label: '%',
-    inputRange: {
-      min: 0,
-      max: 100 * allowedAmountOverscale,
-      precision: 0,
-      step: 1,
-      initialStepValue: 0,
-    }
+    inputRange: { min: 0, max: 100, precision: 0, step: 1, initialStepValue: 0, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
-  'FRACTION': {
-    // experimental, unused
+  'FRACTION': { // experimental, unused
     label: '',
-    inputRange: {
-      min: 0,
-      max: 10,
-      precision: 2,
-      step: 0.01,
-      initialStepValue: 0,
-    }
+    inputRange: { min: 0, max: 10, precision: 2, step: 0.01, initialStepValue: 0, },
+    fromBase: (value) => value * 100,
+    toBase: (value) => 100 / value,
   },
   'PURITY': {
     label: '',
-    inputRange: {
-      min: 0,
-      max: 1,
-      precision: 2,
-      step: 0.01,
-      initialStepValue: 1,
-    }
+    inputRange: { min: 0, max: 1, precision: 2, step: 0.01, initialStepValue: 1, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'NM': {
     label: 'nm',
-    inputRange: {
-      min: 10,
-      max: 800,
-      precision: 0,
-      step: 1,
-      initialStepValue: 254,
-    },
+    inputRange: { min: 10, max: 800, precision: 0, step: 1, initialStepValue: 254, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'RPM': {
     label: 'rpm',
-    inputRange: {
-      min: 0,
-      max: 9999,
-      precision: 0,
-      step: 100,
-      initialStepValue: 500,
-    }
+    inputRange: { min: 0, max: 9999, precision: 0, step: 100, initialStepValue: 500, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'MINUTES': {
     label: 'minutes',
-    inputRange: {
-      min: 0,
-      max: 1440,
-      precision: 0,
-      step: 1,
-      initialStepValue: 0,
-    }
+    inputRange: { min: 0, max: 1440, precision: 0, step: 1, initialStepValue: 0, },
+    fromBase: (value) => value * 60,
+    toBase: (value) => value / 60,
   },
   'TIMES': {
     label: 'times',
-    inputRange: {
-      min: 0,
-      max: 100,
-      precision: 0,
-      step: 1,
-      initialStepValue: 1,
-    }
+    inputRange: { min: 0, max: 100, precision: 0, step: 1, initialStepValue: 1, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   }
 }
