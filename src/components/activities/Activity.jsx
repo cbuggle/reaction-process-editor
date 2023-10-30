@@ -6,6 +6,8 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import { useDrag, useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
 
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
+
 const Activity = ({ activity, processStep }) => {
   const api = useReactionsFetcher()
 
@@ -88,7 +90,9 @@ const Activity = ({ activity, processStep }) => {
         insertNewBeforeIndex={activity.position}
       />
       <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : {}}>
-        {renderActivity()}
+        <SubFormController.Provider value={SubFormToggle()}>
+          {renderActivity()}
+        </SubFormController.Provider>
       </div>
     </div>
   )

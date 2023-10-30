@@ -6,11 +6,13 @@ export const SubFormToggle = () => {
 
   const [openSubFormLabel, setOpenSubFormLabel] = useState([])
 
-  const toggleSubform = (toggled) => openSubFormLabel.includes(toggled) ?
-    setOpenSubFormLabel(openSubFormLabel.filter(label => toggled !== label))
-    :
-    setOpenSubFormLabel(openSubFormLabel.concat(toggled))
+  const toggleSubForm = (toggled) => openSubFormLabel.includes(toggled) ? closeSubForm(toggled) : openSubForm(toggled)
 
+  const openSubForm = (opening) => setOpenSubFormLabel([...new Set([...openSubFormLabel, opening])]);
+
+  const closeSubForm = (closing) => setOpenSubFormLabel(openSubFormLabel.filter(label => closing !== label))
+
+  const closeSubFormArray = (closing) => setOpenSubFormLabel(openSubFormLabel.filter(label => !closing.includes(label)))
 
   const anySubFormOpen = () => openSubFormLabel.length > 0
 
@@ -20,9 +22,15 @@ export const SubFormToggle = () => {
 
   const isCurrentOpen = (label) => openSubFormLabel.includes(label)
 
+  const closeAllSubForms = () => setOpenSubFormLabel([])
+
   return {
     openSubFormLabel,
-    toggleSubform,
+    openSubForm,
+    closeSubForm,
+    closeAllSubForms,
+    closeSubFormArray,
+    toggleSubForm,
     anySubFormOpen,
     anyBlockingSubformOpen,
     isCurrentOpen,

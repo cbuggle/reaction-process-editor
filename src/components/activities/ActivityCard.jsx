@@ -9,8 +9,6 @@ import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
-
 const ActivityCard = (
   {
     type,
@@ -73,57 +71,55 @@ const ActivityCard = (
   const setDuration = (value) => handleWorkupChange({ name: "duration", value: value })
 
   return (
-    <SubFormController.Provider value={SubFormToggle()}>
-      <ProcedureCard
-        title={cardTitle}
-        type={type}
-        onEdit={edit}
-        onDelete={onDelete}
-        onCancel={handleCancel}
-        showEditBtn={!editable}
-        showMoveXBtn={false}
-        showMoveYBtn={!editable}
-        showDeleteBtn={!editable}
-        showCancelBtn={editable}
-        displayMode={displayMode}
-        headerTitleTag='h6'
-        customClass={customClass}
-        dragRef={dragRef}
-      >
-        <ProcedureCard.Info>
-          <ActivityInfo
-            action={activity}
+    <ProcedureCard
+      title={cardTitle}
+      type={type}
+      onEdit={edit}
+      onDelete={onDelete}
+      onCancel={handleCancel}
+      showEditBtn={!editable}
+      showMoveXBtn={false}
+      showMoveYBtn={!editable}
+      showDeleteBtn={!editable}
+      showCancelBtn={editable}
+      displayMode={displayMode}
+      headerTitleTag='h6'
+      customClass={customClass}
+      dragRef={dragRef}
+    >
+      <ProcedureCard.Info>
+        <ActivityInfo
+          action={activity}
+          preconditions={preconditions}
+        />
+      </ProcedureCard.Info>
+      <ProcedureCard.TypePanel>
+        <TypeSelectionPanel onSelect={onSelectType} />
+      </ProcedureCard.TypePanel>
+      <ProcedureCard.Form>
+        {activityForm && !isCondition &&
+          <ActionForm
+            activity={activityForm}
             preconditions={preconditions}
+            processStep={processStep}
+            onCancel={handleCancel}
+            onSave={onSaveForm}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
           />
-        </ProcedureCard.Info>
-        <ProcedureCard.TypePanel>
-          <TypeSelectionPanel onSelect={onSelectType} />
-        </ProcedureCard.TypePanel>
-        <ProcedureCard.Form>
-          {activityForm && !isCondition &&
-            <ActionForm
-              activity={activityForm}
-              preconditions={preconditions}
-              processStep={processStep}
-              onCancel={handleCancel}
-              onSave={onSaveForm}
-              onWorkupChange={handleWorkupChange}
-              onChangeDuration={setDuration}
-            />
-          }
-          {isCondition &&
-            <ConditionForm
-              activity={activityForm}
-              preconditions={preconditions}
-              onCancel={handleCancel}
-              onSave={onSaveForm}
-              onWorkupChange={handleWorkupChange}
-              onChangeDuration={setDuration}
-            />
-          }
-        </ProcedureCard.Form>
-      </ProcedureCard>
-    </SubFormController.Provider>
+        }
+        {isCondition &&
+          <ConditionForm
+            activity={activityForm}
+            preconditions={preconditions}
+            onCancel={handleCancel}
+            onSave={onSaveForm}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
+          />
+        }
+      </ProcedureCard.Form>
+    </ProcedureCard>
   );
 };
 

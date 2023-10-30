@@ -65,8 +65,8 @@ export default class ActivityDecorator {
     if (metricName === 'MOTION') {
       info = [
         info,
-        selectOptions.motion_types.find(option => option.value === conditionWorkup.motion_type).label,
-        selectOptions.automation_modes.find(option => option.value === conditionWorkup.motion_mode).label
+        selectOptions.motion_types.find(option => option.value === conditionWorkup.motion_type)?.label,
+        selectOptions.automation_modes.find(option => option.value === conditionWorkup.motion_mode)?.label
       ].toString()
     }
     return info;
