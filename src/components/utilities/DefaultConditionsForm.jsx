@@ -66,7 +66,7 @@ const DefaultConditionsForm = (
         onSave={handleSave}
         onCancel={closeForm}
         type={typeColor}
-        disabled={subFormController.anySubFormOpen()}
+        disabled={subFormController.anyBlockingSubformOpen()}
       />
     </Form>
 

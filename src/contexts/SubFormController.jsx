@@ -24,6 +24,7 @@ export const SubFormToggle = () => {
     openSubFormLabel,
     toggleSubform,
     anySubFormOpen,
+    anyBlockingSubformOpen,
     isCurrentOpen,
     isBlockedByOther
   }

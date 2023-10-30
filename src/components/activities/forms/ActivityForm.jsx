@@ -49,7 +49,7 @@ const ActivityForm = (
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
-        disabled={subFormController.anySubFormOpen()}
+        disabled={subFormController.anyBlockingSubformOpen()}
         type={type}
       />
     </Form>
