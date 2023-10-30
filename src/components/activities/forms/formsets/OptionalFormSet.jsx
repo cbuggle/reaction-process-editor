@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, FormGroup, Label } from "reactstrap";
 
 import FormButtons from "../../../utilities/FormButtons";
@@ -22,11 +22,16 @@ const OptionalFormSet = (
   }) => {
 
   const subFormController = useContext(SubFormController)
+  const [showForm, setShowForm] = useState()
+
+  useEffect(() => {
+    setShowForm(subFormController.isCurrentOpen(subFormLabel))
+  }, [subFormController, subFormLabel])
+
 
   const childNodes = React.Children.toArray(children);
   const extraButton = childNodes.find(el => el.type === ExtraButton)
 
-  const [showForm, setShowForm] = useState(false)
 
   useEffect(()=>{
     if(initialShowForm) {

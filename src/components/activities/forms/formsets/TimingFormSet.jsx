@@ -1,9 +1,11 @@
 import TimeDecorator from "../../../../decorators/TimeDecorator";
 import OptionalFormSet from "./OptionalFormSet";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DurationSelection from "../../../utilities/DurationSelection";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
+
+import { SubFormController } from "../../../../contexts/SubFormController";
 
 const TimingFormSet = (
   {
@@ -18,20 +20,31 @@ const TimingFormSet = (
   const [startTime, setStartTime] = useState(!!activity.workup.starts_at ? new Date(activity.workup.starts_at) : new Date())
   const [endTime, setEndTime] = useState(!!activity.workup.ends_at ? new Date(activity.workup.ends_at) : new Date())
   const [timerRunning, setTimerRunning] = useState(false)
+
   const [timerIntervalId, setTimerIntervalId] = useState(NaN)
   const [summary, setSummary] = useState(TimeDecorator.summary(activity.workup))
+  const [timerRunningFromWorkup, setTimerRunningFromWorkup] = useState(activity.workup.timer_started_at)
+
+  const subFormController = useContext(SubFormController)
 
   const dateTimePickerFormat = "HH:mm:ss dd.MM.y"
 
   useEffect(() => {
     if (timerRunning) {
+      clearInterval(timerIntervalId)
+
       setTimerIntervalId(setInterval(updateTimer, 1000))
+    } else if (timerRunningFromWorkup) {
+      setStartTime(new Date(activity.workup.timer_started_at))
+      setTimerRunning(true)
+      setTimerRunningFromWorkup(false)
+      subFormController.openSubForm('Timing')
     } else {
       clearInterval(timerIntervalId)
       setTimerIntervalId(NaN)
     }
     // eslint-disable-next-line
-  }, [timerRunning])
+  }, [timerRunning, activity.workup, activity, activity.workup.timer_started_at])
 
   useEffect(() => {
     setSummary(TimeDecorator.summary(activity.workup))
@@ -78,12 +91,15 @@ const TimingFormSet = (
   }
 
   const toggleTimer = () => {
-    if (!timerRunning) {
+    if (timerRunning) {
+      onWorkupChange({ name: 'timer_started_at', value: undefined })
+    } else {
       setDefineTimeSpan(true)
       const timerStartDate = new Date()
       setStartTime(timerStartDate)
       setEndTime(timerStartDate)
       setDuration(0)
+      onWorkupChange({ name: 'timer_started_at', value: timerStartDate })
     }
     setTimerRunning(!timerRunning)
   }

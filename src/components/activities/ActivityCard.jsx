@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import ActionForm from "./forms/actions/ActionForm";
 import ActivityDecorator from '../../decorators/ActivityDecorator';
@@ -8,6 +8,7 @@ import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import { SubFormController } from '../../contexts/SubFormController';
 
 const ActivityCard = (
   {
@@ -22,6 +23,8 @@ const ActivityCard = (
   }) => {
 
   const api = useReactionsFetcher()
+  const subFormController = useContext(SubFormController)
+
   const isCondition = type === 'condition'
   const isInitialised = !!activity
   const [workup, setWorkup] = useState(isInitialised ? activity.workup : {});
@@ -37,7 +40,8 @@ const ActivityCard = (
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
-  }, [workup]);
+    setDisplayMode(workup.timer_started_at ? 'form' : displayMode)
+  }, [workup, subFormController, subFormController.openSubFormLabel, displayMode]);
 
   const edit = () => setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
 
@@ -51,6 +55,7 @@ const ActivityCard = (
 
   const onSaveForm = () => {
     onSave(activityForm)
+    subFormController.closeAllSubForms()
     if (isInitialised) {
       setDisplayMode('info')
     } else {
