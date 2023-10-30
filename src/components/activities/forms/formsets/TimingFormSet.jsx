@@ -32,7 +32,6 @@ const TimingFormSet = (
   useEffect(() => {
     if (timerRunning) {
       clearInterval(timerIntervalId)
-
       setTimerIntervalId(setInterval(updateTimer, 1000))
     } else if (timerRunningFromWorkup) {
       setStartTime(new Date(activity.workup.timer_started_at))
@@ -44,7 +43,7 @@ const TimingFormSet = (
       setTimerIntervalId(NaN)
     }
     // eslint-disable-next-line
-  }, [timerRunning, activity.workup, activity, activity.workup.timer_started_at])
+  }, [timerRunning, activity.workup, activity, activity.workup.timer_started_at, subFormController, subFormController.openSubFormLabel])
 
   useEffect(() => {
     setSummary(TimeDecorator.summary(activity.workup))
@@ -91,8 +90,11 @@ const TimingFormSet = (
   }
 
   const toggleTimer = () => {
+    console.log("TOGGLE TIMER")
+    console.log(subFormController.openSubFormLabel)
     if (timerRunning) {
       onWorkupChange({ name: 'timer_started_at', value: undefined })
+      subFormController.openSubForm('UnsavedTiming')
     } else {
       setDefineTimeSpan(true)
       const timerStartDate = new Date()
@@ -100,11 +102,13 @@ const TimingFormSet = (
       setEndTime(timerStartDate)
       setDuration(0)
       onWorkupChange({ name: 'timer_started_at', value: timerStartDate })
+      subFormController.closeSubForm('UnsavedTiming')
     }
     setTimerRunning(!timerRunning)
   }
 
   const handleSaveTiming = () => {
+    subFormController.closeSubFormArray(['Timing', 'UnsavedTiming'])
     onChangeDuration(duration)
     if (defineTimeSpan) {
       onWorkupChange({ name: 'starts_at', value: startTime })
@@ -116,6 +120,10 @@ const TimingFormSet = (
   }
 
   const handleCancelTiming = () => {
+    console.log("handleCancelTiming")
+    console.log(subFormController.openSubFormLabel)
+    subFormController.closeSubForm('UnsavedTiming')
+    subFormController.closeSubForm('Timing')
     setDuration(activity.workup.duration)
   }
 

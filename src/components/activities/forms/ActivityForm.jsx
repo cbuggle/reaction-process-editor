@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Form } from 'reactstrap'
 import PropTypes from 'prop-types'
 
@@ -25,6 +25,14 @@ const ActivityForm = (
 
   const subFormController = useContext(SubFormController)
 
+  const [disabled, setDisabled] = useState(false)
+
+  useEffect(() => {
+    console.log("ActivityForm useEffect disabled: " + subFormController.openSubFormLabel)
+    setDisabled(subFormController.anyBlockingSubformOpen())
+  }, [subFormController, activity, activity.workup])
+
+
   const handleSave = () => ActionValidator.validate(activity) && onSave()
 
   return (
@@ -38,7 +46,7 @@ const ActivityForm = (
       <DescriptionFormSet
         activityType={type}
         activity={activity}
-                onWorkupChange={onWorkupChange}
+        onWorkupChange={onWorkupChange}
       />
       <TimingFormSet
         activityType={type}
@@ -49,7 +57,7 @@ const ActivityForm = (
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
-        disabled={subFormController.anyBlockingSubformOpen()}
+        disabled={disabled}
         type={type}
       />
     </Form>

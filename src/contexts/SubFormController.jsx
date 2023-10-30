@@ -25,6 +25,7 @@ export const SubFormToggle = () => {
   const closeAllSubForms = () => setOpenSubFormLabel([])
 
   return {
+    openSubFormLabel,
     openSubForm,
     closeSubForm,
     closeAllSubForms,

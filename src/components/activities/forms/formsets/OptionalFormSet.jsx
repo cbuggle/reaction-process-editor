@@ -50,13 +50,13 @@ const OptionalFormSet = (
   const labelWithSummary = subFormLabel + ': ' + (valueSummary || '-')
 
   const handleSave = (data) => {
-    onSave(data)
     toggleShowForm()
+    onSave(data)
   }
 
   const handleCancel = () => {
-    onCancel()
     toggleShowForm()
+    onCancel()
   }
 
   return (
