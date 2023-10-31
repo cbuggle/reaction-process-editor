@@ -59,7 +59,6 @@ export const actionTypeClusters = [
           workup: {
             purify_type: 'FILTRATION',
             purify_automation: 'AUTOMATIC',
-            filtration_mode: 'KEEP_PERMEATE'
           }
         }
       },

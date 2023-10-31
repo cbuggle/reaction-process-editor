@@ -4,7 +4,7 @@ import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
 import AnalysisForm from "./AnalysisForm";
 import FormSection from "../../../utilities/FormSection";
-import PurifyForm from "./PurifyForm";
+import PurifyBaseForm from "./PurifyBaseForm";
 import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
@@ -71,7 +71,7 @@ const ActionForm = (
       case "PURIFY":
         return (
           <>
-            <PurifyForm
+            < PurifyBaseForm
               activity={activity}
               onWorkupChange={onWorkupChange}
             />

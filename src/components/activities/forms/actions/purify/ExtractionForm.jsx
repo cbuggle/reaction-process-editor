@@ -2,13 +2,12 @@ import React from 'react'
 import { Input, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 
-import { SelectOptions } from '../../../../contexts/SelectOptions';
+import { SelectOptions } from '../../../../../contexts/SelectOptions';
 import { useContext } from 'react';
 
-const PurifyForm = (
+const ExtractionForm = (
   {
     activity,
     onWorkupChange
@@ -18,38 +17,9 @@ const PurifyForm = (
   const purifySolventOptions = selectOptions.materials['SOLVENT']
 
   const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
-  const filtrationModeKeepRetentate = activity.workup['filtration_mode'] === 'KEEP_RETENTATE'
-
-  const toggleFiltrationMode = () => {
-    const inverseFiltrationMode = filtrationModeKeepRetentate ? 'KEEP_PERMEATE' : 'KEEP_RETENTATE'
-    onWorkupChange({ name: 'filtration_mode', value: inverseFiltrationMode })
-  }
-
-  const renderFilterMethodButtonToggle = () => {
-    if (activity.workup['purify_type'] === 'FILTRATION') {
-      return (
-        <>
-          <BootstrapSwitchButton
-            width='200'
-            checked={filtrationModeKeepRetentate}
-            onlabel='Keep Retentate'
-            offlabel='Keep Permeate'
-            onstyle='outline-secondary'
-            offstyle='outline-info'
-            onChange={() => {
-              toggleFiltrationMode()
-            }}
-          />
-        </>
-      )
-    }
-  }
 
   return (
     <>
-      <FormGroup>
-        {renderFilterMethodButtonToggle()}
-      </FormGroup>
       <FormGroup>
         <Select
           className="react-select--overwrite"
@@ -73,14 +43,14 @@ const PurifyForm = (
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Ratio'>
         <Input
-          type="textarea"
           value={activity.workup['purify_ratio']}
           placeholder="Ratio"
           onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
         />
       </SingleLineFormGroup>
+      { }
     </>
   )
 }
 
-export default PurifyForm
+export default ExtractionForm
