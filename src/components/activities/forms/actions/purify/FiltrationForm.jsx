@@ -1,7 +1,4 @@
-import React, {useEffect, useState} from 'react'
-import {Button, ButtonGroup, FormGroup} from 'reactstrap'
-
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import React, {useEffect} from 'react'
 import Select from 'react-select'
 
 import IconButton from '../../../../utilities/IconButton'
@@ -12,6 +9,7 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 import { useContext } from 'react';
 import FiltrationRepeatForm from './FiltrationRepeatForm';
 import FormSection from '../../../../utilities/FormSection'
+import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 
 const FiltrationForm = (
   {
@@ -26,18 +24,11 @@ const FiltrationForm = (
   const filtrationModeOptions = selectOptions.filtration_modes
 
   const workupRepetitions = activity.workup.repetitions || []
-  const [filtrationModeIndex, setFiltrationModeIndex] = useState(0)
 
   useEffect(() => {
     console.log(activity)
     if (!activity.workup.repetitions) { addRepetition() }
   }, [])
-
-
-  const changeFiltrationMode = (index) => {
-    setFiltrationModeIndex(index)
-    onWorkupChange({ name: 'filtration_mode', value: filtrationModeOptions[index].value })
-  }
 
   const addSolvent = (solventId) => {
     onWorkupChange({ name: 'solvent_ids', value: actionPurifySolventIds.concat(solventId) })
@@ -74,45 +65,25 @@ const FiltrationForm = (
   }
 
   const renderFilterMethodToggle = () => {
-    if (activity.workup['purify_type'] === 'FILTRATION') {
-      return (
-        <>
-          <ButtonGroup size='lg' className='d-flex mb-2'>
-            <Button
-              outline
-              color='action'
-              onClick={() => {changeFiltrationMode(0)}}
-              active={filtrationModeIndex === 0}
-            >
-              {filtrationModeOptions[0].label}
-            </Button>
-            <Button
-              outline
-              color='action'
-              onClick={() => {changeFiltrationMode(1)}}
-              active={filtrationModeIndex === 1}
-            >
-              {filtrationModeOptions[1].label}
-            </Button>
-          </ButtonGroup>
-        </>
-      )
-    }
+    return (
+      <FormSection type='action'>
+        <ButtonGroupToggle
+          value={activity.workup['filtration_mode'] || filtrationModeOptions[0]['value']}
+          options={filtrationModeOptions}
+          onChange={selectedValue => onWorkupChange({ name: 'filtration_mode', value: selectedValue })}
+        />
+      </FormSection>
+    )
   }
 
   const renderAutomationToggle = () => {
     return (
-      <FormSection>
-        <SingleLineFormGroup label='Automation'>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="automation_mode"
-            options={selectOptions.automation_modes}
-            value={selectOptions.automation_modes.find(option => option.value === activity.workup['purify_automation'])}
-            onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
-          />
-        </SingleLineFormGroup>
+      <FormSection type='action'>
+        <ButtonGroupToggle
+          value={activity.workup['purify_automation'] || selectOptions.automation_modes[0]['value']}
+          options={selectOptions.automation_modes}
+          onChange={selectedValue => onWorkupChange({ name: 'purify_automation', value: selectedValue })}
+        />
       </FormSection>
     )
   }
