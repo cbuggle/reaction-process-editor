@@ -7,6 +7,7 @@ import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
+import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 
 const MotionForm = (
   {
@@ -87,16 +88,13 @@ const MotionForm = (
             onChange={selectedOption => setMotionType(selectedOption.value)}
           />
         </FormGroup>
-        <FormGroup>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="automation_mode"
-            options={automationModeOptions}
-            value={automationModeOptions.find(option => option.value === motionMode)}
-            onChange={selectedOption => setMotionMode(selectedOption.value)}
-          />
-        </FormGroup>
+        <ButtonGroupToggle
+          options={automationModeOptions}
+          value={motionMode}
+          onChange={setMotionMode}
+          activityType='condition'
+          label='Automation'
+        />
         {/* include slider */}
         <FormGroup>
           <NumericalInputWithUnit

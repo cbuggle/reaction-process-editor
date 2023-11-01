@@ -88,6 +88,7 @@
     &__menu {
       padding: $form-select-padding-y 0;
       box-shadow: none;
+      z-index: 10;
     }
 
     &__option {

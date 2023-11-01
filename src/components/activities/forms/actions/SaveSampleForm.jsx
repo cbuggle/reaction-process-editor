@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 import FormSection from "../../../utilities/FormSection";
 import AmountInputSet from '../../../utilities/AmountInputSet'
@@ -11,6 +10,7 @@ import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions'
+import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 
 const SaveSampleForm = (
   {
@@ -83,18 +83,24 @@ const SaveSampleForm = (
           onChange={selectedOption => handleChangeSampleWorkup('intermediate_type')(selectedOption.value)}
         />
       </SingleLineFormGroup>
-      <SingleLineFormGroup label='Display in ELN'>
-        <BootstrapSwitchButton
-          size='sm'
-          width='80'
-          checked={sampleForm.hide_in_eln}
-          onlabel='Hide'
-          onstyle='outline-danger'
-          offlabel='Show'
-          offstyle='outline-success'
-          onChange={checked => { handleChangeSampleWorkup('hide_in_eln')(checked) }}
-        />
-      </SingleLineFormGroup>
+      <ButtonGroupToggle
+        value={!!sampleForm.hide_in_eln}
+        options={
+          [
+            {
+              value: false,
+              label: 'show'
+            },
+            {
+              value: true,
+              label: 'hide'
+            }
+          ]
+        }
+        onChange={selectedValue => { handleChangeSampleWorkup('hide_in_eln')(selectedValue)}}
+        size='sm'
+        label='Display in ELN'
+      />
     </FormSection>
   )
 }

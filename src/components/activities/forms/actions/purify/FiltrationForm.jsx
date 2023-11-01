@@ -66,25 +66,23 @@ const FiltrationForm = (
 
   const renderFilterMethodToggle = () => {
     return (
-      <FormSection type='action'>
-        <ButtonGroupToggle
-          value={activity.workup['filtration_mode'] || filtrationModeOptions[0]['value']}
-          options={filtrationModeOptions}
-          onChange={selectedValue => onWorkupChange({ name: 'filtration_mode', value: selectedValue })}
-        />
-      </FormSection>
+      <ButtonGroupToggle
+        value={activity.workup['filtration_mode'] || filtrationModeOptions[0]['value']}
+        options={filtrationModeOptions}
+        onChange={selectedValue => onWorkupChange({ name: 'filtration_mode', value: selectedValue })}
+        label='Keep'
+      />
     )
   }
 
   const renderAutomationToggle = () => {
     return (
-      <FormSection type='action'>
-        <ButtonGroupToggle
-          value={activity.workup['purify_automation'] || selectOptions.automation_modes[0]['value']}
-          options={selectOptions.automation_modes}
-          onChange={selectedValue => onWorkupChange({ name: 'purify_automation', value: selectedValue })}
-        />
-      </FormSection>
+      <ButtonGroupToggle
+        value={activity.workup['purify_automation'] || selectOptions.automation_modes[0]['value']}
+        options={selectOptions.automation_modes}
+        onChange={selectedValue => onWorkupChange({ name: 'purify_automation', value: selectedValue })}
+        label='Automation'
+      />
     )
   }
 
