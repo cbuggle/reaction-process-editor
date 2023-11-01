@@ -6,6 +6,7 @@ import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 import { useContext } from 'react';
+import FormSection from "../../../../utilities/FormSection";
 
 const CrystallizationForm = (
   {
@@ -19,7 +20,7 @@ const CrystallizationForm = (
   const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
 
   return (
-    <>
+    <FormSection type='action'>
       <FormGroup>
         <Select
           className="react-select--overwrite"
@@ -49,7 +50,7 @@ const CrystallizationForm = (
         />
       </SingleLineFormGroup>
       { }
-    </>
+    </FormSection>
   )
 }
 

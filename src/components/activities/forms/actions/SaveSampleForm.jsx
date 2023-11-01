@@ -3,6 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
+import FormSection from "../../../utilities/FormSection";
 import AmountInputSet from '../../../utilities/AmountInputSet'
 import NumericalInputWithUnit from '../../../utilities/NumericalInputWithUnit';
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
@@ -35,7 +36,7 @@ const SaveSampleForm = (
   }
 
   return (
-    <>
+    <FormSection type='action'>
       <FormGroup>
         <Label>Name</Label>
         <Input
@@ -94,7 +95,7 @@ const SaveSampleForm = (
           onChange={checked => { handleChangeSampleWorkup('hide_in_eln')(checked) }}
         />
       </SingleLineFormGroup>
-    </>
+    </FormSection>
   )
 }
 

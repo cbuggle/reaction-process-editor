@@ -5,6 +5,7 @@ import Select from 'react-select'
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
+import FormSection from "../../../utilities/FormSection";
 
 const AnalysisForm = (
   {
@@ -15,7 +16,7 @@ const AnalysisForm = (
   const selectOptions = useContext(SelectOptions)
 
   return (
-    <>
+    <FormSection type='action'>
       <SingleLineFormGroup label='Type'>
         <Select
           className="react-select--overwrite"
@@ -42,7 +43,7 @@ const AnalysisForm = (
           onChange={event => onWorkupChange({ name: 'analysis_number', value: event.target.value })}
         />
       </SingleLineFormGroup>
-    </>
+    </FormSection>
   )
 }
 

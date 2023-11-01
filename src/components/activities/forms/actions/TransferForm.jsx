@@ -7,6 +7,7 @@ import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
 import { StepSelectOptions } from '../../../../contexts/StepSelectOptions';
+import FormSection from "../../../utilities/FormSection";
 
 const TransferForm = (
   {
@@ -53,7 +54,7 @@ const TransferForm = (
   }
 
   return (
-    <>
+    <FormSection type='action'>
       <SingleLineFormGroup label='Transfer Sample'>
         <Select
           className="react-select--overwrite"
@@ -88,7 +89,7 @@ const TransferForm = (
         maxAmounts={sample?.unit_amounts}
         onChangeAmount={handleChangeAmount}
       />
-    </>
+    </FormSection>
   )
 }
 

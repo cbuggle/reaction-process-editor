@@ -21,21 +21,6 @@ const ActionForm = (
 
   const actionTypeName = activity.action_name
 
-  const customActionForminFormSet = () => {
-    switch (actionTypeName) {
-      case "ADD":
-        // AddForm has multiple FormSections in it. So it is the only one that can not be wrapped in FormSet
-        // here. Maybe we can fix this?
-        return customActionForm()
-      default:
-        // All others have only one Section so we wrap it here.
-        return (<FormSection type='action'>
-          {customActionForm()}
-        </FormSection>
-        )
-    }
-  }
-
   const customActionForm = () => {
     switch (actionTypeName) {
       case "ADD":
@@ -71,7 +56,7 @@ const ActionForm = (
       case "PURIFY":
         return (
           <>
-            < PurifyBaseForm
+            <PurifyBaseForm
               activity={activity}
               onWorkupChange={onWorkupChange}
             />
@@ -102,8 +87,7 @@ const ActionForm = (
       onSave={onSave}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
-
-      {customActionForminFormSet()}
+      {customActionForm()}
     </ActivityForm>
   );
 };

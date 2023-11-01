@@ -10,6 +10,7 @@ import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import { StepSelectOptions } from '../../../../contexts/StepSelectOptions';
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 import { removeFormMetricNames } from '../../../../constants/metrics';
+import FormSection from "../../../utilities/FormSection";
 
 const RemoveForm = (
   {
@@ -135,7 +136,7 @@ const RemoveForm = (
   }
 
   return (
-    <>
+    <FormSection type='action'>
       <SingleLineFormGroup label='Type'>
         <Select
           className="react-select--overwrite"
@@ -147,7 +148,7 @@ const RemoveForm = (
         />
       </SingleLineFormGroup>
       {renderGenericRemoveFields()}
-    </ >
+    </FormSection>
   )
 }
 
