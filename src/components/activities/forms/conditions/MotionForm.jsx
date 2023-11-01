@@ -32,7 +32,7 @@ const MotionForm = (
     return findInitialValue('motion_type', motionTypeOptions[0].value)
   }
   const initialMotionMode = () => {
-    return findInitialValue('automation_mode', automationModeOptions[0].value)
+    return findInitialValue('motion_mode', automationModeOptions[0].value)
   }
 
   const [value, setValue] = useState(initialValue())
