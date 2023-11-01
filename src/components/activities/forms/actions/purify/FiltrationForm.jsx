@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { FormGroup } from 'reactstrap'
+import React, {useEffect, useState} from 'react'
+import {Button, ButtonGroup, FormGroup} from 'reactstrap'
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import Select from 'react-select'
@@ -25,9 +25,8 @@ const FiltrationForm = (
   const purifySolventOptions = selectOptions.materials['SOLVENT']
   const filtrationModeOptions = selectOptions.filtration_modes
 
-  const currentFiltrationMode = activity.workup['filtration_mode'] === filtrationModeOptions[0].value
-
   const workupRepetitions = activity.workup.repetitions || []
+  const [filtrationModeIndex, setFiltrationModeIndex] = useState(0)
 
   useEffect(() => {
     console.log(activity)
@@ -35,9 +34,9 @@ const FiltrationForm = (
   }, [])
 
 
-  const toggleFiltrationMode = () => {
-    const inverse = currentFiltrationMode ? 1 : 0
-    onWorkupChange({ name: 'filtration_mode', value: filtrationModeOptions[inverse].value })
+  const changeFiltrationMode = (index) => {
+    setFiltrationModeIndex(index)
+    onWorkupChange({ name: 'filtration_mode', value: filtrationModeOptions[index].value })
   }
 
   const addSolvent = (solventId) => {
@@ -74,34 +73,54 @@ const FiltrationForm = (
     onWorkupChange({ name: 'repetitions', value: repetitions })
   }
 
-  const renderFilterMethodButtonToggle = () => {
+  const renderFilterMethodToggle = () => {
     if (activity.workup['purify_type'] === 'FILTRATION') {
       return (
         <>
-          <BootstrapSwitchButton
-            width='150'
-            checked={currentFiltrationMode}
-            onstyle='outline-secondary'
-            onlabel={filtrationModeOptions[0].label}
-            offstyle='outline-info'
-            offlabel={filtrationModeOptions[1].label}
-            onChange={() => {
-              toggleFiltrationMode()
-            }}
-          />
+          <ButtonGroup size='lg' className='d-flex mb-2'>
+            <Button
+              outline
+              color='action'
+              onClick={() => {changeFiltrationMode(0)}}
+              active={filtrationModeIndex === 0}
+            >
+              {filtrationModeOptions[0].label}
+            </Button>
+            <Button
+              outline
+              color='action'
+              onClick={() => {changeFiltrationMode(1)}}
+              active={filtrationModeIndex === 1}
+            >
+              {filtrationModeOptions[1].label}
+            </Button>
+          </ButtonGroup>
         </>
       )
     }
   }
 
-  return (
-    <>
+  const renderAutomationToggle = () => {
+    return (
       <FormSection>
-
-        <SingleLineFormGroup label={'Mode'} >
-          {renderFilterMethodButtonToggle()}
+        <SingleLineFormGroup label='Automation'>
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="automation_mode"
+            options={selectOptions.automation_modes}
+            value={selectOptions.automation_modes.find(option => option.value === activity.workup['purify_automation'])}
+            onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
+          />
         </SingleLineFormGroup>
       </FormSection>
+    )
+  }
+
+  return (
+    <>
+      {renderFilterMethodToggle()}
+      {renderAutomationToggle()}
       <FormSection>
         {actionPurifySolventIds.map((solventId, idx) =>
           <SingleLineFormGroup
@@ -131,18 +150,6 @@ const FiltrationForm = (
             onChange={selectedOption => addSolvent(selectedOption.value)}
           />
 
-        </SingleLineFormGroup>
-      </FormSection>
-      <FormSection>
-        <SingleLineFormGroup label='Automation'>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="automation_mode"
-            options={selectOptions.automation_modes}
-            value={selectOptions.automation_modes.find(option => option.value === activity.workup['purify_automation'])}
-            onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
-          />
         </SingleLineFormGroup>
       </FormSection>
 

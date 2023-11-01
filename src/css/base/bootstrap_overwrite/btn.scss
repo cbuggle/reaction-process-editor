@@ -4,6 +4,13 @@
   border-width: 1px;
   border-style: solid;
 }
+
+.btn-group .btn {
+  color: $input-disabled-color;
+  &.active {
+    color: $input-color;
+  }
+}
 @each $color, $value in $theme-colors {
   @if $color != 'white' and $color != 'transparent' {
     .btn {
