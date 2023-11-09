@@ -1,14 +1,16 @@
-import OptionalFormSet from "../../formsets/OptionalFormSet";
-import {FormGroup, Input, Label, Row} from "reactstrap";
+import React, { useContext, useState } from "react";
+import { FormGroup, Input, Label, Row } from "reactstrap";
 import Select from "react-select";
-import React, {useContext, useState} from "react";
-import {SelectOptions} from "../../../../../contexts/SelectOptions";
+
 import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
 import MetricsDecorator from "../../../../../decorators/MetricsDecorator";
 import NumericalInputWithUnit from "../../../../utilities/NumericalInputWithUnit";
-import {SolventListEntry} from "./SolventListEntry";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
+import { SolventListEntry } from "./SolventListEntry";
 
-export const FiltrationStepForm = (
+import { SelectOptions } from "../../../../../contexts/SelectOptions";
+
+const FiltrationStepForm = (
   {
     index,
     stepData,
@@ -21,28 +23,25 @@ export const FiltrationStepForm = (
   const label = 'Filtration Step ' + (index + 1)
   const [solvents, setSolvents] = useState(stepData ? stepData.solvents : [])
   const [rinse, setRinse] = useState(stepData ? stepData.rinse_vessel : false)
-  const [amount, setAmount] = useState(stepData ? stepData.amount : {value: 0})
+  const [amount, setAmount] = useState(stepData ? stepData.amount : { value: 0, unit: 'ml' })
   const [repetitions, setRepetitions] = useState(stepData ? stepData.repetitions : 1)
 
-  const addSolvent = (solventId) => {
-    setSolvents(solvents.concat({id: solventId, ratio: 1}))
-  }
-  const removeSolvent = (idx) => () => {
-    setSolvents(solvents.toSpliced(idx, 1))
-  }
-  const handleRinseCheckBox = (event) => {
-    setRinse(event.target.checked)
-  }
-  const handleAmountInputChange = (amount) => {
-    setAmount({value: amount, unit: 'ml'})
-  }
+  const addSolvent = (solventId) => setSolvents(solvents.concat({ id: solventId, ratio: 1 }))
+
+  const removeSolvent = (idx) => () => setSolvents(solvents.toSpliced(idx, 1))
+
+  const handleRinseCheckBox = (event) => setRinse(event.target.checked)
+
+  const handleAmountInputChange = (amount) => setAmount({ value: amount, unit: 'ml' })
+
   const handleSetRatio = (data) => {
     setSolvents(solvents.toSpliced(
-        data.index,
-        1,
-        {id: solvents[data.index].id, ratio: data.value}
+      data.index,
+      1,
+      { id: solvents[data.index].id, ratio: data.value }
     ))
   }
+
   const handleSave = () => {
     onSave({
       index,
@@ -59,10 +58,10 @@ export const FiltrationStepForm = (
     <OptionalFormSet
       subFormLabel={label}
       valueSummary={ActivityDecorator.filtrationStepInfo({
-          solvents,
-          amount,
-          repetitions
-        },
+        solvents,
+        amount,
+        repetitions
+      },
         purifySolventOptions
       )}
       onSave={handleSave}
@@ -124,3 +123,5 @@ export const FiltrationStepForm = (
     </OptionalFormSet>
   )
 }
+
+export default FiltrationStepForm

@@ -1,10 +1,11 @@
-import React, {useContext, useState} from 'react'
+import React, { useContext, useState } from 'react'
 
-import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import FormSection from '../../../../utilities/FormSection'
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
-import {FiltrationStepForm} from "./FiltrationStepForm";
+import FiltrationStepForm from "./FiltrationStepForm";
+import FormSection from '../../../../utilities/FormSection'
+
+import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const FiltrationForm = (
   {
@@ -20,15 +21,14 @@ const FiltrationForm = (
   const [filtrationSteps, setFiltrationSteps] = useState(newFiltration ? [] : workup['filtration_steps'])
   const [showNewStepForm, setShowNewStepForm] = useState(newFiltration)
 
-  const addStep = () => {
-    setShowNewStepForm(true)
-  }
+  const addStep = () => setShowNewStepForm(true)
+
   const handleSaveStep = (stepInfo) => {
     const stepData = stepInfo.data
     const stepIndex = stepInfo.index
     setShowNewStepForm(false)
     let updatedSteps
-    if(filtrationSteps[stepIndex]){
+    if (filtrationSteps[stepIndex]) {
       updatedSteps = filtrationSteps.map((value, index) =>
         index === stepIndex ? stepData : value
       );
@@ -38,9 +38,9 @@ const FiltrationForm = (
     setFiltrationSteps(updatedSteps)
     onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
   }
-  const handleCancelStep = () => {
-    setShowNewStepForm(false)
-  }
+
+  const handleCancelStep = () => setShowNewStepForm(false)
+
   const renderFilterMethodToggle = () => {
     return (
       <ButtonGroupToggle
