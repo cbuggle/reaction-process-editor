@@ -20,7 +20,7 @@ const ReactionConditionsFormButton = (
         id='reaction-conditions-button'
         icon='temperature-high'
         size='lg'
-        className='icon-button--positive'
+        positive={true}
         onClick={toggleModal}
       />
       < UncontrolledTooltip target='reaction-conditions-button' >

@@ -4,7 +4,16 @@ import SingleLineFormGroup from "./SingleLineFormGroup";
 
 import NumericalInput from './NumericalInput';
 
-const NumericalInputWithUnit = ({ label, value, unitType, onChange, disabled, step, isMultiLine }) => {
+const NumericalInputWithUnit = (
+  {
+    label,
+    value,
+    unitType,
+    onChange,
+    disabled,
+    step,
+    isMultiLine
+  }) => {
 
   const inputRange = unitType?.inputRange || {}
   const stepSize = step ? step : inputRange.step

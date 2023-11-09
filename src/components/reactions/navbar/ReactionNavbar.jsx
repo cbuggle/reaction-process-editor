@@ -55,7 +55,12 @@ const ReactionNavbar = ({ reactionProcess }) => {
                   className={formulaImageClass}
                 />
                 <div className='reaction-header__formula-enlarge-button-container'>
-                  <IconButton icon={zoomIcon} className='icon-button--positive' size='lg' onClick={toggleFormulaEnlarge} />
+                  <IconButton
+                    icon={zoomIcon}
+                    positive={true}
+                    size='lg'
+                    onClick={toggleFormulaEnlarge}
+                  />
                 </div>
               </div>
             </AccordionBody>

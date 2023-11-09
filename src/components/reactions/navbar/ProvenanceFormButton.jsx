@@ -16,7 +16,7 @@ const ProvenanceFormButton = ({ provenance }) => {
         id="provenance-button"
         icon='pen'
         size='lg'
-        className='icon-button--positive'
+        positive={true}
         onClick={toggleModal}
       />
       < UncontrolledTooltip target={"provenance-button"} >

@@ -32,7 +32,7 @@ const OrdDownloadButton = ({ reactionProcessId }) => {
         id='ord-download-button'
         icon='download'
         size='lg'
-        className='icon-button--positive'
+        positive={true}
         onClick={downloadOrd}
         target="_blank"
       />

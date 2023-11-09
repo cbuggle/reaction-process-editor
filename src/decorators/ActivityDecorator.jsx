@@ -1,6 +1,5 @@
 import MetricsDecorator from './MetricsDecorator';
 export default class ActivityDecorator {
-
   static toTitleCase = (str) => {
     str = str.toLowerCase().split(' ');
     for (var i = 0; i < str.length; i++) {
@@ -70,6 +69,17 @@ export default class ActivityDecorator {
       ].toString()
     }
     return info;
+  }
+
+  static filtrationStepInfo = (stepData, purifySolventOptions) => {
+    const solventsList = stepData.solvents.map(
+      solvent =>
+        purifySolventOptions.find(option => option.value === solvent.id).label +
+        ' (Ratio: ' +
+        solvent.ratio +
+        ')'
+    )
+    return stepData.repetitions + 'x ' + stepData.amount.value + stepData.amount.unit + ' ' + solventsList.join(', ')
   }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {

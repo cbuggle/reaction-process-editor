@@ -1,15 +1,10 @@
-import React, {useEffect} from 'react'
-import Select from 'react-select'
-
-import IconButton from '../../../../utilities/IconButton'
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
-import CreateButton from '../../../../utilities/CreateButton';
+import React, {useContext, useState} from 'react'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import { useContext } from 'react';
-import FiltrationRepeatForm from './FiltrationRepeatForm';
 import FormSection from '../../../../utilities/FormSection'
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import CreateButton from "../../../../utilities/CreateButton";
+import {FiltrationStepForm} from "./FiltrationStepForm";
 
 const FiltrationForm = (
   {
@@ -17,124 +12,85 @@ const FiltrationForm = (
     onWorkupChange
   }) => {
 
-  const actionPurifySolventIds = activity.workup['solvent_ids'] || []
-
+  const workup = activity.workup
   const selectOptions = useContext(SelectOptions)
-  const purifySolventOptions = selectOptions.materials['SOLVENT']
   const filtrationModeOptions = selectOptions.filtration_modes
 
-  const workupRepetitions = activity.workup.repetitions || []
+  const newFiltration = !workup['filtration_steps']
+  const [filtrationSteps, setFiltrationSteps] = useState(newFiltration ? [] : workup['filtration_steps'])
+  const [showNewStepForm, setShowNewStepForm] = useState(newFiltration)
 
-  useEffect(() => {
-    console.log(activity)
-    if (!activity.workup.repetitions) { addRepetition() }
-  }, [])
-
-  const addSolvent = (solventId) => {
-    onWorkupChange({ name: 'solvent_ids', value: actionPurifySolventIds.concat(solventId) })
+  const addStep = () => {
+    setShowNewStepForm(true)
   }
-  const removeSolvent = (idx) => () => {
-    const solvents = activity.workup.solvent_ids.splice((idx, 1))
-    onWorkupChange({ name: 'solvent_ids', value: solvents })
+  const handleSaveStep = (stepInfo) => {
+    const stepData = stepInfo.data
+    const stepIndex = stepInfo.index
+    setShowNewStepForm(false)
+    let updatedSteps
+    if(filtrationSteps[stepIndex]){
+      updatedSteps = filtrationSteps.map((value, index) =>
+        index === stepIndex ? stepData : value
+      );
+    } else {
+      updatedSteps = [...filtrationSteps, stepData]
+    }
+    setFiltrationSteps(updatedSteps)
+    onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
   }
-  const changeSolvent = (idx) => (newSolventId) => {
-    let solventIds = activity.workup.solvent_ids
-    solventIds[idx] = newSolventId
-    onWorkupChange({ name: 'solvent_ids', value: solventIds })
+  const handleCancelStep = () => {
+    setShowNewStepForm(false)
   }
-
-  const handleRepetitionChange = (idx) => (newWorkup) => {
-    let repetitions = activity.workup.repetitions
-    repetitions[idx] = { ...repetitions[idx], ...newWorkup }
-    onWorkupChange({ name: 'repetitions', value: repetitions })
-  }
-
-  const addRepetition = () => {
-    const repetitions = (activity.workup.repetitions || []).concat({
-      solventIds: [],
-      AMOUNT: { value: undefined, unit: "ml" },
-      rinseVessel: false,
-      ratio: ''
-    })
-    onWorkupChange({ name: 'repetitions', value: repetitions })
-  }
-
-  const removeRepetition = (idx) => () => {
-    const repetitions = activity.workup.repetitions.splice((idx, 1))
-    onWorkupChange({ name: 'repetitions', value: repetitions })
-  }
-
   const renderFilterMethodToggle = () => {
     return (
       <ButtonGroupToggle
-        value={activity.workup['filtration_mode'] || filtrationModeOptions[0]['value']}
+        value={workup['filtration_mode'] || filtrationModeOptions[0]['value']}
         options={filtrationModeOptions}
         onChange={selectedValue => onWorkupChange({ name: 'filtration_mode', value: selectedValue })}
         label='Keep'
       />
     )
   }
-
   const renderAutomationToggle = () => {
     return (
       <ButtonGroupToggle
-        value={activity.workup['purify_automation'] || selectOptions.automation_modes[0]['value']}
+        value={workup['purify_automation'] || selectOptions.automation_modes[0]['value']}
         options={selectOptions.automation_modes}
         onChange={selectedValue => onWorkupChange({ name: 'purify_automation', value: selectedValue })}
         label='Automation'
       />
     )
   }
-
   return (
     <>
-      {renderFilterMethodToggle()}
-      {renderAutomationToggle()}
-      <FormSection>
-        {actionPurifySolventIds.map((solventId, idx) =>
-          <SingleLineFormGroup
-            key={solventId}
-            label={<IconButton onClick={removeSolvent(idx)} icon='trash' className='icon-button--positive' size='sm' />}>
-
-
-            <Select
-              className="react-select--overwrite"
-              classNamePrefix="react-select"
-              name="purify_solvent_solvent_ids"
-              options={purifySolventOptions}
-              value={purifySolventOptions.filter(option => solventId === option.value)}
-              onChange={selectedOption => changeSolvent(idx)(selectedOption.value)}
-            />
-          </SingleLineFormGroup >
-        )}
-
-        <SingleLineFormGroup>
-          <Select
-            placeholder={'Add Solvent'}
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="purify_solvent_solvent_ids"
-            options={purifySolventOptions}
-            value={''}
-            onChange={selectedOption => addSolvent(selectedOption.value)}
-          />
-
-        </SingleLineFormGroup>
+      <FormSection type='action'>
+        {renderFilterMethodToggle()}
+        {renderAutomationToggle()}
       </FormSection>
-
-
-      {workupRepetitions && workupRepetitions.map((repetitionWorkup, idx) => {
-        return (
-          <FormSection>
-            <FiltrationRepeatForm
-              key={'repetition' + idx}
-              workup={repetitionWorkup}
-              onWorkupChange={handleRepetitionChange(idx)}
-              onDelete={removeRepetition(idx)} />
-          </FormSection>
-        )
-      })}
-      <CreateButton label='Repetition' type='step' onClick={addRepetition} />
+      {filtrationSteps.map((step, idx) =>
+        <FiltrationStepForm
+          index={idx}
+          stepData={step}
+          onSave={handleSaveStep}
+          onCancel={handleCancelStep}
+          key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+        />
+      )}
+      {showNewStepForm &&
+        <FiltrationStepForm
+          index={workup['filtration_steps'] ? workup['filtration_steps'].length : 0}
+          onSave={handleSaveStep}
+          onCancel={handleCancelStep}
+        />
+      }
+      <FormSection type='action'>
+        <CreateButton
+          label='Filtration Step'
+          type='action'
+          onClick={addStep}
+          size='sm'
+        />
+      </FormSection>
     </>
   )
 }

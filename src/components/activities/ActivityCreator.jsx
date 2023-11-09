@@ -40,7 +40,7 @@ const ActivityCreator = ({ processStep, preconditions, insertNewBeforeIndex, onC
             <IconButton
               onClick={onClose}
               icon='times'
-              className='icon-button--positive'
+              positive={true}
             />
           }
         </div> :
