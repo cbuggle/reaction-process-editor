@@ -29,12 +29,12 @@ const TransferForm = (
     // with integer id (Solvent, DiverseSolvent; MediumSamples have uuid).
     const newSample = sampleOptions.find(sample => sample.value === sampleId && sample.label === label)
     if (newSample) {
+      console.log(newSample)
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
       onWorkupChange({ name: 'sample_name', value: newSample.label })
-      onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
+      onWorkupChange({ name: 'target_amount', value: newSample.amount })
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
-      onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
     }
 
     let currentTarget = stepSelectOptions.transferable_to
@@ -47,10 +47,9 @@ const TransferForm = (
     setSample(newSample)
   }
 
-  const handleChangeAmount = ({ value, unit, percentage }) => {
-    onWorkupChange({ name: "target_amount_value", value: value })
-    onWorkupChange({ name: "target_amount_unit", value: unit })
-    onWorkupChange({ name: "transfer_percentage", value: percentage })
+  const handleChangeAmount = (amount) => {
+    onWorkupChange({ name: "target_amount", value: amount })
+
   }
 
   return (
@@ -84,8 +83,7 @@ const TransferForm = (
       </SingleLineFormGroup>
 
       <AmountInputSet
-        amount={activity.workup['target_amount_value']}
-        unit={activity.workup['target_amount_unit']}
+        amount={activity.workup['target_amount']}
         maxAmounts={sample?.unit_amounts}
         onChangeAmount={handleChangeAmount}
       />

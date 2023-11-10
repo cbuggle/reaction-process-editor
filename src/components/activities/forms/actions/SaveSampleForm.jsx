@@ -2,15 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 
-import FormSection from "../../../utilities/FormSection";
 import AmountInputSet from '../../../utilities/AmountInputSet'
-import NumericalInputWithUnit from '../../../utilities/NumericalInputWithUnit';
+import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
+import FormSection from "../../../utilities/FormSection";
+import MetricsInput from '../../../utilities/MetricsInput';
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
-import MetricsDecorator from '../../../../decorators/MetricsDecorator';
-
 import { SelectOptions } from '../../../../contexts/SelectOptions'
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 
 const SaveSampleForm = (
   {
@@ -26,13 +24,8 @@ const SaveSampleForm = (
     setSampleForm(activity.workup)
   }, [activity.workup])
 
-  const handleChangeSampleWorkup = (name) => (value) => {
-    onWorkupChange({ name: name, value: value })
-  }
-
-  const handleChangeAmountInput = ({ value, unit }) => {
-    onWorkupChange({ name: "target_amount_value", value: value })
-    onWorkupChange({ name: "target_amount_unit", value: unit })
+  const handleChangeSampleWorkup = (workupKey) => (value) => {
+    onWorkupChange({ name: workupKey, value: value })
   }
 
   return (
@@ -54,15 +47,13 @@ const SaveSampleForm = (
         />
       </FormGroup>
       <AmountInputSet
-        amount={sampleForm.target_amount_value}
-        unit={sampleForm.target_amount_unit}
+        amount={sampleForm.target_amount}
         maxAmounts={undefined}
-        onChangeAmount={handleChangeAmountInput}
+        onChangeAmount={handleChangeSampleWorkup('target_amount')}
       />
-      <NumericalInputWithUnit
-        label={MetricsDecorator.label('PURITY')}
-        value={sampleForm.purity}
-        unitType={MetricsDecorator.defaultUnitType('PURITY')}
+      <MetricsInput
+        metricName={'PURITY'}
+        amount={sampleForm.purity}
         onChange={handleChangeSampleWorkup('purity')}
       />
       <SingleLineFormGroup label='Location'>
@@ -97,7 +88,7 @@ const SaveSampleForm = (
             }
           ]
         }
-        onChange={selectedValue => { handleChangeSampleWorkup('hide_in_eln')(selectedValue)}}
+        onChange={selectedValue => { handleChangeSampleWorkup('hide_in_eln')(selectedValue) }}
         size='sm'
         label='Display in ELN'
       />

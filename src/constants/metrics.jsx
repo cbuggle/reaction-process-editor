@@ -1,6 +1,6 @@
 
 // These conditions will be included in the conditionForm, in order of desired appearance.
-export const amountInputMetricNames = ['VOLUME', 'WEIGHT', 'MOLAR']
+export const amountInputSetMetricNames = ['VOLUME', 'WEIGHT', 'MOLAR']
 
 export const conditionFormMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
 export const predefinableMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE']
@@ -14,7 +14,7 @@ export const metrics = {
   'TEMPERATURE': {
     label: 'Temperature',
     defaultUnit: 'CELSIUS',
-    units: ['CELSIUS', 'KELVIN'],
+    units: ['CELSIUS', 'KELVIN', 'FAHRENHEIT'],
   },
   'PH': {
     label: 'pH',
@@ -54,7 +54,7 @@ export const metrics = {
   'PERCENTAGE': {
     label: 'Percentage',
     defaultUnit: 'PERCENT',
-    units: ['PERCENT', 'FRACTION']
+    units: ['PERCENT']
   },
   'PURITY': {
     label: 'Purity',
@@ -104,7 +104,7 @@ export const unitTypes = {
   // MOL / molar
   'mol': {
     label: 'mol',
-    inputRange: { min: 0, precision: 1, step: 1, initialStepValue: 1, },
+    inputRange: { min: 0, precision: 1, step: 0.1, initialStepValue: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
@@ -167,8 +167,8 @@ export const unitTypes = {
   'KELVIN': {
     label: 'K',
     inputRange: { min: 173.15, max: 673.15, precision: 1, step: 1, initialStepValue: 294.15, },
-    fromBase: (value) => value - 273.15,
-    toBase: (value) => value + 273.15,
+    fromBase: (value) => value + 273.15,
+    toBase: (value) => value - 273.15,
   },
   'FAHRENHEIT': {
     label: '°F',

@@ -21,13 +21,13 @@ const MetricFormGroup = (
 
   const selectOptions = useContext(SelectOptions)
 
-  const hasPrecondition = !!precondition && precondition.value !== null
-  const hasWorkupCondition = !!workup[metricName] && workup[metricName].value !== null
+  const hasPrecondition = !!precondition?.value
+  const hasWorkupCondition = !!workup[metricName]?.value
 
   const findInitialValue = (key, fallBackValue) => {
-    if (workup[metricName] && workup[metricName][key] !== null) {
+    if (workup[metricName] && workup[metricName][key] !== undefined) {
       return workup[metricName][key]
-    } else if (precondition && precondition[key] !== null) {
+    } else if (precondition && precondition[key] !== undefined) {
       return precondition[key]
     } else {
       return fallBackValue

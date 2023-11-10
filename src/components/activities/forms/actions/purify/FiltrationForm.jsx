@@ -51,6 +51,7 @@ const FiltrationForm = (
       />
     )
   }
+
   const renderAutomationToggle = () => {
     return (
       <ButtonGroupToggle
@@ -61,6 +62,7 @@ const FiltrationForm = (
       />
     )
   }
+
   return (
     <>
       <FormSection type='action'>

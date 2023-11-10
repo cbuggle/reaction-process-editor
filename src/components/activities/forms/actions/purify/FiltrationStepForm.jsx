@@ -3,12 +3,11 @@ import { FormGroup, Input, Label, Row } from "reactstrap";
 import Select from "react-select";
 
 import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
-import MetricsDecorator from "../../../../../decorators/MetricsDecorator";
-import NumericalInputWithUnit from "../../../../utilities/NumericalInputWithUnit";
 import OptionalFormSet from "../../formsets/OptionalFormSet";
 import { SolventListEntry } from "./SolventListEntry";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
+import MetricsInput from "../../../../utilities/MetricsInput";
 
 const FiltrationStepForm = (
   {
@@ -24,15 +23,13 @@ const FiltrationStepForm = (
   const [solvents, setSolvents] = useState(stepData ? stepData.solvents : [])
   const [rinse, setRinse] = useState(stepData ? stepData.rinse_vessel : false)
   const [amount, setAmount] = useState(stepData ? stepData.amount : { value: 0, unit: 'ml' })
-  const [repetitions, setRepetitions] = useState(stepData ? stepData.repetitions : 1)
+  const [repetitions, setRepetitions] = useState(stepData ? stepData.repetitions : {value: 1, unit: 'TIMES'})
 
   const addSolvent = (solventId) => setSolvents(solvents.concat({ id: solventId, ratio: 1 }))
 
   const removeSolvent = (idx) => () => setSolvents(solvents.toSpliced(idx, 1))
 
   const handleRinseCheckBox = (event) => setRinse(event.target.checked)
-
-  const handleAmountInputChange = (amount) => setAmount({ value: amount, unit: 'ml' })
 
   const handleSetRatio = (data) => {
     setSolvents(solvents.toSpliced(
@@ -99,19 +96,15 @@ const FiltrationStepForm = (
         }
       </FormGroup>
       <FormGroup>
-        <NumericalInputWithUnit
-          value={amount.value}
-          onChange={handleAmountInputChange}
-          label='Volume'
-          metricName="VOLUME"
-          currentUnit={amount.unit}
-          unitType={MetricsDecorator.defaultUnitType('VOLUME')}
+        <MetricsInput
+          metricName={'VOLUME'}
+          amount={amount}
+          onChange={setAmount}
         />
-        <NumericalInputWithUnit
-          value={repetitions}
+        <MetricsInput
+          metricName={'REPETITIONS'}
           onChange={setRepetitions}
-          label='Repetitions'
-          unitType={MetricsDecorator.defaultUnitType('REPETITIONS')}
+          amount={repetitions}
         />
         <FormGroup check className='mb-3'>
           <Label check>

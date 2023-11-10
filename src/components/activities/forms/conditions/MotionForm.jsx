@@ -2,12 +2,12 @@ import React, { useState, useContext } from 'react'
 import { FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import MetricsDecorator from '../../../../decorators/MetricsDecorator';
-import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
+import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
+import MetricsInput from '../../../utilities/MetricsInput';
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import { SelectOptions } from '../../../../contexts/SelectOptions';
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 
 const MotionForm = (
   {
@@ -22,28 +22,18 @@ const MotionForm = (
   const automationModeOptions = selectOptions.automation_modes
   const motionTypeOptions = selectOptions.motion_types
 
+  const initialSpeed = () => findInitialValue('speed', MetricsDecorator.defaultAmount('MOTION'))
 
-  const initialValue = () => {
-    return findInitialValue('value', MetricsDecorator.defaultValueInDefaultUnit('MOTION'))
-  }
-  const initialUnit = () => {
-    return findInitialValue('unit', MetricsDecorator.defaultUnit('MOTION'))
-  }
-  const initialMotionType = () => {
-    return findInitialValue('motion_type', motionTypeOptions[0].value)
-  }
-  const initialMotionMode = () => {
-    return findInitialValue('motion_mode', automationModeOptions[0].value)
-  }
+  const initialMotionType = () => findInitialValue('motion_type', motionTypeOptions[0].value)
 
-  const [value, setValue] = useState(initialValue())
-  const [unit, setUnit] = useState(initialUnit())
+  const initialMotionMode = () => findInitialValue('motion_mode', automationModeOptions[0].value)
+
+  const [speed, setSpeed] = useState(initialSpeed())
   const [motionType, setMotionType] = useState(initialMotionType())
   const [motionMode, setMotionMode] = useState(initialMotionMode())
 
   const resetFormData = () => {
-    setValue(initialValue())
-    setUnit(initialUnit())
+    setSpeed(initialSpeed())
     setMotionType(initialMotionType())
     setMotionMode(initialMotionMode())
   }
@@ -56,8 +46,7 @@ const MotionForm = (
   const handleSave = () => {
     onSave(
       {
-        value: value,
-        unit: unit,
+        speed: speed,
         motion_type: motionType,
         motion_mode: motionMode
       }
@@ -67,8 +56,6 @@ const MotionForm = (
   const handleCancel = () => resetFormData()
 
   const currentMotionTypeOption = () => motionTypeOptions.find(option => option.value === motionType)
-
-  const velocityStepSize = () => currentMotionTypeOption()?.step || 100
 
   return (
     <OptionalFormSet
@@ -97,12 +84,10 @@ const MotionForm = (
         />
         {/* include slider */}
         <FormGroup>
-          <NumericalInputWithUnit
-            label={MetricsDecorator.label('MOTION')}
-            value={value}
-            unitType={MetricsDecorator.defaultUnitType('MOTION')}
-            step={velocityStepSize()}
-            onChange={setValue}
+          <MetricsInput
+            metricName={'MOTION'}
+            amount={speed}
+            onChange={setSpeed}
           />
         </FormGroup>
         {children}

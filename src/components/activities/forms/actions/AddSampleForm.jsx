@@ -5,13 +5,12 @@ import PropTypes from 'prop-types'
 
 import AmountInputSet from "../../../utilities/AmountInputSet";
 import FormSection from "../../../utilities/FormSection";
-import NumericalInputWithUnit from '../../../utilities/NumericalInputWithUnit';
+import MetricsInput from '../../../utilities/MetricsInput';
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
-import { unitTypes } from '../../../../constants/metrics';
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const AddSampleForm = (
@@ -32,20 +31,17 @@ const AddSampleForm = (
 
   useEffect(() => {
     inputMetrics.forEach(([metricName, workupKey]) => {
-      const unitKey = workupKey + '_unit'
-      const valueKey = workupKey + '_value'
 
-      const unit = activity.workup[unitKey] ||
+      const unit = activity.workup[workupKey]?.unit ||
         preconditions[metricName]?.unit ||
         MetricsDecorator.defaultUnit(metricName)
 
-      let value = activity.workup[valueKey]
+      let value = activity.workup[workupKey]?.value
       // Seriously, Javascript? We need to go a long way to avoid fallback to default when a value === 0 (aka "false").
       value = value === 0 ? 0 : value || preconditions[metricName]?.value
       value = value === 0 ? 0 : value || MetricsDecorator.defaultValueInDefaultUnit(metricName)
 
-      onWorkupChange({ name: unitKey, value: unit })
-      onWorkupChange({ name: valueKey, value: value })
+      onWorkupChange({ name: workupKey, value: { value: value, unit: unit } })
     })
     // eslint-disable-next-line
   }, [])
@@ -67,35 +63,27 @@ const AddSampleForm = (
     const newSample = currentSampleOptions.find(sample => sample.value === sampleId && sample.label === label)
     if (newSample) {
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
-      onWorkupChange({ name: 'sample_id', value: newSample.value })
+      onWorkupChange({ name: 'sample_id', value: newSample.id })
       onWorkupChange({ name: 'sample_name', value: newSample.label })
 
       // We want to retain current amounts in workup when selected Sample has unspecified amount (Additives, Solvents …)
-      newSample.amount && onWorkupChange({ name: 'target_amount_value', value: newSample.amount })
-      newSample.amount && onWorkupChange({ name: 'target_amount_unit', value: newSample.unit })
-      newSample.amount && onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
+      newSample.amount?.value && onWorkupChange({ name: 'target_amount', value: newSample.amount })
+      newSample.amount?.value && onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
     }
     setSample(newSample)
   }
 
-  const handleValueChange = (name) => (value) => {
-    onWorkupChange({ name: name, value: value })
-  }
-
-  const handleChangeAmount = ({ value, unit }) => {
-    onWorkupChange({ name: "target_amount_value", value: value })
-    onWorkupChange({ name: "target_amount_unit", value: unit })
-  }
+  const handleChange = (name) => (value) => onWorkupChange({ name: name, value: value })
 
   const renderConditionInputs = () => {
     return inputMetrics.map(([metricName, workupKey]) => {
       return (
         <>
-          <NumericalInputWithUnit
-            label={MetricsDecorator.label(metricName)}
-            value={activity.workup[workupKey + '_value']}
-            unitType={unitTypes[activity.workup[workupKey + '_unit']]}
-            onChange={handleValueChange(workupKey + '_value')}
+          <MetricsInput
+            key={metricName}
+            metricName={metricName}
+            amount={activity.workup[workupKey]}
+            onChange={handleChange(workupKey)}
           />
         </>
       )
@@ -121,10 +109,9 @@ const AddSampleForm = (
         </SingleLineFormGroup>
 
         <AmountInputSet
-          amount={activity.workup['target_amount_value']}
-          unit={activity.workup['target_amount_unit']}
+          amount={activity.workup['target_amount']}
           maxAmounts={sample?.unit_amounts}
-          onChangeAmount={handleChangeAmount}
+          onChangeAmount={handleChange('target_amount')}
         />
       </FormSection >
       <FormSection type='action'>
@@ -135,7 +122,7 @@ const AddSampleForm = (
             name="addition_speed_type"
             options={selectOptions.addition_speed_types}
             value={currentAdditionSpeedType}
-            onChange={selected => handleValueChange('addition_speed_type')(selected.value)}
+            onChange={selected => handleChange('addition_speed_type')(selected.value)}
           />
         </SingleLineFormGroup>
 
@@ -145,7 +132,7 @@ const AddSampleForm = (
           <FormGroup check className='mb-3'>
             <Label check>
               <Input type="checkbox" checked={activity.workup['is_waterfree_solvent']} onChange={(event) =>
-                handleValueChange('is_waterfree_solvent')(event.target.checked)
+                handleChange('is_waterfree_solvent')(event.target.checked)
               } />
               Water Free Solvent
             </Label>

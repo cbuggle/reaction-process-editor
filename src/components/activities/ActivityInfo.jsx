@@ -26,7 +26,7 @@ const ActivityInfo = (
         if (workup.acts_as === 'SAMPLE') {
           imageSample = action.sample
         }
-        infoTitle = MetricsDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit)
+        infoTitle = MetricsDecorator.infoLineAmount(workup.target_amount)
         infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
 
         if (workup.acts_as === 'SOLVENT') {
@@ -38,8 +38,8 @@ const ActivityInfo = (
         infoLines.push(workup.name)
         infoLines.push(workup.short_label)
         infoLines.push(workup.description)
-        if (workup.target_amount_value) {
-          infoLines.push(MetricsDecorator.infoLineValueWithUnit(workup.target_amount_value, workup.target_amount_unit))
+        if (workup.target_amount) {
+          infoLines.push(MetricsDecorator.infoLineAmount(workup.target_amount))
         }
         infoLines.push(workup.location)
         break;
@@ -56,7 +56,7 @@ const ActivityInfo = (
           infoTitle = action.intermediate_type + ' ' + (action.sample.name || action.sample.short_label)
         }
         if (workup.transfer_percentage) {
-          infoLines.push(MetricsDecorator.infoLineValueWithUnit(workup.transfer_percentage, 'PERCENT'))
+          infoLines.push(MetricsDecorator.infoLineAmountWithPercentage(workup.target_amount))
         }
         infoLines.push("From: " + action.transfer_source_step_name)
         break;
@@ -67,7 +67,6 @@ const ActivityInfo = (
           if (removeFormMetricNames.includes(key)) {
             infoLines.push(ActivityDecorator.conditionInfo(key, value, selectOptions));
           }
-          // infoLines.push(action.sample.short_label)
         }
         break;
       case 'PURIFY':

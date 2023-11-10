@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import { Input, Label, FormGroup, Row, Col } from "reactstrap";
 import Select from "react-select";
 
-import MetricsDecorator from '../../../../decorators/MetricsDecorator';
-import NumericalInputWithUnit from "../../../utilities/NumericalInputWithUnit";
+import MetricsInput from '../../../utilities/MetricsInput';
 import OptionalFormSet from "../formsets/OptionalFormSet";
 
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const GenericMetricSubForm = (
@@ -24,41 +24,33 @@ const GenericMetricSubForm = (
 
   const additionalInformationOptions = selectOptions.condition_additional_information[metricName]
 
-  const initialValue = () => {
-    return findInitialValue('value', MetricsDecorator.defaultValueInDefaultUnit(metricName))
-  }
-  const initialUnit = () => {
-    return findInitialValue('unit', MetricsDecorator.defaultUnit(metricName))
-  }
-  const initialPowerValue = () => {
-    return findInitialValue('power_value', MetricsDecorator.defaultValueInDefaultUnit('POWER'))
-  }
-  const initialPowerRamp = () => {
-    return findInitialValue('power_is_ramp', false)
-  }
-  const initialPowerEndValue = () => {
-    return findInitialValue('power_end_value', MetricsDecorator.defaultValueInDefaultUnit('POWER'))
-  }
-  const initialAdditionalInformation = () => {
-    return findInitialValue('additional_information', '')
+  const initialAmount = () => {
+    return {
+      value: findInitialValue('value', MetricsDecorator.defaultValueInDefaultUnit(metricName)),
+      unit: findInitialValue('unit', MetricsDecorator.defaultUnit(metricName))
+    }
   }
 
-  const [value, setValue] = useState(initialValue())
-  const [unit, setUnit] = useState(initialUnit())
-  const [powerValue, setPowerValue] = useState(initialPowerValue())
+  const initialPowerAmount = () => findInitialValue('power', MetricsDecorator.defaultAmount('POWER'))
+  const initialPowerEndAmount = () => findInitialValue('power_end', MetricsDecorator.defaultAmount('POWER_END'))
+
+  const initialPowerRamp = () => findInitialValue('power_is_ramp', false)
+  const initialAdditionalInformation = () => findInitialValue('additional_information', '')
+
+  const [amount, setAmount] = useState(initialAmount())
+  const [powerAmount, setPowerAmount] = useState(initialPowerAmount())
   const [powerRamp, setPowerRamp] = useState(initialPowerRamp())
-  const [powerEndValue, setPowerEndValue] = useState(initialPowerEndValue())
+  const [powerEndAmount, setPowerEndAmount] = useState(initialPowerEndAmount())
   const [additionalInformation, setAdditionalInformation] = useState(initialAdditionalInformation())
 
   const currentSelectedAdditionalInformationOption = additionalInformationOptions.find(option =>
     option.value === additionalInformation)
 
   const resetFormData = () => {
-    setValue(initialValue())
-    setUnit(initialUnit())
-    setPowerValue(initialPowerValue())
+    setAmount(initialAmount())
+    setPowerAmount(initialPowerAmount())
     setPowerRamp(initialPowerRamp())
-    setPowerEndValue(initialPowerEndValue())
+    setPowerEndAmount(initialPowerEndAmount())
     setAdditionalInformation(initialAdditionalInformation())
   }
 
@@ -73,18 +65,16 @@ const GenericMetricSubForm = (
           />
           <Label check>{'Power Ramp'}</Label>
         </FormGroup>
-        <NumericalInputWithUnit
-          label={MetricsDecorator.label('POWER_START')}
-          value={powerValue}
-          unitType={MetricsDecorator.defaultUnitType('POWER')}
-          onChange={setPowerValue}
+        <MetricsInput
+          metricName={'POWER_START'}
+          amount={powerAmount}
+          onChange={setPowerAmount}
         />
         {!!powerRamp &&
-          <NumericalInputWithUnit
-            label={MetricsDecorator.label('POWER_END')}
-            value={powerEndValue}
-            unitType={MetricsDecorator.defaultUnitType('POWER')}
-            onChange={setPowerEndValue}
+          <MetricsInput
+            metricName={'POWER_END'}
+            amount={powerEndAmount}
+            onChange={setPowerEndAmount}
           />
         }
       </FormGroup>
@@ -110,13 +100,13 @@ const GenericMetricSubForm = (
   }
 
   const handleSave = () => {
-    let condition = { value: value, unit: unit, additional_information: additionalInformation };
+    let condition = { value: amount.value, unit: amount.unit, additional_information: additionalInformation };
 
     if (metricName === 'IRRADIATION') {
-      condition.power_value = powerValue
+      condition.power = powerAmount
       if (powerRamp) {
         condition.power_is_ramp = powerRamp
-        condition.power_end_value = powerEndValue
+        condition.power_end = powerEndAmount
       }
     }
     onSave(condition)
@@ -126,7 +116,6 @@ const GenericMetricSubForm = (
     resetFormData()
     onCancel()
   }
-
   return (
     <OptionalFormSet
       subFormLabel={MetricsDecorator.label(metricName)}
@@ -138,11 +127,11 @@ const GenericMetricSubForm = (
     >
       <Row className='gx-1 mb-3'>
         <Col md={6} className='generic-condition-sub-form__value'>
-          <NumericalInputWithUnit
-            value={value}
-            unitType={MetricsDecorator.defaultUnitType(metricName)}
-            onChange={setValue}
-            isMultiLine={true}
+          <MetricsInput
+            metricName={metricName}
+            amount={amount}
+            onChange={setAmount}
+            displayMultiLine={true}
           />
         </Col>
       </Row>
