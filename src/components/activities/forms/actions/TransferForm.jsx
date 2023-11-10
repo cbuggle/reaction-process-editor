@@ -29,7 +29,6 @@ const TransferForm = (
     // with integer id (Solvent, DiverseSolvent; MediumSamples have uuid).
     const newSample = sampleOptions.find(sample => sample.value === sampleId && sample.label === label)
     if (newSample) {
-      console.log(newSample)
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
       onWorkupChange({ name: 'sample_name', value: newSample.label })

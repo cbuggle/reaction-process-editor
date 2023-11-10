@@ -18,7 +18,6 @@ const MetricsInput = (
     disabled,
   }) => {
 
-  console.log(metricName)
   const availableUnits = metrics[metricName].units
   const availableUnitOptions = availableUnits.map(unit => ({ value: unit, label: MetricsDecorator.unitLabel(unit) }))
 
@@ -78,11 +77,11 @@ const MetricsInput = (
 
   const renderMultiLine = () => {
     return (
-      <div className='numerical-input-with-unit'>
-        <div className='numerical-input-with-unit__input'>
+      <div className='metrics-input'>
+        <div className='metrics-input__input'>
           {renderValueInput()}
         </div>
-        <div className='numerical-input-with-unit__unit'>
+        <div className='metrics-input__unit'>
           {renderUnitInput()}
         </div>
       </div>

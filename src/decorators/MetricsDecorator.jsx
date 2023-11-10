@@ -10,6 +10,14 @@ export default class MetricsDecorator {
     // The `|| unit` is for PH only which has no unit label but we want to display something
     return label || unit
   }
+
+  static defaultAmount = (metricName) => {
+    return {
+      value: this.defaultValueInDefaultUnit(metricName),
+      unit: this.defaultUnit(metricName)
+    }
+  }
+
   // Hardcoded defaultUnit until we implement unit switching.
   static defaultUnit = (metricName) => this.metric(metricName).defaultUnit
 
@@ -20,10 +28,14 @@ export default class MetricsDecorator {
 
   static defaultValueForUnitType = (unitType) => unitType.inputRange.initialStepValue
 
-  static infoLineValueWithUnit(value, unit) {
-    if (value > 0) {
-      value = parseFloat(value).toPrecision(12) / 1
-      return value + ' ' + this.unitLabel(unit)
+  static infoLineAmount(amount) {
+    if (amount?.value || amount?.value === 0) {
+      let value = parseFloat(amount.value).toPrecision(12) / 1
+      return value + ' ' + this.unitLabel(amount.unit)
     }
+  }
+
+  static infoLineAmountWithPercentage(amount) {
+    return this.infoLineAmount(amount) + ' (' + amount?.percentage + '%)'
   }
 }

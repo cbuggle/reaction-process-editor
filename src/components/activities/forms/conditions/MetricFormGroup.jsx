@@ -22,7 +22,7 @@ const MetricFormGroup = (
   const selectOptions = useContext(SelectOptions)
 
   const hasPrecondition = !!precondition?.value
-  const hasWorkupCondition = !!workup[metricName]?.value
+  const hasWorkupCondition = !!workup[metricName]
 
   const findInitialValue = (key, fallBackValue) => {
     if (workup[metricName] && workup[metricName][key] !== undefined) {
@@ -36,9 +36,9 @@ const MetricFormGroup = (
 
   const summary = () => {
     if (hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(metricName, workup[metricName], selectOptions)
+      return ActivityDecorator.conditionInfo(metricName, workup[metricName], precondition, selectOptions)
     } else if (hasPrecondition) {
-      return ActivityDecorator.conditionInfo(metricName, precondition, selectOptions)
+      return ActivityDecorator.conditionInfo(metricName, precondition, null, selectOptions)
     } else {
       return undefined
     }

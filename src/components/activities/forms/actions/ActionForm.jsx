@@ -3,7 +3,6 @@ import React from 'react';
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
 import AnalysisForm from "./AnalysisForm";
-import FormSection from "../../../utilities/FormSection";
 import PurifyBaseForm from "./PurifyBaseForm";
 import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";

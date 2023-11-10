@@ -21,7 +21,7 @@ export default class SamplesDecorator {
     const units = ['ml', 'mg', 'mmol'] // reference units sloppily hardcoded.
     const infoLines = units.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
-      MetricsDecorator.infoLineValueWithUnit(availableAmounts[unit], unit)
+      MetricsDecorator.infoLineAmount({ value: availableAmounts[unit], unit: unit })
     ).filter((el) => el)
     return infoLines.length > 0 && 'Available: ' + infoLines.join(', ')
   }

@@ -4,7 +4,7 @@ import ActivityDecorator from '../../decorators/ActivityDecorator';
 import MetricsDecorator from '../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
-import { removeFormMetricNames } from '../../constants/metrics';
+import { removeFormMetricNames, conditionFormMetricNames } from '../../constants/metrics';
 import { SelectOptions } from '../../contexts/SelectOptions';
 
 const ActivityInfo = (
@@ -45,9 +45,12 @@ const ActivityInfo = (
         break;
       case 'CONDITION':
         infoTitle = ''
-        for (let [key, value] of Object.entries(workup)) {
-          if (['TEMPERATURE', 'PRESSURE', 'PH', 'IRRADIATION', 'MOTION', 'EQUIPMENT'].includes(key)) {
-            infoLines.push(ActivityDecorator.conditionInfo(key, value, selectOptions, preconditions[key]));
+        for (let [metricName, conditionWorkup] of Object.entries(workup)) {
+          if (conditionFormMetricNames.includes(metricName)) {
+            // The EQUIPMENT will be appended globally for all Activity type; we avoid duplicating it.
+            metricName !== 'EQUIPMENT' &&
+              infoLines.push(
+                ActivityDecorator.conditionInfo(metricName, conditionWorkup, preconditions[metricName], selectOptions))
           }
         }
         break;
@@ -63,9 +66,9 @@ const ActivityInfo = (
       case 'REMOVE':
         infoTitle = action.sample_names
 
-        for (let [key, value] of Object.entries(workup)) {
+        for (let [key, removeWorkup] of Object.entries(workup)) {
           if (removeFormMetricNames.includes(key)) {
-            infoLines.push(ActivityDecorator.conditionInfo(key, value, selectOptions));
+            infoLines.push(ActivityDecorator.conditionInfo(removeWorkup, selectOptions));
           }
         }
         break;
@@ -85,7 +88,7 @@ const ActivityInfo = (
         infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + action.action_name + '***'
     }
 
-    infoLines.push(ActivityDecorator.infoLineEquipment(workup.equipment, selectOptions.equipment))
+    infoLines.push(ActivityDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment))
 
     return (
       <>
