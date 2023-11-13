@@ -14,7 +14,8 @@ function useElnApi() {
     get: request('GET'),
     post: request('POST'),
     put: request('PUT'),
-    delete: request('DELETE')
+    delete: request('DELETE'),
+    download
   };
 
   function signoutAndRedirect() {
@@ -32,6 +33,10 @@ function useElnApi() {
       method === 'GET' || window.dispatchEvent(new Event("indicateSave"))
       return requestWrapper.request(method, path, body).then(handleResponse(method)).catch()
     }
+  }
+
+  function download(path) {
+    return requestWrapper.request('GET', path)
   }
 
   function handleResponse(method) {

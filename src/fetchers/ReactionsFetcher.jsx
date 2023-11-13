@@ -86,7 +86,7 @@ function useReactionsFetcher() {
   }
 
   function downloadOrd(id) {
-    return requestWrapper.request('GET', `/reaction_processes/${id}/ord`)
+    return api.download(`/reaction_processes/${id}/ord`)
   }
 
   function updateSamplePreparation(reactionProcessId, samplePreparation) {
