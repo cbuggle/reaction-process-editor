@@ -40,9 +40,7 @@ export const actionTypeClusters = [
         createLabel: 'Transfer',
         action: {
           action_name: 'TRANSFER',
-          workup: {
-            transfer_percentage: 100
-          }
+          workup: {}
         }
       },
     ]
@@ -58,7 +56,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'FILTRATION',
-            purify_automation: 'AUTOMATIC',
+            automation: 'AUTOMATIC',
           }
         }
       },
@@ -69,7 +67,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'EXTRACTION',
-            purify_automation: 'AUTOMATIC'
+            automation: 'AUTOMATIC'
           }
         }
       },
@@ -80,7 +78,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'CHROMATOGRAPHY',
-            purify_automation: 'AUTOMATIC'
+            automation: 'AUTOMATIC'
           }
         }
       },
@@ -91,7 +89,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'CRYSTALLIZATION',
-            purify_automation: 'AUTOMATIC'
+            automation: 'AUTOMATIC'
           }
         }
       },

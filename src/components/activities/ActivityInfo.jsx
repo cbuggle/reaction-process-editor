@@ -58,9 +58,9 @@ const ActivityInfo = (
         if (action.sample) {
           infoTitle = action.intermediate_type + ' ' + (action.sample.name || action.sample.short_label)
         }
-        if (workup.transfer_percentage) {
-          infoLines.push(MetricsDecorator.infoLineAmountWithPercentage(workup.target_amount))
-        }
+
+        infoLines.push(MetricsDecorator.infoLineAmountWithPercentage(workup.target_amount))
+
         infoLines.push("From: " + action.transfer_source_step_name)
         break;
       case 'REMOVE':
@@ -74,7 +74,7 @@ const ActivityInfo = (
         break;
       case 'PURIFY':
         infoTitle = workup.purify_type
-        infoLines.push(workup.purify_automation)
+        infoLines.push(workup.automation)
         infoLines.push(action.sample_names)
         break;
       case 'ANALYSIS':

@@ -43,6 +43,10 @@ const AddSampleForm = (
 
       onWorkupChange({ name: workupKey, value: { value: value, unit: unit } })
     })
+
+    if (!activity.workup['addition_speed_type']) {
+      onWorkupChange({ name: 'addition_speed_type', value: selectOptions.addition_speed_types[0] })
+    }
     // eslint-disable-next-line
   }, [])
 
@@ -52,10 +56,6 @@ const AddSampleForm = (
   const [sample, setSample] = useState(currentSampleOptions.find(sample =>
     sample.value === activity.workup['sample_id'] &&
     sample.label === activity.workup['sample_name']))
-
-  const currentAdditionSpeedType =
-    selectOptions.addition_speed_types.find((option) => option.value === activity.workup['addition_speed_type'])
-    || selectOptions.addition_speed_types[0]
 
   const handleSampleChange = ({ sampleId, label }) => {
     // We have a risk of collisions on sampleID alone as we are coping with 2 different ActiveRecord
@@ -121,7 +121,7 @@ const AddSampleForm = (
             classNamePrefix="react-select"
             name="addition_speed_type"
             options={selectOptions.addition_speed_types}
-            value={currentAdditionSpeedType}
+            value={activity.workup['addition_speed_type']}
             onChange={selected => handleChange('addition_speed_type')(selected.value)}
           />
         </SingleLineFormGroup>

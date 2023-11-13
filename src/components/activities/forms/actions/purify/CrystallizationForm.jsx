@@ -27,8 +27,8 @@ const CrystallizationForm = (
           classNamePrefix="react-select"
           name="automation_mode"
           options={selectOptions.automation_modes}
-          value={selectOptions.automation_modes.find(option => option.value === activity.workup['purify_automation'])}
-          onChange={selectedOption => onWorkupChange({ name: 'purify_automation', value: selectedOption.value })}
+          value={selectOptions.automation_modes.find(option => option.value === activity.workup['automation'])}
+          onChange={selectedOption => onWorkupChange({ name: 'automation', value: selectedOption.value })}
         />
       </FormGroup>
       <SingleLineFormGroup label='Solvents'>
