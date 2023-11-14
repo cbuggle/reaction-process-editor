@@ -1,0 +1,21 @@
+.filtration-step-form {
+    &__solvent-list {
+        border-color: $input-border-color;
+        border-width: 1px 1px 0;
+        border-style: solid;
+        border-radius: $input-border-radius $input-border-radius 0 0;
+        background-color: $input-bg;
+        .row {
+            border-color: $input-border-color;
+            border-top-width: 1px;
+            border-top-style: solid;
+            &:first-child {
+                border-top-width: 0;
+                background-color: $input-disabled-bg;
+            }
+        }
+    }
+    &__solvent-select .react-select__control {
+        border-radius: 0 0 $input-border-radius $input-border-radius;
+    }
+}

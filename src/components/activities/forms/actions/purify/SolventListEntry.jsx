@@ -16,7 +16,7 @@ export const SolventListEntry = (
     onSetRatio({value, index})
   }
   return (
-    <Row className='gx-2 pt-1'>
+    <Row className='gx-2 py-1 px-2 mx-0'>
       <Label className='col-9 col-form-label'>
         {label}
       </Label>
@@ -28,12 +28,14 @@ export const SolventListEntry = (
           onChange={handleSetRatio}
         />
       </div>
-      <div className='col-1 d-flex justify-content-end'>
-        <IconButton
-          positive={true}
-          icon='trash'
-          onClick={onRemoveSolvent(index)}
-        />
+      <div className='col-1 d-flex flex-column justify-content-center'>
+        <div>
+          <IconButton
+            positive={true}
+            icon='trash'
+            onClick={onRemoveSolvent(index)}
+          />
+        </div>
       </div>
     </Row>
   )

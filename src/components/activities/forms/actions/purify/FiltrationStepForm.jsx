@@ -66,34 +66,32 @@ const FiltrationStepForm = (
       typeColor='action'
       initialShowForm={!stepData}
     >
-      <FormGroup>
-        <Select
-          placeholder={'Add Solvent'}
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="purify_solvent_solvent_ids"
-          options={purifySolventOptions}
-          value={''}
-          onChange={selectedOption => addSolvent(selectedOption.value)}
-        />
-        {solvents.length > 0 &&
-          <>
-            <Row className='gx-2 pt-1'>
-              <Label className='col-9 col-form-label'>Solvent</Label>
-              <Label className='col-3 col-form-label'>Ratio</Label>
-            </Row>
-            {solvents.map((solvent, idx) =>
-              <SolventListEntry
-                label={purifySolventOptions.find(option => solvent.id === option.value).label}
-                ratio={solvent.ratio}
-                index={idx}
-                onRemoveSolvent={removeSolvent}
-                onSetRatio={handleSetRatio}
-                key={solvent.id + '-' + idx}
-              />
-            )}
-          </>
-        }
+      <FormGroup className="mb-2">
+        <div className="filtration-step-form__solvent-list">
+          <Row className='gx-2 pb-1 px-2 mx-0'>
+            <Label className='col-9 col-form-label'>Solvent</Label>
+            <Label className='col-3 col-form-label'>Ratio</Label>
+          </Row>
+          {solvents.map((solvent, idx) =>
+            <SolventListEntry
+              label={purifySolventOptions.find(option => solvent.id === option.value).label}
+              ratio={solvent.ratio}
+              index={idx}
+              onRemoveSolvent={removeSolvent}
+              onSetRatio={handleSetRatio}
+              key={solvent.id + '-' + idx}
+            />
+          )}
+        </div>
+          <Select
+            placeholder={'Add Solvent'}
+            className="react-select--overwrite filtration-step-form__solvent-select"
+            classNamePrefix="react-select"
+            name="purify_solvent_solvent_ids"
+            options={purifySolventOptions}
+            value={''}
+            onChange={selectedOption => addSolvent(selectedOption.value)}
+          />
       </FormGroup>
       <FormGroup>
         <MetricsInput
