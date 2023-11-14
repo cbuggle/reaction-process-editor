@@ -83,12 +83,19 @@ export default class ActivityDecorator {
   static filtrationStepInfo = (stepData, purifySolventOptions) => {
     const solventsList = stepData.solvents.map(
       solvent => purifySolventOptions.find(option => option.value === solvent.id).label
-    )
-    const ratioList = stepData.solvents.length > 1 ? stepData.solvents.map(solvent => solvent.ratio) : []
+    ).join(', ')
+    let ratioList = ''
 
-    return MetricsDecorator.infoLineAmount(stepData.repetitions) + ' ' +
-      MetricsDecorator.infoLineAmount(stepData.amount) + ' ' + solventsList.join(', ') +
-      ' (' + ratioList.join(':') + ')'
+    if (stepData.solvents.length > 1) {
+      ratioList = '(' + stepData.solvents.map(solvent => solvent.ratio).join(':') + ')'
+    }
+
+    return [
+      MetricsDecorator.infoLineAmount(stepData.repetitions),
+      MetricsDecorator.infoLineAmount(stepData.amount),
+      solventsList,
+      ratioList
+    ].join(' ')
   }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {

@@ -1,13 +1,11 @@
 import { apiHostname } from '../constants';
 import { useElnApi } from './elnApi';
-import { useRequestWrapper } from "./requestWrapper";
 
 export { useReactionsFetcher };
 
 function useReactionsFetcher() {
 
   const api = useElnApi();
-  const requestWrapper = useRequestWrapper();
 
   return {
     index,

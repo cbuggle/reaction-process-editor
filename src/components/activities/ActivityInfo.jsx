@@ -74,14 +74,14 @@ const ActivityInfo = (
         break;
       case 'PURIFY':
         const steps = workup.filtration_steps
-        if(steps){
+        if (steps) {
           infoTitle = workup.filtration_steps.length + ' steps'
         }
-        infoLines.push(selectOptions.automation_modes.find(option => option.value === workup.purify_automation).label)
-        if(workup.filtration_mode){
-          infoLines.push('Keep ' + selectOptions.filtration_modes.find(option => option.value === workup.filtration_mode).label)
+        infoLines.push(selectOptions.automation_modes.find(option => option.value === workup.automation)?.label)
+        if (workup.filtration_mode) {
+          infoLines.push('Keep ' + selectOptions.filtration_modes.find(option => option.value === workup.filtration_mode)?.label)
         }
-        if(steps && selectOptions.materials['SOLVENT']){
+        if (steps && selectOptions.materials['SOLVENT']) {
           for (let i = 0; i < steps.length; i++) {
             infoLines.push('Step ' + (i + 1) + ':')
             infoLines.push(ActivityDecorator.filtrationStepInfo(steps[i], selectOptions.materials['SOLVENT']))
