@@ -24,7 +24,7 @@ export const SolventListEntry = (
         <NumericalInput
           className='form-control'
           value={ratio}
-          initialStepValue={MetricsDecorator.defaultUnitType('REPETITIONS').initialStepValue}
+          initialStep={MetricsDecorator.defaultUnitType('REPETITIONS').initialStep}
           onChange={handleSetRatio}
         />
       </div>

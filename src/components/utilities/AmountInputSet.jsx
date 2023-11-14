@@ -3,7 +3,8 @@ import React from "react";
 import AmountInput from "./AmountInput";
 import MetricsInput from "./MetricsInput";
 
-import { allowedAmountOverscale, amountInputSetMetricNames, metrics, unitTypes } from "../../constants/metrics";
+import MetricsDecorator from "../../decorators/MetricsDecorator";
+import { amountInputSetMetricNames } from "../../constants/metrics";
 
 const AmountInputSet = (
   {
@@ -12,22 +13,25 @@ const AmountInputSet = (
     onChangeAmount
   }) => {
 
-  const currentMetric = Object.values(metrics).find(metric => metric.units.includes(amount?.unit))
-  const currentBaseUnit = currentMetric?.defaultUnit || metrics['WEIGHT'].defaultUnit
+  const currentBaseUnit = MetricsDecorator.baseUnit(amount?.unit) || MetricsDecorator.defaultUnit('WEIGHT')
 
   const currentFraction = amount && maxAmounts?.[currentBaseUnit] ?
-    unitTypes[amount.unit].toBase(amount.value) / maxAmounts[currentBaseUnit]
+    MetricsDecorator.unitType(amount.unit).toBase(amount.value) / maxAmounts[currentBaseUnit]
     : NaN
 
-  const maxAmountInBaseUnit = (metricName) => maxAmounts?.[metrics[metricName].defaultUnit]
+  const maxAmountInBaseUnit = (metricName) => maxAmounts?.[MetricsDecorator.defaultUnit(metricName)]
 
   const handlePercentageInput = (percentage) => {
-    const newAmount = unitTypes[amount.unit].fromBase(maxAmounts[currentBaseUnit]) * percentage.value / 100
-    onChangeAmount({ value: newAmount, unit: amount.unit, percentage: percentage.value })
+    const convertedValue = MetricsDecorator.unitType(amount.unit)
+      .fromBase(maxAmounts[currentBaseUnit]) * percentage.value / 100
+
+    onChangeAmount({ value: convertedValue, unit: amount.unit, percentage: percentage.value })
   }
 
   const handleChangeAmountInput = (baseUnit) => (amount) => {
-    const fraction = maxAmounts?.[baseUnit] ? unitTypes[amount.unit].toBase(amount.value) / maxAmounts[baseUnit] : 1
+    const fraction = maxAmounts?.[baseUnit] ?
+      MetricsDecorator.unitType(amount.unit).toBase(amount.value) / maxAmounts[baseUnit] : 1
+
     onChangeAmount({ value: amount.value, unit: amount.unit, percentage: 100 * fraction })
   }
 
@@ -41,7 +45,7 @@ const AmountInputSet = (
             currentAmount={amount}
             currentFraction={currentFraction}
             maxAmountInBaseUnit={maxAmountInBaseUnit(metricName)}
-            onChange={handleChangeAmountInput(metrics[metricName].defaultUnit)}
+            onChange={handleChangeAmountInput(MetricsDecorator.defaultUnit(metricName))}
           />
         ))
       }
@@ -49,7 +53,7 @@ const AmountInputSet = (
         <MetricsInput
           metricName={'PERCENTAGE'}
           amount={{ value: 100 * currentFraction, unit: 'PERCENT' }}
-          max={100 * allowedAmountOverscale}
+          max={MetricsDecorator.overscaledAmount(100)}
           onChange={handlePercentageInput}
         />
       }

@@ -1,15 +1,11 @@
-import { metrics, unitTypes } from '../constants/metrics.jsx';
+import { metrics, unitTypes, allowedAmountOverscale } from '../constants/metrics.jsx';
 
 export default class MetricsDecorator {
   static metric = (metricName) => metrics[metricName]
 
   static label = (metricName) => this.metric(metricName).label
 
-  static unitLabel = (unit) => {
-    const label = unitTypes[unit] && unitTypes[unit].label
-    // The `|| unit` is for PH only which has no unit label but we want to display something
-    return label || unit
-  }
+  static units = (metricName) => this.metric(metricName).units
 
   static defaultAmount = (metricName) => {
     return {
@@ -17,16 +13,23 @@ export default class MetricsDecorator {
       unit: this.defaultUnit(metricName)
     }
   }
-
-  // Hardcoded defaultUnit until we implement unit switching.
   static defaultUnit = (metricName) => this.metric(metricName).defaultUnit
-
-  // Hardcoded defaultValue in defaultUnit until we implement unit switching.
-  static defaultValueInDefaultUnit = (metricName) => this.defaultValueForUnitType(this.defaultUnitType(metricName))
 
   static defaultUnitType = (metricName) => unitTypes[this.defaultUnit(metricName)]
 
-  static defaultValueForUnitType = (unitType) => unitType.inputRange.initialStepValue
+  static defaultValueForUnitType = (unitType) => unitType.inputRange.initialStep
+
+  static defaultValueInDefaultUnit = (metricName) => this.defaultValueForUnitType(this.defaultUnitType(metricName))
+
+  static baseUnit = (unit) => Object.values(metrics).find(metric => metric.units.includes(unit))?.defaultUnit
+
+  static unitType = (unit) => unitTypes[unit]
+
+  // Fallback only for PH w/o label but we want to display something
+  static unitLabel = (unit) => unitTypes[unit]?.label || unit
+
+
+  static overscaledAmount = (value) => allowedAmountOverscale * value
 
   static infoLineAmount(amount) {
     if (amount?.value || amount?.value === 0) {

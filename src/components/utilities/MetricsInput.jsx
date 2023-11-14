@@ -5,7 +5,6 @@ import { Col, Label, Row } from "reactstrap";
 import NumericalInput from "./NumericalInput";
 import SingleLineFormGroup from "./SingleLineFormGroup";
 
-import { metrics, unitTypes } from "../../constants/metrics";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 
 const MetricsInput = (
@@ -18,23 +17,20 @@ const MetricsInput = (
     disabled,
   }) => {
 
-  const availableUnits = metrics[metricName].units
-  const availableUnitOptions = availableUnits.map(unit => ({ value: unit, label: MetricsDecorator.unitLabel(unit) }))
+  const availableUnitOptions = MetricsDecorator.units(metricName)
+    .map(unit => ({ value: unit, label: MetricsDecorator.unitLabel(unit) }))
 
-  const showUnitAsLabel = availableUnitOptions.length < 2
+  const unitIsSelectable = availableUnitOptions.length > 1
 
   const localUnit = amount?.unit || MetricsDecorator.defaultUnit(metricName)
-
-  const localUnitType = unitTypes[localUnit]
-  const inputRange = localUnitType.inputRange || {}
+  const inputRange = MetricsDecorator.unitType(localUnit).inputRange || {}
   const localMax = max || max === 0 ? max : inputRange.max
 
   const handleChangeValue = (value) => onChange({ value: value, unit: localUnit })
 
   const handleChangeUnit = (oldUnit) => (newUnit) => {
-    let oldUnitType = unitTypes[oldUnit]
-    let newUnitType = unitTypes[newUnit]
-    let newValue = newUnitType.fromBase(oldUnitType.toBase(amount?.value))
+    let newValue = MetricsDecorator.unitType(newUnit).fromBase(
+      MetricsDecorator.unitType(oldUnit).toBase(amount?.value))
 
     onChange({ value: newValue, unit: newUnit })
   }
@@ -45,7 +41,7 @@ const MetricsInput = (
         value={amount?.value}
         precision={inputRange.precision}
         step={inputRange.step}
-        initialStepValue={inputRange.initialStepValue}
+        initialStep={inputRange.initialStep}
         min={inputRange.min}
         max={localMax}
         size={8}
@@ -58,26 +54,25 @@ const MetricsInput = (
   }
 
   const renderUnitInput = () => {
-    if (showUnitAsLabel) {
-      return (
-        <Label className='col-form-label px-1'>
-          {localUnitType.label}
-        </Label>
-      )
-    } else {
+    if (unitIsSelectable) {
       return (
         <Select
           className="react-select--overwrite"
           classNamePrefix="react-select"
-          name={"target_amount_unit_" + metrics[metricName].label}
+          name={"target_amount_unit_" + MetricsDecorator.label(metricName)}
           options={availableUnitOptions}
           value={availableUnitOptions.find(option => option.value === localUnit)}
           onChange={selectedOption => handleChangeUnit(localUnit)(selectedOption.value)}
         />
       )
+    } else {
+      return (
+        <Label className='col-form-label px-1'>
+          {MetricsDecorator.unitLabel(localUnit)}
+        </Label>
+      )
     }
   }
-
 
   const renderInputs = () => {
     return (
@@ -94,7 +89,7 @@ const MetricsInput = (
 
   const renderSingleLine = () => {
     return (
-      <SingleLineFormGroup label={metrics[metricName].label}>
+      <SingleLineFormGroup label={MetricsDecorator.label(metricName)}>
         {renderInputs()}
       </SingleLineFormGroup >
     )

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { allowedAmountOverscale, metrics, unitTypes } from "../../constants/metrics";
 import MetricsInput from "./MetricsInput.jsx";
+
+import MetricsDecorator from "../../decorators/MetricsDecorator.jsx";
 
 const AmountInput = (
   {
@@ -15,31 +16,30 @@ const AmountInput = (
   }) => {
   const baseCSSClass = 'amount-input amount-input--' + activityType
 
-  const baseUnit = metrics[metricName].defaultUnit
-  const isCurrentMetric = metrics[metricName].units.includes(currentAmount?.unit)
+  const isCurrentMetric = MetricsDecorator.units(metricName).includes(currentAmount?.unit)
 
   const [localAmount, setLocalAmount] = useState()
-  const [localMax, setLocalMax] = useState(allowedAmountOverscale * maxAmountInBaseUnit)
+  const [localMax, setLocalMax] = useState(MetricsDecorator.overscaledAmount(maxAmountInBaseUnit))
 
   useEffect(() => {
-    let localUnit = localAmount?.unit || baseUnit
-    let localUnitType = unitTypes[localUnit]
-    let maxValue = localUnitType.fromBase(maxAmountInBaseUnit)
+    let localUnit = localAmount?.unit || MetricsDecorator.defaultUnit(metricName)
+    let localUnitType = MetricsDecorator.unitType(localUnit)
+    let localMaxValue = localUnitType.fromBase(maxAmountInBaseUnit)
 
     if (isCurrentMetric) {
       // The current metric is always shown as is.
       setLocalAmount(currentAmount)
-      maxAmountInBaseUnit && setLocalMax(maxValue * allowedAmountOverscale)
+      maxAmountInBaseUnit && setLocalMax(MetricsDecorator.overscaledAmount(localMaxValue))
     } else if (maxAmountInBaseUnit) {
       // non-current metric calculates as fraction of maxAmountInBaseUnit
-      setLocalAmount({ value: maxValue * currentFraction, unit: localUnit})
-      setLocalMax(maxValue * allowedAmountOverscale)
+      setLocalAmount({ value: localMaxValue * currentFraction, unit: localUnit })
+      setLocalMax(MetricsDecorator.overscaledAmount(localMaxValue))
     } else {
       // When there's no local maxAmount we want the non-current metric empty.
       setLocalAmount({ value: NaN, unit: localUnit })
       setLocalMax(localUnitType.max)
     }
-  }, [baseUnit, localAmount?.unit, currentFraction, currentAmount, maxAmountInBaseUnit, isCurrentMetric])
+  }, [metricName, currentFraction, currentAmount, maxAmountInBaseUnit, localAmount?.unit, isCurrentMetric])
 
   return (
     <div className={baseCSSClass + (isCurrentMetric ? ' amount-input--active' : ' amount-input--passive')}>
