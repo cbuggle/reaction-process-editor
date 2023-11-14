@@ -73,9 +73,20 @@ const ActivityInfo = (
         }
         break;
       case 'PURIFY':
-        infoTitle = workup.purify_type
-        infoLines.push(workup.automation)
-        infoLines.push(action.sample_names)
+        const steps = workup.filtration_steps
+        if(steps){
+          infoTitle = workup.filtration_steps.length + ' steps'
+        }
+        infoLines.push(selectOptions.automation_modes.find(option => option.value === workup.purify_automation).label)
+        if(workup.filtration_mode){
+          infoLines.push('Keep ' + selectOptions.filtration_modes.find(option => option.value === workup.filtration_mode).label)
+        }
+        if(steps && selectOptions.materials['SOLVENT']){
+          for (let i = 0; i < steps.length; i++) {
+            infoLines.push('Step ' + (i + 1) + ':')
+            infoLines.push(ActivityDecorator.filtrationStepInfo(steps[i], selectOptions.materials['SOLVENT']))
+          }
+        }
         break;
       case 'ANALYSIS':
         infoTitle = selectOptions.analysis_types.find(option => option.value === workup.analysis_type).label
