@@ -1,19 +1,20 @@
-import {Label, Row} from "reactstrap";
-import NumericalInput from "../../../../utilities/NumericalInput";
-import MetricsDecorator from "../../../../../decorators/MetricsDecorator";
-import IconButton from "../../../../utilities/IconButton";
 import React from "react";
+import { Label, Row } from "reactstrap";
+
+import IconButton from "../../../../utilities/IconButton";
+import MetricsDecorator from "../../../../../decorators/MetricsDecorator";
+import NumericalInput from "../../../../utilities/NumericalInput";
 
 export const SolventListEntry = (
   {
-      label,
-      ratio,
-      index,
-      onRemoveSolvent,
-      onSetRatio
+    label,
+    ratio,
+    index,
+    onRemoveSolvent,
+    onSetRatio
   }) => {
   const handleSetRatio = (value) => {
-    onSetRatio({value, index})
+    onSetRatio({ value, index })
   }
   return (
     <Row className='gx-2 py-1 px-2 mx-0'>
@@ -24,7 +25,8 @@ export const SolventListEntry = (
         <NumericalInput
           className='form-control'
           value={ratio}
-          initialStep={MetricsDecorator.defaultUnitType('REPETITIONS').initialStep}
+          min={MetricsDecorator.unitType('RATIO').inputRange.min}
+          initialStep={MetricsDecorator.unitType('RATIO').inputRange.initialStep}
           onChange={handleSetRatio}
         />
       </div>

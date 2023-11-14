@@ -71,6 +71,11 @@ export const metrics = {
     defaultUnit: 'MINUTES',
     units: ['MINUTES']
   },
+  'RATIO': {
+    label: 'Ratio',
+    defaultUnit: 'RATIO',
+    units: ['RATIO']
+  },
   'REPETITIONS': {
     label: 'Repetitions',
     defaultUnit: 'TIMES',
@@ -235,6 +240,12 @@ export const unitTypes = {
     inputRange: { min: 0, max: 1440, precision: 0, step: 1, initialStep: 0, },
     fromBase: (value) => value * 60,
     toBase: (value) => value / 60,
+  },
+  'RATIO': {
+    label: '',
+    inputRange: { min: 0, max: 100, precision: 0, step: 1, initialStep: 1, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
   },
   'TIMES': {
     label: 'times',
