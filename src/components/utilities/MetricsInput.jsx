@@ -59,7 +59,11 @@ const MetricsInput = (
 
   const renderUnitInput = () => {
     if (showUnitAsLabel) {
-      return localUnitType.label
+      return (
+        <Label className='col-form-label px-1'>
+          {localUnitType.label}
+        </Label>
+      )
     } else {
       return (
         <Select
@@ -75,36 +79,29 @@ const MetricsInput = (
   }
 
 
-  const renderMultiLine = () => {
+  const renderInputs = () => {
     return (
-      <div className='metrics-input'>
-        <div className='metrics-input__input'>
+      <Row className='gx-2'>
+        <Col md={5}>
           {renderValueInput()}
-        </div>
-        <div className='metrics-input__unit'>
+        </Col >
+        <Col md={7}>
           {renderUnitInput()}
-        </div>
-      </div>
+        </Col>
+      </Row >
     )
   }
 
   const renderSingleLine = () => {
     return (
       <SingleLineFormGroup label={metrics[metricName].label}>
-        <Row className='gx-1'>
-          <Col md={5}>
-            {renderValueInput()}
-          </Col >
-          <Label className='col-7 col-form-label'>
-            {renderUnitInput()}
-          </Label>
-        </Row >
+        {renderInputs()}
       </SingleLineFormGroup >
     )
   }
 
   return (
-    displayMultiLine ? renderMultiLine() : renderSingleLine()
+    displayMultiLine ? renderInputs() : renderSingleLine()
   )
 }
 

@@ -3,22 +3,3 @@
     display: none !important;
   }
 }
-
-.generic-condition-sub-form__value {
-  .metrics-input {
-    @extend .row;
-    align-items: center;
-    @extend .gx-1;
-    &__input, &__unit {
-      padding: 0 calc(var(--bs-gutter-x) * 0.5)
-    }
-    &__input {
-      @extend .col-8
-    }
-    &__unit {
-      @extend .col-4;
-      @extend .col-form-label
-    }
-  }
-
-}

@@ -126,7 +126,7 @@ const GenericMetricSubForm = (
       typeColor={typeColor}
     >
       <Row className='gx-1 mb-3'>
-        <Col md={6} className='generic-condition-sub-form__value'>
+        <Col md={8}>
           <MetricsInput
             metricName={metricName}
             amount={amount}
