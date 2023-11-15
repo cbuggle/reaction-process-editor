@@ -36,7 +36,7 @@ function useRequestWrapper() {
     localStorage.removeItem('username');
     localStorage.removeItem('bearer_auth_token');
     toast.error("Network connection to Backend failed. Is the ELN server running and reachable?",
-      { autoClose: toastAutoCloseOnError })
+      { autoClose: toastAutoCloseOnError , toastId: 666}) // arbitrary toastId prevents duplicates
     navigate(afterSignOutPath)
     return;
   }

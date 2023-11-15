@@ -56,7 +56,7 @@ const MainHeader = () => {
 
   const fetchReactionOptions = () => {
     reactionApi.index().then((data) => {
-      if (data) {
+      if (data && data['reactions']) {
         setReactions(data['reactions'])
         const options = data['reactions'].map(({ id, short_label }) => ({
           key: id,
@@ -75,15 +75,15 @@ const MainHeader = () => {
 
   const fetchCollectionOptions = () => {
     reactionApi.collectionSelectOptions().then((data) => {
-      data && setCollectionOptions(data['collection_select_options'])
+      data?.collection_select_options && setCollectionOptions(data['collection_select_options'])
     })
   }
 
   const fetchUserDefaultConditions = () => {
     reactionApi.geDefaultConditions().then((defaultConditions) => {
-      setGlobalDefaultConditions(defaultConditions['global'])
-      setUserDefaultConditions(defaultConditions['user'])
-      setSelectOptions(defaultConditions['select_options'])
+      defaultConditions['global'] && setGlobalDefaultConditions(defaultConditions['global'])
+      defaultConditions['user'] && setUserDefaultConditions(defaultConditions['user'])
+      defaultConditions['select_options'] && setSelectOptions(defaultConditions['select_options'])
     })
   }
 

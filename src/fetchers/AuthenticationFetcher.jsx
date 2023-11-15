@@ -28,13 +28,13 @@ function useAuthenticationFetcher() {
             createSession(credentials.username, token)
             return;
           case 401:
-            toast.error("Username or Password wrong.", { autoClose: toastAutoCloseOnError })
+            toast.error("Username or Password wrong.", { autoClose: toastAutoCloseOnError, toastId: 401 })
             destroySession();
             return;
           default:
             toast.error("Unknown Error: " +
-              (response && response.status) + " Message: " + (response && response.statusText),
-              { autoClose: toastAutoCloseOnError })
+              (response && response.status) + " : " + (response && response.statusText),
+              { autoClose: toastAutoCloseOnError, toastId: 500 })
             destroySession();
             return;
         }

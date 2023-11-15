@@ -51,7 +51,7 @@ function useElnApi() {
           } else {
             let errorMessage = (data && data.message) || response.statusText;
             // settingt toastId prevents duplicates.
-            toast.error(errorMessage, { toastId: 1, autoClose: toastAutoCloseOnError });
+            toast.error(errorMessage, { toastId: 400, autoClose: toastAutoCloseOnError });
 
             ([401, 403].includes(response.status)) ? signoutAndRedirect() : redirectOnGeneralError();
             return {};
