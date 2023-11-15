@@ -91,10 +91,10 @@ export default class ActivityDecorator {
     }
 
     return [
-      MetricsDecorator.infoLineAmount(stepData.repetitions),
       MetricsDecorator.infoLineAmount(stepData.amount),
       solventsList,
-      ratioList
+      ratioList,
+      '(' + stepData.repetitions.value + ' ' + MetricsDecorator.label('REPETITIONS') + ')'
     ].join(' ')
   }
 
