@@ -28,7 +28,8 @@ function useReactionsFetcher() {
     updateAction,
     deleteAction,
     updateActionPosition,
-    updateProcessStepPosition
+    updateProcessStepPosition,
+    toggleProcessStepLock
   }
 
   function index() {
@@ -116,6 +117,10 @@ function useReactionsFetcher() {
   function createAction(processStepId, action, insertBefore) {
     return api.post(`/reaction_process_steps/${processStepId}/actions`,
       { 'action': action, 'insert_before': insertBefore })
+  }
+
+  function toggleProcessStepLock(id) {
+    return api.put(`/reaction_process_steps/${id}/toggle_locked` )
   }
 
   function updateAction(action) {

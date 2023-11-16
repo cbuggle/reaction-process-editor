@@ -28,10 +28,8 @@ const ActivityForm = (
   const [disabled, setDisabled] = useState(false)
 
   useEffect(() => {
-    console.log("ActivityForm useEffect disabled: " + subFormController.openSubFormLabel)
     setDisabled(subFormController.anyBlockingSubformOpen())
   }, [subFormController, activity, activity.workup])
-
 
   const handleSave = () => ActionValidator.validate(activity) && onSave()
 

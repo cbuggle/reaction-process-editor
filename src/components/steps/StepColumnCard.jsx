@@ -36,9 +36,7 @@ const StepColumCard = (
       && deleteStep()
   }
 
-  const deleteStep = () => {
-    api.deleteProcessStep(processStep.id)
-  }
+  const deleteStep = () => api.deleteProcessStep(processStep.id)
 
   const handleCancel = () => {
     if (isInitialised) {
@@ -59,9 +57,9 @@ const StepColumCard = (
     }
   }
 
-  const toggleForm = () => {
-    setShowForm(!showForm)
-  }
+  const toggleForm = () => setShowForm(!showForm)
+
+  const toggleLocked = () => { api.toggleProcessStepLock(processStep.id)}
 
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
@@ -112,6 +110,9 @@ const StepColumCard = (
             showMoveXBtn={!showForm}
             showDeleteBtn={!showForm}
             showCancelBtn={showForm}
+            showLockBtn={!showForm}
+            onToggleLocked={toggleLocked}
+            isLocked={processStep.locked}
             onDelete={confirmDeleteStep}
             onEdit={toggleForm}
             onCancel={handleCancel}

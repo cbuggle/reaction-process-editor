@@ -17,6 +17,7 @@ const ProcedureCard = (
     onEdit,
     onDelete,
     onCancel,
+    onToggleLocked,
     customClass = '',
     headerTitleTag = 'h4',
     showEditBtn = true,
@@ -24,6 +25,8 @@ const ProcedureCard = (
     showMoveYBtn = true,
     showDeleteBtn = true,
     showCancelBtn = true,
+    showLockBtn = false,
+    isLocked = false,
     displayMode = 'info',
     dragRef
   }) => {
@@ -39,6 +42,9 @@ const ProcedureCard = (
       <CardHeader className='d-flex justify-content-between align-items-center'>
         <HeaderTitleTag className='procedure-card__header-label mb-0'>{title}</HeaderTitleTag>
         <div className='d-flex'>
+          {showLockBtn &&
+            <IconButton onClick={onToggleLocked} icon={isLocked ? 'lock' : 'lock-open'} />
+          }
           {showEditBtn &&
             <IconButton onClick={onEdit} icon='pen' />
           }
