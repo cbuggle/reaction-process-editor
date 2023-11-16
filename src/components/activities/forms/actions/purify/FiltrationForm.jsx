@@ -15,7 +15,7 @@ const FiltrationForm = (
 
   const workup = activity.workup
   const selectOptions = useContext(SelectOptions)
-  const filtrationModeOptions = selectOptions.filtration_modes
+  const filtrationModeOptions = selectOptions.purify.filtration_modes
 
   const newFiltration = !workup['filtration_steps']
   const [filtrationSteps, setFiltrationSteps] = useState(newFiltration ? [] : workup['filtration_steps'])

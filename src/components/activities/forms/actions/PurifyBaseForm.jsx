@@ -8,6 +8,7 @@ import ChromatographyForm from './purify/ChromatographyForm';
 const PurifyBaseForm = (
   {
     activity,
+    preconditions,
     onWorkupChange
   }) => {
 
@@ -17,7 +18,7 @@ const PurifyBaseForm = (
     case "EXTRACTION":
       return (<ExtractionForm activity={activity} onWorkupChange={onWorkupChange} />)
     case "CRYSTALLIZATION":
-      return (<CrystallizationForm activity={activity} onWorkupChange={onWorkupChange} />)
+      return (<CrystallizationForm activity={activity} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
     case "CHROMATOGRAPHY":
       return (<ChromatographyForm activity={activity} onWorkupChange={onWorkupChange} />)
     default:

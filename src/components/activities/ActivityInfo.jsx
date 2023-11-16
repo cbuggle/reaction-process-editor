@@ -76,11 +76,11 @@ const ActivityInfo = (
         const steps = workup.filtration_steps
         infoTitle = ''
         if (steps) {
-          infoTitle += workup.filtration_steps.length + ' steps '
+          infoTitle += workup.filtration_steps.length + ' Steps '
         }
         infoTitle += selectOptions.automation_modes.find(option => option.value === workup.automation)?.label
         if (workup.filtration_mode) {
-          infoTitle += ' Keep ' + selectOptions.filtration_modes.find(option => option.value === workup.filtration_mode)?.label
+          infoTitle += ' Keep ' + selectOptions.purify.filtration_modes.find(option => option.value === workup.filtration_mode)?.label
         }
         if (steps && selectOptions.materials['SOLVENT']) {
           for (let i = 0; i < steps.length; i++) {

@@ -1,56 +1,86 @@
-import React from 'react'
-import { Input, FormGroup } from 'reactstrap'
-import Select from 'react-select'
+import React, { useContext } from 'react'
+import { FormGroup } from 'reactstrap'
 
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
+import ButtonGroupToggle from '../../../../utilities/ButtonGroupToggle';
+import DurationSelection from '../../../../utilities/DurationSelection';
+import FormSection from "../../../../utilities/FormSection";
+import MetricsInput from '../../../../utilities/MetricsInput';
+import SolventListForm from './SolventListForm';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import { useContext } from 'react';
-import FormSection from "../../../../utilities/FormSection";
 
 const CrystallizationForm = (
   {
     activity,
+    preconditions,
     onWorkupChange
   }) => {
 
-  const selectOptions = useContext(SelectOptions)
-  const purifySolventOptions = selectOptions.materials['SOLVENT']
+  const workup = activity.workup
 
-  const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
+  const solvents = workup.solvents || []
+  const amount = workup.amount || { value: 0, unit: 'ml' }
+
+  const selectOptions = useContext(SelectOptions)
+  const solventOptions = selectOptions.materials['ADDITIVE']
+  const crystallizationModeOptions = selectOptions.purify.crystallization_modes
+
+  const handleChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   return (
-    <FormSection type='action'>
-      <FormGroup>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="automation_mode"
+    <>
+      <FormSection type='action'>
+        <ButtonGroupToggle
+          value={workup['automation'] || selectOptions.automation_modes[0]['value']}
           options={selectOptions.automation_modes}
-          value={selectOptions.automation_modes.find(option => option.value === activity.workup['automation'])}
-          onChange={selectedOption => onWorkupChange({ name: 'automation', value: selectedOption.value })}
+          onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
+          label='Automation'
         />
-      </FormGroup>
-      <SingleLineFormGroup label='Solvents'>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          isMulti
-          name="purify_solvent_sample_ids"
-          options={purifySolventOptions}
-          value={purifySolventOptions.filter(option => actionPurifySolventIds.includes(option.value))}
-          onChange={selectedOptions => onWorkupChange({ name: 'purify_solvent_sample_ids', value: selectedOptions.map(option => option.value) })}
+      </FormSection>
+      <FormSection type='action'>
+        <FormGroup>
+          <SolventListForm
+            solvents={solvents}
+            solventOptions={solventOptions}
+            setSolvents={handleChange('solvents')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <MetricsInput
+            metricName={'VOLUME'}
+            amount={amount}
+            onChange={handleChange('amount')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <MetricsInput
+            metricName={'TEMPERATURE'}
+            amount={workup.TEMPERATURE || preconditions.TEMPERATURE}
+            onChange={handleChange('TEMPERATURE')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <DurationSelection
+            label="Heating"
+            duration={workup.heating_duration || 0}
+            onChangeDuration={handleChange('heating_duration')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <DurationSelection
+            label="Cooling"
+            duration={workup.cooling_duration || 0}
+            onChangeDuration={handleChange('cooling_duration')}
+          />
+        </FormGroup>
+        <ButtonGroupToggle
+          label="Filtration"
+          value={workup['crystallization_mode'] || selectOptions.purify.crystallization_modes[0]['value']}
+          options={crystallizationModeOptions}
+          onChange={handleChange('crystallization_mode')}
         />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label='Ratio'>
-        <Input
-          value={activity.workup['purify_ratio']}
-          placeholder="Ratio"
-          onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
-        />
-      </SingleLineFormGroup>
-      { }
-    </FormSection>
+      </FormSection >
+    </>
   )
 }
 

@@ -82,17 +82,17 @@ export const metrics = {
     units: ['TIMES']
   },
   'WEIGHT': {
-    label: 'gravimetric',
+    label: 'Gravimetric',
     defaultUnit: 'mg',
     units: ['mg', 'g', 'mcg']
   },
   'VOLUME': {
-    label: 'volumetric',
+    label: 'Volumetric',
     defaultUnit: 'ml',
     units: ['ml', 'l']
   },
   'MOLAR': {
-    label: 'molar',
+    label: 'Molar',
     defaultUnit: 'mmol',
     units: ['mol', 'mmol', 'mcmol', 'nmol']
   }

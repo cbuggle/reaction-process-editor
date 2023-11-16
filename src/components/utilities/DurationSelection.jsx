@@ -6,6 +6,7 @@ import TimeDecorator from "../../decorators/TimeDecorator";
 
 const DurationSelection = (
   {
+    label = 'Duration',
     duration,
     onChangeDuration,
     disabled
@@ -42,7 +43,7 @@ const DurationSelection = (
   return (
     <FormGroup className='row gx-2 pt-1 duration-selection'>
       <Label className='col-3 col-form-label d-flex'>
-        Duration
+        {label}
       </Label>
       <div className='duration-selection__input-container'>
         <NumericalInput
