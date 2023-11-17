@@ -1,7 +1,7 @@
 @use "sass:map";
 
 .form-section {
-  padding-top: 0.5rem;
+  padding: 0.5rem 0;
   margin-bottom: 0rem !important;
   @include separator-border;
   position: relative;

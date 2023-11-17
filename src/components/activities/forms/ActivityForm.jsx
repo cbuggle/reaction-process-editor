@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import ApplyExtraEquipmentFormSet from './formsets/ApplyExtraEquipmentFormSet';
 import DescriptionFormSet from "./formsets/DescriptionFormSet";
 import FormButtons from "../../utilities/FormButtons";
-import TimingFormSet from "./formsets/TimingFormSet";
+import Timer from '../timing/Timer';
 
 import ActionValidator from '../../../validators/ActionValidator'
 
@@ -48,11 +48,12 @@ const ActivityForm = (
         workup={workup}
         onWorkupChange={onWorkupChange}
       />
-      <TimingFormSet
+      <Timer
         activityType={type}
         workup={workup}
         onChangeDuration={onChangeDuration}
         onWorkupChange={onWorkupChange}
+        displayMode={'form'}
       />
       <FormButtons
         onSave={handleSave}

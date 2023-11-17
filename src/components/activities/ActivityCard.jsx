@@ -9,6 +9,8 @@ import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SubFormController } from '../../contexts/SubFormController';
+import Timer from './timing/Timer';
+import ActionValidator from '../../validators/ActionValidator';
 
 const ActivityCard = (
   {
@@ -40,7 +42,6 @@ const ActivityCard = (
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
-    setDisplayMode(workup.timer_started_at ? 'form' : displayMode)
   }, [workup, subFormController, subFormController.openSubFormLabel, displayMode]);
 
   const edit = () => setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
@@ -54,14 +55,17 @@ const ActivityCard = (
   }
 
   const onSaveForm = () => {
-    onSave(activityForm)
-    subFormController.closeAllSubForms()
-    if (isInitialised) {
-      setDisplayMode('info')
-    } else {
-      setActivityForm({ workup: {} })
+    if(ActionValidator.validate(activityForm)){
+      onSave(activityForm)
+      subFormController.closeAllSubForms()
+      if (isInitialised) {
+        setDisplayMode('info')
+      } else {
+        setActivityForm({ workup: {} })
+      }
     }
   }
+
   const handleCancel = () => {
     if (isInitialised) {
       setActivityForm(activity)
@@ -71,7 +75,9 @@ const ActivityCard = (
     }
   }
 
-  const handleWorkupChange = ({ name, value }) => setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }))
+  const handleWorkupChange = ({ name, value }) => {
+    setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }))
+  }
 
   const setDuration = (value) => handleWorkupChange({ name: "duration", value: value })
 
@@ -93,10 +99,20 @@ const ActivityCard = (
       dragRef={dragRef}
     >
       <ProcedureCard.Info>
-        <ActivityInfo
-          action={activity}
-          preconditions={preconditions}
-        />
+        <>
+          <ActivityInfo
+            activity={activity}
+            preconditions={preconditions}
+          />
+          <Timer
+            activityType={type}
+            workup={activityForm?.workup}
+            onSave={onSaveForm}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
+            displayMode='info'
+          />
+        </>
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
         <TypeSelectionPanel onSelect={onSelectType} />

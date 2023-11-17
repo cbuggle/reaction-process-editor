@@ -9,7 +9,7 @@ import { SelectOptions } from '../../contexts/SelectOptions';
 
 const ActivityInfo = (
   {
-    action,
+    activity,
     preconditions
   }) => {
 
@@ -18,13 +18,13 @@ const ActivityInfo = (
   const infoLines = []
   let imageSample
   let infoTitle
-  const workup = action.workup
+  const workup = activity.workup
 
   const renderActivityInfo = () => {
-    switch (action.action_name) {
+    switch (activity.action_name) {
       case 'ADD':
         if (workup.acts_as === 'SAMPLE') {
-          imageSample = action.sample
+          imageSample = activity.sample
         }
         infoTitle = MetricsDecorator.infoLineAmount(workup.target_amount)
         infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
@@ -55,16 +55,16 @@ const ActivityInfo = (
         }
         break;
       case 'TRANSFER':
-        if (action.sample) {
-          infoTitle = action.intermediate_type + ' ' + (action.sample.name || action.sample.short_label)
+        if (activity.sample) {
+          infoTitle = activity.intermediate_type + ' ' + (activity.sample.name || activity.sample.short_label)
         }
 
         infoLines.push(MetricsDecorator.infoLineAmountWithPercentage(workup.target_amount))
 
-        infoLines.push("From: " + action.transfer_source_step_name)
+        infoLines.push("From: " + activity.transfer_source_step_name)
         break;
       case 'REMOVE':
-        infoTitle = action.sample_names
+        infoTitle = activity.sample_names
 
         for (let [key, removeWorkup] of Object.entries(workup)) {
           if (removeFormMetricNames.includes(key)) {
@@ -104,33 +104,35 @@ const ActivityInfo = (
         infoTitle = '...'
         break;
       default:
-        infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + action.action_name + '***'
+        infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + activity.action_name + '***'
     }
 
     infoLines.push(ActivityDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment))
 
     return (
       <>
-        {SamplesDecorator.sampleSvgImg(imageSample)}
-        {(workup.description || infoTitle?.length > 0 || infoLines?.length > 0) &&
-          <div className='activity-info__text-block'>
-            {infoTitle?.length > 0 &&
-              <h6>{infoTitle}</h6>
-            }
-            {infoLines?.length > 0 &&
-              <p>
-                {infoLines.map((line, index) => (
-                  <span key={index} className='procedure-card__info-line'>
-                    {line}
-                  </span>
-                ))}
-              </p>
-            }
-            {workup.description &&
-              <p className='activity-info__description'>{workup.description}</p>
-            }
-          </div>
-        }
+        <div className='d-flex'>
+          {SamplesDecorator.sampleSvgImg(imageSample)}
+          {(workup.description || infoTitle?.length > 0 || infoLines?.length > 0) &&
+            <div className='activity-info__text-block'>
+              {infoTitle?.length > 0 &&
+                <h6>{infoTitle}</h6>
+              }
+              {infoLines?.length > 0 &&
+                <p>
+                  {infoLines.map((line, index) => (
+                    <span key={index} className='procedure-card__info-line'>
+                      {line}
+                    </span>
+                  ))}
+                </p>
+              }
+              {workup.description &&
+                <p className='activity-info__description'>{workup.description}</p>
+              }
+            </div>
+          }
+        </div>
       </>
     )
   }

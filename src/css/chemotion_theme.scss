@@ -94,6 +94,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/activities/ConditionForm";
 @import "components/activities/InsertZone";
 @import "components/activities/purify/FiltrationStepForm.scss";
+@import "components/activities/timing/Timer.scss";
 @import "components/layout/MainHeader";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/AmountInput";
