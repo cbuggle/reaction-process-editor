@@ -16,7 +16,8 @@ const TimingFormSet = (
     onWorkupChange
   }) => {
 
-  const [duration, setDuration] = useState(workup.duration ||  0)
+  const workup = activity.workup
+  const [duration, setDuration] = useState(!!workup.duration ? workup.duration : 0)
   const [defineTimeSpan, setDefineTimeSpan] = useState(!!workup.starts_at)
   const [startTime, setStartTime] = useState(!!workup.starts_at ? new Date(workup.starts_at) : new Date())
   const [endTime, setEndTime] = useState(!!workup.ends_at ? new Date(workup.ends_at) : new Date())
@@ -24,7 +25,7 @@ const TimingFormSet = (
 
   const [timerIntervalId, setTimerIntervalId] = useState(NaN)
   const [summary, setSummary] = useState(TimeDecorator.summary(workup))
-  const [timerRunningFromWorkup, setTimerRunningFromWorkup] = useState(workup.timer_started_at)
+  const [timerRunningFromWorkup, setTimerRunningFromWorkup] = useState(workup.timer_running)
 
   const subFormController = useContext(SubFormController)
 
@@ -35,7 +36,6 @@ const TimingFormSet = (
       clearInterval(timerIntervalId)
       setTimerIntervalId(setInterval(updateTimer, 1000))
     } else if (timerRunningFromWorkup) {
-      setStartTime(new Date(workup.timer_started_at))
       setTimerRunning(true)
       setTimerRunningFromWorkup(false)
       subFormController.openSubForm('Timing')
@@ -94,15 +94,17 @@ const TimingFormSet = (
     console.log("TOGGLE TIMER")
     console.log(subFormController.openSubFormLabel)
     if (timerRunning) {
-      onWorkupChange({ name: 'timer_started_at', value: undefined })
+      onWorkupChange({ name: 'timer_running', value: false })
       subFormController.openSubForm('UnsavedTiming')
+      handleSaveTiming()
     } else {
       setDefineTimeSpan(true)
       const timerStartDate = new Date()
       setStartTime(timerStartDate)
       setEndTime(timerStartDate)
       setDuration(0)
-      onWorkupChange({ name: 'timer_started_at', value: timerStartDate })
+      onWorkupChange({ name: 'timer_running', value: true })
+      onWorkupChange({ name: 'starts_at', value: timerStartDate })
       subFormController.closeSubForm('UnsavedTiming')
     }
     setTimerRunning(!timerRunning)
@@ -125,7 +127,8 @@ const TimingFormSet = (
     console.log(subFormController.openSubFormLabel)
     subFormController.closeSubForm('UnsavedTiming')
     subFormController.closeSubForm('Timing')
-    setDuration(workup.duration)
+    setDuration(0)
+    setDefineTimeSpan(false)
   }
 
   return (
@@ -161,7 +164,7 @@ const TimingFormSet = (
           Time Span
         </Label>
       </FormGroup>
-      {defineTimeSpan && !timerRunning &&
+      {defineTimeSpan &&
         <>
           <FormGroup className='row gx-2 pt-1'>
             <Label className='col-3 col-form-label d-flex'>

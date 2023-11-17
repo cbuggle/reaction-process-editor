@@ -40,7 +40,7 @@ const ActivityCard = (
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
-    setDisplayMode(workup.timer_started_at ? 'form' : displayMode)
+    setDisplayMode(workup.timer_running ? 'form' : displayMode)
   }, [workup, subFormController, subFormController.openSubFormLabel, displayMode]);
 
   const edit = () => setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
