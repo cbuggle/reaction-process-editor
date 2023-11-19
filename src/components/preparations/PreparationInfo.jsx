@@ -20,7 +20,7 @@ const PreparationInfo = ({ preparation, preparationOptions }) => {
   }
 
   return (
-    <>
+    <div className='d-flex'>
       <img
         src={api.sampleSvgImage(preparation.sample)}
         alt={preparation.sample.short_label}
@@ -40,7 +40,7 @@ const PreparationInfo = ({ preparation, preparationOptions }) => {
         <br />
         {preparation.details}
       </UncontrolledTooltip >
-    </>
+    </div>
   )
 }
 

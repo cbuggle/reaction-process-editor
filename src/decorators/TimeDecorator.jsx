@@ -44,16 +44,16 @@ export default class TimeDecorator {
     return number < 10 ? '0' + number : number
   }
 
-  static summary = (workup) => {
-    if (!!workup.duration) {
-      const durationString = TimeDecorator.timeString(workup.duration)
-      if (!!workup.starts_at) {
+  static summary = (duration, startTime, endTime) => {
+    if (!!duration) {
+      const durationString = TimeDecorator.timeString(duration)
+      if (!!startTime) {
         return (
           durationString +
           ' (' +
-          TimeDecorator.daytime(workup.starts_at) +
+          TimeDecorator.daytime(startTime) +
           '\xa0–\xa0' +
-          TimeDecorator.daytime(workup.ends_at) +
+          TimeDecorator.daytime(endTime) +
           ')'
         )
       } else {

@@ -13,9 +13,8 @@
   }
 }
 
-@mixin separator-border {
-  padding-bottom: 0.5rem;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  @include type-border-color('bottom')
+@mixin separator-border($direction:'bottom') {
+  border-#{$direction}-width: 1px;
+  border-#{$direction}-style: solid;
+  @include type-border-color($direction)
 }
