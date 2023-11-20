@@ -10,6 +10,7 @@ import MetricsDecorator from "../../decorators/MetricsDecorator";
 const MetricsInput = (
   {
     metricName,
+    label,
     amount,
     max,
     onChange,
@@ -89,7 +90,7 @@ const MetricsInput = (
 
   const renderSingleLine = () => {
     return (
-      <SingleLineFormGroup label={MetricsDecorator.label(metricName)}>
+      <SingleLineFormGroup label={label || MetricsDecorator.label(metricName)}>
         {renderInputs()}
       </SingleLineFormGroup >
     )

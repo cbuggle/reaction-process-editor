@@ -56,7 +56,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'FILTRATION',
-            automation: 'AUTOMATIC',
+            automation: 'AUTOMATED',
             filtration_mode: 'KEEP_SUPERNATANT'
           }
         }
@@ -68,7 +68,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'EXTRACTION',
-            automation: 'AUTOMATIC'
+            automation: 'AUTOMATED'
           }
         }
       },
@@ -79,7 +79,8 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'CHROMATOGRAPHY',
-            automation: 'AUTOMATIC'
+            automation: 'AUTOMATED',
+
           }
         }
       },
@@ -90,7 +91,7 @@ export const actionTypeClusters = [
           action_name: 'PURIFY',
           workup: {
             purify_type: 'CRYSTALLIZATION',
-            automation: 'AUTOMATIC'
+            automation: 'AUTOMATED'
           }
         }
       },

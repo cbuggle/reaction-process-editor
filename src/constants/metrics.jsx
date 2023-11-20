@@ -86,6 +86,16 @@ export const metrics = {
     defaultUnit: 'mg',
     units: ['mg', 'g', 'mcg']
   },
+  'LENGTH': {
+    label: '',
+    defaultUnit: 'CM',
+    units: ['CM']
+  },
+  'WAVENUMBER': {
+    label: 'Wavenumber',
+    defaultUnit: 'WAVENUMBER',
+    units: ['WAVENUMBER']
+  },
   'VOLUME': {
     label: 'Volumetric',
     defaultUnit: 'ml',
@@ -201,19 +211,19 @@ export const unitTypes = {
   },
   'MLMIN': {
     label: 'ml/min',
-    inputRange: { min: 0, max: 10000, precision: 0, step: 10,  },
+    inputRange: { min: 0, max: 10000, precision: 0, step: 10, initialStep: 10 },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'PERCENT': {
     label: '%',
-    inputRange: { min: 0, max: 100, precision: 0, step: 1, initialStep: 0, },
+    inputRange: { min: 0, max: 100, precision: 0, step: 1, initialStep: 1, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'FRACTION': { // experimental, unused
     label: '',
-    inputRange: { min: 0, max: 10, precision: 2, step: 0.01, initialStep: 0, },
+    inputRange: { min: 0, max: 10, precision: 2, step: 0.01, initialStep: 0.01, },
     fromBase: (value) => value * 100,
     toBase: (value) => 100 / value,
   },
@@ -250,6 +260,18 @@ export const unitTypes = {
   'TIMES': {
     label: 'times',
     inputRange: { min: 0, max: 100, precision: 0, step: 1, initialStep: 1, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
+  },
+  'CM': {
+    label: 'cm',
+    inputRange: { min: 0, max: 1000, precision: 0, step: 1, initialStep: 1, },
+    fromBase: (value) => value,
+    toBase: (value) => value,
+  },
+  'WAVENUMBER': {
+    label: '1/cm',
+    inputRange: { min: 0, max: 100000, precision: 0, step: 1000, initialStep: 5000, },
     fromBase: (value) => value,
     toBase: (value) => value,
   }

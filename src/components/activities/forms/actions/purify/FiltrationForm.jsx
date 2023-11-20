@@ -24,18 +24,10 @@ const FiltrationForm = (
   const addStep = () => setShowNewStepForm(true)
 
   const handleSaveStep = (stepInfo) => {
-    const stepData = stepInfo.data
-    const stepIndex = stepInfo.index
-    setShowNewStepForm(false)
-    let updatedSteps
-    if (filtrationSteps[stepIndex]) {
-      updatedSteps = filtrationSteps.map((value, index) =>
-        index === stepIndex ? stepData : value
-      );
-    } else {
-      updatedSteps = [...filtrationSteps, stepData]
-    }
+    let updatedSteps = filtrationSteps
+    updatedSteps[stepInfo.index] = stepInfo.data
     setFiltrationSteps(updatedSteps)
+    setShowNewStepForm(false)
     onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
   }
 
@@ -44,7 +36,7 @@ const FiltrationForm = (
   const renderFilterMethodToggle = () => {
     return (
       <ButtonGroupToggle
-        value={workup['filtration_mode'] || filtrationModeOptions[0]['value']}
+        value={workup.filtration_mode}
         options={filtrationModeOptions}
         onChange={selectedValue => onWorkupChange({ name: 'filtration_mode', value: selectedValue })}
         label='Keep'
@@ -55,7 +47,7 @@ const FiltrationForm = (
   const renderAutomationToggle = () => {
     return (
       <ButtonGroupToggle
-        value={workup['automation'] || selectOptions.automation_modes[0]['value']}
+        value={workup.automation}
         options={selectOptions.automation_modes}
         onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
         label='Automation'
@@ -80,7 +72,7 @@ const FiltrationForm = (
       )}
       {showNewStepForm &&
         <FiltrationStepForm
-          index={workup['filtration_steps'] ? workup['filtration_steps'].length : 0}
+          index={workup.filtration_steps?.length || 0}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
         />

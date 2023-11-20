@@ -36,7 +36,6 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
     <Form>
       <FormGroup>
         <Label>Sample</Label>
-        { }
         <Select
           className={'react-select--overwrite' + (formIncomplete ? ' is-invalid' : '')}
           classNamePrefix='react-select'
@@ -57,6 +56,7 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           className="react-select--overwrite"
           classNamePrefix="react-select"
           isMulti
+          isClearable={false}
           name="preparations"
           options={samplePreparationOptions}
           value={samplePreparationOptions.filter(option => (preparationForm.preparations || []).includes(option.value))}
@@ -69,6 +69,7 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           className="react-select--overwrite"
           classNamePrefix="react-select"
           isMulti
+          isClearable={false}
           name="equipment"
           options={preparationOptions.equipment}
           value={preparationOptions.equipment.filter(option => (preparationForm.equipment || []).includes(option.value))}

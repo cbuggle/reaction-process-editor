@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import Select from 'react-select'
 
@@ -18,11 +18,7 @@ const SaveSampleForm = (
 
   const selectOptions = useContext(SelectOptions)
 
-  const [sampleForm, setSampleForm] = useState(activity.workup)
-
-  useEffect(() => {
-    setSampleForm(activity.workup)
-  }, [activity.workup])
+  const workup = activity.workup
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
     onWorkupChange({ name: workupKey, value: value })
@@ -33,7 +29,7 @@ const SaveSampleForm = (
       <FormGroup>
         <Label>Name</Label>
         <Input
-          value={sampleForm.name}
+          value={workup.name}
           placeholder="Name (Leave blank to autofill)"
           onChange={event => handleChangeSampleWorkup('name')(event.target.value)}
         />
@@ -41,25 +37,25 @@ const SaveSampleForm = (
       <FormGroup>
         <Label>Short Label</Label>
         <Input
-          value={sampleForm.short_label}
+          value={workup.short_label}
           placeholder="Short Label (Leave blank to autofill)"
           onChange={event => handleChangeSampleWorkup('short_label')(event.target.value)}
         />
       </FormGroup>
       <AmountInputSet
-        amount={sampleForm.target_amount}
+        amount={workup.target_amount}
         maxAmounts={undefined}
         onChangeAmount={handleChangeSampleWorkup('target_amount')}
       />
       <MetricsInput
         metricName={'PURITY'}
-        amount={sampleForm.purity}
+        amount={workup.purity}
         onChange={handleChangeSampleWorkup('purity')}
       />
       <SingleLineFormGroup label='Location'>
         <Input
           type="textarea"
-          value={sampleForm.location}
+          value={workup.location}
           placeholder="Location"
           onChange={event => handleChangeSampleWorkup('location')(event.target.value)}
         />
@@ -70,12 +66,12 @@ const SaveSampleForm = (
           classNamePrefix="react-select"
           name="intermediate_type"
           options={selectOptions.save_sample_types}
-          value={selectOptions.save_sample_types.find(option => option.value === sampleForm.intermediate_type)}
+          value={selectOptions.save_sample_types.find(option => option.value === workup.intermediate_type)}
           onChange={selectedOption => handleChangeSampleWorkup('intermediate_type')(selectedOption.value)}
         />
       </SingleLineFormGroup>
       <ButtonGroupToggle
-        value={!!sampleForm.hide_in_eln}
+        value={!!workup.hide_in_eln}
         options={
           [
             {
