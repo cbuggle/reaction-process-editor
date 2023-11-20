@@ -33,10 +33,11 @@ const ApplyExtraEquipmentFormSet = (
           typeColor={activityType}
         >
           <Select
+            name="EQUIPMENT"
             className="react-select--overwrite"
             classNamePrefix="react-select"
             isMulti
-            name="EQUIPMENT"
+            isClearable={false}
             options={equipmentOptions}
             value={equipmentOptions.filter(option => (equipment || []).includes(option.value))}
             onChange={selectedOptions => setEquipment(selectedOptions.map(option => option.value))}

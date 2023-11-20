@@ -97,6 +97,22 @@ export default class ActivityDecorator {
       '(' + stepData.repetitions.value + ' ' + MetricsDecorator.label('REPETITIONS') + ')'
     ].join(' ')
   }
+  static chromatographyStepInfo = (stepData, purifySolventOptions) => {
+    const solventsList = stepData.solvents.map(
+      solvent => purifySolventOptions.find(option => option.value === solvent.id).label
+    ).join(', ')
+    let ratioList = ''
+
+    if (stepData.solvents.length > 1) {
+      ratioList = '(' + stepData.solvents.map(solvent => solvent.ratio).join(':') + ')'
+    }
+
+    return [
+      MetricsDecorator.infoLineAmount(stepData.amount),
+      solventsList,
+      ratioList
+    ].join(' ')
+  }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {
     return equipment?.value && equipment.value.map((item) => (

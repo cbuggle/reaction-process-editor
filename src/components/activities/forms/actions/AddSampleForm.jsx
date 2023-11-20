@@ -28,15 +28,16 @@ const AddSampleForm = (
   ]
 
   const selectOptions = useContext(SelectOptions)
+  const workup = activity.workup
 
   useEffect(() => {
     inputMetrics.forEach(([metricName, workupKey]) => {
 
-      const unit = activity.workup[workupKey]?.unit ||
+      const unit = workup[workupKey]?.unit ||
         preconditions[metricName]?.unit ||
         MetricsDecorator.defaultUnit(metricName)
 
-      let value = activity.workup[workupKey]?.value
+      let value = workup[workupKey]?.value
       // Seriously, Javascript? We need to go a long way to avoid fallback to default when a value === 0 (aka "false").
       value = value === 0 ? 0 : value || preconditions[metricName]?.value
       value = value === 0 ? 0 : value || MetricsDecorator.defaultValueInDefaultUnit(metricName)
@@ -44,18 +45,17 @@ const AddSampleForm = (
       onWorkupChange({ name: workupKey, value: { value: value, unit: unit } })
     })
 
-    if (!activity.workup['addition_speed_type']) {
-      onWorkupChange({ name: 'addition_speed_type', value: selectOptions.addition_speed_types[0] })
-    }
+    workup['addition_speed_type'] ||
+      onWorkupChange({ name: 'addition_speed_type', value: selectOptions.addition_speed_types[0].value })
     // eslint-disable-next-line
   }, [])
 
   // 'DIVERSE_SOLVENT' shall be categorized as 'SOLVENT' in AddSample, requested by NJung.
-  const currentSampleActsAs = activity.workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : activity.workup['acts_as']
+  const currentSampleActsAs = workup['acts_as'] === 'DIVERSE_SOLVENT' ? 'SOLVENT' : workup['acts_as']
   const currentSampleOptions = selectOptions.materials[currentSampleActsAs]
   const [sample, setSample] = useState(currentSampleOptions.find(sample =>
-    sample.value === activity.workup['sample_id'] &&
-    sample.label === activity.workup['sample_name']))
+    sample.value === workup['sample_id'] &&
+    sample.label === workup['sample_name']))
 
   const handleSampleChange = ({ sampleId, label }) => {
     // We have a risk of collisions on sampleID alone as we are coping with 2 different ActiveRecord
@@ -82,7 +82,7 @@ const AddSampleForm = (
           <MetricsInput
             key={metricName}
             metricName={metricName}
-            amount={activity.workup[workupKey]}
+            amount={workup[workupKey]}
             onChange={handleChange(workupKey)}
           />
         </>
@@ -109,7 +109,7 @@ const AddSampleForm = (
         </SingleLineFormGroup>
 
         <AmountInputSet
-          amount={activity.workup['target_amount']}
+          amount={workup['target_amount']}
           maxAmounts={sample?.unit_amounts}
           onChangeAmount={handleChange('target_amount')}
         />
@@ -121,7 +121,7 @@ const AddSampleForm = (
             classNamePrefix="react-select"
             name="addition_speed_type"
             options={selectOptions.addition_speed_types}
-            value={activity.workup['addition_speed_type']}
+            value={selectOptions.addition_speed_types.find(option => option.value === workup['addition_speed_type'])}
             onChange={selected => handleChange('addition_speed_type')(selected.value)}
           />
         </SingleLineFormGroup>
@@ -131,7 +131,7 @@ const AddSampleForm = (
         {currentSampleActsAs === 'SOLVENT' &&
           <FormGroup check className='mb-3'>
             <Label check>
-              <Input type="checkbox" checked={activity.workup['is_waterfree_solvent']} onChange={(event) =>
+              <Input type="checkbox" checked={workup['is_waterfree_solvent']} onChange={(event) =>
                 handleChange('is_waterfree_solvent')(event.target.checked)
               } />
               Water Free Solvent

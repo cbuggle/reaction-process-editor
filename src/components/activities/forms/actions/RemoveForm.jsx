@@ -82,7 +82,7 @@ const renderSampleSelect = (label, selectOptions) => {
   )
 }
 
-const solventRemoveFields = (label, solventOptions) => {
+const renderSolventRemoveFields = (label, solventOptions) => {
   return (
     <>
       {renderSampleSelect(label, solventOptions)}
@@ -91,7 +91,7 @@ const solventRemoveFields = (label, solventOptions) => {
   )
 }
 
-const mediumRemoveFields = () => {
+const renderMediumRemoveFields = () => {
   return (
     < >
       {renderSampleSelect('Sample', mediumSelectOptions)}
@@ -115,11 +115,11 @@ const mediumRemoveFields = () => {
 const renderGenericRemoveFields = () => {
   switch (activity.workup['acts_as']) {
     case 'ADDITIVE':
-      return solventRemoveFields('Solvent (Additive)', additivesSelectOptions)
+      return renderSolventRemoveFields('Solvent (Additive)', additivesSelectOptions)
     case 'DIVERSE_SOLVENT':
-      return solventRemoveFields('Solvent (Diverse)', diverseSolventsSelectOptions)
+      return renderSolventRemoveFields('Solvent (Diverse)', diverseSolventsSelectOptions)
     case 'MEDIUM':
-      return mediumRemoveFields()
+      return renderMediumRemoveFields()
     default:
       break;
   }
@@ -132,8 +132,8 @@ return (
         className="react-select--overwrite"
         classNamePrefix="react-select"
         name="acts_as"
-        options={selectOptions.remove_types}
-        value={selectOptions.remove_types.find(option => option.value === activity.workup['acts_as'])}
+        options={selectOptions.remove_sample_types}
+        value={selectOptions.remove_sample_types.find(option => option.value === activity.workup['acts_as'])}
         onChange={selectedOption => handleActsAsChange({ actsAs: selectedOption.value })}
       />
     </SingleLineFormGroup>

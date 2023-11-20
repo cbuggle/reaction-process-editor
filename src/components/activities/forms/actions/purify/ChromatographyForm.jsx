@@ -1,12 +1,15 @@
-import React from 'react'
-import { Input, FormGroup } from 'reactstrap'
+import React, { useContext, useEffect, useState } from 'react'
+import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
+import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import CreateButton from "../../../../utilities/CreateButton";
+import ChromatographyStepForm from "./ChromatographyStepForm";
+import FormSection from '../../../../utilities/FormSection'
+import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import { useContext } from 'react';
-import FormSection from "../../../../utilities/FormSection";
 
 const ChromatographyForm = (
   {
@@ -14,43 +17,172 @@ const ChromatographyForm = (
     onWorkupChange
   }) => {
 
-  const selectOptions = useContext(SelectOptions)
-  const purifySolventOptions = selectOptions.materials['SOLVENT']
+  const workup = activity.workup
+  const selectOptions = useContext(SelectOptions).purify.chromatography
 
-  const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
+  const newChromatography = !workup['chromatography_steps']
+  const [showNewStepForm, setShowNewStepForm] = useState(newChromatography)
+  const [steps, setChromatographySteps] = useState(newChromatography ? [] : workup['chromatography_steps'])
+
+  useEffect(() => {
+    workup.jar_material ||
+      onWorkupChange({ name: 'jar_material', value: selectOptions.jar_materials[0].value })
+    workup.device ||
+      onWorkupChange({ name: 'device', value: selectOptions.devices[0].value })
+  }, [])
+
+  const addStep = () => setShowNewStepForm(true)
+
+  const handleSaveStep = (stepInfo) => {
+    setShowNewStepForm(false)
+
+    let updatedSteps = steps
+    updatedSteps[stepInfo.index] = stepInfo.data
+    setChromatographySteps(updatedSteps)
+    onWorkupChange({ name: 'chromatography_steps', value: updatedSteps })
+  }
+
+  const handleCancelStep = () => setShowNewStepForm(false)
+
+  const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
+
+  const renderAutomationToggle = () => {
+    return (
+      <>
+        <Label>
+          Automation
+        </Label>
+        <ButtonGroupToggle
+          value={workup.automation}
+          options={selectOptions.automation_modes}
+          onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
+        />
+      </>
+    )
+  }
+
+  const renderAutomationSpecificFields = () => {
+    switch (workup.automation) {
+      case 'AUTOMATED':
+        return (<></>)
+      case 'SEMI_AUTOMATED':
+        return (<FormSection>
+          <SingleLineFormGroup label='Device'>
+            <Select
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+              name="sample_id"
+              options={selectOptions.devices}
+              value={selectOptions.devices.find(option => option.value === workup.device)}
+              onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
+            />
+          </SingleLineFormGroup>
+          <SingleLineFormGroup label='Type Of Column'>
+            <Select
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+              name="sample_id"
+              options={selectOptions.column_types}
+              value={selectOptions.column_types.find(option => option.value === workup.column_type)}
+              onChange={selected => onWorkupChange({ name: 'column_type', value: selected.value })}
+            />
+          </SingleLineFormGroup>
+          <MetricsInput
+            metricName={'VELOCITY'}
+            amount={workup['flow_rate']}
+            onChange={handleWorkupChange('flow_rate')}
+          />
+          <SingleLineFormGroup label='Detectors'>
+            <Select
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+              name="detector"
+              options={selectOptions.detectors}
+              value={selectOptions.detectors.filter(option => workup.detectors?.includes(option.value))}
+              isMulti
+              isClearable={false}
+              onChange={selected => onWorkupChange({ name: 'detectors', value: selected.map(option => option.value) })}
+            />
+          </SingleLineFormGroup>
+          <MetricsInput
+            metricName={'WAVENUMBER'}
+            amount={workup.wavelength}
+            onChange={handleWorkupChange('wavelength')}
+          />
+        </FormSection>)
+      case 'MANUAL':
+        return (
+          <FormSection>
+            <SingleLineFormGroup label='Material'>
+              <Select
+                className="react-select--overwrite"
+                classNamePrefix="react-select"
+                name="sample_id"
+                options={selectOptions.jar_materials}
+                value={selectOptions.jar_materials.find(option => option.value === workup.jar_material)}
+                onChange={selected => onWorkupChange({ name: 'jar_material', value: selected.value })}
+              />
+            </SingleLineFormGroup>
+            <FormGroup>
+              <MetricsInput
+                metricName={'LENGTH'}
+                label={'Diameter'}
+                amount={workup.jar_diameter}
+                onChange={handleWorkupChange('jar_diameter')}
+              />
+              <MetricsInput
+                metricName={'LENGTH'}
+                label={'Height'}
+                amount={workup.jar_height}
+                onChange={handleWorkupChange('jar_height')}
+              />
+            </FormGroup>
+            <FormGroup>
+              <MetricsInput
+                metricName={'LENGTH'}
+                label={'Filling Height'}
+                amount={workup.jar_filling_height}
+                max={workup.jar_height?.value}
+                onChange={handleWorkupChange('jar_filling_height')}
+              />
+            </FormGroup>
+          </FormSection>)
+      default:
+        break;
+    }
+  }
 
   return (
-    <FormSection type='action'>
-      <FormGroup>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="automation_mode"
-          options={selectOptions.automation_modes}
-          value={selectOptions.automation_modes.find(option => option.value === activity.workup['automation'])}
-          onChange={selectedOption => onWorkupChange({ name: 'automation', value: selectedOption.value })}
+    <>
+      <FormSection type='action'>
+        {renderAutomationToggle()}
+      </FormSection>
+      {renderAutomationSpecificFields()}
+      {steps.map((step, idx) =>
+        <ChromatographyStepForm
+          index={idx}
+          workup={step}
+          onSave={handleSaveStep}
+          onCancel={handleCancelStep}
+          key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
         />
-      </FormGroup>
-      <SingleLineFormGroup label='Solvents'>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          isMulti
-          name="purify_solvent_sample_ids"
-          options={purifySolventOptions}
-          value={purifySolventOptions.filter(option => actionPurifySolventIds.includes(option.value))}
-          onChange={selectedOptions => onWorkupChange({ name: 'purify_solvent_sample_ids', value: selectedOptions.map(option => option.value) })}
+      )}
+      {showNewStepForm &&
+        <ChromatographyStepForm
+          index={workup.chromatography_steps?.length || 0}
+          onSave={handleSaveStep}
+          onCancel={handleCancelStep}
         />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label='Ratio'>
-        <Input
-          value={activity.workup['purify_ratio']}
-          placeholder="Ratio"
-          onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
+      }
+      <FormSection type='action'>
+        <CreateButton
+          label='Chromatography Step'
+          type='action'
+          onClick={addStep}
+          size='sm'
         />
-      </SingleLineFormGroup>
-      { }
-    </FormSection>
+      </FormSection>
+    </>
   )
 }
 

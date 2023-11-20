@@ -36,6 +36,7 @@ const ExtractionForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           isMulti
+          isClearable={false}
           name="purify_solvent_sample_ids"
           options={purifySolventOptions}
           value={purifySolventOptions.filter(option => actionPurifySolventIds.includes(option.value))}

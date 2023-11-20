@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react";
-import { FormGroup, Input, Label, Row } from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 
 import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
+import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../formsets/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
-const FiltrationStepForm = (
+const ChromatographyStepForm = (
   {
     index,
     workup,
@@ -18,13 +19,11 @@ const FiltrationStepForm = (
   const selectOptions = useContext(SelectOptions)
   const purifySolventOptions = selectOptions.materials['SOLVENT']
 
-  const label = 'Filtration Step ' + (index + 1)
-  const [solvents, setSolvents] = useState(workup?.solvents || [])
-  const [rinse, setRinse] = useState(workup?.rinse_vessel || false)
+  const label = 'Chromatography Step ' + (index + 1)
+  const [solvents, setSolvents] = useState(workup ? workup.solvents : [])
   const [amount, setAmount] = useState(workup?.amount || { value: 0, unit: 'ml' })
-  const [repetitions, setRepetitions] = useState(workup?.repetitions || { value: 1, unit: 'TIMES' })
-
-  const handleRinseCheckBox = (event) => setRinse(event.target.checked)
+  const [stepMode, setStepMode] = useState(workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value )
+  const [prodMode, setProdMode] = useState(workup?.prod_mode || selectOptions.purify.chromatography.prod_modes[0].value)
 
   const handleSave = () => {
     onSave({
@@ -32,8 +31,8 @@ const FiltrationStepForm = (
       data: {
         solvents,
         amount,
-        repetitions,
-        rinse_vessel: rinse
+        step_mode: stepMode,
+        prod_mode: prodMode
       }
     })
   }
@@ -41,10 +40,9 @@ const FiltrationStepForm = (
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityDecorator.filtrationStepInfo({
+      valueSummary={ActivityDecorator.chromatographyStepInfo({
         solvents,
         amount,
-        repetitions
       },
         purifySolventOptions
       )}
@@ -64,20 +62,21 @@ const FiltrationStepForm = (
           amount={amount}
           onChange={setAmount}
         />
-        <MetricsInput
-          metricName={'REPETITIONS'}
-          onChange={setRepetitions}
-          amount={repetitions}
+        <Label>Step</Label>
+        <ButtonGroupToggle
+          value={stepMode}
+          options={selectOptions.purify.chromatography.step_modes}
+          onChange={selectedValue => setStepMode(selectedValue)}
         />
-        <FormGroup check className='mb-3'>
-          <Label check>
-            <Input type="checkbox" checked={rinse} onChange={handleRinseCheckBox} />
-            Rinse Vessel
-          </Label>
-        </FormGroup>
+        <Label>Prod</Label>
+        <ButtonGroupToggle
+          value={prodMode}
+          options={selectOptions.purify.chromatography.prod_modes}
+          onChange={selectedValue => setProdMode(selectedValue)}
+        />
       </FormGroup>
     </OptionalFormSet>
   )
 }
 
-export default FiltrationStepForm
+export default ChromatographyStepForm
