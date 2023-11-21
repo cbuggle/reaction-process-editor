@@ -1,29 +1,30 @@
-import TimeDecorator from "../../../../decorators/TimeDecorator";
-import OptionalFormSet from "./OptionalFormSet";
 import React, { useContext, useEffect, useState } from "react";
-import DurationSelection from "../../../utilities/DurationSelection";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
 
+import DurationSelection from "../../../utilities/DurationSelection";
+import OptionalFormSet from "./OptionalFormSet";
+
+import TimeDecorator from "../../../../decorators/TimeDecorator";
 import { SubFormController } from "../../../../contexts/SubFormController";
 
 const TimingFormSet = (
   {
     activityType,
-    activity,
+    workup,
     onChangeDuration,
     onWorkupChange
   }) => {
 
-  const [duration, setDuration] = useState(!!activity.workup.duration ? activity.workup.duration : 0)
-  const [defineTimeSpan, setDefineTimeSpan] = useState(!!activity.workup.starts_at)
-  const [startTime, setStartTime] = useState(!!activity.workup.starts_at ? new Date(activity.workup.starts_at) : new Date())
-  const [endTime, setEndTime] = useState(!!activity.workup.ends_at ? new Date(activity.workup.ends_at) : new Date())
+  const [duration, setDuration] = useState(workup.duration ||  0)
+  const [defineTimeSpan, setDefineTimeSpan] = useState(!!workup.starts_at)
+  const [startTime, setStartTime] = useState(!!workup.starts_at ? new Date(workup.starts_at) : new Date())
+  const [endTime, setEndTime] = useState(!!workup.ends_at ? new Date(workup.ends_at) : new Date())
   const [timerRunning, setTimerRunning] = useState(false)
 
   const [timerIntervalId, setTimerIntervalId] = useState(NaN)
-  const [summary, setSummary] = useState(TimeDecorator.summary(activity.workup))
-  const [timerRunningFromWorkup, setTimerRunningFromWorkup] = useState(activity.workup.timer_started_at)
+  const [summary, setSummary] = useState(TimeDecorator.summary(workup))
+  const [timerRunningFromWorkup, setTimerRunningFromWorkup] = useState(workup.timer_started_at)
 
   const subFormController = useContext(SubFormController)
 
@@ -34,7 +35,7 @@ const TimingFormSet = (
       clearInterval(timerIntervalId)
       setTimerIntervalId(setInterval(updateTimer, 1000))
     } else if (timerRunningFromWorkup) {
-      setStartTime(new Date(activity.workup.timer_started_at))
+      setStartTime(new Date(workup.timer_started_at))
       setTimerRunning(true)
       setTimerRunningFromWorkup(false)
       subFormController.openSubForm('Timing')
@@ -43,11 +44,11 @@ const TimingFormSet = (
       setTimerIntervalId(NaN)
     }
     // eslint-disable-next-line
-  }, [timerRunning, activity.workup, activity, activity.workup.timer_started_at, subFormController, subFormController.openSubFormLabel])
+  }, [timerRunning, workup, workup.timer_started_at, subFormController, subFormController.openSubFormLabel])
 
   useEffect(() => {
-    setSummary(TimeDecorator.summary(activity.workup))
-  }, [activity])
+    setSummary(TimeDecorator.summary(workup))
+  }, [workup])
 
   const handleCheckboxTimeSpan = (event) => {
     setDefineTimeSpan(event.target.checked)
@@ -124,7 +125,7 @@ const TimingFormSet = (
     console.log(subFormController.openSubFormLabel)
     subFormController.closeSubForm('UnsavedTiming')
     subFormController.closeSubForm('Timing')
-    setDuration(activity.workup.duration)
+    setDuration(workup.duration)
   }
 
   return (

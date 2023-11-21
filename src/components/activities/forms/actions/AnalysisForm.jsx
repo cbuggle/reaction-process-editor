@@ -9,7 +9,7 @@ import FormSection from "../../../utilities/FormSection";
 
 const AnalysisForm = (
   {
-    activity,
+    workup,
     onWorkupChange
   }) => {
 
@@ -23,14 +23,14 @@ const AnalysisForm = (
           classNamePrefix="react-select"
           name="analysis_type"
           options={selectOptions.analysis_types}
-          value={selectOptions.analysis_types.find(option => option.value === activity.workup['analysis_type'])}
+          value={selectOptions.analysis_types.find(option => option.value === workup['analysis_type'])}
           onChange={selectedOption => onWorkupChange({ name: 'analysis_type', value: selectedOption.value })}
         />
       </SingleLineFormGroup>
       <SingleLineFormGroup label='CHMO ID'>
         <Input
           type="textarea"
-          value={activity.workup['chmo_id']}
+          value={workup['chmo_id']}
           placeholder="CHMO Id"
           onChange={event => onWorkupChange({ name: 'chmo_id', value: event.target.value })}
         />
@@ -38,7 +38,7 @@ const AnalysisForm = (
       <SingleLineFormGroup label='Number'>
         <Input
           type="textarea"
-          value={activity.workup['analysis_number']}
+          value={workup['analysis_number']}
           placeholder="Description"
           onChange={event => onWorkupChange({ name: 'analysis_number', value: event.target.value })}
         />

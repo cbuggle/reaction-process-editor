@@ -13,7 +13,7 @@ import { removeFormMetricNames } from '../../../../constants/metrics';
 
 const RemoveForm = (
   {
-    activity,
+    workup,
     preconditions,
     onWorkupChange
   }) => {
@@ -46,7 +46,7 @@ const RemoveForm = (
   const handleSampleChange = (sampleId) => onWorkupChange({ name: 'sample_id', value: sampleId })
 
   const findCurrentConditionAmount = (metricName) => {
-    return activity.workup[metricName] ? activity.workup[metricName] : preconditions[metricName]
+    return workup[metricName] ? workup[metricName] : preconditions[metricName]
   }
 
 const renderConditions = () => {
@@ -67,7 +67,7 @@ const renderSampleSelect = (label, selectOptions) => {
   return (
     <SingleLineFormGroup label={label}>
       <Select
-        // Setting key forces re-render when label changes, as a change on value={activity.workup['sample_id']} alone
+        // Setting key forces re-render when label changes, as a change on value={workup['sample_id']} alone
         // will retain the previous selection (which isn't even in the selectOptions anymore, they change alongside).
         // React state model for the glory.
         key={label}
@@ -75,7 +75,7 @@ const renderSampleSelect = (label, selectOptions) => {
         classNamePrefix="react-select"
         name="sample_id"
         options={selectOptions}
-        value={selectOptions.find(option => option.value === activity.workup['sample_id'])}
+        value={selectOptions.find(option => option.value === workup['sample_id'])}
         onChange={selectedOption => handleSampleChange(selectedOption.value)}
       />
     </SingleLineFormGroup>
@@ -97,13 +97,13 @@ const renderMediumRemoveFields = () => {
       {renderSampleSelect('Sample', mediumSelectOptions)}
       <MetricsInput
         metricName={'REPETITIONS'}
-        amount={activity.workup['remove_repetitions'] || MetricsDecorator.defaultAmount('REPETITIONS')}
+        amount={workup['remove_repetitions'] || MetricsDecorator.defaultAmount('REPETITIONS')}
         onChange={handleAmountChange('remove_repetitions')}
       />
       <SingleLineFormGroup label='Replacement Medium'>
         <Input
           type="textarea"
-          value={activity.workup['replacement_medium']}
+          value={workup['replacement_medium']}
           placeholder="Replacement Medium"
           onChange={event => onWorkupChange({ name: 'replacement_medium', value: event.target.value })}
         />
@@ -113,7 +113,7 @@ const renderMediumRemoveFields = () => {
 }
 
 const renderGenericRemoveFields = () => {
-  switch (activity.workup['acts_as']) {
+  switch (workup['acts_as']) {
     case 'ADDITIVE':
       return renderSolventRemoveFields('Solvent (Additive)', additivesSelectOptions)
     case 'DIVERSE_SOLVENT':
@@ -133,7 +133,7 @@ return (
         classNamePrefix="react-select"
         name="acts_as"
         options={selectOptions.remove_sample_types}
-        value={selectOptions.remove_sample_types.find(option => option.value === activity.workup['acts_as'])}
+        value={selectOptions.remove_sample_types.find(option => option.value === workup['acts_as'])}
         onChange={selectedOption => handleActsAsChange({ actsAs: selectedOption.value })}
       />
     </SingleLineFormGroup>

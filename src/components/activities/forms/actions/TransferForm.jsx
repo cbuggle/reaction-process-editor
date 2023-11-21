@@ -11,14 +11,15 @@ import FormSection from "../../../utilities/FormSection";
 
 const TransferForm = (
   {
-    activity,
-    onWorkupChange
+    workup,
+    onWorkupChange,
+    isPersisted,
   }) => {
 
   const stepSelectOptions = useContext(StepSelectOptions)
   const sampleOptions = stepSelectOptions.transferable_samples
 
-  const [sample, setSample] = useState(sampleOptions.find(sample => sample.value === activity.workup['sample_id']))
+  const [sample, setSample] = useState(sampleOptions.find(sample => sample.value === workup['sample_id']))
 
   var transferToOptions = stepSelectOptions
     .transferable_to
@@ -37,7 +38,7 @@ const TransferForm = (
     }
 
     let currentTarget = stepSelectOptions.transferable_to
-      .find(transferTarget => transferTarget.value === activity.workup['transfer_target_step_id'])
+      .find(transferTarget => transferTarget.value === workup['transfer_target_step_id'])
 
     if (currentTarget?.saved_sample_ids.includes(newSample.id)) {
       onWorkupChange({ name: 'transfer_target_step_id', value: '' })
@@ -61,7 +62,7 @@ const TransferForm = (
           options={sampleOptions}
           value={sample}
           onChange={selectedOption => handleSampleChange({ sampleId: selectedOption.value, label: selectedOption.label })}
-          isDisabled={!!activity.id}
+          isDisabled={isPersisted}
         />
       </SingleLineFormGroup>
       <SingleLineFormGroup label='Transfer to Step'>
@@ -70,9 +71,9 @@ const TransferForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           options={transferToOptions}
-          value={transferToOptions.filter(option => option.value === activity.workup['transfer_target_step_id'])}
+          value={transferToOptions.filter(option => option.value === workup['transfer_target_step_id'])}
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
-          isDisabled={!!activity.id}
+          isDisabled={isPersisted}
         />
       </SingleLineFormGroup>
 
@@ -82,7 +83,7 @@ const TransferForm = (
       </SingleLineFormGroup>
 
       <AmountInputSet
-        amount={activity.workup['target_amount']}
+        amount={workup['target_amount']}
         maxAmounts={sample?.unit_amounts}
         onChangeAmount={handleChangeAmount}
       />

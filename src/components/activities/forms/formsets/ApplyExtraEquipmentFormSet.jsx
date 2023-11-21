@@ -9,25 +9,26 @@ import { SelectOptions } from '../../../../contexts/SelectOptions'
 const ApplyExtraEquipmentFormSet = (
   {
     activityType,
-    activity,
+    actionName,
+    workup,
     onWorkupChange
   }) => {
 
-  const [equipment, setEquipment] = useState(activity.workup.EQUIPMENT?.value)
+  const [equipment, setEquipment] = useState(workup.EQUIPMENT?.value)
 
   const selectOptions = useContext(SelectOptions)
-  const equipmentOptions = selectOptions.action_type_equipment[activity.action_name]
+  const equipmentOptions = selectOptions.action_type_equipment[actionName]
 
   const handleSaveEquipment = () => onWorkupChange({ name: 'EQUIPMENT', value: { value: equipment } })
 
-  const handleCancelEquipment = () => setEquipment(activity.workup.equipment)
+  const handleCancelEquipment = () => setEquipment(workup.equipment)
 
   return (
     <>
       {equipmentOptions?.length > 0 &&
         <OptionalFormSet
           subFormLabel='Equipment'
-          valueSummary={ActivityDecorator.infoLineEquipment(activity.workup['EQUIPMENT'], equipmentOptions)}
+          valueSummary={ActivityDecorator.infoLineEquipment(workup['EQUIPMENT'], equipmentOptions)}
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
           typeColor={activityType}

@@ -8,8 +8,8 @@ import ChromatographyForm from './purify/ChromatographyForm';
 const PurifyBaseForm = (
   {
     workup,
+    onWorkupChange,
     preconditions,
-    onWorkupChange
   }) => {
 
   switch (workup['purify_type']) {

@@ -1,31 +1,34 @@
-import OptionalFormSet from "./OptionalFormSet";
-import { Input } from "reactstrap";
 import React, { useState } from "react";
+import { Input } from "reactstrap";
+
+import OptionalFormSet from "./OptionalFormSet";
 
 const DescriptionFormSet = (
   {
     activityType,
-    activity,
+    workup,
     onWorkupChange
   }) => {
-  const [description, setDescription] = useState(activity.workup.description)
+  const [description, setDescription] = useState(workup?.description)
 
   const handleSaveDescription = () => {
     onWorkupChange({ name: 'description', value: description })
   }
 
   const handleCancelDescription = () => {
-    setDescription(activity.workup.description)
+    setDescription(workup.description)
   }
 
   return (
     <OptionalFormSet
       subFormLabel='Description'
-      valueSummary={activity.workup.description}
+      valueSummary={workup?.description}
       onSave={handleSaveDescription}
       onCancel={handleCancelDescription}
       typeColor={activityType}
     >
+      {console.log("workup")}
+      {console.log(workup)}
       <Input
         type="textarea"
         name="description"

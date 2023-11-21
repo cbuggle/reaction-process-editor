@@ -15,7 +15,7 @@ import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const AddSampleForm = (
   {
-    activity,
+    workup,
     preconditions,
     onWorkupChange
   }) => {
@@ -28,8 +28,6 @@ const AddSampleForm = (
   ]
 
   const selectOptions = useContext(SelectOptions)
-  const workup = activity.workup
-
   useEffect(() => {
     inputMetrics.forEach(([metricName, workupKey]) => {
 
@@ -144,7 +142,7 @@ const AddSampleForm = (
 }
 
 AddSampleForm.propTypes = {
-  activity: PropTypes.object.isRequired,
+  workup: PropTypes.object.isRequired,
   preconditions: PropTypes.object.isRequired,
   onWorkupChange: PropTypes.func.isRequired,
 }

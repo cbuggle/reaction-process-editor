@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
-import { Input, FormGroup } from 'reactstrap'
-import Select from 'react-select'
+import { FormGroup } from 'reactstrap'
 
-// import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 import ButtonGroupToggle from '../../../../utilities/ButtonGroupToggle';
 import FormSection from "../../../../utilities/FormSection";
 import MetricsInput from '../../../../utilities/MetricsInput';

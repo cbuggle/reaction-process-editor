@@ -36,9 +36,7 @@ const CrystallizationForm = (
       onWorkupChange({ name: 'cooling_duration', value: 0 })
   }, [])
 
-
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
-
 
   return (
     <>

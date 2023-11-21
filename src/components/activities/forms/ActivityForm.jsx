@@ -26,6 +26,7 @@ const ActivityForm = (
   const subFormController = useContext(SubFormController)
 
   const [disabled, setDisabled] = useState(false)
+  const workup = activity.workup
 
   useEffect(() => {
     setDisabled(subFormController.anyBlockingSubformOpen())
@@ -38,17 +39,18 @@ const ActivityForm = (
       {children}
       <ApplyExtraEquipmentFormSet
         activityType={type}
-        activity={activity}
+        actionName={activity.action_name}
+        workup={workup}
         onWorkupChange={onWorkupChange}
       />
       <DescriptionFormSet
         activityType={type}
-        activity={activity}
+        workup={workup}
         onWorkupChange={onWorkupChange}
       />
       <TimingFormSet
         activityType={type}
-        activity={activity}
+        workup={workup}
         onChangeDuration={onChangeDuration}
         onWorkupChange={onWorkupChange}
       />

@@ -19,13 +19,14 @@ const ActionForm = (
   }) => {
 
   const actionTypeName = activity.action_name
+  const workup = activity.workup
 
   const customActionForm = () => {
     switch (actionTypeName) {
       case "ADD":
         return (
           <AddSampleForm
-            activity={activity}
+            workup={workup}
             preconditions={preconditions}
             onWorkupChange={onWorkupChange}
           />
@@ -33,21 +34,22 @@ const ActionForm = (
       case "SAVE":
         return (
           <SaveSampleForm
-            activity={activity}
+            workup={workup}
             onWorkupChange={onWorkupChange}
           />
         )
       case "TRANSFER":
         return (
           <TransferForm
-            activity={activity}
+            workup={workup}
             onWorkupChange={onWorkupChange}
+            isPersisted={!!activity.id}
           />
         )
       case "REMOVE":
         return (
           <RemoveForm
-            activity={activity}
+            workup={workup}
             preconditions={preconditions}
             onWorkupChange={onWorkupChange}
           />
@@ -56,9 +58,9 @@ const ActionForm = (
         return (
           <>
             <PurifyBaseForm
-              workup={activity.workup}
-              preconditions={preconditions}
+              workup={workup}
               onWorkupChange={onWorkupChange}
+              preconditions={preconditions}
             />
           </>
         )
@@ -66,7 +68,7 @@ const ActionForm = (
         return (
           <>
             <AnalysisForm
-              activity={activity}
+              workup={workup}
               onWorkupChange={onWorkupChange}
             />
           </>

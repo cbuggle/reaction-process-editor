@@ -12,13 +12,11 @@ import { SelectOptions } from '../../../../contexts/SelectOptions'
 
 const SaveSampleForm = (
   {
-    activity,
+    workup,
     onWorkupChange
   }) => {
 
   const selectOptions = useContext(SelectOptions)
-
-  const workup = activity.workup
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
     onWorkupChange({ name: workupKey, value: value })
