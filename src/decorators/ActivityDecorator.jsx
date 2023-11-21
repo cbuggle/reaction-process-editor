@@ -1,12 +1,6 @@
 import MetricsDecorator from './MetricsDecorator';
+import StringDecorator from './StringDecorator';
 export default class ActivityDecorator {
-  static toTitleCase = (str) => {
-    str = str.toLowerCase().split(' ');
-    for (var i = 0; i < str.length; i++) {
-      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-    }
-    return str.join(' ');
-  }
 
   static cardTitle = (activity) => {
     let title = activity.action_name
@@ -42,7 +36,7 @@ export default class ActivityDecorator {
           break
       }
     }
-    return this.toTitleCase(title)
+    return StringDecorator.toLabelSpelling(title)
   }
 
   static conditionInfo = (metricName, conditionWorkup, precondition, selectOptions) => {
@@ -87,15 +81,28 @@ export default class ActivityDecorator {
     let ratioList = ''
 
     if (stepData.solvents.length > 1) {
-      ratioList = '(' + stepData.solvents.map(solvent => solvent.ratio).join(':') + ')'
+      ratioList = StringDecorator.brackets(stepData.solvents.map(solvent => solvent.ratio).join(':'))
     }
 
-    return [
+    const infoStrings = [
       MetricsDecorator.infoLineAmount(stepData.amount),
       solventsList,
-      ratioList,
-      '(' + stepData.repetitions.value + ' ' + MetricsDecorator.label('REPETITIONS') + ')'
-    ].join(' ')
+      ratioList
+    ]
+
+    if(stepData.step_mode) {
+      infoStrings.push(StringDecorator.brackets(StringDecorator.toLabelSpelling(stepData.step_mode)))
+    }
+
+    if(stepData.prod_mode) {
+      infoStrings.push(StringDecorator.brackets('prod: ' + StringDecorator.toLabelSpelling(stepData.prod_mode)))
+    }
+
+    if(stepData.repetitions) {
+      infoStrings.push(StringDecorator.brackets(stepData.repetitions.value + ' ' + MetricsDecorator.label('REPETITIONS')))
+    }
+
+    return infoStrings.join(' ')
   }
   static chromatographyStepInfo = (stepData, purifySolventOptions) => {
     const solventsList = stepData.solvents.map(
@@ -104,7 +111,7 @@ export default class ActivityDecorator {
     let ratioList = ''
 
     if (stepData.solvents.length > 1) {
-      ratioList = '(' + stepData.solvents.map(solvent => solvent.ratio).join(':') + ')'
+      ratioList = StringDecorator.brackets(stepData.solvents.map(solvent => solvent.ratio).join(':'))
     }
 
     return [

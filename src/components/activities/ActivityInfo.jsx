@@ -73,10 +73,14 @@ const ActivityInfo = (
         }
         break;
       case 'PURIFY':
-        const steps = workup.filtration_steps
+        const steps = workup[workup.purify_type.toLowerCase() + '_steps']
         infoTitle = ''
         if (steps) {
-          infoTitle += workup.filtration_steps.length + ' Steps '
+          infoTitle += steps.length + ' Step'
+          if(steps.length > 1) {
+            infoTitle += 's'
+          }
+          infoTitle += ' '
         }
         // chromatograpy.automation_modes extends regular automation_modes thus can be used without case distinction.
         infoTitle += selectOptions.purify.chromatography.automation_modes.find(option => option.value === workup.automation)?.label
@@ -85,7 +89,9 @@ const ActivityInfo = (
         }
         if (steps && selectOptions.materials['SOLVENT']) {
           for (let i = 0; i < steps.length; i++) {
-            infoLines.push('Step ' + (i + 1))
+            if(steps.length > 1) {
+              infoLines.push('Step ' + (i + 1))
+            }
             infoLines.push(ActivityDecorator.filtrationStepInfo(steps[i], selectOptions.materials['SOLVENT']))
           }
         }

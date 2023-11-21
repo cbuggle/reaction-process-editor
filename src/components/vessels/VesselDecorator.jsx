@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { apiHostname } from '../../constants'
+import StringDecorator from '../../decorators/StringDecorator'
 
 export default class VesselDecorator {
 
@@ -18,15 +19,6 @@ export default class VesselDecorator {
     return "Vessel " + this.vesselIconName(vessel)
   }
 
-  static toLabel = (value) => {
-    if (value) {
-      const newStr = value.split('_')
-        .map(w => w[0].toUpperCase() + w.substring(1).toLowerCase())
-        .join(' ');
-      return newStr;
-    }
-  }
-
   /* Render functions */
 
   static renderVesselLabel = (vessel) => {
@@ -42,10 +34,10 @@ export default class VesselDecorator {
   static renderVesselDetails = (vessel) => {
     return (
       <>
-        <div>{this.toLabel(vessel.vessel_type)}</div>
+        <div>{StringDecorator.toTitleCase(vessel.vessel_type)}</div>
         <div>{this.renderVesselVolume(vessel)}</div>
         <div>{this.renderVesselMaterial(vessel)}</div>
-        <div>{this.toLabel(vessel.environment_type)}</div>
+        <div>{StringDecorator.toTitleCase(vessel.environment_type)}</div>
       </>
     )
   }
@@ -79,7 +71,7 @@ export default class VesselDecorator {
     return (
       <>
         {vessel.volume_amount}
-        {" " + this.toLabel(vessel.volume_unit)}
+        {" " + StringDecorator.toTitleCase(vessel.volume_unit)}
       </>
     )
   }
@@ -87,7 +79,7 @@ export default class VesselDecorator {
   static renderVesselMaterial = (vessel) => {
     return (
       <>
-        {this.toLabel(vessel.material_type)}
+        {StringDecorator.toTitleCase(vessel.material_type)}
       </>
     )
   }
