@@ -64,7 +64,7 @@ const FiltrationForm = (
       {filtrationSteps.map((step, idx) =>
         <FiltrationStepForm
           index={idx}
-          stepData={step}
+          workup={step}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
           key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
