@@ -7,22 +7,22 @@ import ChromatographyForm from './purify/ChromatographyForm';
 
 const PurifyBaseForm = (
   {
-    activity,
+    workup,
     preconditions,
     onWorkupChange
   }) => {
 
-  switch (activity.workup['purify_type']) {
+  switch (workup['purify_type']) {
     case "FILTRATION":
-      return (<FiltrationForm activity={activity} onWorkupChange={onWorkupChange} />)
+      return (<FiltrationForm workup={workup} onWorkupChange={onWorkupChange} />)
     case "EXTRACTION":
-      return (<ExtractionForm activity={activity} onWorkupChange={onWorkupChange} />)
+      return (<ExtractionForm workup={workup} onWorkupChange={onWorkupChange} />)
     case "CRYSTALLIZATION":
-      return (<CrystallizationForm activity={activity} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
+      return (<CrystallizationForm workup={workup} onWorkupChange={onWorkupChange} preconditions={preconditions} />)
     case "CHROMATOGRAPHY":
-      return (<ChromatographyForm activity={activity} onWorkupChange={onWorkupChange} />)
+      return (<ChromatographyForm workup={workup} onWorkupChange={onWorkupChange} />)
     default:
-      return (<>{"Unknown purify type Error in PurifyBaseForm: " + activity.workup['purify_type']} </>)
+      return (<>{"Unknown purify type Error in PurifyBaseForm: " + workup['purify_type']} </>)
   }
 }
 

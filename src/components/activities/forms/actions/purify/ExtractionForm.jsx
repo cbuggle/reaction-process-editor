@@ -1,57 +1,67 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Input, FormGroup } from 'reactstrap'
 import Select from 'react-select'
 
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
+// import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
+import ButtonGroupToggle from '../../../../utilities/ButtonGroupToggle';
+import FormSection from "../../../../utilities/FormSection";
+import MetricsInput from '../../../../utilities/MetricsInput';
+import SolventListForm from './SolventListForm';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import { useContext } from 'react';
-import FormSection from "../../../../utilities/FormSection";
+
 
 const ExtractionForm = (
   {
-    activity,
+    workup,
     onWorkupChange
   }) => {
 
   const selectOptions = useContext(SelectOptions)
-  const purifySolventOptions = selectOptions.materials['SOLVENT']
+  const solventOptions = selectOptions.materials['SOLVENT']
+  const phaseOptions = selectOptions.purify.extraction.phases
 
-  const actionPurifySolventIds = activity.workup['purify_solvent_sample_ids'] || []
+  const solvents = workup.solvents || []
+  const amount = workup.amount || { value: 0, unit: 'ml' }
+
+  const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   return (
-    <FormSection type='action'>
-      <FormGroup>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="automation_mode"
+    <>
+      <FormSection type='action'>
+        <ButtonGroupToggle
+          value={workup.automation}
           options={selectOptions.automation_modes}
-          value={selectOptions.automation_modes.find(option => option.value === activity.workup['automation'])}
-          onChange={selectedOption => onWorkupChange({ name: 'automation', value: selectedOption.value })}
+          onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
+          label='Automation'
         />
-      </FormGroup>
-      <SingleLineFormGroup label='Solvents'>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          isMulti
-          isClearable={false}
-          name="purify_solvent_sample_ids"
-          options={purifySolventOptions}
-          value={purifySolventOptions.filter(option => actionPurifySolventIds.includes(option.value))}
-          onChange={selectedOptions => onWorkupChange({ name: 'purify_solvent_sample_ids', value: selectedOptions.map(option => option.value) })}
-        />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label='Ratio'>
-        <Input
-          value={activity.workup['purify_ratio']}
-          placeholder="Ratio"
-          onChange={event => onWorkupChange({ name: 'purify_ratio', value: event.target.value })}
-        />
-      </SingleLineFormGroup>
-      { }
-    </FormSection>
+
+        {workup.automation === 'AUTOMATED' &&
+          <ButtonGroupToggle
+            value={workup.phase}
+            options={phaseOptions}
+            onChange={selectedValue => onWorkupChange({ name: 'phase', value: selectedValue })}
+            label='Phase'
+          />
+        }
+      </FormSection>
+      <FormSection type='action'>
+        <FormGroup>
+          <SolventListForm
+            solvents={solvents}
+            solventOptions={solventOptions}
+            setSolvents={handleWorkupChange('solvents')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <MetricsInput
+            metricName={'VOLUME'}
+            amount={amount}
+            onChange={handleWorkupChange('amount')}
+          />
+        </FormGroup>
+      </FormSection>
+    </>
   )
 }
 

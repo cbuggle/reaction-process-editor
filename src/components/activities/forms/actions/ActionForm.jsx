@@ -56,7 +56,7 @@ const ActionForm = (
         return (
           <>
             <PurifyBaseForm
-              activity={activity}
+              workup={activity.workup}
               preconditions={preconditions}
               onWorkupChange={onWorkupChange}
             />

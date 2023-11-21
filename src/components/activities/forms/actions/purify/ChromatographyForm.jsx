@@ -13,11 +13,10 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const ChromatographyForm = (
   {
-    activity,
+    workup,
     onWorkupChange
   }) => {
 
-  const workup = activity.workup
   const selectOptions = useContext(SelectOptions).purify.chromatography
 
   const newChromatography = !workup['chromatography_steps']

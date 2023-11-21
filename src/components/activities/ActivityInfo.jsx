@@ -85,7 +85,7 @@ const ActivityInfo = (
         // chromatograpy.automation_modes extends regular automation_modes thus can be used without case distinction.
         infoTitle += selectOptions.purify.chromatography.automation_modes.find(option => option.value === workup.automation)?.label
         if (workup.filtration_mode) {
-          infoTitle += ' Keep ' + selectOptions.purify.filtration_modes.find(option => option.value === workup.filtration_mode)?.label
+          infoTitle += ' Keep ' + selectOptions.purify.filtration.modes.find(option => option.value === workup.filtration_mode)?.label
         }
         if (steps && selectOptions.materials['SOLVENT']) {
           for (let i = 0; i < steps.length; i++) {

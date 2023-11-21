@@ -11,12 +11,10 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const CrystallizationForm = (
   {
-    activity,
+    workup,
     preconditions,
     onWorkupChange
   }) => {
-
-  const workup = activity.workup
 
   const solvents = workup.solvents || []
   const amount = workup.amount || { value: 0, unit: 'ml' }
@@ -31,7 +29,7 @@ const CrystallizationForm = (
     workup.TEMPERATURE ||
       onWorkupChange({ name: 'TEMPERATURE', value: preconditions.TEMPERATURE })
     workup.crystallization_mode ||
-      onWorkupChange({ name: 'crystallization_mode', value: selectOptions.purify.crystallization_modes[0]['value'] })
+      onWorkupChange({ name: 'crystallization_mode', value: selectOptions.purify.crystallization.modes[0]['value'] })
     workup.heating_duration ||
       onWorkupChange({ name: 'heating_duration', value: 0 })
     workup.cooling_duration ||
@@ -70,7 +68,7 @@ const CrystallizationForm = (
         <FormGroup>
           <MetricsInput
             metricName={'TEMPERATURE'}
-            amount={activity.workup.TEMPERATURE}
+            amount={workup.TEMPERATURE}
             onChange={handleWorkupChange('TEMPERATURE')}
           />
         </FormGroup>
