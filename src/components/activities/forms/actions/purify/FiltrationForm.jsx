@@ -23,7 +23,7 @@ const FiltrationForm = (
   const addStep = () => setShowNewStepForm(true)
 
   const handleSaveStep = (stepInfo) => {
-    let updatedSteps = filtrationSteps
+    let updatedSteps = [...filtrationSteps]
     updatedSteps[stepInfo.index] = stepInfo.data
     setFiltrationSteps(updatedSteps)
     setShowNewStepForm(false)
@@ -31,6 +31,13 @@ const FiltrationForm = (
   }
 
   const handleCancelStep = () => setShowNewStepForm(false)
+
+  const handleDeleteStep = (idx) => {
+    const updatedSteps = [...filtrationSteps]
+    updatedSteps.splice(idx, 1)
+    setFiltrationSteps(updatedSteps)
+    onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
+  }
 
   const renderFilterMethodToggle = () => {
     return (
@@ -66,7 +73,9 @@ const FiltrationForm = (
           workup={step}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
+          onDelete={handleDeleteStep}
           key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          canDelete={filtrationSteps.length > 1}
         />
       )}
       {showNewStepForm &&
