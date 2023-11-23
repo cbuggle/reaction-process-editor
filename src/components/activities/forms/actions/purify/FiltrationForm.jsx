@@ -6,38 +6,22 @@ import FiltrationStepForm from "./FiltrationStepForm";
 import FormSection from '../../../../utilities/FormSection'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
+import ActivityFormStepDecorator from '../../../../../decorators/ActivityFormStepDecorator';
 
 const FiltrationForm = (
   {
     workup,
-    onWorkupChange
+    onWorkupChange,
+    activitySteps,
+    showNewStepForm,
+    addStep,
+    handleSaveStep,
+    handleCancelStep,
+    handleDeleteStep
   }) => {
 
   const selectOptions = useContext(SelectOptions)
   const filtrationModeOptions = selectOptions.purify.filtration.modes
-
-  const newFiltration = !workup['filtration_steps']
-  const [filtrationSteps, setFiltrationSteps] = useState(newFiltration ? [] : workup['filtration_steps'])
-  const [showNewStepForm, setShowNewStepForm] = useState(newFiltration)
-
-  const addStep = () => setShowNewStepForm(true)
-
-  const handleSaveStep = (stepInfo) => {
-    let updatedSteps = [...filtrationSteps]
-    updatedSteps[stepInfo.index] = stepInfo.data
-    setFiltrationSteps(updatedSteps)
-    setShowNewStepForm(false)
-    onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
-  }
-
-  const handleCancelStep = () => setShowNewStepForm(false)
-
-  const handleDeleteStep = (idx) => {
-    const updatedSteps = [...filtrationSteps]
-    updatedSteps.splice(idx, 1)
-    setFiltrationSteps(updatedSteps)
-    onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
-  }
 
   const renderFilterMethodToggle = () => {
     return (
@@ -67,7 +51,7 @@ const FiltrationForm = (
         {renderFilterMethodToggle()}
         {renderAutomationToggle()}
       </FormSection>
-      {filtrationSteps.map((step, idx) =>
+      {activitySteps.map((step, idx) =>
         <FiltrationStepForm
           index={idx}
           workup={step}
@@ -75,7 +59,7 @@ const FiltrationForm = (
           onCancel={handleCancelStep}
           onDelete={handleDeleteStep}
           key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
-          canDelete={filtrationSteps.length > 1}
+          canDelete={activitySteps.length > 1}
         />
       )}
       {showNewStepForm &&
@@ -97,4 +81,4 @@ const FiltrationForm = (
   )
 }
 
-export default FiltrationForm
+export default ActivityFormStepDecorator(FiltrationForm, 'filtration_steps')
