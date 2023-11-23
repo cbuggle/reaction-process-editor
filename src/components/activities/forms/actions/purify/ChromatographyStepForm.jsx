@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { FormGroup, Label } from "reactstrap";
 
-import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
+import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../formsets/OptionalFormSet";
@@ -40,7 +40,7 @@ const ChromatographyStepForm = (
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityDecorator.chromatographyStepInfo({
+      valueSummary={ActivityInfoDecorator.chromatographyStepInfo({
         solvents,
         amount,
       },

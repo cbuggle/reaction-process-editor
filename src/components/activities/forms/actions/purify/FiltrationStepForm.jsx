@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Button, FormGroup, Input, Label, Row } from "reactstrap";
 
-import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
+import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../formsets/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
@@ -51,7 +51,7 @@ const FiltrationStepForm = (
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityDecorator.filtrationStepInfo({
+      valueSummary={ActivityInfoDecorator.filtrationStepInfo({
         solvents,
         amount,
         repetitions
