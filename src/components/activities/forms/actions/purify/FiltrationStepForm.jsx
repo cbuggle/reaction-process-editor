@@ -1,22 +1,27 @@
 import React, { useContext, useState } from "react";
-import { FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
+import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../formsets/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
+import { SubFormController } from "../../../../../contexts/SubFormController";
 
 const FiltrationStepForm = (
   {
     index,
     workup,
     onSave,
-    onCancel
+    onCancel,
+    onDelete,
+    canDelete
   }) => {
   const selectOptions = useContext(SelectOptions)
   const purifySolventOptions = selectOptions.materials['SOLVENT']
+  const subFormController = useContext(SubFormController)
 
   const label = 'Filtration Step ' + (index + 1)
   const [solvents, setSolvents] = useState(workup?.solvents || [])
@@ -38,10 +43,15 @@ const FiltrationStepForm = (
     })
   }
 
+  const handleDelete = () => {
+    subFormController.toggleSubForm(label)
+    onDelete(index)
+  }
+
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityDecorator.filtrationStepInfo({
+      valueSummary={ActivityInfoDecorator.filtrationStepInfo({
         solvents,
         amount,
         repetitions
@@ -53,6 +63,16 @@ const FiltrationStepForm = (
       typeColor='action'
       initialShowForm={!workup}
     >
+      {canDelete &&
+        <OptionalFormSet.ExtraButton>
+          <Button
+            color='danger'
+            onClick={handleDelete}
+          >
+            <FontAwesomeIcon icon='trash' />
+          </Button>
+        </OptionalFormSet.ExtraButton>
+      }
       <SolventListForm
         solvents={solvents}
         solventOptions={purifySolventOptions}

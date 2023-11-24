@@ -1,6 +1,6 @@
 import MetricsDecorator from './MetricsDecorator';
 import StringDecorator from './StringDecorator';
-export default class ActivityDecorator {
+export default class ActivityInfoDecorator {
 
   static cardTitle = (activity) => {
     let title = activity.action_name

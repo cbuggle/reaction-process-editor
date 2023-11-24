@@ -1,28 +1,33 @@
 import React, { useContext, useState } from "react";
-import { FormGroup, Label } from "reactstrap";
+import { Button, FormGroup, Label } from "reactstrap";
 
-import ActivityDecorator from "../../../../../decorators/ActivityDecorator";
+import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../formsets/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
+import { SubFormController } from "../../../../../contexts/SubFormController";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ChromatographyStepForm = (
   {
     index,
     workup,
     onSave,
-    onCancel
+    onCancel,
+    onDelete,
+    canDelete
   }) => {
   const selectOptions = useContext(SelectOptions)
   const purifySolventOptions = selectOptions.materials['SOLVENT']
+  const subFormController = useContext(SubFormController)
 
   const label = 'Chromatography Step ' + (index + 1)
   const [solvents, setSolvents] = useState(workup ? workup.solvents : [])
   const [amount, setAmount] = useState(workup?.amount || { value: 0, unit: 'ml' })
-  const [stepMode, setStepMode] = useState(workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value )
+  const [stepMode, setStepMode] = useState(workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value)
   const [prodMode, setProdMode] = useState(workup?.prod_mode || selectOptions.purify.chromatography.prod_modes[0].value)
 
   const handleSave = () => {
@@ -37,10 +42,15 @@ const ChromatographyStepForm = (
     })
   }
 
+  const handleDelete = () => {
+    subFormController.toggleSubForm(label)
+    onDelete(index)
+  }
+
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityDecorator.chromatographyStepInfo({
+      valueSummary={ActivityInfoDecorator.chromatographyStepInfo({
         solvents,
         amount,
       },
@@ -51,6 +61,16 @@ const ChromatographyStepForm = (
       typeColor='action'
       initialShowForm={!workup}
     >
+      {canDelete &&
+        <OptionalFormSet.ExtraButton>
+          <Button
+            color='danger'
+            onClick={handleDelete}
+          >
+            <FontAwesomeIcon icon='trash' />
+          </Button>
+        </OptionalFormSet.ExtraButton>
+      }
       <SolventListForm
         solvents={solvents}
         solventOptions={purifySolventOptions}

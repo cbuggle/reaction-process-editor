@@ -5,7 +5,7 @@ import EquipmentForm from "./EquipmentForm";
 import GenericMetricSubForm from "./GenericMetricSubForm";
 import MotionForm from "./MotionForm";
 
-import ActivityDecorator from "../../../../decorators/ActivityDecorator";
+import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
@@ -36,9 +36,9 @@ const MetricFormGroup = (
 
   const summary = () => {
     if (hasWorkupCondition) {
-      return ActivityDecorator.conditionInfo(metricName, workup[metricName], precondition, selectOptions)
+      return ActivityInfoDecorator.conditionInfo(metricName, workup[metricName], precondition, selectOptions)
     } else if (hasPrecondition) {
-      return ActivityDecorator.conditionInfo(metricName, precondition, null, selectOptions)
+      return ActivityInfoDecorator.conditionInfo(metricName, precondition, null, selectOptions)
     } else {
       return undefined
     }

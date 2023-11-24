@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import ActionForm from "./forms/actions/ActionForm";
-import ActivityDecorator from '../../decorators/ActivityDecorator';
+import ActivityInfoDecorator from '../../decorators/ActivityInfoDecorator';
 import ActivityInfo from "./ActivityInfo";
 import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
@@ -36,7 +36,7 @@ const ActivityCard = (
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
 
-  const cardTitle = !!activityForm?.action_name ? ActivityDecorator.cardTitle(activityForm) : uninitialisedTitle
+  const cardTitle = !!activityForm?.action_name ? ActivityInfoDecorator.cardTitle(activityForm) : uninitialisedTitle
 
   const editable = displayMode !== 'info'
 

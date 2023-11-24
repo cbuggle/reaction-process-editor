@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import ActivityDecorator from '../../decorators/ActivityDecorator';
+import ActivityInfoDecorator from '../../decorators/ActivityInfoDecorator';
 import MetricsDecorator from '../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../decorators/SamplesDecorator'
 
@@ -27,7 +27,7 @@ const ActivityInfo = (
           imageSample = activity.sample
         }
         infoTitle = MetricsDecorator.infoLineAmount(workup.target_amount)
-        infoLines.push(ActivityDecorator.addSampleConditionInfoLine(workup))
+        infoLines.push(ActivityInfoDecorator.addSampleConditionInfoLine(workup))
 
         if (workup.acts_as === 'SOLVENT') {
           infoLines.push(workup.is_waterfree_solvent ? 'waterfree' : 'not waterfree')
@@ -50,7 +50,7 @@ const ActivityInfo = (
             // The EQUIPMENT will be appended globally for all Activity type; we avoid duplicating it.
             metricName !== 'EQUIPMENT' &&
               infoLines.push(
-                ActivityDecorator.conditionInfo(metricName, conditionWorkup, preconditions[metricName], selectOptions))
+                ActivityInfoDecorator.conditionInfo(metricName, conditionWorkup, preconditions[metricName], selectOptions))
           }
         }
         break;
@@ -68,7 +68,7 @@ const ActivityInfo = (
 
         for (let [key, removeWorkup] of Object.entries(workup)) {
           if (removeFormMetricNames.includes(key)) {
-            infoLines.push(ActivityDecorator.conditionInfo(removeWorkup, selectOptions));
+            infoLines.push(ActivityInfoDecorator.conditionInfo(removeWorkup, selectOptions));
           }
         }
         break;
@@ -92,7 +92,7 @@ const ActivityInfo = (
             if(steps.length > 1) {
               infoLines.push('Step ' + (i + 1))
             }
-            infoLines.push(ActivityDecorator.filtrationStepInfo(steps[i], selectOptions.materials['SOLVENT']))
+            infoLines.push(ActivityInfoDecorator.filtrationStepInfo(steps[i], selectOptions.materials['SOLVENT']))
           }
         }
         break;
@@ -107,7 +107,7 @@ const ActivityInfo = (
         infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + activity.action_name + '***'
     }
 
-    infoLines.push(ActivityDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment))
+    infoLines.push(ActivityInfoDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment))
 
     return (
       <>

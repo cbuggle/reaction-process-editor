@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
@@ -8,40 +8,31 @@ import ChromatographyStepForm from "./ChromatographyStepForm";
 import FormSection from '../../../../utilities/FormSection'
 import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
+import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const ChromatographyForm = (
   {
     workup,
-    onWorkupChange
+    onWorkupChange,
+    activitySteps,
+    showNewStepForm,
+    addStep,
+    handleSaveStep,
+    handleCancelStep,
+    handleDeleteStep
   }) => {
 
   const selectOptions = useContext(SelectOptions).purify.chromatography
-
-  const newChromatography = !workup['chromatography_steps']
-  const [showNewStepForm, setShowNewStepForm] = useState(newChromatography)
-  const [steps, setChromatographySteps] = useState(newChromatography ? [] : workup['chromatography_steps'])
 
   useEffect(() => {
     workup.jar_material ||
       onWorkupChange({ name: 'jar_material', value: selectOptions.jar_materials[0].value })
     workup.device ||
       onWorkupChange({ name: 'device', value: selectOptions.devices[0].value })
+    // eslint-disable-next-line
   }, [])
-
-  const addStep = () => setShowNewStepForm(true)
-
-  const handleSaveStep = (stepInfo) => {
-    setShowNewStepForm(false)
-
-    let updatedSteps = steps
-    updatedSteps[stepInfo.index] = stepInfo.data
-    setChromatographySteps(updatedSteps)
-    onWorkupChange({ name: 'chromatography_steps', value: updatedSteps })
-  }
-
-  const handleCancelStep = () => setShowNewStepForm(false)
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
@@ -157,18 +148,20 @@ const ChromatographyForm = (
         {renderAutomationToggle()}
       </FormSection>
       {renderAutomationSpecificFields()}
-      {steps.map((step, idx) =>
+      {activitySteps.map((step, idx) =>
         <ChromatographyStepForm
           index={idx}
           workup={step}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
+          onDelete={handleDeleteStep}
           key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          canDelete={activitySteps.length > 1}
         />
       )}
       {showNewStepForm &&
         <ChromatographyStepForm
-          index={workup.chromatography_steps?.length || 0}
+          index={activitySteps?.length || 0}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
         />
@@ -185,4 +178,5 @@ const ChromatographyForm = (
   )
 }
 
-export default ChromatographyForm
+export default withActivitySteps(ChromatographyForm, 'chromatography_steps')
+

@@ -3,7 +3,7 @@ import Select from 'react-select'
 
 import OptionalFormSet from './OptionalFormSet'
 
-import ActivityDecorator from '../../../../decorators/ActivityDecorator'
+import ActivityInfoDecorator from '../../../../decorators/ActivityInfoDecorator'
 import { SelectOptions } from '../../../../contexts/SelectOptions'
 
 const ApplyExtraEquipmentFormSet = (
@@ -28,7 +28,7 @@ const ApplyExtraEquipmentFormSet = (
       {equipmentOptions?.length > 0 &&
         <OptionalFormSet
           subFormLabel='Equipment'
-          valueSummary={ActivityDecorator.infoLineEquipment(workup['EQUIPMENT'], equipmentOptions)}
+          valueSummary={ActivityInfoDecorator.infoLineEquipment(workup['EQUIPMENT'], equipmentOptions)}
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
           typeColor={activityType}

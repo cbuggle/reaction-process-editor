@@ -1,36 +1,27 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FiltrationStepForm from "./FiltrationStepForm";
 import FormSection from '../../../../utilities/FormSection'
+import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const FiltrationForm = (
   {
     workup,
-    onWorkupChange
+    onWorkupChange,
+    activitySteps,
+    showNewStepForm,
+    addStep,
+    handleSaveStep,
+    handleCancelStep,
+    handleDeleteStep
   }) => {
 
   const selectOptions = useContext(SelectOptions)
   const filtrationModeOptions = selectOptions.purify.filtration.modes
-
-  const newFiltration = !workup['filtration_steps']
-  const [filtrationSteps, setFiltrationSteps] = useState(newFiltration ? [] : workup['filtration_steps'])
-  const [showNewStepForm, setShowNewStepForm] = useState(newFiltration)
-
-  const addStep = () => setShowNewStepForm(true)
-
-  const handleSaveStep = (stepInfo) => {
-    let updatedSteps = filtrationSteps
-    updatedSteps[stepInfo.index] = stepInfo.data
-    setFiltrationSteps(updatedSteps)
-    setShowNewStepForm(false)
-    onWorkupChange({ name: 'filtration_steps', value: updatedSteps })
-  }
-
-  const handleCancelStep = () => setShowNewStepForm(false)
 
   const renderFilterMethodToggle = () => {
     return (
@@ -60,13 +51,15 @@ const FiltrationForm = (
         {renderFilterMethodToggle()}
         {renderAutomationToggle()}
       </FormSection>
-      {filtrationSteps.map((step, idx) =>
+      {activitySteps.map((step, idx) =>
         <FiltrationStepForm
           index={idx}
           workup={step}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
+          onDelete={handleDeleteStep}
           key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          canDelete={activitySteps.length > 1}
         />
       )}
       {showNewStepForm &&
@@ -88,4 +81,4 @@ const FiltrationForm = (
   )
 }
 
-export default FiltrationForm
+export default withActivitySteps(FiltrationForm, 'filtration_steps')
