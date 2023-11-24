@@ -4,9 +4,9 @@ import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FiltrationStepForm from "./FiltrationStepForm";
 import FormSection from '../../../../utilities/FormSection'
+import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import withActivitySteps from '../../../../../decorators/WithActivitySteps';
 
 const FiltrationForm = (
   {

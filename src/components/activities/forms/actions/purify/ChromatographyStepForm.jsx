@@ -78,7 +78,6 @@ const ChromatographyStepForm = (
       />
       <FormGroup>
         <MetricsInput
-          label='Volume'
           metricName={'VOLUME'}
           amount={amount}
           onChange={setAmount}

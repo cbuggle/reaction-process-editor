@@ -8,9 +8,9 @@ import ChromatographyStepForm from "./ChromatographyStepForm";
 import FormSection from '../../../../utilities/FormSection'
 import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
+import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import withActivitySteps from '../../../../../decorators/WithActivitySteps';
 
 const ChromatographyForm = (
   {
