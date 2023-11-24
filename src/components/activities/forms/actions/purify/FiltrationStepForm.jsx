@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { Button, FormGroup, Input, Label, Row } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import MetricsInput from "../../../../utilities/MetricsInput";
@@ -7,7 +8,6 @@ import OptionalFormSet from "../../formsets/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
 const FiltrationStepForm = (
