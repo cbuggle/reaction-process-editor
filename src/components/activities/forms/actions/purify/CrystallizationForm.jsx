@@ -21,7 +21,7 @@ const CrystallizationForm = (
 
   const selectOptions = useContext(SelectOptions)
   const solventOptions = selectOptions.materials['ADDITIVE']
-  const crystallizationModeOptions = selectOptions.purify.crystallization_modes
+  const crystallizationModeOptions = selectOptions.purify.crystallization.modes
 
   useEffect(() => {
     workup.automation ||
