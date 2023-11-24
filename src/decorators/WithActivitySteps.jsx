@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const ActivityFormStepDecorator = (WrappedComponent, stepsWorkupKey) => {
-  const ActivityFormStepDecorator = (props) => {
+const withActivitySteps = (WrappedComponent, stepsWorkupKey) => {
+  const WithActivitySteps = (props) => {
     const [activitySteps, setActivitySteps] = useState(props.workup[stepsWorkupKey] || []);
     const [showNewStepForm, setShowNewStepForm] = useState(false);
 
@@ -37,7 +37,7 @@ const ActivityFormStepDecorator = (WrappedComponent, stepsWorkupKey) => {
     );
   };
 
-  return ActivityFormStepDecorator;
+  return WithActivitySteps;
 };
 
-export default ActivityFormStepDecorator;
+export default withActivitySteps;

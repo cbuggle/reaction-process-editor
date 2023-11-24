@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
@@ -10,7 +10,7 @@ import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import ActivityFormStepDecorator from '../../../../../decorators/ActivityFormStepDecorator';
+import withActivitySteps from '../../../../../decorators/WithActivitySteps';
 
 const ChromatographyForm = (
   {
@@ -177,5 +177,5 @@ const ChromatographyForm = (
   )
 }
 
-export default ActivityFormStepDecorator(ChromatographyForm, 'chromatography_steps')
+export default withActivitySteps(ChromatographyForm, 'chromatography_steps')
 

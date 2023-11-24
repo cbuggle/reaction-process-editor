@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
@@ -6,7 +6,7 @@ import FiltrationStepForm from "./FiltrationStepForm";
 import FormSection from '../../../../utilities/FormSection'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import ActivityFormStepDecorator from '../../../../../decorators/ActivityFormStepDecorator';
+import withActivitySteps from '../../../../../decorators/WithActivitySteps';
 
 const FiltrationForm = (
   {
@@ -81,4 +81,4 @@ const FiltrationForm = (
   )
 }
 
-export default ActivityFormStepDecorator(FiltrationForm, 'filtration_steps')
+export default withActivitySteps(FiltrationForm, 'filtration_steps')
