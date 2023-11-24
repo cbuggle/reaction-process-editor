@@ -34,6 +34,7 @@ const CrystallizationForm = (
       onWorkupChange({ name: 'heating_duration', value: 0 })
     workup.cooling_duration ||
       onWorkupChange({ name: 'cooling_duration', value: 0 })
+      // eslint-disable-next-line
   }, [])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })

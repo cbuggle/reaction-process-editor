@@ -27,7 +27,7 @@ const ChromatographyStepForm = (
   const label = 'Chromatography Step ' + (index + 1)
   const [solvents, setSolvents] = useState(workup ? workup.solvents : [])
   const [amount, setAmount] = useState(workup?.amount || { value: 0, unit: 'ml' })
-  const [stepMode, setStepMode] = useState(workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value )
+  const [stepMode, setStepMode] = useState(workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value)
   const [prodMode, setProdMode] = useState(workup?.prod_mode || selectOptions.purify.chromatography.prod_modes[0].value)
 
   const handleSave = () => {

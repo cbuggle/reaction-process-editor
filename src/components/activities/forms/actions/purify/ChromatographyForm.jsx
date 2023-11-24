@@ -31,6 +31,7 @@ const ChromatographyForm = (
       onWorkupChange({ name: 'jar_material', value: selectOptions.jar_materials[0].value })
     workup.device ||
       onWorkupChange({ name: 'device', value: selectOptions.devices[0].value })
+    // eslint-disable-next-line
   }, [])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
