@@ -9,10 +9,12 @@ import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from './StepInfo';
 import StepForm from './StepForm';
+import IconButton from '../utilities/IconButton';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 import { StepSelectOptions } from '../../contexts/StepSelectOptions';
+import { StepLock } from '../../contexts/StepLock';
 
 const StepColumCard = (
   {
@@ -25,6 +27,8 @@ const StepColumCard = (
   const [showForm, setShowForm] = useState(!isInitialised)
   const cardTitle = isInitialised ? processStep.label : 'New Step'
   const api = useReactionsFetcher()
+  const isLocked = !!processStep?.locked
+
 
   const displayMode = () => {
     return showForm ? 'form' : 'info'
@@ -59,7 +63,9 @@ const StepColumCard = (
 
   const toggleForm = () => setShowForm(!showForm)
 
-  const toggleLocked = () => { api.toggleProcessStepLock(processStep.id)}
+  const toggleLocked = () => {
+    api.toggleProcessStepLock(processStep.id)
+  }
 
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
@@ -69,7 +75,7 @@ const StepColumCard = (
       isDragging: !!monitor.isDragging(),
       canDrag: monitor.canDrag()
     }),
-    canDrag: () => processStep && !processStep.locked
+    canDrag: () => processStep && !isLocked
   }), [processStep])
 
 
@@ -80,7 +86,7 @@ const StepColumCard = (
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
     }),
-    canDrop: () => processStep && !processStep.locked
+    canDrop: () => processStep && !isLocked
   }), [processStep])
 
   const dropItem = (monitor, processStep) => {
@@ -102,48 +108,61 @@ const StepColumCard = (
   return (
     <StepSelectOptions.Provider value={processStep?.select_options}>
       <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
-        <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
-          <ColumnContainerCard
-            title={cardTitle}
-            type='step'
-            showEditBtn={!showForm}
-            showMoveXBtn={!showForm}
-            showDeleteBtn={!showForm}
-            showCancelBtn={showForm}
-            showLockBtn={!showForm}
-            onToggleLocked={toggleLocked}
-            isLocked={processStep?.locked}
-            onDelete={confirmDeleteStep}
-            onEdit={toggleForm}
-            onCancel={handleCancel}
-            displayMode={displayMode()}
-            dragRef={dragRef}
-          >
-            <ProcedureCard.Info>
-              <StepInfo processStep={processStep} />
-            </ProcedureCard.Info>
-            <ProcedureCard.Form>
-              <StepForm
-                processStep={processStep}
-                reactionProcess={reactionProcess}
-                nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
-                onSave={onSave}
-                onCancel={handleCancel}
-              />
-            </ProcedureCard.Form>
-            {isInitialised &&
-              <ProcedureCard.Details>
-                <div className='step-column-card__condition-container'>
-                  {renderActivities()}
-                  <ActivityCreator
-                    processStep={processStep}
-                    preconditions={processStep.final_conditions}
-                    insertNewBeforeIndex={processStep.actions.length}
-                  />
-                </div>
-              </ProcedureCard.Details>
-            }
-          </ColumnContainerCard>
+        <div
+          ref={previewRef}
+          className={'draggable-element' + (isDragging ? ' draggable-element--dragging' : '')}
+        >
+          <StepLock.Provider value={isLocked}>
+            <ColumnContainerCard
+              title={cardTitle}
+              type='step'
+              showEditBtn={!showForm}
+              showMoveXBtn={!showForm}
+              showDeleteBtn={!showForm}
+              showCancelBtn={showForm}
+              showLockBtn={!showForm}
+              onToggleLocked={toggleLocked}
+              onDelete={confirmDeleteStep}
+              onEdit={toggleForm}
+              onCancel={handleCancel}
+              displayMode={displayMode()}
+              dragRef={dragRef}
+            >
+              <ProcedureCard.Info>
+                <StepInfo processStep={processStep} />
+              </ProcedureCard.Info>
+              <ProcedureCard.Form>
+                <StepForm
+                  processStep={processStep}
+                  reactionProcess={reactionProcess}
+                  nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
+                  onSave={onSave}
+                  onCancel={handleCancel}
+                />
+              </ProcedureCard.Form>
+              {isInitialised &&
+                <ProcedureCard.Details>
+                  <div className='step-column-card__condition-container'>
+                    {renderActivities()}
+                    {!isLocked &&
+                      <ActivityCreator
+                        processStep={processStep}
+                        preconditions={processStep.final_conditions}
+                        insertNewBeforeIndex={processStep.actions.length}
+                      />
+                    }
+                  </div>
+                </ProcedureCard.Details>
+              }
+              <ProcedureCard.ExtraButtons>
+                <IconButton
+                  onClick={toggleLocked}
+                  icon={isLocked ? 'lock' : 'lock-open'}
+                  positive={isLocked}
+                />
+              </ProcedureCard.ExtraButtons>
+            </ColumnContainerCard>
+          </StepLock.Provider>
         </div>
       </div>
     </StepSelectOptions.Provider>

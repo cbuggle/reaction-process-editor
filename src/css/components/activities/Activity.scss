@@ -11,4 +11,9 @@
       margin-top: 0.75rem;
     }
   }
+  &.activity--locked {
+    > div:first-child {
+      margin: 0;
+    }
+  }
 }

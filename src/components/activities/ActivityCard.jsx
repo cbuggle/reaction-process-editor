@@ -6,10 +6,11 @@ import ActivityInfo from "./ActivityInfo";
 import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
+import Timer from './timing/Timer';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SubFormController } from '../../contexts/SubFormController';
-import Timer from './timing/Timer';
+import { StepLock } from '../../contexts/StepLock';
 import ActionValidator from '../../validators/ActionValidator';
 
 const ActivityCard = (
@@ -26,6 +27,7 @@ const ActivityCard = (
 
   const api = useReactionsFetcher()
   const subFormController = useContext(SubFormController)
+  const stepLock = useContext(StepLock)
 
   const isCondition = type === 'condition'
   const isInitialised = !!activity
@@ -88,11 +90,11 @@ const ActivityCard = (
       onEdit={edit}
       onDelete={onDelete}
       onCancel={handleCancel}
-      showEditBtn={!editable}
+      showEditBtn={!editable && !stepLock}
       showMoveXBtn={false}
-      showMoveYBtn={!editable}
-      showDeleteBtn={!editable}
-      showCancelBtn={editable}
+      showMoveYBtn={!editable && !stepLock}
+      showDeleteBtn={!editable && !stepLock}
+      showCancelBtn={editable && !stepLock}
       displayMode={displayMode}
       headerTitleTag='h6'
       customClass={customClass}
