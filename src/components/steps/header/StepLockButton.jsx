@@ -15,6 +15,7 @@ const StepLockButton = (
     return (isHover === locked) ? 'lock-open' : 'lock'
   }
   const [icon, setIcon] = useState(chooseIcon(false));
+  const [label, setLabel] = useState('locked')
 
 
   const toggleLocked = () => {
@@ -24,6 +25,7 @@ const StepLockButton = (
   function toggleIcon() {
     setHover(!hover);
     setIcon(chooseIcon(!hover))
+    setLabel(!hover ? 'unlock' : 'locked')
   }
 
   return (
@@ -38,7 +40,7 @@ const StepLockButton = (
           size='sm'
           className='step-lock-button--closed'
         >
-          locked
+          {label}
           <FontAwesomeIcon
             icon={icon}
             className="ms-1"

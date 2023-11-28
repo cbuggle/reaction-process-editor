@@ -112,11 +112,10 @@ const StepColumCard = (
             <ColumnContainerCard
               title={cardTitle}
               type='step'
-              showEditBtn={!showForm}
-              showMoveXBtn={!showForm}
-              showDeleteBtn={!showForm}
-              showCancelBtn={showForm}
-              showLockBtn={!showForm}
+              showEditBtn={!showForm && !isLocked}
+              showMoveXBtn={!showForm && !isLocked}
+              showDeleteBtn={!showForm && !isLocked}
+              showCancelBtn={showForm && !isLocked}
               onDelete={confirmDeleteStep}
               onEdit={toggleForm}
               onCancel={handleCancel}
