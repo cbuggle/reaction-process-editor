@@ -40,7 +40,8 @@ const ActivityCard = (
 
   const cardTitle = !!activityForm?.action_name ? ActivityInfoDecorator.cardTitle(activityForm) : uninitialisedTitle
 
-  const editable = displayMode !== 'info'
+  const editable = displayMode === 'info' && !stepLock
+  const canceable = displayMode !== 'info' && !stepLock
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
@@ -90,11 +91,11 @@ const ActivityCard = (
       onEdit={edit}
       onDelete={onDelete}
       onCancel={handleCancel}
-      showEditBtn={!editable && !stepLock}
+      showEditBtn={editable}
       showMoveXBtn={false}
-      showMoveYBtn={!editable && !stepLock}
-      showDeleteBtn={!editable && !stepLock}
-      showCancelBtn={editable && !stepLock}
+      showMoveYBtn={editable}
+      showDeleteBtn={editable}
+      showCancelBtn={canceable}
       displayMode={displayMode}
       headerTitleTag='h6'
       customClass={customClass}
