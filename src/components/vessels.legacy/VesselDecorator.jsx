@@ -34,10 +34,10 @@ export default class VesselDecorator {
   static renderVesselDetails = (vessel) => {
     return (
       <>
-        <div>{StringDecorator.toTitleCase(vessel.vessel_type)}</div>
+        <div>{StringDecorator.toLabelSpelling(vessel.vessel_type)}</div>
         <div>{this.renderVesselVolume(vessel)}</div>
         <div>{this.renderVesselMaterial(vessel)}</div>
-        <div>{StringDecorator.toTitleCase(vessel.environment_type)}</div>
+        <div>{StringDecorator.toLabelSpelling(vessel.environment_type)}</div>
       </>
     )
   }
@@ -71,7 +71,7 @@ export default class VesselDecorator {
     return (
       <>
         {vessel.volume_amount}
-        {" " + StringDecorator.toTitleCase(vessel.volume_unit)}
+        {" " + StringDecorator.toLabelSpelling(vessel.volume_unit)}
       </>
     )
   }
@@ -79,7 +79,7 @@ export default class VesselDecorator {
   static renderVesselMaterial = (vessel) => {
     return (
       <>
-        {StringDecorator.toTitleCase(vessel.material_type)}
+        {StringDecorator.toLabelSpelling(vessel.material_type)}
       </>
     )
   }

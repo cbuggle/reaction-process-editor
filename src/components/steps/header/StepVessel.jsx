@@ -1,14 +1,32 @@
 
 import React from 'react'
-
 import { Button } from 'reactstrap'
-import VesselDecorator from '../../vessels/VesselDecorator'
+import VesselModalButton from '../../vessels/VesselModalButton'
 
-const StepVessel = ({ vessel }) => {
+import VesselDecorator from '../../vessels.legacy/VesselDecorator'
+import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher'
+
+
+const StepVessel = ({ processStep }) => {
+
+  const api = useReactionsFetcher()
+
+  const vessel = processStep?.vessel
+
+  const assignVessel = (vesselId) => {
+    api.assignProcessStepVessel(processStep.id, vesselId)
+  }
+
+  const unassignVessel = () => {
+    api.assignProcessStepVessel(processStep.id)
+  }
+
   return (
-    <Button size="sm" color="outline-secondary" disabled>
+    <>
       {VesselDecorator.renderVesselProcessStepInfo(vessel)}
-    </Button>
+      {vessel && <Button color="outline-secondary" onClick={unassignVessel}>Unassign</Button>}
+      <VesselModalButton onSelectVessel={assignVessel} />
+    </>
   )
 }
 

@@ -4,7 +4,7 @@ import { Button, Label, Modal, ModalBody, ModalHeader, ModalFooter } from 'react
 
 import VesselIndex from './VesselIndex'
 
-const VesselModalButton = () => {
+const VesselModalButton = ({ onSelectVessel }) => {
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -12,8 +12,9 @@ const VesselModalButton = () => {
     setModalOpen(!modalOpen)
   }
 
-  const handleSelectVessel = (vessel) => {
-    alert("Vessel selected. NYI.")
+  const handleSelectVessel = (vesselId) => () => {
+    toggleModal()
+    onSelectVessel(vesselId)
   }
 
   return (
@@ -26,7 +27,7 @@ const VesselModalButton = () => {
           <Label>Select Vessel</Label>
         </ModalHeader>
         <ModalBody>
-          <VesselIndex onSelect={handleSelectVessel} />
+          <VesselIndex onSelectVessel={handleSelectVessel} />
         </ModalBody>
         <ModalFooter>
           <Button color="outline-secondary" onClick={toggleModal}>Cancel</Button>

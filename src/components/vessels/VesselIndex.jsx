@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import Vessel from './Vessel';
 import { VesselOptions } from '../../contexts/VesselOptions';
 
-const VesselIndex = () => {
+const VesselIndex = ({ onSelectVessel }) => {
 	const vessels = useContext(VesselOptions)
 
 	return (
@@ -13,6 +13,7 @@ const VesselIndex = () => {
 					<Vessel
 						key={vessel.id}
 						vessel={vessel}
+						onSelect={onSelectVessel(vessel.id)}
 					/>
 				)
 			}

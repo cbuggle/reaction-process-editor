@@ -2,14 +2,13 @@ import React from 'react'
 
 import StepEquipments from './header/StepEquipments'
 import StepSamples from './header/StepSamples'
-
-import VesselModalButton from '../vessels/VesselModalButton'
+import StepVessel from './header/StepVessel'
 
 const StepInfo = ({ processStep }) => {
 
   return (
     <>
-      <VesselModalButton />
+      <StepVessel processStep={processStep} />
       <StepSamples />
       <StepEquipments />
     </>

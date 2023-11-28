@@ -29,7 +29,8 @@ function useReactionsFetcher() {
     deleteAction,
     updateActionPosition,
     updateProcessStepPosition,
-    toggleProcessStepLock
+    assignProcessStepVessel,
+    toggleProcessStepLock,
   }
 
   function index() {
@@ -114,13 +115,17 @@ function useReactionsFetcher() {
     return api.put(`/reaction_process_steps/${id}/update_position`, { 'position': position })
   }
 
+  function assignProcessStepVessel(stepId, vesselId) {
+    return api.put(`/reaction_process_steps/${stepId}/vessel`, { 'vessel_id': vesselId })
+  }
+
   function createAction(processStepId, action, insertBefore) {
     return api.post(`/reaction_process_steps/${processStepId}/actions`,
       { 'action': action, 'insert_before': insertBefore })
   }
 
   function toggleProcessStepLock(id) {
-    return api.put(`/reaction_process_steps/${id}/toggle_locked` )
+    return api.put(`/reaction_process_steps/${id}/toggle_locked`)
   }
 
   function updateAction(action) {
@@ -134,5 +139,4 @@ function useReactionsFetcher() {
   function updateActionPosition(id, position) {
     return api.put(`/reaction_process_actions/${id}/update_position`, { 'position': position })
   }
-
 }

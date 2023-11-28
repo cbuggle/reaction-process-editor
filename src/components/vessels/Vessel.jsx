@@ -1,6 +1,7 @@
 import React from 'react'
+import { Button } from 'reactstrap'
 
-const Vessel = ({ vessel }) => {
+const Vessel = ({ vessel, onSelect }) => {
 	return (
 		<>
 			<div>{vessel.id}</div>
@@ -13,6 +14,7 @@ const Vessel = ({ vessel }) => {
 			<div>{vessel.vessel_type}</div>
 			<div>{vessel.volume_amount}</div>
 			<div>{vessel.volume_unit}</div>
+			<Button onClick={onSelect}> Assign </Button>
 		</>
 	)
 }
