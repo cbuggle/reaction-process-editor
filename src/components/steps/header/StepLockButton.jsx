@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { Button } from "reactstrap";
 import IconButton from "../../utilities/IconButton";
+
 import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 
 const StepLockButton = (
@@ -12,22 +13,14 @@ const StepLockButton = (
   }) => {
   const api = useReactionsFetcher()
   const [hover, setHover] = useState(false);
-  const chooseIcon = (isHover) => {
-    return (isHover === locked) ? 'lock-open' : 'lock'
-  }
-  const [icon, setIcon] = useState(chooseIcon(false));
-  const [label, setLabel] = useState('locked')
 
+  const icon = locked === hover ? 'lock-open' : 'lock'
 
-  const toggleLocked = () => {
-    api.toggleProcessStepLock(stepId)
-  }
+  const label = hover ? 'unlock' : 'locked'
 
-  function toggleIcon() {
-    setHover(!hover);
-    setIcon(chooseIcon(!hover))
-    setLabel(!hover ? 'unlock' : 'locked')
-  }
+  const toggleLocked = () => api.toggleProcessStepLock(stepId)
+
+  const toggleIcon = () => setHover(!hover)
 
   return (
     <div
