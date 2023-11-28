@@ -7,10 +7,13 @@ import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 import StepsContainer from '../steps/StepsContainer';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import { useVesselsFetcher } from '../../fetchers/VesselsFetcher';
 import { SelectOptions } from '../../contexts/SelectOptions';
+import { VesselOptions } from '../../contexts/VesselOptions';
 
 const Reaction = () => {
   const api = useReactionsFetcher();
+  const vesselApi = useVesselsFetcher();
 
   const { reactionId } = useParams()
   const location = useLocation();
@@ -19,8 +22,13 @@ const Reaction = () => {
 
   const [reactionProcess, setReactionProcess] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [vessels, setVessels] = useState([])
 
   useEffect(() => {
+    vesselApi.index().then((data) => {
+      setVessels(data?.vessels || [])
+    })
+
     const reloadDone = () => {
       setIsLoading(false)
     }
@@ -85,7 +93,7 @@ const Reaction = () => {
   }
 
   return (
-    <>
+    <VesselOptions.Provider value={vessels}>
       {reactionProcess ?
         <SelectOptions.Provider value={reactionProcess.select_options}>
           {renderReactionNavbar()}
@@ -101,7 +109,7 @@ const Reaction = () => {
         :
         <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={true} />
       }
-    </>
+    </VesselOptions.Provider>
   );
 }
 

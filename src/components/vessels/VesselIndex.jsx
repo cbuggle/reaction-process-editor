@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import VesselIndexItem from './VesselIndexItem';
+import Vessel from './Vessel';
+import { VesselOptions } from '../../contexts/VesselOptions';
 
-const VesselIndex = ({ vessels, vesselOptions, onAssignVessel, onCloneVessel, onDeleteVessel }) => {
-  return (
-    <>
-      {vessels.map((vessel, idx) => (
-        <VesselIndexItem key={idx} vessel={vessel} vesselOptions={vesselOptions} onCloneVessel={onCloneVessel} onAssignVessel={onAssignVessel} onDeleteVessel={onDeleteVessel} />
-      ))}
-    </>
-  )
+const VesselIndex = () => {
+	const vessels = useContext(VesselOptions)
+
+	return (
+		<>
+			{
+				vessels.map((vessel) =>
+					<Vessel
+						key={vessel.id}
+						vessel={vessel}
+					/>
+				)
+			}
+		</>
+	)
 }
 
 export default VesselIndex
