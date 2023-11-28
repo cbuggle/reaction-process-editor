@@ -135,25 +135,27 @@ const StepColumCard = (
                 />
               </ProcedureCard.Form>
               {isInitialised &&
-                <ProcedureCard.Details>
-                  <div className='step-column-card__condition-container'>
-                    {renderActivities()}
-                    {!isLocked &&
-                      <ActivityCreator
-                        processStep={processStep}
-                        preconditions={processStep.final_conditions}
-                        insertNewBeforeIndex={processStep.actions.length}
-                      />
-                    }
-                  </div>
-                </ProcedureCard.Details>
+                <>
+                  <ProcedureCard.Details>
+                    <div className='step-column-card__condition-container'>
+                      {renderActivities()}
+                      {!isLocked &&
+                        <ActivityCreator
+                          processStep={processStep}
+                          preconditions={processStep.final_conditions}
+                          insertNewBeforeIndex={processStep.actions.length}
+                        />
+                      }
+                    </div>
+                  </ProcedureCard.Details>
+                  <ProcedureCard.ExtraButtons>
+                    <StepLockButton
+                      stepId={processStep.id}
+                      locked={isLocked}
+                    />
+                  </ProcedureCard.ExtraButtons>
+                </>
               }
-              <ProcedureCard.ExtraButtons>
-                <StepLockButton
-                  stepId={processStep.id}
-                  locked={isLocked}
-                />
-              </ProcedureCard.ExtraButtons>
             </ColumnContainerCard>
           </StepLock.Provider>
         </div>
