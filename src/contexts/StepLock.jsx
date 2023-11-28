@@ -6,15 +6,10 @@ export const StepLockToggle = ({
   
     const [locked, setLocked] = useState(hasLockOn)
 
-    const toggleLock = () => {
-        setLocked(!locked)
-    }
-
     const isLocked = () => locked
   
     return {
       locked,
-      toggleLock,
       isLocked
     }
   }

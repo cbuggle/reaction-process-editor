@@ -9,7 +9,7 @@ import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from './StepInfo';
 import StepForm from './StepForm';
-import IconButton from '../utilities/IconButton';
+import StepLockButton from './header/StepLockButton';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
@@ -62,10 +62,6 @@ const StepColumCard = (
   }
 
   const toggleForm = () => setShowForm(!showForm)
-
-  const toggleLocked = () => {
-    api.toggleProcessStepLock(processStep.id)
-  }
 
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
@@ -121,7 +117,6 @@ const StepColumCard = (
               showDeleteBtn={!showForm}
               showCancelBtn={showForm}
               showLockBtn={!showForm}
-              onToggleLocked={toggleLocked}
               onDelete={confirmDeleteStep}
               onEdit={toggleForm}
               onCancel={handleCancel}
@@ -155,10 +150,9 @@ const StepColumCard = (
                 </ProcedureCard.Details>
               }
               <ProcedureCard.ExtraButtons>
-                <IconButton
-                  onClick={toggleLocked}
-                  icon={isLocked ? 'lock' : 'lock-open'}
-                  positive={isLocked}
+                <StepLockButton
+                  stepId={processStep.id}
+                  locked={isLocked}
                 />
               </ProcedureCard.ExtraButtons>
             </ColumnContainerCard>
