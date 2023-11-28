@@ -7,6 +7,7 @@ const Info = () => null
 const TypePanel = () => null
 const Form = () => null
 const Details = () => null
+const ExtraButtons = () => null
 
 const ProcedureCard = (
   {
@@ -17,7 +18,6 @@ const ProcedureCard = (
     onEdit,
     onDelete,
     onCancel,
-    onToggleLocked,
     customClass = '',
     headerTitleTag = 'h4',
     showEditBtn = true,
@@ -25,8 +25,6 @@ const ProcedureCard = (
     showMoveYBtn = true,
     showDeleteBtn = true,
     showCancelBtn = true,
-    showLockBtn = false,
-    isLocked = false,
     displayMode = 'info',
     dragRef
   }) => {
@@ -36,14 +34,17 @@ const ProcedureCard = (
   const typePanel = childNodes.find(el => el.type === TypePanel)
   const form = childNodes.find(el => el.type === Form)
   const details = childNodes.find(el => el.type === Details)
+  const extraButtons = childNodes.find(el => el.type === ExtraButtons)
   const HeaderTitleTag = headerTitleTag
   return (
     <Card className={'procedure-card procedure-card--' + type + ' ' + customClass}>
       <CardHeader className='d-flex justify-content-between align-items-center'>
         <HeaderTitleTag className='procedure-card__header-label mb-0'>{title}</HeaderTitleTag>
         <div className='d-flex'>
-          {showLockBtn &&
-            <IconButton onClick={onToggleLocked} icon={isLocked ? 'lock' : 'lock-open'} />
+          {extraButtons &&
+            <div>
+              {extraButtons.props.children}
+            </div>
           }
           {showEditBtn &&
             <IconButton onClick={onEdit} icon='pen' />
@@ -92,5 +93,6 @@ ProcedureCard.Info = Info
 ProcedureCard.TypePanel = TypePanel
 ProcedureCard.Form = Form
 ProcedureCard.Details = Details
+ProcedureCard.ExtraButtons = ExtraButtons
 
 export default ProcedureCard

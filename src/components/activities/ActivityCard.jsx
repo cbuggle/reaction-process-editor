@@ -6,10 +6,11 @@ import ActivityInfo from "./ActivityInfo";
 import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
+import Timer from './timing/Timer';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SubFormController } from '../../contexts/SubFormController';
-import Timer from './timing/Timer';
+import { StepLock } from '../../contexts/StepLock';
 import ActionValidator from '../../validators/ActionValidator';
 
 const ActivityCard = (
@@ -26,6 +27,7 @@ const ActivityCard = (
 
   const api = useReactionsFetcher()
   const subFormController = useContext(SubFormController)
+  const stepLock = useContext(StepLock)
 
   const isCondition = type === 'condition'
   const isInitialised = !!activity
@@ -38,7 +40,8 @@ const ActivityCard = (
 
   const cardTitle = !!activityForm?.action_name ? ActivityInfoDecorator.cardTitle(activityForm) : uninitialisedTitle
 
-  const editable = displayMode !== 'info'
+  const editable = displayMode === 'info' && !stepLock
+  const canceable = displayMode !== 'info' && !stepLock
 
   useEffect(() => {
     setActivityForm(prevState => ({ ...prevState, workup: workup }));
@@ -55,7 +58,7 @@ const ActivityCard = (
   }
 
   const onSaveForm = () => {
-    if(ActionValidator.validate(activityForm)){
+    if (ActionValidator.validate(activityForm)) {
       onSave(activityForm)
       subFormController.closeAllSubForms()
       if (isInitialised) {
@@ -88,11 +91,11 @@ const ActivityCard = (
       onEdit={edit}
       onDelete={onDelete}
       onCancel={handleCancel}
-      showEditBtn={!editable}
+      showEditBtn={editable}
       showMoveXBtn={false}
-      showMoveYBtn={!editable}
-      showDeleteBtn={!editable}
-      showCancelBtn={editable}
+      showMoveYBtn={editable}
+      showDeleteBtn={editable}
+      showCancelBtn={canceable}
       displayMode={displayMode}
       headerTitleTag='h6'
       customClass={customClass}

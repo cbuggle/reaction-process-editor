@@ -83,6 +83,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "base/other_libraries_overwrite/react-datetime-picker";
 @import "base/other_libraries_overwrite/react_select";
 @import "base/other_libraries_overwrite/react-toastify";
+@import "base/other_libraries_overwrite/react-dnd";
 /* styling for generic page layout */
 @import "layout";
 /* components */
@@ -97,6 +98,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/activities/timing/Timer.scss";
 @import "components/layout/MainHeader";
 @import "components/samples/SampleMoleculeImage";
+@import "components/steps/StepLockButton.scss";
 @import "components/utilities/AmountInput";
 @import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";

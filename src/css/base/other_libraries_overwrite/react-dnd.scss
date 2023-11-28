@@ -1,0 +1,6 @@
+.draggable-element {
+    cursor: auto !important;
+    &--dragging {
+        opacity: 0;
+    }
+}

@@ -77,7 +77,7 @@ const ActivityInfo = (
         infoTitle = ''
         if (steps) {
           infoTitle += steps.length + ' Step'
-          if(steps.length > 1) {
+          if (steps.length > 1) {
             infoTitle += 's'
           }
           infoTitle += ' '
@@ -89,7 +89,7 @@ const ActivityInfo = (
         }
         if (steps && selectOptions.materials['SOLVENT']) {
           for (let i = 0; i < steps.length; i++) {
-            if(steps.length > 1) {
+            if (steps.length > 1) {
               infoLines.push('Step ' + (i + 1))
             }
             infoLines.push(ActivityInfoDecorator.filtrationStepInfo(steps[i], selectOptions.materials['SOLVENT']))

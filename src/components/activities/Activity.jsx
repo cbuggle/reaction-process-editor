@@ -1,15 +1,20 @@
+
+import { useContext } from "react";
+import { useDrag, useDrop } from 'react-dnd'
+
 import ActivityCard from "./ActivityCard";
 import InsertZone from "./InsertZone";
 
+import { DndItemTypes } from '../../constants/dndItemTypes';
+import { StepLock } from "../../contexts/StepLock";
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
+
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-import { useDrag, useDrop } from 'react-dnd'
-import { DndItemTypes } from '../../constants/dndItemTypes';
-
-import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
 
 const Activity = ({ activity, processStep }) => {
   const api = useReactionsFetcher()
+  const stepLock = useContext(StepLock)
 
   const onSave = (actionForm) => {
     api.updateAction(actionForm)
@@ -20,8 +25,12 @@ const Activity = ({ activity, processStep }) => {
   }
 
   const dropClassName = () => {
-    return canDrop && activity.position > getItem.source_position ?
-      'activity--below-drag-position' : 'activity--above-drag-position'
+    if (stepLock) {
+      return 'activity--locked'
+    } else {
+      return canDrop && activity.position > getItem.source_position ?
+        'activity--below-drag-position' : 'activity--above-drag-position'
+    }
   }
 
   /* React-DnD drag source and drop target */
@@ -36,14 +45,14 @@ const Activity = ({ activity, processStep }) => {
       isDragging: !!monitor.isDragging(),
       canDrag: monitor.canDrag()
     }),
-    canDrag: () => !processStep.locked,
+    canDrag: () => !stepLock,
   }), [processStep])
 
   /* dropClassName currently under development */
   const [{ isOver, getItem, canDrop }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
-    canDrop: (dropAction) => !processStep.locked && isInSameStep(dropAction),
+    canDrop: (dropAction) => !stepLock && isInSameStep(dropAction),
     collect: (monitor) => ({
       canDrop: monitor.canDrop(),
       isOver: monitor.isOver() && monitor.canDrop(),
@@ -83,13 +92,18 @@ const Activity = ({ activity, processStep }) => {
 
   return (
     <div ref={dropRef} className={'activity ' + dropClassName()}>
-      <InsertZone
-        state={insertZoneState()}
-        processStep={processStep}
-        preconditions={activity.preconditions}
-        insertNewBeforeIndex={activity.position}
-      />
-      <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : {}}>
+      {!stepLock &&
+        <InsertZone
+          state={insertZoneState()}
+          processStep={processStep}
+          preconditions={activity.preconditions}
+          insertNewBeforeIndex={activity.position}
+        />
+      }
+      <div
+        ref={previewRef}
+        className={'draggable-element' + (isDragging ? ' draggable-element--dragging' : '')}
+      >
         <SubFormController.Provider value={SubFormToggle()}>
           {renderActivity()}
         </SubFormController.Provider>
