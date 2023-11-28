@@ -1,15 +1,16 @@
 
 import { useContext } from "react";
+import { useDrag, useDrop } from 'react-dnd'
+
 import ActivityCard from "./ActivityCard";
 import InsertZone from "./InsertZone";
 
+import { DndItemTypes } from '../../constants/dndItemTypes';
+import { StepLock } from "../../contexts/StepLock";
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
+
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-import { useDrag, useDrop } from 'react-dnd'
-import { DndItemTypes } from '../../constants/dndItemTypes';
-
-import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
-import { StepLock } from "../../contexts/StepLock";
 
 const Activity = ({ activity, processStep }) => {
   const api = useReactionsFetcher()

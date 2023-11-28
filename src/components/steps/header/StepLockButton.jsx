@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import IconButton from "../../utilities/IconButton";
+import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 
 const StepLockButton = (
   {
@@ -30,8 +31,8 @@ const StepLockButton = (
 
   return (
     <div
-        onMouseEnter={toggleIcon}
-        onMouseLeave={toggleIcon}
+      onMouseEnter={toggleIcon}
+      onMouseLeave={toggleIcon}
     >
       {locked ?
         <Button

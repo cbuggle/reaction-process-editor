@@ -57,7 +57,7 @@ const ActivityCard = (
   }
 
   const onSaveForm = () => {
-    if(ActionValidator.validate(activityForm)){
+    if (ActionValidator.validate(activityForm)) {
       onSave(activityForm)
       subFormController.closeAllSubForms()
       if (isInitialised) {

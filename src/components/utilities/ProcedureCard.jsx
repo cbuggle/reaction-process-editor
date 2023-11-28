@@ -41,7 +41,7 @@ const ProcedureCard = (
       <CardHeader className='d-flex justify-content-between align-items-center'>
         <HeaderTitleTag className='procedure-card__header-label mb-0'>{title}</HeaderTitleTag>
         <div className='d-flex'>
-          {extraButtons && 
+          {extraButtons &&
             <div>
               {extraButtons.props.children}
             </div>
