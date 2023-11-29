@@ -43,12 +43,12 @@ function useElnApi() {
     return function (response) {
       if (response) {
         return response.text().then(text => {
-          let data = text && JSON.parse(text);
-
           if (response.ok) {
+            let data = text && JSON.parse(text);
             method === 'GET' || window.dispatchEvent(new Event("requireReload"))
             return data;
           } else {
+            let data = text
             let errorMessage = (data && data.message) || response.statusText;
             // settingt toastId prevents duplicates.
             toast.error(errorMessage, { toastId: 400, autoClose: toastAutoCloseOnError });
