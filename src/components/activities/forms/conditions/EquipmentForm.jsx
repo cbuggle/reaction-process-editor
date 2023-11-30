@@ -9,6 +9,7 @@ const EquipmentForm = (
   {
     metricName,
     equipment,
+    isEqualToPredefinedValue,
     valueSummary,
     onChangeEquipment,
     onSave,
@@ -19,6 +20,7 @@ const EquipmentForm = (
     <OptionalFormSet
       subFormLabel={'Equipment'}
       valueSummary={valueSummary}
+      isEqualToPredefinedValue={isEqualToPredefinedValue}
       onCancel={onCancel}
       onSave={onSave}
     >

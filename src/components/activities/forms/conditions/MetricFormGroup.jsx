@@ -82,6 +82,7 @@ const MetricFormGroup = (
           <EquipmentForm
             metricName={metricName}
             equipment={equipment}
+            isEqualToPredefinedValue={!hasWorkupCondition}
             onChangeEquipment={handleChangeEquipment}
             valueSummary={summary()}
             onSave={handleSave}
