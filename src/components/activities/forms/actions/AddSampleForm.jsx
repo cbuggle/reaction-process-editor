@@ -12,6 +12,7 @@ import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
+import SampleSelection from '../../../utilities/SampleSelection';
 
 const AddSampleForm = (
   {
@@ -91,21 +92,24 @@ const AddSampleForm = (
   return (
     <>
       <FormSection type='action'>
-        <SingleLineFormGroup label='Sample'>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="sample_id"
-            options={currentSampleOptions}
-            value={sample}
-            onChange={selected => handleSampleChange({ sampleId: selected.value, label: selected.label })}
+        {currentSampleActsAs === 'SAMPLE' ?
+          <SampleSelection
+            sample={sample}
+            currentSampleActsAs={currentSampleActsAs}
+            onChange={handleSampleChange}
           />
-        </SingleLineFormGroup>
-
-        <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(sample)}>
-          {sample && SamplesDecorator.availableAmountsInfoLine(sample['unit_amounts'])}
-        </SingleLineFormGroup>
-
+          :
+          <SingleLineFormGroup label='Sample'>
+            <Select
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+              name="sample_id"
+              options={currentSampleOptions}
+              value={sample}
+              onChange={selected => handleSampleChange({ sampleId: selected.value, label: selected.label })}
+            />
+          </SingleLineFormGroup>
+        }
         <AmountInputSet
           amount={workup['target_amount']}
           maxAmounts={sample?.unit_amounts}

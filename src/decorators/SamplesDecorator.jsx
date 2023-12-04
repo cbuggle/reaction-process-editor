@@ -17,12 +17,11 @@ export default class SamplesDecorator {
     }
   }
 
-  static availableAmountsInfoLine = (availableAmounts) => {
+  static availableAmounts = (availableAmounts) => {
     const units = ['ml', 'mg', 'mmol'] // reference units sloppily hardcoded.
-    const infoLines = units.map((unit) =>
+    return units.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
-      MetricsDecorator.infoLineAmount({ value: availableAmounts[unit], unit: unit })
+      MetricsDecorator.infoLineAmount({ value: Number(availableAmounts[unit]).toFixed(2), unit: unit })
     ).filter((el) => el)
-    return infoLines.length > 0 && 'Available: ' + infoLines.join(', ')
   }
 }
