@@ -33,7 +33,7 @@ const TransferForm = (
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
       onWorkupChange({ name: 'sample_name', value: newSample.label })
-      onWorkupChange({ name: 'target_amount', value: newSample.amount })
+      onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
     }
 
@@ -78,7 +78,7 @@ const TransferForm = (
       </SingleLineFormGroup>
 
       <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(sample)}>
-        {/* Saved samples usually have no sampleSvgImg */}
+        {/* Setting label even though initially/usually/most saved Samples have no sampleSvgImg */}
         {sample && SamplesDecorator.availableAmounts(sample['unit_amounts'])}
       </SingleLineFormGroup>
 
