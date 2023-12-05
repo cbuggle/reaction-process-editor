@@ -79,7 +79,7 @@ const TransferForm = (
 
       <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(sample)}>
         {/* Saved samples usually have no sampleSvgImg */}
-        {sample && SamplesDecorator.availableAmountsInfoLine(sample['unit_amounts'])}
+        {sample && SamplesDecorator.availableAmounts(sample['unit_amounts'])}
       </SingleLineFormGroup>
 
       <AmountInputSet
