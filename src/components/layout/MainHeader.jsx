@@ -106,11 +106,11 @@ const MainHeader = () => {
               <Nav navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    Collections
+                    {collectionOptions.find((item) => '' + item.value === filterCollectionId)?.label || "Collections"}
                   </DropdownToggle>
                   <DropdownMenu>
                     {collectionOptions.map((collection) =>
-                      <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
+                      <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection}>
                         {collection.label}
                       </DropdownItem>)}
                   </DropdownMenu>
