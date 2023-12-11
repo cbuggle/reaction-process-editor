@@ -18,7 +18,7 @@ const StepLockButton = (
 
   const label = hover ? 'unlock' : 'locked'
 
-  const toggleLocked = () => api.toggleProcessStepLock(stepId)
+  const toggleLocked = () => api.updateProcessStep({ id: stepId, locked: !locked })
 
   const toggleIcon = () => setHover(!hover)
 

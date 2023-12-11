@@ -13,13 +13,9 @@ const StepVessel = ({ processStep }) => {
 
   const vessel = processStep?.vessel
 
-  const assignVessel = (vesselId) => {
-    api.assignProcessStepVessel(processStep.id, vesselId)
-  }
+  const assignVessel = (vesselId) => api.assignProcessStepVessel(processStep.id, vesselId)
 
-  const unassignVessel = () => {
-    api.assignProcessStepVessel(processStep.id)
-  }
+  const unassignVessel = () => api.assignProcessStepVessel(processStep.id)
 
   return (
     <>

@@ -34,7 +34,7 @@ const ActivityInfo = (
         }
         break;
       case 'SAVE':
-        infoTitle = (workup.intermediate_type || '- Obsolete Data. Please edit & resave - ') + ' ' + workup.short_label
+        infoTitle = workup.intermediate_type + ' ' + workup.short_label
         infoLines.push(workup.name)
         infoLines.push(workup.short_label)
         infoLines.push(workup.description)

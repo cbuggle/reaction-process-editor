@@ -80,7 +80,8 @@ const MainHeader = () => {
   }
 
   const fetchUserDefaultConditions = () => {
-    reactionApi.geDefaultConditions().then((defaultConditions) => {
+    reactionApi.geDefaultConditions().then((data) => {
+      let defaultConditions = data['default_conditions']
       defaultConditions['global'] && setGlobalDefaultConditions(defaultConditions['global'])
       defaultConditions['user'] && setUserDefaultConditions(defaultConditions['user'])
       defaultConditions['select_options'] && setSelectOptions(defaultConditions['select_options'])

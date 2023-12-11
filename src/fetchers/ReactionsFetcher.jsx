@@ -30,11 +30,10 @@ function useReactionsFetcher() {
     updateActionPosition,
     updateProcessStepPosition,
     assignProcessStepVessel,
-    toggleProcessStepLock,
   }
 
   function index() {
-    var path = `/reaction_processes`
+    var path = `/reactions`
 
     if (localStorage.getItem('filter_collection_id')) {
       path = path + '?' + new URLSearchParams({ collection_id: localStorage.getItem('filter_collection_id') })
@@ -53,11 +52,11 @@ function useReactionsFetcher() {
   }
 
   function collectionSelectOptions() {
-    return api.get(`/reaction_processes/collection_select_options`);
+    return api.get(`/collection_select_options`);
   }
 
   function geDefaultConditions() {
-    return api.get(`/reaction_processes/default_conditions`);
+    return api.get(`/default_conditions`);
   }
 
   function reactionSelectOptions() {
@@ -71,17 +70,17 @@ function useReactionsFetcher() {
   }
 
   function updateProvenance(provenance) {
-    return api.put(`/reaction_processes/${provenance.reaction_process_id}/provenance.json`,
+    return api.put(`/reaction_processes/${provenance.reaction_process_id}/provenance`,
       { 'provenance': provenance });
   }
 
   function updateReactionDefaultConditions(default_conditions) {
-    return api.put(`/reaction_processes/${default_conditions.reaction_process_id}/reaction_default_conditions.json`,
+    return api.put(`/reaction_processes/${default_conditions.reaction_process_id}/reaction_default_conditions`,
       { 'default_conditions': default_conditions });
   }
 
   function updateUserDefaultConditions(default_conditions) {
-    return api.put(`/reaction_processes/user_default_conditions.json`,
+    return api.put(`/user_default_conditions`,
       { 'default_conditions': default_conditions });
   }
 
@@ -122,10 +121,6 @@ function useReactionsFetcher() {
   function createAction(processStepId, action, insertBefore) {
     return api.post(`/reaction_process_steps/${processStepId}/actions`,
       { 'action': action, 'insert_before': insertBefore })
-  }
-
-  function toggleProcessStepLock(id) {
-    return api.put(`/reaction_process_steps/${id}/toggle_locked`)
   }
 
   function updateAction(action) {
