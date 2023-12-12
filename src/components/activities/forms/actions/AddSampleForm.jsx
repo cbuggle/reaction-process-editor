@@ -9,7 +9,6 @@ import MetricsInput from '../../../utilities/MetricsInput';
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
-import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 import SampleSelection from '../../../utilities/SampleSelection';
@@ -88,7 +87,7 @@ const AddSampleForm = (
       )
     })
   }
-
+  
   return (
     <>
       <FormSection type='action'>
