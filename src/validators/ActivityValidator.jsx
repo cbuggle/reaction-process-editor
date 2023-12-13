@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 import { toastAutoCloseOnWarning } from '../constants';
 
-export default class ActionValidator {
+export default class ActivityValidator {
 
   static validateAdd = (action) => {
     let errors = []
@@ -30,7 +30,7 @@ export default class ActionValidator {
   static validate = (action) => {
     let errors = []
 
-    switch (action.action_name) {
+    switch (action.activity_name) {
       case "ADD":
         errors = this.validateAdd(action)
         break;

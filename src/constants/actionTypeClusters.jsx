@@ -6,40 +6,40 @@ export const actionTypeClusters = [
       {
         id: 'add_sample',
         createLabel: 'Sample',
-        action: {
-          action_name: "ADD",
+        activity: {
+          activity_name: "ADD",
           workup: { acts_as: 'SAMPLE' }
         }
       },
       {
         id: 'add_solvent',
         createLabel: 'Solvent',
-        action: {
-          action_name: "ADD",
+        activity: {
+          activity_name: "ADD",
           workup: { acts_as: 'SOLVENT' }
         }
       },
       {
         id: 'add_additive',
         createLabel: 'Additive',
-        action: {
-          action_name: 'ADD',
+        activity: {
+          activity_name: 'ADD',
           workup: { acts_as: 'ADDITIVE' }
         }
       },
       {
         id: 'add_medium',
         createLabel: 'Medium',
-        action: {
-          action_name: 'ADD',
+        activity: {
+          activity_name: 'ADD',
           workup: { acts_as: 'MEDIUM' }
         }
       },
       {
         id: 'add_transfer',
         createLabel: 'Transfer',
-        action: {
-          action_name: 'TRANSFER',
+        activity: {
+          activity_name: 'TRANSFER',
           workup: {}
         }
       },
@@ -52,8 +52,8 @@ export const actionTypeClusters = [
       {
         id: 'filtration',
         createLabel: 'Filtration',
-        action: {
-          action_name: 'PURIFY',
+        activity: {
+          activity_name: 'PURIFY',
           workup: {
             purify_type: 'FILTRATION',
             automation: 'AUTOMATED',
@@ -64,8 +64,8 @@ export const actionTypeClusters = [
       {
         id: 'extraction',
         createLabel: 'Extraction',
-        action: {
-          action_name: 'PURIFY',
+        activity: {
+          activity_name: 'PURIFY',
           workup: {
             purify_type: 'EXTRACTION',
             automation: 'AUTOMATED'
@@ -75,8 +75,8 @@ export const actionTypeClusters = [
       {
         id: 'chromatography',
         createLabel: 'Chromatography',
-        action: {
-          action_name: 'PURIFY',
+        activity: {
+          activity_name: 'PURIFY',
           workup: {
             purify_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
@@ -87,8 +87,8 @@ export const actionTypeClusters = [
       {
         id: 'crystallization',
         createLabel: 'Crystallization',
-        action: {
-          action_name: 'PURIFY',
+        activity: {
+          activity_name: 'PURIFY',
           workup: {
             purify_type: 'CRYSTALLIZATION',
             automation: 'AUTOMATED'
@@ -104,24 +104,24 @@ export const actionTypeClusters = [
       {
         id: 'remove_exchange_sample',
         createLabel: 'Solvent',
-        action: {
-          action_name: 'REMOVE',
+        activity: {
+          activity_name: 'REMOVE',
           workup: { acts_as: 'DIVERSE_SOLVENT' }
         }
       },
       {
         id: 'remove_exchange_solvent',
         createLabel: 'Additive',
-        action: {
-          action_name: 'REMOVE',
+        activity: {
+          activity_name: 'REMOVE',
           workup: { acts_as: 'ADDITIVE' }
         }
       },
       {
         id: 'remove_exchange_medium',
         createLabel: 'Medium',
-        action: {
-          action_name: 'REMOVE',
+        activity: {
+          activity_name: 'REMOVE',
           workup: { acts_as: 'MEDIUM' }
         }
       },
@@ -134,12 +134,12 @@ export const actionTypeClusters = [
       {
         id: 'time_wait',
         createLabel: 'Wait',
-        action: { action_name: 'WAIT', workup: {} }
+        activity: { activity_name: 'WAIT', workup: {} }
       },
       {
         id: 'time_pause',
         createLabel: 'Pause',
-        action: { action_name: 'PAUSE', workup: {} }
+        activity: { activity_name: 'PAUSE', workup: {} }
       }
     ]
   },
@@ -150,13 +150,13 @@ export const actionTypeClusters = [
       {
         id: 'intermediate_analyse',
         createLabel: 'Analysis',
-        action: { action_name: 'ANALYSIS', workup: {} }
+        activity: { activity_name: 'ANALYSIS', workup: {} }
       },
       {
         id: 'intermediate_save',
         createLabel: 'Save',
-        action: {
-          action_name: 'SAVE',
+        activity: {
+          activity_name: 'SAVE',
           workup: {
             intermediate_type: 'CRUDE',
             target_amount: { unit: 'ml' },

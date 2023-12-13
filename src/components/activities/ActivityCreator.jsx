@@ -14,7 +14,7 @@ const ActivityCreator = ({ processStep, preconditions, insertNewBeforeIndex, onC
 
   const save = (actionForm) => {
     setDisplayState('buttons')
-    api.createAction(processStep.id, actionForm, insertNewBeforeIndex)
+    api.createActivity(processStep.id, actionForm, insertNewBeforeIndex)
     if (typeof onClose === 'function') {
       onClose()
     }
@@ -22,7 +22,7 @@ const ActivityCreator = ({ processStep, preconditions, insertNewBeforeIndex, onC
 
   const cancel = () => setDisplayState('buttons')
 
-  const createAction = () => setDisplayState('action')
+  const createActivity = () => setDisplayState('action')
 
   const createCondition = () => setDisplayState('condition')
 
@@ -33,7 +33,7 @@ const ActivityCreator = ({ processStep, preconditions, insertNewBeforeIndex, onC
       {displayState === 'buttons' ?
         <div className="activity-creator d-flex justify-content-between align-items-center">
           <div className="d-grid gap-2 d-md-flex">
-            <Button color='action' onClick={createAction}>New Action</Button>
+            <Button color='action' onClick={createActivity}>New Activity</Button>
             <Button color='condition' onClick={createCondition}>Change Condition</Button>
           </div>
           {onClose &&

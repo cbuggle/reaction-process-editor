@@ -7,7 +7,7 @@ import DescriptionFormSet from "./formsets/DescriptionFormSet";
 import FormButtons from "../../utilities/FormButtons";
 import Timer from '../timing/Timer';
 
-import ActionValidator from '../../../validators/ActionValidator'
+import ActivityValidator from '../../../validators/ActivityValidator'
 
 import { SubFormController } from '../../../contexts/SubFormController';
 
@@ -32,14 +32,14 @@ const ActivityForm = (
     setDisabled(subFormController.anyBlockingSubformOpen())
   }, [subFormController, activity, activity.workup])
 
-  const handleSave = () => ActionValidator.validate(activity) && onSave()
+  const handleSave = () => ActivityValidator.validate(activity) && onSave()
 
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
       <ApplyExtraEquipmentFormSet
         activityType={type}
-        actionName={activity.action_name}
+        actionName={activity.activity_name}
         workup={workup}
         onWorkupChange={onWorkupChange}
       />

@@ -24,10 +24,10 @@ function useReactionsFetcher() {
     createProcessStep,
     updateProcessStep,
     deleteProcessStep,
-    createAction,
-    updateAction,
-    deleteAction,
-    updateActionPosition,
+    createActivity,
+    updateActivity,
+    deleteActivity,
+    updateActivityPosition,
     updateProcessStepPosition,
     assignProcessStepVessel,
   }
@@ -60,7 +60,7 @@ function useReactionsFetcher() {
   }
 
   function reactionSelectOptions() {
-    // {label:, value:} are piggybacked onto the reaction processes
+    // {label:, value:} are piggybacked onto the /reactions
     // so index can be used conveniently for select options as well.
     return index();
   }
@@ -118,20 +118,20 @@ function useReactionsFetcher() {
     return api.put(`/reaction_process_steps/${stepId}/vessel`, { 'vessel_id': vesselId })
   }
 
-  function createAction(processStepId, action, insertBefore) {
-    return api.post(`/reaction_process_steps/${processStepId}/actions`,
-      { 'action': action, 'insert_before': insertBefore })
+  function createActivity(processStepId, activity, insertBefore) {
+    return api.post(`/reaction_process_steps/${processStepId}/activities`,
+      { 'activity': activity, 'insert_before': insertBefore })
   }
 
-  function updateAction(action) {
-    return api.put(`/reaction_process_actions/${action.id}`, { 'action': action })
+  function updateActivity(activity) {
+    return api.put(`/reaction_process_activities/${activity.id}`, { 'activity': activity })
   }
 
-  function deleteAction(id) {
-    return api.delete(`/reaction_process_actions/${id}`)
+  function deleteActivity(id) {
+    return api.delete(`/reaction_process_activities/${id}`)
   }
 
-  function updateActionPosition(id, position) {
-    return api.put(`/reaction_process_actions/${id}/update_position`, { 'position': position })
+  function updateActivityPosition(id, position) {
+    return api.put(`/reaction_process_activities/${id}/update_position`, { 'position': position })
   }
 }

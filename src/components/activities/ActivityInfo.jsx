@@ -21,7 +21,7 @@ const ActivityInfo = (
   const workup = activity.workup
 
   const renderActivityInfo = () => {
-    switch (activity.action_name) {
+    switch (activity.activity_name) {
       case 'ADD':
         if (workup.acts_as === 'SAMPLE') {
           imageSample = activity.sample
@@ -104,7 +104,7 @@ const ActivityInfo = (
         infoTitle = '...'
         break;
       default:
-        infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + activity.action_name + '***'
+        infoTitle = 'Error in Sample Info. Unknown ACTION TYPE:' + activity.activity_name + '***'
     }
 
     infoLines.push(ActivityInfoDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment))

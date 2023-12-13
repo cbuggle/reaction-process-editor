@@ -13,7 +13,7 @@ const EquipmentSubsetFormSection = (
   }) => {
 
   const selectOptions = useContext(SelectOptions)
-  const equipmentOptions = selectOptions.action_type_equipment['CONDITION'][metricName]
+  const equipmentOptions = selectOptions.activity_type_equipment['CONDITION'][metricName]
 
   return (
     <>

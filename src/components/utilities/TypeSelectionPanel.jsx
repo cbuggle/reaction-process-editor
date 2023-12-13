@@ -12,7 +12,7 @@ const TypeSelectionPanel = ({ onSelect }) => {
           {cluster.types.map((type, tIndex) => (
             <Button
               key={type.id + tIndex}
-              onClick={onSelect(type.action)}
+              onClick={onSelect(type.activity)}
               className='col-12 btn-action'
             >
               {type.createLabel}

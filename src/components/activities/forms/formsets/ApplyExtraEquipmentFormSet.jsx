@@ -17,7 +17,7 @@ const ApplyExtraEquipmentFormSet = (
   const [equipment, setEquipment] = useState(workup.EQUIPMENT?.value)
 
   const selectOptions = useContext(SelectOptions)
-  const equipmentOptions = selectOptions.action_type_equipment[actionName]
+  const equipmentOptions = selectOptions.activity_type_equipment[actionName]
 
   const handleSaveEquipment = () => onWorkupChange({ name: 'EQUIPMENT', value: { value: equipment } })
 

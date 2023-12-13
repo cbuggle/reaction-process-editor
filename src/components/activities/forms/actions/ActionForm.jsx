@@ -18,10 +18,10 @@ const ActionForm = (
     onChangeDuration,
   }) => {
 
-  const actionTypeName = activity.action_name
+  const actionTypeName = activity.activity_name
   const workup = activity.workup
 
-  const customActionForm = () => {
+  const customActivityForm = () => {
     switch (actionTypeName) {
       case "ADD":
         return (
@@ -77,7 +77,7 @@ const ActionForm = (
       case "WAIT":
         return (<></>)
       default:
-        return (<div>Error in ActionForm: Unknown ACTION TYPE: {actionTypeName} ***</div>)
+        return (<div>Error in ActivityForm: Unknown ACTION TYPE: {actionTypeName} ***</div>)
     }
   }
 
@@ -89,7 +89,7 @@ const ActionForm = (
       onSave={onSave}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
-      {customActionForm()}
+      {customActivityForm()}
     </ActivityForm>
   );
 };

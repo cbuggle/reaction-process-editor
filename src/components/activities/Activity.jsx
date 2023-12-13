@@ -17,11 +17,11 @@ const Activity = ({ activity, processStep }) => {
   const stepLock = useContext(StepLock)
 
   const onSave = (actionForm) => {
-    api.updateAction(actionForm)
+    api.updateActivity(actionForm)
   }
 
-  const isInSameStep = (dropAction) => {
-    return activity.step_id === dropAction.step_id
+  const isInSameStep = (dropActivity) => {
+    return activity.step_id === dropActivity.step_id
   }
 
   const dropClassName = () => {
@@ -52,7 +52,7 @@ const Activity = ({ activity, processStep }) => {
   const [{ isOver, getItem, canDrop }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
-    canDrop: (dropAction) => !stepLock && isInSameStep(dropAction),
+    canDrop: (dropActivity) => !stepLock && isInSameStep(dropActivity),
     collect: (monitor) => ({
       canDrop: monitor.canDrop(),
       isOver: monitor.isOver() && monitor.canDrop(),
@@ -62,12 +62,12 @@ const Activity = ({ activity, processStep }) => {
 
   const dropItem = (monitor) => {
     if (activity.id !== monitor.activity.id) {
-      api.updateActionPosition(monitor.activity.id, activity.position)
+      api.updateActivityPosition(monitor.activity.id, activity.position)
     }
   }
 
   const renderActivity = () => {
-    const type = activity.action_name === 'CONDITION' ? 'condition' : 'action'
+    const type = activity.activity_name === 'CONDITION' ? 'condition' : 'action'
     return (
       <ActivityCard
         activity={activity}

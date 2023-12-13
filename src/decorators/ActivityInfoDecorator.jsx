@@ -3,11 +3,11 @@ import StringDecorator from './StringDecorator';
 export default class ActivityInfoDecorator {
 
   static cardTitle = (activity) => {
-    let title = activity.action_name
+    let title = activity.activity_name
     const workup = activity.workup
 
     if (workup && !!Object.keys(workup).length) {
-      switch (activity.action_name) {
+      switch (activity.activity_name) {
         case 'PURIFY':
           title = workup.purify_type
           break

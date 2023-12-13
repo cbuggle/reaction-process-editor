@@ -11,7 +11,7 @@ import Timer from './timing/Timer';
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SubFormController } from '../../contexts/SubFormController';
 import { StepLock } from '../../contexts/StepLock';
-import ActionValidator from '../../validators/ActionValidator';
+import ActivityValidator from '../../validators/ActivityValidator';
 
 const ActivityCard = (
   {
@@ -32,13 +32,13 @@ const ActivityCard = (
   const isCondition = type === 'condition'
   const isInitialised = !!activity
   const [workup, setWorkup] = useState(isInitialised ? activity.workup : {});
-  const uninitialisedForm = isCondition ? { action_name: "CONDITION", workup: workup } : undefined
+  const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined
   const uninitialisedMode = isCondition ? 'form' : 'type-panel'
   const uninitialisedTitle = isCondition ? 'Change Condition' : 'New Action'
   const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
   const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
 
-  const cardTitle = !!activityForm?.action_name ? ActivityInfoDecorator.cardTitle(activityForm) : uninitialisedTitle
+  const cardTitle = !!activityForm?.activity_name ? ActivityInfoDecorator.cardTitle(activityForm) : uninitialisedTitle
 
   const editable = displayMode === 'info' && !stepLock
   const canceable = displayMode !== 'info' && !stepLock
@@ -49,7 +49,7 @@ const ActivityCard = (
 
   const edit = () => setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
 
-  const onDelete = () => api.deleteAction(activity.id)
+  const onDelete = () => api.deleteActivity(activity.id)
 
   const onSelectType = (newActivity) => () => {
     setActivityForm(newActivity)
@@ -58,7 +58,7 @@ const ActivityCard = (
   }
 
   const onSaveForm = () => {
-    if (ActionValidator.validate(activityForm)) {
+    if (ActivityValidator.validate(activityForm)) {
       onSave(activityForm)
       subFormController.closeAllSubForms()
       if (isInitialised) {
