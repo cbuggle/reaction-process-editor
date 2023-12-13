@@ -41,6 +41,6 @@ export default class MetricsDecorator {
   }
 
   static infoLineAmountWithPercentage(amount) {
-    return this.infoLineAmount(amount) + ' (' + amount?.percentage + '%)'
+    return this.infoLineAmount(amount) + ' (' + parseFloat(amount?.percentage).toPrecision(3) + '%)'
   }
 }
