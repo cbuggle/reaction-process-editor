@@ -26,7 +26,7 @@ const MotionForm = (
 
   const initialMotionType = () => findInitialValue('motion_type', motionTypeOptions[0].value)
 
-  const initialMotionMode = () => findInitialValue('motion_mode', automationModeOptions[0].value)
+  const initialMotionMode = () => findInitialValue('motion_mode', automationModeOptions[1].value)
 
   const [speed, setSpeed] = useState(initialSpeed())
   const [motionType, setMotionType] = useState(initialMotionType())

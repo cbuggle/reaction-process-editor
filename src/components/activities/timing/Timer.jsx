@@ -100,8 +100,6 @@ const Timer = (
   }
 
   const toggleTimer = () => {
-    console.log("TOGGLE TIMER")
-    console.log(subFormController.openSubFormLabel)
     if (timerRunning) {
       onWorkupChange({ name: 'timer_running', value: false })
       handleSaveTiming()

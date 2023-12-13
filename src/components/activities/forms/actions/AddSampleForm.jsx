@@ -36,11 +36,12 @@ const AddSampleForm = (
         MetricsDecorator.defaultUnit(metricName)
 
       let value = workup[workupKey]?.value
-      // Seriously, Javascript? We need to go a long way to avoid fallback to default when a value === 0 (aka "false").
       value = value === 0 ? 0 : value || preconditions[metricName]?.value
-      value = value === 0 ? 0 : value || MetricsDecorator.defaultValueInDefaultUnit(metricName)
 
-      onWorkupChange({ name: workupKey, value: { value: value, unit: unit } })
+
+      if (value || (value === 0)) {
+        onWorkupChange({ name: workupKey, value: { value: value, unit: unit } })
+      }
     })
 
     workup['addition_speed_type'] ||

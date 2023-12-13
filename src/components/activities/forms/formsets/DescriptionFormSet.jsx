@@ -27,8 +27,6 @@ const DescriptionFormSet = (
       onCancel={handleCancelDescription}
       typeColor={activityType}
     >
-      {console.log("workup")}
-      {console.log(workup)}
       <Input
         type="textarea"
         name="description"
