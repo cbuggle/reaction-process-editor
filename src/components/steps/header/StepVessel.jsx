@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from 'reactstrap'
 import VesselModalButton from '../../vessels/VesselModalButton'
 
-import VesselDecorator from '../../vessels.legacy/VesselDecorator'
+import VesselDecorator from '../../../decorators/VesselDecorator'
 import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher'
 
 

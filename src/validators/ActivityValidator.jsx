@@ -24,7 +24,7 @@ export default class ActivityValidator {
   }
 
   static displayNotifications = (errors) => {
-    errors.forEach(error => toast.warning(error, { toastId: 2, autoClose: toastAutoCloseOnWarning }))
+    errors.forEach(error => toast.warning(error, { theme: 'dark', toastId: 2, autoClose: 20000 }))
   }
 
   static validate = (action) => {

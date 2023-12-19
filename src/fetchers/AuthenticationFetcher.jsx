@@ -28,7 +28,7 @@ function useAuthenticationFetcher() {
             createSession(credentials.username, token)
             return;
           case 401:
-            toast.error("Username or Password wrong.", { autoClose: toastAutoCloseOnError, toastId: 401 })
+            toast.error("Username or Password wrong.", { icon: true, autoClose: toastAutoCloseOnError, toastId: 401 })
             destroySession();
             return;
           default:

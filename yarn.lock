@@ -3290,13 +3290,6 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-bootstrap-switch-button-react@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/bootstrap-switch-button-react/-/bootstrap-switch-button-react-1.2.0.tgz#cbb3d8f208b4f2548500b907ce489713641ea3f5"
-  integrity sha512-p/l+Rp69VtXpK0Y2PR9XYE1TPuypxF+1CpBPmvLUpwXjCisuxtl2S8AF6PqeLDxizFeHuW5nUE6qnqrZY/9ZQA==
-  dependencies:
-    react "^16.11.0"
-
 bootstrap@^5.2.3:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.2.tgz#97226583f27aae93b2b28ab23f4c114757ff16ae"
@@ -6735,6 +6728,11 @@ js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
+jsbarcode@^3.8.0:
+  version "3.11.6"
+  resolved "https://registry.yarnpkg.com/jsbarcode/-/jsbarcode-3.11.6.tgz#96e8fbc3395476e162982a6064b98a09b5ea02c0"
+  integrity sha512-G5TKGyKY1zJo0ZQKFM1IIMfy0nF2rs92BLlCz+cU4/TazIc4ZH+X1GYeDRt7TKjrYqmPfTjwTBkU/QnQlsYiuA==
+
 jsdom@^16.6.0:
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-16.7.0.tgz#918ae71965424b197c819f8183a754e18977b710"
@@ -8553,6 +8551,11 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==
 
+qrcode.react@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-3.1.0.tgz#5c91ddc0340f768316fbdb8fff2765134c2aecd8"
+  integrity sha512-oyF+Urr3oAMUG/OiOuONL3HXM+53wvuH3mtIWQrYmsXoAq0DkvZp2RYUWFSMFtbdOpuS++9v+WAkzNVkMlNW6Q==
+
 qs@6.11.0:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
@@ -8615,6 +8618,14 @@ react-app-polyfill@^3.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
+
+react-barcode@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/react-barcode/-/react-barcode-1.4.6.tgz#a2ffd8717d1b7df6b482872f1692020c235463a0"
+  integrity sha512-56WCPqjgpExPVi5LgKOfxM6uSCB4Wd1r94jY2VEwkIdigPjLp8P9RyIBIyQmDraxtYGOHE0e4Uer4+QrmOIy7Q==
+  dependencies:
+    jsbarcode "^3.8.0"
+    prop-types "^15.6.2"
 
 react-calendar@^4.6.0:
   version "4.6.1"
@@ -8889,15 +8900,6 @@ react-transition-group@^4.3.0, react-transition-group@^4.4.2:
     "@babel/runtime" "^7.5.5"
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
-    prop-types "^15.6.2"
-
-react@^16.11.0:
-  version "16.14.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
-  integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
     prop-types "^15.6.2"
 
 react@^18.2.0:
