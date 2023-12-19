@@ -10,19 +10,22 @@ const OrdDownloadButton = ({ reactionProcessId }) => {
 
   const downloadOrd = () => {
     api.downloadOrd(reactionProcessId).then((response) => {
-      const filename = response.headers.get('Content-Disposition').split("filename*=UTF-8''")[1];
-      response.blob()
-        .then((blob) => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          a.href = url;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-        });
+      if (response?.headers) {
+
+        const filename = response.headers.get('Content-Disposition').split("filename*=UTF-8''")[1];
+        response.blob()
+          .then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          });
+      }
     })
   }
 
