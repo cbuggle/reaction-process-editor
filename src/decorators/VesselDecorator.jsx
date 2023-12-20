@@ -1,110 +1,121 @@
-import React from 'react'
+import React from "react";
 
-import { apiHostname } from '../constants'
+import { apiHostname } from "../constants";
 
-import StringDecorator from './StringDecorator'
+import StringDecorator from "./StringDecorator";
 export default class VesselDecorator {
-
-	// TODO: renderVesselProcessStepInfo is the only function called from outside.
-	// The functions actually in use are all marked. ("// called internally only ")
+  // TODO: renderVesselProcessStepInfo is the only function called from outside.
+  // The functions actually in use are all marked. ("// called internally only ")
   //
-	// I'm leaving all legacy code as reference for upcoming UI design :-)
-	//
-	// They should be deleted once Vessel UI design is finished.
+  // I'm leaving all legacy code as reference for upcoming UI design :-)
+  //
+  // They should be deleted once Vessel UI design is finished.
 
-	/* supporting functions */
+  /* supporting functions */
 
-	static vesselId = (vessel) => {
-		return vessel.id.substring(0, 4)
-	}
+  static vesselId = (vessel) => {
+    return vessel.id.substring(0, 4);
+  };
 
-	static vesselIconName = (vessel) => {
-		return vessel.vessel_type.toLowerCase();
-	}
+  static vesselIconName = (vessel) => {
+    return vessel.vessel_type.toLowerCase();
+  };
 
-	static vesselIconAltText = (vessel) => {
-		return "Vessel " + this.vesselIconName(vessel)
-	}
+  static vesselIconAltText = (vessel) => {
+    return "Vessel " + this.vesselIconName(vessel);
+  };
 
-	/* Render functions */
+  static vesselTabularData = (vesselData) => {
+    return vesselData.map((vessel) => {
+      return {
+        id: vessel.id,
+        name: vessel.name,
+        template: vessel.vessel_template_name,
+        type: vessel.vessel_type,
+        material: vessel.material_type,
+        volume: this.renderVesselVolume(vessel),
+        environment: vessel.environment_type,
+        bar_code: vessel.bar_code,
+        qr_code: vessel.qr_code,
+      };
+    });
+  };
 
-	static renderVesselLabel = (vessel) => {
-		// called internally only
-		return (
-			<>
-				<div>
-					{this.renderVesselTypeIcon(vessel)}
-				</div>
-			</>
-		)
-	}
+  /* Render functions */
 
-	static renderVesselDetails = (vessel) => {
-		return (
-			<>
-				<div>{StringDecorator.toLabelSpelling(vessel.vessel_type)}</div>
-				<div>{this.renderVesselVolume(vessel)}</div>
-				<div>{this.renderVesselMaterial(vessel)}</div>
-				<div>{StringDecorator.toLabelSpelling(vessel.environment_type)}</div>
-			</>
-		)
-	}
+  static renderVesselLabel = (vessel) => {
+    // called internally only
+    return (
+      <>
+        <div>{this.renderVesselTypeIcon(vessel)}</div>
+      </>
+    );
+  };
 
-	static renderVesselProcessStepInfo = (vessel) => {
-		// Called from StepVessel.jsx
-		if (vessel) {
-			return (
-				<>
-					{this.renderVesselLabel(vessel)}
-					{this.renderVesselVolumeAndMaterial(vessel)}
-				</>
-			)
-		} else {
-			return (
-				<>
-					<div>No Vessel assigned</div>
-				</>
-			)
-		}
-	}
+  static renderVesselDetails = (vessel) => {
+    return (
+      <>
+        <div>{StringDecorator.toLabelSpelling(vessel.vessel_type)}</div>
+        <div>{this.renderVesselVolume(vessel)}</div>
+        <div>{this.renderVesselMaterial(vessel)}</div>
+        <div>{StringDecorator.toLabelSpelling(vessel.environment_type)}</div>
+      </>
+    );
+  };
 
-	static renderVesselTypeIcon = (vessel) => {
-		return (
-			<>
-				<img alt={this.vesselIconAltText(vessel)} className="vessel-icon" src={`${apiHostname}/images/vessels/${this.vesselIconName(vessel)}.svg`} />
-			</>
-		)
-	}
+  static renderVesselProcessStepInfo = (vessel) => {
+    // Called from StepVessel.jsx
+    if (vessel) {
+      return (
+        <>
+          {this.renderVesselLabel(vessel)}
+          {this.renderVesselVolumeAndMaterial(vessel)}
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div>No Vessel assigned</div>
+        </>
+      );
+    }
+  };
 
-	static renderVesselVolume = (vessel) => {
-		// called internally only
-		return (
-			<>
-				{vessel.volume_amount}
-				{" " + StringDecorator.toLabelSpelling(vessel.volume_unit)}
-			</>
-		)
-	}
+  static renderVesselTypeIcon = (vessel) => {
+    return (
+      <>
+        <img
+          alt={this.vesselIconAltText(vessel)}
+          className="vessel-icon"
+          src={`${apiHostname}/images/vessels/${this.vesselIconName(
+            vessel
+          )}.svg`}
+        />
+      </>
+    );
+  };
 
-	static renderVesselMaterial = (vessel) => {
-		// called internally only
-		return (
-			<>
-				{StringDecorator.toLabelSpelling(vessel.material_type)}
-			</>
-		)
-	}
+  static renderVesselVolume = (vessel) => {
+    return (
+      vessel.volume_amount +
+      " " +
+      StringDecorator.toLabelSpelling(vessel.volume_unit)
+    );
+  };
 
-	static renderVesselVolumeAndMaterial = (vessel) => {
-		// called internally only
-		return (
-			<div>
-				{this.renderVesselVolume(vessel)}
-				{" ("}
-				{this.renderVesselMaterial(vessel)}
-				)
-			</div>
-		)
+  static renderVesselMaterial = (vessel) => {
+    // called internally only
+    return <>{StringDecorator.toLabelSpelling(vessel.material_type)}</>;
+  };
 
-	}
+  static renderVesselVolumeAndMaterial = (vessel) => {
+    // called internally only
+    return (
+      <div>
+        {this.renderVesselVolume(vessel)}
+        {" ("}
+        {this.renderVesselMaterial(vessel)})
+      </div>
+    );
+  };
 }

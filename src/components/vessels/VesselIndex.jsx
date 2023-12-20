@@ -1,24 +1,38 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from "react";
 
-import Vessel from './Vessel';
-import { VesselOptions } from '../../contexts/VesselOptions';
+import VesselDecorator from "../../decorators/VesselDecorator";
+import { Button } from "reactstrap";
+import { VesselOptions } from "../../contexts/VesselOptions";
+import { AgGridReact } from "ag-grid-react";
 
 const VesselIndex = ({ onSelectVessel }) => {
-	const vessels = useContext(VesselOptions)
+  const vessels = useContext(VesselOptions);
+  const [colDefs, setColDefs] = useState([
+    {
+      field: "id",
+      cellRenderer: (params) => {
+        return <Button onClick={onSelectVessel(params.value)}>Assign</Button>;
+      },
+    },
+    { field: "name", headerName: "Name" },
+    { field: "bar_code", headerName: "Bar Code" },
+    { field: "template", headerName: "Template" },
+    { field: "type", headerName: "Type" },
+    { field: "material", headerName: "Material" },
+    { field: "volume", headerName: "Volume" },
+  ]);
 
-	return (
-		<>
-			{
-				vessels.map((vessel) =>
-					<Vessel
-						key={vessel.id}
-						vessel={vessel}
-						onSelect={onSelectVessel(vessel.id)}
-					/>
-				)
-			}
-		</>
-	)
-}
+  return (
+    <>
+      <div className="ag-theme-quartz">
+        <AgGridReact
+          domLayout="autoHeight"
+          rowData={VesselDecorator.vesselTabularData(vessels)}
+          columnDefs={colDefs}
+        />
+      </div>
+    </>
+  );
+};
 
-export default VesselIndex
+export default VesselIndex;

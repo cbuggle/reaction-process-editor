@@ -13,11 +13,11 @@ $theme-colors: (
   "success": #07bc0c,
   "secondary": #337ab7,
   "dark": #4f5659,
-  "preparation": #AAB9BF,
-  "step": #68D47F,
-  "action": #6DC5F2,
-  "condition": #EBCE6A,
-  "white": #FFFFFF,
+  "preparation": #aab9bf,
+  "step": #68d47f,
+  "action": #6dc5f2,
+  "condition": #ebce6a,
+  "white": #ffffff,
   "transparent": transparent,
 );
 
@@ -30,7 +30,7 @@ $theme-colors: (
 $body-color: $gray-900 !default;
 $color-contrast-dark: $black;
 $color-contrast-light: $white;
-$spacer: .75rem;
+$spacer: 0.75rem;
 $font-size-root: 13px;
 $font-size-lg: 1.07692rem;
 $h6-font-size: 1rem;
@@ -42,24 +42,24 @@ $h1-font-size: 1.84615rem;
 $body-bg: $white;
 $min-contrast-ratio: 2.5;
 $input-color: $body-color !default;
-$input-btn-padding-x: .6rem;
-$input-btn-padding-y: .2rem;
-$input-btn-padding-x-lg: .8rem;
-$input-btn-padding-y-lg: .3rem;
+$input-btn-padding-x: 0.6rem;
+$input-btn-padding-y: 0.2rem;
+$input-btn-padding-x-lg: 0.8rem;
+$input-btn-padding-y-lg: 0.3rem;
 $input-disabled-bg: tint-color(color("preparation"), 80%);
 $component-active-bg: color("primary");
 $input-focus-border-color: color.change(color("primary"), $alpha: 0.3);
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;
-$input-border-radius: .3rem;
+$input-border-radius: 0.3rem;
 
-$card-border-radius: .5rem;
+$card-border-radius: 0.5rem;
 $card-cap-bg: tint-color(color("preparation"), 30%);
 $card-border-color: shade-color($card-cap-bg, 30%);
 $modal-md: 400px;
-$modal-header-padding-x: .75rem;
-$modal-header-padding-y: .35rem;
+$modal-header-padding-x: 0.75rem;
+$modal-header-padding-y: 0.35rem;
 $navbar-nav-link-padding-x: 1rem;
 $navbar-brand-font-size: $h2-font-size;
 $navbar-dark-color: $color-contrast-light;
@@ -80,6 +80,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "base/bootstrap_overwrite/form-control";
 @import "base/bootstrap_overwrite/modal";
 /* styling for components from other libraries */
+@import "base/other_libraries_overwrite/ag-grid";
 @import "base/other_libraries_overwrite/react-datetime-picker";
 @import "base/other_libraries_overwrite/react_select";
 @import "base/other_libraries_overwrite/react-toastify";
