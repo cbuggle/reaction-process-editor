@@ -155,7 +155,7 @@
   }
 
   .ag-icon-menu::before {
-    background-image: escape-svg($svg-sort-icon);
+    background-image: escape-svg($svg-bars-icon);
   }
 
   .ag-icon-asc::before {
@@ -177,6 +177,14 @@
       background-position: right center;
       background-size: $form-select-bg-size;
     }
+  }
+
+  .ag-radio-button-input-wrapper input {
+    opacity: 1;
+  }
+
+  .ag-radio-button-input-wrapper::after {
+    display: none;
   }
 
   .ag-filter-toolpanel-header,

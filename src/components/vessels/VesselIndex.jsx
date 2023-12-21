@@ -53,10 +53,10 @@ const VesselIndex = ({ onSelectVessel }) => {
     <>
       <div className="ag-theme-kit">
         <AgGridReact
+          suppressMenuHide={true}
           domLayout="autoHeight"
           rowData={VesselDecorator.vesselTabularData(vessels)}
           columnDefs={colDefs}
-          defaultColDef={{ floatingFilter: true }}
           autoSizeStrategy={{ type: "fitCellContents" }}
         />
       </div>

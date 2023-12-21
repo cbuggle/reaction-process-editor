@@ -5,6 +5,7 @@ import App from "./App";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faBars,
   faChevronCircleDown,
   faChevronCircleRight,
   faDownload,
@@ -32,6 +33,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faBars,
   faChevronCircleDown,
   faChevronCircleRight,
   faDownload,
