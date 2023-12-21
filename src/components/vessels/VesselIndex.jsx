@@ -10,25 +10,54 @@ const VesselIndex = ({ onSelectVessel }) => {
   const [colDefs, setColDefs] = useState([
     {
       field: "id",
+      headerName: "",
       cellRenderer: (params) => {
         return <Button onClick={onSelectVessel(params.value)}>Assign</Button>;
       },
     },
-    { field: "name", headerName: "Name" },
-    { field: "bar_code", headerName: "Bar Code" },
-    { field: "template", headerName: "Template" },
-    { field: "type", headerName: "Type" },
-    { field: "material", headerName: "Material" },
-    { field: "volume", headerName: "Volume" },
+    {
+      field: "name",
+      headerName: "Name",
+      filter: true,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      filter: true,
+    },
+    {
+      field: "material",
+      headerName: "Material",
+      filter: true,
+    },
+    {
+      field: "volume",
+      headerName: "Volume",
+      filter: true,
+    },
+    {
+      field: "template",
+      headerName: "Template",
+      width: 300,
+      suppressSizeToFit: true,
+      filter: true,
+    },
+    {
+      field: "bar_code",
+      headerName: "Bar Code",
+      filter: true,
+    },
   ]);
 
   return (
     <>
-      <div className="ag-theme-quartz">
+      <div className="ag-theme-kit">
         <AgGridReact
           domLayout="autoHeight"
           rowData={VesselDecorator.vesselTabularData(vessels)}
           columnDefs={colDefs}
+          defaultColDef={{ floatingFilter: true }}
+          autoSizeStrategy={{ type: "fitCellContents" }}
         />
       </div>
     </>
