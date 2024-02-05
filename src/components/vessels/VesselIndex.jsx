@@ -14,38 +14,47 @@ const VesselIndex = ({ onSelectVessel }) => {
       cellRenderer: (params) => {
         return <Button onClick={onSelectVessel(params.value)}>Assign</Button>;
       },
+      maxWidth: 95,
     },
     {
       field: "name",
       headerName: "Name",
       filter: true,
+      flex: 4,
     },
     {
       field: "type",
       headerName: "Type",
       filter: true,
+      flex: 3,
+      maxWidth: 300,
     },
     {
       field: "material",
       headerName: "Material",
       filter: true,
+      flex: 2,
+      maxWidth: 200,
     },
     {
       field: "volume",
-      headerName: "Volume",
+      headerName: "Vol.",
       filter: true,
+      maxWidth: 95,
     },
     {
       field: "template",
       headerName: "Template",
-      width: 300,
       suppressSizeToFit: true,
       filter: true,
+      flex: 4,
     },
     {
       field: "bar_code",
       headerName: "Bar Code",
       filter: true,
+      flex: 2,
+      maxWidth: 180,
     },
   ]);
 
@@ -57,7 +66,7 @@ const VesselIndex = ({ onSelectVessel }) => {
           domLayout="autoHeight"
           rowData={VesselDecorator.vesselTabularData(vessels)}
           columnDefs={colDefs}
-          autoSizeStrategy={{ type: "fitCellContents" }}
+          autoSizeStrategy={{ type: "fitGridWidth", defaultMinWidth: 70 }}
         />
       </div>
     </>
