@@ -44,19 +44,24 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
     }
   };
 
-  const onSave = (stepForm, vesselId) => {
+  const onSave = (stepName, vesselId) => {
     if (isInitialised) {
-      if (stepForm.name !== processStep.name) {
-        api.updateProcessStep(stepForm);
+      if (stepName !== processStep.name) {
+        api.updateProcessStep({
+          ...processStep,
+          name: stepName,
+        });
       }
       if (vesselId !== processStep.vessel?.id) {
         api.assignProcessStepVessel(processStep.id, vesselId);
       }
       setShowForm(false);
     } else {
-      api.createProcessStep(reactionProcess.id, stepForm);
-      //How to pass the vesselId to the new processStep?
-      //api.assignProcessStepVessel(processStep.id, vesselId);
+      api.createProcessStep(reactionProcess.id, {
+        ...processStep,
+        name: stepName,
+        vessel_id: vesselId,
+      });
       setShowForm(false);
       onCancel();
     }

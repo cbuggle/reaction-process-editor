@@ -14,23 +14,11 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
     setVessel(vessels.find((vessel) => vessel.id === vesselId));
   };
 
-  const [stepForm, setStepForm] = useState(processStep || { name: "" });
+  const [stepName, setStepName] = useState(processStep?.name);
   const [vessel, setVessel] = useState(processStep?.vessel);
 
-  const onChangeName = (field) => {
-    const { name, value } = field;
-    setStepForm((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const handleSave = () => {
-    onSave(stepForm, vessel.id);
-  };
-
-  const handleSelectName = (value) => {
-    onChangeName({ name: "name", value: value });
+    onSave(stepName, vessel.id);
   };
 
   const renderNameSuggestionSelect = () => {
@@ -40,13 +28,13 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
           selected="current"
           type="select"
           onChange={(event) =>
-            handleSelectName(
+            setStepName(
               nameSuggestionOptions[event.target.selectedIndex - 1].label
             )
           }
         >
           <option key="current" hidden="hidden">
-            {stepForm.name}
+            {stepName}
           </option>
           {nameSuggestionOptions.map((suggestion) => (
             <option key={suggestion.value}>{suggestion.label}</option>
@@ -64,10 +52,8 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         <Input
           bsSize="sm"
           placeholder="Unnamed"
-          value={stepForm.name}
-          onChange={(event) =>
-            onChangeName({ name: "name", value: event.target.value })
-          }
+          value={stepName}
+          onChange={(event) => setStepName(event.target.value)}
         />
         {renderNameSuggestionSelect()}
       </div>
@@ -96,7 +82,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         onSave={handleSave}
         onCancel={onCancel}
         type="step"
-        disableSave={!vessel || !stepForm.name}
+        disableSave={!vessel || !stepName}
       />
     </>
   );
