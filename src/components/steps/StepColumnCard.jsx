@@ -1,117 +1,124 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { useDrag, useDrop } from 'react-dnd'
-import { DndItemTypes } from '../../constants/dndItemTypes';
+import { useDrag, useDrop } from "react-dnd";
+import { DndItemTypes } from "../../constants/dndItemTypes";
 
 import Activity from "../activities/Activity";
 import ActivityCreator from "../activities/ActivityCreator";
 import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
-import StepInfo from './StepInfo';
-import StepForm from './StepForm';
-import StepLockButton from './header/StepLockButton';
+import StepInfo from "./StepInfo";
+import StepForm from "./StepForm";
+import StepLockButton from "./header/StepLockButton";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-import { StepSelectOptions } from '../../contexts/StepSelectOptions';
-import { StepLock } from '../../contexts/StepLock';
+import { StepSelectOptions } from "../../contexts/StepSelectOptions";
+import { StepLock } from "../../contexts/StepLock";
 
-const StepColumCard = (
-  {
-    processStep,
-    reactionProcess,
-    onCancel
-  }) => {
-
-  const isInitialised = !!processStep
-  const [showForm, setShowForm] = useState(!isInitialised)
-  const cardTitle = isInitialised ? processStep.label : 'New Step'
-  const api = useReactionsFetcher()
-  const isLocked = !!processStep?.locked
-
+const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
+  const isInitialised = !!processStep;
+  const [showForm, setShowForm] = useState(!isInitialised);
+  const cardTitle = isInitialised ? processStep.label : "New Step";
+  const api = useReactionsFetcher();
+  const isLocked = !!processStep?.locked;
 
   const displayMode = () => {
-    return showForm ? 'form' : 'info'
-  }
+    return showForm ? "form" : "info";
+  };
 
   const confirmDeleteStep = () => {
-    window.confirm('Deleting the ProcessStep will irreversably delete this ' +
-      'step and all associated actions. This can not be undone. Are you sure?')
-      && deleteStep()
-  }
+    window.confirm(
+      "Deleting the ProcessStep will irreversably delete this " +
+        "step and all associated actions. This can not be undone. Are you sure?"
+    ) && deleteStep();
+  };
 
-  const deleteStep = () => api.deleteProcessStep(processStep.id)
+  const deleteStep = () => api.deleteProcessStep(processStep.id);
 
   const handleCancel = () => {
     if (isInitialised) {
-      toggleForm()
+      toggleForm();
     } else {
-      onCancel()
+      onCancel();
     }
-  }
+  };
 
-  const onSave = (stepForm) => {
+  const onSave = (stepForm, vesselId) => {
     if (isInitialised) {
-      api.updateProcessStep(stepForm)
-      setShowForm(false)
+      if (stepForm.name !== processStep.name) {
+        api.updateProcessStep(stepForm);
+      }
+      if (vesselId !== processStep.vessel?.id) {
+        api.assignProcessStepVessel(processStep.id, vesselId);
+      }
+      setShowForm(false);
     } else {
-      api.createProcessStep(reactionProcess.id, stepForm)
-      setShowForm(false)
-      onCancel()
+      api.createProcessStep(reactionProcess.id, stepForm);
+      //How to pass the vesselId to the new processStep?
+      //api.assignProcessStepVessel(processStep.id, vesselId);
+      setShowForm(false);
+      onCancel();
     }
-  }
+  };
 
-  const toggleForm = () => setShowForm(!showForm)
+  const toggleForm = () => setShowForm(!showForm);
 
   /* React-DnD drag source and drop target */
-  const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
-    type: DndItemTypes.STEP,
-    item: { processStep: processStep },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-      canDrag: monitor.canDrag()
+  const [{ isDragging }, dragRef, previewRef] = useDrag(
+    () => ({
+      type: DndItemTypes.STEP,
+      item: { processStep: processStep },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+        canDrag: monitor.canDrag(),
+      }),
+      canDrag: () => processStep && !isLocked,
     }),
-    canDrag: () => processStep && !isLocked
-  }), [processStep])
+    [processStep]
+  );
 
-
-  const [{ isOver }, dropRef] = useDrop(() => ({
-    accept: DndItemTypes.STEP,
-    drop: (monitor) => dropItem(monitor, processStep),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop()
+  const [{ isOver }, dropRef] = useDrop(
+    () => ({
+      accept: DndItemTypes.STEP,
+      drop: (monitor) => dropItem(monitor, processStep),
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop(),
+      }),
+      canDrop: () => processStep && !isLocked,
     }),
-    canDrop: () => processStep && !isLocked
-  }), [processStep])
+    [processStep]
+  );
 
   const dropItem = (monitor, processStep) => {
-    api.updateProcessStepPosition(monitor.processStep.id, processStep.position)
-  }
+    api.updateProcessStepPosition(monitor.processStep.id, processStep.position);
+  };
 
   const renderActivities = () => {
-    return (
-      processStep.actions.map(activity => (
-        <Activity
-          key={activity.id}
-          activity={activity}
-          processStep={processStep}
-        />
-      ))
-    )
-  }
+    return processStep.actions.map((activity) => (
+      <Activity
+        key={activity.id}
+        activity={activity}
+        processStep={processStep}
+      />
+    ));
+  };
 
   return (
     <StepSelectOptions.Provider value={processStep?.select_options}>
       <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
         <div
           ref={previewRef}
-          className={'draggable-element' + (isDragging ? ' draggable-element--dragging' : '')}
+          className={
+            "draggable-element" +
+            (isDragging ? " draggable-element--dragging" : "")
+          }
         >
           <StepLock.Provider value={isLocked}>
             <ColumnContainerCard
               title={cardTitle}
-              type='step'
+              type="step"
               showEditBtn={!showForm && !isLocked}
               showMoveXBtn={!showForm && !isLocked}
               showDeleteBtn={!showForm && !isLocked}
@@ -129,38 +136,37 @@ const StepColumCard = (
                 <StepForm
                   processStep={processStep}
                   reactionProcess={reactionProcess}
-                  nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
+                  nameSuggestionOptions={
+                    reactionProcess.select_options.step_name_suggestions
+                  }
                   onSave={onSave}
                   onCancel={handleCancel}
                 />
               </ProcedureCard.Form>
-              {isInitialised &&
+              {isInitialised && (
                 <ProcedureCard.Details>
-                  <div className='step-column-card__condition-container'>
+                  <div className="step-column-card__condition-container">
                     {renderActivities()}
-                    {!isLocked &&
+                    {!isLocked && (
                       <ActivityCreator
                         processStep={processStep}
                         preconditions={processStep.final_conditions}
                         insertNewBeforeIndex={processStep.actions.length}
                       />
-                    }
+                    )}
                   </div>
                 </ProcedureCard.Details>
-              }
-              {isInitialised &&
+              )}
+              {isInitialised && (
                 <ProcedureCard.ExtraButtons>
-                  <StepLockButton
-                    stepId={processStep?.id}
-                    locked={isLocked}
-                  />
+                  <StepLockButton stepId={processStep?.id} locked={isLocked} />
                 </ProcedureCard.ExtraButtons>
-              }
+              )}
             </ColumnContainerCard>
           </StepLock.Provider>
         </div>
       </div>
-    </StepSelectOptions.Provider >
+    </StepSelectOptions.Provider>
   );
 };
 

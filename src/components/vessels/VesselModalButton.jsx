@@ -11,7 +11,7 @@ import {
 
 import VesselIndex from "./VesselIndex";
 
-const VesselModalButton = ({ onSelectVessel }) => {
+const VesselModalButton = ({ onSelectVessel, typeColor, buttonLabel }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -25,8 +25,8 @@ const VesselModalButton = ({ onSelectVessel }) => {
 
   return (
     <>
-      <Button outline onClick={toggleModal}>
-        Select Vessel
+      <Button outline onClick={toggleModal} color={typeColor}>
+        {buttonLabel}
       </Button>
       <Modal
         isOpen={modalOpen}
@@ -35,7 +35,7 @@ const VesselModalButton = ({ onSelectVessel }) => {
         fullscreen={true}
       >
         <ModalHeader>
-          <Label>Select Vessel</Label>
+          <Label>{buttonLabel} Vessel</Label>
         </ModalHeader>
         <ModalBody>
           <VesselIndex onSelectVessel={handleSelectVessel} />

@@ -17,12 +17,14 @@ export default class VesselDecorator {
     return vessel.id.substring(0, 4);
   };
 
-  static vesselIconName = (vessel) => {
-    return vessel.vessel_type.toLowerCase();
+  static vesselTitle = (vessel) => {
+    return !!vessel
+      ? StringDecorator.toLabelSpelling(vessel.vessel_type)
+      : undefined;
   };
 
   static vesselIconAltText = (vessel) => {
-    return "Vessel " + this.vesselIconName(vessel);
+    return "Vessel " + this.vesselTitle(vessel);
   };
 
   static vesselTabularData = (vesselData) => {
@@ -33,7 +35,7 @@ export default class VesselDecorator {
         template: vessel.vessel_template_name,
         type: vessel.vessel_type,
         material: vessel.material_type,
-        volume: this.renderVesselVolume(vessel),
+        volume: this.vesselVolume(vessel),
         environment: vessel.environment_type,
         bar_code: vessel.bar_code,
         qr_code: vessel.qr_code,
@@ -55,9 +57,9 @@ export default class VesselDecorator {
   static renderVesselDetails = (vessel) => {
     return (
       <>
-        <div>{StringDecorator.toLabelSpelling(vessel.vessel_type)}</div>
-        <div>{this.renderVesselVolume(vessel)}</div>
-        <div>{this.renderVesselMaterial(vessel)}</div>
+        <div>{this.vesselTitle(vessel)}</div>
+        <div>{this.vesselVolume(vessel)}</div>
+        <div>{this.vesselMaterial(vessel)}</div>
         <div>{StringDecorator.toLabelSpelling(vessel.environment_type)}</div>
       </>
     );
@@ -69,7 +71,7 @@ export default class VesselDecorator {
       return (
         <>
           {this.renderVesselLabel(vessel)}
-          {this.renderVesselVolumeAndMaterial(vessel)}
+          {this.vesselVolumeAndMaterial(vessel)}
         </>
       );
     } else {
@@ -81,41 +83,36 @@ export default class VesselDecorator {
     }
   };
 
+  static vesselSingleLine = (vessel) => {
+    // Called from StepForm.jsx
+    return vessel
+      ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
+      : undefined;
+  };
+
   static renderVesselTypeIcon = (vessel) => {
     return (
       <>
         <img
           alt={this.vesselIconAltText(vessel)}
           className="vessel-icon"
-          src={`${apiHostname}/images/vessels/${this.vesselIconName(
-            vessel
-          )}.svg`}
+          src={`${apiHostname}/images/vessels/${vessel.vessel_type.toLowerCase()}.svg`}
         />
       </>
     );
   };
 
-  static renderVesselVolume = (vessel) => {
-    return (
-      vessel.volume_amount +
-      " " +
-      StringDecorator.toLabelSpelling(vessel.volume_unit)
-    );
+  static vesselVolume = (vessel) => {
+    return vessel.volume_amount + " " + vessel.volume_unit.toLowerCase();
   };
 
-  static renderVesselMaterial = (vessel) => {
+  static vesselMaterial = (vessel) => {
     // called internally only
-    return <>{StringDecorator.toLabelSpelling(vessel.material_type)}</>;
+    return StringDecorator.toLabelSpelling(vessel.material_type);
   };
 
-  static renderVesselVolumeAndMaterial = (vessel) => {
+  static vesselVolumeAndMaterial = (vessel) => {
     // called internally only
-    return (
-      <div>
-        {this.renderVesselVolume(vessel)}
-        {" ("}
-        {this.renderVesselMaterial(vessel)})
-      </div>
-    );
+    return this.vesselVolume(vessel) + " (" + this.vesselMaterial(vessel) + ")";
   };
 }

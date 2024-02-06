@@ -7,7 +7,7 @@ import { AgGridReact } from "ag-grid-react";
 
 const VesselIndex = ({ onSelectVessel }) => {
   const vessels = useContext(VesselOptions);
-  const [colDefs, setColDefs] = useState([
+  const [colDefs] = useState([
     {
       field: "id",
       headerName: "",
