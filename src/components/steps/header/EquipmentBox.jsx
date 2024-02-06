@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const EquipmentBox = ({ equipment }) => {
-  return (
-    <div>
-      {equipment.label}
-    </div>
-  )
-}
+  return <div className="pt-1">{equipment.label}</div>;
+};
 
-export default EquipmentBox
+export default EquipmentBox;

@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useContext } from "react";
 
-import StepEquipments from './header/StepEquipments'
-import StepSamples from './header/StepSamples'
-import StepVessel from './header/StepVessel'
+import StepEquipments from "./header/StepEquipments";
+import StepMaterials from "./header/StepMaterials";
+import VesselDecorator from "../../decorators/VesselDecorator";
+import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 
 const StepInfo = ({ processStep }) => {
-
+  const stepSelectOptions = useContext(StepSelectOptions);
   return (
     <>
-      <StepVessel processStep={processStep} />
-      <StepSamples />
-      <StepEquipments />
+      <h6 className="mb-1">
+        {VesselDecorator.vesselSingleLine(processStep.vessel)}
+      </h6>
+      {stepSelectOptions.added_materials?.length > 0 && <StepMaterials />}
+      {stepSelectOptions.mounted_equipment?.length > 0 && <StepEquipments />}
     </>
-  )
-}
+  );
+};
 
-export default StepInfo
+export default StepInfo;

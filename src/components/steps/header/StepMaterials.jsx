@@ -1,20 +1,19 @@
 import React, { useContext } from "react";
-import EquipmentBox from "./EquipmentBox";
+import MaterialBox from "./MaterialBox";
 
 import { StepSelectOptions } from "../../../contexts/StepSelectOptions";
 
-const StepEquipments = () => {
+const StepMaterials = () => {
   const stepSelectOptions = useContext(StepSelectOptions);
+
   return (
     <div className="procedure-card__info-section procedure-card__info-section--step">
-      <h6>Equipment</h6>
-      <p className="py-1">
-        {stepSelectOptions.mounted_equipment
-          .map((equipment) => equipment.label)
-          .join(", ")}
-      </p>
+      <h6>Materials</h6>
+      {stepSelectOptions.added_materials.map((material) => (
+        <MaterialBox key={material.id} material={material} />
+      ))}
     </div>
   );
 };
 
-export default StepEquipments;
+export default StepMaterials;
