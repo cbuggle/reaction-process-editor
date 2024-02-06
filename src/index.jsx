@@ -1,14 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import App from './App';
+import App from "./App";
 
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faBars,
   faChevronCircleDown,
   faChevronCircleRight,
   faDownload,
   faEdit,
+  faFilter,
   faPen,
   faLock,
   faLockOpen,
@@ -23,15 +25,20 @@ import {
   faAngleDoubleDown,
   faSearchPlus,
   faSearchMinus,
+  faSort,
+  faSortUp,
+  faSortDown,
   faTemperatureHigh,
-  faSignOut
-} from '@fortawesome/free-solid-svg-icons'
+  faSignOut,
+} from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faBars,
   faChevronCircleDown,
   faChevronCircleRight,
   faDownload,
   faEdit,
+  faFilter,
   faPen,
   faLock,
   faLockOpen,
@@ -46,10 +53,13 @@ library.add(
   faAngleDoubleDown,
   faSearchPlus,
   faSearchMinus,
+  faSort,
+  faSortUp,
+  faSortDown,
   faTemperatureHigh,
   faSignOut
-)
+);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(<App />);

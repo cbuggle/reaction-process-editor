@@ -13,11 +13,11 @@ $theme-colors: (
   "success": #07bc0c,
   "secondary": #337ab7,
   "dark": #4f5659,
-  "preparation": #AAB9BF,
-  "step": #68D47F,
-  "action": #6DC5F2,
-  "condition": #EBCE6A,
-  "white": #FFFFFF,
+  "preparation": #aab9bf,
+  "step": #68d47f,
+  "action": #6dc5f2,
+  "condition": #ebce6a,
+  "white": #ffffff,
   "transparent": transparent,
 );
 
@@ -30,7 +30,7 @@ $theme-colors: (
 $body-color: $gray-900 !default;
 $color-contrast-dark: $black;
 $color-contrast-light: $white;
-$spacer: .75rem;
+$spacer: 0.75rem;
 $font-size-root: 13px;
 $font-size-lg: 1.07692rem;
 $h6-font-size: 1rem;
@@ -42,24 +42,24 @@ $h1-font-size: 1.84615rem;
 $body-bg: $white;
 $min-contrast-ratio: 2.5;
 $input-color: $body-color !default;
-$input-btn-padding-x: .6rem;
-$input-btn-padding-y: .2rem;
-$input-btn-padding-x-lg: .8rem;
-$input-btn-padding-y-lg: .3rem;
+$input-btn-padding-x: 0.6rem;
+$input-btn-padding-y: 0.2rem;
+$input-btn-padding-x-lg: 0.8rem;
+$input-btn-padding-y-lg: 0.3rem;
 $input-disabled-bg: tint-color(color("preparation"), 80%);
 $component-active-bg: color("primary");
 $input-focus-border-color: color.change(color("primary"), $alpha: 0.3);
 $modal-backdrop-bg: $body-bg;
 $modal-backdrop-opacity: 0.9;
 $form-label-font-weight: 500;
-$input-border-radius: .3rem;
+$input-border-radius: 0.3rem;
 
-$card-border-radius: .5rem;
+$card-border-radius: 0.5rem;
 $card-cap-bg: tint-color(color("preparation"), 30%);
 $card-border-color: shade-color($card-cap-bg, 30%);
 $modal-md: 400px;
-$modal-header-padding-x: .75rem;
-$modal-header-padding-y: .35rem;
+$modal-header-padding-x: 0.75rem;
+$modal-header-padding-y: 0.35rem;
 $navbar-nav-link-padding-x: 1rem;
 $navbar-brand-font-size: $h2-font-size;
 $navbar-dark-color: $color-contrast-light;
@@ -67,6 +67,12 @@ $toast-background-color: $body-bg;
 $toast-border-radius: $card-border-radius;
 $toast-padding-x: 1rem;
 $toast-padding-y: 1rem;
+
+/* fort awesome svg icons for background image values */
+$svg-filter-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z'></path></svg>");
+$svg-bars-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z'></path></svg>");
+$svg-sort-down-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='M182.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8H288c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-128 128z'></path></svg>");
+$svg-sort-up-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='M182.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z'></path></svg>");
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
@@ -80,6 +86,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "base/bootstrap_overwrite/form-control";
 @import "base/bootstrap_overwrite/modal";
 /* styling for components from other libraries */
+@import "base/other_libraries_overwrite/ag-grid";
 @import "base/other_libraries_overwrite/react-datetime-picker";
 @import "base/other_libraries_overwrite/react_select";
 @import "base/other_libraries_overwrite/react-toastify";

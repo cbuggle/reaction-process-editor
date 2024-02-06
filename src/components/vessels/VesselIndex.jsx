@@ -1,24 +1,76 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from "react";
 
-import Vessel from './Vessel';
-import { VesselOptions } from '../../contexts/VesselOptions';
+import VesselDecorator from "../../decorators/VesselDecorator";
+import { Button } from "reactstrap";
+import { VesselOptions } from "../../contexts/VesselOptions";
+import { AgGridReact } from "ag-grid-react";
 
 const VesselIndex = ({ onSelectVessel }) => {
-	const vessels = useContext(VesselOptions)
+  const vessels = useContext(VesselOptions);
+  const [colDefs, setColDefs] = useState([
+    {
+      field: "id",
+      headerName: "",
+      cellRenderer: (params) => {
+        return <Button onClick={onSelectVessel(params.value)}>Assign</Button>;
+      },
+      maxWidth: 95,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      filter: true,
+      flex: 4,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      filter: true,
+      flex: 3,
+      maxWidth: 300,
+    },
+    {
+      field: "material",
+      headerName: "Material",
+      filter: true,
+      flex: 2,
+      maxWidth: 200,
+    },
+    {
+      field: "volume",
+      headerName: "Vol.",
+      filter: true,
+      maxWidth: 95,
+    },
+    {
+      field: "template",
+      headerName: "Template",
+      suppressSizeToFit: true,
+      filter: true,
+      flex: 4,
+    },
+    {
+      field: "bar_code",
+      headerName: "Bar Code",
+      filter: true,
+      flex: 2,
+      maxWidth: 180,
+    },
+  ]);
 
-	return (
-		<>
-			{
-				vessels.map((vessel) =>
-					<Vessel
-						key={vessel.id}
-						vessel={vessel}
-						onSelect={onSelectVessel(vessel.id)}
-					/>
-				)
-			}
-		</>
-	)
-}
+  return (
+    <>
+      <div className="ag-theme-kit">
+        <AgGridReact
+          suppressMenuHide={true}
+          domLayout="autoHeight"
+          rowData={VesselDecorator.vesselTabularData(vessels)}
+          columnDefs={colDefs}
+          autoSizeStrategy={{ type: "fitGridWidth", defaultMinWidth: 70 }}
+        />
+      </div>
+    </>
+  );
+};
 
-export default VesselIndex
+export default VesselIndex;
