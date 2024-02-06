@@ -1,42 +1,43 @@
-import React, { useState, useContext } from 'react'
-import { FormGroup } from 'reactstrap'
-import Select from 'react-select'
+import React, { useState, useContext } from "react";
+import { FormGroup } from "reactstrap";
+import Select from "react-select";
 
 import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
-import MetricsInput from '../../../utilities/MetricsInput';
-import OptionalFormSet from "../formsets/OptionalFormSet";
+import MetricsInput from "../../../utilities/MetricsInput";
+import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
-import MetricsDecorator from '../../../../decorators/MetricsDecorator';
-import { SelectOptions } from '../../../../contexts/SelectOptions';
+import MetricsDecorator from "../../../../decorators/MetricsDecorator";
+import { SelectOptions } from "../../../../contexts/SelectOptions";
 
-const MotionForm = (
-  {
-    label,
-    valueSummary,
-    findInitialValue,
-    children,
-    onSave,
-  }) => {
+const MotionForm = ({
+  label,
+  valueSummary,
+  findInitialValue,
+  children,
+  onSave,
+}) => {
+  const selectOptions = useContext(SelectOptions);
+  const automationModeOptions = selectOptions.automation_modes;
+  const motionTypeOptions = selectOptions.motion_types;
 
-  const selectOptions = useContext(SelectOptions)
-  const automationModeOptions = selectOptions.automation_modes
-  const motionTypeOptions = selectOptions.motion_types
+  const initialSpeed = () =>
+    findInitialValue("speed", MetricsDecorator.defaultAmount("MOTION"));
 
-  const initialSpeed = () => findInitialValue('speed', MetricsDecorator.defaultAmount('MOTION'))
+  const initialMotionType = () =>
+    findInitialValue("motion_type", motionTypeOptions[0].value);
 
-  const initialMotionType = () => findInitialValue('motion_type', motionTypeOptions[0].value)
+  const initialMotionMode = () =>
+    findInitialValue("motion_mode", automationModeOptions[1].value);
 
-  const initialMotionMode = () => findInitialValue('motion_mode', automationModeOptions[1].value)
-
-  const [speed, setSpeed] = useState(initialSpeed())
-  const [motionType, setMotionType] = useState(initialMotionType())
-  const [motionMode, setMotionMode] = useState(initialMotionMode())
+  const [speed, setSpeed] = useState(initialSpeed());
+  const [motionType, setMotionType] = useState(initialMotionType());
+  const [motionMode, setMotionMode] = useState(initialMotionMode());
 
   const resetFormData = () => {
-    setSpeed(initialSpeed())
-    setMotionType(initialMotionType())
-    setMotionMode(initialMotionMode())
-  }
+    setSpeed(initialSpeed());
+    setMotionType(initialMotionType());
+    setMotionMode(initialMotionMode());
+  };
 
   /* use for slider input
   const handleRpmSliderChange = (event) => {
@@ -44,18 +45,17 @@ const MotionForm = (
   }*/
 
   const handleSave = () => {
-    onSave(
-      {
-        speed: speed,
-        motion_type: motionType,
-        motion_mode: motionMode
-      }
-    )
-  }
+    onSave({
+      speed: speed,
+      motion_type: motionType,
+      motion_mode: motionMode,
+    });
+  };
 
-  const handleCancel = () => resetFormData()
+  const handleCancel = () => resetFormData();
 
-  const currentMotionTypeOption = () => motionTypeOptions.find(option => option.value === motionType)
+  const currentMotionTypeOption = () =>
+    motionTypeOptions.find((option) => option.value === motionType);
 
   return (
     <OptionalFormSet
@@ -72,20 +72,20 @@ const MotionForm = (
             name="motion_type"
             options={motionTypeOptions}
             value={currentMotionTypeOption()}
-            onChange={selectedOption => setMotionType(selectedOption.value)}
+            onChange={(selectedOption) => setMotionType(selectedOption.value)}
           />
         </FormGroup>
         <ButtonGroupToggle
           options={automationModeOptions}
           value={motionMode}
           onChange={setMotionMode}
-          activityType='condition'
-          label='Automation'
+          activityType="condition"
+          label="Automation"
         />
         {/* include slider */}
         <FormGroup>
           <MetricsInput
-            metricName={'MOTION'}
+            metricName={"MOTION"}
             amount={speed}
             onChange={setSpeed}
           />
@@ -93,7 +93,7 @@ const MotionForm = (
         {children}
       </div>
     </OptionalFormSet>
-  )
-}
+  );
+};
 
-export default MotionForm
+export default MotionForm;

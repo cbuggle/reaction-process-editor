@@ -1,24 +1,22 @@
-import React from 'react'
+import React from "react";
 import { FormGroup } from "reactstrap";
 
-import OptionalFormSet from "../formsets/OptionalFormSet";
+import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
-import EquipmentSubsetForm from './EquipmentSubsetForm';
+import EquipmentSubsetForm from "./EquipmentSubsetForm";
 
-const EquipmentForm = (
-  {
-    metricName,
-    equipment,
-    isEqualToPredefinedValue,
-    valueSummary,
-    onChangeEquipment,
-    onSave,
-    onCancel
-  }) => {
-
+const EquipmentForm = ({
+  metricName,
+  equipment,
+  isEqualToPredefinedValue,
+  valueSummary,
+  onChangeEquipment,
+  onSave,
+  onCancel,
+}) => {
   return (
     <OptionalFormSet
-      subFormLabel={'Equipment'}
+      subFormLabel={"Equipment"}
       valueSummary={valueSummary}
       isEqualToPredefinedValue={isEqualToPredefinedValue}
       onCancel={onCancel}
@@ -32,7 +30,7 @@ const EquipmentForm = (
         />
       </FormGroup>
     </OptionalFormSet>
-  )
-}
+  );
+};
 
-export default EquipmentForm
+export default EquipmentForm;
