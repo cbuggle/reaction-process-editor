@@ -5,13 +5,12 @@ import FormButtons from "../utilities/FormButtons";
 import VesselFormSection from "../vessels/VesselFormSection";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import VesselDecorator from "../../decorators/VesselDecorator";
-import { Label } from "reactstrap";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
   const vessels = useContext(VesselOptions);
 
   const assignVessel = (vesselId) => {
-    setCurrentVessel(vessels.find((vessel) => vessel.id === vesselId));
+    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
   };
 
   const [stepName, setStepName] = useState(processStep?.name);

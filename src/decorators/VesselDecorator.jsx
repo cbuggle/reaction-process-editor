@@ -13,6 +13,10 @@ export default class VesselDecorator {
 
   /* supporting functions */
 
+  static getVesselById = (vesselId, vessels) => {
+    return vessels.find((vessel) => vessel.id === vesselId);
+  };
+
   static vesselId = (vessel) => {
     return vessel.id.substring(0, 4);
   };
@@ -86,7 +90,10 @@ export default class VesselDecorator {
   static vesselSingleLine = (vessel) => {
     // Called from StepForm.jsx
     return vessel
-      ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
+      ? "Vessel: " +
+          this.vesselTitle(vessel) +
+          " " +
+          this.vesselVolumeAndMaterial(vessel)
       : undefined;
   };
 

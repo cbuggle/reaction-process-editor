@@ -12,7 +12,7 @@ import {
 import VesselIndex from "./VesselIndex";
 import VesselDecorator from "../../decorators/VesselDecorator";
 
-const VesselModalButton = ({
+const VesselFormSection = ({
   currentVessel,
   onSelectVessel,
   typeColor,
@@ -31,14 +31,14 @@ const VesselModalButton = ({
   };
 
   return (
-    <div className={"mb-3 form-section form-section--" + typeColor}>
+    <div className={"form-section form-section--" + typeColor}>
       <div className="d-flex justify-content-between align-self-center">
         <Label
           className={
             "col-form-label" + (!!currentVessel ? "" : " label--disabled")
           }
         >
-          Vessel: {VesselDecorator.vesselSingleLine(currentVessel) || "-"}
+          {VesselDecorator.vesselSingleLine(currentVessel) || "-"}
         </Label>
         <div className="optional-form-group__open-controls">
           <div className="d-grid gap-2">
@@ -74,4 +74,4 @@ const VesselModalButton = ({
   );
 };
 
-export default VesselModalButton;
+export default VesselFormSection;
