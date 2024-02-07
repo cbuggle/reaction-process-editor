@@ -73,7 +73,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
                 onSelectVessel={assignVessel}
                 typeColor="step"
                 buttonLabel={!!processStep?.vessel ? "Change" : "Set"}
-                scope={"Step" + (stepName ? " " + stepName : "")}
+                scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
               />
             </div>
           </div>

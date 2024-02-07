@@ -2,7 +2,11 @@
 // @import "~ag-grid-community/styles/ag-theme-kit.css";
 
 .ag-theme-kit {
-  --ag-active-color: #2196f3;
+  @each $color, $value in $theme-colors {
+    &--#{$color} {
+      --ag-active-color: #{$value};
+    }
+  }
   --ag-background-color: #fff;
   --ag-foreground-color: #181d1f;
   --ag-border-color: #dddddd;
@@ -808,4 +812,11 @@
   .ag-details-row {
     padding: calc(var(--ag-grid-size) * 3.75);
   }
+}
+
+.ag-cell .btn {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }

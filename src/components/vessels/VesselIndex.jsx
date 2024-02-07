@@ -69,7 +69,7 @@ const VesselIndex = ({ onSelectVessel, typeColor }) => {
 
   return (
     <>
-      <div className="ag-theme-kit">
+      <div className={"ag-theme-kit ag-theme-kit--" + typeColor}>
         <AgGridReact
           suppressMenuHide={true}
           domLayout="autoHeight"
