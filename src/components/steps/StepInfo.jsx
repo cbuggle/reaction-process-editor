@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
-import StepEquipments from "./header/StepEquipments";
-import StepMaterials from "./header/StepMaterials";
+import StepEquipments from "./StepEquipments";
+import StepMaterials from "./StepMaterials";
 import VesselDecorator from "../../decorators/VesselDecorator";
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 

@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 
-import {
-  Button,
-  Label,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-} from "reactstrap";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
 import VesselIndex from "./VesselIndex";
 
-const VesselModalButton = ({ onSelectVessel, typeColor, buttonLabel }) => {
+const VesselModalButton = ({
+  onSelectVessel,
+  typeColor,
+  buttonLabel,
+  scope,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -33,15 +31,19 @@ const VesselModalButton = ({ onSelectVessel, typeColor, buttonLabel }) => {
         toggle={toggleModal}
         backdrop={"static"}
         fullscreen={true}
+        className={"modal--" + typeColor}
       >
-        <ModalHeader>
-          <Label>{buttonLabel} Vessel</Label>
+        <ModalHeader tag="h4">
+          {buttonLabel} Vessel for {scope}
         </ModalHeader>
         <ModalBody>
-          <VesselIndex onSelectVessel={handleSelectVessel} />
+          <VesselIndex
+            onSelectVessel={handleSelectVessel}
+            typeColor={typeColor}
+          />
         </ModalBody>
         <ModalFooter>
-          <Button color="outline-secondary" onClick={toggleModal}>
+          <Button outline color={typeColor} onClick={toggleModal}>
             Cancel
           </Button>
         </ModalFooter>

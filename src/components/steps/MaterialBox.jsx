@@ -2,9 +2,9 @@ import React from "react";
 
 import { UncontrolledTooltip, PopoverHeader, PopoverBody } from "reactstrap";
 
-import SamplesDecorator from "../../../decorators/SamplesDecorator";
-import StringDecorator from "../../../decorators/StringDecorator";
-import MetricsDecorator from "../../../decorators/MetricsDecorator";
+import SamplesDecorator from "../../decorators/SamplesDecorator";
+import StringDecorator from "../../decorators/StringDecorator";
+import MetricsDecorator from "../../decorators/MetricsDecorator";
 
 const SampleBox = ({ material }) => {
   const materialInfo = () => {

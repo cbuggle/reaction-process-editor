@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import EquipmentBox from "./EquipmentBox";
 
-import { StepSelectOptions } from "../../../contexts/StepSelectOptions";
+import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 
 const StepEquipments = () => {
   const stepSelectOptions = useContext(StepSelectOptions);

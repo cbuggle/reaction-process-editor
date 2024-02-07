@@ -5,16 +5,24 @@ import { Button } from "reactstrap";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import { AgGridReact } from "ag-grid-react";
 
-const VesselIndex = ({ onSelectVessel }) => {
+const VesselIndex = ({ onSelectVessel, typeColor }) => {
   const vessels = useContext(VesselOptions);
   const [colDefs] = useState([
     {
       field: "id",
       headerName: "",
       cellRenderer: (params) => {
-        return <Button onClick={onSelectVessel(params.value)}>Assign</Button>;
+        return (
+          <Button
+            onClick={onSelectVessel(params.value)}
+            color={typeColor}
+            size="sm"
+          >
+            Assign
+          </Button>
+        );
       },
-      maxWidth: 95,
+      maxWidth: 85,
     },
     {
       field: "name",

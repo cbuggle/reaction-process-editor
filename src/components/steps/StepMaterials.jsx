@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import MaterialBox from "./MaterialBox";
 
-import { StepSelectOptions } from "../../../contexts/StepSelectOptions";
+import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 
 const StepMaterials = () => {
   const stepSelectOptions = useContext(StepSelectOptions);

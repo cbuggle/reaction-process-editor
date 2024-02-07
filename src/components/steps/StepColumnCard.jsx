@@ -9,7 +9,7 @@ import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from "./StepInfo";
 import StepForm from "./StepForm";
-import StepLockButton from "./header/StepLockButton";
+import StepLockButton from "./StepLockButton";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
