@@ -4,6 +4,7 @@ import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 import VesselDecorator from "../../decorators/VesselDecorator";
+import StringDecorator from "../../decorators/StringDecorator";
 
 import {
   removeFormMetricNames,
@@ -96,37 +97,58 @@ const ActivityInfo = ({ activity, preconditions }) => {
         }
         break;
       case "PURIFY":
-        const steps = workup[workup.purify_type.toLowerCase() + "_steps"];
-        infoTitle = "";
-        if (steps) {
-          infoTitle += steps.length + " Step";
-          if (steps.length > 1) {
-            infoTitle += "s";
-          }
-          infoTitle += " ";
-        }
-        // chromatograpy.automation_modes extends regular automation_modes thus can be used without case distinction.
-        infoTitle += selectOptions.purify.chromatography.automation_modes.find(
-          (option) => option.value === workup.automation
-        )?.label;
-        if (workup.filtration_mode) {
-          infoTitle +=
-            " Keep " +
-            selectOptions.purify.filtration.modes.find(
-              (option) => option.value === workup.filtration_mode
-            )?.label;
-        }
-        if (steps && selectOptions.materials["SOLVENT"]) {
-          for (let i = 0; i < steps.length; i++) {
-            if (steps.length > 1) {
-              infoLines.push("Step " + (i + 1));
-            }
-            infoLines.push(
+        if (workup.purify_type === "EXTRACTION") {
+          infoTitle =
+            "Automation: " +
+            workup.automation.toLowerCase() +
+            ", Phase: " +
+            workup.phase.toLowerCase();
+          infoLines.push(
+            "Solvent: " +
               ActivityInfoDecorator.filtrationStepInfo(
-                steps[i],
+                workup,
                 selectOptions.materials["SOLVENT"]
               )
-            );
+          );
+          infoLines.push(
+            VesselDecorator.vesselSingleLine(
+              VesselDecorator.getVesselById(workup.vessel_id, vessels)
+            )
+          );
+        } else {
+          const steps = workup[workup.purify_type.toLowerCase() + "_steps"];
+          infoTitle = "";
+          if (steps) {
+            infoTitle += steps.length + " Step";
+            if (steps.length > 1) {
+              infoTitle += "s";
+            }
+            infoTitle += " ";
+          }
+          // chromatograpy.automation_modes extends regular automation_modes thus can be used without case distinction.
+          infoTitle +=
+            selectOptions.purify.chromatography.automation_modes.find(
+              (option) => option.value === workup.automation
+            )?.label;
+          if (workup.filtration_mode) {
+            infoTitle +=
+              " Keep " +
+              selectOptions.purify.filtration.modes.find(
+                (option) => option.value === workup.filtration_mode
+              )?.label;
+          }
+          if (steps && selectOptions.materials["SOLVENT"]) {
+            for (let i = 0; i < steps.length; i++) {
+              if (steps.length > 1) {
+                infoLines.push("Step " + (i + 1));
+              }
+              infoLines.push(
+                ActivityInfoDecorator.filtrationStepInfo(
+                  steps[i],
+                  selectOptions.materials["SOLVENT"]
+                )
+              );
+            }
           }
         }
         break;

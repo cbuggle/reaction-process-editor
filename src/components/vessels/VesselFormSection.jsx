@@ -38,7 +38,7 @@ const VesselFormSection = ({
             "col-form-label" + (!!currentVessel ? "" : " label--disabled")
           }
         >
-          {VesselDecorator.vesselSingleLine(currentVessel) || "-"}
+          {VesselDecorator.vesselSingleLine(currentVessel) || "Vessel: -"}
         </Label>
         <div className="optional-form-group__open-controls">
           <div className="d-grid gap-2">
