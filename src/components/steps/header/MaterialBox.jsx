@@ -10,7 +10,7 @@ const SampleBox = ({ material }) => {
     <>
       <div id={"tooltip-sample-" + material.id} className="pt-1">
         {StringDecorator.toLabelSpelling(material.acts_as)}: {material.label} (
-        {material.amount.value} {material.amount.unit})
+        {material.amount?.value} {material.amount?.unit})
       </div>
       <UncontrolledTooltip
         placement="top"
