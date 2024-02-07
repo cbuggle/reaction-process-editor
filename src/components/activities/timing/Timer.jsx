@@ -21,10 +21,11 @@ const Timer = ({
   );
   const [defineTimeSpan, setDefineTimeSpan] = useState(!!workup?.starts_at);
   const [startTime, setStartTime] = useState(
-    !!workup?.starts_at ? new Date(workup.starts_at) : new Date()
+    workup?.starts_at && new Date(workup.starts_at)
+
   );
   const [endTime, setEndTime] = useState(
-    !!workup?.ends_at ? new Date(workup.ends_at) : new Date()
+    workup?.ends_at && new Date(workup.ends_at)
   );
   const [timerRunning, setTimerRunning] = useState(false);
 
@@ -74,6 +75,9 @@ const Timer = ({
     setDefineTimeSpan(event.target.checked);
     if (event.target.checked) {
       handleStartTime(new Date());
+    } else { 
+      setStartTime(undefined);
+      setEndTime(undefined);
     }
   };
 
