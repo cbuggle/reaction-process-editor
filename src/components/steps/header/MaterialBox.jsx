@@ -4,13 +4,22 @@ import { UncontrolledTooltip, PopoverHeader, PopoverBody } from "reactstrap";
 
 import SamplesDecorator from "../../../decorators/SamplesDecorator";
 import StringDecorator from "../../../decorators/StringDecorator";
+import MetricsDecorator from "../../../decorators/MetricsDecorator";
 
 const SampleBox = ({ material }) => {
+  const materialInfo = () => {
+    const type =
+      material.acts_as === "DIVERSE_SOLVENT"
+        ? "Solvent"
+        : StringDecorator.toLabelSpelling(material.acts_as);
+    const amount = MetricsDecorator.infoLineAmount(material.amount);
+    return `${type}: ${material.label} (${amount})`;
+  };
+
   return (
     <>
       <div id={"tooltip-sample-" + material.id} className="pt-1">
-        {StringDecorator.toLabelSpelling(material.acts_as)}: {material.label} (
-        {material.amount?.value} {material.amount?.unit})
+        {materialInfo()}
       </div>
       <UncontrolledTooltip
         placement="top"
