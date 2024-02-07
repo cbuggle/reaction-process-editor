@@ -48,7 +48,8 @@ const VesselIndex = ({ onSelectVessel, typeColor }) => {
       field: "volume",
       headerName: "Vol.",
       filter: true,
-      maxWidth: 95,
+      maxWidth: 105,
+      comparator: (valueA, valueB, isDescending) => parseFloat(valueA) - parseFloat(valueB)
     },
     {
       field: "template",
