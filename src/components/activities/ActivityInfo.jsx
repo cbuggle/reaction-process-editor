@@ -99,7 +99,6 @@ const ActivityInfo = (
       case 'ANALYSIS':
         infoTitle = selectOptions.analysis_types.find(option => option.value === workup.analysis_type).label
         break;
-      case 'PAUSE':
       case 'WAIT':
         infoTitle = '...'
         break;

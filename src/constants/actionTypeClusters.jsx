@@ -129,22 +129,6 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'time',
-    label: 'Time',
-    types: [
-      {
-        id: 'time_wait',
-        createLabel: 'Wait',
-        activity: { activity_name: 'WAIT', workup: {} }
-      },
-      {
-        id: 'time_pause',
-        createLabel: 'Pause',
-        activity: { activity_name: 'PAUSE', workup: {} }
-      }
-    ]
-  },
-  {
     id: 'intermediate',
     label: 'Intermediate',
     types: [
@@ -166,5 +150,16 @@ export const actionTypeClusters = [
         }
       }
     ]
-  }
+  },
+  {
+    id: 'time',
+    label: 'Time',
+    types: [
+      {
+        id: 'time_wait',
+        createLabel: 'Wait',
+        activity: { activity_name: 'WAIT', workup: {} }
+      }
+    ]
+  },
 ]

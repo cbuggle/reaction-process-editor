@@ -30,7 +30,6 @@ export default class ActivityInfoDecorator {
           break
         case 'TRANSFER':
         case 'SAVE':
-        case 'PAUSE':
         case 'WAIT':
         default:
           break

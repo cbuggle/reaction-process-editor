@@ -73,11 +73,10 @@ const ActionForm = (
             />
           </>
         )
-      case 'PAUSE':
       case "WAIT":
         return (<></>)
       default:
-        return (<div>Error in ActivityForm: Unknown ACTION TYPE: {actionTypeName} ***</div>)
+        return (<div>Error in ActivityForm: Unknown ACTION TYPE '{actionTypeName}' ***</div>)
     }
   }
 
