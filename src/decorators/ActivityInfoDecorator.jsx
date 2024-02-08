@@ -74,12 +74,12 @@ export default class ActivityInfoDecorator {
   }
 
   static filtrationStepInfo = (stepData, purifySolventOptions) => {
-    const solventsList = stepData.solvents.map(
+    const solventsList = (stepData.solvents || []).map(
       solvent => purifySolventOptions.find(option => option.value === solvent.id).label
     ).join(', ')
     let ratioList = ''
 
-    if (stepData.solvents.length > 1) {
+    if (stepData.solvents?.length > 1) {
       ratioList = StringDecorator.brackets(stepData.solvents.map(solvent => solvent.ratio).join(':'))
     }
 
