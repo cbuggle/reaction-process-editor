@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Input } from "reactstrap";
 
 import FormButtons from "../utilities/FormButtons";
 import VesselFormSection from "../vessels/VesselFormSection";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import VesselDecorator from "../../decorators/VesselDecorator";
+import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
+import { Typeahead } from "react-bootstrap-typeahead";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
   const vessels = useContext(VesselOptions);
@@ -13,48 +14,67 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
     setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
   };
 
-  const [stepName, setStepName] = useState(processStep?.name);
+  const [tempName, setTempName] = useState("");
+  const [stepName, setStepName] = useState(processStep?.name || "");
   const [currentVessel, setCurrentVessel] = useState(processStep?.vessel);
+
+  const handleChange = (name) => {
+    console.log("change", JSON.stringify(name), typeof name);
+    handleNameInput(name);
+  };
+
+  const handleInputChange = (name) => {
+    console.log("inputChange", JSON.stringify(name), typeof name);
+    setTempName(name);
+  };
+
+  const handleBlur = () => {
+    console.log("blur", JSON.stringify(tempName), typeof tempName);
+    if (tempName) {
+      handleNameInput(tempName);
+    } else {
+      handleNameInput(stepName ? stepName : "");
+    }
+  };
+
+  const handleNameInput = (name) => {
+    if (typeof name === "string") {
+      setStepName(name);
+    } else if (name.length > 0) {
+      if (typeof name[0] === "string") {
+        setStepName(name[0]);
+      } else {
+        setStepName(name[0].label);
+      }
+    } else {
+      console.log("handleNameInput", JSON.stringify(name), typeof name);
+    }
+  };
 
   const handleSave = () => {
     onSave(stepName, currentVessel.id);
   };
 
-  const renderNameSuggestionSelect = () => {
-    if (nameSuggestionOptions) {
-      return (
-        <select
-          selected="current"
-          type="select"
-          onChange={(event) =>
-            setStepName(
-              nameSuggestionOptions[event.target.selectedIndex - 1].label
-            )
-          }
-        >
-          <option key="current" hidden="hidden">
-            {stepName}
-          </option>
-          {nameSuggestionOptions.map((suggestion) => (
-            <option key={suggestion.value}>{suggestion.label}</option>
-          ))}
-        </select>
-      );
-    } else {
-      return;
-    }
-  };
-
   return (
     <>
       <div className="form-section form-section--step mb-3">
-        <Input
-          bsSize="sm"
-          placeholder="Unnamed"
-          value={stepName}
-          onChange={(event) => setStepName(event.target.value)}
-        />
-        {renderNameSuggestionSelect()}
+        <SingleLineFormGroup label="Name">
+          {/*<p>
+            stepName: {JSON.stringify(stepName)} {typeof stepName}
+          </p>
+          <p>
+            tempName: {JSON.stringify(tempName)} {typeof tempName}
+          </p>*/}
+          <Typeahead
+            allowNew
+            id="step-name"
+            onBlur={(e) => handleBlur()}
+            onChange={(selected) => handleChange(selected)}
+            onInputChange={(text) => handleInputChange(text)}
+            options={nameSuggestionOptions.map((option) => option.label)}
+            defaultSelected={[stepName]}
+          />
+        </SingleLineFormGroup>
       </div>
       <VesselFormSection
         currentVessel={currentVessel}
