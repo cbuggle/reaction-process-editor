@@ -33,7 +33,7 @@ const OptionalFormSet = ({
     if (initialShowForm) {
       toggleShowForm();
     }
-  });
+  }, []);
 
   const toggleShowForm = () => {
     subFormController.toggleSubForm(subFormLabel);
