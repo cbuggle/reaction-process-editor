@@ -1,13 +1,15 @@
 import React from 'react';
-import {Card, CardBody, CardHeader} from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
+
 import IconButton from "./IconButton";
 
 const Info = () => null
 const TypePanel = () => null
 const Form = () => null
 const Details = () => null
+const ExtraButtons = () => null
 
-const ProcedureCard  = (
+const ProcedureCard = (
   {
     title,
     type,
@@ -17,7 +19,7 @@ const ProcedureCard  = (
     onDelete,
     onCancel,
     customClass = '',
-    headerTitleTag = 'h5',
+    headerTitleTag = 'h4',
     showEditBtn = true,
     showMoveXBtn = true,
     showMoveYBtn = true,
@@ -32,12 +34,18 @@ const ProcedureCard  = (
   const typePanel = childNodes.find(el => el.type === TypePanel)
   const form = childNodes.find(el => el.type === Form)
   const details = childNodes.find(el => el.type === Details)
+  const extraButtons = childNodes.find(el => el.type === ExtraButtons)
   const HeaderTitleTag = headerTitleTag
   return (
     <Card className={'procedure-card procedure-card--' + type + ' ' + customClass}>
-      <CardHeader className={'d-flex justify-content-between align-items-center bg-' + type}>
-        <HeaderTitleTag className='rounded-pill bg-white mb-0 px-3'>{title}</HeaderTitleTag>
-        <div>
+      <CardHeader className='d-flex justify-content-between align-items-center'>
+        <HeaderTitleTag className='procedure-card__header-label mb-0'>{title}</HeaderTitleTag>
+        <div className='d-flex'>
+          {extraButtons &&
+            <div>
+              {extraButtons.props.children}
+            </div>
+          }
           {showEditBtn &&
             <IconButton onClick={onEdit} icon='pen' />
           }
@@ -85,5 +93,6 @@ ProcedureCard.Info = Info
 ProcedureCard.TypePanel = TypePanel
 ProcedureCard.Form = Form
 ProcedureCard.Details = Details
+ProcedureCard.ExtraButtons = ExtraButtons
 
 export default ProcedureCard

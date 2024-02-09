@@ -1,0 +1,37 @@
+@use "sass:map";
+
+.btn {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.btn-group .btn {
+  color: $input-disabled-color;
+  &.active {
+    color: $input-color;
+  }
+}
+@each $color, $value in $theme-colors {
+  @if $color != 'white' and $color != 'transparent' {
+    .btn {
+      &-#{$color} {
+        border-color: border-color($color);
+
+        &:hover {
+          border-color: shade-color($value, 15%);
+        }
+      }
+
+      &-outline-#{$color} {
+        background-color: $body-bg;
+        color: $body-color;
+
+        &:hover {
+          color: $body-color;
+          background-color: tint-color($value, 85%);
+          border-color: shade-color($value, 5%);
+        }
+      }
+    }
+  }
+}

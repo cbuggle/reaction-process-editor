@@ -1,49 +1,53 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from "react";
 
-import { Button, Input } from 'reactstrap'
 import FormButtons from "../utilities/FormButtons";
+import VesselFormSection from "../vessels/VesselFormSection";
+import { VesselOptions } from "../../contexts/VesselOptions";
+import VesselDecorator from "../../decorators/VesselDecorator";
+import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
+import { Typeahead } from "react-bootstrap-typeahead";
+import AutoComplete from "../utilities/AutoComplete";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
+  const vessels = useContext(VesselOptions);
 
-  const [stepForm, setStepForm] = useState(processStep || {name: ''})
+  const assignVessel = (vesselId) => {
+    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
+  };
 
-  const onInputChange = (field) => {
-    const { name, value } = field;
-    setStepForm(prevState => ({
-      ...prevState, [name]: value
-    }));
-  }
+  const [stepName, setStepName] = useState(processStep?.name || "");
+  const [currentVessel, setCurrentVessel] = useState(processStep?.vessel);
 
   const handleSave = () => {
-    onSave(stepForm)
-  }
-
-  const handleSelect = (value) => {
-    onInputChange({name: 'name', value: value})
-  }
-
-  const renderNameSuggestionSelect = () => {
-    if (nameSuggestionOptions) {
-      return (
-        <select selected="current" type="select" onChange={event => handleSelect(nameSuggestionOptions[event.target.selectedIndex - 1].label)}>
-          <option key="current" hidden="hidden">{stepForm.name}</option>
-          {nameSuggestionOptions.map((suggestion) =>
-            <option key={suggestion.value}>{suggestion.label}</option>)}
-        </select>
-      )
-    } else {
-      return;
-    }
-  }
+    onSave(stepName, currentVessel.id);
+  };
 
   return (
     <>
-      <Input bsSize="sm" placeholder="Unnamed" value={stepForm.name} onChange={event => onInputChange({ name: 'name', value: event.target.value })} />
-      {renderNameSuggestionSelect()}
-      <FormButtons onSave={handleSave} onCancel={onCancel} type='step' />
+      <div className="form-section form-section--step mb-3">
+        <AutoComplete
+          options={nameSuggestionOptions.map((option) => option.label)}
+          value={stepName}
+          onChange={setStepName}
+          domId="step-name-input"
+          label="Name"
+        />
+      </div>
+      <VesselFormSection
+        currentVessel={currentVessel}
+        onSelectVessel={assignVessel}
+        typeColor="step"
+        buttonLabel={!!currentVessel ? "Change" : "Set"}
+        scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
+      />
+      <FormButtons
+        onSave={handleSave}
+        onCancel={onCancel}
+        type="step"
+        disableSave={!currentVessel || !stepName}
+      />
     </>
-  )
+  );
+};
 
-}
-
-export default StepForm
+export default StepForm;

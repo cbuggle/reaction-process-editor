@@ -1,0 +1,23 @@
+@use "sass:map";
+
+.modal {
+  &-dialog {
+    min-height: 75%;
+  }
+  &-header * {
+    margin: calc(var(--bs-modal-footer-gap) * 0.5);
+  }
+
+  @each $color, $value in $theme-colors {
+    &--#{$color} {
+      .modal-content {
+        border-color: border-color($color);
+      }
+      .modal-header,
+      .modal-footer {
+        color: color-contrast($value);
+        background-color: #{$value};
+      }
+    }
+  }
+}

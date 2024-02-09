@@ -1,0 +1,21 @@
+@use "sass:map";
+
+$condition-card-indentation: 3rem;
+
+.procedure-card--condition {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-right: none;
+  margin-left: $condition-card-indentation;
+  .card-header {
+    padding-right: 1.5rem;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  .procedure-card__header-label {
+    max-width: $max-label-width - $condition-card-indentation;
+  }
+  .procedure-card__info {
+    border-bottom-right-radius: 0 !important;
+  }
+}

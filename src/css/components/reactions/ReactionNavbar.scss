@@ -1,1 +1,47 @@
+.reaction-header {
+  margin-bottom: -24px;
+  z-index: 2;
+}
 
+.reaction-header__formula {
+  &-accordion .accordion-body {
+    padding: 0;
+    overflow: hidden;
+  }
+  &-container {
+    position: relative;
+  }
+  &-image {
+    height: 280px;
+    margin: 0 auto;
+    &.reaction-header__formula-image--enlarged {
+      height: auto;
+      width: 100%;
+    }
+  }
+  &-enlarge-button-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+}
+.reaction-navbar {
+  .reaction-name {
+    display: block;
+  }
+  .reaction-id {
+    display: block;
+    font-size: $font-size-base;
+  }
+}
+.formula-drawer-button {
+  --bs-btn-padding-y: 0;
+  margin-top: -12px;
+  span {
+    padding: 0 0.25em;
+  }
+  &-container {
+    position: relative;
+    z-index: -1;
+  }
+}

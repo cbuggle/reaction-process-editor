@@ -1,33 +1,39 @@
-import { apiHostname } from '../Constants';
-import { useFetchWrapper } from './fetch-wrapper'
+import { apiHostname } from '../constants';
+import { useElnApi } from './elnApi';
 
 export { useReactionsFetcher };
 
 function useReactionsFetcher() {
 
-  const api = useFetchWrapper();
+  const api = useElnApi();
 
   return {
     index,
+    svgImage,
+    sampleSvgImage,
     collectionSelectOptions,
     reactionSelectOptions,
     getReactionProcess,
+    geDefaultConditions,
+    updateReactionDefaultConditions,
+    updateUserDefaultConditions,
     updateProvenance,
-    ordLinkTarget,
+    downloadOrd,
     updateSamplePreparation,
     deleteSamplePreparation,
     createProcessStep,
     updateProcessStep,
     deleteProcessStep,
-    createAction,
-    updateAction,
-    deleteAction,
-    updateActionPosition,
-    updateProcessStepPosition
+    createActivity,
+    updateActivity,
+    deleteActivity,
+    updateActivityPosition,
+    updateProcessStepPosition,
+    assignProcessStepVessel,
   }
 
   function index() {
-    var path = `/reaction_processes`
+    var path = `/reactions`
 
     if (localStorage.getItem('filter_collection_id')) {
       path = path + '?' + new URLSearchParams({ collection_id: localStorage.getItem('filter_collection_id') })
@@ -35,12 +41,27 @@ function useReactionsFetcher() {
     return api.get(path);
   }
 
+  function svgImage(reaction) {
+    // Note that this is not an api call but a link target.
+    return `${apiHostname}/images/reactions/${reaction.reaction_svg_file}`
+  }
+
+  function sampleSvgImage(sample) {
+    // Note that this is not an api call but a link target.
+    return `${apiHostname}/images/samples/${sample.sample_svg_file}`
+  }
+
   function collectionSelectOptions() {
-    return api.get(`/reaction_processes/collection_select_options`);
+    return api.get(`/collection_select_options`);
+  }
+
+  function geDefaultConditions() {
+    return api.get(`/default_conditions`);
   }
 
   function reactionSelectOptions() {
-    // {label:, value:} are piggybacked onto the reaction processes so index can be used conveniently for select options as well.
+    // {label:, value:} are piggybacked onto the /reactions
+    // so index can be used conveniently for select options as well.
     return index();
   }
 
@@ -49,16 +70,27 @@ function useReactionsFetcher() {
   }
 
   function updateProvenance(provenance) {
-    return api.put(`/reaction_processes/${provenance.reaction_process_id}/provenance.json`, { 'provenance': provenance });
+    return api.put(`/reaction_processes/${provenance.reaction_process_id}/provenance`,
+      { 'provenance': provenance });
   }
 
-  function ordLinkTarget(id) {
-    // Note that this is not an api call but a link target.
-    return `${apiHostname}/reactions/${id}/ord`
+  function updateReactionDefaultConditions(default_conditions) {
+    return api.put(`/reaction_processes/${default_conditions.reaction_process_id}/reaction_default_conditions`,
+      { 'default_conditions': default_conditions });
+  }
+
+  function updateUserDefaultConditions(default_conditions) {
+    return api.put(`/user_default_conditions`,
+      { 'default_conditions': default_conditions });
+  }
+
+  function downloadOrd(id) {
+    return api.download(`/reaction_processes/${id}/ord`)
   }
 
   function updateSamplePreparation(reactionProcessId, samplePreparation) {
-    return api.put(`/reaction_processes/${reactionProcessId}/samples_preparations`, { 'sample_preparation': samplePreparation })
+    return api.put(`/reaction_processes/${reactionProcessId}/samples_preparations`,
+      { 'sample_preparation': samplePreparation })
   }
 
   function deleteSamplePreparation(reactionProcessId, id) {
@@ -66,7 +98,8 @@ function useReactionsFetcher() {
   }
 
   function createProcessStep(reactionProcessId, processStep) {
-    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`, { 'reaction_process_step': processStep })
+    return api.post(`/reaction_processes/${reactionProcessId}/reaction_process_steps`,
+      { 'reaction_process_step': processStep })
   }
 
   function updateProcessStep(processStep) {
@@ -81,20 +114,24 @@ function useReactionsFetcher() {
     return api.put(`/reaction_process_steps/${id}/update_position`, { 'position': position })
   }
 
-  function createAction(processStepId, action, insertBefore) {
-    return api.post(`/reaction_process_steps/${processStepId}/actions`, { 'action': action, 'insert_before': insertBefore })
+  function assignProcessStepVessel(stepId, vesselId) {
+    return api.put(`/reaction_process_steps/${stepId}/vessel`, { 'vessel_id': vesselId })
   }
 
-  function updateAction(action) {
-    return api.put(`/reaction_process_actions/${action.id}`, { 'action': action })
+  function createActivity(processStepId, activity, insertBefore) {
+    return api.post(`/reaction_process_steps/${processStepId}/activities`,
+      { 'activity': activity, 'insert_before': insertBefore })
   }
 
-  function deleteAction(id) {
-    return api.delete(`/reaction_process_actions/${id}`)
+  function updateActivity(activity) {
+    return api.put(`/reaction_process_activities/${activity.id}`, { 'activity': activity })
   }
 
-  function updateActionPosition(id, position) {
-    return api.put(`/reaction_process_actions/${id}/update_position`, { 'position': position })
+  function deleteActivity(id) {
+    return api.delete(`/reaction_process_activities/${id}`)
   }
 
+  function updateActivityPosition(id, position) {
+    return api.put(`/reaction_process_activities/${id}/update_position`, { 'position': position })
+  }
 }

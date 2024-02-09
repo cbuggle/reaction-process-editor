@@ -1,8 +1,12 @@
 .column-container-card {
-  &--preparation {
-    width: 424px;
-  }
+  margin-right: 1rem;
+  width: 360px;
   &--step {
-    min-width: 548px;
+    .step-column-card__condition-container {
+      border-color: border-color('condition');
+      border-style: solid;
+      border-width: 0 6px 0 0;
+      @include details-spacing;
+    }
   }
 }

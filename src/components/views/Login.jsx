@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormGroup, Form, Input, Button, Container, Row, Col } from 'reactstrap'
+import { FormGroup, Form, Input, Button } from 'reactstrap'
 
 import { useAuthenticationFetcher } from '../../fetchers/AuthenticationFetcher';
 
@@ -18,39 +18,37 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     authenticationFetcher.signIn(credentials)
   }
 
   return (
     <>
-      <Container>
-        <Row className="justify-content-center align-items-top-third">
-          <Col sm="12" md="8" lg="6">
-            <Form>
-              <FormGroup>
-                <Input
-                  type="textfield"
-                  value={credentials.username}
-                  placeholder="Username"
-                  onChange={event => onInputChange({ name: 'username', value: event.target.value })}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  type="password"
-                  value={credentials.password}
-                  placeholder="Password"
-                  onChange={event => onInputChange({ name: 'password', value: event.target.value })}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Button color="success" type="submit" onClick={handleSubmit} className="float-end">Submit</Button>
-              </FormGroup>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+      <div className='bg-primary d-flex align-items-center justify-content-center h-100'>
+        <div className='d-flex flex-column align-items-center h-75'>
+          <h1 className='mb-4 text-light'>Please Login with your eln credentials</h1>
+          <Form>
+            <FormGroup>
+              <Input
+                type="textfield"
+                value={credentials.username}
+                placeholder="Username"
+                onChange={event => onInputChange({ name: 'username', value: event.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="password"
+                value={credentials.password}
+                placeholder="Password"
+                onChange={event => onInputChange({ name: 'password', value: event.target.value })}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Button color="white" type="submit" onClick={handleSubmit} className="float-end">Submit</Button>
+            </FormGroup>
+          </Form>
+        </div>
+      </div>
     </>
   )
 }

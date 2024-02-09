@@ -1,0 +1,14 @@
+.amount-input {
+  margin-bottom: -0.5rem;
+  > * {
+    position: relative;
+  }
+  &--active.amount-input {
+    @include type-active-background-color(1px)
+  }
+  &--passive {
+    .col-form-label {
+      font-weight: normal;
+    }
+  }
+}

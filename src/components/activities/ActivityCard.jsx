@@ -1,50 +1,72 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
+import ActionForm from "./forms/actions/ActionForm";
+import ActivityInfoDecorator from '../../decorators/ActivityInfoDecorator';
+import ActivityInfo from "./ActivityInfo";
+import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
-import ActionInfo from "../actions/ActionInfo";
-import ActionForm from "../actions/ActionForm";
+import Timer from './timing/Timer';
+
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import { SubFormController } from '../../contexts/SubFormController';
+import { StepLock } from '../../contexts/StepLock';
+import ActivityValidator from '../../validators/ActivityValidator';
 
 const ActivityCard = (
   {
     type,
     activity,
     onSave,
-    onChange,
     onCancel,
+    preconditions,
     processStep,
-    dragRef
+    customClass,
+    dragRef,
   }) => {
 
   const api = useReactionsFetcher()
+  const subFormController = useContext(SubFormController)
+  const stepLock = useContext(StepLock)
+
+  const isCondition = type === 'condition'
   const isInitialised = !!activity
-  const [activityForm, setActivityForm] = useState(activity)
-  const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : 'type-panel')
-  const editable = displayMode !== 'info'
+  const [workup, setWorkup] = useState(isInitialised ? activity.workup : {});
+  const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined
+  const uninitialisedMode = isCondition ? 'form' : 'type-panel'
+  const uninitialisedTitle = isCondition ? 'Change Condition' : 'New Action'
+  const [activityForm, setActivityForm] = useState(isInitialised ? activity : uninitialisedForm)
+  const [displayMode, setDisplayMode] = useState(isInitialised ? 'info' : uninitialisedMode)
 
-  const cardTitle = () => {
-    if (isInitialised) {
-      return activity.label
-    } else {
-      let label = 'New ' + type.charAt(0).toUpperCase() + type.slice(1);
-      if (activityForm) {
-        activityForm.action_name === "CONDITION" ?
-          label += ' ' + (activityForm.workup['condition_type'] || '')
-          :
-          label += ' ' + activityForm.action_name + ' ' + (activityForm.workup['acts_as'] || '')
+  const cardTitle = !!activityForm?.activity_name ? ActivityInfoDecorator.cardTitle(activityForm) : uninitialisedTitle
+
+  const editable = displayMode === 'info' && !stepLock
+  const canceable = displayMode !== 'info' && !stepLock
+
+  useEffect(() => {
+    setActivityForm(prevState => ({ ...prevState, workup: workup }));
+  }, [workup, subFormController, subFormController.openSubFormLabel, displayMode]);
+
+  const edit = () => setDisplayMode(isInitialised ? 'form' : uninitialisedMode())
+
+  const onDelete = () => api.deleteActivity(activity.id)
+
+  const onSelectType = (newActivity) => () => {
+    setActivityForm(newActivity)
+    setWorkup(newActivity.workup)
+    setDisplayMode('form')
+  }
+
+  const onSaveForm = () => {
+    if (ActivityValidator.validate(activityForm)) {
+      onSave(activityForm)
+      subFormController.closeAllSubForms()
+      if (isInitialised) {
+        setDisplayMode('info')
+      } else {
+        setActivityForm({ workup: {} })
       }
-      return label
     }
-  }
-
-  const edit = () => {
-    setDisplayMode(isInitialised ? 'form' : 'type-panel')
-  }
-
-  const onDelete = () => {
-    api.deleteAction(activity.id).then(() => {
-      onChange()
-    })
   }
 
   const handleCancel = () => {
@@ -56,63 +78,68 @@ const ActivityCard = (
     }
   }
 
-  const onSelectType = (activity) => () => {
-    setActivityForm(activity)
-    setDisplayMode('form')
+  const handleWorkupChange = ({ name, value }) => {
+    setWorkup(prevWorkup => ({ ...prevWorkup, [name]: value }))
   }
 
-  const onSaveForm = () => {
-    onSave(activityForm)
-    if (isInitialised) {
-      setDisplayMode('info')
-    } else {
-      setActivityForm({ workup: {} })
-    }
-  }
-
-  const onWorkupChange = (field) => {
-    const { name, value } = field;
-    setActivityForm(prevState => ({
-      ...prevState, workup: { ...prevState.workup, [name]: value }
-    }));
-  }
-
-
-  const setDuration = (value) => {
-    setActivityForm({ name: "duration", value: value })
-    onWorkupChange({ name: "duration", value: value })
-  }
+  const setDuration = (value) => handleWorkupChange({ name: "duration", value: value })
 
   return (
     <ProcedureCard
-      title={cardTitle()}
+      title={cardTitle}
       type={type}
       onEdit={edit}
       onDelete={onDelete}
       onCancel={handleCancel}
-      showEditBtn={!editable}
+      showEditBtn={editable}
       showMoveXBtn={false}
-      showMoveYBtn={!editable}
-      showDeleteBtn={!editable}
-      showCancelBtn={editable}
-      dragRef={dragRef}
+      showMoveYBtn={editable}
+      showDeleteBtn={editable}
+      showCancelBtn={canceable}
       displayMode={displayMode}
+      headerTitleTag='h6'
+      customClass={customClass}
+      dragRef={dragRef}
     >
       <ProcedureCard.Info>
-        <ActionInfo action={activity} />
+        <>
+          <ActivityInfo
+            activity={activity}
+            preconditions={preconditions}
+          />
+          <Timer
+            activityType={type}
+            workup={activityForm?.workup}
+            onSave={onSaveForm}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
+            displayMode='info'
+          />
+        </>
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
-        <TypeSelectionPanel onSelect={onSelectType} selectionType={type} />
+        <TypeSelectionPanel onSelect={onSelectType} />
       </ProcedureCard.TypePanel>
       <ProcedureCard.Form>
-        {activityForm &&
+        {activityForm && !isCondition &&
           <ActionForm
-            action={activityForm}
+            activity={activityForm}
+            preconditions={preconditions}
+            processStep={processStep}
             onCancel={handleCancel}
             onSave={onSaveForm}
-            onWorkupChange={onWorkupChange}
-            setDuration={setDuration}
-            processStep={processStep}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
+          />
+        }
+        {isCondition &&
+          <ConditionForm
+            activity={activityForm}
+            preconditions={preconditions}
+            onCancel={handleCancel}
+            onSave={onSaveForm}
+            onWorkupChange={handleWorkupChange}
+            onChangeDuration={setDuration}
           />
         }
       </ProcedureCard.Form>

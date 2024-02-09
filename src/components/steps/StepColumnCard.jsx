@@ -1,143 +1,177 @@
-import React, { useState } from 'react';
-import ColumnContainerCard from "../utilities/ColumnContainerCard";
-import ProcedureCard from "../utilities/ProcedureCard";
+import React, { useState } from "react";
 
-import StepForm from './StepForm';
-import StepInfo from './StepInfo';
+import { useDrag, useDrop } from "react-dnd";
+import { DndItemTypes } from "../../constants/dndItemTypes";
 
-import { useDrag, useDrop } from 'react-dnd'
-import { DndItemTypes } from '../../constants/dndItemTypes';
-
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import Activity from "../activities/Activity";
 import ActivityCreator from "../activities/ActivityCreator";
+import ColumnContainerCard from "../utilities/ColumnContainerCard";
+import ProcedureCard from "../utilities/ProcedureCard";
+import StepInfo from "./StepInfo";
+import StepForm from "./StepForm";
+import StepLockButton from "./StepLockButton";
 
-const StepColumCard = (
-  {
-    processStep,
-    reactionProcess,
-    onChange,
-    onCancel
-  }) => {
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-  const isInitialised = !!processStep
-  const [showForm, setShowForm] = useState(!isInitialised)
-  const cardTitle = isInitialised ? processStep.label : 'New Step'
-  const api = useReactionsFetcher()
+import { StepSelectOptions } from "../../contexts/StepSelectOptions";
+import { StepLock } from "../../contexts/StepLock";
+
+const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
+  const isInitialised = !!processStep;
+  const [showForm, setShowForm] = useState(!isInitialised);
+  const cardTitle = isInitialised ? processStep.label : "New Step";
+  const api = useReactionsFetcher();
+  const isLocked = !!processStep?.locked;
 
   const displayMode = () => {
-    return showForm ? 'form' : 'info'
-  }
+    return showForm ? "form" : "info";
+  };
 
   const confirmDeleteStep = () => {
-    window.confirm('Deleting the ProcessStep will irreversably delete this ' +
-      'step and all associated actions. This can not be undone. Are you sure?')
-      && deleteStep()
-  }
+    window.confirm(
+      "Deleting the ProcessStep will irreversably delete this " +
+        "step and all associated actions. This can not be undone. Are you sure?"
+    ) && deleteStep();
+  };
 
-  const deleteStep = () => {
-    api.deleteProcessStep(processStep.id).then(() => {
-      onChange()
-    })
-  }
+  const deleteStep = () => api.deleteProcessStep(processStep.id);
 
   const handleCancel = () => {
     if (isInitialised) {
-      toggleForm()
+      toggleForm();
     } else {
-      onCancel()
+      onCancel();
     }
-  }
+  };
 
-  const onSave = (stepForm) => {
+  const onSave = (stepName, vesselId) => {
     if (isInitialised) {
-      api.updateProcessStep(stepForm).then(() => {
-        setShowForm(false)
-        onChange()
-      })
+      if (stepName !== processStep.name) {
+        api.updateProcessStep({
+          ...processStep,
+          name: stepName,
+        });
+      }
+      if (vesselId !== processStep.vessel?.id) {
+        api.assignProcessStepVessel(processStep.id, vesselId);
+      }
+      setShowForm(false);
     } else {
-      api.createProcessStep(reactionProcess.id, stepForm).then(() => {
-        onCancel()
-        setShowForm(false)
-        onChange()
-      })
+      api.createProcessStep(reactionProcess.id, {
+        ...processStep,
+        name: stepName,
+        vessel_id: vesselId,
+      });
+      setShowForm(false);
+      onCancel();
     }
-  }
+  };
 
-  const toggleForm = () => {
-    setShowForm(!showForm)
-  }
+  const toggleForm = () => setShowForm(!showForm);
 
   /* React-DnD drag source and drop target */
-  const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
-    type: DndItemTypes.STEP,
-    item: { processStep: processStep },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-      canDrag: monitor.canDrag()
+  const [{ isDragging }, dragRef, previewRef] = useDrag(
+    () => ({
+      type: DndItemTypes.STEP,
+      item: { processStep: processStep },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+        canDrag: monitor.canDrag(),
+      }),
+      canDrag: () => processStep && !isLocked,
     }),
-    canDrag: () => processStep && !processStep.locked
-  }), [processStep])
+    [processStep]
+  );
 
-
-  const [{ isOver }, dropRef] = useDrop(() => ({
-    accept: DndItemTypes.STEP,
-    drop: (monitor) => dropItem(monitor, processStep),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop()
+  const [{ isOver }, dropRef] = useDrop(
+    () => ({
+      accept: DndItemTypes.STEP,
+      drop: (monitor) => dropItem(monitor, processStep),
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop(),
+      }),
+      canDrop: () => processStep && !isLocked,
     }),
-    canDrop: (monitor) => processStep && !processStep.locked
-  }), [processStep])
+    [processStep]
+  );
 
   const dropItem = (monitor, processStep) => {
-    console.log(monitor)
-    console.log(processStep)
-    api.updateProcessStepPosition(monitor.processStep.id, processStep.position).then(() => {
-      onChange()
-    })
-  }
+    api.updateProcessStepPosition(monitor.processStep.id, processStep.position);
+  };
 
+  const renderActivities = () => {
+    return processStep.actions.map((activity) => (
+      <Activity
+        key={activity.id}
+        activity={activity}
+        processStep={processStep}
+      />
+    ));
+  };
 
   return (
-    <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
-      <div ref={previewRef} style={{ opacity: isDragging ? 0 : 1, cursor: isDragging ? 'move' : 'grab' }}>
-        <ColumnContainerCard
-          title={cardTitle}
-          type='step'
-          showEditBtn={!showForm}
-          showMoveXBtn={!showForm}
-          showDeleteBtn={!showForm}
-          showCancelBtn={showForm}
-          onDelete={confirmDeleteStep}
-          onEdit={toggleForm}
-          onCancel={handleCancel}
-          displayMode={displayMode()}
-          dragRef={dragRef}
-        >
-          <ProcedureCard.Info>
-            <StepInfo processStep={processStep} onChange={onChange} />
-          </ProcedureCard.Info>
-          <ProcedureCard.Form>
-            <StepForm
-              processStep={processStep}
-              reactionProcess={reactionProcess}
-              nameSuggestionOptions={reactionProcess.select_options.step_name_suggestions}
-              onSave={onSave}
-              onCancel={handleCancel}
-            />
-          </ProcedureCard.Form>
-          {isInitialised &&
-            <ProcedureCard.Details>
-              {processStep.actions.map(action => (
-                <Activity key={action.id} action={action} processStep={processStep} onChange={onChange} />
-              ))}
-              <ActivityCreator processStep={processStep} onChange={onChange} />
-            </ProcedureCard.Details>
+    <StepSelectOptions.Provider value={processStep?.select_options}>
+      <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
+        <div
+          ref={previewRef}
+          className={
+            "draggable-element" +
+            (isDragging ? " draggable-element--dragging" : "")
           }
-        </ColumnContainerCard>
+        >
+          <StepLock.Provider value={isLocked}>
+            <ColumnContainerCard
+              title={cardTitle}
+              type="step"
+              showEditBtn={!showForm && !isLocked}
+              showMoveXBtn={!showForm && !isLocked}
+              showDeleteBtn={!showForm && !isLocked}
+              showCancelBtn={showForm && !isLocked}
+              onDelete={confirmDeleteStep}
+              onEdit={toggleForm}
+              onCancel={handleCancel}
+              displayMode={displayMode()}
+              dragRef={dragRef}
+            >
+              <ProcedureCard.Info>
+                <StepInfo processStep={processStep} />
+              </ProcedureCard.Info>
+              <ProcedureCard.Form>
+                <StepForm
+                  processStep={processStep}
+                  reactionProcess={reactionProcess}
+                  nameSuggestionOptions={
+                    reactionProcess.select_options.step_name_suggestions
+                  }
+                  onSave={onSave}
+                  onCancel={handleCancel}
+                />
+              </ProcedureCard.Form>
+              {isInitialised && (
+                <ProcedureCard.Details>
+                  <div className="step-column-card__condition-container">
+                    {renderActivities()}
+                    {!isLocked && (
+                      <ActivityCreator
+                        processStep={processStep}
+                        preconditions={processStep.final_conditions}
+                        insertNewBeforeIndex={processStep.actions.length}
+                      />
+                    )}
+                  </div>
+                </ProcedureCard.Details>
+              )}
+              {isInitialised && (
+                <ProcedureCard.ExtraButtons>
+                  <StepLockButton stepId={processStep?.id} locked={isLocked} />
+                </ProcedureCard.ExtraButtons>
+              )}
+            </ColumnContainerCard>
+          </StepLock.Provider>
+        </div>
       </div>
-    </div>
+    </StepSelectOptions.Provider>
   );
 };
 

@@ -1,10 +1,21 @@
 .icon-button {
   border-radius: 50%;
+  border-style: none;
   padding: 4px;
   --bs-btn-color: white;
-  --bs-btn-hover-color: black;
+  --bs-btn-hover-color: var(--bs-body-color);
   --bs-btn-hover-bg: white;
+  font-size:  $font-size-lg;
   line-height: 1em;
+  &.btn-lg {
+    font-size: $h3-font-size;
+    padding: 6px;
+  }
+  &.icon-button--positive {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: var(--bs-body-color);
+  }
   svg {
     width: 1em;
   }

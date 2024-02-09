@@ -1,0 +1,20 @@
+@use "sass:map";
+
+@mixin type-border-color($direction:'') {
+  @each $color, $value in $theme-colors {
+    &--#{$color} {
+      @if $direction != '' {
+        border-#{$direction}-color: border-color($color);
+      }
+      @else {
+        border-color: border-color($color);
+      }
+    }
+  }
+}
+
+@mixin separator-border($direction:'bottom') {
+  border-#{$direction}-width: 1px;
+  border-#{$direction}-style: solid;
+  @include type-border-color($direction)
+}

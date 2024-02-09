@@ -1,7 +1,53 @@
 .spinner-with-message {
-  height: 160px;
-  .spinner-border {
-    height: 80px;
-    width: 80px;
+  --bs-modal-width: 100%;
+  --bs-modal-border-radius: 0;
+
+  .modal-content {
+    background-color: color("secondary");
+    border: none;
+    padding: 20px;
+    margin-top: -100px;
+  }
+  &__content {
+    height: 160px;
+  }
+  .spinner__container {
+    width: 108px;
+    min-height: 108px;
+    margin: 16px;
+    background-color: $body-bg;
+    border-radius: 50%;
+    border-width: 8px;
+    border-style: solid;
+    border-color: color("dark");
+    position: relative;
+  }
+  .spinner-transformer {
+    position: absolute;
+    &:first-child {
+      left: 6px;
+      top: 6px;
+      .spinner-border {
+        height: 80px;
+        width: 80px;
+      }
+    }
+    &:nth-child(2) {
+      left: 16px;
+      top: 16px;
+      transform: scaleX(-1);
+      .spinner-border {
+        height: 60px;
+        width: 60px;
+      }
+    }
+    &:last-child {
+      left: 26px;
+      top: 26px;
+      .spinner-border {
+        height: 40px;
+        width: 40px;
+      }
+    }
   }
 }

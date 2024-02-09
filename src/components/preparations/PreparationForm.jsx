@@ -1,56 +1,75 @@
-import React, { useState, useMemo } from 'react'
-import { Button, Label, Input, Form, FormGroup } from 'reactstrap'
+import React, { useState } from 'react'
+import { Label, Input, Form, FormGroup, FormFeedback } from 'reactstrap'
 import Select from 'react-select'
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 import FormButtons from "../utilities/FormButtons";
+
+import SamplesDecorator from '../../decorators/SamplesDecorator';
 
 const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) => {
 
-  const api = useReactionsFetcher()
-
-  const [preparationForm, updatePreparationForm] = useState(preparation || {})
+  const [preparationForm, updatePreparationForm] = useState(preparation || { details: '' })
+  const [formIncomplete, setFormIncomplete] = useState(false)
 
   const sampleOptions = preparation ? preparationOptions.prepared_samples : preparationOptions.unprepared_samples
+  const samplePreparationOptions = preparationOptions.preparation_types
 
   const onInputChange = (field) => {
     const { name, value } = field;
     updatePreparationForm(prevState => ({
       ...prevState, [name]: value
     }));
+    if (formIncomplete && name === 'sample_id') {
+      setFormIncomplete(!value)
+    }
   }
 
   const handleSave = (e) => {
-    onSave(preparationForm)
+    if (!!preparationForm.sample_id) {
+      onSave(preparationForm)
+    } else {
+      setFormIncomplete(true)
+    }
   }
 
   return (
     <Form>
       <FormGroup>
         <Label>Sample</Label>
-        { }
         <Select
+          className={'react-select--overwrite' + (formIncomplete ? ' is-invalid' : '')}
+          classNamePrefix='react-select'
           name="sample_id"
           isDisabled={!!preparation}
           options={sampleOptions}
           value={sampleOptions.filter(option => (option.value === preparationForm.sample_id))}
           onChange={selectedOption => onInputChange({ name: 'sample_id', value: selectedOption.value })}
         />
+        {SamplesDecorator.sampleSvgImg(sampleOptions.find(option => (option.value === preparationForm.sample_id)))}
+        <FormFeedback>
+          Please select a sample!
+        </FormFeedback>
       </FormGroup>
       <FormGroup>
-        <Label>Details</Label>
+        <Label>Preparations</Label>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           isMulti
+          isClearable={false}
           name="preparations"
-          options={preparationOptions.preparations}
-          value={preparationOptions.preparations.filter(option => (preparationForm.preparations || []).includes(option.value))}
+          options={samplePreparationOptions}
+          value={samplePreparationOptions.filter(option => (preparationForm.preparations || []).includes(option.value))}
           onChange={selectedOptions => onInputChange({ name: 'preparations', value: selectedOptions.map(option => option.value) })}
         />
       </FormGroup>
       <FormGroup>
         <Label>Equipment</Label>
         <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
           isMulti
+          isClearable={false}
           name="equipment"
           options={preparationOptions.equipment}
           value={preparationOptions.equipment.filter(option => (preparationForm.equipment || []).includes(option.value))}

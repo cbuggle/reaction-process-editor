@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Navbar,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
-} from 'reactstrap';
+import { DropdownMenu, DropdownItem, DropdownToggle, Navbar, NavbarBrand, Nav, UncontrolledDropdown } from 'reactstrap'
+import { Link, useLocation } from "react-router-dom";
 
-import { useNavigate, useLocation } from 'react-router-dom';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LogoutButton from '../login/LogoutButton';
+import UserMenu from "./UserMenu";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-const MainHeader = ({ onChangeCollection }) => {
+import { SelectOptions } from '../../contexts/SelectOptions'
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
 
-  const navigate = useNavigate();
-  const api = useReactionsFetcher();
+const MainHeader = () => {
+  const location = useLocation();
+  const reactionApi = useReactionsFetcher();
 
+  const [reactions, setReactions] = useState([])
   const [reactionOptions, setReactionOptions] = useState([])
   const [collectionOptions, setCollectionOptions] = useState([])
-  const [filterCollectionId, setFilterCollectionId] = useState(localStorage.getItem('filter_collection_id'))
+  const [selectOptions, setSelectOptions] = useState([])
+  const [userDefaultConditions, setUserDefaultConditions] = useState([])
+  const [globalDefaultConditions, setGlobalDefaultConditions] = useState([])
 
+  const filterCollectionId = localStorage.getItem('filter_collection_id')
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
 
   useEffect(() => {
@@ -37,104 +30,114 @@ const MainHeader = ({ onChangeCollection }) => {
     if (localStorage.getItem('bearer_auth_token')) {
       fetchCollectionOptions()
       fetchReactionOptions()
+      fetchUserDefaultConditions()
     }
-  }, []);
+    window.addEventListener('indexRequiresReload', fetchReactionOptions);
+    window.addEventListener('userDefaultConditionsRequiresReload', fetchUserDefaultConditions);
+    return () => {
+      window.removeEventListener('indexRequiresReload', fetchReactionOptions);
+      window.removeEventListener('userDefaultConditionsRequiresReload', fetchUserDefaultConditions);
+    };
+
+    // React's state model requires `fetchReactionOptions` in the dependencies array to assert state consistency.
+    // When done however it will be called every time when dependencies are checked (i.e. after refetch),
+    // triggering another refetch (endless loop).
+    // Wrapping fetchReactionOptions in a useCallback as recommended by the React guidelines
+    // does not work either as it depends on the api = useReactionsFetcher(),
+    // which then again can not be used in hooks as useReactionsFetcher() is a hook itself.
+    //
+    // We ignore the warnings which is recommended only when you know exactly what you are doing which I do not. cbuggle.
+    // eslint-disable-next-line
+  }, [location, auth_token]);
+
+  // Hardcoded routes are ok for now.
+  const reactionLinkTarget = (id) => { return '/reactions/' + id }
+  const reactionIndexLinkTarget = '/reactions'
 
   const fetchReactionOptions = () => {
-    api.reactionSelectOptions().then((data) => {
-      setReactionOptions(data['reactions'])
+    reactionApi.index().then((data) => {
+      if (data && data['reactions']) {
+        setReactions(data['reactions'])
+        const options = data['reactions'].map(({ id, short_label }) => ({
+          key: id,
+          url: reactionLinkTarget(id),
+          label: id + ': ' + short_label
+        }))
+        options.unshift({
+          key: 'index',
+          url: reactionIndexLinkTarget,
+          label: 'Reaction Index'
+        })
+        setReactionOptions(options)
+      }
     })
   }
 
   const fetchCollectionOptions = () => {
-    api.collectionSelectOptions().then((data) => {
-      setCollectionOptions(data['collection_select_options'])
+    reactionApi.collectionSelectOptions().then((data) => {
+      data?.collection_select_options && setCollectionOptions(data['collection_select_options'])
+    })
+  }
+
+  const fetchUserDefaultConditions = () => {
+    reactionApi.geDefaultConditions().then((data) => {
+      let defaultConditions = data['default_conditions']
+      defaultConditions?.['global'] && setGlobalDefaultConditions(defaultConditions['global'])
+      defaultConditions?.['user'] && setUserDefaultConditions(defaultConditions['user'])
+      defaultConditions?.['select_options'] && setSelectOptions(defaultConditions['select_options'])
     })
   }
 
   const selectCollection = (event) => {
     localStorage.setItem('filter_collection_id', event.target.value)
-    fetchReactionOptions()
-    if (onChangeCollection) { onChangeCollection() }
-  }
-
-  const selectReaction = (event) => {
-    navigate("/reactions/" + event.target.value);
-    window.location.reload();
+    window.dispatchEvent(new Event("indexRequiresReload"))
   }
 
   const brandHref = () => {
     return localStorage.getItem('username') ? '/reactions' : '/'
-
-  }
-
-  const renderLoginHint = () => {
-    return (
-      <>
-        <NavItem>
-          <NavbarText>
-            Please Login with your eln credentials
-          </NavbarText>
-        </NavItem>
-
-      </>
-    )
-  }
-
-  const renderNavbarLoggedIn = () => {
-    return (
-      <>
-        <Nav navbar className="justify-content-evenly flex-grow-1">
-          <NavItem>
-            <NavLink href="/reactions">
-              Reaction Index
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Collections
-              </DropdownToggle>
-              <DropdownMenu>
-                {collectionOptions.map((collection) =>
-                  <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection} selected={filterCollectionId === collection.value}>
-                    {collection.label}
-                  </DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </NavItem>
-          <NavItem>
-            <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                Reactions ({reactionOptions.length})
-              </DropdownToggle>
-              <DropdownMenu>
-                {reactionOptions.map((reaction) =>
-                  <DropdownItem key={reaction.id} value={reaction.id} onClick={selectReaction}>{reaction.id + ': ' + reaction.short_label}</DropdownItem>)}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </NavItem>
-        </Nav>
-        <Nav navbar className="justify-content-end">
-          <NavItem className="me-2">
-            <NavbarText className="d-flex" >
-              <FontAwesomeIcon icon="user-circle" className="pt-1 me-1" />
-              {localStorage.getItem('username')}
-            </NavbarText>
-          </NavItem>
-          <NavItem>
-            <LogoutButton />
-          </NavItem>
-        </Nav>
-      </>
-    )
   }
 
   return (
-    <Navbar color='primary' dark >
-      <NavbarBrand href={brandHref()}>ELN Process Editor</NavbarBrand>
-      {localStorage.getItem('username') ? renderNavbarLoggedIn() : renderLoginHint()}
-    </Navbar>
+    <SelectOptions.Provider value={selectOptions}>
+      <SubFormController.Provider value={SubFormToggle()}>
+        <Navbar className='bg-secondary main-header' dark expand={true}>
+          <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
+          {localStorage.getItem('username') &&
+            <>
+              <Nav navbar className="me-auto main-header__nav">
+                <UncontrolledDropdown nav>
+                  <DropdownToggle nav caret>
+                    {collectionOptions.find((item) => '' + item.value === filterCollectionId)?.label || "Collections"}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {collectionOptions.map((collection) =>
+                      <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection}>
+                        {collection.label}
+                      </DropdownItem>)}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+                <UncontrolledDropdown nav>
+                  <DropdownToggle nav caret>
+                    Reactions ({reactions.length})
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {reactionOptions.map((reaction) =>
+                      <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </Nav>
+              <Nav navbar className="justify-content-end align-items-center">
+                <UserMenu
+                  defaultConditions={userDefaultConditions}
+                  preconditions={globalDefaultConditions}
+
+                />
+              </Nav>
+            </>
+          }
+        </Navbar>
+      </SubFormController.Provider>
+    </SelectOptions.Provider>
   )
 }
 

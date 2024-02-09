@@ -1,0 +1,7 @@
+.multi-input-form-group {
+  padding: 1rem 0 0.25rem;
+  margin: 1rem 0 0.75rem;
+  border-width: 1px 0;
+  border-style: solid;
+  @include type-border-color
+}

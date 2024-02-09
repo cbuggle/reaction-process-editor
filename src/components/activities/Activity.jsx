@@ -1,103 +1,114 @@
-import React, { useState } from 'react';
+
+import { useContext } from "react";
+import { useDrag, useDrop } from 'react-dnd'
+
 import ActivityCard from "./ActivityCard";
-import ConditionFooter from "./ConditionFooter";
+import InsertZone from "./InsertZone";
+
+import { DndItemTypes } from '../../constants/dndItemTypes';
+import { StepLock } from "../../contexts/StepLock";
+import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
-import { useDrag, useDrop } from 'react-dnd'
-import { DndItemTypes } from '../../constants/dndItemTypes';
-import ActivityCreator from "./ActivityCreator";
 
-const Activity = ({ action, processStep, onChange }) => {
-
+const Activity = ({ activity, processStep }) => {
   const api = useReactionsFetcher()
+  const stepLock = useContext(StepLock)
 
   const onSave = (actionForm) => {
-    api.updateAction(actionForm).then(() => {
-      onChange()
-    })
-  }
-  const isInDropRange = (dropAction) => {
-    return dropAction.min_position <= action.position &&
-      dropAction.max_position >= action.position
+    api.updateActivity(actionForm)
   }
 
-  const isBefore = (dropAction) => {
-    return action.position < dropAction.source_position
+  const isInSameStep = (dropActivity) => {
+    return activity.step_id === dropActivity.step_id
   }
 
-  const isAfter = (dropAction) => {
-    return action.position > dropAction.source_position
+  const dropClassName = () => {
+    if (stepLock) {
+      return 'activity--locked'
+    } else {
+      return canDrop && activity.position > getItem.source_position ?
+        'activity--below-drag-position' : 'activity--above-drag-position'
+    }
   }
 
   /* React-DnD drag source and drop target */
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.ACTION,
     item: {
-      action: action,
-      source_position: action.position,
-      min_position: action.min_position,
-      max_position: action.max_position
+      activity: activity,
+      source_position: activity.position,
+      step_id: activity.step_id
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
-      canDrag: monitor.canDrag(),
+      canDrag: monitor.canDrag()
     }),
-    canDrag: () => !processStep.locked,
+    canDrag: () => !stepLock,
   }), [processStep])
 
-  const [{ isOverBefore, isOverAfter }, dropRef] = useDrop(() => ({
+  /* dropClassName currently under development */
+  const [{ isOver, getItem, canDrop }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
-    canDrop: (dropAction) => !processStep.locked && isInDropRange(dropAction),
+    canDrop: (dropActivity) => !stepLock && isInSameStep(dropActivity),
     collect: (monitor) => ({
-      isOverBefore: monitor.isOver() && monitor.canDrop() && isBefore(monitor.getItem()),
-      isOverAfter: monitor.isOver() && monitor.canDrop() && isAfter(monitor.getItem())
+      canDrop: monitor.canDrop(),
+      isOver: monitor.isOver() && monitor.canDrop(),
+      getItem: monitor.getItem()
     }),
   }), [processStep])
 
   const dropItem = (monitor) => {
-    if (action.id !== monitor.action.id) {
-      api.updateActionPosition(monitor.action.id, action.position).then(() => {
-        onChange()
-      })
+    if (activity.id !== monitor.activity.id) {
+      api.updateActivityPosition(monitor.activity.id, activity.position)
     }
   }
 
   const renderActivity = () => {
-    if (action.action_name === "CONDITION_END") {
-      return (
-        <ConditionFooter activity={action} dragRef={dragRef} />
-      )
-    } else {
-      const type = action.action_name === 'CONDITION' ? 'condition' : 'action'
-      return (
-        <ActivityCard
-          activity={action}
-          type={type}
-          onSave={onSave}
-          onChange={onChange}
-          processStep={processStep}
-          dragRef={dragRef}
-        />
-      )
+    const type = activity.activity_name === 'CONDITION' ? 'condition' : 'action'
+    return (
+      <ActivityCard
+        activity={activity}
+        type={type}
+        onSave={onSave}
+        preconditions={activity.preconditions}
+        processStep={processStep}
+        dragRef={dragRef}
+      />
+    )
+  }
+
+  const insertZoneState = () => {
+    let state = 'default'
+    if (isDragging) {
+      state = 'inactive'
+    } else if (isOver) {
+      state = 'target'
     }
+    return state
   }
 
   return (
-    <>
-      {
-        action.action_name === "CONDITION_END" ? <ActivityCreator processStep={processStep} onChange={onChange} insertNewBeforeIndex={action.position} /> : <></>
+    <div ref={dropRef} className={'activity ' + dropClassName()}>
+      {!stepLock &&
+        <InsertZone
+          state={insertZoneState()}
+          processStep={processStep}
+          preconditions={activity.preconditions}
+          insertNewBeforeIndex={activity.position}
+        />
       }
-
-      <div ref={dropRef} >
-        <div className={'bg-action'} style={isOverBefore ? { 'height': '1rem' } : {}}></div>
-        <div ref={previewRef} style={isDragging ? { cursor: 'move', opacity: 0.2 } : { cursor: 'grab' }}>
+      <div
+        ref={previewRef}
+        className={'draggable-element' + (isDragging ? ' draggable-element--dragging' : '')}
+      >
+        <SubFormController.Provider value={SubFormToggle()}>
           {renderActivity()}
-        </div>
-        <div className={'bg-action'} style={isOverAfter ? { 'height': '1rem' } : {}}></div>
+        </SubFormController.Provider>
       </div>
-    </>
+    </div>
   )
 };
 

@@ -1,16 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import { library } from '@fortawesome/fontawesome-svg-core'
+import App from "./App";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faBars,
   faChevronCircleDown,
   faChevronCircleRight,
   faDownload,
   faEdit,
+  faFilter,
   faPen,
+  faLock,
+  faLockOpen,
   faSearch,
   faUserCircle,
   faPlus,
@@ -18,14 +21,27 @@ import {
   faTimes,
   faArrowsAltV,
   faArrowsAltH,
-} from '@fortawesome/free-solid-svg-icons'
+  faAngleDoubleUp,
+  faAngleDoubleDown,
+  faSearchPlus,
+  faSearchMinus,
+  faSort,
+  faSortUp,
+  faSortDown,
+  faTemperatureHigh,
+  faSignOut,
+} from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faBars,
   faChevronCircleDown,
   faChevronCircleRight,
   faDownload,
   faEdit,
+  faFilter,
   faPen,
+  faLock,
+  faLockOpen,
   faSearch,
   faUserCircle,
   faPlus,
@@ -33,12 +49,17 @@ library.add(
   faTimes,
   faArrowsAltV,
   faArrowsAltH,
-)
-
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  faAngleDoubleUp,
+  faAngleDoubleDown,
+  faSearchPlus,
+  faSearchMinus,
+  faSort,
+  faSortUp,
+  faSortDown,
+  faTemperatureHigh,
+  faSignOut
 );
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(<App />);

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import ReactionIndexCard from '../reactions/ReactionIndexCard'
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 const ReactionIndex = () => {
 
@@ -14,6 +15,12 @@ const ReactionIndex = () => {
 
   useEffect(() => {
     fetchReactions()
+
+    window.addEventListener('indexRequiresReload', fetchReactions);
+    return () => {
+      window.removeEventListener('indexRequiresReload', fetchReactions);
+    };
+    // eslint-disable-next-line
   }, []);
 
   const fetchReactions = () => {
@@ -50,8 +57,8 @@ const ReactionIndex = () => {
 
   return (
     <Container>
-      <Row className="justify-content-center align-items-top-third">
-        {reactions.length > 0 ? renderReactions() : reactionsNotLoadedHint()}
+      <Row className="justify-content-center pt-4">
+        {reactions?.length > 0 ? renderReactions() : reactionsNotLoadedHint()}
       </Row>
     </Container>
   )

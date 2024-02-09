@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
-import { Col } from 'reactstrap';
-
-import CreateButton from '../utilities/CreateButton';
-import StepColumCard from "./StepColumnCard";
+import React, { useState } from 'react';
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-const StepsContainer = ({ reactionProcess, onChange }) => {
+import CreateButton from '../utilities/CreateButton';
+import StepColumCard from "./StepColumnCard";
+
+const StepsContainer = ({ reactionProcess }) => {
 
   const [displayNewStep, setDisplayNewStep] = useState(false)
 
@@ -16,29 +15,26 @@ const StepsContainer = ({ reactionProcess, onChange }) => {
   }
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      {reactionProcess.reaction_process_steps.map((processStep, index) => (
-        <Col key={processStep.id} className='flex-shrink-0'>
+    <>
+      <DndProvider backend={HTML5Backend}>
+        {reactionProcess.reaction_process_steps.map((processStep, index) => (
           <StepColumCard index={index}
+           key={processStep.id}
             reactionProcess={reactionProcess}
             processStep={processStep}
             totalSteps={reactionProcess.reaction_process_steps.length}
-            onChange={onChange}
           />
-        </Col>
-      ))}
-      <Col className='flex-shrink-0'>
+        ))}
         {displayNewStep ?
           <StepColumCard
             reactionProcess={reactionProcess}
-            onChange={onChange}
             onCancel={toggleNewStep}
           />
           :
           <CreateButton label='New Step' type='step' onClick={toggleNewStep} />
         }
-      </Col>
-    </DndProvider>
+      </DndProvider>
+    </>
   );
 };
 

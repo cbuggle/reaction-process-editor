@@ -1,6 +1,4 @@
-import React, { useState, useMemo } from 'react'
-
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
+import React, { useContext, useState } from 'react'
 
 import CreateButton from "../utilities/CreateButton";
 import PreparationCard from "../preparations/PreparationCard";
@@ -8,13 +6,19 @@ import PreparationInfo from "./PreparationInfo"
 import PreparationForm from '../preparations/PreparationForm';
 import ProcedureCard from "../utilities/ProcedureCard";
 
-const Preparation = ({ preparation, reactionProcess, onChange }) => {
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
+
+import { SelectOptions } from '../../contexts/SelectOptions';
+
+const Preparation = ({ preparation, reactionProcessId }) => {
 
   const api = useReactionsFetcher()
 
+  const selectOptions = useContext(SelectOptions)
+
   const [showForm, setShowForm] = useState(false)
   const [initPreparation, setInitPreparation] = useState(false)
-  const preparationOptions = useMemo(() => { return reactionProcess.select_options.samples_preparations })
+  const preparationOptions = selectOptions.samples_preparations
 
   const showCard = preparation || initPreparation
   const sampleName = preparation
@@ -23,17 +27,13 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
   const cardTitle = preparation ? sampleName : 'New Preparation'
 
   const onDelete = () => {
-    api.deleteSamplePreparation(reactionProcess.id, preparation.id).then(() => {
-      closeForm()
-      onChange()
-    })
+    api.deleteSamplePreparation(reactionProcessId, preparation.id)
+    closeForm()
   }
 
   const onSave = (preparationForm) => {
-    api.updateSamplePreparation(reactionProcess.id, preparationForm).then(() => {
-      closeForm()
-      onChange()
-    })
+    api.updateSamplePreparation(reactionProcessId, preparationForm)
+    closeForm()
   }
 
   const openForm = () => {
@@ -54,10 +54,10 @@ const Preparation = ({ preparation, reactionProcess, onChange }) => {
     showCard ?
       <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={closeForm} showForm={showForm} >
         <ProcedureCard.Info>
-          <PreparationInfo preparation={preparation} />
+          <PreparationInfo preparation={preparation} preparationOptions={preparationOptions} />
         </ProcedureCard.Info>
         <ProcedureCard.Form>
-          <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
+          <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm} />
         </ProcedureCard.Form>
       </PreparationCard>
       : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />

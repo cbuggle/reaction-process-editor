@@ -1,30 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-import { Row, Col } from 'reactstrap';
-
-import StepsContainer from '../steps/StepsContainer';
+import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
 import PreparationColumnCard from '../preparations/PreparationColumnCard';
-
-import ReactionNavbar from '../reactions/ReactionNavbar';
-
-import VesselsSelectBar from '../vessels/VesselsSelectBar';
-import SamplesSideBar from '../samples/SamplesSideBar';
+import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+import StepsContainer from '../steps/StepsContainer';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
-
-import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
+import { useVesselsFetcher } from '../../fetchers/VesselsFetcher';
+import { SelectOptions } from '../../contexts/SelectOptions';
+import { VesselOptions } from '../../contexts/VesselOptions';
 
 const Reaction = () => {
-
   const api = useReactionsFetcher();
+  const vesselApi = useVesselsFetcher();
 
   const { reactionId } = useParams()
+  const location = useLocation();
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
   const username = new URLSearchParams(useLocation().search).get('username');
 
   const [reactionProcess, setReactionProcess] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [vessels, setVessels] = useState([])
+
+  useEffect(() => {
+    vesselApi.index().then((data) => {
+      setVessels(data?.vessels || [])
+    })
+
+    const reloadDone = () => {
+      setIsLoading(false)
+    }
+    const indicateSave = () => {
+      setIsLoading(true)
+    }
+    const requireReload = () => {
+      fetchReactionProcess()
+      setIsLoading(true)
+    }
+
+    window.addEventListener('indicateSave', indicateSave);
+    window.addEventListener('requireReload', requireReload);
+    window.addEventListener('reloadDone', reloadDone);
+
+    return () => {
+      window.removeEventListener('indicateSave', indicateSave);
+      window.removeEventListener('requireReload', requireReload);
+      window.removeEventListener('reloadDone', reloadDone);
+    };
+    // We ignore the warnings which is recommended only if you know exactly what you are doing which I do not. cbuggle.
+    // eslint-disable-next-line
+  }, [location]);
 
   useEffect(() => {
     if (auth_token) {
@@ -33,48 +60,56 @@ const Reaction = () => {
     if (username) {
       localStorage.setItem('username', username)
     }
+    setReactionProcess(null);
     fetchReactionProcess()
-  }, [])
+    // React's state model requires `fetchReactionProcess` in the dependencies array to assert state consistency.
+    // When done however it will be called every time when dependencies are checked (i.e. after refetch),
+    // triggering another refetch (endless loop).
+    // Wrapping fetchReactionProcess in a useCallback as recommended by the React guidelines
+    // does not work either as it depends on the api = useReactionsFetcher(),
+    // which then again can not be used in hooks as useReactionsFetcher() is a hook itself.
+    //
+    // We ignore the warnings which is recommended only if you know exactly what you are doing which I do not. cbuggle.
+    // eslint-disable-next-line
+  }, [location, auth_token, username])
 
   const fetchReactionProcess = () => {
-    setIsLoading(true)
     api.getReactionProcess(reactionId).then((data) => {
-      setReactionProcess(data['reaction_process'])
-      setIsLoading(false)
+      data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
+      window.dispatchEvent(new Event("reloadDone"))
     })
   }
 
   const renderReactionNavbar = () => {
     return (
-      isLoading ? <SpinnerWithMessage message={'Storing process data'} /> : <ReactionNavbar reactionProcess={reactionProcess} fetchReactionProcess={fetchReactionProcess} />
-    )
-  }
-
-  const renderReaction = () => {
-    return (
       <>
-        {renderReactionNavbar()}
-
-        <Row className='g-0 flex-grow-1'>
-          <Col md={10} className="scroll-body overflow-auto p-3">
-            <Row className='flex-nowrap'>
-              <Col className='flex-shrink-0'>
-                <PreparationColumnCard reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
-              </Col>
-              <StepsContainer reactionProcess={reactionProcess} onChange={fetchReactionProcess} />
-            </Row>
-          </Col>
-          <Col md={2} className="samples-select-bar scroll-body">
-            <VesselsSelectBar reactionProcess={reactionProcess} onChangeVessels={fetchReactionProcess} />
-            <SamplesSideBar reactionProcess={reactionProcess} />
-          </Col>
-        </Row>
+        {isLoading ?
+          <SpinnerWithMessage message={'Storing process data'} isOpen={true} />
+          :
+          <ReactionNavbar reactionProcess={reactionProcess} />
+        }
       </>
     )
   }
 
   return (
-    reactionProcess ? renderReaction() : <SpinnerWithMessage message={'Fetching reaction process data'} />
+    <VesselOptions.Provider value={vessels}>
+      {reactionProcess ?
+        <SelectOptions.Provider value={reactionProcess.select_options}>
+          {renderReactionNavbar()}
+          <div className="scroll-body overflow-auto flex-grow-1">
+            <div className='px-3 py-5 d-inline-block'>
+              <div className='d-inline-flex flex-nowrap align-items-start'>
+                <PreparationColumnCard reactionProcess={reactionProcess} />
+                <StepsContainer reactionProcess={reactionProcess} />
+              </div>
+            </div>
+          </div>
+        </SelectOptions.Provider>
+        :
+        <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={true} />
+      }
+    </VesselOptions.Provider>
   );
 }
 

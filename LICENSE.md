@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2022 Christian Buggle
+Copyright (c) 2022-2023
+Christian Buggle <christian@buggle.net>, Joachim Tillessen <tillessen@emjot.de>, Nicole Jung <nicole.jung@kit.edu>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
