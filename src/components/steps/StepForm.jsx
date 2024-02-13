@@ -4,8 +4,6 @@ import FormButtons from "../utilities/FormButtons";
 import VesselFormSection from "../vessels/VesselFormSection";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import VesselDecorator from "../../decorators/VesselDecorator";
-import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
-import { Typeahead } from "react-bootstrap-typeahead";
 import AutoComplete from "../utilities/AutoComplete";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
