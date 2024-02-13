@@ -4,7 +4,6 @@ import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 import VesselDecorator from "../../decorators/VesselDecorator";
-import StringDecorator from "../../decorators/StringDecorator";
 
 import {
   removeFormMetricNames,
