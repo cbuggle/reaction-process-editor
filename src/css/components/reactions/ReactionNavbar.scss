@@ -3,7 +3,7 @@
   z-index: 2;
 }
 
-.reaction-header__formula {
+.reaction-header__scheme {
   &-accordion .accordion-body {
     padding: 0;
     overflow: hidden;
@@ -14,7 +14,7 @@
   &-image {
     height: 280px;
     margin: 0 auto;
-    &.reaction-header__formula-image--enlarged {
+    &.reaction-header__scheme-image--enlarged {
       height: auto;
       width: 100%;
     }
@@ -34,7 +34,7 @@
     font-size: $font-size-base;
   }
 }
-.formula-drawer-button {
+.scheme-drawer-button {
   --bs-btn-padding-y: 0;
   margin-top: -12px;
   span {

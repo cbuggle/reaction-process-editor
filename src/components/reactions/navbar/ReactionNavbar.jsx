@@ -1,40 +1,58 @@
-import React, { useState } from 'react'
-import { Accordion, AccordionBody, AccordionItem, Button, Nav, Navbar, NavbarBrand } from 'reactstrap';
+import React, { useState } from "react";
+import {
+  Accordion,
+  AccordionBody,
+  AccordionItem,
+  Button,
+  Nav,
+  Navbar,
+  NavbarBrand,
+} from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDoubleUp, faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDoubleUp,
+  faAngleDoubleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 import IconButton from "../../utilities/IconButton";
-import OrdDownloadButton from './OrdDownloadButton';
-import ProvenanceFormButton from './ProvenanceFormButton';
-import ReactionConditionsFormButton from './ReactionConditionsFormButton';
+import OrdDownloadButton from "./OrdDownloadButton";
+import ProvenanceFormButton from "./ProvenanceFormButton";
+import ReactionConditionsFormButton from "./ReactionConditionsFormButton";
 
 import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
-import { SubFormController, SubFormToggle } from '../../../contexts/SubFormController';
+import {
+  SubFormController,
+  SubFormToggle,
+} from "../../../contexts/SubFormController";
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
-  const [open, setOpen] = useState('formula');
-  const [formulaIsEnlarged, setFormulaIsEnlarged] = useState(false);
-  const zoomIcon = formulaIsEnlarged ? 'search-minus' : 'search-plus'
-  const formulaImageClass = formulaIsEnlarged ? 'reaction-header__formula-image reaction-header__formula-image--enlarged' : 'reaction-header__formula-image'
+  const [open, setOpen] = useState("scheme");
+  const [schemeIsEnlarged, setSchemeIsEnlarged] = useState(false);
+  const zoomIcon = schemeIsEnlarged ? "search-minus" : "search-plus";
+  const schemeImageClass = schemeIsEnlarged
+    ? "reaction-header__scheme-image reaction-header__scheme-image--enlarged"
+    : "reaction-header__scheme-image";
 
-  const toggleFormula = () => {
+  const toggleScheme = () => {
     if (open) {
-      setOpen('');
+      setOpen("");
     } else {
-      setOpen('formula');
+      setOpen("scheme");
     }
   };
-  const toggleFormulaEnlarge = () => {
-    setFormulaIsEnlarged(!formulaIsEnlarged)
+  const toggleSchemeEnlarge = () => {
+    setSchemeIsEnlarged(!schemeIsEnlarged);
   };
   return (
     <SubFormController.Provider value={SubFormToggle()}>
-      <div className='reaction-header'>
-        <Navbar className='reaction-navbar bg-primary' dark>
+      <div className="reaction-header">
+        <Navbar className="reaction-navbar bg-primary" dark>
           <NavbarBrand>
-            <span className='h3 reaction-name'>Reaction: {reactionProcess.short_label}</span>
-            <span className='reaction-id'>{reactionProcess.id}</span>
+            <span className="h3 reaction-name">
+              Reaction: {reactionProcess.short_label}
+            </span>
+            <span className="reaction-id">{reactionProcess.id}</span>
           </NavbarBrand>
           <Nav>
             <ReactionConditionsFormButton
@@ -45,42 +63,51 @@ const ReactionNavbar = ({ reactionProcess }) => {
             <OrdDownloadButton reactionProcessId={reactionProcess.id} />
           </Nav>
         </Navbar>
-        <Accordion open={open} toggle={toggleFormula} flush className='bg-primary container-fluid pb-2 reaction-header__formula-accordion'>
+        <Accordion
+          open={open}
+          toggle={toggleScheme}
+          flush
+          className="bg-primary container-fluid pb-2 reaction-header__scheme-accordion"
+        >
           <AccordionItem>
-            <AccordionBody accordionId='formula' className='text-center'>
-              <div className='reaction-header__formula-container'>
+            <AccordionBody accordionId="scheme" className="text-center">
+              <div className="reaction-header__scheme-container">
                 <img
                   src={api.svgImage(reactionProcess)}
                   alt={reactionProcess.short_label}
-                  className={formulaImageClass}
+                  className={schemeImageClass}
                 />
-                <div className='reaction-header__formula-enlarge-button-container'>
+                <div className="reaction-header__scheme-enlarge-button-container">
                   <IconButton
                     icon={zoomIcon}
                     positive={true}
-                    size='lg'
-                    onClick={toggleFormulaEnlarge}
+                    size="lg"
+                    onClick={toggleSchemeEnlarge}
                   />
                 </div>
               </div>
             </AccordionBody>
           </AccordionItem>
         </Accordion>
-        <div className='text-center formula-drawer-button-container'>
+        <div className="text-center scheme-drawer-button-container">
           <Button
-            color='primary'
-            className='formula-drawer-button'
-            size='sm'
-            onClick={toggleFormula}
+            color="primary"
+            className="scheme-drawer-button"
+            size="sm"
+            onClick={toggleScheme}
           >
-            <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
-            <span>Formula</span>
-            <FontAwesomeIcon icon={open ? faAngleDoubleUp : faAngleDoubleDown} />
+            <FontAwesomeIcon
+              icon={open ? faAngleDoubleUp : faAngleDoubleDown}
+            />
+            <span>Scheme</span>
+            <FontAwesomeIcon
+              icon={open ? faAngleDoubleUp : faAngleDoubleDown}
+            />
           </Button>
         </div>
       </div>
     </SubFormController.Provider>
-  )
-}
+  );
+};
 
-export default ReactionNavbar
+export default ReactionNavbar;
