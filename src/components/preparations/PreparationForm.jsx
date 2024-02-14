@@ -1,54 +1,57 @@
-import React, { useState } from 'react'
-import { Label, Input, Form, FormGroup, FormFeedback } from 'reactstrap'
-import Select from 'react-select'
+import React, { useState } from "react";
+import { Label, Input, Form, FormGroup } from "reactstrap";
+import Select from "react-select";
 
 import FormButtons from "../utilities/FormButtons";
+import SampleSelection from "../utilities/SampleSelection";
 
-import SamplesDecorator from '../../decorators/SamplesDecorator';
+const PreparationForm = ({
+  preparation,
+  preparationOptions,
+  onSave,
+  onCancel,
+}) => {
+  const [preparationForm, updatePreparationForm] = useState(
+    preparation || { details: "" }
+  );
 
-const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) => {
+  const sampleOptions = preparation
+    ? preparationOptions.prepared_samples
+    : preparationOptions.unprepared_samples;
+  const samplePreparationOptions = preparationOptions.preparation_types;
 
-  const [preparationForm, updatePreparationForm] = useState(preparation || { details: '' })
-  const [formIncomplete, setFormIncomplete] = useState(false)
-
-  const sampleOptions = preparation ? preparationOptions.prepared_samples : preparationOptions.unprepared_samples
-  const samplePreparationOptions = preparationOptions.preparation_types
+  const handleSelectSample = (selectedSample) => {
+    onInputChange({ name: "sample_id", value: selectedSample.sampleId });
+  };
 
   const onInputChange = (field) => {
     const { name, value } = field;
-    updatePreparationForm(prevState => ({
-      ...prevState, [name]: value
+    updatePreparationForm((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
-    if (formIncomplete && name === 'sample_id') {
-      setFormIncomplete(!value)
-    }
-  }
+  };
 
   const handleSave = (e) => {
     if (!!preparationForm.sample_id) {
-      onSave(preparationForm)
-    } else {
-      setFormIncomplete(true)
+      onSave(preparationForm);
     }
-  }
+  };
 
   return (
     <Form>
       <FormGroup>
-        <Label>Sample</Label>
-        <Select
-          className={'react-select--overwrite' + (formIncomplete ? ' is-invalid' : '')}
-          classNamePrefix='react-select'
-          name="sample_id"
-          isDisabled={!!preparation}
-          options={sampleOptions}
-          value={sampleOptions.filter(option => (option.value === preparationForm.sample_id))}
-          onChange={selectedOption => onInputChange({ name: 'sample_id', value: selectedOption.value })}
+        <SampleSelection
+          sampleOptions={sampleOptions}
+          sample={
+            preparationForm.sample_id
+              ? sampleOptions.find(
+                  (option) => option.value === preparationForm.sample_id
+                )
+              : undefined
+          }
+          onChange={handleSelectSample}
         />
-        {SamplesDecorator.sampleSvgImg(sampleOptions.find(option => (option.value === preparationForm.sample_id)))}
-        <FormFeedback>
-          Please select a sample!
-        </FormFeedback>
       </FormGroup>
       <FormGroup>
         <Label>Preparations</Label>
@@ -59,8 +62,15 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           isClearable={false}
           name="preparations"
           options={samplePreparationOptions}
-          value={samplePreparationOptions.filter(option => (preparationForm.preparations || []).includes(option.value))}
-          onChange={selectedOptions => onInputChange({ name: 'preparations', value: selectedOptions.map(option => option.value) })}
+          value={samplePreparationOptions.filter((option) =>
+            (preparationForm.preparations || []).includes(option.value)
+          )}
+          onChange={(selectedOptions) =>
+            onInputChange({
+              name: "preparations",
+              value: selectedOptions.map((option) => option.value),
+            })
+          }
         />
       </FormGroup>
       <FormGroup>
@@ -72,8 +82,15 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
           isClearable={false}
           name="equipment"
           options={preparationOptions.equipment}
-          value={preparationOptions.equipment.filter(option => (preparationForm.equipment || []).includes(option.value))}
-          onChange={selectedOptions => onInputChange({ name: 'equipment', value: selectedOptions.map(option => option.value) })}
+          value={preparationOptions.equipment.filter((option) =>
+            (preparationForm.equipment || []).includes(option.value)
+          )}
+          onChange={(selectedOptions) =>
+            onInputChange({
+              name: "equipment",
+              value: selectedOptions.map((option) => option.value),
+            })
+          }
         />
       </FormGroup>
       <FormGroup>
@@ -81,12 +98,14 @@ const PreparationForm = ({ preparation, preparationOptions, onSave, onCancel }) 
         <Input
           value={preparationForm.details}
           placeholder="Details"
-          onChange={event => onInputChange({ name: 'details', value: event.target.value })}
+          onChange={(event) =>
+            onInputChange({ name: "details", value: event.target.value })
+          }
         />
       </FormGroup>
-      <FormButtons onSave={handleSave} onCancel={onCancel} type='preparation' />
+      <FormButtons onSave={handleSave} onCancel={onCancel} type="preparation" />
     </Form>
-  )
-}
+  );
+};
 
-export default PreparationForm
+export default PreparationForm;
