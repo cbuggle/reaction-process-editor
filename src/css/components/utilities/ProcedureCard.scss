@@ -35,6 +35,7 @@
     }
     &-line {
       display: block;
+      padding-top: 0.1875rem;
     }
     &:last-child {
       border-bottom-left-radius: var(--bs-card-inner-border-radius);
