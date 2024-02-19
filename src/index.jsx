@@ -30,6 +30,7 @@ import {
   faSortDown,
   faTemperatureHigh,
   faSignOut,
+  faUndoAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -57,7 +58,8 @@ library.add(
   faSortUp,
   faSortDown,
   faTemperatureHigh,
-  faSignOut
+  faSignOut,
+  faUndoAlt
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
