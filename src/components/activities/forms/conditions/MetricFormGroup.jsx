@@ -1,67 +1,84 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from "react";
 
-import EquipmentSubsetFormSection from './EquipmentSubsetFormSection';
+import EquipmentSubsetFormSection from "./EquipmentSubsetFormSection";
 import EquipmentForm from "./EquipmentForm";
 import GenericMetricSubForm from "./GenericMetricSubForm";
 import MotionForm from "./MotionForm";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
-import MetricsDecorator from '../../../../decorators/MetricsDecorator';
+import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 
-import { SelectOptions } from '../../../../contexts/SelectOptions';
+import { SelectOptions } from "../../../../contexts/SelectOptions";
 
-const MetricFormGroup = (
-  {
-    metricName,
-    precondition,
-    workup,
-    onWorkupChange,
-    typeColor = 'condition'
-  }) => {
+const MetricFormGroup = ({
+  metricName,
+  precondition,
+  workup,
+  onWorkupChange,
+  typeColor = "condition",
+}) => {
+  const selectOptions = useContext(SelectOptions);
 
-  const selectOptions = useContext(SelectOptions)
-
-  const hasPrecondition = !!precondition?.value
-  const hasWorkupCondition = !!workup[metricName]
+  const hasPrecondition = !!precondition?.value;
+  const hasWorkupCondition = !!workup[metricName];
 
   const findInitialValue = (key, fallBackValue) => {
     if (workup[metricName] && workup[metricName][key] !== undefined) {
-      return workup[metricName][key]
+      return workup[metricName][key];
     } else if (precondition && precondition[key] !== undefined) {
-      return precondition[key]
+      return precondition[key];
     } else {
-      return fallBackValue
+      return fallBackValue;
     }
-  }
+  };
 
   const summary = () => {
     if (hasWorkupCondition) {
-      return ActivityInfoDecorator.conditionInfo(metricName, workup[metricName], precondition, selectOptions)
+      return ActivityInfoDecorator.conditionInfo(
+        metricName,
+        workup[metricName],
+        precondition,
+        selectOptions
+      );
     } else if (hasPrecondition) {
-      return ActivityInfoDecorator.conditionInfo(metricName, precondition, null, selectOptions)
+      return ActivityInfoDecorator.conditionInfo(
+        metricName,
+        precondition,
+        null,
+        selectOptions
+      );
     } else {
-      return undefined
+      return undefined;
     }
-  }
+  };
 
   const [equipment, setEquipment] = useState([]);
-  const resetEquipment = () => setEquipment(workup['EQUIPMENT']?.['value'] || [])
+  const resetEquipment = () =>
+    setEquipment(workup["EQUIPMENT"]?.["value"] || []);
 
   // eslint-disable-next-line
-  useEffect(() => { resetEquipment() }, [workup])
+  useEffect(() => {
+    resetEquipment();
+  }, [workup]);
 
   const handleSave = (condition) => {
-    onWorkupChange({ name: 'EQUIPMENT', value: { value: equipment } })
-    if (metricName !== 'EQUIPMENT') { onWorkupChange({ name: metricName, value: condition }) }
-  }
+    onWorkupChange({ name: "EQUIPMENT", value: { value: equipment } });
+    if (metricName !== "EQUIPMENT") {
+      onWorkupChange({ name: metricName, value: condition });
+    }
+  };
 
-  const handleCancel = () => resetEquipment()
+  const handleCancel = () => resetEquipment();
 
-  const handleChangeEquipment = (newEquipment) => setEquipment(newEquipment)
+  const handleChangeEquipment = (newEquipment) => setEquipment(newEquipment);
+
+  const handleResetToPredifined = () => {
+    onWorkupChange({ name: metricName, value: undefined });
+  };
 
   return (
     <>
-      {metricName === 'MOTION' &&
+      {metricName === "MOTION" && (
         <MotionForm
           label={MetricsDecorator.label(metricName)}
           valueSummary={summary()}
@@ -76,8 +93,8 @@ const MetricFormGroup = (
             onChangeEquipment={handleChangeEquipment}
           />
         </MotionForm>
-      }
-      {metricName === 'EQUIPMENT' &&
+      )}
+      {metricName === "EQUIPMENT" && (
         <div>
           <EquipmentForm
             metricName={metricName}
@@ -87,11 +104,10 @@ const MetricFormGroup = (
             valueSummary={summary()}
             onSave={handleSave}
             onCancel={handleCancel}
-          >
-          </EquipmentForm>
+          ></EquipmentForm>
         </div>
-      }
-      {['MOTION', 'EQUIPMENT'].includes(metricName) ||
+      )}
+      {["MOTION", "EQUIPMENT"].includes(metricName) || (
         <GenericMetricSubForm
           metricName={metricName}
           valueSummary={summary()}
@@ -100,14 +116,15 @@ const MetricFormGroup = (
           isEqualToPredefinedValue={!hasWorkupCondition}
           typeColor={typeColor}
           onCancel={handleCancel}
+          onResetToPredefined={handleResetToPredifined}
         >
           <EquipmentSubsetFormSection
             metricName={metricName}
             equipment={equipment}
             onChangeEquipment={handleChangeEquipment}
           />
-        </GenericMetricSubForm >
-      }
+        </GenericMetricSubForm>
+      )}
     </>
   );
 };

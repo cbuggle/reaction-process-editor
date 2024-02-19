@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Input, Label, FormGroup, Row, Col } from "reactstrap";
+import { Input, Label, FormGroup, Row, Col, Button } from "reactstrap";
 import Select from "react-select";
 
 import MetricsInput from "../../../utilities/MetricsInput";
@@ -7,6 +7,8 @@ import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
+import { SubFormController } from "../../../../contexts/SubFormController";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GenericMetricSubForm = ({
   metricName,
@@ -17,8 +19,11 @@ const GenericMetricSubForm = ({
   onCancel,
   isEqualToPredefinedValue = false,
   typeColor = "condition",
+  onResetToPredefined,
 }) => {
+  const formLabel = MetricsDecorator.label(metricName);
   const selectOptions = useContext(SelectOptions);
+  const subFormController = useContext(SubFormController);
 
   const additionalInformationOptions =
     selectOptions.condition_additional_information[metricName];
@@ -129,15 +134,25 @@ const GenericMetricSubForm = ({
     resetFormData();
     onCancel();
   };
+
+  const handleReset = () => {
+    subFormController.toggleSubForm(formLabel);
+    onResetToPredefined();
+  };
   return (
     <OptionalFormSet
-      subFormLabel={MetricsDecorator.label(metricName)}
+      subFormLabel={formLabel}
       valueSummary={valueSummary}
       onSave={handleSave}
       onCancel={handleCancel}
       isEqualToPredefinedValue={isEqualToPredefinedValue}
       typeColor={typeColor}
     >
+      <OptionalFormSet.ExtraButton>
+        <Button color="condition" onClick={handleReset} outline>
+          <FontAwesomeIcon icon="undo-alt" /> Reset
+        </Button>
+      </OptionalFormSet.ExtraButton>
       <Row className="gx-1 mb-3">
         <Col md={8}>
           <MetricsInput
