@@ -3,6 +3,8 @@ import { useParams, useLocation } from 'react-router-dom';
 
 import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
 import PreparationColumnCard from '../preparations/PreparationColumnCard';
+import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
+
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 import StepsContainer from '../steps/StepsContainer';
 
@@ -101,6 +103,7 @@ const Reaction = () => {
             <div className='px-3 py-5 d-inline-block'>
               <div className='d-inline-flex flex-nowrap align-items-start'>
                 <PreparationColumnCard reactionProcess={reactionProcess} />
+                <VesselPreparationColumnCard reactionProcess={reactionProcess} />
                 <StepsContainer reactionProcess={reactionProcess} />
               </div>
             </div>
