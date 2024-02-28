@@ -1,5 +1,4 @@
 import React from "react";
-import { UncontrolledTooltip } from "reactstrap";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 

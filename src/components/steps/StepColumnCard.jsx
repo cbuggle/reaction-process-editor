@@ -5,7 +5,6 @@ import { DndItemTypes } from "../../constants/dndItemTypes";
 
 import Activity from "../activities/Activity";
 import ActivityCreator from "../activities/ActivityCreator";
-import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from "./StepInfo";
 import StepForm from "./StepForm";
@@ -120,7 +119,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
           }
         >
           <StepLock.Provider value={isLocked}>
-            <ColumnContainerCard
+            <ProcedureCard
               title={cardTitle}
               type="step"
               showEditBtn={!showForm && !isLocked}
@@ -132,6 +131,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
               onCancel={handleCancel}
               displayMode={displayMode()}
               dragRef={dragRef}
+              customClass='procedure-card--column'
             >
               <ProcedureCard.Info>
                 <StepInfo processStep={processStep} />
@@ -166,7 +166,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
                   <StepLockButton stepId={processStep?.id} locked={isLocked} />
                 </ProcedureCard.ExtraButtons>
               )}
-            </ColumnContainerCard>
+            </ProcedureCard>
           </StepLock.Provider>
         </div>
       </div>

@@ -1,8 +1,7 @@
 import React from 'react'
 
-import ColumnContainerCard from "../utilities/ColumnContainerCard";
-import Preparation from "./Preparation";
 import ProcedureCard from "../utilities/ProcedureCard";
+import Preparation from "./Preparation";
 
 const PreparationColumnCard = ({ reactionProcess }) => {
 
@@ -17,19 +16,20 @@ const PreparationColumnCard = ({ reactionProcess }) => {
   }
 
   return (
-    <ColumnContainerCard
-      title='Preparations'
+    <ProcedureCard
+      title='Samples'
       type='preparation'
       showEditBtn={false}
       showMoveXBtn={false}
       showDeleteBtn={false}
       showCancelBtn={false}
+      customClass='procedure-card--column'
     >
       <ProcedureCard.Details>
         {renderSamplePreparations()}
         <Preparation reactionProcessId={reactionProcess.id} />
       </ProcedureCard.Details>
-    </ColumnContainerCard>
+    </ProcedureCard>
   )
 }
 

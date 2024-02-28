@@ -1,6 +1,5 @@
 import React from 'react'
 
-import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 
 import VesselPreparationForm from './VesselPreparationForm.jsx';
@@ -18,18 +17,19 @@ const VesselPreparationColumnCard = ({ reactionProcess }) => {
   }
 
   return (
-    <ColumnContainerCard
-      title='Vessel Preparations'
+    <ProcedureCard
+      title='Vessels'
       type='preparation'
       showEditBtn={false}
       showMoveXBtn={false}
       showDeleteBtn={false}
       showCancelBtn={false}
+      customClass='procedure-card--column'
     >
       <ProcedureCard.Details>
         {renderVesselPreparations()}
       </ProcedureCard.Details>
-    </ColumnContainerCard>
+    </ProcedureCard>
   )
 }
 

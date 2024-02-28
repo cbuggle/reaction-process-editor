@@ -60,7 +60,7 @@ const Preparation = ({ preparation, reactionProcessId }) => {
           <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm} />
         </ProcedureCard.Form>
       </PreparationCard>
-      : <CreateButton label='New Preparation' type='preparation' onClick={createPreparation} />
+      : <CreateButton label='New Sample' type='preparation' onClick={createPreparation} />
   )
 }
 
