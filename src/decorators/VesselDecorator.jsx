@@ -122,4 +122,15 @@ export default class VesselDecorator {
     // called internally only
     return this.vesselVolume(vessel) + " (" + this.vesselMaterial(vessel) + ")";
   };
+
+  static vesselPreparationsLine = (preparations, preparationOptions) => {
+    return preparations && preparations
+      .map((preparationType) => {
+        return preparationOptions.find(
+          (option) => option.value === preparationType
+        ).label;
+      })
+      .join(", ");
+  };
+
 }
