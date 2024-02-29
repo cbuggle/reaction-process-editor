@@ -34,6 +34,7 @@ const VesselPreparationForm = ({ reactionProcessVessel }) => {
       <h6 className="mb-1">
         {VesselDecorator.vesselSingleLine(reactionProcessVessel.vessel)}
       </h6>
+      {reactionProcessVessel.step_names.join(", ")}
       <FormGroup>
         <Label>Preparations</Label>
         <Select
