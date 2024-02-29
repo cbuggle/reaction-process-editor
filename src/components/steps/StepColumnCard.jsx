@@ -126,6 +126,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
               showMoveXBtn={!showForm && !isLocked}
               showDeleteBtn={!showForm && !isLocked}
               showCancelBtn={showForm && !isLocked}
+              showMoveYBtn={false}
               onDelete={confirmDeleteStep}
               onEdit={toggleForm}
               onCancel={handleCancel}
