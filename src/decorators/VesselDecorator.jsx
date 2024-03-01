@@ -3,6 +3,8 @@ import React from "react";
 import { apiHostname } from "../constants";
 
 import StringDecorator from "./StringDecorator";
+
+
 export default class VesselDecorator {
   // TODO: renderVesselProcessStepInfo is the only function called from outside.
   // The functions actually in use are all marked. ("// called internally only ")

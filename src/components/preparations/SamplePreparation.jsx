@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react'
 
 import CreateButton from "../utilities/CreateButton";
-import PreparationCard from "../preparations/PreparationCard";
-import PreparationInfo from "./PreparationInfo"
-import PreparationForm from '../preparations/PreparationForm';
+import PreparationCard from "./PreparationCard";
+import SamplePreparationInfo from "./SamplePreparationInfo"
+import SamplePreparationForm from './SamplePreparationForm';
 import ProcedureCard from "../utilities/ProcedureCard";
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
 import { SelectOptions } from '../../contexts/SelectOptions';
 
-const Preparation = ({ preparation, reactionProcessId }) => {
+const SamplePreparation = ({ preparation, reactionProcessId }) => {
 
   const api = useReactionsFetcher()
 
@@ -54,14 +54,14 @@ const Preparation = ({ preparation, reactionProcessId }) => {
     showCard ?
       <PreparationCard title={cardTitle} onEdit={openForm} onDelete={onDelete} onCancel={closeForm} showForm={showForm} >
         <ProcedureCard.Info>
-          <PreparationInfo preparation={preparation} preparationOptions={preparationOptions} />
+          <SamplePreparationInfo preparation={preparation} preparationOptions={preparationOptions} />
         </ProcedureCard.Info>
         <ProcedureCard.Form>
-          <PreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm} />
+          <SamplePreparationForm preparation={preparation} preparationOptions={preparationOptions} onSave={onSave} onCancel={closeForm}/>
         </ProcedureCard.Form>
       </PreparationCard>
       : <CreateButton label='New Sample' type='preparation' onClick={createPreparation} />
   )
 }
 
-export default Preparation
+export default SamplePreparation

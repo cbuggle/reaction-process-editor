@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ProcedureCard from "../utilities/ProcedureCard";
-import Preparation from "./Preparation";
+import SamplePreparation from "./SamplePreparation";
 
 const PreparationColumnCard = ({ reactionProcess }) => {
 
@@ -9,7 +9,7 @@ const PreparationColumnCard = ({ reactionProcess }) => {
     return (
       <>
         {reactionProcess.samples_preparations.map((preparation, idx) => (
-          <Preparation key={idx} preparation={preparation} reactionProcessId={reactionProcess.id} />
+          <SamplePreparation key={idx} preparation={preparation} reactionProcessId={reactionProcess.id} />
         ))}
       </>
     )
@@ -28,7 +28,7 @@ const PreparationColumnCard = ({ reactionProcess }) => {
     >
       <ProcedureCard.Details>
         {renderSamplePreparations()}
-        <Preparation reactionProcessId={reactionProcess.id} />
+        <SamplePreparation reactionProcessId={reactionProcess.id} />
       </ProcedureCard.Details>
     </ProcedureCard>
   )

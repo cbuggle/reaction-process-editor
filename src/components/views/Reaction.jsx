@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
-import PreparationColumnCard from '../preparations/PreparationColumnCard';
+import PreparationColumnCard from '../preparations/SamplePreparationColumnCard';
 import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
 
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
