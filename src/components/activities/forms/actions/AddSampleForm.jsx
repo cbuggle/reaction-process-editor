@@ -9,6 +9,7 @@ import MetricsInput from "../../../utilities/MetricsInput";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import SampleSelection from "../../../utilities/SampleSelection";
@@ -140,9 +141,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             classNamePrefix="react-select"
             name="addition_speed_type"
             options={selectOptions.addition_speed_types}
-            value={selectOptions.addition_speed_types.find(
-              (option) => option.value === workup["addition_speed_type"]
-            )}
+            value={OptionsDecorator.optionForKey(workup["addition_speed_type"], selectOptions.addition_speed_types)}
             onChange={(selected) =>
               handleChange("addition_speed_type")(selected.value)
             }

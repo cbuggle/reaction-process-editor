@@ -10,6 +10,8 @@ import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
+import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
+
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const ChromatographyForm = (
@@ -63,7 +65,7 @@ const ChromatographyForm = (
               classNamePrefix="react-select"
               name="sample_id"
               options={selectOptions.devices}
-              value={selectOptions.devices.find(option => option.value === workup.device)}
+              value={OptionsDecorator.optionForKey(workup.device, selectOptions.devices)}
               onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
             />
           </SingleLineFormGroup>
@@ -73,7 +75,7 @@ const ChromatographyForm = (
               classNamePrefix="react-select"
               name="sample_id"
               options={selectOptions.column_types}
-              value={selectOptions.column_types.find(option => option.value === workup.column_type)}
+              value={OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types)}
               onChange={selected => onWorkupChange({ name: 'column_type', value: selected.value })}
             />
           </SingleLineFormGroup>
@@ -88,7 +90,7 @@ const ChromatographyForm = (
               classNamePrefix="react-select"
               name="detector"
               options={selectOptions.detectors}
-              value={selectOptions.detectors.filter(option => workup.detectors?.includes(option.value))}
+              value={OptionsDecorator.optionsForKeys(workup.detectors, selectOptions.detectors)}
               isMulti
               isClearable={false}
               onChange={selected => onWorkupChange({ name: 'detectors', value: selected.map(option => option.value) })}
@@ -109,7 +111,7 @@ const ChromatographyForm = (
                 classNamePrefix="react-select"
                 name="sample_id"
                 options={selectOptions.jar_materials}
-                value={selectOptions.jar_materials.find(option => option.value === workup.jar_material)}
+                value={OptionsDecorator.optionForKey(workup.jar_material, selectOptions.jar_materials)}
                 onChange={selected => onWorkupChange({ name: 'jar_material', value: selected.value })}
               />
             </SingleLineFormGroup>

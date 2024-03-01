@@ -5,6 +5,7 @@ import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 const ApplyExtraEquipmentFormSet = ({
   activityType,
@@ -42,9 +43,7 @@ const ApplyExtraEquipmentFormSet = ({
             isMulti
             isClearable={false}
             options={equipmentOptions}
-            value={equipmentOptions.filter((option) =>
-              (equipment || []).includes(option.value)
-            )}
+            value={OptionsDecorator.optionsForKeys(equipment, equipmentOptions)}
             onChange={(selectedOptions) =>
               setEquipment(selectedOptions.map((option) => option.value))
             }

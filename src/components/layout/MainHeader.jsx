@@ -9,6 +9,8 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import { SelectOptions } from '../../contexts/SelectOptions'
 import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
 
+import OptionsDecorator from '../../decorators/OptionsDecorator';
+
 const MainHeader = () => {
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
@@ -107,7 +109,7 @@ const MainHeader = () => {
               <Nav navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    {collectionOptions.find((item) => '' + item.value === filterCollectionId)?.label || "Collections"}
+                    {OptionsDecorator.optionToLabel(filterCollectionId, collectionOptions) || "Collections"}
                   </DropdownToggle>
                   <DropdownMenu>
                     {collectionOptions.map((collection) =>

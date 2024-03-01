@@ -5,6 +5,7 @@ import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
 import VesselSelector from "../vessels/VesselSelector";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 const VesselFormSection = ({
   currentVessel,
@@ -38,9 +39,7 @@ const VesselFormSection = ({
           isMulti
           isClearable={false}
           options={preparationOptions}
-          value={preparationOptions.filter((option) =>
-            reactionProcessVessel.preparations?.includes(option.value)
-          )}
+          value={OptionsDecorator.optionsForKeys(reactionProcessVessel.preparations, preparationOptions)}
           onChange={(selected) =>
             onSelectPreparations(selected.map((option) => option.value))
           }

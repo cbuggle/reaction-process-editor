@@ -75,9 +75,7 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
           classNamePrefix="react-select"
           name="sample_id"
           options={selectOptions}
-          value={selectOptions.find(
-            (option) => option.value === workup["sample_id"]
-          )}
+          value={OptionsDecorator.optionForKey(workup["sample_id"], selectOptions)}
           onChange={(selectedOption) =>
             handleSampleChange(selectedOption.value)
           }
@@ -151,9 +149,7 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
           classNamePrefix="react-select"
           name="acts_as"
           options={selectOptions.remove_sample_types}
-          value={selectOptions.remove_sample_types.find(
-            (option) => option.value === workup["acts_as"]
-          )}
+          value={OptionsDecorator.optionForKey(workup["acts_as"], selectOptions.remove_sample_types)}
           onChange={(selectedOption) =>
             handleActsAsChange({ actsAs: selectedOption.value })
           }

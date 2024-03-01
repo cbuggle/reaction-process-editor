@@ -7,7 +7,10 @@ import MetricsInput from "../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
+
+
 
 const MotionForm = ({
   label,
@@ -54,9 +57,6 @@ const MotionForm = ({
 
   const handleCancel = () => resetFormData();
 
-  const currentMotionTypeOption = () =>
-    motionTypeOptions.find((option) => option.value === motionType);
-
   return (
     <OptionalFormSet
       subFormLabel={label}
@@ -71,7 +71,7 @@ const MotionForm = ({
             classNamePrefix="react-select"
             name="motion_type"
             options={motionTypeOptions}
-            value={currentMotionTypeOption()}
+            value={OptionsDecorator.optionForKey(motionType, motionTypeOptions)}
             onChange={(selectedOption) => setMotionType(selectedOption.value)}
           />
         </FormGroup>

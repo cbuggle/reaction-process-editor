@@ -29,7 +29,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
   const confirmDeleteStep = () => {
     window.confirm(
       "Deleting the ProcessStep will irreversably delete this " +
-        "step and all associated actions. This can not be undone. Are you sure?"
+      "step and all associated actions. This can not be undone. Are you sure?"
     ) && deleteStep();
   };
 

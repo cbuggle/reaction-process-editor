@@ -6,6 +6,7 @@ import NumericalInput from "./NumericalInput";
 import SingleLineFormGroup from "./SingleLineFormGroup";
 
 import MetricsDecorator from "../../decorators/MetricsDecorator";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 const MetricsInput = (
   {
@@ -62,7 +63,7 @@ const MetricsInput = (
           classNamePrefix="react-select"
           name={"target_amount_unit_" + MetricsDecorator.label(metricName)}
           options={availableUnitOptions}
-          value={availableUnitOptions.find(option => option.value === localUnit)}
+          value={OptionsDecorator.optionForKey(localUnit, availableUnitOptions)}
           onChange={selectedOption => handleChangeUnit(localUnit)(selectedOption.value)}
         />
       )

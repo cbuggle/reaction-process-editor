@@ -4,6 +4,7 @@ import Select from "react-select";
 
 import FormButtons from "../utilities/FormButtons";
 import { SelectOptions } from "../../contexts/SelectOptions";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 const VesselPreparationForm = ({ formData, onSave, onCancel }) => {
   const selectOptions = useContext(SelectOptions);
@@ -40,9 +41,7 @@ const VesselPreparationForm = ({ formData, onSave, onCancel }) => {
           isMulti
           isClearable={false}
           options={preparationOptions}
-          value={preparationOptions.filter((option) =>
-            vesselPreparations.preparations?.includes(option.value)
-          )}
+          value={OptionsDecorator.optionsForKeys(vesselPreparations.preparations, preparationOptions)}
           onChange={(selected) =>
             onInputChange({
               name: "preparations",

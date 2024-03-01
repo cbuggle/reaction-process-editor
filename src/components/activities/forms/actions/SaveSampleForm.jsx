@@ -8,6 +8,8 @@ import FormSection from "../../../utilities/FormSection";
 import MetricsInput from "../../../utilities/MetricsInput";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import VesselSelector from "../../../vessels/VesselSelector";
+
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import VesselDecorator from "../../../../decorators/VesselDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
@@ -89,9 +91,7 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
             classNamePrefix="react-select"
             name="intermediate_type"
             options={selectOptions.save_sample_types}
-            value={selectOptions.save_sample_types.find(
-              (option) => option.value === workup.intermediate_type
-            )}
+            value={OptionsDecorator.optionForKey(workup.intermediate_type, selectOptions.save_sample_types)}
             onChange={(selectedOption) =>
               handleChangeSampleWorkup("intermediate_type")(
                 selectedOption.value
