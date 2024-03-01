@@ -4,6 +4,7 @@ import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 import VesselDecorator from "../../decorators/VesselDecorator";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 import {
   removeFormMetricNames,
@@ -125,16 +126,17 @@ const ActivityInfo = ({ activity, preconditions }) => {
             infoTitle += " ";
           }
           // chromatograpy.automation_modes extends regular automation_modes thus can be used without case distinction.
-          infoTitle +=
-            selectOptions.purify.chromatography.automation_modes.find(
-              (option) => option.value === workup.automation
-            )?.label;
+          infoTitle += OptionsDecorator.optionToLabel(
+            workup.automation,
+            selectOptions.purify.chromatography.automation_modes
+          );
           if (workup.filtration_mode) {
             infoTitle +=
               " Keep " +
-              selectOptions.purify.filtration.modes.find(
-                (option) => option.value === workup.filtration_mode
-              )?.label;
+              OptionsDecorator.optionToLabel(
+                workup.filtration_mode,
+                selectOptions.purify.filtration.modes
+              );
           }
           if (steps && selectOptions.materials["SOLVENT"]) {
             for (let i = 0; i < steps.length; i++) {
@@ -152,9 +154,10 @@ const ActivityInfo = ({ activity, preconditions }) => {
         }
         break;
       case "ANALYSIS":
-        infoTitle = selectOptions.analysis_types.find(
-          (option) => option.value === workup.analysis_type
-        ).label;
+        infoTitle = infoTitle = OptionsDecorator.optionToLabel(
+          workup.analysis_type,
+          selectOptions.analysis_types
+        );
         break;
       case "WAIT":
         infoTitle = "...";

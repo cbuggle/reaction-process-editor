@@ -1,135 +1,177 @@
-import MetricsDecorator from './MetricsDecorator';
-import StringDecorator from './StringDecorator';
+import MetricsDecorator from "./MetricsDecorator";
+import StringDecorator from "./StringDecorator";
+import OptionsDecorator from "./OptionsDecorator";
 export default class ActivityInfoDecorator {
-
   static cardTitle = (activity) => {
-    let title = activity.activity_name
-    const workup = activity.workup
+    let title = activity.activity_name;
+    const workup = activity.workup;
 
     if (workup && !!Object.keys(workup).length) {
       switch (activity.activity_name) {
-        case 'PURIFY':
-          title = workup.purify_type
-          break
-        case 'CONDITION':
-          title = 'Change Condition'
-          break
-        case 'ANALYSIS':
+        case "PURIFY":
+          title = workup.purify_type;
+          break;
+        case "CONDITION":
+          title = "Change Condition";
+          break;
+        case "ANALYSIS":
           if (workup.analysis_type) {
-            title += ' ' + workup.analysis_type
+            title += " " + workup.analysis_type;
           }
-          break
-        case 'ADD':
-        case 'REMOVE':
-          title += ' '
+          break;
+        case "ADD":
+        case "REMOVE":
+          title += " ";
           if (workup.sample_name) {
-            title += workup.sample_name
+            title += workup.sample_name;
           } else {
-            title += workup.acts_as === 'DIVERSE_SOLVENT' ? 'Solvent' : workup.acts_as
+            title +=
+              workup.acts_as === "DIVERSE_SOLVENT" ? "Solvent" : workup.acts_as;
           }
-          break
-        case 'TRANSFER':
-        case 'SAVE':
-        case 'WAIT':
+          break;
+        case "TRANSFER":
+        case "SAVE":
+        case "WAIT":
         default:
-          break
+          break;
       }
     }
-    return StringDecorator.toLabelSpelling(title)
-  }
+    return StringDecorator.toLabelSpelling(title);
+  };
 
-  static conditionInfo = (metricName, conditionWorkup, precondition, selectOptions) => {
+  static conditionInfo = (
+    metricName,
+    conditionWorkup,
+    precondition,
+    selectOptions
+  ) => {
     switch (metricName) {
-      case 'EQUIPMENT':
-        return this.infoLineEquipment(conditionWorkup, selectOptions.equipment)
-      case 'MOTION':
-        return this.infoLineMotion(conditionWorkup, selectOptions)
-      case 'IRRADIATION':
-        return MetricsDecorator.infoLineAmount(conditionWorkup)
+      case "EQUIPMENT":
+        return this.infoLineEquipment(conditionWorkup, selectOptions.equipment);
+      case "MOTION":
+        return this.infoLineMotion(conditionWorkup, selectOptions);
+      case "IRRADIATION":
+        return MetricsDecorator.infoLineAmount(conditionWorkup);
       default:
-        return this.infoLineAmountWithDelta(conditionWorkup, precondition)
-
+        return this.infoLineAmountWithDelta(conditionWorkup, precondition);
     }
-  }
+  };
 
   static infoLineAmountWithDelta = (conditionWorkup, precondition) => {
-    let info = MetricsDecorator.infoLineAmount(conditionWorkup)
+    let info = MetricsDecorator.infoLineAmount(conditionWorkup);
     if (!!precondition) {
-      let valueDiff = (Math.round((conditionWorkup.value - precondition.value) * 100) / 100)
+      let valueDiff =
+        Math.round((conditionWorkup.value - precondition.value) * 100) / 100;
       if (valueDiff > 0) {
-        valueDiff = '+' + valueDiff
+        valueDiff = "+" + valueDiff;
       }
-      info += ' (' + valueDiff + ')'
+      info += " (" + valueDiff + ")";
     }
 
     return info;
-  }
+  };
 
   static infoLineMotion = (conditionWorkup, selectOptions) => {
     return [
       MetricsDecorator.infoLineAmount(conditionWorkup.speed),
-      selectOptions.motion_types.find(option => option.value === conditionWorkup.motion_type)?.label,
-      selectOptions.automation_modes.find(option => option.value === conditionWorkup.motion_mode)?.label
-    ].join(', ')
-  }
+      OptionsDecorator.optionToLabel(
+        conditionWorkup.motion_type,
+        selectOptions.motion_types
+      ),
+      OptionsDecorator.optionToLabel(
+        conditionWorkup.motion_mode,
+        selectOptions.automation_modes
+      ),
+    ].join(", ");
+  };
 
   static filtrationStepInfo = (stepData, purifySolventOptions) => {
-    const solventsList = (stepData.solvents || []).map(
-      solvent => purifySolventOptions.find(option => option.value === solvent.id).label
-    ).join(', ')
-    let ratioList = ''
+    const solventsList = OptionsDecorator.optionsArrayToLabel(
+      stepData.solvents || [],
+      purifySolventOptions
+    );
+    let ratioList = "";
 
     if (stepData.solvents?.length > 1) {
-      ratioList = StringDecorator.brackets(stepData.solvents.map(solvent => solvent.ratio).join(':'))
+      ratioList = StringDecorator.brackets(
+        stepData.solvents.map((solvent) => solvent.ratio).join(":")
+      );
     }
 
     const infoStrings = [
       MetricsDecorator.infoLineAmount(stepData.amount),
       solventsList,
-      ratioList
-    ]
+      ratioList,
+    ];
 
-    if(stepData.step_mode) {
-      infoStrings.push(StringDecorator.brackets(StringDecorator.toLabelSpelling(stepData.step_mode)))
+    if (stepData.step_mode) {
+      infoStrings.push(
+        StringDecorator.brackets(
+          StringDecorator.toLabelSpelling(stepData.step_mode)
+        )
+      );
     }
 
-    if(stepData.prod_mode) {
-      infoStrings.push(StringDecorator.brackets('prod: ' + StringDecorator.toLabelSpelling(stepData.prod_mode)))
+    if (stepData.prod_mode) {
+      infoStrings.push(
+        StringDecorator.brackets(
+          "prod: " + StringDecorator.toLabelSpelling(stepData.prod_mode)
+        )
+      );
     }
 
-    if(stepData.repetitions) {
-      infoStrings.push(StringDecorator.brackets(stepData.repetitions.value + ' ' + MetricsDecorator.label('REPETITIONS')))
+    if (stepData.repetitions) {
+      infoStrings.push(
+        StringDecorator.brackets(
+          stepData.repetitions.value +
+            " " +
+            MetricsDecorator.label("REPETITIONS")
+        )
+      );
     }
 
-    return infoStrings.join(' ')
-  }
+    return infoStrings.join(" ");
+  };
   static chromatographyStepInfo = (stepData, purifySolventOptions) => {
-    const solventsList = stepData.solvents.map(
-      solvent => purifySolventOptions.find(option => option.value === solvent.id).label
-    ).join(', ')
-    let ratioList = ''
+    const solventsList = OptionsDecorator.optionsArrayToLabel(
+      stepData.solvents,
+      purifySolventOptions
+    );
+    let ratioList = "";
 
     if (stepData.solvents.length > 1) {
-      ratioList = StringDecorator.brackets(stepData.solvents.map(solvent => solvent.ratio).join(':'))
+      ratioList = StringDecorator.brackets(
+        stepData.solvents.map((solvent) => solvent.ratio).join(":")
+      );
     }
 
     return [
       MetricsDecorator.infoLineAmount(stepData.amount),
       solventsList,
-      ratioList
-    ].join(' ')
-  }
+      ratioList,
+    ].join(" ");
+  };
 
   static infoLineEquipment = (equipment, equipmentOptions) => {
-    return equipment?.value && equipment.value.map((item) => (
-      equipmentOptions.find((option) => option.value === item).label
-    )).join(', ')
-  }
+    return (
+      equipment?.value &&
+      OptionsDecorator.optionsArrayToLabel(equipment.value, equipmentOptions)
+    );
+  };
 
   static addSampleConditionInfoLine = (workup) => {
-    return ['add_sample_velocity', 'add_sample_temperature', 'add_sample_pressure'].map((metric) => {
-      return (workup[metric]?.value !== undefined)
-        && MetricsDecorator.infoLineAmount(workup[metric])
-    }).filter((el) => el).join(', ')
-  }
+    return [
+      "add_sample_velocity",
+      "add_sample_temperature",
+      "add_sample_pressure",
+    ]
+      .map((metric) => {
+        return (
+          workup[metric]?.value !== undefined &&
+          MetricsDecorator.infoLineAmount(workup[metric])
+        );
+      })
+      .filter((el) => el)
+      .join(", ");
+  };
 }

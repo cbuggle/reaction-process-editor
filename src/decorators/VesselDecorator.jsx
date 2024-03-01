@@ -3,7 +3,7 @@ import React from "react";
 import { apiHostname } from "../constants";
 
 import StringDecorator from "./StringDecorator";
-
+import OptionsDecorator from "./OptionsDecorator";
 
 export default class VesselDecorator {
   // TODO: renderVesselProcessStepInfo is the only function called from outside.
@@ -126,13 +126,9 @@ export default class VesselDecorator {
   };
 
   static vesselPreparationsLine = (preparations, preparationOptions) => {
-    return preparations && preparations
-      .map((preparationType) => {
-        return preparationOptions.find(
-          (option) => option.value === preparationType
-        ).label;
-      })
-      .join(", ");
+    return OptionsDecorator.optionsArrayToLabel(
+      preparations,
+      preparationOptions
+    );
   };
-
 }

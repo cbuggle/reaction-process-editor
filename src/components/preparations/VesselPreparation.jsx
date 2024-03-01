@@ -4,6 +4,7 @@ import PreparationCard from "./PreparationCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import VesselPreparationForm from "./VesselPreparationForm";
 import VesselDecorator from "../../decorators/VesselDecorator";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
@@ -19,16 +20,6 @@ const VesselPreparation = ({ vesselObject }) => {
     selectOptions.vessel_preparations.preparation_types;
 
   const cardTitle = VesselDecorator.vesselTitle(vesselObject.vessel);
-
-  const renderPreparationsInfo = (preparations) => {
-    return preparations
-      .map((preparationType) => {
-        return preparationOptions.find(
-          (option) => option.value === preparationType
-        ).label;
-      })
-      .join(", ");
-  };
 
   const onSave = (preparationForm) => {
     api.updateReactionProcessVessel(preparationForm);
@@ -57,7 +48,11 @@ const VesselPreparation = ({ vesselObject }) => {
         </span>
         {vesselObject.preparations.length > 0 && (
           <span className="procedure-card__info-line">
-            Preparations: {renderPreparationsInfo(vesselObject.preparations)}
+            Preparations:{" "}
+            {OptionsDecorator.optionsArrayToLabel(
+              vesselObject.preparations,
+              preparationOptions
+            )}
           </span>
         )}
         {vesselObject.step_names.length > 0 && (
