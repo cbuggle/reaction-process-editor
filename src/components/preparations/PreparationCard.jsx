@@ -1,28 +1,28 @@
-import React from 'react';
+import React from "react";
 import ProcedureCard from "../utilities/ProcedureCard";
 
-const PreparationCard = (
-  {
-    title,
-    children,
-    onEdit,
-    onDelete,
-    onCancel,
-    showForm = false,
-  }) => {
+const PreparationCard = ({
+  title,
+  children,
+  onEdit,
+  onDelete,
+  onCancel,
+  allowDelete = true,
+  showForm = false,
+}) => {
   return (
     <ProcedureCard
       title={title}
-      type='preparation'
+      type="preparation"
       onEdit={onEdit}
       onDelete={onDelete}
       onCancel={onCancel}
       showEditBtn={!showForm}
       showMoveXBtn={false}
       showMoveYBtn={false}
-      showDeleteBtn={!showForm}
+      showDeleteBtn={allowDelete ? !showForm : false}
       showCancelBtn={showForm}
-      displayMode={showForm ? 'form' : 'info'}
+      displayMode={showForm ? "form" : "info"}
     >
       {children}
     </ProcedureCard>

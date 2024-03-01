@@ -49,6 +49,7 @@ const VesselPreparation = ({ vesselObject }) => {
       onEdit={openForm}
       onCancel={closeForm}
       showForm={showForm}
+      allowDelete={false}
     >
       <ProcedureCard.Info>
         <span className="procedure-card__info-line">
