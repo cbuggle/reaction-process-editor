@@ -1,25 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import Select from "react-select";
+import MultiInputFormGroup from "../utilities/MultiInputFormGroup";
+import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
+import VesselSelector from "../vessels/VesselSelector";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-  Label,
-} from "reactstrap";
-
-import VesselIndex from "./VesselIndex";
-import VesselDecorator from "../../decorators/VesselDecorator";
+import { SelectOptions } from "../../contexts/SelectOptions";
 
 const VesselFormSection = ({
   currentVessel,
   onSelectVessel,
+  onSelectPreparations,
   typeColor,
-  buttonLabel,
   scope,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const selectOptions = useContext(SelectOptions);
+  const preparationOptions =
+    selectOptions.vessel_preparations.preparation_types;
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -31,46 +28,34 @@ const VesselFormSection = ({
   };
 
   return (
-    <div className={"form-section form-section--" + typeColor}>
-      <div className="d-flex justify-content-between align-self-center">
-        <Label
-          className={
-            "col-form-label" + (!!currentVessel ? "" : " label--disabled")
-          }
-        >
-          {VesselDecorator.vesselSingleLine(currentVessel) || "Vessel: -"}
-        </Label>
-        <div className="optional-form-group__open-controls">
-          <div className="d-grid gap-2">
-            <Button outline onClick={toggleModal} color={typeColor}>
-              {buttonLabel}
-            </Button>
-            <Modal
-              isOpen={modalOpen}
-              toggle={toggleModal}
-              backdrop={"static"}
-              fullscreen={true}
-              className={"modal--" + typeColor}
-            >
-              <ModalHeader tag="h4">
-                {buttonLabel} Vessel for {scope}
-              </ModalHeader>
-              <ModalBody>
-                <VesselIndex
-                  onSelectVessel={handleSelectVessel}
-                  typeColor={typeColor}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button outline color={typeColor} onClick={toggleModal}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </div>
-        </div>
+    <MultiInputFormGroup label="Vessel" typeColor={typeColor}>
+      <div className="pt-1 mb-3">
+        <VesselSelector
+          currentVessel={currentVessel}
+          onSelectVessel={handleSelectVessel}
+          typeColor={typeColor}
+          buttonLabel={!!currentVessel ? "Change" : "Set"}
+          scope={scope}
+        />
       </div>
-    </div>
+      <SingleLineFormGroup label="Preparations:" typeColor={typeColor}>
+        <Select
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
+          name="sample_id"
+          isDisabled={false}
+          isMulti
+          isClearable={false}
+          options={preparationOptions}
+          value={preparationOptions.filter((option) =>
+            currentVessel.preparations?.includes(option.value)
+          )}
+          onChange={(selected) =>
+            onSelectPreparations(selected.map((option) => option.value))
+          }
+        />
+      </SingleLineFormGroup>
+    </MultiInputFormGroup>
   );
 };
 

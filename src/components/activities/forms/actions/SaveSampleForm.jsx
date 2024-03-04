@@ -32,28 +32,26 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
 
   return (
     <>
-      <FormSection type="action">
-        <FormGroup>
-          <Label>Name</Label>
-          <Input
-            value={workup.name}
-            placeholder="Name (Leave blank to autofill)"
-            onChange={(event) =>
-              handleChangeSampleWorkup("name")(event.target.value)
-            }
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Short Label</Label>
-          <Input
-            value={workup.short_label}
-            placeholder="Short Label (Leave blank to autofill)"
-            onChange={(event) =>
-              handleChangeSampleWorkup("short_label")(event.target.value)
-            }
-          />
-        </FormGroup>
-      </FormSection>
+      <FormGroup>
+        <Label>Name</Label>
+        <Input
+          value={workup.name}
+          placeholder="Name (Leave blank to autofill)"
+          onChange={(event) =>
+            handleChangeSampleWorkup("name")(event.target.value)
+          }
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Short Label</Label>
+        <Input
+          value={workup.short_label}
+          placeholder="Short Label (Leave blank to autofill)"
+          onChange={(event) =>
+            handleChangeSampleWorkup("short_label")(event.target.value)
+          }
+        />
+      </FormGroup>
       <VesselFormSection
         currentVessel={currentVessel}
         onSelectVessel={assignVessel}

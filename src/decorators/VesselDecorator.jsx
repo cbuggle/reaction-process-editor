@@ -92,10 +92,7 @@ export default class VesselDecorator {
   static vesselSingleLine = (vessel) => {
     // Called from StepForm.jsx
     return vessel
-      ? "Vessel: " +
-          this.vesselTitle(vessel) +
-          " " +
-          this.vesselVolumeAndMaterial(vessel)
+      ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
       : undefined;
   };
 

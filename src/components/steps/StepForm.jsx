@@ -1,10 +1,8 @@
 import React, { useState, useContext } from "react";
 
-import VesselFormSection from "../vessels/VesselFormSection";
-import VesselPreparationsFormSection from "../vessels/VesselPreparationsFormSection"
-
 import AutoComplete from "../utilities/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
+import VesselFormSection from "../vessels/VesselFormSection";
 import VesselDecorator from "../../decorators/VesselDecorator";
 
 import { VesselOptions } from "../../contexts/VesselOptions";
@@ -18,7 +16,16 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
   const [stepName, setStepName] = useState(processStep?.name || "");
   const [currentVessel, setCurrentVessel] = useState(processStep?.vessel);
-  const [reactionProcessVessel, setReactionProcessVessel] = useState(processStep?.reaction_process_vessel || {});
+  const [reactionProcessVessel, setReactionProcessVessel] = useState(
+    processStep?.reaction_process_vessel || {}
+  );
+
+  const handleSelectVesselPreparations = (preparations) => {
+    setReactionProcessVessel({
+      name: "preparations",
+      value: preparations,
+    });
+  };
 
   const handleSave = () => {
     onSave(stepName, currentVessel.id, reactionProcessVessel);
@@ -26,25 +33,19 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
   return (
     <>
-      <div className="form-section form-section--step mb-3">
-        <AutoComplete
-          options={nameSuggestionOptions.map((option) => option.label)}
-          value={stepName}
-          onChange={setStepName}
-          domId="step-name-input"
-          label="Name"
-        />
-      </div>
+      <AutoComplete
+        options={nameSuggestionOptions.map((option) => option.label)}
+        value={stepName}
+        onChange={setStepName}
+        domId="step-name-input"
+        label="Name"
+      />{" "}
       <VesselFormSection
         currentVessel={currentVessel}
         onSelectVessel={assignVessel}
+        onSelectPreparations={handleSelectVesselPreparations}
         typeColor="step"
-        buttonLabel={!!currentVessel ? "Change" : "Set"}
         scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
-      />
-      <VesselPreparationsFormSection
-        reactionProcessVessel={reactionProcessVessel}
-        onChange={setReactionProcessVessel}
       />
       <FormButtons
         onSave={handleSave}

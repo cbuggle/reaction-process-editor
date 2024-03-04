@@ -11,9 +11,11 @@ const StepInfo = ({ processStep }) => {
   return (
     <>
       <h6 className="mb-1">
-        {VesselDecorator.vesselSingleLine(processStep.vessel)}
+        Vessel: {VesselDecorator.vesselSingleLine(processStep.vessel)}
       </h6>
-      <StepVesselPreparationInfo reactionProcessVessel={processStep.reaction_process_vessel} />
+      <StepVesselPreparationInfo
+        reactionProcessVessel={processStep.reaction_process_vessel}
+      />
       {stepSelectOptions.added_materials?.length > 0 && <StepMaterials />}
       {stepSelectOptions.mounted_equipment?.length > 0 && <StepEquipments />}
     </>

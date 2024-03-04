@@ -34,27 +34,25 @@ const ExtractionForm = ({ workup, onWorkupChange }) => {
 
   return (
     <>
-      <FormSection type="action">
-        <ButtonGroupToggle
-          value={workup.automation}
-          options={selectOptions.automation_modes}
-          onChange={(selectedValue) =>
-            onWorkupChange({ name: "automation", value: selectedValue })
-          }
-          label="Automation"
-        />
+      <ButtonGroupToggle
+        value={workup.automation}
+        options={selectOptions.automation_modes}
+        onChange={(selectedValue) =>
+          onWorkupChange({ name: "automation", value: selectedValue })
+        }
+        label="Automation"
+      />
 
-        {workup.automation === "AUTOMATED" && (
-          <ButtonGroupToggle
-            value={workup.phase}
-            options={phaseOptions}
-            onChange={(selectedValue) =>
-              onWorkupChange({ name: "phase", value: selectedValue })
-            }
-            label="Phase"
-          />
-        )}
-      </FormSection>
+      {workup.automation === "AUTOMATED" && (
+        <ButtonGroupToggle
+          value={workup.phase}
+          options={phaseOptions}
+          onChange={(selectedValue) =>
+            onWorkupChange({ name: "phase", value: selectedValue })
+          }
+          label="Phase"
+        />
+      )}
       <VesselFormSection
         currentVessel={currentVessel}
         onSelectVessel={assignVessel}
