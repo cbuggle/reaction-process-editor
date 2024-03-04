@@ -60,6 +60,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
         ...processStep,
         name: stepName,
         vessel_id: vesselId,
+        reaction_process_vessel: reactionProcessVessel
       });
       setShowForm(false);
       onCancel();
