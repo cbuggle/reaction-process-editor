@@ -1,10 +1,13 @@
 import React, { useState, useContext } from "react";
 
-import FormButtons from "../utilities/FormButtons";
 import VesselFormSection from "../vessels/VesselFormSection";
-import { VesselOptions } from "../../contexts/VesselOptions";
-import VesselDecorator from "../../decorators/VesselDecorator";
+import VesselPreparationsFormSection from "../vessels/VesselPreparationsFormSection"
+
 import AutoComplete from "../utilities/AutoComplete";
+import FormButtons from "../utilities/FormButtons";
+import VesselDecorator from "../../decorators/VesselDecorator";
+
+import { VesselOptions } from "../../contexts/VesselOptions";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
   const vessels = useContext(VesselOptions);
@@ -15,9 +18,10 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
 
   const [stepName, setStepName] = useState(processStep?.name || "");
   const [currentVessel, setCurrentVessel] = useState(processStep?.vessel);
+  const [reactionProcessVessel, setReactionProcessVessel] = useState(processStep?.reaction_process_vessel || {});
 
   const handleSave = () => {
-    onSave(stepName, currentVessel.id);
+    onSave(stepName, currentVessel.id, reactionProcessVessel);
   };
 
   return (
@@ -37,6 +41,10 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         typeColor="step"
         buttonLabel={!!currentVessel ? "Change" : "Set"}
         scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
+      />
+      <VesselPreparationsFormSection
+        reactionProcessVessel={reactionProcessVessel}
+        onChange={setReactionProcessVessel}
       />
       <FormButtons
         onSave={handleSave}

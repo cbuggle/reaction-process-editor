@@ -43,13 +43,14 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
     }
   };
 
-  const onSave = (stepName, vesselId) => {
+  const onSave = (stepName, vesselId, reactionProcessVessel) => {
     if (isInitialised) {
-      if (stepName !== processStep.name || vesselId !== processStep.vessel?.id ) {
+      if (stepName !== processStep.name || vesselId !== processStep.vessel?.id || reactionProcessVessel !== processStep.reaction_process_vessel) {
         api.updateProcessStep({
           ...processStep,
           name: stepName,
-          vessel_id: vesselId
+          vessel_id: vesselId,
+          reaction_process_vessel: reactionProcessVessel
         });
       }
 
