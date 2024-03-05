@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Select from "react-select";
 import MultiInputFormGroup from "../utilities/MultiInputFormGroup";
 import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
@@ -14,26 +14,16 @@ const VesselFormSection = ({
   typeColor,
   scope,
 }) => {
-  const [modalOpen, setModalOpen] = useState(false);
   const selectOptions = useContext(SelectOptions);
   const preparationOptions =
     selectOptions.vessel_preparations.preparation_types;
-
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const handleSelectVessel = (vesselId) => () => {
-    toggleModal();
-    onSelectVessel(vesselId);
-  };
 
   return (
     <MultiInputFormGroup label="Vessel" typeColor={typeColor}>
       <div className="pt-1 mb-3">
         <VesselSelector
           currentVessel={currentVessel}
-          onSelectVessel={handleSelectVessel}
+          onSelectVessel={onSelectVessel}
           typeColor={typeColor}
           buttonLabel={!!currentVessel ? "Change" : "Set"}
           scope={scope}

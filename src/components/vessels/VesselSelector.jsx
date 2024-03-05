@@ -38,6 +38,7 @@ const VesselSelector = ({
         <Input
           value={VesselDecorator.vesselSingleLine(currentVessel) || "-"}
           onClick={toggleModal}
+          readOnly
         />
         <Button onClick={toggleModal} color={typeColor}>
           <FontAwesomeIcon icon="list" />

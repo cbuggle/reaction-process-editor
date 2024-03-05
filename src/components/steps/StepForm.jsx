@@ -10,19 +10,17 @@ import { VesselOptions } from "../../contexts/VesselOptions";
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
   const vessels = useContext(VesselOptions);
 
-  const assignVessel = (vesselId) => {
-    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
-  };
-
   const [stepName, setStepName] = useState(processStep?.name || "");
   const [currentVessel, setCurrentVessel] = useState(processStep?.vessel);
   const [reactionProcessVessel, setReactionProcessVessel] = useState(
     processStep?.reaction_process_vessel || {}
   );
 
+  const assignVessel = (vesselId) => {
+    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
+  };
+
   const handleSelectVesselPreparations = (preparations) => {
-    console.log(JSON.stringify(reactionProcessVessel.preparations));
-    console.log(JSON.stringify(preparations));
     setReactionProcessVessel({
       ...reactionProcessVessel,
       preparations: preparations,
