@@ -86,11 +86,15 @@ export default class ActivityInfoDecorator {
   };
 
   static filtrationStepInfo = (stepData, purifySolventOptions) => {
+    console.log(" filtrationStepInfo stepData")
+    console.log(stepData)
     const solventsList = OptionsDecorator.optionsArrayToLabel(
-      stepData.solvents || [],
+      stepData.solvents.map((solvent) => solvent.id),
       purifySolventOptions
     );
+
     let ratioList = "";
+
 
     if (stepData.solvents?.length > 1) {
       ratioList = StringDecorator.brackets(
@@ -124,8 +128,8 @@ export default class ActivityInfoDecorator {
       infoStrings.push(
         StringDecorator.brackets(
           stepData.repetitions.value +
-            " " +
-            MetricsDecorator.label("REPETITIONS")
+          " " +
+          MetricsDecorator.label("REPETITIONS")
         )
       );
     }
@@ -134,7 +138,7 @@ export default class ActivityInfoDecorator {
   };
   static chromatographyStepInfo = (stepData, purifySolventOptions) => {
     const solventsList = OptionsDecorator.optionsArrayToLabel(
-      stepData.solvents,
+      stepData.solvents.map((s) => s.id),
       purifySolventOptions
     );
     let ratioList = "";
