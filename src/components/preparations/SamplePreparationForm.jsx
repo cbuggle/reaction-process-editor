@@ -53,6 +53,7 @@ const PreparationForm = ({
         />
       </FormGroup>
       <FormGroup>
+
         <Label>Preparations</Label>
         <Select
           className="react-select--overwrite"
@@ -79,7 +80,7 @@ const PreparationForm = ({
           isClearable={false}
           name="equipment"
           options={preparationOptions.equipment}
-          value={OptionsDecorator.optionsForKeys(preparationForm.equipment, preparationOptions)}
+          value={OptionsDecorator.optionsForKeys(preparationForm.equipment, preparationOptions.equipment)}
           onChange={(selectedOptions) =>
             onInputChange({
               name: "equipment",
