@@ -9,6 +9,7 @@ import { SelectOptions } from "../../contexts/SelectOptions";
 const VesselFormSection = ({
   currentVessel,
   onSelectVessel,
+  reactionProcessVessel,
   onSelectPreparations,
   typeColor,
   scope,
@@ -48,7 +49,7 @@ const VesselFormSection = ({
           isClearable={false}
           options={preparationOptions}
           value={preparationOptions.filter((option) =>
-            currentVessel.preparations?.includes(option.value)
+            reactionProcessVessel.preparations?.includes(option.value)
           )}
           onChange={(selected) =>
             onSelectPreparations(selected.map((option) => option.value))

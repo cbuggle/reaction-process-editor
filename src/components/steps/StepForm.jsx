@@ -21,9 +21,11 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
   );
 
   const handleSelectVesselPreparations = (preparations) => {
+    console.log(JSON.stringify(reactionProcessVessel.preparations));
+    console.log(JSON.stringify(preparations));
     setReactionProcessVessel({
-      name: "preparations",
-      value: preparations,
+      ...reactionProcessVessel,
+      preparations: preparations,
     });
   };
 
@@ -43,6 +45,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
       <VesselFormSection
         currentVessel={currentVessel}
         onSelectVessel={assignVessel}
+        reactionProcessVessel={reactionProcessVessel}
         onSelectPreparations={handleSelectVesselPreparations}
         typeColor="step"
         scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
