@@ -7,7 +7,7 @@ import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
 import MetricsInput from "../../../utilities/MetricsInput";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
-import VesselFormSection from "../../../vessels/VesselFormSection";
+import VesselSelector from "../../../vessels/VesselSelector";
 import VesselDecorator from "../../../../decorators/VesselDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
@@ -52,13 +52,16 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
           }
         />
       </FormGroup>
-      <VesselFormSection
-        currentVessel={currentVessel}
-        onSelectVessel={assignVessel}
-        typeColor="action"
-        buttonLabel={!!currentVessel ? "Change" : "Set"}
-        scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
-      />
+      <FormGroup>
+        <Label>Vessel</Label>
+        <VesselSelector
+          currentVessel={currentVessel}
+          onSelectVessel={assignVessel}
+          typeColor="action"
+          buttonLabel={!!currentVessel ? "Change" : "Set"}
+          scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
+        />
+      </FormGroup>
       <FormSection type="action">
         <AmountInputSet
           amount={workup.target_amount}

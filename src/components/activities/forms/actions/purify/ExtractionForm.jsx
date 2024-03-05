@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-import { FormGroup } from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../../utilities/FormSection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import SolventListForm from "./SolventListForm";
-import VesselFormSection from "../../../../vessels/VesselFormSection";
+import VesselSelector from "../../../../vessels/VesselSelector";
 import VesselDecorator from "../../../../../decorators/VesselDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
@@ -53,13 +53,16 @@ const ExtractionForm = ({ workup, onWorkupChange }) => {
           label="Phase"
         />
       )}
-      <VesselFormSection
-        currentVessel={currentVessel}
-        onSelectVessel={assignVessel}
-        typeColor="action"
-        buttonLabel={!!currentVessel ? "Change" : "Set"}
-        scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
-      />
+      <FormGroup>
+        <Label>Vessel</Label>
+        <VesselSelector
+          currentVessel={currentVessel}
+          onSelectVessel={assignVessel}
+          typeColor="action"
+          buttonLabel={!!currentVessel ? "Change" : "Set"}
+          scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
+        />
+      </FormGroup>
       <FormSection type="action">
         <FormGroup>
           <SolventListForm
