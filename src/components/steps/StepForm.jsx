@@ -1,34 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import AutoComplete from "../utilities/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
 import VesselFormSection from "../vessels/VesselFormSection";
-import VesselDecorator from "../../decorators/VesselDecorator";
-
-import { VesselOptions } from "../../contexts/VesselOptions";
 
 const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
-  const vessels = useContext(VesselOptions);
 
   const [stepName, setStepName] = useState(processStep?.name || "");
-  const [currentVessel, setCurrentVessel] = useState(processStep?.vessel);
   const [reactionProcessVessel, setReactionProcessVessel] = useState(
     processStep?.reaction_process_vessel || {}
   );
 
-  const assignVessel = (vesselId) => {
-    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
-  };
-
-  const handleSelectVesselPreparations = (preparations) => {
-    setReactionProcessVessel({
-      ...reactionProcessVessel,
-      preparations: preparations,
-    });
-  };
-
   const handleSave = () => {
-    onSave(stepName, currentVessel.id, reactionProcessVessel);
+    onSave(stepName, reactionProcessVessel);
   };
 
   return (
@@ -41,10 +25,8 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         label="Name"
       />{" "}
       <VesselFormSection
-        currentVessel={currentVessel}
-        onSelectVessel={assignVessel}
+        onChange={setReactionProcessVessel}
         reactionProcessVessel={reactionProcessVessel}
-        onSelectPreparations={handleSelectVesselPreparations}
         typeColor="step"
         scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
       />
@@ -52,7 +34,7 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         onSave={handleSave}
         onCancel={onCancel}
         type="step"
-        disableSave={!currentVessel || !stepName}
+        disableSave={!reactionProcessVessel.vessel || !stepName}
       />
     </>
   );

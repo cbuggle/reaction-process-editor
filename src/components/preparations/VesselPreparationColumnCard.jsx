@@ -11,7 +11,7 @@ const VesselPreparationColumnCard = ({ reactionProcess }) => {
           (reaction_process_vessel, idx) => (
             <VesselPreparation
               key={idx}
-              vesselObject={reaction_process_vessel}
+              reactionProcessVessel={reaction_process_vessel}
               reactionProcessId={reactionProcess.id}
             />
           )

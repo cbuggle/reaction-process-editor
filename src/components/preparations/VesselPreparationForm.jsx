@@ -1,54 +1,29 @@
-import React, { useContext, useState } from "react";
-import { Label, Form, FormGroup } from "reactstrap";
-import Select from "react-select";
+import React, { useState } from "react";
+import { Form, FormGroup } from "reactstrap";
 
 import FormButtons from "../utilities/FormButtons";
-import { SelectOptions } from "../../contexts/SelectOptions";
-import OptionsDecorator from "../../decorators/OptionsDecorator";
 
-const VesselPreparationForm = ({ formData, onSave, onCancel }) => {
-  const selectOptions = useContext(SelectOptions);
-  const preparationOptions =
-    selectOptions.vessel_preparations.preparation_types;
-  const [vesselPreparations, setVesselPreparations] = useState(formData);
+import VesselFormSection from "../vessels/VesselFormSection";
 
-  const onInputChange = (field) => {
-    const { name, value } = field;
-    setVesselPreparations((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+const VesselPreparationForm = ({ reactionProcessVessel, onSave, onCancel }) => {
+  const [currentVessel, setCurrentVessel] = useState(reactionProcessVessel);
 
   const handleSave = () => {
-    onSave(vesselPreparations);
+    onSave(currentVessel);
   };
 
   const handleCancel = () => {
-    setVesselPreparations(formData);
+    setCurrentVessel(reactionProcessVessel);
     onCancel();
   };
 
   return (
     <Form>
-      <FormGroup>
-        <Label>Preparations</Label>
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="sample_id"
-          isDisabled={false}
-          isMulti
-          isClearable={false}
-          options={preparationOptions}
-          value={OptionsDecorator.optionsForKeys(vesselPreparations.preparations, preparationOptions)}
-          onChange={(selected) =>
-            onInputChange({
-              name: "preparations",
-              value: selected.map((option) => option.value),
-            })
-          }
+      <VesselFormSection
+        onChange={setCurrentVessel}
+        reactionProcessVessel={currentVessel}
         />
+      <FormGroup>
         <FormButtons
           onSave={handleSave}
           onCancel={handleCancel}

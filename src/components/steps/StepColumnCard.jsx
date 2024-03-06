@@ -43,13 +43,12 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
     }
   };
 
-  const onSave = (stepName, vesselId, reactionProcessVessel) => {
+  const onSave = (stepName, reactionProcessVessel) => {
     if (isInitialised) {
-      if (stepName !== processStep.name || vesselId !== processStep.vessel?.id || reactionProcessVessel !== processStep.reaction_process_vessel) {
+      if (stepName !== processStep.name ||  reactionProcessVessel !== processStep.reaction_process_vessel) {
         api.updateProcessStep({
           ...processStep,
           name: stepName,
-          vessel_id: vesselId,
           reaction_process_vessel: reactionProcessVessel
         });
       }
@@ -59,7 +58,6 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
       api.createProcessStep(reactionProcess.id, {
         ...processStep,
         name: stepName,
-        vessel_id: vesselId,
         reaction_process_vessel: reactionProcessVessel
       });
       setShowForm(false);

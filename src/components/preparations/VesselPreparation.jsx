@@ -10,7 +10,7 @@ import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 
-const VesselPreparation = ({ vesselObject }) => {
+const VesselPreparation = ({ reactionProcessVessel }) => {
   const api = useReactionsFetcher();
 
   const selectOptions = useContext(SelectOptions);
@@ -18,8 +18,6 @@ const VesselPreparation = ({ vesselObject }) => {
   const [showForm, setShowForm] = useState(false);
   const preparationOptions =
     selectOptions.vessel_preparations.preparation_types;
-
-  const cardTitle = VesselDecorator.vesselTitle(vesselObject.vessel);
 
   const onSave = (preparationForm) => {
     api.updateReactionProcessVessel(preparationForm);
@@ -36,7 +34,7 @@ const VesselPreparation = ({ vesselObject }) => {
 
   return (
     <PreparationCard
-      title={cardTitle}
+      title={VesselDecorator.vesselTitle(reactionProcessVessel?.vessel)}
       onEdit={openForm}
       onCancel={closeForm}
       showForm={showForm}
@@ -44,26 +42,26 @@ const VesselPreparation = ({ vesselObject }) => {
     >
       <ProcedureCard.Info>
         <span className="procedure-card__info-line">
-          {VesselDecorator.vesselVolumeAndMaterial(vesselObject.vessel)}
+          {VesselDecorator.vesselVolumeAndMaterial(reactionProcessVessel.vessel)}
         </span>
-        {vesselObject.preparations.length > 0 && (
+        {reactionProcessVessel.preparations.length > 0 && (
           <span className="procedure-card__info-line">
             Preparations:{" "}
             {OptionsDecorator.optionsArrayToLabel(
-              vesselObject.preparations,
+              reactionProcessVessel.preparations,
               preparationOptions
             )}
           </span>
         )}
-        {vesselObject.step_names.length > 0 && (
+        {reactionProcessVessel.step_names.length > 0 && (
           <span className="procedure-card__info-line">
-            Steps: {vesselObject.step_names.join(", ")}
+            Steps: {reactionProcessVessel.step_names.join(", ")}
           </span>
         )}
       </ProcedureCard.Info>
       <ProcedureCard.Form>
         <VesselPreparationForm
-          formData={vesselObject}
+          reactionProcessVessel={reactionProcessVessel}
           onSave={onSave}
           onCancel={closeForm}
         />
