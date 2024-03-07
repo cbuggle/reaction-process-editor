@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FormGroup } from "reactstrap";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
@@ -9,14 +9,10 @@ import VesselFormSection from "../../../../vessels/VesselFormSection";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
-const ExtractionForm = ({ workup, onWorkupChange }) => {
+const ExtractionForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
   const selectOptions = useContext(SelectOptions);
   const solventOptions = selectOptions.materials["SOLVENT"];
   const phaseOptions = selectOptions.purify.extraction.phases;
-
-  const handleChangeReactionProcessVessel = (reactionProcessVessel) => {
-    onWorkupChange({ name: "reaction_process_vessel", value: reactionProcessVessel });
-  };
 
   const solvents = workup.solvents || [];
   const amount = workup.amount || { value: 0, unit: "ml" };
@@ -47,8 +43,8 @@ const ExtractionForm = ({ workup, onWorkupChange }) => {
       )}
       <FormGroup>
         <VesselFormSection
-          onChange={handleChangeReactionProcessVessel}
-          reactionProcessVessel={workup.reaction_process_vessel || {}}
+          onChange={onChangeVessel}
+          reactionProcessVessel={reactionProcessVessel || {}}
         />
       </FormGroup>
       <FormSection type="action">

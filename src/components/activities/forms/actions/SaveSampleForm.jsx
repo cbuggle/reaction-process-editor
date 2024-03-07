@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 import Select from "react-select";
 
@@ -13,7 +13,9 @@ import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 
-const SaveSampleForm = ({ workup, onWorkupChange }) => {
+const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
+  { console.log("ReactionProcessVessel savesample form") }
+  { console.log(reactionProcessVessel) }
   const selectOptions = useContext(SelectOptions);
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
@@ -48,8 +50,8 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
       </FormGroup>
       <FormGroup>
         <VesselFormSection
-          onChange={handleChangeReactionProcessVessel}
-          reactionProcessVessel={workup.reaction_process_vessel || {}}
+          onChange={onChangeVessel}
+          reactionProcessVessel={reactionProcessVessel || {}}
         />
         {/* <Label>Vessel</Label>
         <VesselSelector

@@ -10,13 +10,18 @@ const PurifyBaseForm = (
     workup,
     onWorkupChange,
     preconditions,
+    reactionProcessVessel,
+    onChangeVessel
   }) => {
 
   switch (workup['purify_type']) {
     case "FILTRATION":
       return (<FiltrationForm workup={workup} onWorkupChange={onWorkupChange} />)
     case "EXTRACTION":
-      return (<ExtractionForm workup={workup} onWorkupChange={onWorkupChange} />)
+      return (<ExtractionForm workup={workup}
+        onWorkupChange={onWorkupChange}
+        reactionProcessVessel={reactionProcessVessel}
+        onChangeVessel={onChangeVessel} />)
     case "CRYSTALLIZATION":
       return (<CrystallizationForm workup={workup} onWorkupChange={onWorkupChange} preconditions={preconditions} />)
     case "CHROMATOGRAPHY":
