@@ -1,30 +1,22 @@
 import React, { useContext, useState } from "react";
-import { FormGroup, Label } from "reactstrap";
+import { FormGroup } from "reactstrap";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../../utilities/FormSection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import SolventListForm from "./SolventListForm";
-import VesselSelector from "../../../../vessels/VesselSelector";
-import VesselDecorator from "../../../../../decorators/VesselDecorator";
+import VesselFormSection from "../../../../vessels/VesselFormSection";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
-import { VesselOptions } from "../../../../../contexts/VesselOptions";
 
 const ExtractionForm = ({ workup, onWorkupChange }) => {
   const selectOptions = useContext(SelectOptions);
   const solventOptions = selectOptions.materials["SOLVENT"];
   const phaseOptions = selectOptions.purify.extraction.phases;
-  const vessels = useContext(VesselOptions);
 
-  const assignVessel = (vesselId) => {
-    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
-    onWorkupChange({ name: "vessel_id", value: vesselId });
+  const handleChangeReactionProcessVessel = (reactionProcessVessel) => {
+    onWorkupChange({ name: "reaction_process_vessel", value: reactionProcessVessel });
   };
-
-  const [currentVessel, setCurrentVessel] = useState(
-    VesselDecorator.getVesselById(workup.vessel_id, vessels)
-  );
 
   const solvents = workup.solvents || [];
   const amount = workup.amount || { value: 0, unit: "ml" };
@@ -54,13 +46,9 @@ const ExtractionForm = ({ workup, onWorkupChange }) => {
         />
       )}
       <FormGroup>
-        <Label>Vessel</Label>
-        <VesselSelector
-          currentVessel={currentVessel}
-          onSelectVessel={assignVessel}
-          typeColor="action"
-          buttonLabel={!!currentVessel ? "Change" : "Set"}
-          scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
+        <VesselFormSection
+          onChange={handleChangeReactionProcessVessel}
+          reactionProcessVessel={workup.reaction_process_vessel || {}}
         />
       </FormGroup>
       <FormSection type="action">

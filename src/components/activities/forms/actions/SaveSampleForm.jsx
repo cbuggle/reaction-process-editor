@@ -7,29 +7,21 @@ import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
 import MetricsInput from "../../../utilities/MetricsInput";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
-import VesselSelector from "../../../vessels/VesselSelector";
+import VesselFormSection from "../../../vessels/VesselFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
-import VesselDecorator from "../../../../decorators/VesselDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
-import { VesselOptions } from "../../../../contexts/VesselOptions";
 
 const SaveSampleForm = ({ workup, onWorkupChange }) => {
   const selectOptions = useContext(SelectOptions);
-  const vessels = useContext(VesselOptions);
-
-  const assignVessel = (vesselId) => {
-    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
-    onWorkupChange({ name: "vessel_id", value: vesselId });
-  };
-
-  const [currentVessel, setCurrentVessel] = useState(
-    VesselDecorator.getVesselById(workup.vessel_id, vessels)
-  );
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
     onWorkupChange({ name: workupKey, value: value });
+  };
+
+  const handleChangeReactionProcessVessel = (reactionProcessVessel) => {
+    onWorkupChange({ name: "reaction_process_vessel", value: reactionProcessVessel });
   };
 
   return (
@@ -55,14 +47,18 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label>Vessel</Label>
+        <VesselFormSection
+          onChange={handleChangeReactionProcessVessel}
+          reactionProcessVessel={workup.reaction_process_vessel || {}}
+        />
+        {/* <Label>Vessel</Label>
         <VesselSelector
           currentVessel={currentVessel}
           onSelectVessel={assignVessel}
           typeColor="action"
           buttonLabel={!!currentVessel ? "Change" : "Set"}
           scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
-        />
+        /> */}
       </FormGroup>
       <FormSection type="action">
         <AmountInputSet
