@@ -86,8 +86,7 @@ export default class ActivityInfoDecorator {
   };
 
   static filtrationStepInfo = (stepData, purifySolventOptions) => {
-    console.log(" filtrationStepInfo stepData")
-    console.log(stepData)
+
     const solventsList = OptionsDecorator.optionsArrayToLabel(
       stepData.solvents?.map((solvent) => solvent.id),
       purifySolventOptions

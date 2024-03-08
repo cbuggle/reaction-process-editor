@@ -14,16 +14,11 @@ import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 
 const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
-  { console.log("ReactionProcessVessel savesample form") }
-  { console.log(reactionProcessVessel) }
+
   const selectOptions = useContext(SelectOptions);
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
     onWorkupChange({ name: workupKey, value: value });
-  };
-
-  const handleChangeReactionProcessVessel = (reactionProcessVessel) => {
-    onWorkupChange({ name: "reaction_process_vessel", value: reactionProcessVessel });
   };
 
   return (
@@ -53,14 +48,6 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           onChange={onChangeVessel}
           reactionProcessVessel={reactionProcessVessel || {}}
         />
-        {/* <Label>Vessel</Label>
-        <VesselSelector
-          currentVessel={currentVessel}
-          onSelectVessel={assignVessel}
-          typeColor="action"
-          buttonLabel={!!currentVessel ? "Change" : "Set"}
-          scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
-        /> */}
       </FormGroup>
       <FormSection type="action">
         <AmountInputSet

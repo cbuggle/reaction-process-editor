@@ -9,8 +9,7 @@ import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 const StepInfo = ({ processStep }) => {
   const stepSelectOptions = useContext(StepSelectOptions);
   const vessel = processStep.reaction_process_vessel?.vessel
-  console.log("StepInfo")
-  console.log(processStep)
+
   return (
     <>
       <h6 className="mb-1">
