@@ -11,11 +11,9 @@ import {
   conditionFormMetricNames,
 } from "../../constants/metrics";
 import { SelectOptions } from "../../contexts/SelectOptions";
-import { VesselOptions } from "../../contexts/VesselOptions";
 
 const ActivityInfo = ({ activity, preconditions }) => {
   const selectOptions = useContext(SelectOptions);
-  const vessels = useContext(VesselOptions);
 
   const infoLines = [];
   let imageSample;
@@ -48,9 +46,7 @@ const ActivityInfo = ({ activity, preconditions }) => {
           infoLines.push(MetricsDecorator.infoLineAmount(workup.target_amount));
         }
         infoLines.push(
-          VesselDecorator.vesselSingleLine(
-            VesselDecorator.getVesselById(workup.vessel_id, vessels)
-          )
+          VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel)
         );
         infoLines.push(workup.location);
         break;
@@ -105,15 +101,13 @@ const ActivityInfo = ({ activity, preconditions }) => {
             workup.phase.toLowerCase();
           infoLines.push(
             "Solvent: " +
-              ActivityInfoDecorator.filtrationStepInfo(
-                workup,
-                selectOptions.materials["SOLVENT"]
-              )
+            ActivityInfoDecorator.filtrationStepInfo(
+              workup,
+              selectOptions.materials["SOLVENT"]
+            )
           );
           infoLines.push(
-            VesselDecorator.vesselSingleLine(
-              VesselDecorator.getVesselById(workup.vessel_id, vessels)
-            )
+            VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel)
           );
         } else {
           const steps = workup[workup.purify_type.toLowerCase() + "_steps"];
@@ -183,24 +177,24 @@ const ActivityInfo = ({ activity, preconditions }) => {
           {(workup.description ||
             infoTitle?.length > 0 ||
             infoLines?.length > 0) && (
-            <div className="activity-info__text-block">
-              {infoTitle?.length > 0 && <h6>{infoTitle}</h6>}
-              {infoLines?.length > 0 && (
-                <p>
-                  {infoLines.map((line, index) => (
-                    <span key={index} className="procedure-card__info-line">
-                      {line}
-                    </span>
-                  ))}
-                </p>
-              )}
-              {workup.description && (
-                <p className="activity-info__description">
-                  {workup.description}
-                </p>
-              )}
-            </div>
-          )}
+              <div className="activity-info__text-block">
+                {infoTitle?.length > 0 && <h6>{infoTitle}</h6>}
+                {infoLines?.length > 0 && (
+                  <p>
+                    {infoLines.map((line, index) => (
+                      <span key={index} className="procedure-card__info-line">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                )}
+                {workup.description && (
+                  <p className="activity-info__description">
+                    {workup.description}
+                  </p>
+                )}
+              </div>
+            )}
         </div>
       </>
     );
