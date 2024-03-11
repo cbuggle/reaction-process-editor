@@ -10,8 +10,6 @@ import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 
-
-
 const MotionForm = ({
   label,
   valueSummary,

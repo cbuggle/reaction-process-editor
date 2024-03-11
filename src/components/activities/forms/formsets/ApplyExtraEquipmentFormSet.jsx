@@ -4,8 +4,9 @@ import Select from "react-select";
 import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
-import { SelectOptions } from "../../../../contexts/SelectOptions";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
+
+import { SelectOptions } from "../../../../contexts/SelectOptions";
 
 const ApplyExtraEquipmentFormSet = ({
   activityType,

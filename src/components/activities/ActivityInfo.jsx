@@ -6,10 +6,7 @@ import SamplesDecorator from "../../decorators/SamplesDecorator";
 import VesselDecorator from "../../decorators/VesselDecorator";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 
-import {
-  removeFormMetricNames,
-  conditionFormMetricNames,
-} from "../../constants/metrics";
+import { removeFormMetricNames, conditionFormMetricNames, } from "../../constants/metrics";
 import { SelectOptions } from "../../contexts/SelectOptions";
 
 const ActivityInfo = ({ activity, preconditions }) => {
