@@ -5,7 +5,6 @@ import { DndItemTypes } from "../../constants/dndItemTypes";
 
 import Activity from "../activities/Activity";
 import ActivityCreator from "../activities/ActivityCreator";
-import ColumnContainerCard from "../utilities/ColumnContainerCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from "./StepInfo";
 import StepForm from "./StepForm";
@@ -30,7 +29,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
   const confirmDeleteStep = () => {
     window.confirm(
       "Deleting the ProcessStep will irreversably delete this " +
-        "step and all associated actions. This can not be undone. Are you sure?"
+      "step and all associated actions. This can not be undone. Are you sure?"
     ) && deleteStep();
   };
 
@@ -44,23 +43,22 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
     }
   };
 
-  const onSave = (stepName, vesselId) => {
+  const onSave = (stepName, reactionProcessVessel) => {
     if (isInitialised) {
-      if (stepName !== processStep.name) {
+      if (stepName !== processStep.name ||  reactionProcessVessel !== processStep.reaction_process_vessel) {
         api.updateProcessStep({
           ...processStep,
           name: stepName,
+          reaction_process_vessel: reactionProcessVessel
         });
       }
-      if (vesselId !== processStep.vessel?.id) {
-        api.assignProcessStepVessel(processStep.id, vesselId);
-      }
+
       setShowForm(false);
     } else {
       api.createProcessStep(reactionProcess.id, {
         ...processStep,
         name: stepName,
-        vessel_id: vesselId,
+        reaction_process_vessel: reactionProcessVessel
       });
       setShowForm(false);
       onCancel();
@@ -121,18 +119,20 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
           }
         >
           <StepLock.Provider value={isLocked}>
-            <ColumnContainerCard
+            <ProcedureCard
               title={cardTitle}
               type="step"
               showEditBtn={!showForm && !isLocked}
               showMoveXBtn={!showForm && !isLocked}
               showDeleteBtn={!showForm && !isLocked}
               showCancelBtn={showForm && !isLocked}
+              showMoveYBtn={false}
               onDelete={confirmDeleteStep}
               onEdit={toggleForm}
               onCancel={handleCancel}
               displayMode={displayMode()}
               dragRef={dragRef}
+              customClass='procedure-card--column'
             >
               <ProcedureCard.Info>
                 <StepInfo processStep={processStep} />
@@ -167,7 +167,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
                   <StepLockButton stepId={processStep?.id} locked={isLocked} />
                 </ProcedureCard.ExtraButtons>
               )}
-            </ColumnContainerCard>
+            </ProcedureCard>
           </StepLock.Provider>
         </div>
       </div>

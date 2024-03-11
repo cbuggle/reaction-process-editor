@@ -102,6 +102,10 @@ const ActivityCard = ({
   const setDuration = (value) =>
     handleWorkupChange({ name: "duration", value: value });
 
+  const setVessel = (reactionProcessVessel) => {
+    setActivityForm((prevState) => ({ ...prevState, reaction_process_vessel: reactionProcessVessel }));
+  }
+
   return (
     <ProcedureCard
       title={cardTitle}
@@ -145,6 +149,7 @@ const ActivityCard = ({
             onSave={onSaveForm}
             onWorkupChange={handleWorkupChange}
             onChangeDuration={setDuration}
+            onChangeVessel={setVessel}
           />
         )}
         {isCondition && (

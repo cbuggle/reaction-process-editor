@@ -1,30 +1,11 @@
 import React from "react";
-import { UncontrolledTooltip } from "reactstrap";
+
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const PreparationInfo = ({ preparation, preparationOptions }) => {
   const api = useReactionsFetcher();
-
-  const renderPreparationsInfo = () => {
-    return preparation.preparations
-      .map((preparationType) => {
-        return preparationOptions.preparation_types.find(
-          (option) => option.value === preparationType
-        ).label;
-      })
-      .join(", ");
-  };
-
-  const renderEquipmentsInfo = () => {
-    return preparation.equipment
-      .map((equipment) => {
-        return preparationOptions.equipment.find(
-          (option) => option.value === equipment
-        ).label;
-      })
-      .join(", ");
-  };
 
   return (
     <div className="d-flex">
@@ -35,10 +16,16 @@ const PreparationInfo = ({ preparation, preparationOptions }) => {
       />
       <p>
         <span className="procedure-card__info-line">
-          {renderPreparationsInfo()}
+          {OptionsDecorator.optionsArrayToLabel(
+            preparation.preparations,
+            preparationOptions.preparation_types
+          )}
         </span>
         <span className="procedure-card__info-line">
-          {renderEquipmentsInfo()}
+          {OptionsDecorator.optionsArrayToLabel(
+            preparation.equipment,
+            preparationOptions.equipment
+          )}
         </span>
         <span className="procedure-card__info-line">{preparation.details}</span>
       </p>

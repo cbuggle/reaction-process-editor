@@ -19,6 +19,7 @@ function useReactionsFetcher() {
     updateUserDefaultConditions,
     updateProvenance,
     downloadOrd,
+    updateReactionProcessVessel,
     updateSamplePreparation,
     deleteSamplePreparation,
     createProcessStep,
@@ -29,7 +30,6 @@ function useReactionsFetcher() {
     deleteActivity,
     updateActivityPosition,
     updateProcessStepPosition,
-    assignProcessStepVessel,
   }
 
   function index() {
@@ -88,6 +88,10 @@ function useReactionsFetcher() {
     return api.download(`/reaction_processes/${id}/ord`)
   }
 
+  function updateReactionProcessVessel(reactionProcessVessel) {
+    return api.put(`/reaction_process_vessels/${reactionProcessVessel.id}`, { 'reaction_process_vessel': reactionProcessVessel })
+  }
+
   function updateSamplePreparation(reactionProcessId, samplePreparation) {
     return api.put(`/reaction_processes/${reactionProcessId}/samples_preparations`,
       { 'sample_preparation': samplePreparation })
@@ -112,10 +116,6 @@ function useReactionsFetcher() {
 
   function updateProcessStepPosition(id, position) {
     return api.put(`/reaction_process_steps/${id}/update_position`, { 'position': position })
-  }
-
-  function assignProcessStepVessel(stepId, vesselId) {
-    return api.put(`/reaction_process_steps/${stepId}/vessel`, { 'vessel_id': vesselId })
   }
 
   function createActivity(processStepId, activity, insertBefore) {

@@ -7,6 +7,8 @@ export const predefinableMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE']
 
 export const removeFormMetricNames = ['TEMPERATURE', 'PRESSURE']
 
+export const amountsDefaultUnits = ['ml', 'mg', 'mmol']
+
 // We want to allow 120% of sample amounts when Adding/Transfering
 export const allowedAmountOverscale = 1.2
 

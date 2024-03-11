@@ -4,17 +4,13 @@ import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 import VesselDecorator from "../../decorators/VesselDecorator";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
-import {
-  removeFormMetricNames,
-  conditionFormMetricNames,
-} from "../../constants/metrics";
+import { removeFormMetricNames, conditionFormMetricNames, } from "../../constants/metrics";
 import { SelectOptions } from "../../contexts/SelectOptions";
-import { VesselOptions } from "../../contexts/VesselOptions";
 
 const ActivityInfo = ({ activity, preconditions }) => {
   const selectOptions = useContext(SelectOptions);
-  const vessels = useContext(VesselOptions);
 
   const infoLines = [];
   let imageSample;
@@ -47,9 +43,7 @@ const ActivityInfo = ({ activity, preconditions }) => {
           infoLines.push(MetricsDecorator.infoLineAmount(workup.target_amount));
         }
         infoLines.push(
-          VesselDecorator.vesselSingleLine(
-            VesselDecorator.getVesselById(workup.vessel_id, vessels)
-          )
+          VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel)
         );
         infoLines.push(workup.location);
         break;
@@ -104,15 +98,13 @@ const ActivityInfo = ({ activity, preconditions }) => {
             workup.phase.toLowerCase();
           infoLines.push(
             "Solvent: " +
-              ActivityInfoDecorator.filtrationStepInfo(
-                workup,
-                selectOptions.materials["SOLVENT"]
-              )
+            ActivityInfoDecorator.filtrationStepInfo(
+              workup,
+              selectOptions.materials["SOLVENT"]
+            )
           );
           infoLines.push(
-            VesselDecorator.vesselSingleLine(
-              VesselDecorator.getVesselById(workup.vessel_id, vessels)
-            )
+            VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel)
           );
         } else {
           const steps = workup[workup.purify_type.toLowerCase() + "_steps"];
@@ -125,16 +117,17 @@ const ActivityInfo = ({ activity, preconditions }) => {
             infoTitle += " ";
           }
           // chromatograpy.automation_modes extends regular automation_modes thus can be used without case distinction.
-          infoTitle +=
-            selectOptions.purify.chromatography.automation_modes.find(
-              (option) => option.value === workup.automation
-            )?.label;
+          infoTitle += OptionsDecorator.optionToLabel(
+            workup.automation,
+            selectOptions.purify.chromatography.automation_modes
+          );
           if (workup.filtration_mode) {
             infoTitle +=
               " Keep " +
-              selectOptions.purify.filtration.modes.find(
-                (option) => option.value === workup.filtration_mode
-              )?.label;
+              OptionsDecorator.optionToLabel(
+                workup.filtration_mode,
+                selectOptions.purify.filtration.modes
+              );
           }
           if (steps && selectOptions.materials["SOLVENT"]) {
             for (let i = 0; i < steps.length; i++) {
@@ -152,9 +145,10 @@ const ActivityInfo = ({ activity, preconditions }) => {
         }
         break;
       case "ANALYSIS":
-        infoTitle = selectOptions.analysis_types.find(
-          (option) => option.value === workup.analysis_type
-        ).label;
+        infoTitle = infoTitle = OptionsDecorator.optionToLabel(
+          workup.analysis_type,
+          selectOptions.analysis_types
+        );
         break;
       case "WAIT":
         infoTitle = "...";
@@ -180,24 +174,24 @@ const ActivityInfo = ({ activity, preconditions }) => {
           {(workup.description ||
             infoTitle?.length > 0 ||
             infoLines?.length > 0) && (
-            <div className="activity-info__text-block">
-              {infoTitle?.length > 0 && <h6>{infoTitle}</h6>}
-              {infoLines?.length > 0 && (
-                <p>
-                  {infoLines.map((line, index) => (
-                    <span key={index} className="procedure-card__info-line">
-                      {line}
-                    </span>
-                  ))}
-                </p>
-              )}
-              {workup.description && (
-                <p className="activity-info__description">
-                  {workup.description}
-                </p>
-              )}
-            </div>
-          )}
+              <div className="activity-info__text-block">
+                {infoTitle?.length > 0 && <h6>{infoTitle}</h6>}
+                {infoLines?.length > 0 && (
+                  <p>
+                    {infoLines.map((line, index) => (
+                      <span key={index} className="procedure-card__info-line">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                )}
+                {workup.description && (
+                  <p className="activity-info__description">
+                    {workup.description}
+                  </p>
+                )}
+              </div>
+            )}
         </div>
       </>
     );

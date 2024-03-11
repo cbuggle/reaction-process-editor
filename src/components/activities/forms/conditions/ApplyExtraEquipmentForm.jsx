@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import Select from 'react-select'
+import OptionsDecorator from '../../../../decorators/OptionsDecorator'
 
 const ApplyExtraEquipmentForm = (
   {
@@ -38,7 +39,7 @@ const ApplyExtraEquipmentForm = (
             isMulti
             name="equipment"
             options={equipmentOptions}
-            value={equipmentOptions.filter(option => (equipment || []).includes(option.value))}
+            value={OptionsDecorator.optionsForKeys(equipment, equipmentOptions)}
             onChange={selectedOptions => onChangeEquipment(selectedOptions.map(option => option.value))}
           />
         </FormGroup>

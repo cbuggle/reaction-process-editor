@@ -9,6 +9,7 @@ import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../contexts/SubFormController";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 const GenericMetricSubForm = ({
   metricName,
@@ -55,11 +56,6 @@ const GenericMetricSubForm = ({
     initialAdditionalInformation()
   );
 
-  const currentSelectedAdditionalInformationOption =
-    additionalInformationOptions.find(
-      (option) => option.value === additionalInformation
-    );
-
   const resetFormData = () => {
     setAmount(initialAmount());
     setPowerAmount(initialPowerAmount());
@@ -104,7 +100,7 @@ const GenericMetricSubForm = ({
           classNamePrefix="react-select"
           name="additional_information"
           options={additionalInformationOptions}
-          value={currentSelectedAdditionalInformationOption}
+          value={OptionsDecorator.optionForKey(additionalInformation, additionalInformationOptions)}
           onChange={(selectedOption) =>
             setAdditionalInformation(selectedOption.value)
           }

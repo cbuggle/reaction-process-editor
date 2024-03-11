@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 import Select from "react-select";
 
@@ -8,23 +8,14 @@ import FormSection from "../../../utilities/FormSection";
 import MetricsInput from "../../../utilities/MetricsInput";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import VesselFormSection from "../../../vessels/VesselFormSection";
-import VesselDecorator from "../../../../decorators/VesselDecorator";
+
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
-import { VesselOptions } from "../../../../contexts/VesselOptions";
 
-const SaveSampleForm = ({ workup, onWorkupChange }) => {
+const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
+
   const selectOptions = useContext(SelectOptions);
-  const vessels = useContext(VesselOptions);
-
-  const assignVessel = (vesselId) => {
-    setCurrentVessel(VesselDecorator.getVesselById(vesselId, vessels));
-    onWorkupChange({ name: "vessel_id", value: vesselId });
-  };
-
-  const [currentVessel, setCurrentVessel] = useState(
-    VesselDecorator.getVesselById(workup.vessel_id, vessels)
-  );
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
     onWorkupChange({ name: workupKey, value: value });
@@ -32,35 +23,32 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
 
   return (
     <>
-      <FormSection type="action">
-        <FormGroup>
-          <Label>Name</Label>
-          <Input
-            value={workup.name}
-            placeholder="Name (Leave blank to autofill)"
-            onChange={(event) =>
-              handleChangeSampleWorkup("name")(event.target.value)
-            }
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Short Label</Label>
-          <Input
-            value={workup.short_label}
-            placeholder="Short Label (Leave blank to autofill)"
-            onChange={(event) =>
-              handleChangeSampleWorkup("short_label")(event.target.value)
-            }
-          />
-        </FormGroup>
-      </FormSection>
-      <VesselFormSection
-        currentVessel={currentVessel}
-        onSelectVessel={assignVessel}
-        typeColor="action"
-        buttonLabel={!!currentVessel ? "Change" : "Set"}
-        scope={"Sample" + (workup.name ? ' "' + workup.name + '"' : "")}
-      />
+      <FormGroup>
+        <Label>Name</Label>
+        <Input
+          value={workup.name}
+          placeholder="Name (Leave blank to autofill)"
+          onChange={(event) =>
+            handleChangeSampleWorkup("name")(event.target.value)
+          }
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Short Label</Label>
+        <Input
+          value={workup.short_label}
+          placeholder="Short Label (Leave blank to autofill)"
+          onChange={(event) =>
+            handleChangeSampleWorkup("short_label")(event.target.value)
+          }
+        />
+      </FormGroup>
+      <FormGroup>
+        <VesselFormSection
+          onChange={onChangeVessel}
+          reactionProcessVessel={reactionProcessVessel || {}}
+        />
+      </FormGroup>
       <FormSection type="action">
         <AmountInputSet
           amount={workup.target_amount}
@@ -88,9 +76,7 @@ const SaveSampleForm = ({ workup, onWorkupChange }) => {
             classNamePrefix="react-select"
             name="intermediate_type"
             options={selectOptions.save_sample_types}
-            value={selectOptions.save_sample_types.find(
-              (option) => option.value === workup.intermediate_type
-            )}
+            value={OptionsDecorator.optionForKey(workup.intermediate_type, selectOptions.save_sample_types)}
             onChange={(selectedOption) =>
               handleChangeSampleWorkup("intermediate_type")(
                 selectedOption.value

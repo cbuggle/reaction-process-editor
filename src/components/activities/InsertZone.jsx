@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Button} from "reactstrap";
+import React, { useState } from 'react';
+import { Button } from "reactstrap";
 import ActivityCreator from "./ActivityCreator";
 
 const InsertZone = (
@@ -30,7 +30,7 @@ const InsertZone = (
   return (
     <div className={'insert-zone ' + zoneStateClassName()}>
       {isTarget() ?
-        <span className='insert-zone__drop-target-label'>Move here!</span>:
+        <span className='insert-zone__drop-target-label'>Move here!</span> :
         <>
           {showCreator ?
             <ActivityCreator

@@ -21,6 +21,18 @@ $theme-colors: (
   "transparent": transparent,
 );
 
+
+$spacer: 0.75rem;
+$spacers: (
+  0: 0,
+  1: $spacer / 4,
+  2: $spacer / 2,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 2.25,
+  6: $spacer * 3.375,
+);
+
 /* general functions */
 @import "~bootstrap/scss/_functions";
 @import "base/mixins/colors";
@@ -30,7 +42,6 @@ $theme-colors: (
 $body-color: $gray-900 !default;
 $color-contrast-dark: $black;
 $color-contrast-light: $white;
-$spacer: 0.75rem;
 $font-size-root: 13px;
 $font-size-lg: 1.07692rem;
 $h6-font-size: 1rem;
@@ -107,7 +118,6 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/samples/SampleMoleculeImage";
 @import "components/steps/StepLockButton.scss";
 @import "components/utilities/AmountInput";
-@import "components/utilities/ColumnContainerCard";
 @import "components/utilities/CreateButton";
 @import "components/utilities/DurationSelection";
 @import "components/utilities/FormButtons";

@@ -4,6 +4,8 @@ import { apiHostname } from '../constants'
 
 import MetricsDecorator from './MetricsDecorator'
 
+import { amountsDefaultUnits } from '../constants/metrics'
+
 export default class SamplesDecorator {
   static sampleSvgImg = (sample) => {
     if (sample && sample.sample_svg_file) {
@@ -18,8 +20,7 @@ export default class SamplesDecorator {
   }
 
   static availableAmounts = (availableAmounts) => {
-    const units = ['ml', 'mg', 'mmol'] // reference units sloppily hardcoded.
-    return units.map((unit) =>
+    return amountsDefaultUnits.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
       MetricsDecorator.infoLineAmount({ value: Number(availableAmounts[unit]).toFixed(2), unit: unit })
     ).filter((el) => el)

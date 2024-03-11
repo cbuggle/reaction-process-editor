@@ -4,6 +4,7 @@ import Select from "react-select";
 
 import FormButtons from "../utilities/FormButtons";
 import SampleSelection from "../utilities/SampleSelection";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 const PreparationForm = ({
   preparation,
@@ -45,15 +46,14 @@ const PreparationForm = ({
           sampleOptions={sampleOptions}
           sample={
             preparationForm.sample_id
-              ? sampleOptions.find(
-                  (option) => option.value === preparationForm.sample_id
-                )
+              ? OptionsDecorator.optionForKey(preparationForm.sample_id, sampleOptions)
               : undefined
           }
           onChange={handleSelectSample}
         />
       </FormGroup>
       <FormGroup>
+
         <Label>Preparations</Label>
         <Select
           className="react-select--overwrite"
@@ -62,9 +62,7 @@ const PreparationForm = ({
           isClearable={false}
           name="preparations"
           options={samplePreparationOptions}
-          value={samplePreparationOptions.filter((option) =>
-            (preparationForm.preparations || []).includes(option.value)
-          )}
+          value={OptionsDecorator.optionsForKeys(preparationForm.preparations, samplePreparationOptions)}
           onChange={(selectedOptions) =>
             onInputChange({
               name: "preparations",
@@ -82,9 +80,7 @@ const PreparationForm = ({
           isClearable={false}
           name="equipment"
           options={preparationOptions.equipment}
-          value={preparationOptions.equipment.filter((option) =>
-            (preparationForm.equipment || []).includes(option.value)
-          )}
+          value={OptionsDecorator.optionsForKeys(preparationForm.equipment, preparationOptions.equipment)}
           onChange={(selectedOptions) =>
             onInputChange({
               name: "equipment",

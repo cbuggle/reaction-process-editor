@@ -3,6 +3,8 @@ import React from "react";
 import { apiHostname } from "../constants";
 
 import StringDecorator from "./StringDecorator";
+import OptionsDecorator from "./OptionsDecorator";
+
 export default class VesselDecorator {
   // TODO: renderVesselProcessStepInfo is the only function called from outside.
   // The functions actually in use are all marked. ("// called internally only ")
@@ -90,10 +92,7 @@ export default class VesselDecorator {
   static vesselSingleLine = (vessel) => {
     // Called from StepForm.jsx
     return vessel
-      ? "Vessel: " +
-          this.vesselTitle(vessel) +
-          " " +
-          this.vesselVolumeAndMaterial(vessel)
+      ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
       : undefined;
   };
 
@@ -121,5 +120,12 @@ export default class VesselDecorator {
   static vesselVolumeAndMaterial = (vessel) => {
     // called internally only
     return this.vesselVolume(vessel) + " (" + this.vesselMaterial(vessel) + ")";
+  };
+
+  static vesselPreparationsLine = (preparations, preparationOptions) => {
+    return OptionsDecorator.optionsArrayToLabel(
+      preparations,
+      preparationOptions
+    );
   };
 }

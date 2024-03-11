@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Select from 'react-select'
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
+import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 
 const EquipmentSubsetForm = (
   {
@@ -30,7 +31,7 @@ const EquipmentSubsetForm = (
         isClearable={false}
         name="equipment"
         options={localEquipmentOptions}
-        value={localEquipmentOptions.filter(option => equipment.includes(option.value))}
+        value={OptionsDecorator.optionsForKeys(equipment, localEquipmentOptions)}
         onChange={selectedOptions => handleChangeEquipment(selectedOptions.map(option => option.value))}
       />
     </>

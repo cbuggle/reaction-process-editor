@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { Col, Row } from "reactstrap";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 const SampleSelection = ({ sampleOptions, sample, onChange }) => {
   const [previewSample, setPreviewSample] = useState(sample);
@@ -10,7 +11,7 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
     if (!id) {
       setPreviewSample(sample);
     } else {
-      setPreviewSample(sampleOptions.find((sample) => sample.value === id));
+      setPreviewSample(OptionsDecorator.optionForKey(id, sampleOptions))
     }
   };
 

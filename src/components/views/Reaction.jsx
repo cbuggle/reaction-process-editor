@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
-import PreparationColumnCard from '../preparations/PreparationColumnCard';
+import PreparationColumnCard from '../preparations/SamplePreparationColumnCard';
+import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
+
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 import StepsContainer from '../steps/StepsContainer';
 
@@ -98,9 +100,12 @@ const Reaction = () => {
         <SelectOptions.Provider value={reactionProcess.select_options}>
           {renderReactionNavbar()}
           <div className="scroll-body overflow-auto flex-grow-1">
-            <div className='px-3 py-5 d-inline-block'>
-              <div className='d-inline-flex flex-nowrap align-items-start'>
-                <PreparationColumnCard reactionProcess={reactionProcess} />
+            <div className='px-5 py-6 d-inline-block'>
+              <div className='d-inline-flex flex-nowrap align-items-start gap-5'>
+                <div className='d-flex gap-5 flex-column'>
+                  <PreparationColumnCard reactionProcess={reactionProcess} />
+                  <VesselPreparationColumnCard reactionProcess={reactionProcess} />
+                </div>
                 <StepsContainer reactionProcess={reactionProcess} />
               </div>
             </div>

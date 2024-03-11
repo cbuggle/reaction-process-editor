@@ -4,6 +4,8 @@ import Select from "react-select";
 import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
+
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 
 const ApplyExtraEquipmentFormSet = ({
@@ -42,9 +44,7 @@ const ApplyExtraEquipmentFormSet = ({
             isMulti
             isClearable={false}
             options={equipmentOptions}
-            value={equipmentOptions.filter((option) =>
-              (equipment || []).includes(option.value)
-            )}
+            value={OptionsDecorator.optionsForKeys(equipment, equipmentOptions)}
             onChange={(selectedOptions) =>
               setEquipment(selectedOptions.map((option) => option.value))
             }
