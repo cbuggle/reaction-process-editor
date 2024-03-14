@@ -25,10 +25,9 @@ const VesselPreparationColumnCard = ({ reactionProcess }) => {
       title="Vessels"
       type="preparation"
       showEditBtn={false}
-      showMoveXBtn={false}
+      showMoveBtn={false}
       showDeleteBtn={false}
       showCancelBtn={false}
-      showMoveYBtn={false}
       customClass="procedure-card--column"
     >
       <ProcedureCard.Details>
