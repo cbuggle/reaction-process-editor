@@ -103,8 +103,11 @@ const ActivityCard = ({
     handleWorkupChange({ name: "duration", value: value });
 
   const setVessel = (reactionProcessVessel) => {
-    setActivityForm((prevState) => ({ ...prevState, reaction_process_vessel: reactionProcessVessel }));
-  }
+    setActivityForm((prevState) => ({
+      ...prevState,
+      reaction_process_vessel: reactionProcessVessel,
+    }));
+  };
 
   return (
     <ProcedureCard
@@ -114,8 +117,7 @@ const ActivityCard = ({
       onDelete={onDelete}
       onCancel={handleCancel}
       showEditBtn={editable}
-      showMoveXBtn={false}
-      showMoveYBtn={editable}
+      showMoveBtn={editable}
       showDeleteBtn={editable}
       showCancelBtn={canceable}
       displayMode={displayMode}
