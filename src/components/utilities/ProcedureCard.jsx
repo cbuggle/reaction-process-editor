@@ -52,9 +52,18 @@ const ProcedureCard = ({
       <CardBody
         className={"procedure-card__body procedure-card__body--" + mode}
       >
-        {displayMode === "info" && info && (
-          <div className="procedure-card__info">{info.props.children}</div>
-        )}
+        {displayMode === "info" &&
+          info &&
+          (showEditBtn ? (
+            <div
+              className="procedure-card__info procedure-card__info--editable"
+              onClick={onEdit}
+            >
+              {info.props.children}
+            </div>
+          ) : (
+            <div className="procedure-card__info">{info.props.children}</div>
+          ))}
         {displayMode === "type-panel" && typePanel && (
           <div className="procedure-card__type-panel">
             {typePanel.props.children}
@@ -64,7 +73,11 @@ const ProcedureCard = ({
           <div className="procedure-card__form">{form.props.children}</div>
         )}
         {details && (
-          <div className="procedure-card__details">
+          <div
+            className={
+              "procedure-card__details procedure-card__details--" + type
+            }
+          >
             {details.props.children}
           </div>
         )}

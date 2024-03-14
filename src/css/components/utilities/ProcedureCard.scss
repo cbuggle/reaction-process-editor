@@ -26,6 +26,9 @@
   &__info {
     padding-top: 0;
     font-size: $font-size-sm;
+    &--editable {
+      cursor: pointer;
+    }
     .sample-molecule-image {
       margin-right: 1rem;
     }
@@ -51,6 +54,7 @@
     }
   }
   &__details {
+    @include separator-border("top");
     @include details-spacing;
   }
   .card-header {
@@ -62,7 +66,7 @@
   }
   &--step {
     .step-column-card__condition-container {
-      border-color: border-color('condition');
+      border-color: border-color("condition");
       border-style: solid;
       border-width: 0 6px 0 0;
       @include details-spacing;
