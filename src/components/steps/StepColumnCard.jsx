@@ -166,7 +166,12 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
               )}
               {isInitialised && (
                 <ProcedureCard.ExtraButtons>
-                  <StepLockButton stepId={processStep?.id} locked={isLocked} />
+                  {!showForm && (
+                    <StepLockButton
+                      stepId={processStep?.id}
+                      locked={isLocked}
+                    />
+                  )}
                 </ProcedureCard.ExtraButtons>
               )}
             </ProcedureCard>
