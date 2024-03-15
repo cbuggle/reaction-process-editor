@@ -60,6 +60,19 @@
   .card-header {
     border-bottom: none;
   }
+  &--editable {
+    .card-header {
+      h3,
+      h4,
+      h5,
+      h6 {
+        cursor: pointer;
+      }
+    }
+    .procedure-card__info {
+      cursor: pointer;
+    }
+  }
   @include type-border-color();
   &--column {
     width: 360px;

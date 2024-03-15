@@ -35,10 +35,19 @@ const ProcedureCard = ({
   const HeaderTitleTag = headerTitleTag;
   return (
     <Card
-      className={"procedure-card procedure-card--" + type + " " + customClass}
+      className={
+        "procedure-card procedure-card--" +
+        type +
+        " " +
+        customClass +
+        (showEditBtn ? " procedure-card--editable" : "")
+      }
     >
       <CardHeader className="d-flex justify-content-between align-items-center">
-        <HeaderTitleTag className="procedure-card__header-label mb-0">
+        <HeaderTitleTag
+          className="procedure-card__header-label mb-0"
+          onClick={showEditBtn ? onEdit : undefined}
+        >
           {title}
         </HeaderTitleTag>
         <div className="d-flex">
@@ -61,18 +70,14 @@ const ProcedureCard = ({
       <CardBody
         className={"procedure-card__body procedure-card__body--" + mode}
       >
-        {displayMode === "info" &&
-          info &&
-          (showEditBtn ? (
-            <div
-              className="procedure-card__info procedure-card__info--editable"
-              onClick={onEdit}
-            >
-              {info.props.children}
-            </div>
-          ) : (
-            <div className="procedure-card__info">{info.props.children}</div>
-          ))}
+        {displayMode === "info" && info && (
+          <div
+            className="procedure-card__info"
+            onClick={showEditBtn ? onEdit : undefined}
+          >
+            {info.props.children}
+          </div>
+        )}
         {displayMode === "type-panel" && typePanel && (
           <div className="procedure-card__type-panel">
             {typePanel.props.children}
