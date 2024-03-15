@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Card, CardBody, CardHeader, Button } from "reactstrap";
 
 import IconButton from "./IconButton";
 
@@ -46,7 +46,16 @@ const ProcedureCard = ({
           {showEditBtn && <IconButton onClick={onEdit} icon="pen" />}
           {showMoveBtn && <IconButton icon="arrows-alt" dragRef={dragRef} />}
           {showDeleteBtn && <IconButton onClick={onDelete} icon="trash" />}
-          {showCancelBtn && <IconButton onClick={onCancel} icon="times" />}
+          {showCancelBtn && (
+            <Button
+              onClick={onCancel}
+              color="white"
+              size="sm"
+              className="card-header-label-button"
+            >
+              Close
+            </Button>
+          )}
         </div>
       </CardHeader>
       <CardBody

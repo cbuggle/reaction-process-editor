@@ -26,7 +26,7 @@ const StepLockButton = ({ stepId, locked }) => {
           onClick={toggleLocked}
           color="white"
           size="sm"
-          className="step-lock-button--closed"
+          className="card-header-label-button"
         >
           {label}
           <FontAwesomeIcon icon={icon} className="ms-1" />
