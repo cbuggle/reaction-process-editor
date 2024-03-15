@@ -21,7 +21,6 @@ $theme-colors: (
   "transparent": transparent,
 );
 
-
 $spacer: 0.75rem;
 $spacers: (
   0: 0,
@@ -97,6 +96,9 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "base/bootstrap_overwrite/form-control";
 @import "base/bootstrap_overwrite/modal";
 /* styling for components from other libraries */
+@import "node_modules/react-datetime-picker/dist/DateTimePicker";
+@import "node_modules/react-calendar/dist/Calendar";
+@import "node_modules/react-clock/dist/Clock";
 @import "base/other_libraries_overwrite/ag-grid";
 @import "base/other_libraries_overwrite/react-datetime-picker";
 @import "base/other_libraries_overwrite/react_select";
@@ -112,11 +114,11 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/activities/ConditionCard";
 @import "components/activities/ConditionForm";
 @import "components/activities/InsertZone";
-@import "components/activities/purify/FiltrationStepForm.scss";
-@import "components/activities/timing/Timer.scss";
+@import "components/activities/purify/FiltrationStepForm";
+@import "components/activities/timing/Timer";
 @import "components/layout/MainHeader";
 @import "components/samples/SampleMoleculeImage";
-@import "components/steps/StepLockButton.scss";
+@import "components/steps/StepLockButton";
 @import "components/utilities/AmountInput";
 @import "components/utilities/CreateButton";
 @import "components/utilities/DurationSelection";
