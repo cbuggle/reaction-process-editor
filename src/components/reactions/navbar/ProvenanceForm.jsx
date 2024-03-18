@@ -50,6 +50,7 @@ const ProvenanceForm = ({ provenance, closeForm }) => {
         <DateTimePicker
           onChange={(value) => updateStartsAt(value)}
           format={dateTimePickerFormat}
+          className="react-datetime-picker--overwrite"
           value={provenanceForm.starts_at}
         />
       </SingleLineFormGroup>

@@ -39,8 +39,10 @@
     cursor: pointer;
   }
 
-  .react-datetime-picker__button:enabled:hover .react-datetime-picker__button__icon,
-  .react-datetime-picker__button:enabled:focus .react-datetime-picker__button__icon {
+  .react-datetime-picker__button:enabled:hover
+    .react-datetime-picker__button__icon,
+  .react-datetime-picker__button:enabled:focus
+    .react-datetime-picker__button__icon {
     stroke: $input-focus-color;
   }
 
@@ -49,11 +51,13 @@
   }
 
   .react-datetime-picker__calendar .react-calendar {
-    border-width: $input-border-width;
+    border: $input-border-width solid $input-border-color;
+    @include border-radius($input-border-radius, 0);
   }
 
   .react-datetime-picker__clock {
     background-color: $input-bg;
     border: $input-border-width solid $input-border-color;
+    @include border-radius($input-border-radius, 0);
   }
 }
