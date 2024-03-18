@@ -29,7 +29,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
   const confirmDeleteStep = () => {
     window.confirm(
       "Deleting the ProcessStep will irreversably delete this " +
-      "step and all associated actions. This can not be undone. Are you sure?"
+        "step and all associated actions. This can not be undone. Are you sure?"
     ) && deleteStep();
   };
 
@@ -45,11 +45,14 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
 
   const onSave = (stepName, reactionProcessVessel) => {
     if (isInitialised) {
-      if (stepName !== processStep.name ||  reactionProcessVessel !== processStep.reaction_process_vessel) {
+      if (
+        stepName !== processStep.name ||
+        reactionProcessVessel !== processStep.reaction_process_vessel
+      ) {
         api.updateProcessStep({
           ...processStep,
           name: stepName,
-          reaction_process_vessel: reactionProcessVessel
+          reaction_process_vessel: reactionProcessVessel,
         });
       }
 
@@ -58,7 +61,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
       api.createProcessStep(reactionProcess.id, {
         ...processStep,
         name: stepName,
-        reaction_process_vessel: reactionProcessVessel
+        reaction_process_vessel: reactionProcessVessel,
       });
       setShowForm(false);
       onCancel();
@@ -123,16 +126,15 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
               title={cardTitle}
               type="step"
               showEditBtn={!showForm && !isLocked}
-              showMoveXBtn={!showForm && !isLocked}
+              showMoveBtn={!showForm && !isLocked}
               showDeleteBtn={!showForm && !isLocked}
               showCancelBtn={showForm && !isLocked}
-              showMoveYBtn={false}
               onDelete={confirmDeleteStep}
               onEdit={toggleForm}
               onCancel={handleCancel}
               displayMode={displayMode()}
               dragRef={dragRef}
-              customClass='procedure-card--column'
+              customClass="procedure-card--column"
             >
               <ProcedureCard.Info>
                 <StepInfo processStep={processStep} />
@@ -164,7 +166,12 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
               )}
               {isInitialised && (
                 <ProcedureCard.ExtraButtons>
-                  <StepLockButton stepId={processStep?.id} locked={isLocked} />
+                  {!showForm && (
+                    <StepLockButton
+                      stepId={processStep?.id}
+                      locked={isLocked}
+                    />
+                  )}
                 </ProcedureCard.ExtraButtons>
               )}
             </ProcedureCard>
