@@ -10,33 +10,33 @@ function useActivityValidator() {
     validate,
   };
 
-// export default class ActivityValidator {
-    // const { addNotification } = useContext(NotificationContext);
   function validateAdd(action) {
     let errors = [];
-    action.workup["sample_id"] || errors.push("Please select a Sample.");
+    action.workup["sample_id"] || errors.push("sample");
     return errors;
-  };
+  }
 
   function validateTransfer(action) {
     let errors = [];
-    action.workup["sample_id"] || errors.push("Please select Sample.");
-    action.workup["transfer_target_step_id"] ||
-      errors.push("Please select Target.");
+    action.workup["sample_id"] || errors.push("sample");
+    action.workup["transfer_target_step_id"] || errors.push("target");
     return errors;
-  };
+  }
 
   function validateRemove() {
     let errors = [];
     // currently no mandatory fields; sample_id is optional! cbuggle, 07.11.2021.
     return errors;
-  };
+  }
 
   function displayNotifications(errors) {
-    errors.forEach((error) =>
-      addNotification({ title: "Warning", message: error, type: "warning" })
-    );
-  };
+    addNotification({
+      title: "Cannot save activity",
+      message: "Missing inputs:",
+      details: errors,
+      type: "warning",
+    });
+  }
 
   function validate(action) {
     let errors = [];
@@ -58,5 +58,5 @@ function useActivityValidator() {
     displayNotifications(errors);
 
     return errors.length === 0;
-  };
+  }
 }

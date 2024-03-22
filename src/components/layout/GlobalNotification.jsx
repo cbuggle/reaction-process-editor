@@ -44,7 +44,7 @@ const GlobalNotification = () => {
           () => {
             changeShowNotification(false);
           },
-          notification.type === "error" ? 5000 : 3000
+          notification.type === "error" ? 6000 : 3500
         )
       );
     }
@@ -70,8 +70,17 @@ const GlobalNotification = () => {
                 {latestNotification.title}
               </ToastHeader>
             )}
-            {latestNotification.message && (
-              <ToastBody>{latestNotification.message}</ToastBody>
+            {(latestNotification.message || latestNotification.details) && (
+              <ToastBody>
+                {latestNotification.message && latestNotification.message}
+                {latestNotification.details && (
+                  <ul>
+                    {latestNotification.details.map((detail, index) => (
+                      <li key={index}>{detail}</li>
+                    ))}
+                  </ul>
+                )}
+              </ToastBody>
             )}
           </Toast>
         )}

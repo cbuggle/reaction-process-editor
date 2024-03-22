@@ -96,6 +96,7 @@ $max-label-width: 30rem;
 $input-disabled-color: tint-color($input-color, 40%);
 
 /* overwrite bootstrap standard behaviour */
+@import "base/bootstrap_overwrite/reboot";
 @import "base/bootstrap_overwrite/btn";
 @import "base/bootstrap_overwrite/form-control";
 @import "base/bootstrap_overwrite/modal";
