@@ -1,14 +1,24 @@
 import { useContext } from "react";
 import NotificationContext from "../contexts/NotificationContext";
 
-export default class ActivityValidator {
-  static validateAdd = (action) => {
+export { useActivityValidator };
+
+function useActivityValidator() {
+  const { addNotification } = useContext(NotificationContext);
+
+  return {
+    validate,
+  };
+
+// export default class ActivityValidator {
+    // const { addNotification } = useContext(NotificationContext);
+  function validateAdd(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Please select a Sample.");
     return errors;
   };
 
-  static validateTransfer = (action) => {
+  function validateTransfer(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Please select Sample.");
     action.workup["transfer_target_step_id"] ||
@@ -16,37 +26,36 @@ export default class ActivityValidator {
     return errors;
   };
 
-  static validateRemove = () => {
+  function validateRemove() {
     let errors = [];
     // currently no mandatory fields; sample_id is optional! cbuggle, 07.11.2021.
     return errors;
   };
 
-  static displayNotifications = (errors) => {
-    const { addNotification } = useContext(NotificationContext);
+  function displayNotifications(errors) {
     errors.forEach((error) =>
       addNotification({ title: "Warning", message: error, type: "warning" })
     );
   };
 
-  static validate = (action) => {
+  function validate(action) {
     let errors = [];
 
     switch (action.activity_name) {
       case "ADD":
-        errors = this.validateAdd(action);
+        errors = validateAdd(action);
         break;
       case "TRANSFER":
-        errors = this.validateTransfer(action);
+        errors = validateTransfer(action);
         break;
       case "REMOVE":
-        errors = this.validateRemove(action);
+        errors = validateRemove(action);
         break;
       default:
         break;
     }
 
-    this.displayNotifications(errors);
+    displayNotifications(errors);
 
     return errors.length === 0;
   };
