@@ -1,6 +1,5 @@
-import { toast } from "react-toastify";
-
-import { toastAutoCloseOnWarning } from "../constants";
+import { useContext } from "react";
+import NotificationContext from "../contexts/NotificationContext";
 
 export default class ActivityValidator {
   static validateAdd = (action) => {
@@ -12,7 +11,8 @@ export default class ActivityValidator {
   static validateTransfer = (action) => {
     let errors = [];
     action.workup["sample_id"] || errors.push("Please select Sample.");
-    action.workup["transfer_target_step_id"] || errors.push("Please select Target.");
+    action.workup["transfer_target_step_id"] ||
+      errors.push("Please select Target.");
     return errors;
   };
 
@@ -23,8 +23,11 @@ export default class ActivityValidator {
   };
 
   static displayNotifications = (errors) => {
-    errors.forEach(error => toast.warning(error, { theme: 'dark', toastId: 2, autoClose: toastAutoCloseOnWarning }))
-  }
+    const { addNotification } = useContext(NotificationContext);
+    errors.forEach((error) =>
+      addNotification({ title: "Warning", message: error, type: "warning" })
+    );
+  };
 
   static validate = (action) => {
     let errors = [];
