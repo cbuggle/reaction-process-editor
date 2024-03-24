@@ -8,6 +8,8 @@ import {
 } from "reactstrap";
 import NotificationContext from "../../contexts/NotificationContext";
 
+import { messageCloseTime } from "../../constants";
+
 const GlobalNotification = () => {
   const { notifications } = useContext(NotificationContext);
   const [latestNotification, setLatestNotification] = useState({});
@@ -44,7 +46,7 @@ const GlobalNotification = () => {
           () => {
             changeShowNotification(false);
           },
-          notification.type === "error" ? 6000 : 3500
+          notification.type === "error" ? messageCloseTime.error : messageCloseTime.info
         )
       );
     }

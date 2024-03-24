@@ -12,14 +12,14 @@ function useActivityValidator() {
 
   function validateAdd(action) {
     let errors = [];
-    action.workup["sample_id"] || errors.push("sample");
+    action.workup["sample_id"] || errors.push("Sample");
     return errors;
   }
 
   function validateTransfer(action) {
     let errors = [];
-    action.workup["sample_id"] || errors.push("sample");
-    action.workup["transfer_target_step_id"] || errors.push("target");
+    action.workup["sample_id"] || errors.push("Sample");
+    action.workup["transfer_target_step_id"] || errors.push("Transfer Target");
     return errors;
   }
 
@@ -31,8 +31,8 @@ function useActivityValidator() {
 
   function displayNotifications(errors) {
     addNotification({
-      title: "Cannot save activity",
-      message: "Missing inputs:",
+      title: "Cannot save Activity",
+      message: "Missing input:",
       details: errors,
       type: "warning",
     });
