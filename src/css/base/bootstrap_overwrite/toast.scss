@@ -1,0 +1,24 @@
+@use "sass:map";
+
+.toast {
+  &-header {
+    h3,
+    h4,
+    h5 {
+      margin: 0;
+    }
+  }
+  &-body {
+    font-size: $font-size-root;
+    ul {
+      margin-bottom: 0;
+    }
+  }
+}
+@each $color, $value in $theme-colors {
+  .toast--#{$color} {
+    .toast-header {
+      background-color: #{$value};
+    }
+  }
+}
