@@ -51,15 +51,6 @@ export default class VesselDecorator {
 
   /* Render functions */
 
-  static renderVesselLabel = (vessel) => {
-    // called internally only
-    return (
-      <>
-        <div>{this.renderVesselTypeIcon(vessel)}</div>
-      </>
-    );
-  };
-
   static renderVesselDetails = (vessel) => {
     return (
       <>
@@ -71,41 +62,11 @@ export default class VesselDecorator {
     );
   };
 
-  static renderVesselProcessStepInfo = (vessel) => {
-    // Called from StepVessel.jsx
-    if (vessel) {
-      return (
-        <>
-          {this.renderVesselLabel(vessel)}
-          {this.vesselVolumeAndMaterial(vessel)}
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div>No Vessel assigned</div>
-        </>
-      );
-    }
-  };
-
   static vesselSingleLine = (vessel) => {
     // Called from StepForm.jsx
     return vessel
       ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
       : undefined;
-  };
-
-  static renderVesselTypeIcon = (vessel) => {
-    return (
-      <>
-        <img
-          alt={this.vesselIconAltText(vessel)}
-          className="vessel-icon"
-          src={`${apiHostname}/images/vessels/${vessel.vessel_type.toLowerCase()}.svg`}
-        />
-      </>
-    );
   };
 
   static vesselVolume = (vessel) => {

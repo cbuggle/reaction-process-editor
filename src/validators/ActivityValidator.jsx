@@ -1,50 +1,62 @@
-import { toast } from "react-toastify";
+import { useContext } from "react";
+import NotificationContext from "../contexts/NotificationContext";
 
-import { toastAutoCloseOnWarning } from "../constants";
+export { useActivityValidator };
 
-export default class ActivityValidator {
-  static validateAdd = (action) => {
-    let errors = [];
-    action.workup["sample_id"] || errors.push("Please select a Sample.");
-    return errors;
+function useActivityValidator() {
+  const { addNotification } = useContext(NotificationContext);
+
+  return {
+    validate,
   };
 
-  static validateTransfer = (action) => {
+  function validateAdd(action) {
     let errors = [];
-    action.workup["sample_id"] || errors.push("Please select Sample.");
-    action.workup["transfer_target_step_id"] || errors.push("Please select Target.");
+    action.workup["sample_id"] || errors.push("Sample");
     return errors;
-  };
+  }
 
-  static validateRemove = () => {
+  function validateTransfer(action) {
+    let errors = [];
+    action.workup["sample_id"] || errors.push("Sample");
+    action.workup["transfer_target_step_id"] || errors.push("Transfer Target");
+    return errors;
+  }
+
+  function validateRemove() {
     let errors = [];
     // currently no mandatory fields; sample_id is optional! cbuggle, 07.11.2021.
     return errors;
-  };
-
-  static displayNotifications = (errors) => {
-    errors.forEach(error => toast.warning(error, { theme: 'dark', toastId: 2, autoClose: toastAutoCloseOnWarning }))
   }
 
-  static validate = (action) => {
+  function displayNotifications(errors) {
+    addNotification({
+      title: "Cannot save Activity",
+      message: "Missing input:",
+      details: errors,
+      type: "warning",
+    });
+  }
+
+  function validate(action) {
     let errors = [];
 
     switch (action.activity_name) {
       case "ADD":
-        errors = this.validateAdd(action);
+        errors = validateAdd(action);
         break;
       case "TRANSFER":
-        errors = this.validateTransfer(action);
+        errors = validateTransfer(action);
         break;
       case "REMOVE":
-        errors = this.validateRemove(action);
+        errors = validateRemove(action);
         break;
       default:
         break;
     }
 
-    this.displayNotifications(errors);
+    if (errors.length > 0) { displayNotifications(errors); }
 
     return errors.length === 0;
-  };
+  }
 }

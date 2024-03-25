@@ -1,44 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { DropdownMenu, DropdownItem, DropdownToggle, Navbar, NavbarBrand, Nav, UncontrolledDropdown } from 'reactstrap'
+import React, { useEffect, useState } from "react";
+import {
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle,
+  Navbar,
+  NavbarBrand,
+  Nav,
+  UncontrolledDropdown,
+} from "reactstrap";
 import { Link, useLocation } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
 
-import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-import { SelectOptions } from '../../contexts/SelectOptions'
-import { SubFormController, SubFormToggle } from '../../contexts/SubFormController';
+import { SelectOptions } from "../../contexts/SelectOptions";
+import {
+  SubFormController,
+  SubFormToggle,
+} from "../../contexts/SubFormController";
 
-import OptionsDecorator from '../../decorators/OptionsDecorator';
+import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 const MainHeader = () => {
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
 
-  const [reactions, setReactions] = useState([])
-  const [reactionOptions, setReactionOptions] = useState([])
-  const [collectionOptions, setCollectionOptions] = useState([])
-  const [selectOptions, setSelectOptions] = useState([])
-  const [userDefaultConditions, setUserDefaultConditions] = useState([])
-  const [globalDefaultConditions, setGlobalDefaultConditions] = useState([])
+  const [reactions, setReactions] = useState([]);
+  const [reactionOptions, setReactionOptions] = useState([]);
+  const [collectionOptions, setCollectionOptions] = useState([]);
+  const [selectOptions, setSelectOptions] = useState([]);
+  const [userDefaultConditions, setUserDefaultConditions] = useState([]);
+  const [globalDefaultConditions, setGlobalDefaultConditions] = useState([]);
 
-  const filterCollectionId = localStorage.getItem('filter_collection_id')
-  const auth_token = new URLSearchParams(useLocation().search).get('auth');
+  const filterCollectionId = localStorage.getItem("filter_collection_id");
+  const auth_token = new URLSearchParams(useLocation().search).get("auth");
 
   useEffect(() => {
     if (auth_token) {
-      localStorage.setItem('bearer_auth_token', auth_token);
+      localStorage.setItem("bearer_auth_token", auth_token);
     }
-    if (localStorage.getItem('bearer_auth_token')) {
-      fetchCollectionOptions()
-      fetchReactionOptions()
-      fetchUserDefaultConditions()
+    if (localStorage.getItem("bearer_auth_token")) {
+      fetchCollectionOptions();
+      fetchReactionOptions();
+      fetchUserDefaultConditions();
     }
-    window.addEventListener('indexRequiresReload', fetchReactionOptions);
-    window.addEventListener('userDefaultConditionsRequiresReload', fetchUserDefaultConditions);
+    window.addEventListener("indexRequiresReload", fetchReactionOptions);
+    window.addEventListener(
+      "userDefaultConditionsRequiresReload",
+      fetchUserDefaultConditions
+    );
     return () => {
-      window.removeEventListener('indexRequiresReload', fetchReactionOptions);
-      window.removeEventListener('userDefaultConditionsRequiresReload', fetchUserDefaultConditions);
+      window.removeEventListener("indexRequiresReload", fetchReactionOptions);
+      window.removeEventListener(
+        "userDefaultConditionsRequiresReload",
+        fetchUserDefaultConditions
+      );
     };
 
     // React's state model requires `fetchReactionOptions` in the dependencies array to assert state consistency.
@@ -53,69 +70,86 @@ const MainHeader = () => {
   }, [location, auth_token]);
 
   // Hardcoded routes are ok for now.
-  const reactionLinkTarget = (id) => { return '/reactions/' + id }
-  const reactionIndexLinkTarget = '/reactions'
+  const reactionLinkTarget = (id) => {
+    return "/reactions/" + id;
+  };
+
+  const reactionIndexLinkTarget = "/reactions";
 
   const fetchReactionOptions = () => {
     reactionApi.index().then((data) => {
-      if (data && data['reactions']) {
-        setReactions(data['reactions'])
-        const options = data['reactions'].map(({ id, short_label }) => ({
+      if (data && data["reactions"]) {
+        setReactions(data["reactions"]);
+        const options = data["reactions"].map(({ id, short_label }) => ({
           key: id,
           url: reactionLinkTarget(id),
-          label: id + ': ' + short_label
-        }))
+          label: id + ": " + short_label,
+        }));
         options.unshift({
-          key: 'index',
+          key: "index",
           url: reactionIndexLinkTarget,
-          label: 'Reaction Index'
-        })
-        setReactionOptions(options)
+          label: "Reaction Index",
+        });
+        setReactionOptions(options);
       }
-    })
-  }
+    });
+  };
 
   const fetchCollectionOptions = () => {
     reactionApi.collectionSelectOptions().then((data) => {
-      data?.collection_select_options && setCollectionOptions(data['collection_select_options'])
-    })
-  }
+      data?.collection_select_options &&
+        setCollectionOptions(data["collection_select_options"]);
+    });
+  };
 
   const fetchUserDefaultConditions = () => {
     reactionApi.geDefaultConditions().then((data) => {
-      let defaultConditions = data['default_conditions']
-      defaultConditions?.['global'] && setGlobalDefaultConditions(defaultConditions['global'])
-      defaultConditions?.['user'] && setUserDefaultConditions(defaultConditions['user'])
-      defaultConditions?.['select_options'] && setSelectOptions(defaultConditions['select_options'])
-    })
-  }
+      let defaultConditions = data["default_conditions"];
+      defaultConditions?.["global"] &&
+        setGlobalDefaultConditions(defaultConditions["global"]);
+      defaultConditions?.["user"] &&
+        setUserDefaultConditions(defaultConditions["user"]);
+      defaultConditions?.["select_options"] &&
+        setSelectOptions(defaultConditions["select_options"]);
+    });
+  };
 
   const selectCollection = (event) => {
-    localStorage.setItem('filter_collection_id', event.target.value)
-    window.dispatchEvent(new Event("indexRequiresReload"))
-  }
+    localStorage.setItem("filter_collection_id", event.target.value);
+    window.dispatchEvent(new Event("indexRequiresReload"));
+  };
 
   const brandHref = () => {
-    return localStorage.getItem('username') ? '/reactions' : '/'
-  }
+    return localStorage.getItem("username") ? "/reactions" : "/";
+  };
 
   return (
     <SelectOptions.Provider value={selectOptions}>
       <SubFormController.Provider value={SubFormToggle()}>
-        <Navbar className='bg-secondary main-header' dark expand={true}>
-          <NavbarBrand href={brandHref()} className='main-header__brand'><span className='main-header__brand-name'>ELN Process Editor</span></NavbarBrand>
-          {localStorage.getItem('username') &&
+        <Navbar className="bg-secondary main-header" dark expand={true}>
+          <NavbarBrand href={brandHref()} className="main-header__brand">
+            <span className="main-header__brand-name">ELN Process Editor</span>
+          </NavbarBrand>
+          {localStorage.getItem("username") && (
             <>
               <Nav navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    {OptionsDecorator.optionToLabel(filterCollectionId, collectionOptions) || "Collections"}
+                    {OptionsDecorator.optionToLabel(
+                      filterCollectionId,
+                      collectionOptions
+                    ) || "Collections"}
                   </DropdownToggle>
                   <DropdownMenu>
-                    {collectionOptions.map((collection) =>
-                      <DropdownItem key={collection.value} value={collection.value} onClick={selectCollection}>
+                    {collectionOptions.map((collection) => (
+                      <DropdownItem
+                        key={collection.value}
+                        value={collection.value}
+                        onClick={selectCollection}
+                      >
                         {collection.label}
-                      </DropdownItem>)}
+                      </DropdownItem>
+                    ))}
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav>
@@ -123,8 +157,15 @@ const MainHeader = () => {
                     Reactions ({reactions.length})
                   </DropdownToggle>
                   <DropdownMenu>
-                    {reactionOptions.map((reaction) =>
-                      <DropdownItem key={reaction.key} tag={Link} to={reaction.url}>{reaction.label}</DropdownItem>)}
+                    {reactionOptions.map((reaction) => (
+                      <DropdownItem
+                        key={reaction.key}
+                        tag={Link}
+                        to={reaction.url}
+                      >
+                        {reaction.label}
+                      </DropdownItem>
+                    ))}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
@@ -132,19 +173,14 @@ const MainHeader = () => {
                 <UserMenu
                   defaultConditions={userDefaultConditions}
                   preconditions={globalDefaultConditions}
-
                 />
               </Nav>
             </>
-          }
+          )}
         </Navbar>
       </SubFormController.Provider>
     </SelectOptions.Provider>
-  )
-}
+  );
+};
 
-export default MainHeader
-
-
-
-
+export default MainHeader;

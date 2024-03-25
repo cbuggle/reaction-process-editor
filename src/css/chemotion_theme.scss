@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:math";
 
 /* bootstrap vars */
 /* colors */
@@ -8,9 +9,9 @@ $gray-900: #212529 !default;
 
 $theme-colors: (
   "primary": #2495cf,
-  "danger": #ee474e,
-  "warning": #d8e037,
-  "success": #07bc0c,
+  "danger": #fd6060,
+  "warning": #f5e252,
+  "success": #6ee86e,
   "secondary": #337ab7,
   "dark": #4f5659,
   "preparation": #aab9bf,
@@ -24,8 +25,8 @@ $theme-colors: (
 $spacer: 0.75rem;
 $spacers: (
   0: 0,
-  1: $spacer / 4,
-  2: $spacer / 2,
+  1: math.div($spacer, 4),
+  2: math.div($spacer, 2),
   3: $spacer,
   4: $spacer * 1.5,
   5: $spacer * 2.25,
@@ -76,7 +77,10 @@ $navbar-dark-color: $color-contrast-light;
 $toast-background-color: $body-bg;
 $toast-border-radius: $card-border-radius;
 $toast-padding-x: 1rem;
-$toast-padding-y: 1rem;
+$toast-padding-y: 0.75rem;
+$tooltip-bg: $body-color; //inject colot to define arrow-color
+$tooltip-color: $body-color;
+$tooltip-max-width: 100%;
 
 /* fort awesome svg icons for background image values */
 $svg-filter-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z'></path></svg>");
@@ -92,9 +96,12 @@ $max-label-width: 30rem;
 $input-disabled-color: tint-color($input-color, 40%);
 
 /* overwrite bootstrap standard behaviour */
+@import "base/bootstrap_overwrite/reboot";
 @import "base/bootstrap_overwrite/btn";
 @import "base/bootstrap_overwrite/form-control";
 @import "base/bootstrap_overwrite/modal";
+@import "base/bootstrap_overwrite/toast";
+@import "base/bootstrap_overwrite/tooltip";
 /* styling for components from other libraries */
 @import "node_modules/react-datetime-picker/dist/DateTimePicker";
 @import "node_modules/react-calendar/dist/Calendar";
@@ -102,7 +109,6 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "base/other_libraries_overwrite/ag-grid";
 @import "base/other_libraries_overwrite/react-datetime-picker";
 @import "base/other_libraries_overwrite/react_select";
-@import "base/other_libraries_overwrite/react-toastify";
 @import "base/other_libraries_overwrite/react-dnd";
 /* styling for generic page layout */
 @import "layout";
@@ -116,6 +122,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/activities/InsertZone";
 @import "components/activities/purify/FiltrationStepForm";
 @import "components/activities/timing/Timer";
+@import "components/layout/GlobalNotification";
 @import "components/layout/MainHeader";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/AmountInput";

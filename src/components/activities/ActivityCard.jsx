@@ -11,7 +11,7 @@ import Timer from "./timing/Timer";
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SubFormController } from "../../contexts/SubFormController";
 import { StepLock } from "../../contexts/StepLock";
-import ActivityValidator from "../../validators/ActivityValidator";
+import { useActivityValidator } from "../../validators/ActivityValidator";
 
 const ActivityCard = ({
   type,
@@ -26,6 +26,7 @@ const ActivityCard = ({
   const api = useReactionsFetcher();
   const subFormController = useContext(SubFormController);
   const stepLock = useContext(StepLock);
+  const activityValidator = useActivityValidator();
 
   const isCondition = type === "condition";
   const isInitialised = !!activity;
@@ -70,7 +71,7 @@ const ActivityCard = ({
   };
 
   const onSaveForm = () => {
-    if (ActivityValidator.validate(activityForm)) {
+    if (activityValidator.validate(activityForm)) {
       onSave(activityForm);
       subFormController.closeAllSubForms();
       if (isInitialised) {
