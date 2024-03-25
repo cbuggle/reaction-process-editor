@@ -40,7 +40,7 @@ const TransferForm = (
 
     let currentTarget = OptionsDecorator.optionForKey(workup['transfer_target_step_id'], stepSelectOptions.transferable_to)
 
-    if (currentTarget?.saved_sample_ids.includes(newSample.id)) {
+    if (currentTarget && currentTarget.saved_sample_ids.includes(newSample.id)) {
       onWorkupChange({ name: 'transfer_target_step_id', value: '' })
     }
 
