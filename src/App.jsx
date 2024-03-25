@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NotificationContext from "./contexts/NotificationContext";
 
+import GlobalNotification from "./components/layout/GlobalNotification";
 import Login from "./components/views/Login";
+import MainHeader from "./components/layout/MainHeader";
 import ReactionIndex from "./components/views/ReactionIndex";
 import Reaction from "./components/views/Reaction";
-import MainHeader from "./components/layout/MainHeader";
-import GlobalNotification from "./components/layout/GlobalNotification";
+
+import NotificationContext from "./contexts/NotificationContext";
 
 import "./css/chemotion_theme.scss";
 
