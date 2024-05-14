@@ -203,7 +203,7 @@ export const unitTypes = {
     toBase: (value) => value,
   },
   'MBAR': {
-    label: 'mBar',
+    label: 'mbar',
     inputRange: { min: 0, max: 10000, precision: 0, step: 1, initialStep: 1013, },
     fromBase: (value) => value,
     toBase: (value) => value,
