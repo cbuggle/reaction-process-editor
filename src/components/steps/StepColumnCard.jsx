@@ -28,8 +28,8 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
 
   const confirmDeleteStep = () => {
     window.confirm(
-      "Deleting the ProcessStep will irreversably delete this " +
-        "step and all associated actions. This can not be undone. Are you sure?"
+      "Deleting the ProcessStep will irreversably delete this Step and all associated Activities. " +
+      "This can not be undone. Are you sure?"
     ) && deleteStep();
   };
 
@@ -46,7 +46,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
   const onSave = (stepName, reactionProcessVessel) => {
     if (isInitialised) {
       if (
-        stepName !== processStep.name ||
+        stepName !== processStep.name || stepName === "" ||
         reactionProcessVessel !== processStep.reaction_process_vessel
       ) {
         api.updateProcessStep({
