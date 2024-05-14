@@ -30,17 +30,14 @@ const ExtractionForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         }
         label="Automation"
       />
-
-      {workup.automation === "AUTOMATED" && (
-        <ButtonGroupToggle
-          value={workup.phase}
-          options={phaseOptions}
-          onChange={(selectedValue) =>
-            onWorkupChange({ name: "phase", value: selectedValue })
-          }
-          label="Phase"
-        />
-      )}
+      <ButtonGroupToggle
+        value={workup.phase}
+        options={phaseOptions}
+        onChange={(selectedValue) =>
+          onWorkupChange({ name: "phase", value: selectedValue })
+        }
+        label="Keep phase"
+      />
       <FormGroup>
         <VesselFormSection
           onChange={onChangeVessel}
