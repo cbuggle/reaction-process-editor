@@ -73,7 +73,6 @@ export default class ActivityInfoDecorator {
 
   static infoLineMotion = (conditionWorkup, selectOptions) => {
     return [
-      MetricsDecorator.infoLineAmount(conditionWorkup.speed),
       OptionsDecorator.optionToLabel(
         conditionWorkup.motion_type,
         selectOptions.motion_types
@@ -82,7 +81,8 @@ export default class ActivityInfoDecorator {
         conditionWorkup.motion_mode,
         selectOptions.automation_modes
       ),
-    ].join(", ");
+      MetricsDecorator.infoLineAmount(conditionWorkup.speed),
+    ].join(" ");
   };
 
   static filtrationStepInfo = (stepData, purifySolventOptions) => {

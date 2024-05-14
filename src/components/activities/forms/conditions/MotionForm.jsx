@@ -47,13 +47,15 @@ const MotionForm = ({
 
   const handleSave = () => {
     onSave({
-      speed: speed,
+      speed: displayRpmInput() ? speed : undefined,
       motion_type: motionType,
       motion_mode: motionMode,
     });
   };
 
   const handleCancel = () => resetFormData();
+
+  const displayRpmInput = () => motionMode !== 'MANUAL'
 
   return (
     <OptionalFormSet
@@ -80,14 +82,15 @@ const MotionForm = ({
           activityType="condition"
           label="Automation"
         />
-        {/* include slider */}
-        <FormGroup>
-          <MetricsInput
-            metricName={"MOTION"}
-            amount={speed}
-            onChange={setSpeed}
-          />
-        </FormGroup>
+        {displayRpmInput() &&
+          <FormGroup>
+            <MetricsInput
+              metricName={"MOTION"}
+              amount={speed}
+              onChange={setSpeed}
+            />
+          </FormGroup>
+        }
         {children}
       </div>
     </OptionalFormSet>
