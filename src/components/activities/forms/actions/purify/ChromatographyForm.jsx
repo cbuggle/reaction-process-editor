@@ -163,7 +163,8 @@ const ChromatographyForm = (
       )}
       {showNewStepForm &&
         <ChromatographyStepForm
-          index={activitySteps?.length || 0}
+          index={activitySteps.length}
+          workup={activitySteps.at(-1)}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
         />
