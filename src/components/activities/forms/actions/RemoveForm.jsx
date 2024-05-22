@@ -19,13 +19,13 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
 
   const mediumSelectOptions = stepSelectOptions.removable_materials[
     "MEDIUM"
-  ].concat([{ value: "", label: "Undefined" }]);
+  ].concat([{ value: "UNDEFINED", label: "Undefined" }]);
   const additivesSelectOptions = stepSelectOptions.removable_materials[
     "ADDITIVE"
-  ].concat([{ value: "", label: "Undefined" }]);
+  ].concat([{ value: "UNDEFINED", label: "Undefined" }]);
   const diverseSolventsSelectOptions = stepSelectOptions.removable_materials[
     "DIVERSE_SOLVENT"
-  ].concat([{ value: "", label: "Undefined" }]);
+  ].concat([{ value: "UNDEFINED", label: "Undefined" }]);
 
   const handleActsAsChange = ({ actsAs }) => {
     onWorkupChange({ name: "acts_as", value: actsAs });
