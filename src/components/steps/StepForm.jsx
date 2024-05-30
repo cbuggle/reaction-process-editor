@@ -34,7 +34,6 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         onSave={handleSave}
         onCancel={onCancel}
         type="step"
-        disableSave={!reactionProcessVessel.vessel}
       />
     </>
   );
