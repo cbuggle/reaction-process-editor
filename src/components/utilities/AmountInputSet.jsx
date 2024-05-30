@@ -49,12 +49,13 @@ const AmountInputSet = (
           />
         ))
       }
-      {maxAmounts?.[currentBaseUnit] > 0 &&
+      {maxAmounts?.[currentBaseUnit] >= 0 &&
         <MetricsInput
           metricName={'PERCENTAGE'}
-          amount={{ value: 100 * currentFraction, unit: 'PERCENT' }}
+          amount={{ value: 100 * currentFraction || 100, unit: 'PERCENT' }}
           max={MetricsDecorator.overscaledAmount(100)}
           onChange={handlePercentageInput}
+          disabled={maxAmounts?.[currentBaseUnit] === 0}
         />
       }
     </>
