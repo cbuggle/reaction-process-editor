@@ -49,7 +49,7 @@ export const metrics = {
     units: ['WATT']
   },
   'VELOCITY': {
-    label: 'Velocity',
+    label: 'Flow Rate',
     defaultUnit: 'MLMIN',
     units: ['MLMIN']
   },
@@ -197,7 +197,7 @@ export const unitTypes = {
     toBase: (value) => (value - 32) * 5 / 9,
   },
   'PH': {
-    label: '',
+    label: 'pH',
     inputRange: { min: 0, max: 14, precision: 2, step: 0.01, initialStep: 7, },
     fromBase: (value) => value,
     toBase: (value) => value,

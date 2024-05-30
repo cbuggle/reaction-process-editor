@@ -27,9 +27,7 @@ export default class MetricsDecorator {
 
   static unitType = (unit) => unitTypes[unit]
 
-  // Fallback only for PH w/o label but we want to display something
-  static unitLabel = (unit) => unitTypes[unit]?.label || unit
-
+  static unitLabel = (unit) => unitTypes[unit]?.label
 
   static overscaledAmount = (value) => allowedAmountOverscale * value
 
