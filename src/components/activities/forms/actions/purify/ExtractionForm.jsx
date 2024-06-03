@@ -1,26 +1,29 @@
 import React, { useContext } from "react";
-import { FormGroup } from "reactstrap";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from "../../../../utilities/FormSection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import SolventListForm from "./SolventListForm";
+import ExtractionStepForm from "./ExtractionStepForm";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
-const ExtractionForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
+import withActivitySteps from "../../../../utilities/WithActivitySteps";
+
+const ExtractionForm = ({
+  workup,
+  onWorkupChange,
+  activitySteps,
+  showNewStepForm,
+  addStep,
+  handleSaveStep,
+  handleCancelStep,
+  handleDeleteStep
+}) => {
   const selectOptions = useContext(SelectOptions);
-  const solventOptions = selectOptions.materials["SOLVENT"];
   const phaseOptions = selectOptions.purify.extraction.phases;
 
-  const solvents = workup.solvents || [];
-  const amount = workup.amount || { value: 0, unit: "ml" };
-
-  const handleWorkupChange = (workupKey) => (value) =>
-    onWorkupChange({ name: workupKey, value: value });
-
-  return (
-    <>
+  const renderAutomationToggle = () => {
+    return (
       <ButtonGroupToggle
         value={workup.automation}
         options={selectOptions.automation_modes}
@@ -29,6 +32,11 @@ const ExtractionForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         }
         label="Automation"
       />
+    )
+  }
+
+  const renderPhaseToggle = () => {
+    return (
       <ButtonGroupToggle
         value={workup.phase}
         options={phaseOptions}
@@ -37,24 +45,47 @@ const ExtractionForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         }
         label="Retain phase"
       />
+    )
+  }
+
+
+  return (
+    <>
       <FormSection type="action">
-        <FormGroup>
-          <SolventListForm
-            solvents={solvents}
-            solventOptions={solventOptions}
-            setSolvents={handleWorkupChange("solvents")}
-          />
-        </FormGroup>
-        <FormGroup>
-          <MetricsInput
-            metricName={"VOLUME"}
-            amount={amount}
-            onChange={handleWorkupChange("amount")}
-          />
-        </FormGroup>
+        {renderAutomationToggle()}
+        {renderPhaseToggle()}
+      </FormSection>
+
+      {activitySteps.map((step, idx) =>
+        <ExtractionStepForm
+          index={idx}
+          workup={step}
+          onSave={handleSaveStep}
+          onCancel={handleCancelStep}
+          onDelete={handleDeleteStep}
+          key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          canDelete={activitySteps.length > 1}
+        />
+      )}
+
+      {showNewStepForm &&
+        <ExtractionStepForm
+          index={workup.extraction_steps?.length || 0}
+          onSave={handleSaveStep}
+          onCancel={handleCancelStep}
+        />
+      }
+      <FormSection type='action'>
+        <CreateButton
+          label='Filtration Step'
+          type='action'
+          onClick={addStep}
+          size='sm'
+        />
       </FormSection>
     </>
   );
 };
 
-export default ExtractionForm;
+
+export default withActivitySteps(ExtractionForm, 'extraction_steps');

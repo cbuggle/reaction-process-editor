@@ -1,18 +1,17 @@
 import React, { useContext, useState } from "react";
-import { Button, FormGroup, Label } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import DurationSelection from "../../../../utilities/DurationSelection";
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ChromatographyStepForm = ({
+const ExtractionStepForm = ({
   index,
   workup,
   onSave,
@@ -24,22 +23,18 @@ const ChromatographyStepForm = ({
   const purifySolventOptions = selectOptions.materials["SOLVENT"];
   const subFormController = useContext(SubFormController);
 
-  const label = "Chromatography Step " + (index + 1);
+  const label = "Extraction Step " + (index + 1);
   const [duration, setDuration] = useState(workup?.duration || 0);
-  const [solvents, setSolvents] = useState(workup ? workup.solvents : []);
+  const [solvents, setSolvents] = useState(workup?.solvents || []);
+
   const [amount, setAmount] = useState(
     workup?.amount || { value: 0, unit: "ml" }
   );
+
   const [flowRate, setFlowRate] = useState(
     workup?.flow_rate || { value: undefined, unit: "MLMIN" }
   );
 
-  const [stepMode, setStepMode] = useState(
-    workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value
-  );
-  const [prodMode, setProdMode] = useState(
-    workup?.prod_mode || selectOptions.purify.chromatography.prod_modes[0].value
-  );
 
   const handleSave = () => {
     onSave({
@@ -47,9 +42,8 @@ const ChromatographyStepForm = ({
       data: {
         solvents,
         amount,
-        step_mode: stepMode,
-        prod_mode: prodMode,
         flow_rate: flowRate,
+        duration: duration,
       },
     });
   };
@@ -62,7 +56,7 @@ const ChromatographyStepForm = ({
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityInfoDecorator.chromatographyStepInfo(
+      valueSummary={ActivityInfoDecorator.filtrationStepInfo(
         {
           solvents,
           amount,
@@ -101,21 +95,9 @@ const ChromatographyStepForm = ({
           duration={duration}
           onChangeDuration={setDuration}
         />
-        <Label>Step</Label>
-        <ButtonGroupToggle
-          value={stepMode}
-          options={selectOptions.purify.chromatography.step_modes}
-          onChange={(selectedValue) => setStepMode(selectedValue)}
-        />
-        <Label>Prod</Label>
-        <ButtonGroupToggle
-          value={prodMode}
-          options={selectOptions.purify.chromatography.prod_modes}
-          onChange={(selectedValue) => setProdMode(selectedValue)}
-        />
       </FormGroup>
     </OptionalFormSet>
   );
 };
 
-export default ChromatographyStepForm;
+export default ExtractionStepForm;
