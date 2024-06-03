@@ -59,31 +59,26 @@ const ChromatographyForm = (
         return (<></>)
       case 'SEMI_AUTOMATED':
         return (<FormSection>
-          <SingleLineFormGroup label='Device'>
+          <SingleLineFormGroup label='Type'>
             <Select
               className="react-select--overwrite"
               classNamePrefix="react-select"
-              name="sample_id"
+              name="device"
               options={selectOptions.devices}
               value={OptionsDecorator.optionForKey(workup.device, selectOptions.devices)}
               onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
             />
           </SingleLineFormGroup>
-          <SingleLineFormGroup label='Type Of Column'>
+          <SingleLineFormGroup label='Type'>
             <Select
               className="react-select--overwrite"
               classNamePrefix="react-select"
-              name="sample_id"
+              name="type_of_column"
               options={selectOptions.column_types}
               value={OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types)}
               onChange={selected => onWorkupChange({ name: 'column_type', value: selected.value })}
             />
           </SingleLineFormGroup>
-          <MetricsInput
-            metricName={'VELOCITY'}
-            amount={workup['flow_rate']}
-            onChange={handleWorkupChange('flow_rate')}
-          />
           <SingleLineFormGroup label='Detectors'>
             <Select
               className="react-select--overwrite"
