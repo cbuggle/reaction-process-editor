@@ -5,7 +5,6 @@ import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../../utilities/FormSection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import SolventListForm from "./SolventListForm";
-import VesselFormSection from "../../../../vessels/VesselFormSection";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
@@ -38,12 +37,6 @@ const ExtractionForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         }
         label="Retain phase"
       />
-      <FormGroup>
-        <VesselFormSection
-          onChange={onChangeVessel}
-          reactionProcessVessel={reactionProcessVessel || {}}
-        />
-      </FormGroup>
       <FormSection type="action">
         <FormGroup>
           <SolventListForm
