@@ -4,7 +4,7 @@ import AutoComplete from "../utilities/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
 import VesselFormSection from "../vessels/VesselFormSection";
 
-const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
+const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel }) => {
 
   const [stepName, setStepName] = useState(processStep?.name || "");
   const [reactionProcessVessel, setReactionProcessVessel] = useState(
@@ -23,10 +23,11 @@ const StepForm = ({ processStep, nameSuggestionOptions, onSave, onCancel }) => {
         onChange={setStepName}
         domId="step-name-input"
         label="Name"
-      />{" "}
+      />
       <VesselFormSection
         onChange={setReactionProcessVessel}
         reactionProcessVessel={reactionProcessVessel}
+        reactionProcessVesselSuggestion={previousStep?.reaction_process_vessel}
         typeColor="step"
         scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
       />

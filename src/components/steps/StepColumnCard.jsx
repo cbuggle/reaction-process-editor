@@ -15,7 +15,7 @@ import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 import { StepLock } from "../../contexts/StepLock";
 
-const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
+const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel }) => {
   const isInitialised = !!processStep;
   const [showForm, setShowForm] = useState(!isInitialised);
   const cardTitle = isInitialised ? processStep.label : "New Step";
@@ -143,6 +143,7 @@ const StepColumCard = ({ processStep, reactionProcess, onCancel }) => {
                 <StepForm
                   processStep={processStep}
                   reactionProcess={reactionProcess}
+                  previousStep={previousStep}
                   nameSuggestionOptions={
                     reactionProcess.select_options.step_name_suggestions
                   }
