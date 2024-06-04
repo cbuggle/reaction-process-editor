@@ -4,6 +4,7 @@ import { Col, Label, Row } from "reactstrap";
 
 import NumericalInput from "./NumericalInput";
 import SingleLineFormGroup from "./SingleLineFormGroup";
+import TooltipLabel from "./TooltipLabel";
 
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
@@ -12,6 +13,7 @@ const MetricsInput = (
   {
     metricName,
     label,
+    tooltipName,
     amount,
     max,
     onChange,
@@ -76,6 +78,13 @@ const MetricsInput = (
     }
   }
 
+  const renderLabel = () => {
+    return tooltipName ?
+      <TooltipLabel name={tooltipName} label={label || MetricsDecorator.label(metricName)} />
+      : label || MetricsDecorator.label(metricName)
+  }
+
+
   const renderInputs = () => {
     return (
       <Row className='gx-2'>
@@ -91,7 +100,8 @@ const MetricsInput = (
 
   const renderSingleLine = () => {
     return (
-      <SingleLineFormGroup label={label || MetricsDecorator.label(metricName)}>
+      <SingleLineFormGroup
+        label={renderLabel()}>
         {renderInputs()}
       </SingleLineFormGroup >
     )

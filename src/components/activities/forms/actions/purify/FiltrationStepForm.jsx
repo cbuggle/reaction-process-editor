@@ -83,6 +83,7 @@ const FiltrationStepForm = ({
       />
       <FormGroup>
         <MetricsInput
+          tooltipName={'purification_amount'}
           metricName={"VOLUME"}
           amount={amount}
           onChange={setAmount}
@@ -93,6 +94,7 @@ const FiltrationStepForm = ({
           amount={repetitions}
         />
         <DurationSelection
+          tooltipName={'purification_duration'}
           duration={duration}
           onChangeDuration={setDuration}
         />

@@ -7,6 +7,7 @@ import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
+import TooltipLabel from "../../../../utilities/TooltipLabel";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
@@ -88,16 +89,23 @@ const ChromatographyStepForm = ({
       />
       <FormGroup>
         <MetricsInput
+          tooltipName={'purification_amount'}
           metricName={"VOLUME"}
           amount={amount}
           onChange={setAmount}
         />
+
+      </FormGroup>
+      <FormGroup>
         <MetricsInput
           metricName={'VELOCITY'}
           amount={flowRate}
           onChange={setFlowRate}
         />
+
+
         <DurationSelection
+          tooltipName={'purification_duration'}
           duration={duration}
           onChangeDuration={setDuration}
         />
