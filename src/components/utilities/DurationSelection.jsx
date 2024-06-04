@@ -3,10 +3,12 @@ import { Label, FormGroup } from "reactstrap";
 
 import NumericalInput from "./NumericalInput";
 import TimeDecorator from "../../decorators/TimeDecorator";
+import TooltipLabel from "./TooltipLabel";
 
 const DurationSelection = (
   {
     label = 'Duration',
+    tooltipName,
     duration,
     onChangeDuration,
     disabled
@@ -40,10 +42,18 @@ const DurationSelection = (
     )
   }
 
+
+  const renderTooltipLabel = () => {
+    return (
+      <TooltipLabel name={tooltipName} label={label} />
+    )
+  }
+
+
   return (
     <FormGroup className='row gx-2 pt-1 duration-selection'>
       <Label className='col-3 col-form-label d-flex'>
-        {label}
+        {renderTooltipLabel()}
       </Label>
       <div className='duration-selection__input-container'>
         <NumericalInput
@@ -93,6 +103,7 @@ const DurationSelection = (
       </div>
       <Label className='col-form-label duration-selection__form-label'>s</Label>
     </FormGroup>
+
   );
 };
 
