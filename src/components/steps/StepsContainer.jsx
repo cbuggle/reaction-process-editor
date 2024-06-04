@@ -14,20 +14,24 @@ const StepsContainer = ({ reactionProcess }) => {
     setDisplayNewStep(!displayNewStep)
   }
 
+  const steps_count = reactionProcess.reaction_process_steps.length
+
   return (
     <>
       <DndProvider backend={HTML5Backend}>
         {reactionProcess.reaction_process_steps.map((processStep, index) => (
-          <StepColumCard index={index}
-           key={processStep.id}
+          <StepColumCard
+            key={processStep.id}
             reactionProcess={reactionProcess}
             processStep={processStep}
-            totalSteps={reactionProcess.reaction_process_steps.length}
+            previousStep={index > 0 ? reactionProcess.reaction_process_steps[index - 1] : undefined}
+            totalSteps={steps_count}
           />
         ))}
         {displayNewStep ?
           <StepColumCard
             reactionProcess={reactionProcess}
+            previousStep={steps_count > 0 ? reactionProcess.reaction_process_steps[steps_count - 1] : undefined}
             onCancel={toggleNewStep}
           />
           :
