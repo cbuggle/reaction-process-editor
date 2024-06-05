@@ -83,6 +83,7 @@ const ChromatographyStepForm = ({
         </OptionalFormSet.ExtraButton>
       )}
       <SolventListForm
+        label={'Mobile Phase'}
         solvents={solvents}
         solventOptions={purifySolventOptions}
         setSolvents={setSolvents}
