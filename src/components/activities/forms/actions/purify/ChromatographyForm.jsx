@@ -69,7 +69,7 @@ const ChromatographyForm = (
               onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
             />
           </SingleLineFormGroup>
-          <SingleLineFormGroup label='Type'>
+          <SingleLineFormGroup label='Column'>
             <Select
               className="react-select--overwrite"
               classNamePrefix="react-select"

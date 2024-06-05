@@ -6,6 +6,7 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 import { SolventListEntry } from './SolventListEntry';
 
 const SolventListForm = ({
+	label = 'Solvent',
 	solvents,
 	solventOptions,
 	setSolvents
@@ -30,7 +31,7 @@ const SolventListForm = ({
 		<FormGroup className="mb-2">
 			<div className="filtration-step-form__solvent-list">
 				<Row className='gx-2 pb-1 px-2 mx-0'>
-					<Label className='col-9 col-form-label'>Solvent</Label>
+					<Label className='col-9 col-form-label'>{label}</Label>
 					<Label className='col-3 col-form-label'>Ratio</Label>
 				</Row>
 				{solvents.map((solvent, idx) =>
@@ -45,7 +46,7 @@ const SolventListForm = ({
 				)}
 			</div>
 			<Select
-				placeholder={'Add Solvent'}
+				placeholder={'Add ' + label}
 				className="react-select--overwrite filtration-step-form__solvent-select"
 				classNamePrefix="react-select"
 				name="purify_solvent_solvent_ids"
