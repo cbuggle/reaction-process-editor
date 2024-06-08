@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Button, FormGroup } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
@@ -18,6 +18,7 @@ const ExtractionStepForm = ({
   onCancel,
   onDelete,
   canDelete,
+  initialShowForm
 }) => {
   const selectOptions = useContext(SelectOptions);
   const purifySolventOptions = selectOptions.materials["SOLVENT"];
@@ -66,7 +67,7 @@ const ExtractionStepForm = ({
       onSave={handleSave}
       onCancel={onCancel}
       typeColor="action"
-      initialShowForm={!workup}
+      initialShowForm={initialShowForm}
     >
       {canDelete && (
         <OptionalFormSet.ExtraButton>

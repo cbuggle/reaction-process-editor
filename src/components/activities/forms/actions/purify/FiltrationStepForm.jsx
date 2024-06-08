@@ -18,6 +18,7 @@ const FiltrationStepForm = ({
   onCancel,
   onDelete,
   canDelete,
+  initialShowForm
 }) => {
   const selectOptions = useContext(SelectOptions);
   const purifySolventOptions = selectOptions.materials["SOLVENT"];
@@ -67,7 +68,7 @@ const FiltrationStepForm = ({
       onSave={handleSave}
       onCancel={onCancel}
       typeColor="action"
-      initialShowForm={!workup}
+      initialShowForm={initialShowForm}
     >
       {canDelete && (
         <OptionalFormSet.ExtraButton>

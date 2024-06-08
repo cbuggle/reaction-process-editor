@@ -71,13 +71,14 @@ const ExtractionForm = ({
       {showNewStepForm &&
         <ExtractionStepForm
           index={workup.extraction_steps?.length || 0}
+          initialShowForm={true}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
         />
       }
       <FormSection type='action'>
         <CreateButton
-          label='Filtration Step'
+          label='Extraction Step'
           type='action'
           onClick={addStep}
           size='sm'
