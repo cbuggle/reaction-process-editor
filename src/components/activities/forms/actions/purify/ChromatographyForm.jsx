@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import ChromatographyStepForm from "./ChromatographyStepForm";
+import WavelengthListForm from './WavelengthListForm';
 import FormSection from '../../../../utilities/FormSection'
 import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
@@ -27,6 +28,7 @@ const ChromatographyForm = (
   }) => {
 
   const selectOptions = useContext(SelectOptions).purify.chromatography
+  const [currentColumnType, setCurrentColumnType] = useState(workup.column_type)
 
   useEffect(() => {
     workup.jar_material ||
@@ -36,7 +38,20 @@ const ChromatographyForm = (
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    setCurrentColumnType(
+      OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types[workup.device]))
+  }, [workup, selectOptions.column_types])
+
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
+
+  const handleDeviceChange = (device) => {
+    if (device !== workup.device) {
+      onWorkupChange({ name: 'device', value: device })
+      onWorkupChange({ name: 'column_type', value: undefined })
+    }
+  }
+
 
   const renderAutomationToggle = () => {
     return (
@@ -47,7 +62,7 @@ const ChromatographyForm = (
         <ButtonGroupToggle
           value={workup.automation}
           options={selectOptions.automation_modes}
-          onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
+          onChange={handleWorkupChange('automation')}
         />
       </>
     )
@@ -56,47 +71,49 @@ const ChromatographyForm = (
   const renderAutomationSpecificFields = () => {
     switch (workup.automation) {
       case 'AUTOMATED':
-        return (<></>)
       case 'SEMI_AUTOMATED':
-        return (<FormSection>
-          <SingleLineFormGroup label='Type'>
-            <Select
-              className="react-select--overwrite"
-              classNamePrefix="react-select"
-              name="device"
-              options={selectOptions.devices}
-              value={OptionsDecorator.optionForKey(workup.device, selectOptions.devices)}
-              onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
+        return (
+          <>
+            <FormSection>
+              <SingleLineFormGroup label='Type'>
+                <Select
+                  className="react-select--overwrite"
+                  classNamePrefix="react-select"
+                  name="device"
+                  options={selectOptions.devices}
+                  value={OptionsDecorator.optionForKey(workup.device, selectOptions.devices)}
+                  onChange={selected => handleDeviceChange(selected.value)}
+                />
+              </SingleLineFormGroup>
+              <SingleLineFormGroup label='Column'>
+                <Select
+                  key={currentColumnType}
+                  className="react-select--overwrite"
+                  classNamePrefix="react-select"
+                  name="column_type"
+                  options={selectOptions.column_types[workup.device]}
+                  value={currentColumnType}
+                  onChange={selected => onWorkupChange({ name: 'column_type', value: selected.value })}
+                />
+              </SingleLineFormGroup>
+              <SingleLineFormGroup label='Detectors'>
+                <Select
+                  className="react-select--overwrite"
+                  classNamePrefix="react-select"
+                  name="detector"
+                  options={selectOptions.detectors}
+                  value={OptionsDecorator.optionsForKeys(workup.detectors, selectOptions.detectors)}
+                  isMulti
+                  isClearable={false}
+                  onChange={selected => onWorkupChange({ name: 'detectors', value: selected.map(option => option.value) })}
+                />
+              </SingleLineFormGroup>
+            </FormSection>
+            <WavelengthListForm
+              wavelengths={workup.wavelengths}
+              onChange={handleWorkupChange('wavelengths')}
             />
-          </SingleLineFormGroup>
-          <SingleLineFormGroup label='Column'>
-            <Select
-              className="react-select--overwrite"
-              classNamePrefix="react-select"
-              name="type_of_column"
-              options={selectOptions.column_types}
-              value={OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types)}
-              onChange={selected => onWorkupChange({ name: 'column_type', value: selected.value })}
-            />
-          </SingleLineFormGroup>
-          <SingleLineFormGroup label='Detectors'>
-            <Select
-              className="react-select--overwrite"
-              classNamePrefix="react-select"
-              name="detector"
-              options={selectOptions.detectors}
-              value={OptionsDecorator.optionsForKeys(workup.detectors, selectOptions.detectors)}
-              isMulti
-              isClearable={false}
-              onChange={selected => onWorkupChange({ name: 'detectors', value: selected.map(option => option.value) })}
-            />
-          </SingleLineFormGroup>
-          <MetricsInput
-            metricName={'WAVENUMBER'}
-            amount={workup.wavelength}
-            onChange={handleWorkupChange('wavelength')}
-          />
-        </FormSection>)
+          </>)
       case 'MANUAL':
         return (
           <FormSection>
@@ -159,7 +176,8 @@ const ChromatographyForm = (
       {showNewStepForm &&
         <ChromatographyStepForm
           index={activitySteps.length}
-          workup={activitySteps.at(-1)}
+          workup={activitySteps?.at(-1)}
+          initialShowForm={true}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
         />

@@ -94,7 +94,6 @@ export default class ActivityInfoDecorator {
 
     let ratioList = "";
 
-
     if (stepData.solvents?.length > 1) {
       ratioList = StringDecorator.brackets(
         stepData.solvents.map((solvent) => solvent.ratio).join(":")
@@ -135,6 +134,7 @@ export default class ActivityInfoDecorator {
 
     return infoStrings.join(" ");
   };
+
   static chromatographyStepInfo = (stepData, purifySolventOptions) => {
     const solventsList = OptionsDecorator.optionsArrayToLabel(
       stepData.solvents.map((s) => s.id),
@@ -154,6 +154,14 @@ export default class ActivityInfoDecorator {
       ratioList,
     ].join(" ");
   };
+
+  static wavelengthsInfo = (wavelengths) => {
+    return wavelengths && (
+      wavelengths.is_range ?
+        'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'
+        :
+        'Peaks ' + wavelengths.peaks.map((peak) => peak.value).join(', ') + ' nm')
+  }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {
     return (

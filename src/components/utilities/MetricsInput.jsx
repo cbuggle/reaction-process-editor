@@ -16,6 +16,7 @@ const MetricsInput = (
     tooltipName,
     amount,
     max,
+    min,
     onChange,
     displayMultiLine,
     disabled,
@@ -29,6 +30,7 @@ const MetricsInput = (
   const localUnit = amount?.unit || MetricsDecorator.defaultUnit(metricName)
   const inputRange = MetricsDecorator.unitType(localUnit).inputRange || {}
   const localMax = max || max === 0 ? max : inputRange.max
+  const localMin = min || min === 0 ? min : inputRange.min
 
   const handleChangeValue = (value) => onChange({ value: value, unit: localUnit })
 
@@ -46,7 +48,7 @@ const MetricsInput = (
         precision={inputRange.precision}
         step={inputRange.step}
         initialStep={inputRange.initialStep}
-        min={inputRange.min}
+        min={localMin}
         max={localMax}
         size={8}
         disabled={disabled}
@@ -79,11 +81,11 @@ const MetricsInput = (
   }
 
   const renderLabel = () => {
+    let displayLabel = label || MetricsDecorator.label(metricName)
     return tooltipName ?
-      <TooltipLabel name={tooltipName} label={label || MetricsDecorator.label(metricName)} />
-      : label || MetricsDecorator.label(metricName)
+      <TooltipLabel name={tooltipName} label={displayLabel} />
+      : displayLabel
   }
-
 
   const renderInputs = () => {
     return (
