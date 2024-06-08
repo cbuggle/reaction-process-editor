@@ -94,10 +94,10 @@ export const metrics = {
     defaultUnit: 'CM',
     units: ['CM']
   },
-  'WAVENUMBER': {
-    label: 'Wavenumber',
-    defaultUnit: 'WAVENUMBER',
-    units: ['WAVENUMBER']
+  'WAVELENGTH': {
+    label: 'Wavelength',
+    defaultUnit: 'NM',
+    units: ['NM']
   },
   'VOLUME': {
     label: 'Volume',

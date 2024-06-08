@@ -7,7 +7,6 @@ import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
-import TooltipLabel from "../../../../utilities/TooltipLabel";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
@@ -20,6 +19,7 @@ const ChromatographyStepForm = ({
   onCancel,
   onDelete,
   canDelete,
+  initialShowForm
 }) => {
   const selectOptions = useContext(SelectOptions);
   const purifySolventOptions = selectOptions.materials["SOLVENT"];
@@ -73,7 +73,7 @@ const ChromatographyStepForm = ({
       onSave={handleSave}
       onCancel={onCancel}
       typeColor="action"
-      initialShowForm={!workup}
+      initialShowForm={initialShowForm}
     >
       {canDelete && (
         <OptionalFormSet.ExtraButton>
@@ -83,7 +83,7 @@ const ChromatographyStepForm = ({
         </OptionalFormSet.ExtraButton>
       )}
       <SolventListForm
-        label={'Mobile Phase'}
+        label={'Modifier'}
         solvents={solvents}
         solventOptions={purifySolventOptions}
         setSolvents={setSolvents}
@@ -95,7 +95,6 @@ const ChromatographyStepForm = ({
           amount={amount}
           onChange={setAmount}
         />
-
       </FormGroup>
       <FormGroup>
         <MetricsInput
@@ -103,8 +102,6 @@ const ChromatographyStepForm = ({
           amount={flowRate}
           onChange={setFlowRate}
         />
-
-
         <DurationSelection
           tooltipName={'purification_duration'}
           duration={duration}

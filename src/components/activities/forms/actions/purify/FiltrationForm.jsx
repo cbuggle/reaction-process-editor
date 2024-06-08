@@ -65,6 +65,8 @@ const FiltrationForm = (
       {showNewStepForm &&
         <FiltrationStepForm
           index={workup.filtration_steps?.length || 0}
+          workup={workup.filtration_steps?.at(-1)}
+          initialShowForm={true}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
         />

@@ -59,8 +59,7 @@ const ActivityCard = ({
     displayMode,
   ]);
 
-  const edit = () =>
-    setDisplayMode(isInitialised ? "form" : uninitialisedMode());
+  const edit = () => setDisplayMode(isInitialised ? "form" : uninitialisedMode());
 
   const onDelete = () => api.deleteActivity(activity.id);
 
@@ -85,6 +84,7 @@ const ActivityCard = ({
   const handleCancel = () => {
     if (isInitialised) {
       setActivityForm(activity);
+      setWorkup(activity.workup);
       setDisplayMode("info");
     } else {
       onCancel();
@@ -96,8 +96,9 @@ const ActivityCard = ({
       let newWorkup = { ...workup };
       delete newWorkup[name];
       setWorkup(newWorkup);
+    } else {
+      setWorkup((prevWorkup) => ({ ...prevWorkup, [name]: value }));
     }
-    setWorkup((prevWorkup) => ({ ...prevWorkup, [name]: value }));
   };
 
   const setDuration = (value) =>

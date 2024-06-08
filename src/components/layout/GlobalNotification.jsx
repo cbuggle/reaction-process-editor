@@ -37,7 +37,7 @@ const GlobalNotification = () => {
   };
 
   useEffect(() => {
-    const notification = notifications[notifications.length - 1];
+    const notification = notifications.at(-1);
     if (notification) {
       setLatestNotification(notification);
       changeShowNotification(true);
