@@ -26,7 +26,7 @@ export const SolventListEntry = (
           className='form-control'
           value={ratio}
           min={MetricsDecorator.unitType('RATIO').inputRange.min}
-          initialStep={MetricsDecorator.unitType('RATIO').inputRange.initialStep}
+          initialstep={MetricsDecorator.unitType('RATIO').inputRange.initialstep}
           onChange={handleSetRatio}
         />
       </div>
