@@ -17,7 +17,7 @@ export default class MetricsDecorator {
 
   static defaultUnitType = (metricName) => unitTypes[this.defaultUnit(metricName)]
 
-  static defaultValueForUnitType = (unitType) => unitType.inputRange.initialStep
+  static defaultValueForUnitType = (unitType) => unitType.inputRange.initialstep
 
   static defaultValueInDefaultUnit = (metricName) => this.defaultValueForUnitType(this.defaultUnitType(metricName))
 
