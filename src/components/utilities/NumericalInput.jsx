@@ -88,7 +88,7 @@ type NumericalInputState = {
 class NumericalInput extends Component {
   static propTypes = {
     step: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-    initialStep: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+    initialstep: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     min: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     max: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     precision: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
@@ -135,7 +135,7 @@ class NumericalInput extends Component {
    */
   static defaultProps = {
     step: 1,
-    initialStep: 0,
+    initialstep: 0,
     min: Number.MIN_SAFE_INTEGER || -9007199254740991,
     max: Number.MAX_SAFE_INTEGER || 9007199254740991,
     precision: null,
@@ -681,12 +681,12 @@ class NumericalInput extends Component {
     // Adaption for KIT-RPE.
     // * Fix stepping to max
     // * Fix float precission issue
-    // * Introduce initialStep
+    // * Introduce initialstep
     let _min = +access(this.props, "min", NumericalInput.defaultProps.min);
     let _max = +access(this.props, "max", NumericalInput.defaultProps.max);
-    let _initialStep = +access(this.props, "initialStep", NumericalInput.defaultProps.initialStep);
+    let _initialstep = +access(this.props, "initialstep", NumericalInput.defaultProps.initialstep);
 
-    let _n = (this.state.value || this.state.value === 0) ? this.state.value + _step * n : _initialStep
+    let _n = (this.state.value || this.state.value === 0) ? this.state.value + _step * n : _initialstep
 
     _n = Math.min(Math.max(_n, _min), _max);
 
