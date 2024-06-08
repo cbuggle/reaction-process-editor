@@ -28,10 +28,23 @@ const WavelengthListForm = (
     // eslint-disable-next-line
   }, [wavelengths])
 
+  useEffect(() => {
+    setPeaks(sortPeaks(peaks))
+    // eslint-disable-next-line
+  }, [isRange, sortReverse, peaks.length])
+
+
+  const sortPeaks = (unsorted) => {
+    let sorted = [...unsorted].sort((peak1, peak2) => peak1.value - peak2.value)
+    sortReverse && !isRange && sorted.reverse()
+
+    return sorted
+  }
+
   const handleSave = () => {
     onChange({
       is_range: isRange,
-      peaks: isRange ? [peaks[0] || defaultPeak, peaks.at(-1) || defaultPeak] : sortedPeaks(peaks, sortReverse)
+      peaks: isRange ? [peaks[0] || defaultPeak, peaks.at(-1) || defaultPeak] : peaks
     })
   }
   const handleCancel = () => { resetForm() }
@@ -41,7 +54,7 @@ const WavelengthListForm = (
     setPeaks(wavelengths?.peaks || [])
   }
 
-  const addPeak = () => { setPeaks(sortedPeaks(peaks.concat(newPeak), sortReverse)) }
+  const addPeak = () => { setPeaks(sortPeaks(peaks.concat(newPeak))); }
 
   const handleChangePeak = (idx) => (value) => {
     let newPeaks = [...peaks]
@@ -49,23 +62,21 @@ const WavelengthListForm = (
     setPeaks(newPeaks)
   }
 
-  const sortedPeaks = (unsorted, reverse) => {
-    let sorted = [...unsorted].sort((peak1, peak2) => peak1.value - peak2.value)
-    reverse && sorted.reverse()
-
-    return sorted
+  const handleChangeRange = (idx) => (value) => {
+    let newPeaks = [...peaks]
+    newPeaks[0] ||= defaultPeak
+    newPeaks[idx] = value
+    setPeaks(newPeaks)
   }
 
-  const sortPeaks = () => {
-    setSortReverse(!sortReverse)
-    // sortReserve() before calling sortedPeaks() does not manifest in state when calling sortedPeaks().
-    // We need to pass !sortReverse as extra parameter. Thank you React state model.
-    setPeaks(sortedPeaks(peaks, !sortReverse))
+  const resortPeaks = () => {
+    setPeaks(sortPeaks(peaks))
   }
+  const toggleSortOrder = () => setSortReverse(!sortReverse)
 
-  const deletePeak = (idx) => () => { setPeaks(peaks.toSpliced(idx, 1)) }
+  const deletePeak = (idx) => () => setPeaks(peaks.toSpliced(idx, 1))
 
-  const isInPeaks = (value) => peaks.find((peak) => peak.value === value.value)
+  const isInPeaks = (aPeak) => peaks.find((peak) => peak.value === aPeak.value)
 
   const renderAutomationToggle = () => {
     return (
@@ -81,7 +92,7 @@ const WavelengthListForm = (
 
   const renderPeaksForm = () => {
     return (
-      <>
+      <div onMouseOut={resortPeaks} >
         <Row className='gx-1 py-1 px-2 mx-0'>
           <div className='col-11 d-flex flex-column justify-content-end'>
             <MetricsInput
@@ -103,7 +114,7 @@ const WavelengthListForm = (
         {
           peaks.map((peak, index) => {
             return (
-              <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peak.value}>
+              <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peak?.value}>
                 <div className='col-11 d-flex flex-column justify-content-end'>
                   <MetricsInput
                     label={'Peak'}
@@ -123,7 +134,7 @@ const WavelengthListForm = (
             )
           })
         }
-      </>
+      </div>
     )
   }
 
@@ -138,8 +149,8 @@ const WavelengthListForm = (
               label={'Range min'}
               metricName={'WAVELENGTH'}
               amount={amount_start}
-              max={amound_end.value - 1}
-              onChange={handleChangePeak(0)}
+              max={amound_end?.value - 1}
+              onChange={handleChangeRange(0)}
             />
           </div>
           <div className='col-1 d-flex flex-column justify-content-center'>
@@ -152,7 +163,7 @@ const WavelengthListForm = (
               metricName={'WAVELENGTH'}
               amount={amound_end}
               min={amount_start.value + 1}
-              onChange={handleChangePeak(1)}
+              onChange={handleChangeRange(1)}
             />
           </div>
           <div className='col-1 d-flex flex-column justify-content-center'>
@@ -165,7 +176,7 @@ const WavelengthListForm = (
   const renderSortButton = () => {
     return (
       <OptionalFormSet.ExtraButton>
-        <Button color="condition" onClick={sortPeaks} outline>
+        <Button color="condition" onClick={toggleSortOrder} outline>
           <span className={"px-2"}>
             Sort
           </span>
