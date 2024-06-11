@@ -17,6 +17,7 @@ const MetricsInput = (
     amount,
     max,
     min,
+    initialstep,
     onChange,
     displayMultiLine,
     disabled,
@@ -47,7 +48,7 @@ const MetricsInput = (
         value={amount?.value}
         precision={inputRange.precision}
         step={inputRange.step}
-        initialstep={inputRange.initialstep}
+        initialstep={initialstep || inputRange.initialstep}
         min={localMin}
         max={localMax}
         size={8}

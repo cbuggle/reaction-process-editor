@@ -156,11 +156,12 @@ export default class ActivityInfoDecorator {
   };
 
   static wavelengthsInfo = (wavelengths) => {
-    return wavelengths && (
+    return wavelengths?.peaks[0] && (
       wavelengths.is_range ?
         'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'
         :
-        'Peaks ' + wavelengths.peaks.map((peak) => peak.value).join(', ') + ' nm')
+        'Single ' + wavelengths.peaks.map((peak) => peak.value).join(', ') + ' nm'
+    )
   }
 
   static infoLineEquipment = (equipment, equipmentOptions) => {
