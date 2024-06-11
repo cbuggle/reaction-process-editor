@@ -39,16 +39,26 @@ const ChromatographyForm = (
   }, [])
 
   useEffect(() => {
-    setCurrentColumnType(
-      OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types[workup.device]))
-  }, [workup, selectOptions.column_types])
+    let selectable_column_type = OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types[workup.device])
+
+    if (workup.column_type && !selectable_column_type) {
+      onWorkupChange({ name: 'column_type', value: undefined })
+    }
+    setCurrentColumnType(selectable_column_type)
+    // eslint-disable-next-line
+  }, [workup, workup.device])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
-  const handleDeviceChange = (device) => {
-    if (device !== workup.device) {
-      onWorkupChange({ name: 'device', value: device })
-      onWorkupChange({ name: 'column_type', value: undefined })
+  const handleDetectorsChange = (selected) => {
+    let detectors = selected.map(option => option.value)
+
+    if (detectors.length > 1 && detectors.find(el => el === 'NO_DETECTOR')) {
+      // 'NO_DETECTOR' is a setting / special case on some devices and needs to be the sole selection.
+      // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
+      onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
+    } else {
+      onWorkupChange({ name: 'detectors', value: detectors })
     }
   }
 
@@ -77,12 +87,13 @@ const ChromatographyForm = (
             <FormSection>
               <SingleLineFormGroup label='Type'>
                 <Select
+                  key={'device-' + currentColumnType}
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="device"
                   options={selectOptions.devices}
                   value={OptionsDecorator.optionForKey(workup.device, selectOptions.devices)}
-                  onChange={selected => handleDeviceChange(selected.value)}
+                  onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
                 />
               </SingleLineFormGroup>
               <SingleLineFormGroup label='Column'>
@@ -100,12 +111,12 @@ const ChromatographyForm = (
                 <Select
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
-                  name="detector"
+                  name="detectors"
                   options={selectOptions.detectors}
                   value={OptionsDecorator.optionsForKeys(workup.detectors, selectOptions.detectors)}
                   isMulti
                   isClearable={false}
-                  onChange={selected => onWorkupChange({ name: 'detectors', value: selected.map(option => option.value) })}
+                  onChange={handleDetectorsChange}
                 />
               </SingleLineFormGroup>
             </FormSection>
@@ -169,7 +180,7 @@ const ChromatographyForm = (
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
           onDelete={handleDeleteStep}
-          key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          key={'chromatography-step-' + step.solvents.map(element => element.id).join() + '-' + idx}
           canDelete={activitySteps.length > 1}
         />
       )}
