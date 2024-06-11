@@ -17,10 +17,10 @@ const WavelengthListForm = (
   }) => {
 
   const defaultPeak = MetricsDecorator.defaultAmount("WAVELENGTH")
+  const newPeak = { value: undefined, unit: 'NM' }
 
   const [peaks, setPeaks] = useState(wavelengths?.peaks || [])
   const [isRange, setIsRange] = useState(!!wavelengths?.is_range);
-  const [newPeak, setNewPeak] = useState({ value: undefined, unit: 'NM' })
   const [sortReverse, setSortReverse] = useState(false)
 
   useEffect(() => {
@@ -76,14 +76,12 @@ const WavelengthListForm = (
 
   const deletePeak = (idx) => () => setPeaks(peaks.toSpliced(idx, 1))
 
-  const isInPeaks = (aPeak) => peaks.find((peak) => peak.value === aPeak.value)
-
   const renderAutomationToggle = () => {
     return (
       <FormGroup className="mb-2">
         <ButtonGroupToggle
           value={isRange}
-          options={[{ value: false, label: 'Peaks' }, { value: true, label: 'Range' }]}
+          options={[{ value: false, label: 'Single' }, { value: true, label: 'Range' }]}
           onChange={setIsRange}
         />
       </FormGroup>
@@ -94,17 +92,8 @@ const WavelengthListForm = (
     return (
       <div onMouseOut={resortPeaks} >
         <Row className='gx-1 py-1 px-2 mx-0'>
-          <div className='col-11 d-flex flex-column justify-content-end'>
-            <MetricsInput
-              label={"Add Peak "}
-              metricName={'WAVELENGTH'}
-              amount={newPeak}
-              onChange={setNewPeak}
-              displayMultiLine={false}
-            />
-          </div >
           <div className='d-flex flex-column justify-content-center'>
-            <Button color='action' className='create-button' onClick={addPeak} size={'sm'} disabled={!newPeak.value || isInPeaks(newPeak)}>
+            <Button color='action' className='create-button' onClick={addPeak} size={'sm'} >
               <FontAwesomeIcon icon={"plus"} />
               <span>Add Peak</span>
             </Button>
@@ -114,9 +103,10 @@ const WavelengthListForm = (
         {
           peaks.map((peak, index) => {
             return (
-              <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peak?.value}>
+              <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peak.value}>
                 <div className='col-11 d-flex flex-column justify-content-end'>
                   <MetricsInput
+                    initialstep={peaks.at(-2)?.value + 1}
                     label={'Peak'}
                     metricName={'WAVELENGTH'}
                     amount={peak}
