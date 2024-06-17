@@ -70,7 +70,7 @@ const ExtractionForm = ({
 
       {showNewStepForm &&
         <ExtractionStepForm
-          index={workup.extraction_steps?.length || 0}
+          index={workup.purify_steps?.length || 0}
           initialShowForm={true}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
@@ -89,4 +89,4 @@ const ExtractionForm = ({
 };
 
 
-export default withActivitySteps(ExtractionForm, 'extraction_steps');
+export default withActivitySteps(ExtractionForm, 'purify_steps');
