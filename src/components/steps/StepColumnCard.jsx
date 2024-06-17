@@ -102,7 +102,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
   };
 
   const renderActivities = () => {
-    return processStep.actions.map((activity) => (
+    return processStep.activities.map((activity) => (
       <Activity
         key={activity.id}
         activity={activity}
@@ -159,7 +159,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                       <ActivityCreator
                         processStep={processStep}
                         preconditions={processStep.final_conditions}
-                        insertNewBeforeIndex={processStep.actions.length}
+                        insertNewBeforeIndex={processStep.activities.length}
                       />
                     )}
                   </div>
