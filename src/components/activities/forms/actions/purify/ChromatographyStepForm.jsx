@@ -22,7 +22,7 @@ const ChromatographyStepForm = ({
   initialShowForm
 }) => {
   const selectOptions = useContext(SelectOptions);
-  const purifySolventOptions = selectOptions.materials["SOLVENT"];
+  const purifySolventOptions = selectOptions.materials["MODIFIER"];
   const subFormController = useContext(SubFormController);
 
   const label = "Chromatography Step " + (index + 1);
