@@ -64,8 +64,8 @@ const FiltrationForm = (
       )}
       {showNewStepForm &&
         <FiltrationStepForm
-          index={workup.filtration_steps?.length || 0}
-          workup={workup.filtration_steps?.at(-1)}
+          index={workup.purify_steps?.length || 0}
+          workup={workup.purify_steps?.at(-1)}
           initialShowForm={true}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
@@ -83,4 +83,4 @@ const FiltrationForm = (
   )
 }
 
-export default withActivitySteps(FiltrationForm, 'filtration_steps')
+export default withActivitySteps(FiltrationForm, 'purify_steps')

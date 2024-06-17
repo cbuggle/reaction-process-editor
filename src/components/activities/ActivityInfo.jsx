@@ -107,7 +107,7 @@ const ActivityInfo = ({ activity, preconditions }) => {
             VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel)
           );
         } else {
-          const steps = workup[workup.purify_type.toLowerCase() + "_steps"];
+          const steps = workup["purify_steps"];
           infoTitle = "";
           if (steps) {
             infoTitle += steps.length + " Step";

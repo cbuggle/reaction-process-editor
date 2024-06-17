@@ -205,5 +205,5 @@ const ChromatographyForm = (
   )
 }
 
-export default withActivitySteps(ChromatographyForm, 'chromatography_steps')
+export default withActivitySteps(ChromatographyForm, 'purify_steps')
 
