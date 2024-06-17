@@ -6,6 +6,8 @@ import AmountInputSet from "../../../utilities/AmountInputSet";
 import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
 import MetricsInput from "../../../utilities/MetricsInput";
+import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
+
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import VesselFormSection from "../../../vessels/VesselFormSection";
 
@@ -24,6 +26,14 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   return (
     <>
       <FormGroup>
+        <Label>Products</Label>
+        <SamplesIconSelect
+          isMulti
+          samples={workup.save_samples}
+          onChange={handleChangeSampleWorkup("save_samples")} />
+      </FormGroup>
+
+      <FormGroup>
         <Label>Name</Label>
         <Input
           value={workup.name}
@@ -33,6 +43,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           }
         />
       </FormGroup>
+
       <FormGroup>
         <Label>Short Label</Label>
         <Input
@@ -43,12 +54,10 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           }
         />
       </FormGroup>
-      <FormGroup>
-        <VesselFormSection
-          onChange={onChangeVessel}
-          reactionProcessVessel={reactionProcessVessel || {}}
-        />
-      </FormGroup>
+      <VesselFormSection
+        onChange={onChangeVessel}
+        reactionProcessVessel={reactionProcessVessel || {}}
+      />
       <FormSection type="action">
         <AmountInputSet
           amount={workup.target_amount}
