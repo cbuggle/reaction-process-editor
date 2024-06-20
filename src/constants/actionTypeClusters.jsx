@@ -130,16 +130,17 @@ export const actionTypeClusters = [
   },
   {
     id: 'intermediate',
-    label: 'Intermediate',
+    label: 'Save Sample',
     types: [
-      {
-        id: 'intermediate_analyse',
-        createLabel: 'Analysis',
-        activity: { activity_name: 'ANALYSIS', workup: {} }
-      },
+      // {
+      // temporarily disabled until further discussion with NJung, cbuggle, 17.6.2024
+      //   id: 'intermediate_analyse',
+      //   createLabel: 'Analysis',
+      //   activity: { activity_name: 'ANALYSIS', workup: {} }
+      // },
       {
         id: 'intermediate_save',
-        createLabel: 'Save',
+        createLabel: 'Intermediate',
         activity: {
           activity_name: 'SAVE',
           workup: {
