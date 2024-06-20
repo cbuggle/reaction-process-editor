@@ -90,7 +90,7 @@ const ChromatographyStepForm = ({
       />
       <FormGroup>
         <MetricsInput
-          tooltipName={'purification_amount'}
+          tooltipName={'purify_amount'}
           metricName={"VOLUME"}
           amount={amount}
           onChange={setAmount}
@@ -103,7 +103,7 @@ const ChromatographyStepForm = ({
           onChange={setFlowRate}
         />
         <DurationSelection
-          tooltipName={'purification_duration'}
+          tooltipName={'purify_duration'}
           duration={duration}
           onChangeDuration={setDuration}
         />
