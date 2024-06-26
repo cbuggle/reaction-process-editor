@@ -18,7 +18,9 @@ export const SubFormToggle = () => {
 
   const anyBlockingSubformOpen = () => openSubFormLabel.find(label => !nonBlockingSubForms.includes(label))
 
-  const isBlockedByOther = (label) => !nonBlockableSubForms.includes(label) && anyBlockingSubformOpen()
+  const isBlockable = (label) => !nonBlockableSubForms.includes(label)
+
+  const isBlocked = (label) => anyBlockingSubformOpen() && isBlockable(label)
 
   const isCurrentOpen = (label) => openSubFormLabel.includes(label)
 
@@ -34,7 +36,7 @@ export const SubFormToggle = () => {
     anySubFormOpen,
     anyBlockingSubformOpen,
     isCurrentOpen,
-    isBlockedByOther
+    isBlocked
   }
 }
 

@@ -12,19 +12,15 @@ const SolventListForm = ({
 	setSolvents
 }) => {
 
-	const solventIds = solvents.map((solvent) => solvent.id)
+	const solventIds = solvents.map((solvent) => solvent.value)
 	const selectableSolventOptions = solventOptions.filter(item => !solventIds.includes(item.value))
 
-	const addSolvent = (solventId) => setSolvents(solvents.concat({ id: solventId, ratio: 1 }))
+	const addSolvent = (solvent) => setSolvents(solvents.concat({ ...solvent, ratio: 1 }))
 
 	const removeSolvent = (idx) => () => setSolvents(solvents.toSpliced(idx, 1))
 
-	const handleSetRatio = (ratio) => {
-		setSolvents(solvents.toSpliced(
-			ratio.index,
-			1,
-			{ id: solvents[ratio.index].id, ratio: ratio.value }
-		))
+	const handleSetRatio = (index) => (ratio) => {
+		setSolvents(solvents.toSpliced(index, 1, { ...solvents[index], ratio: ratio }))
 	}
 
 	return (
@@ -36,11 +32,11 @@ const SolventListForm = ({
 				</Row>
 				{solvents.map((solvent, idx) =>
 					<SolventListEntry
-						label={OptionsDecorator.optionToLabel(solvent.id, solventOptions)}
+						label={solvent.label}
 						ratio={solvent.ratio}
 						index={idx}
 						onRemoveSolvent={removeSolvent}
-						onSetRatio={handleSetRatio}
+						onSetRatio={handleSetRatio(idx)}
 						key={solvent.id + '-' + idx}
 					/>
 				)}
@@ -52,7 +48,7 @@ const SolventListForm = ({
 				name="purify_solvent_solvent_ids"
 				options={selectableSolventOptions}
 				value={''}
-				onChange={selectedOption => addSolvent(selectedOption.value)}
+				onChange={selectedOption => addSolvent(selectedOption)}
 			/>
 		</FormGroup>
 	)

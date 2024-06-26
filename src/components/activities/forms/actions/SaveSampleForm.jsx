@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 import Select from "react-select";
 
@@ -14,14 +14,129 @@ import VesselFormSection from "../../../vessels/VesselFormSection";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
+import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
 
 const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
 
   const selectOptions = useContext(SelectOptions);
+  const stepSelectOptions = useContext(StepSelectOptions);
+
+
+  useEffect(() => {
+    console.log('useEffect ')
+    console.log(workup.extra_solvents_amount)
+    console.log(workup.sample_origin_purify_step)
+    console.log(workup.sample_origin_purify_step && "workup should change")
+    workup.extra_solvents_amount ||
+      (workup.sample_origin_purify_step && onWorkupChange({ name: 'extra_solvents_amount', value: workup.sample_origin_purify_step?.amount }))
+
+    // eslint-disable-next-line
+  }, [workup.sample_origin_purify_step])
 
   const handleChangeSampleWorkup = (workupKey) => (value) => {
     onWorkupChange({ name: workupKey, value: value });
   };
+
+  const handleChangeAction = (action) => {
+    onWorkupChange({ name: 'sample_origin_purify_step', value: undefined });
+    onWorkupChange({ name: 'sample_origin_action', value: action });
+  }
+
+  const currentAction = workup.sample_origin_action
+
+  const purifyStepFormIsEnabled = currentAction && currentAction.purify_type !== 'CRYSTALLIZATION'
+  const purifyStepFormIsDisabled = !purifyStepFormIsEnabled
+
+  const renderOriginPurificationSubForm = () => {
+    return (
+      <>
+        <SingleLineFormGroup label="Activity">
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="sample_origin"
+            options={stepSelectOptions.save_sample_origins}
+            value={currentAction}
+            onChange={handleChangeAction}
+          />
+        </SingleLineFormGroup>
+        <SingleLineFormGroup label="Purify Step">
+          <Select
+            key={'action-select' + currentAction?.value}
+            isDisabled={purifyStepFormIsDisabled}
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="sample_origin_purify_step"
+            options={currentAction?.purify_steps}
+            value={workup.sample_origin_purify_step}
+            onChange={(selectedOption) => handleChangeSampleWorkup("sample_origin_purify_step")(selectedOption)}
+          />
+
+        </SingleLineFormGroup >
+        <SingleLineFormGroup label={'Solvents'}>
+          {workup.sample_origin_purify_step?.solvents?.map((solvent) => solvent.label)}
+          {/* //, selectOptions.materials['SOLVENT'])} */}
+        </SingleLineFormGroup >
+        <SingleLineFormGroup label={'Amount'}>
+          <MetricsInput
+            displayMultiLine
+            metricName={"VOLUME"}
+            amount={workup.extra_solvents_amount}
+            onChange={handleChangeSampleWorkup('extra_solvents_amount')}
+          />
+        </SingleLineFormGroup>
+
+        <SingleLineFormGroup label="Extra Solvents">
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            isMulti
+            isClearable={false}
+            name="extra_solvents"
+            options={selectOptions.materials.SOLVENT}
+            value={workup.extra_solvents}
+            onChange={(selectedOptions) =>
+              handleChangeSampleWorkup("extra_solvents")(selectedOptions)
+            }
+          />
+        </SingleLineFormGroup>
+      </>
+    )
+  }
+
+  const renderOriginToggle = () => {
+    return (
+      <FormGroup>
+        <ButtonGroupToggle
+          label="Origin"
+          value={workup.sample_origin_type || selectOptions.save_sample_origin_types[0].value}
+          options={selectOptions.save_sample_origin_types}
+          onChange={handleChangeSampleWorkup("sample_origin_type")}
+        />
+      </FormGroup>
+    )
+  }
+
+  const renderOriginSubForm = () => {
+    switch (workup.sample_origin_type) {
+      case "PURIFICATION":
+        return renderOriginPurificationSubForm()
+      default:
+        return (
+          <>
+          </>
+        )
+    }
+  }
+
+  const renderOriginFormGroup = () => {
+    return (
+      <>
+        {renderOriginToggle()}
+        {renderOriginSubForm()}
+      </>
+    )
+  }
 
   return (
     <>
@@ -29,8 +144,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         <Label>Products</Label>
         <SamplesIconSelect
           isMulti
-          samples={workup.save_samples}
-          onChange={handleChangeSampleWorkup("save_samples")} />
+          samples={workup.samples}
+          onChange={handleChangeSampleWorkup("samples")} />
       </FormGroup>
 
       <FormGroup>
@@ -54,6 +169,9 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           }
         />
       </FormGroup>
+
+      {renderOriginFormGroup()}
+
       <VesselFormSection
         onChange={onChangeVessel}
         reactionProcessVessel={reactionProcessVessel || {}}
