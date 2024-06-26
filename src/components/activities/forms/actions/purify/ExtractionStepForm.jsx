@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { Button, FormGroup } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import DurationSelection from "../../../../utilities/DurationSelection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
+
+import PurifyDecorator from "../../../../../decorators/ActivityInfoDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
@@ -57,7 +58,7 @@ const ExtractionStepForm = ({
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityInfoDecorator.filtrationStepInfo(
+      valueSummary={PurifyDecorator.filtrationStepInfo(
         {
           solvents,
           amount,

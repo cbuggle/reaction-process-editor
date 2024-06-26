@@ -19,7 +19,7 @@ export default class SamplesDecorator {
     }
   }
 
-  static availableAmounts = (availableAmounts) => {
+  static infoAvailableAmounts = (availableAmounts) => {
     return amountsDefaultUnits.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
       MetricsDecorator.infoLineAmount({ value: Number(availableAmounts[unit]).toFixed(2), unit: unit })

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
+import PurifyDecorator from "../../decorators/PurifyDecorator";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 import VesselDecorator from "../../decorators/VesselDecorator";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
@@ -98,7 +99,7 @@ const ActivityInfo = ({ activity, preconditions }) => {
             workup.phase.toLowerCase();
           infoLines.push(
             "Solvent: " +
-            ActivityInfoDecorator.filtrationStepInfo(
+            PurifyDecorator.filtrationStepInfo(
               workup,
               selectOptions.materials["SOLVENT"]
             )
@@ -135,7 +136,7 @@ const ActivityInfo = ({ activity, preconditions }) => {
                 infoLines.push("Step " + (i + 1));
               }
               infoLines.push(
-                ActivityInfoDecorator.filtrationStepInfo(
+                PurifyDecorator.filtrationStepInfo(
                   steps[i],
                   selectOptions.materials["SOLVENT"]
                 )
