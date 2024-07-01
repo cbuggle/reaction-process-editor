@@ -7,11 +7,11 @@ import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
 import MetricsInput from "../../../utilities/MetricsInput";
 import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
-
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import VesselFormSection from "../../../vessels/VesselFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
+import PurifyDecorator from "../../../../decorators/PurifyDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
@@ -23,10 +23,6 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
 
   useEffect(() => {
-    console.log('useEffect ')
-    console.log(workup.extra_solvents_amount)
-    console.log(workup.sample_origin_purify_step)
-    console.log(workup.sample_origin_purify_step && "workup should change")
     workup.extra_solvents_amount ||
       (workup.sample_origin_purify_step && onWorkupChange({ name: 'extra_solvents_amount', value: workup.sample_origin_purify_step?.amount }))
 
@@ -38,14 +34,33 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   };
 
   const handleChangeAction = (action) => {
-    onWorkupChange({ name: 'sample_origin_purify_step', value: undefined });
+    onWorkupChange({ name: 'sample_origin_purify_step', value: action.purify_steps[0] });
     onWorkupChange({ name: 'sample_origin_action', value: action });
   }
 
   const currentAction = workup.sample_origin_action
 
-  const purifyStepFormIsEnabled = currentAction && currentAction.purify_type !== 'CRYSTALLIZATION'
-  const purifyStepFormIsDisabled = !purifyStepFormIsEnabled
+  const purifyStepFormIsDisabled = currentAction?.purify_type === 'CRYSTALLIZATION'
+
+  const renderStepSelect = () => {
+    return (<>
+      <SingleLineFormGroup label="Purify Step">
+        <Select
+          key={'action-select' + currentAction?.value}
+          isDisabled={purifyStepFormIsDisabled}
+          className="react-select--overwrite"
+          classNamePrefix="react-select"
+          name="sample_origin_purify_step"
+          options={currentAction?.purify_steps}
+          value={workup.sample_origin_purify_step}
+          onChange={(selectedOption) => handleChangeSampleWorkup("sample_origin_purify_step")(selectedOption)}
+        />
+      </SingleLineFormGroup>
+      <SingleLineFormGroup label={'Solvents'}>
+        {workup?.sample_origin_purify_step && PurifyDecorator.infoLineSolvents(workup.sample_origin_purify_step.solvents)}
+      </SingleLineFormGroup >
+    </>)
+  }
 
   const renderOriginPurificationSubForm = () => {
     return (
@@ -60,23 +75,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             onChange={handleChangeAction}
           />
         </SingleLineFormGroup>
-        <SingleLineFormGroup label="Purify Step">
-          <Select
-            key={'action-select' + currentAction?.value}
-            isDisabled={purifyStepFormIsDisabled}
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="sample_origin_purify_step"
-            options={currentAction?.purify_steps}
-            value={workup.sample_origin_purify_step}
-            onChange={(selectedOption) => handleChangeSampleWorkup("sample_origin_purify_step")(selectedOption)}
-          />
-
-        </SingleLineFormGroup >
-        <SingleLineFormGroup label={'Solvents'}>
-          {workup.sample_origin_purify_step?.solvents?.map((solvent) => solvent.label)}
-          {/* //, selectOptions.materials['SOLVENT'])} */}
-        </SingleLineFormGroup >
+        {renderStepSelect()}
         <SingleLineFormGroup label={'Amount'}>
           <MetricsInput
             displayMultiLine
@@ -141,7 +140,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   return (
     <>
       <FormGroup>
-        <Label>Products</Label>
+        <Label>Molecular Entities</Label>
         <SamplesIconSelect
           isMulti
           samples={workup.samples}

@@ -1,4 +1,5 @@
 export default class OptionsDecorator {
+  // Avoid issues with numerical vs. string kay by using "==", not "===".
   // eslint-disable-next-line
   static optionForKey = (key, options) => !!key && options.find((option) => key == option.value)
 

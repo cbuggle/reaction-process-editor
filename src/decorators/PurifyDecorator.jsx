@@ -3,8 +3,7 @@ import StringDecorator from "./StringDecorator";
 import OptionsDecorator from "./OptionsDecorator";
 export default class PurifyDecorator {
 
-
-  static filtrationStepInfo = (stepData, purifySolventOptions) => {
+  static purifyStepInfo = (stepData, purifySolventOptions) => {
 
     const solventsList = OptionsDecorator.optionsArrayToLabel(
       stepData.solvents?.map((solvent) => solvent.id),
@@ -54,13 +53,14 @@ export default class PurifyDecorator {
     return infoStrings.join(" ");
   };
 
-  static chromatographyStepInfo = (stepData, purifySolventOptions) => {
-    const solventsList = OptionsDecorator.optionsArrayToLabel(
-      stepData.solvents.map((s) => s.id),
-      purifySolventOptions
-    );
+  static infoLineSolvents = (solvents) => {
+    return solvents?.map((solvent) => solvent.label).join(", ")
+  }
+
+  static infoLineSolventsWithRatio = (stepData) => {
     let ratioList = "";
 
+    if (!stepData.solvents) { return "no StepData" }
     if (stepData.solvents.length > 1) {
       ratioList = StringDecorator.brackets(
         stepData.solvents.map((solvent) => solvent.ratio).join(":")
@@ -69,9 +69,30 @@ export default class PurifyDecorator {
 
     return [
       MetricsDecorator.infoLineAmount(stepData.amount),
-      solventsList,
+      stepData.solvents.map((solvent) => solvent.label),
       ratioList,
     ].join(" ");
+
   };
 
+  static infoLinePurifySolvents = (workup, purifySolventOptions) => {
+    let infoLines = []
+
+    if (workup.purify_type === 'CRYSTALLIZATION') {
+      infoLines.push(PurifyDecorator.infoLineSolvents(workup.solvents, purifySolventOptions))
+    } else { }
+    let steps = workup["purify_steps"];
+
+    if (steps) {
+      for (let i = 0; i < steps.length; i++) {
+        if (steps.length > 1) {
+          infoLines.push("Step " + (i + 1));
+        }
+        infoLines.push(
+          PurifyDecorator.purifyStepInfo(steps[i], purifySolventOptions)
+        );
+      }
+    }
+    return infoLines
+  }
 }

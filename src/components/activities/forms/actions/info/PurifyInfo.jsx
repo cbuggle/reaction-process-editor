@@ -4,63 +4,57 @@ import InfoLinesBox from './InfoLinesBox';
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import PurifyDecorator from '../../../../../decorators/PurifyDecorator'
-import VesselDecorator from '../../../../../decorators/VesselDecorator'
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
 const PurifyInfo = ({ activity }) => {
-	const selectOptions = useContext(SelectOptions);
 
 	let infoTitle = ""
 	let infoLines = []
 	let workup = activity.workup
+	let steps = workup["purify_steps"];
 
-	if (workup.purify_type === "EXTRACTION") {
-		infoTitle =
-			"Automation: " + workup.automation.toLowerCase() +
-			", Phase: " + workup.phase.toLowerCase();
-		infoLines.push(
-			"Solvent: " + PurifyDecorator.filtrationStepInfo(workup, selectOptions.materials["SOLVENT"])
-		);
-		infoLines.push(
-			VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel)
-		);
-	} else {
-		const steps = workup["purify_steps"];
-		infoTitle = "";
-		if (steps) {
+	const purifyOptions = useContext(SelectOptions).purify[workup.purify_type];
+
+	const isCristallization = workup.purify_type === 'CRYSTALLIZATION'
+
+	const addAutomationToTitle = () => {
+		infoTitle += " " + OptionsDecorator.optionToLabel(workup.automation, purifyOptions.automation_modes);
+	}
+
+	const addStepsToTitle = () => {
+		if (!isCristallization && steps) {
 			infoTitle += steps.length + " Step";
-			if (steps.length > 1) {
-				infoTitle += "s";
-			}
-			infoTitle += " ";
+			if (steps.length > 1) { infoTitle += "s"; }
 		}
-		// chromatograpy.automation_modes extends general automation_modes
-		infoTitle += OptionsDecorator.optionToLabel(
-			workup.automation,
-			selectOptions.purify.chromatography.automation_modes
-		);
-		if (workup.filtration_mode) {
-			infoTitle +=
-				" Keep " +
-				OptionsDecorator.optionToLabel(
-					workup.filtration_mode,
-					selectOptions.purify.filtration.modes
-				);
-		}
-		if (steps && selectOptions.materials["SOLVENT"]) {
-			for (let i = 0; i < steps.length; i++) {
-				if (steps.length > 1) {
-					infoLines.push("Step " + (i + 1));
-				}
-				infoLines.push(
-					PurifyDecorator.filtrationStepInfo(
-						steps[i],
-						selectOptions.materials["SOLVENT"]
-					)
-				);
-			}
-		}
+	}
+
+	const addPurifySolventsToLines = () => {
+		infoLines = infoLines.concat(PurifyDecorator.infoLinePurifySolvents(workup, purifyOptions.solvent_options))
+	}
+
+	switch (workup.purify_type) {
+		case "CRYSTALLIZATION":
+		case "CHROMATOGRAPHY":
+			addStepsToTitle()
+			addAutomationToTitle()
+			addPurifySolventsToLines()
+			break;
+		case "EXTRACTION":
+			addStepsToTitle()
+			infoTitle += " " + workup.automation.toLowerCase() + ", Phase: " + workup.phase.toLowerCase();
+			addPurifySolventsToLines()
+			break;
+		case "FILTRATION":
+			addStepsToTitle()
+			addAutomationToTitle()
+			infoTitle += " Keep " + OptionsDecorator.optionToLabel(workup.filtration_mode, purifyOptions.modes
+			);
+			addPurifySolventsToLines()
+			break;
+		default:
+			infoTitle = "Data Error: Unknown Purification Type # " + workup.purify_type + " #"
+			break;
 	}
 
 	return (

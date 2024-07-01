@@ -22,7 +22,7 @@ const FiltrationStepForm = ({
   initialShowForm
 }) => {
   const selectOptions = useContext(SelectOptions);
-  const purifySolventOptions = selectOptions.materials["SOLVENT"];
+  const solventOptions = selectOptions.purify.FILTRATION.solvent_options;
   const subFormController = useContext(SubFormController);
 
   const label = "Filtration Step " + (index + 1);
@@ -58,13 +58,13 @@ const FiltrationStepForm = ({
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={PurifyDecorator.filtrationStepInfo(
+      valueSummary={PurifyDecorator.purifyStepInfo(
         {
           solvents,
           amount,
           repetitions,
         },
-        purifySolventOptions
+        solventOptions
       )}
       onSave={handleSave}
       onCancel={onCancel}
@@ -80,7 +80,7 @@ const FiltrationStepForm = ({
       )}
       <SolventListForm
         solvents={solvents}
-        solventOptions={purifySolventOptions}
+        solventOptions={solventOptions}
         setSolvents={setSolvents}
       />
       <FormGroup>

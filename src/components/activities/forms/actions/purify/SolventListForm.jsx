@@ -2,8 +2,9 @@ import React from 'react'
 import { FormGroup, Label, Row } from 'reactstrap'
 import Select from "react-select";
 
-import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 import { SolventListEntry } from './SolventListEntry';
+
+import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 const SolventListForm = ({
 	label = 'Solvent',
@@ -30,15 +31,16 @@ const SolventListForm = ({
 					<Label className='col-9 col-form-label'>{label}</Label>
 					<Label className='col-3 col-form-label'>Ratio</Label>
 				</Row>
-				{solvents.map((solvent, idx) =>
-					<SolventListEntry
-						label={solvent.label}
+				{solvents.map((solvent, idx) => {
+					return (<SolventListEntry
+						label={OptionsDecorator.optionToLabel(solvent.id, solventOptions)}
 						ratio={solvent.ratio}
 						index={idx}
 						onRemoveSolvent={removeSolvent}
 						onSetRatio={handleSetRatio(idx)}
 						key={solvent.id + '-' + idx}
-					/>
+					/>)
+				}
 				)}
 			</div>
 			<Select

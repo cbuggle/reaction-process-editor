@@ -1,16 +1,17 @@
 import React, { useContext, useState } from "react";
 import { Button, FormGroup, Label } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
-import DurationSelection from "../../../../utilities/DurationSelection";
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import DurationSelection from "../../../../utilities/DurationSelection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
 
+import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
+
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ChromatographyStepForm = ({
   index,
@@ -21,8 +22,8 @@ const ChromatographyStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const selectOptions = useContext(SelectOptions);
-  const purifySolventOptions = selectOptions.materials["MODIFIER"];
+  const chromatographyOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY;
+  const solventOptions = chromatographyOptions.solvent_options;
   const subFormController = useContext(SubFormController);
 
   const label = "Chromatography Step " + (index + 1);
@@ -36,10 +37,10 @@ const ChromatographyStepForm = ({
   );
 
   const [stepMode, setStepMode] = useState(
-    workup?.step_mode || selectOptions.purify.chromatography.step_modes[0].value
+    workup?.step_mode || chromatographyOptions.step_modes[0].value
   );
   const [prodMode, setProdMode] = useState(
-    workup?.prod_mode || selectOptions.purify.chromatography.prod_modes[0].value
+    workup?.prod_mode || chromatographyOptions.prod_modes[0].value
   );
 
   const handleSave = () => {
@@ -60,16 +61,12 @@ const ChromatographyStepForm = ({
     onDelete(index);
   };
 
+  const summary = PurifyDecorator.infoLineSolventsWithRatio({ solvents, amount })
+
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityInfoDecorator.chromatographyStepInfo(
-        {
-          solvents,
-          amount,
-        },
-        purifySolventOptions
-      )}
+      valueSummary={summary}
       onSave={handleSave}
       onCancel={onCancel}
       typeColor="action"
@@ -85,7 +82,7 @@ const ChromatographyStepForm = ({
       <SolventListForm
         label={'Modifier'}
         solvents={solvents}
-        solventOptions={purifySolventOptions}
+        solventOptions={solventOptions}
         setSolvents={setSolvents}
       />
       <FormGroup>
@@ -110,13 +107,13 @@ const ChromatographyStepForm = ({
         <Label>Step</Label>
         <ButtonGroupToggle
           value={stepMode}
-          options={selectOptions.purify.chromatography.step_modes}
+          options={chromatographyOptions.step_modes}
           onChange={(selectedValue) => setStepMode(selectedValue)}
         />
         <Label>Prod</Label>
         <ButtonGroupToggle
           value={prodMode}
-          options={selectOptions.purify.chromatography.prod_modes}
+          options={chromatographyOptions.prod_modes}
           onChange={(selectedValue) => setProdMode(selectedValue)}
         />
       </FormGroup>

@@ -54,22 +54,8 @@ export default class ActivityInfoDecorator {
       case "IRRADIATION":
         return MetricsDecorator.infoLineAmount(conditionWorkup);
       default:
-        return this.infoLineAmountWithDelta(conditionWorkup, precondition);
+        return MetricsDecorator.infoLineAmountWithDelta(conditionWorkup, precondition);
     }
-  };
-
-  static infoLineAmountWithDelta = (conditionWorkup, precondition) => {
-    let info = MetricsDecorator.infoLineAmount(conditionWorkup);
-    if (!!precondition) {
-      let valueDiff =
-        Math.round((conditionWorkup.value - precondition.value) * 100) / 100;
-      if (valueDiff > 0) {
-        valueDiff = "+" + valueDiff;
-      }
-      info += " (" + valueDiff + ")";
-    }
-
-    return info;
   };
 
   static infoLineMotion = (conditionWorkup, selectOptions) => {

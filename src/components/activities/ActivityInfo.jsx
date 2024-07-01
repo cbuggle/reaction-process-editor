@@ -16,7 +16,8 @@ import { SelectOptions } from "../../contexts/SelectOptions";
 const ActivityInfo = (props) => {
   const selectOptions = useContext(SelectOptions);
 
-  const workup = props.activity.workup;
+  const activity = props.activity
+  const workup = activity.workup;
 
   const renderActivityInfo = () => {
 
@@ -29,23 +30,18 @@ const ActivityInfo = (props) => {
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
       'WAIT': WaitInfo,
-    }[props.activity.activity_name]
+    }[activity.activity_name]
 
     if (ActivityComponent) {
-      return (<ActivityComponent {... props} />
+      return (<ActivityComponent {...props} />
       )
     } else {
-      return "Error in Activity. Unknown ACTIVITY_NAME: *** " + props.activity.activity_name + " ***"
+      return "Error in Activity. Unknown ACTIVITY_NAME: *** " + activity.activity_name + " ***"
     }
   };
 
   const renderEquipmentLines = () => {
-    return (<>
-      {ActivityInfoDecorator.infoLineEquipment(
-        workup.EQUIPMENT,
-        selectOptions.equipment
-      )}
-    </>)
+    return ActivityInfoDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment)
   }
 
   const renderDescription = () => {

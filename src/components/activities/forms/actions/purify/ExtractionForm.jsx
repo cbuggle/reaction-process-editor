@@ -19,14 +19,13 @@ const ExtractionForm = ({
   handleCancelStep,
   handleDeleteStep
 }) => {
-  const selectOptions = useContext(SelectOptions);
-  const phaseOptions = selectOptions.purify.extraction.phases;
+  const extractionOptions = useContext(SelectOptions).purify.EXTRACTION;
 
   const renderAutomationToggle = () => {
     return (
       <ButtonGroupToggle
         value={workup.automation}
-        options={selectOptions.automation_modes}
+        options={extractionOptions.automation_modes}
         onChange={(selectedValue) =>
           onWorkupChange({ name: "automation", value: selectedValue })
         }
@@ -39,7 +38,7 @@ const ExtractionForm = ({
     return (
       <ButtonGroupToggle
         value={workup.phase}
-        options={phaseOptions}
+        options={extractionOptions.phases}
         onChange={(selectedValue) =>
           onWorkupChange({ name: "phase", value: selectedValue })
         }
@@ -71,6 +70,7 @@ const ExtractionForm = ({
       {showNewStepForm &&
         <ExtractionStepForm
           index={workup.purify_steps?.length || 0}
+          workup={workup.purify_steps?.at(-1)}
           initialShowForm={true}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
