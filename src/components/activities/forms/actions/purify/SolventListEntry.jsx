@@ -13,9 +13,7 @@ export const SolventListEntry = (
     onRemoveSolvent,
     onSetRatio
   }) => {
-  const handleSetRatio = (value) => {
-    onSetRatio({ value, index })
-  }
+
   return (
     <Row className='gx-2 py-1 px-2 mx-0'>
       <Label className='col-9 col-form-label'>
@@ -27,7 +25,7 @@ export const SolventListEntry = (
           value={ratio}
           min={MetricsDecorator.unitType('RATIO').inputRange.min}
           initialstep={MetricsDecorator.unitType('RATIO').inputRange.initialstep}
-          onChange={handleSetRatio}
+          onChange={onSetRatio}
         />
       </div>
       <div className='col-1 d-flex flex-column justify-content-center'>

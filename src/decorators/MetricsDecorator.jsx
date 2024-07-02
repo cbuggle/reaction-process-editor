@@ -41,4 +41,18 @@ export default class MetricsDecorator {
   static infoLineAmountWithPercentage(amount) {
     return this.infoLineAmount(amount) + ' (' + parseFloat(amount?.percentage).toPrecision(3) + '%)'
   }
+
+  static infoLineAmountWithDelta = (conditionWorkup, precondition) => {
+    let info = MetricsDecorator.infoLineAmount(conditionWorkup);
+    if (!!precondition) {
+      let valueDiff =
+        Math.round((conditionWorkup.value - precondition.value) * 100) / 100;
+      if (valueDiff > 0) {
+        valueDiff = "+" + valueDiff;
+      }
+      info += " (" + valueDiff + ")";
+    }
+
+    return info;
+  };
 }

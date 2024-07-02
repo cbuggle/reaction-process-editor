@@ -2,8 +2,9 @@ import React from 'react'
 import { FormGroup, Label, Row } from 'reactstrap'
 import Select from "react-select";
 
-import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 import { SolventListEntry } from './SolventListEntry';
+
+import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 const SolventListForm = ({
 	label = 'Solvent',
@@ -12,19 +13,15 @@ const SolventListForm = ({
 	setSolvents
 }) => {
 
-	const solventIds = solvents.map((solvent) => solvent.id)
+	const solventIds = solvents.map((solvent) => solvent.value)
 	const selectableSolventOptions = solventOptions.filter(item => !solventIds.includes(item.value))
 
-	const addSolvent = (solventId) => setSolvents(solvents.concat({ id: solventId, ratio: 1 }))
+	const addSolvent = (solvent) => setSolvents(solvents.concat({ ...solvent, ratio: 1 }))
 
 	const removeSolvent = (idx) => () => setSolvents(solvents.toSpliced(idx, 1))
 
-	const handleSetRatio = (ratio) => {
-		setSolvents(solvents.toSpliced(
-			ratio.index,
-			1,
-			{ id: solvents[ratio.index].id, ratio: ratio.value }
-		))
+	const handleSetRatio = (index) => (ratio) => {
+		setSolvents(solvents.toSpliced(index, 1, { ...solvents[index], ratio: ratio }))
 	}
 
 	return (
@@ -34,15 +31,16 @@ const SolventListForm = ({
 					<Label className='col-9 col-form-label'>{label}</Label>
 					<Label className='col-3 col-form-label'>Ratio</Label>
 				</Row>
-				{solvents.map((solvent, idx) =>
-					<SolventListEntry
+				{solvents.map((solvent, idx) => {
+					return (<SolventListEntry
 						label={OptionsDecorator.optionToLabel(solvent.id, solventOptions)}
 						ratio={solvent.ratio}
 						index={idx}
 						onRemoveSolvent={removeSolvent}
-						onSetRatio={handleSetRatio}
+						onSetRatio={handleSetRatio(idx)}
 						key={solvent.id + '-' + idx}
-					/>
+					/>)
+				}
 				)}
 			</div>
 			<Select
@@ -52,7 +50,7 @@ const SolventListForm = ({
 				name="purify_solvent_solvent_ids"
 				options={selectableSolventOptions}
 				value={''}
-				onChange={selectedOption => addSolvent(selectedOption.value)}
+				onChange={selectedOption => addSolvent(selectedOption)}
 			/>
 		</FormGroup>
 	)

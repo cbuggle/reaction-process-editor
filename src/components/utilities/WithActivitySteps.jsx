@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const withActivitySteps = (WrappedComponent, stepsWorkupKey) => {
   const WithActivitySteps = (props) => {
-    const [activitySteps, setActivitySteps] = useState(props.workup[stepsWorkupKey] || []);
+
+    const workupActivitySteps = props.workup[stepsWorkupKey]
+
+    const [activitySteps, setActivitySteps] = useState(workupActivitySteps || []);
     const [showNewStepForm, setShowNewStepForm] = useState(false);
+
+    useEffect(() => {
+      setActivitySteps(workupActivitySteps || [])
+    }, [props.workup, workupActivitySteps])
 
     const addStep = () => setShowNewStepForm(true);
 

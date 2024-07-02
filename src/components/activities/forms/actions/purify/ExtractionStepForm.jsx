@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { Button, FormGroup } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import DurationSelection from "../../../../utilities/DurationSelection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
+
+import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
@@ -20,8 +21,7 @@ const ExtractionStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const selectOptions = useContext(SelectOptions);
-  const purifySolventOptions = selectOptions.materials["SOLVENT"];
+  const extractionOptions = useContext(SelectOptions).purify.EXTRACTION;
   const subFormController = useContext(SubFormController);
 
   const label = "Extraction Step " + (index + 1);
@@ -35,7 +35,6 @@ const ExtractionStepForm = ({
   const [flowRate, setFlowRate] = useState(
     workup?.flow_rate || { value: undefined, unit: "MLMIN" }
   );
-
 
   const handleSave = () => {
     onSave({
@@ -57,12 +56,12 @@ const ExtractionStepForm = ({
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityInfoDecorator.filtrationStepInfo(
+      valueSummary={PurifyDecorator.infoLineSolventsWithRatio(
         {
           solvents,
           amount,
         },
-        purifySolventOptions
+        extractionOptions.solvent_options
       )}
       onSave={handleSave}
       onCancel={onCancel}
@@ -78,7 +77,7 @@ const ExtractionStepForm = ({
       )}
       <SolventListForm
         solvents={solvents}
-        solventOptions={purifySolventOptions}
+        solventOptions={extractionOptions.solvent_options}
         setSolvents={setSolvents}
       />
       <FormGroup>

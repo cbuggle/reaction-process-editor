@@ -16,7 +16,7 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
   };
 
   const availableAmounts = (sample) => {
-    return SamplesDecorator.availableAmounts(sample["unit_amounts"]);
+    return SamplesDecorator.infoAvailableAmounts(sample["unit_amounts"]);
   };
 
   const formatOptionLabel = ({ label, value }) => (
