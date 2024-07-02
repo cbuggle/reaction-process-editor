@@ -4,9 +4,10 @@ import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FiltrationStepForm from "./FiltrationStepForm";
 import FormSection from '../../../../utilities/FormSection'
-import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
+
+import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 const FiltrationForm = (
   {
@@ -20,14 +21,13 @@ const FiltrationForm = (
     handleDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions)
-  const filtrationModeOptions = selectOptions.purify.filtration.modes
+  const filtrationOptions = useContext(SelectOptions).purify.FILTRATION
 
   const renderFilterMethodToggle = () => {
     return (
       <ButtonGroupToggle
         value={workup.filtration_mode}
-        options={filtrationModeOptions}
+        options={filtrationOptions.modes}
         onChange={selectedValue => onWorkupChange({ name: 'filtration_mode', value: selectedValue })}
         label='Keep'
       />
@@ -38,7 +38,7 @@ const FiltrationForm = (
     return (
       <ButtonGroupToggle
         value={workup.automation}
-        options={selectOptions.automation_modes}
+        options={filtrationOptions.automation_modes}
         onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
         label='Automation'
       />

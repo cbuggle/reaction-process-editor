@@ -5,15 +5,16 @@ import Select from 'react-select'
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import ChromatographyStepForm from "./ChromatographyStepForm";
-import WavelengthListForm from './WavelengthListForm';
 import FormSection from '../../../../utilities/FormSection'
 import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
-import withActivitySteps from '../../../../utilities/WithActivitySteps';
+import WavelengthListForm from './WavelengthListForm';
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
+
+import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 const ChromatographyForm = (
   {
@@ -27,7 +28,7 @@ const ChromatographyForm = (
     handleDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).purify.chromatography
+  const selectOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY
   const [currentColumnType, setCurrentColumnType] = useState(workup.column_type)
 
   useEffect(() => {

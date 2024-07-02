@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 import DurationSelection from "../../../../utilities/DurationSelection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "./SolventListForm";
+
+import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
@@ -21,7 +22,7 @@ const FiltrationStepForm = ({
   initialShowForm
 }) => {
   const selectOptions = useContext(SelectOptions);
-  const purifySolventOptions = selectOptions.materials["SOLVENT"];
+  const solventOptions = selectOptions.purify.FILTRATION.solvent_options;
   const subFormController = useContext(SubFormController);
 
   const label = "Filtration Step " + (index + 1);
@@ -57,13 +58,13 @@ const FiltrationStepForm = ({
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={ActivityInfoDecorator.filtrationStepInfo(
+      valueSummary={PurifyDecorator.purifyStepInfo(
         {
           solvents,
           amount,
           repetitions,
         },
-        purifySolventOptions
+        solventOptions
       )}
       onSave={handleSave}
       onCancel={onCancel}
@@ -79,7 +80,7 @@ const FiltrationStepForm = ({
       )}
       <SolventListForm
         solvents={solvents}
-        solventOptions={purifySolventOptions}
+        solventOptions={solventOptions}
         setSolvents={setSolvents}
       />
       <FormGroup>

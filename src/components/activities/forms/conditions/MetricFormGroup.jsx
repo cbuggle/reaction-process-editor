@@ -56,9 +56,9 @@ const MetricFormGroup = ({
   const resetEquipment = () =>
     setEquipment(workup["EQUIPMENT"]?.["value"] || []);
 
-  // eslint-disable-next-line
   useEffect(() => {
     resetEquipment();
+    // eslint-disable-next-line
   }, [workup]);
 
   const handleSave = (condition) => {

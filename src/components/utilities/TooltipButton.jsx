@@ -13,7 +13,7 @@ const TooltipButton = ({ tooltip }) => {
       <FontAwesomeIcon
         id={tooltipId}
         icon={faInfoCircle}
-        size="s"
+        size="sm"
         className='ms-2 mt-1'
         href="#"
       />

@@ -13,38 +13,40 @@ const CrystallizationForm = (
   {
     workup,
     preconditions,
-    onWorkupChange
+    onWorkupChange,
   }) => {
 
-  const solvents = workup.solvents || []
+  const solvents = workup['purify_steps']?.[0]?.solvents || []
   const amount = workup.amount || { value: 0, unit: 'ml' }
 
-  const selectOptions = useContext(SelectOptions)
-  const solventOptions = selectOptions.materials['ADDITIVE']
-  const crystallizationModeOptions = selectOptions.purify.crystallization.modes
+  const crystallizationOptions = useContext(SelectOptions).purify.CRYSTALLIZATION
 
   useEffect(() => {
     workup.automation ||
-      onWorkupChange({ name: 'automation', value: selectOptions.automation_modes[0].value })
+      onWorkupChange({ name: 'automation', value: crystallizationOptions.automation_modes[0].value })
     workup.TEMPERATURE ||
       onWorkupChange({ name: 'TEMPERATURE', value: preconditions.TEMPERATURE })
     workup.crystallization_mode ||
-      onWorkupChange({ name: 'crystallization_mode', value: selectOptions.purify.crystallization.modes[0]['value'] })
+      onWorkupChange({ name: 'crystallization_mode', value: crystallizationOptions.modes[0]['value'] })
     workup.heating_duration ||
       onWorkupChange({ name: 'heating_duration', value: 0 })
     workup.cooling_duration ||
       onWorkupChange({ name: 'cooling_duration', value: 0 })
-      // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
+
+  // Crystallization is the only 1 of 4 the purify types having no actual purify_steps. For consistentency we mimic
+  // their behaiour by wrapping the crystallizatin in an array `purify_steps` with exactly 1 step. cbuggle, 01.07.2024.
+  const handleSolventsChange = (solvents) => onWorkupChange({ name: 'purify_steps', value: [{solvents: solvents}]})
 
   return (
     <>
       <FormSection type='action'>
         <ButtonGroupToggle
           value={workup.automation}
-          options={selectOptions.automation_modes}
+          options={crystallizationOptions.automation_modes}
           onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
           label='Automation'
         />
@@ -53,8 +55,8 @@ const CrystallizationForm = (
         <FormGroup>
           <SolventListForm
             solvents={solvents}
-            solventOptions={solventOptions}
-            setSolvents={handleWorkupChange('solvents')}
+            solventOptions={crystallizationOptions.solvent_options}
+            setSolvents={handleSolventsChange}
           />
         </FormGroup>
         <FormGroup>
@@ -88,10 +90,10 @@ const CrystallizationForm = (
         <ButtonGroupToggle
           label="Filtration"
           value={workup.crystallization_mode}
-          options={crystallizationModeOptions}
-          onChange={handleWorkupChange('crystallization_mode')}
-        />
-      </FormSection >
+          options={crystallizationOptions.modes}
+          onChange={handleWorkupChange('crystallization_mode')} />
+      </FormSection>
+
     </>
   )
 }
