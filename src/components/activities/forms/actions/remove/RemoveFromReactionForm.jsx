@@ -26,8 +26,6 @@ const RemoveFromReactionForm = ({ workup, onWorkupChange }) => {
 
 	return (
 		<FormSection>
-			{console.log("Rempove Sample select workup")}
-			{console.log(workup)}
 			<SingleLineFormGroup label={'Samples'}>
 				<Select
 					isMulti
@@ -36,8 +34,7 @@ const RemoveFromReactionForm = ({ workup, onWorkupChange }) => {
 					classNamePrefix="react-select"
 					name="samples"
 					options={removableSamplesOptions}
-					selected={workup.samples}
-					// value={workup.samples}
+					value={workup.samples}
 					onChange={handleSampleChange}
 				/>
 			</SingleLineFormGroup>

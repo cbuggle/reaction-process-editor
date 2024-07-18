@@ -23,18 +23,14 @@ const RemoveFromMethodStepForm = ({
 	const [conditionsForm, setConditionsForm] = useState(workup || {});
 
 	const summary = ActivityInfoDecorator.infoLineRemoveConditions(conditionsForm)
+
 	label ||= "Limits Step " + (index + 1);
 
-	const changeCondition = (name) => (value) => {
-		setConditionsForm({ ...conditionsForm, [name]: value })
-	}
-	const handleSave = () => {
-		onSave({ index, data: conditionsForm })
-	}
+	const changeCondition = (name) => (value) => { setConditionsForm({ ...conditionsForm, [name]: value }) }
 
-	const handleDelete = () => {
-		onDelete(index);
-	};
+	const handleSave = () => { onSave({ index, data: conditionsForm }) }
+
+	const handleDelete = () => { onDelete(index); };
 
 	return (
 		<OptionalFormSet

@@ -29,8 +29,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
     // eslint-disable-next-line
   }, [workup.sample_origin_purify_step])
 
-  const handleChangeSampleWorkup = (workupKey) => (value) => {
-    onWorkupChange({ name: workupKey, value: value });
+  const handleWorkupChange = (name) => (value) => {
+    onWorkupChange({ name: name, value: value });
   };
 
   const handleChangeAction = (action) => {
@@ -55,7 +55,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           name="sample_origin_purify_step"
           options={currentAction?.purify_steps || []}
           value={workup.sample_origin_purify_step}
-          onChange={(selectedOption) => handleChangeSampleWorkup("sample_origin_purify_step")(selectedOption)}
+          onChange={(selectedOption) => handleWorkupChange("sample_origin_purify_step")(selectedOption)}
         />
       </SingleLineFormGroup>
       <SingleLineFormGroup label={'Solvents'}>
@@ -83,11 +83,11 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             displayMultiLine
             metricName={"VOLUME"}
             amount={workup.extra_solvents_amount}
-            onChange={handleChangeSampleWorkup('extra_solvents_amount')}
+            onChange={handleWorkupChange('extra_solvents_amount')}
           />
         </SingleLineFormGroup>
 
-        <SingleLineFormGroup label="Extra Solvents">
+        <SingleLineFormGroup label="Solvents">
           <Select
             className="react-select--overwrite"
             classNamePrefix="react-select"
@@ -97,7 +97,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             options={selectOptions.materials.SOLVENT}
             value={workup.extra_solvents}
             onChange={(selectedOptions) =>
-              handleChangeSampleWorkup("extra_solvents")(selectedOptions)
+              handleWorkupChange("extra_solvents")(selectedOptions)
             }
           />
         </SingleLineFormGroup>
@@ -112,7 +112,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           label="Origin"
           value={workup.sample_origin_type || selectOptions.save_sample_origin_types[0].value}
           options={selectOptions.save_sample_origin_types}
-          onChange={handleChangeSampleWorkup("sample_origin_type")}
+          onChange={handleWorkupChange("sample_origin_type")}
         />
       </FormGroup>
     )
@@ -146,7 +146,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         <SamplesIconSelect
           isMulti
           samples={workup.samples}
-          onChange={handleChangeSampleWorkup("samples")} />
+          onChange={handleWorkupChange("samples")} />
       </FormGroup>
 
       <FormGroup>
@@ -155,7 +155,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           value={workup.name}
           placeholder="Name (Leave blank to autofill)"
           onChange={(event) =>
-            handleChangeSampleWorkup("name")(event.target.value)
+            handleWorkupChange("name")(event.target.value)
           }
         />
       </FormGroup>
@@ -166,7 +166,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           value={workup.short_label}
           placeholder="Short Label (Leave blank to autofill)"
           onChange={(event) =>
-            handleChangeSampleWorkup("short_label")(event.target.value)
+            handleWorkupChange("short_label")(event.target.value)
           }
         />
       </FormGroup>
@@ -181,12 +181,12 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         <AmountInputSet
           amount={workup.target_amount}
           maxAmounts={undefined}
-          onChangeAmount={handleChangeSampleWorkup("target_amount")}
+          onChangeAmount={handleWorkupChange("target_amount")}
         />
         <MetricsInput
           metricName={"PURITY"}
           amount={workup.purity}
-          onChange={handleChangeSampleWorkup("purity")}
+          onChange={handleWorkupChange("purity")}
         />
         <SingleLineFormGroup label="Location">
           <Input
@@ -194,7 +194,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             value={workup.location}
             placeholder="Location"
             onChange={(event) =>
-              handleChangeSampleWorkup("location")(event.target.value)
+              handleWorkupChange("location")(event.target.value)
             }
           />
         </SingleLineFormGroup>
@@ -206,7 +206,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             options={selectOptions.save_sample_types}
             value={OptionsDecorator.optionForKey(workup.intermediate_type, selectOptions.save_sample_types)}
             onChange={(selectedOption) =>
-              handleChangeSampleWorkup("intermediate_type")(
+              handleWorkupChange("intermediate_type")(
                 selectedOption.value
               )
             }
@@ -225,7 +225,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             },
           ]}
           onChange={(selectedValue) => {
-            handleChangeSampleWorkup("hide_in_eln")(selectedValue);
+            handleWorkupChange("hide_in_eln")(selectedValue);
           }}
           size="sm"
           label="Display in ELN"
