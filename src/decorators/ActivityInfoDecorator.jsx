@@ -1,6 +1,7 @@
 import MetricsDecorator from "./MetricsDecorator";
 import OptionsDecorator from "./OptionsDecorator";
 import StringDecorator from "./StringDecorator";
+import TimeDecorator from "./TimeDecorator";
 
 export default class ActivityInfoDecorator {
   static cardTitle = (activity) => {
@@ -26,8 +27,8 @@ export default class ActivityInfoDecorator {
           if (workup.sample_name) {
             title += workup.sample_name;
           } else {
-            title +=
-              workup.acts_as === "DIVERSE_SOLVENT" ? "Solvent" : workup.acts_as;
+            title += workup.origin_type
+              // workup.acts_as === "DIVERSE_SOLVENT" ? "Solvent" : workup.acts_as;
           }
           break;
         case "TRANSFER":
@@ -72,7 +73,7 @@ export default class ActivityInfoDecorator {
     ].join(" ");
   };
 
-  static wavelengthsInfo = (wavelengths) => {
+  static infoLineWavelengths = (wavelengths) => {
     return wavelengths?.peaks[0] && (
       wavelengths.is_range ?
         'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'
@@ -88,7 +89,7 @@ export default class ActivityInfoDecorator {
     );
   };
 
-  static addSampleConditionInfoLine = (workup) => {
+  static infoLineAddSampleCondition = (workup) => {
     return [
       "add_sample_velocity",
       "add_sample_temperature",
@@ -103,4 +104,12 @@ export default class ActivityInfoDecorator {
       .filter((el) => el)
       .join(", ");
   };
+
+  static infoLineRemoveConditions = (conditions) => {
+    return [
+      MetricsDecorator.infoLineAmount(conditions?.TEMPERATURE),
+      MetricsDecorator.infoLineAmount(conditions?.PRESSURE),
+      conditions?.duration && TimeDecorator.timeString(conditions?.duration)
+    ].filter((item) => (item)).join(", ");
+  }
 }

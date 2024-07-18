@@ -5,7 +5,7 @@ import ButtonGroupToggle from '../../../../utilities/ButtonGroupToggle';
 import DurationSelection from '../../../../utilities/DurationSelection';
 import FormSection from "../../../../utilities/FormSection";
 import MetricsInput from '../../../../utilities/MetricsInput';
-import SolventListForm from './SolventListForm';
+import SolventListForm from '../../../../utilities/SolventListForm';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 

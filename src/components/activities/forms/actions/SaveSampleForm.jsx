@@ -34,11 +34,13 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   };
 
   const handleChangeAction = (action) => {
-    onWorkupChange({ name: 'sample_origin_purify_step', value: action.purify_steps[0] });
-    onWorkupChange({ name: 'sample_origin_action', value: action });
+    console.log("handleChangeAction")
+    console.log(action)
+    onWorkupChange({ name: 'sample_origin_purify_step', value: action.purify_steps?.[0] });
+    onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
-  const currentAction = workup.sample_origin_action
+  const currentAction = OptionsDecorator.optionForKey(workup.sample_origin_action_id, stepSelectOptions.save_sample_origins)
 
   const purifyStepFormIsDisabled = currentAction?.purify_type === 'CRYSTALLIZATION'
 
@@ -51,7 +53,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="sample_origin_purify_step"
-          options={currentAction?.purify_steps}
+          options={currentAction?.purify_steps || []}
           value={workup.sample_origin_purify_step}
           onChange={(selectedOption) => handleChangeSampleWorkup("sample_origin_purify_step")(selectedOption)}
         />
@@ -69,7 +71,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           <Select
             className="react-select--overwrite"
             classNamePrefix="react-select"
-            name="sample_origin"
+            name="sample_origin_action_id"
             options={stepSelectOptions.save_sample_origins}
             value={currentAction}
             onChange={handleChangeAction}

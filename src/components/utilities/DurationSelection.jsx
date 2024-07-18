@@ -9,7 +9,7 @@ const DurationSelection = (
   {
     label = 'Duration',
     tooltipName,
-    duration,
+    duration=0,
     onChangeDuration,
     disabled
   }) => {
@@ -42,13 +42,13 @@ const DurationSelection = (
     )
   }
 
-
   const renderTooltipLabel = () => {
     return (
-      <TooltipLabel name={tooltipName} label={label} />
+      tooltipName ?
+        <TooltipLabel name={tooltipName} label={label} />
+        : label
     )
   }
-
 
   return (
     <FormGroup className='row gx-2 pt-1 duration-selection'>

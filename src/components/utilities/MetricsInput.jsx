@@ -29,7 +29,7 @@ const MetricsInput = (
   const unitIsSelectable = availableUnitOptions.length > 1
 
   const localUnit = amount?.unit || MetricsDecorator.defaultUnit(metricName)
-  const inputRange = MetricsDecorator.unitType(localUnit).inputRange || {}
+  const inputRange = MetricsDecorator.inputRange(localUnit) || {}
   const localMax = max || max === 0 ? max : inputRange.max
   const localMin = min || min === 0 ? min : inputRange.min
 

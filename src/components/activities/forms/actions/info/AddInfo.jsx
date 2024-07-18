@@ -11,7 +11,7 @@ const AddInfo = ({ activity }) => {
 	let infoTitle = MetricsDecorator.infoLineAmount(workup.target_amount);
 
 	let infoLines = []
-	infoLines.push(ActivityInfoDecorator.addSampleConditionInfoLine(workup));
+	infoLines.push(ActivityInfoDecorator.infoLineAddSampleCondition(workup));
 	workup.acts_as === "SOLVENT" && infoLines.push(workup.is_waterfree_solvent ? "waterfree" : "not waterfree");
 
 	const renderSampleSvg = () => workup.acts_as === "SAMPLE" ? SamplesDecorator.sampleSvgImg(activity.sample) : <></>
