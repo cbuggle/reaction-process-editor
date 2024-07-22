@@ -34,8 +34,6 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   };
 
   const handleChangeAction = (action) => {
-    console.log("handleChangeAction")
-    console.log(action)
     onWorkupChange({ name: 'sample_origin_purify_step', value: action.purify_steps?.[0] });
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }

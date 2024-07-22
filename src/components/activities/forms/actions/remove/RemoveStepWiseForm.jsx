@@ -37,7 +37,6 @@ const RemoveStepWiseForm = ({
 				onSave={handleChangeStarterConditions}
 				onCancel={handleCancelStep} />
 			<RemoveLimitsFormSet limits={workup.limits} preconditions={preconditions} onChange={handleWorkupChange('limits')} />
-
 		</>
 	);
 };

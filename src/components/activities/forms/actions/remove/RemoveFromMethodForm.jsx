@@ -22,10 +22,12 @@ const RemoveFromMethodForm = ({
 	handleDeleteStep
 }) => {
 
-	const handleChangeStarterConditions = (name) => {
+	const handleChangeStarterConditions = (value) => {
 		console.log("handleChangeStarterConditions")
-		console.log(name)
-		// console.log(value)
+		console.log(value)
+
+		// TODO: Restrict condition hash to actually required attributes only. (temp, press, duration)
+		onWorkupChange({name: 'starter_conditions', value: value})
 
 	}
 

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { FormGroup, Label } from "reactstrap";
 import Select from "react-select";
 
+import RemoveFromDiverseSolventsForm from "./remove/RemoveFromDiverseSolventsForm";
 import RemoveFromReactionForm from "./remove/RemoveFromReactionForm";
 import RemoveFromSampleForm from "./remove/RemoveFromSampleForm";
 import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
@@ -21,14 +22,13 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
   const stepSelectOptions = useContext(StepSelectOptions);
   const selectOptions = useContext(SelectOptions);
 
-  const removableSamplesOptions = stepSelectOptions.removable_samples[workup.origin_type]
+  useEffect(() => {
+    onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[workup.origin_type] })
+  }, [])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   const handleTypeChange = (newType) => {
-    console.log("handleTypeChange")
-    console.log(removableSamplesOptions)
-    console.log(stepSelectOptions.removable_samples[newType])
     onWorkupChange({ name: "origin_type", value: newType })
     onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[newType] })
     // onWorkupChange({ name: "solvents", value: [] })
@@ -40,8 +40,8 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
         return (<RemoveFromReactionForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'FROM_STEP':
         return (<RemoveFromReactionForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
-      case 'FROM_DIVERSE_SOLVENT':
-        return (<RemoveFromReactionForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
+      case 'DIVERSE_SOLVENTS':
+        return (<RemoveFromDiverseSolventsForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'FROM_SAMPLE':
         return (<RemoveFromSampleForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'FROM_METHOD':
@@ -77,13 +77,6 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
 
       </FormSection>
       {renderGenericRemoveFormSections()}
-
-      <FormSection>
-        <AmountInputSet
-          amount={workup.amount}
-          onChangeAmount={handleWorkupChange('amount')} />
-      </FormSection>
-
     </>
   );
 };

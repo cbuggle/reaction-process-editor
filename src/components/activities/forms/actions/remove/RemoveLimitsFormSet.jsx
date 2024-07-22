@@ -22,9 +22,6 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
   const handleCancel = () => { setLimitsForm(limits || emptyLimitsForm) }
 
   const changeLimit = (name) => (value) => {
-    console.log("changeLimit")
-    console.log(name)
-    console.log(value)
     setLimitsForm({ ...limitsForm, [name]: value })
   }
 
@@ -42,9 +39,6 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
           <FontAwesomeIcon icon="undo-alt" /> Reset
         </Button>
       </OptionalFormSet.ExtraButton>
-      <div>
-        Continuous/Starter Conditions
-      </div>
       <div>
         {ActivityInfoDecorator.infoLineRemoveConditions(preconditions)}
       </div>
