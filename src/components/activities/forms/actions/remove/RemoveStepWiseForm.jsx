@@ -1,13 +1,9 @@
 import React from 'react'
 
-import { Label } from 'reactstrap';
-
-import RemoveConditionsForm from './RemoveConditionsForm';
 import RemoveLimitsFormSet from './RemoveLimitsFormSet';
 import RemoveFromMethodStepForm from './RemoveFromMethodStepForm';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps'
-import FormSection from '../../../../utilities/FormSection';
 
 const RemoveStepWiseForm = ({
 	workup,
@@ -18,7 +14,6 @@ const RemoveStepWiseForm = ({
 	const handleWorkupChange = (name) => (value) => {
 		onWorkupChange({ name: name, value: value })
 	}
-
 
 	const handleChangeStarterConditions = (value) => {
 		// TODO: Restrict condition hash to actually required attributes only. (temp, press, duration)
@@ -39,6 +34,3 @@ const RemoveStepWiseForm = ({
 };
 
 export default withActivitySteps(RemoveStepWiseForm, 'remove_steps')
-
-
-

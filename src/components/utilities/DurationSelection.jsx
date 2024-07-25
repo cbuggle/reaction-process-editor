@@ -9,7 +9,7 @@ const DurationSelection = (
   {
     label = 'Duration',
     tooltipName,
-    duration=0,
+    duration = 0,
     onChangeDuration,
     disabled
   }) => {
@@ -44,9 +44,7 @@ const DurationSelection = (
 
   const renderTooltipLabel = () => {
     return (
-      tooltipName ?
-        <TooltipLabel name={tooltipName} label={label} />
-        : label
+      tooltipName ? <TooltipLabel name={tooltipName} label={label} /> : label
     )
   }
 

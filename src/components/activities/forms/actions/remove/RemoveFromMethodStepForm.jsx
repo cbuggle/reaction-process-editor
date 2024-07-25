@@ -63,6 +63,3 @@ const RemoveFromMethodStepForm = ({
 };
 
 export default RemoveFromMethodStepForm
-
-
-

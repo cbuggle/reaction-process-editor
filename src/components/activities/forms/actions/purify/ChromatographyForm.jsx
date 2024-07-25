@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
+import ChromatographyStepForm from "./ChromatographyStepForm";
+
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
-import ChromatographyStepForm from "./ChromatographyStepForm";
 import FormSection from '../../../../utilities/FormSection'
 import MetricsInput from '../../../../utilities/MetricsInput';
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
@@ -55,7 +56,7 @@ const ChromatographyForm = (
     let detectors = selected.map(option => option.value)
 
     if (detectors.length > 1 && detectors.find(el => el === 'NO_DETECTOR')) {
-      // 'NO_DETECTOR' is a sspecial case / setting on some devices and needs to be the sole selection.
+      // 'NO_DETECTOR' is a special case (setting on some devices) and needs to be the sole selection.
       // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
       onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
     } else {

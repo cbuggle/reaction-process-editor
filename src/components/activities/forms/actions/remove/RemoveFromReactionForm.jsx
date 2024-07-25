@@ -13,10 +13,6 @@ const RemoveFromReactionForm = ({ workup, onWorkupChange }) => {
 	const stepSelectOptions = useContext(StepSelectOptions);
 	const removableSamplesOptions = stepSelectOptions.removable_samples[workup.origin_type]
 
-	const handleSampleChange = (samples) => {
-		onWorkupChange({ name: "samples", value: samples });
-	}
-
 	const handleWorkupChange = (name) => (value) => {
 		onWorkupChange({ name: name, value: value });
 	}
@@ -33,7 +29,7 @@ const RemoveFromReactionForm = ({ workup, onWorkupChange }) => {
 						name="samples"
 						options={removableSamplesOptions}
 						value={workup.samples}
-						onChange={handleSampleChange}
+						onChange={handleWorkupChange('samples')}
 					/>
 				</SingleLineFormGroup>
 			</FormSection>

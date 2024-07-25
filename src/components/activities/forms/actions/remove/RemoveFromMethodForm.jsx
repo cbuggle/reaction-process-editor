@@ -68,6 +68,3 @@ const RemoveFromMethodForm = ({
 };
 
 export default withActivitySteps(RemoveFromMethodForm, 'remove_steps')
-
-
-

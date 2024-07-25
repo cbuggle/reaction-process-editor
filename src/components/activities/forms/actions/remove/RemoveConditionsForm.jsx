@@ -4,12 +4,9 @@ import DurationSelection from '../../../../utilities/DurationSelection'
 import MetricsInput from '../../../../utilities/MetricsInput'
 
 const RemoveConditionsForm = ({
-	workup,
 	conditions,
 	onChange,
-	onWorkupChange,
 }) => {
-
 
 	const [conditionsForm, setConditionsForm] = useState(conditions || {})
 
@@ -18,8 +15,6 @@ const RemoveConditionsForm = ({
 		setConditionsForm(newConditions)
 		onChange(newConditions)
 	}
-
-
 
 	return (
 		<>
@@ -39,6 +34,3 @@ const RemoveConditionsForm = ({
 };
 
 export default RemoveConditionsForm
-
-
-

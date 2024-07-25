@@ -4,6 +4,7 @@ import Select from "react-select";
 
 import { SolventRatioListEntry } from './SolventRatioListEntry';
 import { SolventAmountListEntry } from './SolventAmountListEntry';
+
 import MetricsDecorator from '../../decorators/MetricsDecorator';
 
 const SolventListForm = ({
@@ -20,10 +21,6 @@ const SolventListForm = ({
 	const addSolvent = (solvent) => setSolvents(solvents.concat({ ...solvent, ratio: 1 }))
 
 	const removeSolvent = (idx) => () => setSolvents(solvents.toSpliced(idx, 1))
-
-	// const handleSetRatio = (index) => (ratio) => {
-	// 	setSolvents(solvents.toSpliced(index, 1, { ...solvents[index], ratio: ratio }))
-	// }
 
 	const handleSetAmount = (name, index) => (value) => {
 		setSolvents(solvents.toSpliced(index, 1, { ...solvents[index], [name]: value }))
@@ -45,7 +42,6 @@ const SolventListForm = ({
 				key={solvent.id + '-' + idx}
 			/>)
 	}
-
 
 	return (
 		<FormGroup className="mb-2">

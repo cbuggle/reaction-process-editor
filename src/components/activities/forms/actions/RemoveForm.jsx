@@ -8,7 +8,6 @@ import RemoveFromSampleForm from "./remove/RemoveFromSampleForm";
 import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
 import RemoveStepWiseForm from "./remove/RemoveStepWiseForm";
 
-import AmountInputSet from "../../../utilities/AmountInputSet";
 import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
 import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
@@ -31,7 +30,6 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
   const handleTypeChange = (newType) => {
     onWorkupChange({ name: "origin_type", value: newType })
     onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[newType] })
-    // onWorkupChange({ name: "solvents", value: [] })
   }
 
   const renderGenericRemoveFormSections = () => {
@@ -62,7 +60,6 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
           <ButtonGroupToggle value={workup.automation} options={selectOptions.automation_modes}
             onChange={handleWorkupChange('automation')} />
         </FormGroup>
-
         <SingleLineFormGroup label="Origin">
           <Select
             className="react-select--overwrite"
@@ -74,7 +71,6 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
             }
           />
         </SingleLineFormGroup>
-
       </FormSection>
       {renderGenericRemoveFormSections()}
     </>

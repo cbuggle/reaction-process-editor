@@ -2,8 +2,9 @@ import React from "react";
 import { Label, Row } from "reactstrap";
 
 import IconButton from "./IconButton";
-import MetricsDecorator from "../../decorators/MetricsDecorator";
 import NumericalInput from "./NumericalInput";
+
+import MetricsDecorator from "../../decorators/MetricsDecorator";
 
 export const SolventAmountListEntry = (
   {

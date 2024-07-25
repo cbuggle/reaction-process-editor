@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { FormGroup } from 'reactstrap'
+import AmountInputSet from '../../../../utilities/AmountInputSet'
 
 import FormSection from '../../../../utilities/FormSection'
 

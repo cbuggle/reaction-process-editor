@@ -28,7 +28,6 @@ export default class ActivityInfoDecorator {
             title += workup.sample_name;
           } else {
             title += workup.origin_type
-              // workup.acts_as === "DIVERSE_SOLVENT" ? "Solvent" : workup.acts_as;
           }
           break;
         case "TRANSFER":
