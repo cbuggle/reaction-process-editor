@@ -51,7 +51,6 @@ const Reaction = () => {
       window.removeEventListener('requireReload', requireReload);
       window.removeEventListener('reloadDone', reloadDone);
     };
-    // We ignore the warnings which is recommended only if you know exactly what you are doing which I do not. cbuggle.
     // eslint-disable-next-line
   }, [location]);
 

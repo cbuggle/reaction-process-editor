@@ -95,7 +95,7 @@ const WavelengthListForm = (
           <div className='d-flex flex-column justify-content-center'>
             <Button color='action' className='create-button' onClick={addPeak} size={'sm'} >
               <FontAwesomeIcon icon={"plus"} />
-              <span>Add Peak</span>
+              <span>Add Wavelength</span>
             </Button>
           </div>
         </Row>
@@ -180,7 +180,7 @@ const WavelengthListForm = (
   return (
     <OptionalFormSet
       subFormLabel="Wavelengths"
-      valueSummary={ActivityInfoDecorator.wavelengthsInfo(wavelengths)}
+      valueSummary={ActivityInfoDecorator.infoLineWavelengths(wavelengths)}
       onSave={handleSave}
       onCancel={handleCancel}
       typeColor={'action'}
