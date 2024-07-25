@@ -1,15 +1,16 @@
 import React, { useContext, useState } from "react";
 import { Input, Label, FormGroup, Row, Col, Button } from "reactstrap";
 import Select from "react-select";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import MetricsInput from "../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../utilities/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
+
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../contexts/SubFormController";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
 const GenericMetricSubForm = ({
   metricName,

@@ -81,7 +81,6 @@ export const actionTypeClusters = [
           workup: {
             purify_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
-
           }
         }
       },
@@ -104,26 +103,50 @@ export const actionTypeClusters = [
     types: [
       {
         id: 'remove_exchange_sample',
-        createLabel: 'Solvent',
+        createLabel: 'From Reaction',
         activity: {
           activity_name: 'REMOVE',
-          workup: { acts_as: 'DIVERSE_SOLVENT' }
+          workup: { origin_type: 'FROM_REACTION', automation: 'AUTOMATED' }
         }
       },
       {
-        id: 'remove_exchange_solvent',
-        createLabel: 'Additive',
+        id: 'remove_exchange_sample',
+        createLabel: 'From Reaction Step',
         activity: {
           activity_name: 'REMOVE',
-          workup: { acts_as: 'ADDITIVE' }
+          workup: { origin_type: 'FROM_STEP', automation: 'AUTOMATED' }
         }
       },
       {
-        id: 'remove_exchange_medium',
-        createLabel: 'Medium',
+        id: 'remove_exchange_sample',
+        createLabel: 'From Sample',
         activity: {
           activity_name: 'REMOVE',
-          workup: { acts_as: 'MEDIUM' }
+          workup: { origin_type: 'FROM_SAMPLE', automation: 'AUTOMATED' }
+        }
+      },
+      {
+        id: 'remove_exchange_sample',
+        createLabel: 'Diverse Solvents',
+        activity: {
+          activity_name: 'REMOVE',
+          workup: { origin_type: 'DIVERSE_SOLVENTS', automation: 'AUTOMATED' }
+        }
+      },
+      {
+        id: 'remove_exchange_sample',
+        createLabel: 'Stepwise',
+        activity: {
+          activity_name: 'REMOVE',
+          workup: { origin_type: 'STEPWISE', automation: 'AUTOMATED' }
+        }
+      },
+      {
+        id: 'remove_exchange_sample',
+        createLabel: 'From Method',
+        activity: {
+          activity_name: 'REMOVE',
+          workup: { origin_type: 'FROM_METHOD', automation: 'AUTOMATED' }
         }
       },
     ]

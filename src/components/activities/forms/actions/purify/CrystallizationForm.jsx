@@ -5,7 +5,7 @@ import ButtonGroupToggle from '../../../../utilities/ButtonGroupToggle';
 import DurationSelection from '../../../../utilities/DurationSelection';
 import FormSection from "../../../../utilities/FormSection";
 import MetricsInput from '../../../../utilities/MetricsInput';
-import SolventListForm from './SolventListForm';
+import SolventListForm from '../../../../utilities/SolventListForm';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
@@ -39,7 +39,7 @@ const CrystallizationForm = (
 
   // Crystallization is the only 1 of 4 the purify types having no actual purify_steps. For consistentency we mimic
   // their behaiour by wrapping the crystallizatin in an array `purify_steps` with exactly 1 step. cbuggle, 01.07.2024.
-  const handleSolventsChange = (solvents) => onWorkupChange({ name: 'purify_steps', value: [{solvents: solvents}]})
+  const handleSolventsChange = (solvents) => onWorkupChange({ name: 'purify_steps', value: [{ solvents: solvents }] })
 
   return (
     <>
@@ -93,7 +93,6 @@ const CrystallizationForm = (
           options={crystallizationOptions.modes}
           onChange={handleWorkupChange('crystallization_mode')} />
       </FormSection>
-
     </>
   )
 }

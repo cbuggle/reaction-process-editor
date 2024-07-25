@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DurationSelection from "../../../../utilities/DurationSelection";
 import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
-import SolventListForm from "./SolventListForm";
+import SolventListForm from "../../../../utilities/SolventListForm";
 
 import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
 

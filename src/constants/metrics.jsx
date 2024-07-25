@@ -257,7 +257,7 @@ export const unitTypes = {
     toBase: (value) => value / 60,
   },
   'RATIO': {
-    label: '',
+    label: 'Ratio',
     inputRange: { min: 0, max: 100, precision: 0, step: 1, initialstep: 1, },
     fromBase: (value) => value,
     toBase: (value) => value,

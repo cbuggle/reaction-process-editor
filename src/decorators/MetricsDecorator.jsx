@@ -25,6 +25,8 @@ export default class MetricsDecorator {
 
   static baseUnit = (unit) => Object.values(metrics).find(metric => metric.units.includes(unit))?.defaultUnit
 
+  static inputRange = (unitType) => this.unitType(unitType).inputRange
+
   static unitType = (unit) => unitTypes[unit]
 
   static unitLabel = (unit) => unitTypes[unit]?.label
