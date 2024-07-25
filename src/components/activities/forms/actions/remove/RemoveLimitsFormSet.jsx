@@ -39,9 +39,7 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
           <FontAwesomeIcon icon="undo-alt" /> Reset
         </Button>
       </OptionalFormSet.ExtraButton>
-      <div>
-        {ActivityInfoDecorator.infoLineRemoveConditions(preconditions)}
-      </div>
+
       <MetricsInput
         metricName={"TEMPERATURE"}
         amount={limitsForm.TEMPERATURE}

@@ -162,12 +162,12 @@ const ChromatographyForm = (
       {renderAutomationSpecificFields()}
       {activitySteps.map((step, idx) =>
         <ChromatographyStepForm
+          key={'chromatography-step-' + idx + '-' + activitySteps.length}
           index={idx}
           workup={step}
           onSave={handleSaveStep}
           onCancel={handleCancelStep}
           onDelete={handleDeleteStep}
-          key={'chromatography-step-' + step.solvents.map(element => element.id).join() + '-' + idx}
           canDelete={activitySteps.length > 1}
         />
       )}

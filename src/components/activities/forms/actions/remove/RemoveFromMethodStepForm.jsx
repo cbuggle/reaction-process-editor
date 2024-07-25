@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-
+import React, { useContext, useState } from 'react'
 import { Button } from 'reactstrap'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import RemoveConditionsForm from './RemoveConditionsForm'
+import OptionalFormSet from '../../../../utilities/OptionalFormSet'
+
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator'
 
-import OptionalFormSet from '../../../../utilities/OptionalFormSet'
+import { SubFormController } from "../../../../../contexts/SubFormController";
 
 const RemoveFromMethodStepForm = ({
 	index,
@@ -20,24 +20,33 @@ const RemoveFromMethodStepForm = ({
 	label
 }) => {
 
+	const subFormController = useContext(SubFormController);
+
 	const [conditionsForm, setConditionsForm] = useState(workup || {});
 
 	const summary = ActivityInfoDecorator.infoLineRemoveConditions(conditionsForm)
 
 	label ||= "Limits Step " + (index + 1);
 
-	const changeCondition = (name) => (value) => { setConditionsForm({ ...conditionsForm, [name]: value }) }
-
 	const handleSave = () => { onSave({ index, data: conditionsForm }) }
 
-	const handleDelete = () => { onDelete(index); };
+	const handleDelete = () => {
+		subFormController.toggleSubForm(label);
+		onDelete(index);
+	};
+
+	const handleCancel = () => {
+		setConditionsForm(workup)
+		onCancel()
+	}
 
 	return (
 		<OptionalFormSet
+			key={'limits-step-' + index}
 			subFormLabel={label}
 			valueSummary={summary}
 			onSave={handleSave}
-			onCancel={onCancel}
+			onCancel={handleCancel}
 			typeColor="action"
 			initialShowForm={initialShowForm}
 		>
@@ -48,7 +57,7 @@ const RemoveFromMethodStepForm = ({
 					</Button>
 				</OptionalFormSet.ExtraButton>
 			)}
-			<RemoveConditionsForm workup={conditionsForm} onWorkupChange={changeCondition} />
+			<RemoveConditionsForm conditions={conditionsForm} onChange={setConditionsForm} />
 		</OptionalFormSet>
 	);
 };

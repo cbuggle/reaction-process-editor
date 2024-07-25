@@ -1,41 +1,38 @@
 import React from 'react'
 
-import RemoveConditionsStepForm from './RemoveFromMethodStepForm'
+import { Label } from 'reactstrap';
+
+import RemoveConditionsForm from './RemoveConditionsForm';
 import RemoveLimitsFormSet from './RemoveLimitsFormSet';
+import RemoveFromMethodStepForm from './RemoveFromMethodStepForm';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps'
+import FormSection from '../../../../utilities/FormSection';
 
 const RemoveStepWiseForm = ({
 	workup,
 	preconditions,
 	onWorkupChange,
-	showNewStepForm,
-	addStep,
-	handleSaveStep,
-	handleCancelStep,
-	handleDeleteStep
 }) => {
-
-	const handleChangeStarterConditions = (name) => {
-		console.log("handleChangeStarterConditions")
-		console.log(name)
-		// console.log(value)
-
-	}
 
 	const handleWorkupChange = (name) => (value) => {
 		onWorkupChange({ name: name, value: value })
 	}
 
-	console.log("RemoveStepWiseForm workup")
-	console.log(workup)
+
+	const handleChangeStarterConditions = (value) => {
+		// TODO: Restrict condition hash to actually required attributes only. (temp, press, duration)
+		onWorkupChange({ name: 'starter_conditions', value: value.data })
+	}
+
 	return (
 		<>
-			<RemoveConditionsStepForm
+
+			<RemoveFromMethodStepForm
 				label={"Continuous/Starter"}
 				workup={workup.starter_conditions || preconditions}
 				onSave={handleChangeStarterConditions}
-				onCancel={handleCancelStep} />
+			/>
 			<RemoveLimitsFormSet limits={workup.limits} preconditions={preconditions} onChange={handleWorkupChange('limits')} />
 		</>
 	);

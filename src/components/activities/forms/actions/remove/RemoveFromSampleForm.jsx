@@ -16,12 +16,17 @@ const RemoveFromSampleForm = ({ workup, onWorkupChange }) => {
 	const removableSamplesOptions = stepSelectOptions.removable_samples[workup.origin_type]
 
 	const handleSampleChange = (sample) => {
+		console.log(sample)
 
 		onWorkupChange({ name: "sample", value: sample });
+		onWorkupChange({ name: "amount", value: sample.amount });
 		onWorkupChange({ name: "solvents", value: sample.solvents });
 		onWorkupChange({ name: "solvents_amount", value: sample.solvents_amount });
 	}
 
+	const handleWorkupChange = (name) => (value) => {
+		onWorkupChange({ name: name, value: value });
+	}
 
 	return (
 		<>
@@ -36,6 +41,11 @@ const RemoveFromSampleForm = ({ workup, onWorkupChange }) => {
 						onChange={handleSampleChange}
 					/>
 				</SingleLineFormGroup>
+			</FormSection>
+			<FormSection>
+				<AmountInputSet
+					amount={workup.amount}
+					onChangeAmount={handleWorkupChange('amount')} />
 			</FormSection>
 			<RemoveSolventListFormSection workup={workup} onWorkupChange={onWorkupChange} />
 		</>

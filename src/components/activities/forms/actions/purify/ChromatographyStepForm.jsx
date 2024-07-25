@@ -61,15 +61,13 @@ const ChromatographyStepForm = ({
     onDelete(index);
   };
 
-  const summary = () => PurifyDecorator.infoLineSolventsWithRatio({ solvents, amount })
+  const summary = PurifyDecorator.infoLineSolventsWithRatio({ solvents, amount })
 
   return (
     <>
-      {"amount: " + amount.value}
       <OptionalFormSet
-        key={label}
         subFormLabel={label}
-        valueSummary={summary()}
+        valueSummary={summary}
         onSave={handleSave}
         onCancel={onCancel}
         typeColor="action"

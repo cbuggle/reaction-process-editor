@@ -14,15 +14,14 @@ const ApplyExtraEquipmentFormSet = ({
   workup,
   onWorkupChange,
 }) => {
-  const [equipment, setEquipment] = useState(workup.EQUIPMENT?.value);
+  const [equipment, setEquipment] = useState(workup.EQUIPMENT?.value || []);
 
   const selectOptions = useContext(SelectOptions);
   const equipmentOptions = selectOptions.activity_type_equipment[actionName];
 
-  const handleSaveEquipment = () =>
-    onWorkupChange({ name: "EQUIPMENT", value: { value: equipment } });
+  const handleSaveEquipment = () => onWorkupChange({ name: "EQUIPMENT", value: { value: equipment } });
 
-  const handleCancelEquipment = () => setEquipment(workup.equipment);
+  const handleCancelEquipment = () => setEquipment(workup.EQUIPMENT?.value || []);
 
   return (
     <>
