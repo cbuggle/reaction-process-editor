@@ -51,7 +51,6 @@ const SamplesIconSelect = ({ samples, isMulti, onChange }) => {
 			name="select_samples"
 			renderIcon={SamplesDecorator.sampleSvgImg}
 			options={selectOptions.materials['SAMPLE']}
-			selected={samples}
 			value={samples}
 			onChange={onChange}
 			components={{ Option: IconOption, SingleValue: IconSingleValue, MultiValue: IconMultiValue }}
