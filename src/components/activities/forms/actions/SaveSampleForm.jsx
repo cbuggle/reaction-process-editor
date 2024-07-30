@@ -23,8 +23,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
 
   useEffect(() => {
-    workup.extra_solvents_amount ||
-      (workup.sample_origin_purify_step && onWorkupChange({ name: 'extra_solvents_amount', value: workup.sample_origin_purify_step?.amount }))
+    workup.solvents_amount ||
+      (workup.sample_origin_purify_step && onWorkupChange({ name: 'solvents_amount', value: workup.sample_origin_purify_step?.amount }))
 
     // eslint-disable-next-line
   }, [workup.sample_origin_purify_step])
@@ -80,8 +80,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           <MetricsInput
             displayMultiLine
             metricName={"VOLUME"}
-            amount={workup.extra_solvents_amount}
-            onChange={handleWorkupChange('extra_solvents_amount')}
+            amount={workup.solvents_amount}
+            onChange={handleWorkupChange('solvents_amount')}
           />
         </SingleLineFormGroup>
 
@@ -143,6 +143,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         <Label>Molecular Entities</Label>
         <SamplesIconSelect
           isMulti
+          isClearable={false}
           samples={workup.samples}
           onChange={handleWorkupChange("samples")} />
       </FormGroup>
