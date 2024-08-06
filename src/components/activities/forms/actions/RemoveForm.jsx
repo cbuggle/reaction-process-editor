@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { FormGroup, Label } from "reactstrap";
 import Select from "react-select";
 
-import RemoveFromDiverseSolventsForm from "./remove/RemoveFromDiverseSolventsForm";
+import RemoveDiverseSolventsForm from "./remove/RemoveDiverseSolventsForm";
 import RemoveFromReactionForm from "./remove/RemoveFromReactionForm";
 import RemoveFromSampleForm from "./remove/RemoveFromSampleForm";
 import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
@@ -22,26 +22,34 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
   const selectOptions = useContext(SelectOptions);
 
   useEffect(() => {
-    onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[workup.origin_type] })
+    fillSamplesFields(workup.origin_type) ?
+      onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[workup.origin_type] })
+      : onWorkupChange({ name: 'samples', value: undefined })
   }, [])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   const handleTypeChange = (newType) => {
     onWorkupChange({ name: "origin_type", value: newType })
-    onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[newType] })
+    fillSamplesFields(newType) ?
+      onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[newType] })
+      : onWorkupChange({ name: 'samples', value: undefined })
+  }
+
+  const fillSamplesFields = (originType) => {
+    return ['FROM_REACTION_STEP', 'FROM_REACTION'].find((fillSamplesType) => originType === fillSamplesType)
   }
 
   const renderGenericRemoveFormSections = () => {
     switch (workup.origin_type) {
       case 'FROM_REACTION':
         return (<RemoveFromReactionForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
-      case 'FROM_STEP':
+      case 'FROM_REACTION_STEP':
         return (<RemoveFromReactionForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
-      case 'DIVERSE_SOLVENTS':
-        return (<RemoveFromDiverseSolventsForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'FROM_SAMPLE':
         return (<RemoveFromSampleForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
+      case 'DIVERSE_SOLVENTS':
+        return (<RemoveDiverseSolventsForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'FROM_METHOD':
         return (<RemoveFromMethodForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'STEPWISE':

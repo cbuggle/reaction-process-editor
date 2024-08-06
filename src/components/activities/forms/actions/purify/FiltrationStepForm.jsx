@@ -46,6 +46,7 @@ const FiltrationStepForm = ({
         amount,
         repetitions,
         rinse_vessel: rinse,
+        duration: duration
       },
     });
   };

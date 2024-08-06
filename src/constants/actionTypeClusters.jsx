@@ -114,7 +114,7 @@ export const actionTypeClusters = [
         createLabel: 'From Reaction Step',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_STEP', automation: 'AUTOMATED' }
+          workup: { origin_type: 'FROM_REACTION_STEP', automation: 'AUTOMATED' }
         }
       },
       {

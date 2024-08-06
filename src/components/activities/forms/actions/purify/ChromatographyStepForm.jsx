@@ -52,6 +52,7 @@ const ChromatographyStepForm = ({
         step_mode: stepMode,
         prod_mode: prodMode,
         flow_rate: flowRate,
+        duration: duration,
       },
     });
   };
