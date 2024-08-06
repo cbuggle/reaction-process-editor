@@ -93,9 +93,11 @@ const ActivityCard = ({
 
   const handleWorkupChange = ({ name, value }) => {
     if (value === undefined) {
-      let newWorkup = { ...workup };
-      delete newWorkup[name];
-      setWorkup(newWorkup);
+      setWorkup((prevWorkup) => {
+        let newWorkup = { ...prevWorkup }
+        delete newWorkup[name];
+        return newWorkup
+      })
     } else {
       setWorkup((prevWorkup) => ({ ...prevWorkup, [name]: value }));
     }

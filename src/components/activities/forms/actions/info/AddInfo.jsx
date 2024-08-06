@@ -19,7 +19,6 @@ const AddInfo = ({ activity }) => {
 	return (
 		<>
 			{renderSampleSvg()}
-			{workup.acts_as}
 			<InfoLinesBox title={infoTitle} lines={infoLines}  />
 		</>
 	)

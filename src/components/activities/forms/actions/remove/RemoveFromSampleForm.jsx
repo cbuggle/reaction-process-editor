@@ -16,9 +16,7 @@ const RemoveFromSampleForm = ({ workup, onWorkupChange }) => {
 	const removableSamplesOptions = stepSelectOptions.removable_samples[workup.origin_type]
 
 	const handleSampleChange = (sample) => {
-		console.log(sample)
-
-		onWorkupChange({ name: "sample", value: sample });
+		onWorkupChange({ name: "samples", value: [sample] });
 		onWorkupChange({ name: "amount", value: sample.amount });
 		onWorkupChange({ name: "solvents", value: sample.solvents });
 		onWorkupChange({ name: "solvents_amount", value: sample.solvents_amount });
@@ -37,7 +35,7 @@ const RemoveFromSampleForm = ({ workup, onWorkupChange }) => {
 						classNamePrefix="react-select"
 						name="samples"
 						options={removableSamplesOptions}
-						value={workup.sample}
+						value={workup.samples?.[0]}
 						onChange={handleSampleChange}
 					/>
 				</SingleLineFormGroup>
