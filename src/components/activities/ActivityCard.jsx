@@ -30,17 +30,18 @@ const ActivityCard = ({
 
   const isCondition = type === "condition";
   const isInitialised = !!activity;
-  const [workup, setWorkup] = useState(isInitialised ? activity.workup : {});
-  const uninitialisedForm = isCondition
-    ? { activity_name: "CONDITION", workup: workup }
-    : undefined;
-  const uninitialisedMode = isCondition ? "form" : "type-panel";
+
+  const workup = isInitialised ? activity.workup : {}
+
+  const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined;
+  const uninitialisedDisplayMode = isCondition ? "form" : "type-panel";
   const uninitialisedTitle = isCondition ? "Change Condition" : "New Action";
+
   const [activityForm, setActivityForm] = useState(
     isInitialised ? activity : uninitialisedForm
   );
   const [displayMode, setDisplayMode] = useState(
-    isInitialised ? "info" : uninitialisedMode
+    isInitialised ? "info" : uninitialisedDisplayMode
   );
 
   const cardTitle = !!activityForm?.activity_name
@@ -51,21 +52,15 @@ const ActivityCard = ({
   const canceable = displayMode !== "info" && !stepLock;
 
   useEffect(() => {
-    setActivityForm((prevState) => ({ ...prevState, workup: workup }));
-  }, [
-    workup,
-    subFormController,
-    subFormController.openSubFormLabel,
-    displayMode,
-  ]);
+    setActivityForm(activity);
+  }, [activity]);
 
-  const edit = () => setDisplayMode(isInitialised ? "form" : uninitialisedMode());
+  const edit = () => setDisplayMode(isInitialised ? "form" : uninitialisedDisplayMode());
 
   const onDelete = () => api.deleteActivity(activity.id);
 
   const onSelectType = (newActivity) => () => {
     setActivityForm(newActivity);
-    setWorkup(newActivity.workup);
     setDisplayMode("form");
   };
 
@@ -84,7 +79,6 @@ const ActivityCard = ({
   const handleCancel = () => {
     if (isInitialised) {
       setActivityForm(activity);
-      setWorkup(activity.workup);
       setDisplayMode("info");
     } else {
       onCancel();
@@ -92,19 +86,16 @@ const ActivityCard = ({
   };
 
   const handleWorkupChange = ({ name, value }) => {
-    if (value === undefined) {
-      setWorkup((prevWorkup) => {
-        let newWorkup = { ...prevWorkup }
-        delete newWorkup[name];
-        return newWorkup
-      })
-    } else {
-      setWorkup((prevWorkup) => ({ ...prevWorkup, [name]: value }));
-    }
+    setActivityForm((prevState) => {
+      let newWorkup = prevState.workup
+      if (value === undefined) { delete newWorkup[name]; } else { newWorkup[name] = value }
+      return { ...prevState, workup: newWorkup }
+    })
   };
 
-  const setDuration = (value) =>
+  const setDuration = (value) => {
     handleWorkupChange({ name: "duration", value: value });
+  }
 
   const setVessel = (reactionProcessVessel) => {
     setActivityForm((prevState) => ({

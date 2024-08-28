@@ -41,14 +41,14 @@ const ChromatographyForm = (
   }, [])
 
   useEffect(() => {
-    let selectable_column_type = OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types[workup.device])
+    let selected_column_type = OptionsDecorator.optionForKey(workup.column_type, selectOptions.column_types[workup.device])
 
-    if (workup.column_type && !selectable_column_type) {
+    if (workup.column_type && !selected_column_type) {
       onWorkupChange({ name: 'column_type', value: undefined })
     }
-    setCurrentColumnType(selectable_column_type)
+    setCurrentColumnType(selected_column_type)
     // eslint-disable-next-line
-  }, [workup, workup.device])
+  }, [workup, workup.device, workup.column_type])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
@@ -63,6 +63,8 @@ const ChromatographyForm = (
       onWorkupChange({ name: 'detectors', value: detectors })
     }
   }
+
+  const hasNoColumnTypeOption = selectOptions.column_types[workup.device].length < 1
 
   const renderAutomationSpecificFields = () => {
     switch (workup.automation) {
@@ -90,6 +92,7 @@ const ChromatographyForm = (
                   name="column_type"
                   options={selectOptions.column_types[workup.device]}
                   value={currentColumnType}
+                  isDisabled={hasNoColumnTypeOption}
                   onChange={selected => onWorkupChange({ name: 'column_type', value: selected.value })}
                 />
               </SingleLineFormGroup>
