@@ -48,7 +48,6 @@ const Activity = ({ activity, processStep }) => {
     canDrag: () => !stepLock,
   }), [processStep])
 
-  /* dropClassName currently under development */
   const [{ isOver, getItem, canDrop }, dropRef] = useDrop(() => ({
     accept: DndItemTypes.ACTION,
     drop: (monitor) => dropItem(monitor),
@@ -74,7 +73,6 @@ const Activity = ({ activity, processStep }) => {
         type={type}
         onSave={onSave}
         preconditions={activity.preconditions}
-        processStep={processStep}
         dragRef={dragRef}
       />
     )

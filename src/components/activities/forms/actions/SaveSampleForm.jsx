@@ -38,20 +38,22 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
-  const currentAction = OptionsDecorator.optionForKey(workup.sample_origin_action_id, stepSelectOptions.save_sample_origins)
+  const currentOriginAction = OptionsDecorator.optionForKey(
+    workup.sample_origin_action_id, stepSelectOptions.save_sample_origins
+  )
 
-  const purifyStepFormIsDisabled = currentAction?.purify_type === 'CRYSTALLIZATION'
+  const purifyStepFormIsDisabled = currentOriginAction?.purify_type === 'CRYSTALLIZATION'
 
   const renderStepSelect = () => {
     return (<>
       <SingleLineFormGroup label="Purify Step">
         <Select
-          key={'action-select' + currentAction?.value}
+          key={'action-select' + currentOriginAction?.value}
           isDisabled={purifyStepFormIsDisabled}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="sample_origin_purify_step"
-          options={currentAction?.purify_steps || []}
+          options={currentOriginAction?.purify_steps || []}
           value={workup.sample_origin_purify_step}
           onChange={(selectedOption) => handleWorkupChange("sample_origin_purify_step")(selectedOption)}
         />
@@ -71,7 +73,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             classNamePrefix="react-select"
             name="sample_origin_action_id"
             options={stepSelectOptions.save_sample_origins}
-            value={currentAction}
+            value={currentOriginAction}
             onChange={handleChangeAction}
           />
         </SingleLineFormGroup>

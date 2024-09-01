@@ -16,9 +16,9 @@ const ExtractionForm = ({
   activitySteps,
   showNewStepForm,
   addStep,
-  handleSaveStep,
-  handleCancelStep,
-  handleDeleteStep
+  onSaveStep,
+  onCancelStep,
+  onDeleteStep
 }) => {
   const extractionOptions = useContext(SelectOptions).purify.EXTRACTION;
 
@@ -48,7 +48,6 @@ const ExtractionForm = ({
     )
   }
 
-
   return (
     <>
       <FormSection type="action">
@@ -58,23 +57,23 @@ const ExtractionForm = ({
 
       {activitySteps.map((step, idx) =>
         <ExtractionStepForm
-          index={idx}
+          key={'extraction-step-' + idx + '-' + activitySteps.length}
+          label={"Extraction Step " + (idx + 1)}
           workup={step}
-          onSave={handleSaveStep}
-          onCancel={handleCancelStep}
-          onDelete={handleDeleteStep}
-          key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          onSave={onSaveStep(idx)}
+          onCancel={onCancelStep(idx)}
+          onDelete={onDeleteStep(idx)}
           canDelete={activitySteps.length > 1}
         />
       )}
 
       {showNewStepForm &&
         <ExtractionStepForm
-          index={workup.purify_steps?.length || 0}
-          workup={workup.purify_steps?.at(-1)}
+          label={"Extraction Step " + (activitySteps.length + 1)}
+          workup={activitySteps.at(-1) || {}}
           initialShowForm={true}
-          onSave={handleSaveStep}
-          onCancel={handleCancelStep}
+          onSave={onSaveStep(activitySteps.length)}
+          onCancel={onCancelStep(activitySteps.length)}
         />
       }
       <FormSection type='action'>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import ActionForm from "./forms/actions/ActionForm";
 import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
@@ -19,7 +19,6 @@ const ActivityCard = ({
   onSave,
   onCancel,
   preconditions,
-  processStep,
   customClass,
   dragRef,
 }) => {
@@ -38,7 +37,7 @@ const ActivityCard = ({
   const uninitialisedTitle = isCondition ? "Change Condition" : "New Action";
 
   const [activityForm, setActivityForm] = useState(
-    isInitialised ? activity : uninitialisedForm
+    isInitialised ? JSON.parse(JSON.stringify(activity)) : uninitialisedForm
   );
   const [displayMode, setDisplayMode] = useState(
     isInitialised ? "info" : uninitialisedDisplayMode
@@ -48,12 +47,8 @@ const ActivityCard = ({
     ? ActivityInfoDecorator.cardTitle(activityForm)
     : uninitialisedTitle;
 
-  const editable = displayMode === "info" && !stepLock;
-  const canceable = displayMode !== "info" && !stepLock;
-
-  useEffect(() => {
-    setActivityForm(activity);
-  }, [activity]);
+  const isEditable = displayMode === "info" && !stepLock;
+  const isCanceable = displayMode !== "info" && !stepLock;
 
   const edit = () => setDisplayMode(isInitialised ? "form" : uninitialisedDisplayMode());
 
@@ -81,6 +76,7 @@ const ActivityCard = ({
       setActivityForm(activity);
       setDisplayMode("info");
     } else {
+      setActivityForm({ workup: {} });
       onCancel();
     }
   };
@@ -93,9 +89,7 @@ const ActivityCard = ({
     })
   };
 
-  const setDuration = (value) => {
-    handleWorkupChange({ name: "duration", value: value });
-  }
+  const setDuration = (value) => handleWorkupChange({ name: "duration", value: value });
 
   const setVessel = (reactionProcessVessel) => {
     setActivityForm((prevState) => ({
@@ -111,10 +105,10 @@ const ActivityCard = ({
       onEdit={edit}
       onDelete={onDelete}
       onCancel={handleCancel}
-      showEditBtn={editable}
-      showMoveBtn={editable}
-      showDeleteBtn={editable}
-      showCancelBtn={canceable}
+      showEditBtn={isEditable}
+      showMoveBtn={isEditable}
+      showDeleteBtn={isEditable}
+      showCancelBtn={isCanceable}
       displayMode={displayMode}
       headerTitleTag="h6"
       customClass={customClass}
@@ -141,7 +135,6 @@ const ActivityCard = ({
           <ActionForm
             activity={activityForm}
             preconditions={preconditions}
-            processStep={processStep}
             onCancel={handleCancel}
             onSave={onSaveForm}
             onWorkupChange={handleWorkupChange}
@@ -149,6 +142,7 @@ const ActivityCard = ({
             onChangeVessel={setVessel}
           />
         )}
+
         {isCondition && (
           <ConditionForm
             activity={activityForm}
