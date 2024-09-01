@@ -14,26 +14,23 @@ const withActivitySteps = (WrappedComponent, stepsWorkupKey) => {
 
     const addStep = () => setShowNewStepForm(true);
 
-    const handleSaveStep = (stepInfo) => {
+    const handleSaveStep = (index) => (data) => {
       let updatedSteps = [...activitySteps];
-      updatedSteps[stepInfo.index] = stepInfo.data;
+      updatedSteps[index] = data;
       setActivitySteps(updatedSteps);
       setShowNewStepForm(false);
 
       props.onWorkupChange({ name: stepsWorkupKey, value: updatedSteps });
     };
 
-    const handleCancelStep = () => {
+    const handleCancelStep = (index) => () => {
       setActivitySteps(workupActivitySteps || []);
       setShowNewStepForm(false);
-
-      props.onWorkupChange({ name: stepsWorkupKey, value: workupActivitySteps || [] });
     }
 
-    const handleDeleteStep = (idx) => {
+    const handleDeleteStep = (index) => () => {
       const updatedSteps = [...activitySteps];
-      updatedSteps.splice(idx, 1);
-      setActivitySteps(updatedSteps);
+      updatedSteps.splice(index, 1);
       props.onWorkupChange({ name: stepsWorkupKey, value: updatedSteps });
     };
 
@@ -43,9 +40,9 @@ const withActivitySteps = (WrappedComponent, stepsWorkupKey) => {
         activitySteps={activitySteps}
         showNewStepForm={showNewStepForm}
         addStep={addStep}
-        handleSaveStep={handleSaveStep}
-        handleCancelStep={handleCancelStep}
-        handleDeleteStep={handleDeleteStep}
+        onSaveStep={handleSaveStep}
+        onCancelStep={handleCancelStep}
+        onDeleteStep={handleDeleteStep}
       />
     );
   };

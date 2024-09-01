@@ -16,9 +16,9 @@ const FiltrationForm = (
     activitySteps,
     showNewStepForm,
     addStep,
-    handleSaveStep,
-    handleCancelStep,
-    handleDeleteStep
+    onSaveStep,
+    onCancelStep,
+    onDeleteStep
   }) => {
 
   const filtrationOptions = useContext(SelectOptions).purify.FILTRATION
@@ -53,22 +53,22 @@ const FiltrationForm = (
       </FormSection>
       {activitySteps.map((step, idx) =>
         <FiltrationStepForm
-          index={idx}
+          key={'filtration-step-' + idx + '-' + activitySteps.length}
+          label={'Filtration Step ' + (idx + 1)}
           workup={step}
-          onSave={handleSaveStep}
-          onCancel={handleCancelStep}
-          onDelete={handleDeleteStep}
-          key={'step-' + step.solvents.map(element => element.id).join() + '-' + idx}
+          onSave={onSaveStep(idx)}
+          onCancel={onCancelStep(idx)}
+          onDelete={onDeleteStep(idx)}
           canDelete={activitySteps.length > 1}
         />
       )}
       {showNewStepForm &&
         <FiltrationStepForm
-          index={workup.purify_steps?.length || 0}
-          workup={workup.purify_steps?.at(-1)}
+          label={'Filtration Step ' + (activitySteps.length + 1)}
+          workup={activitySteps.at(-1) || {}}
           initialShowForm={true}
-          onSave={handleSaveStep}
-          onCancel={handleCancelStep}
+          onSave={onSaveStep(activitySteps.length)}
+          onCancel={onCancelStep(activitySteps.lengthx)}
         />
       }
       <FormSection type='action'>

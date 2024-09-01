@@ -75,7 +75,7 @@ const Timer = ({
     setDefineTimeSpan(event.target.checked);
     if (event.target.checked) {
       handleStartTime(new Date());
-    } else { 
+    } else {
       setStartTime(undefined);
       setEndTime(undefined);
     }
@@ -146,8 +146,10 @@ const Timer = ({
   const handleCancelTiming = () => {
     subFormController.closeSubForm("UnsavedTiming");
     subFormController.closeSubForm("Timing");
-    setDuration(0);
-    setDefineTimeSpan(false);
+    setDuration(workup?.duration || 0);
+    setDefineTimeSpan(!!workup.starts_at);
+    setStartTime(workup?.starts_at && new Date(workup.starts_at));
+    setEndTime(workup?.ends_at && new Date(workup.ends_at));
   };
 
   const stopTimerAndSave = () => {

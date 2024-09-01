@@ -24,9 +24,9 @@ const ChromatographyForm = (
     activitySteps,
     showNewStepForm,
     addStep,
-    handleSaveStep,
-    handleCancelStep,
-    handleDeleteStep
+    onSaveStep,
+    onCancelStep,
+    onDeleteStep
   }) => {
 
   const selectOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY
@@ -64,7 +64,7 @@ const ChromatographyForm = (
     }
   }
 
-  const hasNoColumnTypeOption = selectOptions.column_types[workup.device].length < 1
+  const hasNoColumnTypeOption = selectOptions.column_types[workup.device]?.length < 1
 
   const renderAutomationSpecificFields = () => {
     switch (workup.automation) {
@@ -167,21 +167,21 @@ const ChromatographyForm = (
       {activitySteps.map((step, idx) =>
         <ChromatographyStepForm
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
-          index={idx}
+          label={'Chromatography Step ' + (idx + 1)}
           workup={step}
-          onSave={handleSaveStep}
-          onCancel={handleCancelStep}
-          onDelete={handleDeleteStep}
+          onSave={onSaveStep(idx)}
+          onCancel={onCancelStep(idx)}
+          onDelete={onDeleteStep(idx)}
           canDelete={activitySteps.length > 1}
         />
       )}
       {showNewStepForm &&
         <ChromatographyStepForm
-          index={activitySteps.length}
-          workup={activitySteps?.at(-1)}
+          label={'Chromatography Step ' + (activitySteps.length + 1)}
+          workup={activitySteps.at(-1) || {}}
           initialShowForm={true}
-          onSave={handleSaveStep}
-          onCancel={handleCancelStep}
+          onSave={onSaveStep(activitySteps.length)}
+          onCancel={onCancelStep(activitySteps.length)}
         />
       }
       <FormSection type='action'>

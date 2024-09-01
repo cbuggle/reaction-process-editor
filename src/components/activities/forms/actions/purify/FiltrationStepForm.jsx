@@ -13,7 +13,7 @@ import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
 const FiltrationStepForm = ({
-  index,
+  label,
   workup,
   onSave,
   onCancel,
@@ -25,50 +25,59 @@ const FiltrationStepForm = ({
   const solventOptions = selectOptions.purify.FILTRATION.solvent_options;
   const subFormController = useContext(SubFormController);
 
-  const label = "Filtration Step " + (index + 1);
-  const [duration, setDuration] = useState(workup?.duration || 0);
-  const [solvents, setSolvents] = useState(workup?.solvents || []);
-  const [rinse, setRinse] = useState(workup?.rinse_vessel || false);
-  const [amount, setAmount] = useState(
-    workup?.amount || { value: 0, unit: "ml" }
-  );
-  const [repetitions, setRepetitions] = useState(
-    workup?.repetitions || { value: 1, unit: "TIMES" }
-  );
+  const initialFormData = {
+    duration: workup.duration || 0,
+    solvents: workup.solvents || [],
+    amount: workup.amount || { value: 0, unit: "ml" },
+    rinse_vessel: workup.rinse_vessel || false,
+    repetitions: workup.repetitions || { value: 1, unit: "TIMES" }
+  }
 
-  const handleRinseCheckBox = (event) => setRinse(event.target.checked);
+  const [formData, setFormData] = useState(initialFormData);
 
+  const resetForm = () => setFormData(initialFormData)
+
+  const handleChangeFormData = (key) => (value) => {
+    setFormData((prevData) => {
+      return { ...prevData, [key]: value }
+    })
+  }
+
+  const handleRinseCheckBox = (event) => handleChangeFormData('rinse_vessel')(event.target.value)
+
+  const handleCancel = () => {
+    onCancel()
+    resetForm()
+  }
   const handleSave = () => {
-    onSave({
-      index,
-      data: {
-        solvents,
-        amount,
-        repetitions,
-        rinse_vessel: rinse,
-        duration: duration
-      },
-    });
-  };
+    onSave(formData)
+    resetForm()
+  }
 
   const handleDelete = () => {
     subFormController.toggleSubForm(label);
-    onDelete(index);
+    onDelete();
   };
+
+  const summary = PurifyDecorator.purifyStepInfo(formData, solventOptions)
+
+  // const valueSummary =
+  //   PurifyDecorator.purifyStepInfo(
+  //     {
+  //       solvents,
+  //       amount,
+  //       repetitions,
+  //     },
+  //     solventOptions
+  //   )
+
 
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={PurifyDecorator.purifyStepInfo(
-        {
-          solvents,
-          amount,
-          repetitions,
-        },
-        solventOptions
-      )}
+      valueSummary={summary}
       onSave={handleSave}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       typeColor="action"
       initialShowForm={initialShowForm}
     >
@@ -80,32 +89,32 @@ const FiltrationStepForm = ({
         </OptionalFormSet.ExtraButton>
       )}
       <SolventListForm
-        solvents={solvents}
+        solvents={formData.solvents}
         solventOptions={solventOptions}
-        setSolvents={setSolvents}
+        setSolvents={handleChangeFormData('solvents')}
       />
       <FormGroup>
         <MetricsInput
           tooltipName={'purify_amount'}
           metricName={"VOLUME"}
-          amount={amount}
-          onChange={setAmount}
+          amount={formData.amount}
+          onChange={handleChangeFormData('amount')}
         />
         <MetricsInput
           metricName={"REPETITIONS"}
-          onChange={setRepetitions}
-          amount={repetitions}
+          amount={formData.repetitions}
+          onChange={handleChangeFormData('repetitions')}
         />
         <DurationSelection
           tooltipName={'purify_duration'}
-          duration={duration}
-          onChangeDuration={setDuration}
+          duration={formData.duration}
+          onChangeDuration={handleChangeFormData('duration')}
         />
         <FormGroup check className="mb-3">
           <Label check>
             <Input
               type="checkbox"
-              checked={rinse}
+              checked={formData.rinse}
               onChange={handleRinseCheckBox}
             />
             Rinse Vessel

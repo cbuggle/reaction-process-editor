@@ -14,7 +14,7 @@ import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
 const ChromatographyStepForm = ({
-  index,
+  label,
   workup,
   onSave,
   onCancel,
@@ -26,43 +26,39 @@ const ChromatographyStepForm = ({
   const solventOptions = chromatographyOptions.solvent_options;
   const subFormController = useContext(SubFormController);
 
-  const [duration, setDuration] = useState(workup?.duration || 0);
-  const [solvents, setSolvents] = useState(workup ? workup.solvents : []);
-  const [amount, setAmount] = useState(
-    workup?.amount || { value: 0, unit: "ml" }
-  );
-  const label = "Chromatography Step " + (index + 1);
-  const [flowRate, setFlowRate] = useState(
-    workup?.flow_rate || { value: undefined, unit: "MLMIN" }
-  );
+  const initialFormData = {
+    duration: workup.duration || 0,
+    solvents: workup.solvents || [],
+    amount: workup.amount || { value: 0, unit: "ml" },
+    flow_rate: workup.flow_rate || { value: undefined, unit: "MLMIN" },
+    step_mode: workup.step_mode || chromatographyOptions.step_modes[0].value,
+    prod_mode: workup.prod_mode || chromatographyOptions.prod_modes[0].value
+  }
 
-  const [stepMode, setStepMode] = useState(
-    workup?.step_mode || chromatographyOptions.step_modes[0].value
-  );
-  const [prodMode, setProdMode] = useState(
-    workup?.prod_mode || chromatographyOptions.prod_modes[0].value
-  );
+  const [formData, setFormData] = useState(initialFormData);
 
+  const resetForm = () => setFormData(initialFormData)
+
+  const handleChangeFormData = (key) => (value) => {
+    setFormData((prevData) => {
+      return { ...prevData, [key]: value }
+    })
+  }
+
+  const handleCancel = () => {
+    onCancel()
+    resetForm()
+  }
   const handleSave = () => {
-    onSave({
-      index,
-      data: {
-        solvents,
-        amount,
-        step_mode: stepMode,
-        prod_mode: prodMode,
-        flow_rate: flowRate,
-        duration: duration,
-      },
-    });
-  };
+    onSave(formData)
+  }
 
   const handleDelete = () => {
     subFormController.toggleSubForm(label);
-    onDelete(index);
+    onDelete();
   };
 
-  const summary = PurifyDecorator.infoLineSolventsWithRatio({ solvents, amount })
+  const summary = PurifyDecorator.infoLineSolventsWithRatio(formData)
 
   return (
     <>
@@ -70,7 +66,7 @@ const ChromatographyStepForm = ({
         subFormLabel={label}
         valueSummary={summary}
         onSave={handleSave}
-        onCancel={onCancel}
+        onCancel={handleCancel}
         typeColor="action"
         initialShowForm={initialShowForm}
       >
@@ -83,40 +79,40 @@ const ChromatographyStepForm = ({
         )}
         <SolventListForm
           label={'Modifier'}
-          solvents={solvents}
+          solvents={formData.solvents}
           solventOptions={solventOptions}
-          setSolvents={setSolvents}
+          setSolvents={handleChangeFormData('solvents')}
         />
         <FormGroup>
           <MetricsInput
             tooltipName={'purify_amount'}
             metricName={"VOLUME"}
-            amount={amount}
-            onChange={setAmount}
+            amount={formData.amount}
+            onChange={handleChangeFormData('amount')}
           />
         </FormGroup>
         <FormGroup>
           <MetricsInput
             metricName={'VELOCITY'}
-            amount={flowRate}
-            onChange={setFlowRate}
+            amount={formData.flow_rate}
+            onChange={handleChangeFormData('flow_rate')}
           />
           <DurationSelection
             tooltipName={'purify_duration'}
-            duration={duration}
-            onChangeDuration={setDuration}
+            duration={formData.duration}
+            onChangeDuration={handleChangeFormData('duration')}
           />
           <Label>Step</Label>
           <ButtonGroupToggle
-            value={stepMode}
+            value={formData.step_mode}
             options={chromatographyOptions.step_modes}
-            onChange={(selectedValue) => setStepMode(selectedValue)}
+            onChange={handleChangeFormData('step_mode')}
           />
           <Label>Prod</Label>
           <ButtonGroupToggle
-            value={prodMode}
+            value={formData.prod_mode}
             options={chromatographyOptions.prod_modes}
-            onChange={(selectedValue) => setProdMode(selectedValue)}
+            onChange={handleChangeFormData('prod_mode')}
           />
         </FormGroup>
       </OptionalFormSet>

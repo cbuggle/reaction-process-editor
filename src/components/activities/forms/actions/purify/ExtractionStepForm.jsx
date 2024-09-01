@@ -13,7 +13,7 @@ import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
 const ExtractionStepForm = ({
-  index,
+  label,
   workup,
   onSave,
   onCancel,
@@ -24,47 +24,45 @@ const ExtractionStepForm = ({
   const extractionOptions = useContext(SelectOptions).purify.EXTRACTION;
   const subFormController = useContext(SubFormController);
 
-  const label = "Extraction Step " + (index + 1);
-  const [duration, setDuration] = useState(workup?.duration || 0);
-  const [solvents, setSolvents] = useState(workup?.solvents || []);
+  const initialFormData = {
+    duration: workup.duration || 0,
+    solvents: workup.solvents || [],
+    amount: workup.amount || { value: 0, unit: "ml" },
+    flow_rate: workup.flow_rate || { value: undefined, unit: "MLMIN" }
+  }
 
-  const [amount, setAmount] = useState(
-    workup?.amount || { value: 0, unit: "ml" }
-  );
+  const [formData, setFormData] = useState(initialFormData);
 
-  const [flowRate, setFlowRate] = useState(
-    workup?.flow_rate || { value: undefined, unit: "MLMIN" }
-  );
+  const resetForm = () => setFormData(initialFormData)
 
+  const handleChangeFormData = (key) => (value) => {
+    setFormData((prevData) => {
+      return { ...prevData, [key]: value }
+    })
+  }
+
+  const handleCancel = () => {
+    onCancel()
+    resetForm()
+  }
   const handleSave = () => {
-    onSave({
-      index,
-      data: {
-        solvents,
-        amount,
-        flow_rate: flowRate,
-        duration: duration,
-      },
-    });
-  };
+    onSave(formData)
+    resetForm()
+  }
 
   const handleDelete = () => {
     subFormController.toggleSubForm(label);
-    onDelete(index);
+    onDelete();
   };
+
+  const summary = PurifyDecorator.infoLineSolventsWithRatio(formData)
 
   return (
     <OptionalFormSet
       subFormLabel={label}
-      valueSummary={PurifyDecorator.infoLineSolventsWithRatio(
-        {
-          solvents,
-          amount,
-        },
-        extractionOptions.solvent_options
-      )}
+      valueSummary={summary}
       onSave={handleSave}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       typeColor="action"
       initialShowForm={initialShowForm}
     >
@@ -76,26 +74,26 @@ const ExtractionStepForm = ({
         </OptionalFormSet.ExtraButton>
       )}
       <SolventListForm
-        solvents={solvents}
+        solvents={formData.solvents}
         solventOptions={extractionOptions.solvent_options}
-        setSolvents={setSolvents}
+        setSolvents={handleChangeFormData('solvents')}
       />
       <FormGroup>
         <MetricsInput
           tooltipName={'purify_amount'}
           metricName={"VOLUME"}
-          amount={amount}
-          onChange={setAmount}
+          amount={formData.amount}
+          onChange={handleChangeFormData('amount')}
         />
         <MetricsInput
           metricName={'VELOCITY'}
-          amount={flowRate}
-          onChange={setFlowRate}
+          amount={formData.flow_rate}
+          onChange={handleChangeFormData('flow_Rate')}
         />
         <DurationSelection
           tooltipName={'purify_duration'}
-          duration={duration}
-          onChangeDuration={setDuration}
+          duration={formData.duration}
+          onChangeDuration={handleChangeFormData('duration')}
         />
       </FormGroup>
     </OptionalFormSet>
