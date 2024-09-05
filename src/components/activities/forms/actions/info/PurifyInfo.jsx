@@ -53,7 +53,7 @@ const PurifyInfo = ({ activity }) => {
 			addPurifySolventsToLines()
 			break;
 		default:
-			infoTitle = "Data Error: Unknown Purification Type # " + workup.purify_type + " #"
+			infoTitle = "Error in PurifyInfo: Unknown type: " + workup.purify_type
 			break;
 	}
 

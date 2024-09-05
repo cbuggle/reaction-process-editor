@@ -26,6 +26,7 @@ const ActivityInfo = (props) => {
       'ANALYSIS': AnalysisInfo,
       'CONDITION': ConditionInfo,
       'PURIFY': PurifyInfo,
+      'MEASUREMENT': PurifyInfo,
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
@@ -36,7 +37,7 @@ const ActivityInfo = (props) => {
       return (<ActivityComponent {...props} />
       )
     } else {
-      return "Error in Activity. Unknown ACTIVITY_NAME: *** " + activity.activity_name + " ***"
+      return "Error in ActivityInfo. Unknown activity type: "+ activity.activity_name
     }
   };
 
