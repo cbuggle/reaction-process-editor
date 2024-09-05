@@ -46,58 +46,6 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'purify',
-    label: 'Separate / Purify',
-    types: [
-      {
-        id: 'filtration',
-        createLabel: 'Filtration',
-        activity: {
-          activity_name: 'PURIFY',
-          workup: {
-            purify_type: 'FILTRATION',
-            automation: 'AUTOMATED',
-            filtration_mode: 'KEEP_PRECIPITATE'
-          }
-        }
-      },
-      {
-        id: 'extraction',
-        createLabel: 'Extraction',
-        activity: {
-          activity_name: 'PURIFY',
-          workup: {
-            purify_type: 'EXTRACTION',
-            automation: 'AUTOMATED',
-            phase: 'ORGANIC'
-          }
-        }
-      },
-      {
-        id: 'chromatography',
-        createLabel: 'Chromatography',
-        activity: {
-          activity_name: 'PURIFY',
-          workup: {
-            purify_type: 'CHROMATOGRAPHY',
-            automation: 'AUTOMATED',
-          }
-        }
-      },
-      {
-        id: 'crystallization',
-        createLabel: 'Crystallization',
-        activity: {
-          activity_name: 'PURIFY',
-          workup: {
-            purify_type: 'CRYSTALLIZATION',
-            automation: 'AUTOMATED'
-          }
-        }
-      },
-    ]
-  },
-  {
     id: 'remove_exchange',
     label: 'Remove / Exchange',
     types: [
@@ -152,6 +100,110 @@ export const actionTypeClusters = [
     ]
   },
   {
+    id: 'purify',
+    label: 'Separate / Purify',
+    types: [
+      {
+        id: 'filtration',
+        createLabel: 'Filtration',
+        activity: {
+          activity_name: 'PURIFY',
+          workup: {
+            purify_type: 'FILTRATION',
+            automation: 'AUTOMATED',
+            filtration_mode: 'KEEP_PRECIPITATE'
+          }
+        }
+      },
+      {
+        id: 'extraction',
+        createLabel: 'Extraction',
+        activity: {
+          activity_name: 'PURIFY',
+          workup: {
+            purify_type: 'EXTRACTION',
+            automation: 'AUTOMATED',
+            phase: 'ORGANIC'
+          }
+        }
+      },
+      {
+        id: 'chromatography',
+        createLabel: 'Chromatography',
+        activity: {
+          activity_name: 'PURIFY',
+          workup: {
+            purify_type: 'CHROMATOGRAPHY',
+            automation: 'AUTOMATED',
+          }
+        }
+      },
+      {
+        id: 'crystallization',
+        createLabel: 'Crystallization',
+        activity: {
+          activity_name: 'PURIFY',
+          workup: {
+            purify_type: 'CRYSTALLIZATION',
+            automation: 'AUTOMATED'
+          }
+        }
+      },
+    ]
+  },
+  {
+    id: 'measurement',
+    label: 'Measurement',
+    types: [
+      {
+        id: 'filtration',
+        createLabel: 'Filtration',
+        activity: {
+          activity_name: 'MEASUREMENT',
+          workup: {
+            purify_type: 'FILTRATION',
+            automation: 'AUTOMATED',
+            filtration_mode: 'KEEP_PRECIPITATE'
+          }
+        }
+      },
+      {
+        id: 'extraction',
+        createLabel: 'Extraction',
+        activity: {
+          activity_name: 'MEASUREMENT',
+          workup: {
+            purify_type: 'EXTRACTION',
+            automation: 'AUTOMATED',
+            phase: 'ORGANIC'
+          }
+        }
+      },
+      {
+        id: 'chromatography',
+        createLabel: 'Chromatography',
+        activity: {
+          activity_name: 'MEASUREMENT',
+          workup: {
+            purify_type: 'CHROMATOGRAPHY',
+            automation: 'AUTOMATED',
+          }
+        }
+      },
+    ]
+  },
+  {
+    id: 'time',
+    label: 'Time',
+    types: [
+      {
+        id: 'time_wait',
+        createLabel: 'Wait',
+        activity: { activity_name: 'WAIT', workup: {} }
+      }
+    ]
+  },
+  {
     id: 'intermediate',
     label: 'Save Sample',
     types: [
@@ -172,17 +224,6 @@ export const actionTypeClusters = [
             purity: { value: 1, unit: 'PURITY' }
           }
         }
-      }
-    ]
-  },
-  {
-    id: 'time',
-    label: 'Time',
-    types: [
-      {
-        id: 'time_wait',
-        createLabel: 'Wait',
-        activity: { activity_name: 'WAIT', workup: {} }
       }
     ]
   },

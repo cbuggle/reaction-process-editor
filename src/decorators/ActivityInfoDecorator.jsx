@@ -13,6 +13,9 @@ export default class ActivityInfoDecorator {
         case "PURIFY":
           title = workup.purify_type;
           break;
+        case "MEASUREMENT":
+          title = 'Measurement ' + workup.purify_type;
+          break;
         case "CONDITION":
           title = "Change Condition";
           break;

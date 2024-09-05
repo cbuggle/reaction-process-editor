@@ -57,7 +57,7 @@ const ActionForm = (
             onWorkupChange={onWorkupChange}
           />
         )
-      case "PURIFY":
+      case "PURIFY", "MEASUREMENT":
         return (
           <>
             <PurifyBaseForm
@@ -81,7 +81,7 @@ const ActionForm = (
       case "WAIT":
         return (<></>)
       default:
-        return (<div>Error in ActivityForm: Unknown ACTION TYPE '{actionTypeName}' ***</div>)
+        return (<div>Error in ActivityForm: Unknown action type '{actionTypeName}'</div>)
     }
   }
 
