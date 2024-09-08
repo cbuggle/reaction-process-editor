@@ -57,7 +57,8 @@ const ActionForm = (
             onWorkupChange={onWorkupChange}
           />
         )
-      case "PURIFY", "MEASUREMENT":
+      case "PURIFY":
+      case "MEASUREMENT":
         return (
           <>
             <PurifyBaseForm
