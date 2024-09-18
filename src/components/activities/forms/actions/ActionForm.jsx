@@ -3,6 +3,7 @@ import React from 'react';
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
 import AnalysisForm from "./AnalysisForm";
+import MeasurementBaseForm from './MeasurementBaseForm';
 import PurifyBaseForm from "./PurifyBaseForm";
 import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
@@ -58,10 +59,21 @@ const ActionForm = (
           />
         )
       case "PURIFY":
-      case "MEASUREMENT":
         return (
           <>
             <PurifyBaseForm
+              workup={workup}
+              onWorkupChange={onWorkupChange}
+              preconditions={preconditions}
+              reactionProcessVessel={activity.reaction_process_vessel}
+              onChangeVessel={onChangeVessel}
+            />
+          </>
+        )
+      case "MEASUREMENT":
+        return (
+          <>
+            <MeasurementBaseForm
               workup={workup}
               onWorkupChange={onWorkupChange}
               preconditions={preconditions}

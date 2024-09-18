@@ -156,37 +156,33 @@ export const actionTypeClusters = [
     label: 'Measurement',
     types: [
       {
-        id: 'filtration',
-        createLabel: 'Filtration',
-        activity: {
-          activity_name: 'MEASUREMENT',
-          workup: {
-            purify_type: 'FILTRATION',
-            automation: 'AUTOMATED',
-            filtration_mode: 'KEEP_PRECIPITATE'
-          }
-        }
-      },
-      {
-        id: 'extraction',
-        createLabel: 'Extraction',
-        activity: {
-          activity_name: 'MEASUREMENT',
-          workup: {
-            purify_type: 'EXTRACTION',
-            automation: 'AUTOMATED',
-            phase: 'ORGANIC'
-          }
-        }
-      },
-      {
-        id: 'chromatography',
+        id: 'measurement_chromatography',
         createLabel: 'Chromatography',
         activity: {
           activity_name: 'MEASUREMENT',
           workup: {
-            purify_type: 'CHROMATOGRAPHY',
+            measurement_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
+          }
+        }
+      },
+      {
+        id: 'measurement_spectronomy',
+        createLabel: 'Spectronomy',
+        activity: {
+          activity_name: 'MEASUREMENT',
+          workup: {
+            measurement_type: 'SPECTRONOMY'
+          }
+        }
+      },
+      {
+        id: 'measurement_spectroscopy',
+        createLabel: 'Spectroscopy',
+        activity: {
+          activity_name: 'MEASUREMENT',
+          workup: {
+            measurement_type: 'SPECTROSCOPY'
           }
         }
       },
@@ -209,7 +205,7 @@ export const actionTypeClusters = [
     types: [
       // {
       // temporarily disabled until further discussion with NJung, cbuggle, 17.6.2024
-      //   id: 'intermediate_analyse',
+      //   id: 'intermediate_analysis',
       //   createLabel: 'Analysis',
       //   activity: { activity_name: 'ANALYSIS', workup: {} }
       // },

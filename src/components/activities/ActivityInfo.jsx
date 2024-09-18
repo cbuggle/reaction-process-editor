@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import AddInfo from "./forms/actions/info/AddInfo";
 import AnalysisInfo from "./forms/actions/info/AnalysisInfo";
 import ConditionInfo from "./forms/actions/info/ConditionInfo";
+import MeasurementInfo from "./forms/actions/info/MeasurmentInfo";
 import PurifyInfo from "./forms/actions/info/PurifyInfo";
 import RemoveInfo from "./forms/actions/info/RemoveInfo";
 import SaveInfo from "./forms/actions/info/SaveInfo";
@@ -26,7 +27,7 @@ const ActivityInfo = (props) => {
       'ANALYSIS': AnalysisInfo,
       'CONDITION': ConditionInfo,
       'PURIFY': PurifyInfo,
-      'MEASUREMENT': PurifyInfo,
+      'MEASUREMENT': MeasurementInfo,
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
