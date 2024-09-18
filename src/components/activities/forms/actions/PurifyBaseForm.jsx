@@ -14,7 +14,7 @@ const PurifyBaseForm = (
     onChangeVessel
   }) => {
 
-  switch (workup['purify_type']) {
+  switch (workup.purify_type) {
     case "FILTRATION":
       return (<FiltrationForm workup={workup} onWorkupChange={onWorkupChange} />)
     case "EXTRACTION":
@@ -27,7 +27,7 @@ const PurifyBaseForm = (
     case "CHROMATOGRAPHY":
       return (<ChromatographyForm workup={workup} onWorkupChange={onWorkupChange} />)
     default:
-      return (<>{"Unknown purify type Error in PurifyBaseForm: " + workup['purify_type']} </>)
+      return (<>{"Unknown purify type Error in PurifyBaseForm: " + workup.purify_type} </>)
   }
 }
 

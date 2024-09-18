@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
-import ChromatographyStepForm from "./ChromatographyStepForm";
+import MeasurementChromatographyStepForm from "./MeasurementChromatographyStepForm";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
@@ -17,7 +17,7 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-const ChromatographyForm = (
+const MeasurementChromatographyForm = (
   {
     workup,
     onWorkupChange,
@@ -29,7 +29,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY
+  const selectOptions = useContext(SelectOptions).measurement.CHROMATOGRAPHY
   const [currentColumnType, setCurrentColumnType] = useState(workup.column_type)
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const ChromatographyForm = (
     let detectors = selected.map(option => option.value)
 
     if (detectors.length > 1 && detectors.find(el => el === 'NO_DETECTOR')) {
-      // 'NO_DETECTOR' is a special case (setting on some chromatography_type) and needs to be the sole selection.
+      // 'NO_DETECTOR' is a special case (setting on some chromatography_types) and needs to be the sole selection.
       // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
       onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
     } else {
@@ -165,7 +165,7 @@ const ChromatographyForm = (
       </FormSection>
       {renderAutomationSpecificFields()}
       {activitySteps.map((step, idx) =>
-        <ChromatographyStepForm
+        <MeasurementChromatographyStepForm
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
           label={'Chromatography Step ' + (idx + 1)}
           workup={step}
@@ -176,7 +176,7 @@ const ChromatographyForm = (
         />
       )}
       {showNewStepForm &&
-        <ChromatographyStepForm
+        <MeasurementChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
           initialShowForm={true}
@@ -196,5 +196,5 @@ const ChromatographyForm = (
   )
 }
 
-export default withActivitySteps(ChromatographyForm, 'purify_steps')
+export default withActivitySteps(MeasurementChromatographyForm, 'purify_steps')
 

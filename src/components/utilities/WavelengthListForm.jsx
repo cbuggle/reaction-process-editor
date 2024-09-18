@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { FormGroup, Button, Row } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "./ButtonGroupToggle";
 
-import IconButton from '../../../../utilities/IconButton';
-import MetricsInput from '../../../../utilities/MetricsInput';
-import OptionalFormSet from '../../../../utilities/OptionalFormSet';
-import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
-import MetricsDecorator from '../../../../../decorators/MetricsDecorator';
+import IconButton from './IconButton';
+import MetricsInput from './MetricsInput';
+import OptionalFormSet from './OptionalFormSet';
+import ActivityInfoDecorator from '../../decorators/ActivityInfoDecorator';
+import MetricsDecorator from '../../decorators/MetricsDecorator';
 
 const WavelengthListForm = (
   {
