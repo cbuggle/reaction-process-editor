@@ -14,16 +14,17 @@ import { SubFormController } from "../../../../contexts/SubFormController";
 
 const GenericMetricSubForm = ({
   metricName,
+  label,
   valueSummary,
   children,
   findInitialValue,
   onSave,
   onCancel,
-  isEqualToPredefinedValue = false,
+  isEqualToPredefinedValue,
   typeColor = "condition",
   onResetToPredefined,
 }) => {
-  const formLabel = MetricsDecorator.label(metricName);
+  const formLabel = label || MetricsDecorator.label(metricName);
   const selectOptions = useContext(SelectOptions);
   const subFormController = useContext(SubFormController);
 

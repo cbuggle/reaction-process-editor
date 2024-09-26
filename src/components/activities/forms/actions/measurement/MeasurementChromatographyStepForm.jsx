@@ -78,7 +78,7 @@ const MeasurementChromatographyStepForm = ({
           </OptionalFormSet.ExtraButton>
         )}
         <SolventListForm
-          label={'Modifier'}
+          label={'Mobile Phase'}
           solvents={formData.solvents}
           solventOptions={solventOptions}
           setSolvents={handleChangeFormData('solvents')}
