@@ -70,6 +70,7 @@ const MetricsInput = (
           options={availableUnitOptions}
           value={OptionsDecorator.optionForKey(localUnit, availableUnitOptions)}
           onChange={selectedOption => handleChangeUnit(localUnit)(selectedOption.value)}
+          isDisabled={disabled}
         />
       )
     } else {

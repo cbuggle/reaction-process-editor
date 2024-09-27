@@ -35,53 +35,38 @@ const ChromatographyForm = (
   const currentMethod = OptionsDecorator.optionForKey(workup.method, currentDevice?.methods)
   const currentDetectors = OptionsDecorator.optionsForKeys(workup.detectors, currentMethod?.detectors)
   const currentStationaryPhase = OptionsDecorator.optionForKey(workup.stationary_phase, currentMethod?.stationary_phases)
+  const isAutomated = workup.automation === "AUTOMATED"
 
   useEffect(() => {
-    console.log(selectOptions.devices)
-    workup.jar_material || onWorkupChange({ name: 'jar_material', value: selectOptions.jar_materials[0].value })
     workup.chromatography_type || onWorkupChange({ name: 'chromatography_type', value: selectOptions.chromatography_types[0].value })
+    workup.device || handleDeviceChange(selectOptions.devices[0])
+    workup.jar_material || onWorkupChange({ name: 'jar_material', value: selectOptions.jar_materials[0].value })
 
     // eslint-disable-next-line
   }, [])
 
-  useEffect(() => {
-    workup.device || onWorkupChange({ name: 'device', value: selectOptions.devices[0]?.value })
-    workup.method || onWorkupChange({ name: 'method', value: currentDevice?.methods?.[0] })
-    workup.volume || onWorkupChange({ name: 'volume', value: currentMethod?.default_volume })
-    // eslint-disable-next-line
-  }, [workup, workup.chromatography_type])
-
-
   const hasDetectorMeasurementType = (measurementType) => {
-    console.log("currentDetectors")
-    console.log(currentDetectors)
     return !!currentDetectors?.find((detector) => detector.measurement_defaults[measurementType])
   }
 
   const hasStationaryPhaseMeasurementType = (measurementType) => {
-    console.log("currentStationaryPhase")
-    console.log(currentStationaryPhase)
     return !!currentStationaryPhase?.measurement_defaults?.[measurementType]
   }
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   const handleNoDetectorSetting = (detectors) => {
+    // 'NO_DETECTOR' is a special case (setting on some chromatography devices) and needs to be the sole selection.
+    // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
     if (detectors.length > 1 && detectors.find(el => el === 'NO_DETECTOR')) {
-      // 'NO_DETECTOR' is a special case (setting on some chromatography devices) and needs to be the sole selection.
-      // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
       onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
     } else {
       onWorkupChange({ name: 'detectors', value: detectors })
     }
   }
 
-  const setDetectorMeasurementDefaults = (detectors) => {
-    console.log("detectors")
-    console.log(detectors)
-
+  const setDetectorsMeasurementDefaults = (detectors) => {
     detectors?.forEach((detector) => {
-
       let measurementTypes = Object.keys(detector.measurement_defaults)
 
       measurementTypes.forEach((measurementType) => {
@@ -92,28 +77,27 @@ const ChromatographyForm = (
     )
   }
 
-  const handleDetectorsChange = (selected) => {
-    let detectors = selected.map(option => option.value)
-    handleNoDetectorSetting(detectors)
-    setDetectorMeasurementDefaults(selected)
-  }
-
   const handleDeviceChange = (selected) => {
-    onWorkupChange({ name: 'method', value: undefined })
     onWorkupChange({ name: 'device', value: selected.value })
-
+    handleMethodChange(selected.methods?.[0])
   }
 
   const handleMethodChange = (selected) => {
-    onWorkupChange({ name: 'volume', value: selected.default_volume })
     onWorkupChange({ name: 'method', value: selected.value })
+    onWorkupChange({ name: 'volume', value: selected.default_volume })
+    handleDetectorsChange(selected.detectors)
+    onWorkupChange({ name: 'mobile_phases', value: selected.mobile_phases })
+    handleStationaryPhaseChange(selected.stationary_phases?.[0])
+  }
+
+  const handleDetectorsChange = (selected) => {
+    let detectors = selected?.map(option => option.value)
+    handleNoDetectorSetting(detectors)
+    setDetectorsMeasurementDefaults(selected)
   }
 
   const handleStationaryPhaseChange = (phase) => {
     onWorkupChange({ name: 'stationary_phase', value: phase.value })
-    console.log("handleStationaryPhaseChange")
-    console.log(phase)
-    console.log(workup)
 
     !workup['STATIONARY_PHASE_TEMPERATURE'] &&
       onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.measurement_defaults?.['TEMPERATURE'] })
@@ -136,21 +120,12 @@ const ChromatographyForm = (
       {hasDetectorMeasurementType("TEMPERATURE") &&
         <>
           <FormGroup>
-
-            {/* <MetricFormGroup
-            metricName={"TEMPERATURE"}
-            label={'Detector Temperature'}
-            preconditions={workup.TEMPERATURE}
-            workup={workup}
-            onWorkupChange={onWorkupChange}
-            typeColor='action'
-
-          /> */}
             <MetricsInput
               label={'Detector Temp'}
               metricName={"TEMPERATURE"}
               amount={workup.TEMPERATURE}
               onChange={handleTemperatureChange}
+              disabled={isAutomated}
             />
           </FormGroup>
         </>
@@ -161,11 +136,13 @@ const ChromatographyForm = (
           metricName={"VOLTAGE"}
           amount={workup.VOLTAGE}
           onChange={handleVoltageChange}
+          disabled={isAutomated}
         />}
       {hasDetectorMeasurementType("WAVELENGTHS") &&
         <WavelengthListForm
           wavelengths={workup.WAVELENGTHS}
           onChange={handleWorkupChange('WAVELENGTHS')}
+          disabled={isAutomated}
         />}
     </>
   }
@@ -197,7 +174,7 @@ const ChromatographyForm = (
                   onChange={handleDeviceChange}
                 />
               </SingleLineFormGroup>
-              {workup.automation === "AUTOMATED" &&
+              {isAutomated ?
                 <>
                   <SingleLineFormGroup label='Method'>
                     <Select
@@ -213,6 +190,12 @@ const ChromatographyForm = (
                   <FormGroup>
                     {currentMethod?.description}
                   </FormGroup>
+                </> :
+                <>
+                  <SingleLineFormGroup />
+                  <SingleLineFormGroup />
+                  <SingleLineFormGroup />
+                  <SingleLineFormGroup />
                 </>
               }
 
@@ -226,17 +209,6 @@ const ChromatographyForm = (
                   isMulti
                   isClearable={false}
                   onChange={handleDetectorsChange}
-                />
-              </SingleLineFormGroup>
-              <SingleLineFormGroup label='Mobile Phases'>
-                <Select
-                  isMulti
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="mobile_phases"
-                  options={currentMethod?.mobile_phases}
-                  value={workup.mobile_phases}
-                  onChange={selected => onWorkupChange({ name: 'mobile_phases', value: selected })}
                 />
               </SingleLineFormGroup>
               <SingleLineFormGroup label='Stationary Phase'>
@@ -256,12 +228,25 @@ const ChromatographyForm = (
                   amount={workup.STATIONARY_PHASE_TEMPERATURE}
                   onChange={handleStationaryPhaseTemperatureChange}
                 />}
+              <SingleLineFormGroup label='Mobile Phases'>
+                <Select
+                  className="react-select--overwrite"
+                  classNamePrefix="react-select"
+                  name="mobile_phases"
+                  options={currentMethod?.mobile_phases}
+                  value={workup.mobile_phases}
+                  onChange={selected => onWorkupChange({ name: 'mobile_phases', value: selected })}
+                  isMulti
+                  isDisabled={isAutomated}
+                />
+              </SingleLineFormGroup>
               <SingleLineFormGroup label={'Inj. Volume'}>
                 <MetricsInput
                   displayMultiLine
                   metricName={"VOLUME"}
                   amount={workup.volume}
                   onChange={handleWorkupChange('volume')}
+                  disabled={isAutomated}
                 />
               </SingleLineFormGroup>
             </FormSection>

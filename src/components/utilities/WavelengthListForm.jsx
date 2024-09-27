@@ -14,6 +14,7 @@ const WavelengthListForm = (
   {
     wavelengths,
     onChange,
+    disabled
   }) => {
 
   const defaultPeak = MetricsDecorator.defaultAmount("WAVELENGTH")
@@ -111,6 +112,7 @@ const WavelengthListForm = (
                     metricName={'WAVELENGTH'}
                     amount={peak}
                     onChange={handleChangePeak(index)}
+                    disabled={disabled}
                   />
                 </div>
                 <div className='col-1 d-flex flex-column justify-content-center'>
@@ -184,6 +186,7 @@ const WavelengthListForm = (
       onSave={handleSave}
       onCancel={handleCancel}
       typeColor={'action'}
+      disabled={disabled}
     >
       {renderAutomationToggle()}
       {isRange ? renderRangeForm() : renderPeaksForm()}
