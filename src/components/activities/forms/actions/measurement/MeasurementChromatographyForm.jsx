@@ -39,7 +39,7 @@ const MeasurementChromatographyForm = (
 
   useEffect(() => {
     workup.chromatography_type || onWorkupChange({ name: 'chromatography_type', value: selectOptions.chromatography_types[0].value })
-    workup.device || handleDeviceChange(selectOptions.devices[0])
+    // workup.device || handleDeviceChange(selectOptions.devices[0])
     workup.jar_material || onWorkupChange({ name: 'jar_material', value: selectOptions.jar_materials[0].value })
 
     // eslint-disable-next-line
