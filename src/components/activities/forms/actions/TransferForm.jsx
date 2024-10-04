@@ -17,13 +17,12 @@ const TransferForm = (
     isPersisted,
   }) => {
 
-  const stepSelectOptions = useContext(StepSelectOptions)
-  const sampleOptions = stepSelectOptions.transferable_samples
+  const transferOptions = useContext(StepSelectOptions).FORMS.TRANSFER
+  const sampleOptions = transferOptions.transferable_samples
 
   const [sample, setSample] = useState(OptionsDecorator.optionForKey(workup['sample_id'], sampleOptions))
 
-  var transferToOptions = stepSelectOptions
-    .transfer_targets
+  var transferToOptions = transferOptions.targets
     .filter(transferTarget => !transferTarget.saved_sample_ids.includes(sample?.id))
 
   const handleSampleChange = ({ sampleId, label }) => {
@@ -38,7 +37,7 @@ const TransferForm = (
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
     }
 
-    let currentTarget = OptionsDecorator.optionForKey(workup['transfer_target_step_id'], stepSelectOptions.transfer_targets)
+    let currentTarget = OptionsDecorator.optionForKey(workup['transfer_target_step_id'], transferOptions.transfer_targets)
 
     if (currentTarget && currentTarget.saved_sample_ids.includes(newSample.id)) {
       onWorkupChange({ name: 'transfer_target_step_id', value: '' })

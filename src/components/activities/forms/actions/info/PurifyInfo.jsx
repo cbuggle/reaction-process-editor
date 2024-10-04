@@ -14,7 +14,7 @@ const PurifyInfo = ({ activity }) => {
 	let workup = activity.workup
 	let steps = workup["purify_steps"];
 
-	const purifyOptions = useContext(SelectOptions).purify[workup.purify_type];
+	const purifyOptions = useContext(SelectOptions).FORMS.PURIFY[workup.purify_type];
 
 	const isCristallization = workup.purify_type === 'CRYSTALLIZATION'
 

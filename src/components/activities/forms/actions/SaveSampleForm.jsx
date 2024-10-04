@@ -19,8 +19,9 @@ import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
 const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
 
   const selectOptions = useContext(SelectOptions);
-  const stepSelectOptions = useContext(StepSelectOptions);
+  const saveSampleOptions = selectOptions.FORMS.SAVE
 
+  const stepSelectOptions = useContext(StepSelectOptions);
 
   useEffect(() => {
     workup.solvents_amount ||
@@ -38,9 +39,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
-  const currentOriginAction = OptionsDecorator.optionForKey(
-    workup.sample_origin_action_id, stepSelectOptions.save_sample_origins
-  )
+  const currentOriginAction = OptionsDecorator.optionForKey(workup.sample_origin_action_id, saveSampleOptions.origins)
 
   const purifyStepFormIsDisabled = currentOriginAction?.purify_type === 'CRYSTALLIZATION'
 
@@ -72,7 +71,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="sample_origin_action_id"
-            options={stepSelectOptions.save_sample_origins}
+            options={stepSelectOptions.FORMS.SAVE.origins}
             value={currentOriginAction}
             onChange={handleChangeAction}
           />
@@ -106,12 +105,13 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   }
 
   const renderOriginToggle = () => {
+
     return (
       <FormGroup>
         <ButtonGroupToggle
           label="Origin"
-          value={workup.sample_origin_type || selectOptions.save_sample_origin_types[0].value}
-          options={selectOptions.save_sample_origin_types}
+          value={workup.sample_origin_type || saveSampleOptions.origin_types[0].value}
+          options={saveSampleOptions.origin_types}
           onChange={handleWorkupChange("sample_origin_type")}
         />
       </FormGroup>
@@ -204,8 +204,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="intermediate_type"
-            options={selectOptions.save_sample_types}
-            value={OptionsDecorator.optionForKey(workup.intermediate_type, selectOptions.save_sample_types)}
+            options={saveSampleOptions.types}
+            value={OptionsDecorator.optionForKey(workup.intermediate_type, saveSampleOptions.types)}
             onChange={(selectedOption) =>
               handleWorkupChange("intermediate_type")(
                 selectedOption.value

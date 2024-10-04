@@ -65,11 +65,11 @@ export default class ActivityInfoDecorator {
     return [
       OptionsDecorator.optionToLabel(
         conditionWorkup.motion_type,
-        selectOptions.motion_types
+        selectOptions.FORMS.MOTION.motion_types
       ),
       OptionsDecorator.optionToLabel(
         conditionWorkup.motion_mode,
-        selectOptions.automation_modes
+        selectOptions.FORMS.MOTION.automation_modes
       ),
       MetricsDecorator.infoLineAmount(conditionWorkup.speed),
     ].join(" ");

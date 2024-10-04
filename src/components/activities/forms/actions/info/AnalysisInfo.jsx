@@ -7,10 +7,10 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const AnalysisInfo = ({ activity }) => {
 
-	const selectOptions = useContext(SelectOptions)
+	const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS
 
 	let workup = activity.workup
-	let infoTitle = OptionsDecorator.optionToLabel(workup.analysis_type, selectOptions.analysis_types);
+	let infoTitle = OptionsDecorator.optionToLabel(workup.analysis_type, selectOptions.types);
 
 	return (
 		<InfoLinesBox title={infoTitle} />

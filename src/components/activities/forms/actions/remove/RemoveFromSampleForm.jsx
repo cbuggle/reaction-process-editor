@@ -12,8 +12,7 @@ import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions'
 import RemoveSolventListFormSection from './RemoveSolventListFormSection'
 
 const RemoveFromSampleForm = ({ workup, onWorkupChange }) => {
-	const stepSelectOptions = useContext(StepSelectOptions);
-	const removableSamplesOptions = stepSelectOptions.removable_samples[workup.origin_type]
+	const removableSamplesOptions = useContext(StepSelectOptions).FORMS.REMOVE.removable_samples[workup.origin_type]
 
 	const handleSampleChange = (sample) => {
 		onWorkupChange({ name: "samples", value: [sample] });

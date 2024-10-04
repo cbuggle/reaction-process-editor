@@ -19,7 +19,7 @@ const CrystallizationForm = (
   const solvents = workup['purify_steps']?.[0]?.solvents || []
   const amount = workup.amount || { value: 0, unit: 'ml' }
 
-  const crystallizationOptions = useContext(SelectOptions).purify.CRYSTALLIZATION
+  const crystallizationOptions = useContext(SelectOptions).FORMS.PURIFY.CRYSTALLIZATION
 
   useEffect(() => {
     workup.automation ||

@@ -21,9 +21,9 @@ const FiltrationStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const selectOptions = useContext(SelectOptions);
-  const solventOptions = selectOptions.purify.FILTRATION.solvent_options;
   const subFormController = useContext(SubFormController);
+  const selectOptions = useContext(SelectOptions);
+  const solventOptions = selectOptions.FORMS.PURIFY.FILTRATION.solvent_options;
 
   const initialFormData = {
     duration: workup.duration || 0,

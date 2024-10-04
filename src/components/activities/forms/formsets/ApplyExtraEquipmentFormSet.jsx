@@ -16,8 +16,7 @@ const ApplyExtraEquipmentFormSet = ({
 }) => {
   const [equipment, setEquipment] = useState(workup.EQUIPMENT?.value || []);
 
-  const selectOptions = useContext(SelectOptions);
-  const equipmentOptions = selectOptions.activity_type_equipment[actionName];
+  const extraEquipmentOptions = useContext(SelectOptions).FORMS[actionName].equipment;
 
   const handleSaveEquipment = () => onWorkupChange({ name: "EQUIPMENT", value: { value: equipment } });
 
@@ -25,12 +24,12 @@ const ApplyExtraEquipmentFormSet = ({
 
   return (
     <>
-      {equipmentOptions?.length > 0 && (
+      {extraEquipmentOptions?.length > 0 && (
         <OptionalFormSet
           subFormLabel="Equipment"
           valueSummary={ActivityInfoDecorator.infoLineEquipment(
             workup["EQUIPMENT"],
-            equipmentOptions
+            extraEquipmentOptions
           )}
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
@@ -42,8 +41,8 @@ const ApplyExtraEquipmentFormSet = ({
             classNamePrefix="react-select"
             isMulti
             isClearable={false}
-            options={equipmentOptions}
-            value={OptionsDecorator.optionsForKeys(equipment, equipmentOptions)}
+            options={extraEquipmentOptions}
+            value={OptionsDecorator.optionsForKeys(equipment, extraEquipmentOptions)}
             onChange={(selectedOptions) =>
               setEquipment(selectedOptions.map((option) => option.value))
             }

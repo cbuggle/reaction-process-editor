@@ -29,7 +29,7 @@ const MeasurementChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY
+  const selectOptions = useContext(SelectOptions).FORMS.PURIFY.CHROMATOGRAPHY
 
   const currentDevice = OptionsDecorator.optionForKey(workup.device, selectOptions.devices)
   const currentMethod = OptionsDecorator.optionForKey(workup.method, currentDevice?.methods)

@@ -22,8 +22,7 @@ const ChromatographyStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const chromatographyOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY;
-  const solventOptions = chromatographyOptions.solvent_options;
+  const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFY.CHROMATOGRAPHY;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {
@@ -80,7 +79,7 @@ const ChromatographyStepForm = ({
         <SolventListForm
           label={'Mobile Phase'}
           solvents={formData.solvents}
-          solventOptions={solventOptions}
+          solventOptions={chromatographyOptions.solvent_options}
           setSolvents={handleChangeFormData('solvents')}
         />
         <FormGroup>

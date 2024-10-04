@@ -12,7 +12,7 @@ const EquipmentSubsetForm = (
   }) => {
 
   const selectOptions = useContext(SelectOptions)
-  const localEquipmentOptions = selectOptions.activity_type_equipment['CONDITION'][metricName]
+  const localEquipmentOptions = selectOptions.FORMS.CONDITION.equipment[metricName]
   const localEquipmentOptionNames = localEquipmentOptions.map(item => item.value)
 
   const handleChangeEquipment = (localEquipment) => {

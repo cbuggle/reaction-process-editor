@@ -22,7 +22,7 @@ const MeasurementChromatographyStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const chromatographyOptions = useContext(SelectOptions).measurement.CHROMATOGRAPHY;
+  const chromatographyOptions = useContext(SelectOptions).FORMS.MEASUREMENT.CHROMATOGRAPHY;
   const solventOptions = chromatographyOptions.solvent_options;
   const subFormController = useContext(SubFormController);
 

@@ -22,7 +22,9 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     ["PRESSURE", "add_sample_pressure"],
   ];
 
-  const selectOptions = useContext(SelectOptions);
+  const selectOptions = useContext(SelectOptions)
+  const additionOptions = selectOptions.FORMS.ADD
+
   useEffect(() => {
     inputMetrics.forEach(([metricName, workupKey]) => {
       const unit =
@@ -44,7 +46,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     workup["addition_speed_type"] ||
       onWorkupChange({
         name: "addition_speed_type",
-        value: selectOptions.addition_speed_types[0].value,
+        value: additionOptions.addition_speed_types[0].value,
       });
     // eslint-disable-next-line
   }, []);
@@ -140,8 +142,8 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="addition_speed_type"
-            options={selectOptions.addition_speed_types}
-            value={OptionsDecorator.optionForKey(workup["addition_speed_type"], selectOptions.addition_speed_types)}
+            options={additionOptions.addition_speed_types}
+            value={OptionsDecorator.optionForKey(workup["addition_speed_type"], additionOptions.addition_speed_types)}
             onChange={(selected) =>
               handleChange("addition_speed_type")(selected.value)
             }

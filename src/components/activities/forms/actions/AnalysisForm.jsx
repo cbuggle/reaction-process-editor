@@ -10,7 +10,7 @@ import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 
 const AnalysisForm = ({ workup, onWorkupChange }) => {
-  const selectOptions = useContext(SelectOptions);
+  const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS;
 
   return (
     <FormSection type="action">
@@ -19,10 +19,10 @@ const AnalysisForm = ({ workup, onWorkupChange }) => {
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="analysis_type"
-          options={selectOptions.analysis_types}
+          options={selectOptions.types}
           value={OptionsDecorator.optionToLabel(
             workup.analysis_type,
-            selectOptions.analysis_types
+            selectOptions.types
           )}
           onChange={(selectedOption) =>
             onWorkupChange({

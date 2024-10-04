@@ -30,11 +30,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).purify.CHROMATOGRAPHY
-
-  console.log("selectOptions ChromatographyFOrm")
-  console.log(workup)
-  console.log(selectOptions)
+  const selectOptions = useContext(SelectOptions).FORMS.PURIFY.CHROMATOGRAPHY
 
   const currentType = OptionsDecorator.optionForKey(workup.chromatography_type, selectOptions.chromatography_types)
   const currentSubtype = OptionsDecorator.optionForKey(workup.chromatography_subtype, currentType?.subtypes)
@@ -68,28 +64,12 @@ const ChromatographyForm = (
     }
   }
 
-  // const setDetectorsMeasurementDefaults = (detectors) => {
-  //   return;
-  //   detectors?.forEach((detector) => {
-  //     let measurementTypes = Object.keys(detector.measurement_defaults)
-
-  //     measurementTypes.forEach((measurementType) => {
-  //       !workup[measurementType] &&
-  //         onWorkupChange({ name: measurementType, value: detector.measurement_defaults[measurementType] })
-  //     })
-  //   }
-  //   )
-  // }
   const setMethodMeasurementDefaults = (detectors) => {
     detectors?.forEach((detector) => {
       let measurementTypes = Object.keys(detector.measurement_defaults)
 
       measurementTypes.forEach((measurementType) => {
-        console.log("workup.detectors")
-        console.log(workup.detectors)
-        console.log(detector)
         if (workup.detectors?.includes(detector.value)) {
-          console.log("setting defaults")
           onWorkupChange({ name: measurementType, value: detector.measurement_defaults[measurementType] })
         } else {
           onWorkupChange({ name: measurementType, value: undefined })

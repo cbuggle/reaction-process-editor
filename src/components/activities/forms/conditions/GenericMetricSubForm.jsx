@@ -24,12 +24,11 @@ const GenericMetricSubForm = ({
   typeColor = "condition",
   onResetToPredefined,
 }) => {
-  const formLabel = label || MetricsDecorator.label(metricName);
-  const selectOptions = useContext(SelectOptions);
   const subFormController = useContext(SubFormController);
+  const selectOptions = useContext(SelectOptions);
+  const additionalInformationOptions = selectOptions.FORMS.CONDITION.additional_information[metricName];
 
-  const additionalInformationOptions =
-    selectOptions.condition_additional_information[metricName];
+  const formLabel = label || MetricsDecorator.label(metricName);
 
   const initialAmount = () => {
     return {
