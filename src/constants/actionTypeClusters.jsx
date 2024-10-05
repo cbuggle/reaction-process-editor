@@ -100,16 +100,16 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'purify',
+    id: 'purification',
     label: 'Separate / Purify',
     types: [
       {
         id: 'filtration',
         createLabel: 'Filtration',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'FILTRATION',
+            purification_type: 'FILTRATION',
             automation: 'AUTOMATED',
             filtration_mode: 'KEEP_PRECIPITATE'
           }
@@ -119,9 +119,9 @@ export const actionTypeClusters = [
         id: 'extraction',
         createLabel: 'Extraction',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'EXTRACTION',
+            purification_type: 'EXTRACTION',
             automation: 'AUTOMATED',
             phase: 'ORGANIC'
           }
@@ -131,9 +131,9 @@ export const actionTypeClusters = [
         id: 'chromatography',
         createLabel: 'Chromatography',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'CHROMATOGRAPHY',
+            purification_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
           }
         }
@@ -142,9 +142,9 @@ export const actionTypeClusters = [
         id: 'crystallization',
         createLabel: 'Crystallization',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'CRYSTALLIZATION',
+            purification_type: 'CRYSTALLIZATION',
             automation: 'AUTOMATED'
           }
         }

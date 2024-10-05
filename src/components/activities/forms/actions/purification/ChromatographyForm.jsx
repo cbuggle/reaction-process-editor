@@ -30,7 +30,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).FORMS.PURIFY.CHROMATOGRAPHY
+  const selectOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY
 
   const currentType = OptionsDecorator.optionForKey(workup.chromatography_type, selectOptions.chromatography_types)
   const currentSubtype = OptionsDecorator.optionForKey(workup.chromatography_subtype, currentType?.subtypes)
@@ -338,5 +338,5 @@ const ChromatographyForm = (
   )
 }
 
-export default withActivitySteps(ChromatographyForm, 'purify_steps')
+export default withActivitySteps(ChromatographyForm, 'purification_steps')
 

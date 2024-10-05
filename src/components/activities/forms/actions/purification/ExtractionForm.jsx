@@ -20,7 +20,7 @@ const ExtractionForm = ({
   onCancelStep,
   onDeleteStep
 }) => {
-  const extractionOptions = useContext(SelectOptions).FORMS.PURIFY.EXTRACTION;
+  const extractionOptions = useContext(SelectOptions).FORMS.PURIFICATION.EXTRACTION;
 
   const renderAutomationToggle = () => {
     return (
@@ -89,4 +89,4 @@ const ExtractionForm = ({
 };
 
 
-export default withActivitySteps(ExtractionForm, 'purify_steps');
+export default withActivitySteps(ExtractionForm, 'purification_steps');

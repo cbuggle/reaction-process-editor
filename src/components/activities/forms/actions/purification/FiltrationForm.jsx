@@ -21,7 +21,7 @@ const FiltrationForm = (
     onDeleteStep
   }) => {
 
-  const filtrationOptions = useContext(SelectOptions).FORMS.PURIFY.FILTRATION
+  const filtrationOptions = useContext(SelectOptions).FORMS.PURIFICATION.FILTRATION
 
   const renderFilterMethodToggle = () => {
     return (
@@ -83,4 +83,4 @@ const FiltrationForm = (
   )
 }
 
-export default withActivitySteps(FiltrationForm, 'purify_steps')
+export default withActivitySteps(FiltrationForm, 'purification_steps')

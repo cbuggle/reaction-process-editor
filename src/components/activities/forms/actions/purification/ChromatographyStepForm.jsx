@@ -8,7 +8,7 @@ import MetricsInput from "../../../../utilities/MetricsInput";
 import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 import SolventListForm from "../../../../utilities/SolventListForm";
 
-import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
+import PurificationDecorator from "../../../../../decorators/PurificationDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
@@ -22,7 +22,7 @@ const ChromatographyStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFY.CHROMATOGRAPHY;
+  const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {
@@ -57,7 +57,7 @@ const ChromatographyStepForm = ({
     onDelete();
   };
 
-  const summary = PurifyDecorator.infoLineSolventsWithRatio(formData)
+  const summary = PurificationDecorator.infoLineSolventsWithRatio(formData)
 
   return (
     <>
@@ -84,7 +84,7 @@ const ChromatographyStepForm = ({
         />
         <FormGroup>
           <MetricsInput
-            tooltipName={'purify_amount'}
+            tooltipName={'purification_amount'}
             metricName={"VOLUME"}
             amount={formData.amount}
             onChange={handleChangeFormData('amount')}
@@ -97,7 +97,7 @@ const ChromatographyStepForm = ({
             onChange={handleChangeFormData('flow_rate')}
           />
           <DurationSelection
-            tooltipName={'purify_duration'}
+            tooltipName={'purification_duration'}
             duration={formData.duration}
             onChangeDuration={handleChangeFormData('duration')}
           />

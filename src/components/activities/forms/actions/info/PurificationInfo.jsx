@@ -7,21 +7,23 @@ import PurificationDecorator from '../../../../../decorators/PurificationDecorat
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
-const MeasurementInfo = ({ activity }) => {
+const PurificationInfo = ({ activity }) => {
 
 	let infoTitle = ""
 	let infoLines = []
 	let workup = activity.workup
-	let steps = workup["purification_steps"] || [];
+	let steps = workup["purification_steps"];
 
-	const purificationOptions = useContext(SelectOptions).FORMS.MEASUREMENT[workup.measurement_type] || {};
+	const purificationOptions = useContext(SelectOptions).FORMS.PURIFICATION[workup.purification_type];
+
+	const isCristallization = workup.purification_type === 'CRYSTALLIZATION'
 
 	const addAutomationToTitle = () => {
 		infoTitle += " " + OptionsDecorator.optionToLabel(workup.automation, purificationOptions.automation_modes);
 	}
 
 	const addStepsToTitle = () => {
-		if (steps) {
+		if (!isCristallization && steps) {
 			infoTitle += steps.length + " Step";
 			if (steps.length > 1) { infoTitle += "s"; }
 		}
@@ -31,18 +33,27 @@ const MeasurementInfo = ({ activity }) => {
 		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvent_options))
 	}
 
-	switch (workup.measurement_type) {
+	switch (workup.purification_type) {
+		case "CRYSTALLIZATION":
 		case "CHROMATOGRAPHY":
 			addStepsToTitle()
 			addAutomationToTitle()
 			addPurificationSolventsToLines()
 			break;
-		case "SPECTRONOMY":
+		case "EXTRACTION":
+			addStepsToTitle()
+			infoTitle += " " + workup.automation.toLowerCase() + ", Phase: " + workup.phase.toLowerCase();
+			addPurificationSolventsToLines()
 			break;
-		case "SPECTROSCOPY":
+		case "FILTRATION":
+			addStepsToTitle()
+			addAutomationToTitle()
+			infoTitle += " Keep " + OptionsDecorator.optionToLabel(workup.filtration_mode, purificationOptions.modes
+			);
+			addPurificationSolventsToLines()
 			break;
 		default:
-			infoTitle = "Error in PurificationInfo: Unknown type: " + workup.measurement_type
+			infoTitle = "Error in PurificationInfo: Unknown type: " + workup.purification_type
 			break;
 	}
 
@@ -51,4 +62,4 @@ const MeasurementInfo = ({ activity }) => {
 	)
 }
 
-export default MeasurementInfo
+export default PurificationInfo

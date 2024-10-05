@@ -4,7 +4,7 @@ import AddInfo from "./forms/actions/info/AddInfo";
 import AnalysisInfo from "./forms/actions/info/AnalysisInfo";
 import ConditionInfo from "./forms/actions/info/ConditionInfo";
 import MeasurementInfo from "./forms/actions/info/MeasurmentInfo";
-import PurifyInfo from "./forms/actions/info/PurifyInfo";
+import PurificationInfo from "./forms/actions/info/PurificationInfo";
 import RemoveInfo from "./forms/actions/info/RemoveInfo";
 import SaveInfo from "./forms/actions/info/SaveInfo";
 import TransferInfo from "./forms/actions/info/TransferInfo";
@@ -26,7 +26,7 @@ const ActivityInfo = (props) => {
       'ADD': AddInfo,
       'ANALYSIS': AnalysisInfo,
       'CONDITION': ConditionInfo,
-      'PURIFY': PurifyInfo,
+      'PURIFICATION': PurificationInfo,
       'MEASUREMENT': MeasurementInfo,
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,

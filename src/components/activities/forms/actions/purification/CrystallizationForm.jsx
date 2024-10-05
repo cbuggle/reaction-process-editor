@@ -16,10 +16,10 @@ const CrystallizationForm = (
     onWorkupChange,
   }) => {
 
-  const solvents = workup['purify_steps']?.[0]?.solvents || []
+  const solvents = workup['purification_steps']?.[0]?.solvents || []
   const amount = workup.amount || { value: 0, unit: 'ml' }
 
-  const crystallizationOptions = useContext(SelectOptions).FORMS.PURIFY.CRYSTALLIZATION
+  const crystallizationOptions = useContext(SelectOptions).FORMS.PURIFICATION.CRYSTALLIZATION
 
   useEffect(() => {
     workup.automation ||
@@ -37,9 +37,9 @@ const CrystallizationForm = (
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
-  // Crystallization is the only 1 of 4 the purify types having no actual purify_steps. For consistentency we mimic
-  // their behaiour by wrapping the crystallizatin in an array `purify_steps` with exactly 1 step. cbuggle, 01.07.2024.
-  const handleSolventsChange = (solvents) => onWorkupChange({ name: 'purify_steps', value: [{ solvents: solvents }] })
+  // Crystallization is the only 1 of 4 the purification types having no actual purification_steps. For consistentency we mimic
+  // their behaiour by wrapping the crystallizatin in an array `purification_steps` with exactly 1 step. cbuggle, 01.07.2024.
+  const handleSolventsChange = (solvents) => onWorkupChange({ name: 'purification_steps', value: [{ solvents: solvents }] })
 
   return (
     <>

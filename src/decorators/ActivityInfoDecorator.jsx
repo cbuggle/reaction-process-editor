@@ -10,8 +10,8 @@ export default class ActivityInfoDecorator {
 
     if (workup && !!Object.keys(workup).length) {
       switch (activity.activity_name) {
-        case "PURIFY":
-          title = workup.purify_type;
+        case "PURIFICATION":
+          title = 'Purification ' + workup.purification_type;
           break;
         case "MEASUREMENT":
           title = 'Measurement ' + workup.measurement_type;

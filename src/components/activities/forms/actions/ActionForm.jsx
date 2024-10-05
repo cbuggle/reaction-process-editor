@@ -4,7 +4,7 @@ import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
 import AnalysisForm from "./AnalysisForm";
 import MeasurementBaseForm from './MeasurementBaseForm';
-import PurifyBaseForm from "./PurifyBaseForm";
+import PurificationBaseForm from "./PurificationBaseForm";
 import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
@@ -58,10 +58,10 @@ const ActionForm = (
             onWorkupChange={onWorkupChange}
           />
         )
-      case "PURIFY":
+      case "PURIFICATION":
         return (
           <>
-            <PurifyBaseForm
+            <PurificationBaseForm
               workup={workup}
               onWorkupChange={onWorkupChange}
               preconditions={preconditions}

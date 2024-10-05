@@ -56,7 +56,7 @@ const SolventListForm = ({
 				placeholder={'Add ' + label}
 				className="react-select--overwrite filtration-step-form__solvent-select"
 				classNamePrefix="react-select"
-				name="purify_solvent_solvent_ids"
+				name="purification_solvent_solvent_ids"
 				options={selectableSolventOptions}
 				value={''}
 				onChange={selectedOption => addSolvent(selectedOption)}

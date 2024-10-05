@@ -11,7 +11,7 @@ import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
 import VesselFormSection from "../../../vessels/VesselFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
-import PurifyDecorator from "../../../../decorators/PurifyDecorator";
+import PurificationDecorator from "../../../../decorators/PurificationDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
@@ -25,40 +25,40 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
   useEffect(() => {
     workup.solvents_amount ||
-      (workup.sample_origin_purify_step && onWorkupChange({ name: 'solvents_amount', value: workup.sample_origin_purify_step?.amount }))
+      (workup.sample_origin_purification_step && onWorkupChange({ name: 'solvents_amount', value: workup.sample_origin_purification_step?.amount }))
 
     // eslint-disable-next-line
-  }, [workup.sample_origin_purify_step])
+  }, [workup.sample_origin_purification_step])
 
   const handleWorkupChange = (name) => (value) => {
     onWorkupChange({ name: name, value: value });
   };
 
   const handleChangeAction = (action) => {
-    onWorkupChange({ name: 'sample_origin_purify_step', value: action.purify_steps?.[0] });
+    onWorkupChange({ name: 'sample_origin_purification_step', value: action.purification_steps?.[0] });
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
   const currentOriginAction = OptionsDecorator.optionForKey(workup.sample_origin_action_id, saveSampleOptions.origins)
 
-  const purifyStepFormIsDisabled = currentOriginAction?.purify_type === 'CRYSTALLIZATION'
+  const purificationStepFormIsDisabled = currentOriginAction?.purification_type === 'CRYSTALLIZATION'
 
   const renderStepSelect = () => {
     return (<>
-      <SingleLineFormGroup label="Purify Step">
+      <SingleLineFormGroup label="Purification Step">
         <Select
           key={'action-select' + currentOriginAction?.value}
-          isDisabled={purifyStepFormIsDisabled}
+          isDisabled={purificationStepFormIsDisabled}
           className="react-select--overwrite"
           classNamePrefix="react-select"
-          name="sample_origin_purify_step"
-          options={currentOriginAction?.purify_steps || []}
-          value={workup.sample_origin_purify_step}
-          onChange={(selectedOption) => handleWorkupChange("sample_origin_purify_step")(selectedOption)}
+          name="sample_origin_purification_step"
+          options={currentOriginAction?.purification_steps || []}
+          value={workup.sample_origin_purification_step}
+          onChange={(selectedOption) => handleWorkupChange("sample_origin_purification_step")(selectedOption)}
         />
       </SingleLineFormGroup>
       <SingleLineFormGroup label={'Solvents'}>
-        {workup?.sample_origin_purify_step && PurifyDecorator.infoLineSolvents(workup.sample_origin_purify_step.solvents)}
+        {workup?.sample_origin_purification_step && PurificationDecorator.infoLineSolvents(workup.sample_origin_purification_step.solvents)}
       </SingleLineFormGroup >
     </>)
   }
