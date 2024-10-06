@@ -32,13 +32,13 @@ const MeasurementChromatographyForm = (
 
   const selectOptions = useContext(SelectOptions).FORMS.MEASUREMENT.CHROMATOGRAPHY
 
-  const currentType = OptionsDecorator.optionForKey(workup.chromatography_type, selectOptions.chromatography_types)
-  const currentSubtype = OptionsDecorator.optionForKey(workup.chromatography_subtype, currentType?.subtypes)
-  const currentDevice = OptionsDecorator.optionForKey(workup.device, currentSubtype?.devices)
-  const currentDetectors = OptionsDecorator.optionsForKeys(workup.detectors, currentDevice?.detectors)
+  const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
+  const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, currentType?.subtypes)
+  const currentDevice = OptionsDecorator.inclusiveOptionForValue(workup.device, currentSubtype?.devices)
+  const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, currentDevice?.detectors)
 
-  const currentMethod = OptionsDecorator.optionForKey(workup.method, currentDevice?.methods)
-  const currentStationaryPhase = OptionsDecorator.optionForKey(workup.stationary_phase, currentMethod?.stationary_phases)
+  const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
+  const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethod?.stationary_phases)
   const isAutomated = workup.automation === "AUTOMATED"
 
   const hasDetectorMeasurementType = (measurementType) => {
@@ -157,7 +157,7 @@ const MeasurementChromatographyForm = (
                   classNamePrefix="react-select"
                   name="chromatography_type"
                   options={selectOptions.chromatography_types}
-                  value={OptionsDecorator.optionForKey(workup.chromatography_type, selectOptions.chromatography_types)}
+                  value={currentType}
                   onChange={selected => onWorkupChange({ name: 'chromatography_type', value: selected.value })}
                 />
               </SingleLineFormGroup>
@@ -265,7 +265,7 @@ const MeasurementChromatographyForm = (
                 classNamePrefix="react-select"
                 name="sample_id"
                 options={selectOptions.jar_materials}
-                value={OptionsDecorator.optionForKey(workup.jar_material, selectOptions.jar_materials)}
+                value={OptionsDecorator.optionForValue(workup.jar_material, selectOptions.jar_materials)}
                 onChange={selected => onWorkupChange({ name: 'jar_material', value: selected.value })}
               />
             </SingleLineFormGroup>

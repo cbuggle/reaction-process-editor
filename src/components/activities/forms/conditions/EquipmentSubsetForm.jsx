@@ -31,7 +31,7 @@ const EquipmentSubsetForm = (
         isClearable={false}
         name="equipment"
         options={localEquipmentOptions}
-        value={OptionsDecorator.optionsForKeys(equipment, localEquipmentOptions)}
+        value={OptionsDecorator.optionsForValues(equipment, localEquipmentOptions)}
         onChange={selectedOptions => handleChangeEquipment(selectedOptions.map(option => option.value))}
       />
     </>

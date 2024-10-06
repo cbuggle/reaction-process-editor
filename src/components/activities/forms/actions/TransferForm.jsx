@@ -20,7 +20,7 @@ const TransferForm = (
   const transferOptions = useContext(StepSelectOptions).FORMS.TRANSFER
   const sampleOptions = transferOptions.transferable_samples
 
-  const [sample, setSample] = useState(OptionsDecorator.optionForKey(workup['sample_id'], sampleOptions))
+  const [sample, setSample] = useState(OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions))
 
   var transferToOptions = transferOptions.targets
     .filter(transferTarget => !transferTarget.saved_sample_ids.includes(sample?.id))
@@ -37,7 +37,7 @@ const TransferForm = (
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
     }
 
-    let currentTarget = OptionsDecorator.optionForKey(workup['transfer_target_step_id'], transferOptions.transfer_targets)
+    let currentTarget = OptionsDecorator.optionForValue(workup['transfer_target_step_id'], transferOptions.transfer_targets)
 
     if (currentTarget && currentTarget.saved_sample_ids.includes(newSample.id)) {
       onWorkupChange({ name: 'transfer_target_step_id', value: '' })
@@ -70,7 +70,7 @@ const TransferForm = (
           className="react-select--overwrite"
           classNamePrefix="react-select"
           options={transferToOptions}
-          value={OptionsDecorator.optionForKey(workup['transfer_target_step_id'], transferToOptions)}
+          value={OptionsDecorator.optionForValue(workup['transfer_target_step_id'], transferToOptions)}
           onChange={selectedOption => onWorkupChange({ name: 'transfer_target_step_id', value: selectedOption.value })}
           isDisabled={isPersisted}
         />

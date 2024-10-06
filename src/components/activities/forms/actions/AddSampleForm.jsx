@@ -143,7 +143,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             classNamePrefix="react-select"
             name="addition_speed_type"
             options={additionOptions.addition_speed_types}
-            value={OptionsDecorator.optionForKey(workup["addition_speed_type"], additionOptions.addition_speed_types)}
+            value={OptionsDecorator.optionForValue(workup["addition_speed_type"], additionOptions.addition_speed_types)}
             onChange={(selected) =>
               handleChange("addition_speed_type")(selected.value)
             }

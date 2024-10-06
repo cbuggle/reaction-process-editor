@@ -39,7 +39,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
-  const currentOriginAction = OptionsDecorator.optionForKey(workup.sample_origin_action_id, saveSampleOptions.origins)
+  const currentOriginAction = OptionsDecorator.optionForValue(workup.sample_origin_action_id, saveSampleOptions.origins)
 
   const purificationStepFormIsDisabled = currentOriginAction?.purification_type === 'CRYSTALLIZATION'
 
@@ -205,7 +205,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             classNamePrefix="react-select"
             name="intermediate_type"
             options={saveSampleOptions.types}
-            value={OptionsDecorator.optionForKey(workup.intermediate_type, saveSampleOptions.types)}
+            value={OptionsDecorator.optionForValue(workup.intermediate_type, saveSampleOptions.types)}
             onChange={(selectedOption) =>
               handleWorkupChange("intermediate_type")(
                 selectedOption.value

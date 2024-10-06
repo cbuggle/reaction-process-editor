@@ -42,7 +42,7 @@ const ApplyExtraEquipmentFormSet = ({
             isMulti
             isClearable={false}
             options={extraEquipmentOptions}
-            value={OptionsDecorator.optionsForKeys(equipment, extraEquipmentOptions)}
+            value={OptionsDecorator.optionsForValues(equipment, extraEquipmentOptions)}
             onChange={(selectedOptions) =>
               setEquipment(selectedOptions.map((option) => option.value))
             }

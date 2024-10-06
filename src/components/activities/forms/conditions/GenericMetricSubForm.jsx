@@ -101,7 +101,7 @@ const GenericMetricSubForm = ({
           classNamePrefix="react-select"
           name="additional_information"
           options={additionalInformationOptions}
-          value={OptionsDecorator.optionForKey(additionalInformation, additionalInformationOptions)}
+          value={OptionsDecorator.optionForValue(additionalInformation, additionalInformationOptions)}
           onChange={(selectedOption) =>
             setAdditionalInformation(selectedOption.value)
           }

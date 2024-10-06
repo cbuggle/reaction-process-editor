@@ -68,7 +68,7 @@ const MetricsInput = (
           classNamePrefix="react-select"
           name={"target_amount_unit_" + MetricsDecorator.label(metricName)}
           options={availableUnitOptions}
-          value={OptionsDecorator.optionForKey(localUnit, availableUnitOptions)}
+          value={OptionsDecorator.optionForValue(localUnit, availableUnitOptions)}
           onChange={selectedOption => handleChangeUnit(localUnit)(selectedOption.value)}
           isDisabled={disabled}
         />

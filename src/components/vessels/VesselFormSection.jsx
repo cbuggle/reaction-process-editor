@@ -80,7 +80,7 @@ const VesselFormSection = ({
             isMulti
             isClearable={false}
             options={preparationOptions}
-            value={OptionsDecorator.optionsForKeys(reactionProcessVessel.preparations, preparationOptions)}
+            value={OptionsDecorator.optionsForValues(reactionProcessVessel.preparations, preparationOptions)}
             onChange={(selected) =>
               handleSelectPreparations(selected.map((option) => option.value))
             }

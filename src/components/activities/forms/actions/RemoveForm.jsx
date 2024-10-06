@@ -74,7 +74,7 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
             classNamePrefix="react-select"
             name="origin_type"
             options={selectOptions.origin_types}
-            value={OptionsDecorator.optionForKey(workup["origin_type"], selectOptions.origin_types)}
+            value={OptionsDecorator.optionForValue(workup["origin_type"], selectOptions.origin_types)}
             onChange={(selectedOption) => handleTypeChange(selectedOption.value)
             }
           />

@@ -28,7 +28,7 @@ const SpectronomyForm = ({ workup, onWorkupChange }) => {
 					classNamePrefix="react-select"
 					name="spectronomy_type"
 					options={spectronomyOptions.spectronomy_types}
-					value={OptionsDecorator.optionForKey(workup.spectronomy_type, spectronomyOptions.spectronomy_types)}
+					value={OptionsDecorator.optionForValue(workup.spectronomy_type, spectronomyOptions.spectronomy_types)}
 					onChange={selected => onWorkupChange({ name: 'spectronomy_type', value: selected.value })}
 				/>
 			</SingleLineFormGroup>

@@ -69,7 +69,7 @@ const MotionForm = ({
             classNamePrefix="react-select"
             name="motion_type"
             options={motionOptions.motion_types}
-            value={OptionsDecorator.optionForKey(motionType, motionOptions.motion_types)}
+            value={OptionsDecorator.optionForValue(motionType, motionOptions.motion_types)}
             onChange={(selectedOption) => setMotionType(selectedOption.value)}
           />
         </FormGroup>
