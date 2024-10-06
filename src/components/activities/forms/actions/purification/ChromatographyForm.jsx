@@ -43,9 +43,20 @@ const ChromatographyForm = (
 
   const hasDetectorMeasurementType = (measurementType) => {
     let selectedDetectorValues = currentDetectors?.map((item) => item.value) || []
-    return !!currentMethod?.detectors?.find((detector) => {
-      return selectedDetectorValues.includes(detector.value) && detector.measurement_defaults?.[measurementType]
-    })
+    return !!currentMethod?.detectors?.find((detector) =>
+      selectedDetectorValues.includes(detector.value) && detector.measurement_defaults?.[measurementType]
+    )
+  }
+
+  const methodOptionsForDetectors = (detectors) => {
+    return detectors && !!currentDevice?.methods ?
+      currentDevice.methods.filter((method) => {
+        let method_detector_values = method.detectors?.map((detector) => detector.value) || []
+        return detectors.length < 1
+          || detectors.every((detector) => method_detector_values.includes(detector.value)
+          )
+      })
+      : []
   }
 
   const hasStationaryPhaseMeasurementType = (measurementType) => {
@@ -156,7 +167,7 @@ const ChromatographyForm = (
                   classNamePrefix="react-select"
                   name="chromatography_type"
                   options={selectOptions.chromatography_types}
-                  value={OptionsDecorator.optionForValue(workup.chromatography_type, selectOptions.chromatography_types)}
+                  value={currentType}
                   onChange={selected => onWorkupChange({ name: 'chromatography_type', value: selected.value })}
                 />
               </SingleLineFormGroup>
@@ -233,7 +244,7 @@ const ChromatographyForm = (
                       className="react-select--overwrite"
                       classNamePrefix="react-select"
                       name="method"
-                      options={currentDevice?.methods}
+                      options={methodOptionsForDetectors(currentDetectors)}
                       value={currentMethod}
                       onChange={handleMethodChange}
                     />

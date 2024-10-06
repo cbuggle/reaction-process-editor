@@ -43,9 +43,20 @@ const MeasurementChromatographyForm = (
 
   const hasDetectorMeasurementType = (measurementType) => {
     let selectedDetectorValues = currentDetectors?.map((item) => item.value) || []
-    return !!currentMethod?.detectors?.find((detector) => {
-      return selectedDetectorValues.includes(detector.value) && detector.measurement_defaults?.[measurementType]
-    })
+    return !!currentMethod?.detectors?.find((detector) =>
+      selectedDetectorValues.includes(detector.value) && detector.measurement_defaults?.[measurementType]
+    )
+  }
+
+  const methodOptionsForDetectors = (detectors) => {
+    return detectors && !!currentDevice?.methods ?
+      currentDevice.methods.filter((method) => {
+        let method_detector_values = method.detectors?.map((detector) => detector.value) || []
+        return detectors.length < 1
+          || detectors.every((detector) => method_detector_values.includes(detector.value)
+          )
+      })
+      : []
   }
 
   const hasStationaryPhaseMeasurementType = (measurementType) => {
@@ -81,7 +92,6 @@ const MeasurementChromatographyForm = (
 
   const handleDeviceChange = (selected) => {
     onWorkupChange({ name: 'device', value: selected.value })
-    // handleMethodChange(selected.methods?.[0])
   }
 
   const handleMethodChange = (selected) => {
@@ -234,7 +244,7 @@ const MeasurementChromatographyForm = (
                       className="react-select--overwrite"
                       classNamePrefix="react-select"
                       name="method"
-                      options={currentDevice?.methods}
+                      options={methodOptionsForDetectors(currentDetectors)}
                       value={currentMethod}
                       onChange={handleMethodChange}
                     />
