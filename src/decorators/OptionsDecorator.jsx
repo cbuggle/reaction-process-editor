@@ -17,9 +17,9 @@ export default class OptionsDecorator {
     return values ? Array.from(values).map((value) => this.inclusiveOptionForValue(value, options)) : options
   }
 
-  static inclusiveOptionsForValue = (value, options) => {
-    if (!this.optionForValue(value, options)) {
-      options = options.push({ label: value, value: value })
+  static inclusiveOptions = (currentOption, options) => {
+    if (currentOption && !this.optionForValue(currentOption.value, options)) {
+      options?.push(currentOption)
     }
     return options
   }

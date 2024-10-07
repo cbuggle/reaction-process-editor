@@ -3,13 +3,14 @@ import { Form } from 'reactstrap'
 import PropTypes from 'prop-types'
 
 import ApplyExtraEquipmentFormSet from './formsets/ApplyExtraEquipmentFormSet';
-import DescriptionFormSet from "./formsets/DescriptionFormSet";
+import TextInputFormSet from './formsets/TextInputFormSet';
 import FormButtons from "../../utilities/FormButtons";
 import Timer from '../timing/Timer';
 
 import { useActivityValidator } from '../../../validators/ActivityValidator'
 
 import { SubFormController } from '../../../contexts/SubFormController';
+import { StepLock } from '../../../contexts/StepLock';
 
 const ActivityForm = (
   {
@@ -24,6 +25,7 @@ const ActivityForm = (
   }) => {
 
   const subFormController = useContext(SubFormController)
+  const stepLock = useContext(StepLock)
   const activityValidator = useActivityValidator();
 
   const [disabled, setDisabled] = useState(false)
@@ -35,6 +37,14 @@ const ActivityForm = (
 
   const handleSave = () => activityValidator.validate(activity) && onSave()
 
+  const handleWorkupChange = (key) => (value) => {
+    console.log("Saving")
+    console.log(key)
+    console.log(value)
+    onWorkupChange({ name: key, value: value });
+  };
+
+
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
@@ -44,10 +54,11 @@ const ActivityForm = (
         workup={workup}
         onWorkupChange={onWorkupChange}
       />
-      <DescriptionFormSet
-        activityType={type}
-        workup={workup}
-        onWorkupChange={onWorkupChange}
+      <TextInputFormSet
+        label="Description"
+        value={workup?.description}
+        onSave={handleWorkupChange('description')}
+        typeColor={type}
       />
       <Timer
         activityType={type}
@@ -60,6 +71,8 @@ const ActivityForm = (
         onSave={handleSave}
         onCancel={onCancel}
         disabled={disabled}
+        disableSave={stepLock}
+        saveLabel={stepLock ? 'Step is locked' : "Save"}
         type={type}
       />
     </Form>

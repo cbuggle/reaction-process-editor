@@ -80,7 +80,7 @@ export default class ActivityInfoDecorator {
       wavelengths.is_range ?
         'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'
         :
-        '' + wavelengths.peaks.map((peak) => peak.value).join(', ') + wavelengths.peaks[0].unit
+        '' + wavelengths.peaks.map((peak) => peak.value).join(', ')
     )
   }
 

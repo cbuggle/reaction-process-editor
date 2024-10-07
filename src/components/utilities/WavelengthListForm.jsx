@@ -181,7 +181,7 @@ const WavelengthListForm = (
 
   return (
     <OptionalFormSet
-      subFormLabel="Wavelengths"
+      subFormLabel="Wavelengths (nm)"
       valueSummary={ActivityInfoDecorator.infoLineWavelengths(wavelengths)}
       onSave={handleSave}
       onCancel={handleCancel}

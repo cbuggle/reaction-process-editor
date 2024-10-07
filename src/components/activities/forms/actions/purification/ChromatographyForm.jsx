@@ -1,25 +1,24 @@
-import React, { useContext, useEffect } from 'react'
-import { Button, Col, Row, Label, FormGroup } from 'reactstrap';
+import React, { useContext, useState } from 'react'
+import { Col, Row, Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ChromatographyStepForm from "./ChromatographyStepForm";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
 import MetricsInput from '../../../../utilities/MetricsInput';
-import MetricsListForm from '../../../../utilities/MetricsListForm';
+
 import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
 import WavelengthListForm from '../../../../utilities/WavelengthListForm';
-
 import OptionalFormSet from '../../../../utilities/OptionalFormSet';
+import TextInputFormSet from '../../formsets/TextInputFormSet';
+
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 import MetricsDecorator from '../../../../../decorators/MetricsDecorator';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
-import MetricFormGroup from '../../conditions/MetricFormGroup';
 
 const ChromatographyForm = (
   {
@@ -44,6 +43,8 @@ const ChromatographyForm = (
   const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethod?.stationary_phases)
   const isAutomated = workup.automation === "AUTOMATED"
 
+  const [currentTemperature, setCurrentTemperature] = useState(workup.TEMPERATURE)
+
   const hasDetectorAnalysisType = (analysisType) => {
     let selectedDetectorValues = currentDetectors?.map((item) => item.value) || []
     return !!currentMethod?.detectors?.find((detector) =>
@@ -51,15 +52,17 @@ const ChromatographyForm = (
     )
   }
 
-  const methodOptionsForDetectors = (detectors) => {
-    return detectors && !!currentDevice?.methods ?
-      currentDevice.methods.filter((method) => {
-        let method_detector_values = method.detectors?.map((detector) => detector.value) || []
-        return detectors.length < 1
-          || detectors.every((detector) => method_detector_values.includes(detector.value)
-          )
-      })
-      : []
+  const filterMethodsByDetectors = (methods, detectors) => {
+    return methods.filter((method) =>
+      detectors.every((detector) =>
+        method.detectors?.find((method_detector) => method_detector.value === detector.value)
+      ))
+  }
+
+  const methodsForDetectorsOptions = (detectors) => {
+    return !!currentDevice?.methods && detectors?.length > 0 ?
+      filterMethodsByDetectors(currentDevice.methods, detectors)
+      : currentDevice?.methods || []
   }
 
   const hasStationaryPhaseAnalysisType = (analysisType) => {
@@ -119,25 +122,9 @@ const ChromatographyForm = (
       onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.analysis_defaults?.['TEMPERATURE'] })
   }
 
-  const handleTemperatureChange = (value) => {
-    onWorkupChange({ name: 'TEMPERATURE', value: value })
-  }
+  const saveTemperatureChange = () => onWorkupChange({ name: 'TEMPERATURE', value: currentTemperature })
 
-  const handleStationaryPhaseTemperatureChange = (value) => {
-    onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: value })
-  }
-
-  const handleAnalysisChange = (key) => (event) => {
-    console.log("handleAnalysisChange")
-    console.log(key)
-    console.log(event)
-  }
-  const resetAnalysis = (key) => (event) => {
-    console.log("resetAnalysis")
-    console.log(key)
-    console.log(event)
-
-  }
+  const resetAnalysis = () => setCurrentTemperature(workup.TEMPERATURE)
 
   const renderAnalysisForms = () => {
     return <>
@@ -145,32 +132,29 @@ const ChromatographyForm = (
         <OptionalFormSet
           subFormLabel={"Detector Temperature"}
           valueSummary={MetricsDecorator.infoLineAmount(workup.TEMPERATURE)}
-          onSave={handleAnalysisChange}
+          onSave={saveTemperatureChange}
           onCancel={resetAnalysis}
           typeColor={"action"}
           disabled={isAutomated}
         >
-          <OptionalFormSet.ExtraButton>
-            <Button color="condition" onClick={resetAnalysis} outline>
-              <FontAwesomeIcon icon="undo-alt" /> Reset
-            </Button>
-          </OptionalFormSet.ExtraButton>
           <Row className="gx-1 mb-3">
             <Col md={8}>
               <MetricsInput
                 metricName={"TEMPERATURE"}
-                amount={workup.TEMPERATURE}
-                onChange={resetAnalysis}
+                amount={currentTemperature}
+                onChange={setCurrentTemperature}
                 displayMultiLine={true}
               />
             </Col>
           </Row>
         </OptionalFormSet>}
-      {hasDetectorAnalysisType("VOLTAGES") &&
-        <MetricsListForm
-          wavelengths={workup.VOLTAGES}
-          onChange={handleWorkupChange('VOLTAGES')}
+      {hasDetectorAnalysisType("MS_PARAMETER") &&
+        <TextInputFormSet
+          label="MS Parameter"
+          value={workup.MS_PARAMETER}
+          onSave={handleWorkupChange('MS_PARAMETER')}
           disabled={isAutomated}
+          typeColor='action'
         />}
       {hasDetectorAnalysisType("WAVELENGTHS") &&
         <WavelengthListForm
@@ -190,11 +174,10 @@ const ChromatographyForm = (
             <FormSection>
               <SingleLineFormGroup label='Type'>
                 <Select
-                  aria-errormessage="err ooh wrong"
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="chromatography_type"
-                  options={OptionsDecorator.inclusiveOptionsForValues(currentType, selectOptions.chromatography_types)}
+                  options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
                   value={currentType}
                   onChange={selected => onWorkupChange({ name: 'chromatography_type', value: selected.value })}
                 />
@@ -205,7 +188,7 @@ const ChromatographyForm = (
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="chromatography_subtype"
-                  options={currentType?.subtypes}
+                  options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
                   value={currentSubtype}
                   onChange={selected => onWorkupChange({ name: 'chromatography_subtype', value: selected.value })}
                 />
@@ -216,7 +199,7 @@ const ChromatographyForm = (
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="device"
-                  options={currentSubtype?.devices}
+                  options={OptionsDecorator.inclusiveOptions(currentDevice, currentSubtype?.devices)}
                   value={currentDevice}
                   onChange={handleDeviceChange}
                 />
@@ -227,7 +210,7 @@ const ChromatographyForm = (
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="detectors"
-                  options={currentDevice?.detectors}
+                  options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
                   value={currentDetectors}
                   isMulti
                   isClearable={false}
@@ -239,14 +222,14 @@ const ChromatographyForm = (
                   label={'Stat. Phase Temp'}
                   metricName={"TEMPERATURE"}
                   amount={workup.STATIONARY_PHASE_TEMPERATURE}
-                  onChange={handleStationaryPhaseTemperatureChange}
+                  onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
                 />}
               <SingleLineFormGroup label='Mobile Phases'>
                 <Select
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="mobile_phases"
-                  options={currentMethod?.mobile_phases}
+                  options={OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMethod?.mobile_phases)}
                   value={workup.mobile_phases}
                   onChange={selected => onWorkupChange({ name: 'mobile_phases', value: selected })}
                   isMulti
@@ -261,7 +244,7 @@ const ChromatographyForm = (
                       className="react-select--overwrite"
                       classNamePrefix="react-select"
                       name="method"
-                      options={methodOptionsForDetectors(currentDetectors)}
+                      options={methodsForDetectorsOptions(currentDetectors)}
                       value={currentMethod}
                       onChange={handleMethodChange}
                     />
