@@ -14,6 +14,14 @@ export default class OptionsDecorator {
     this.optionForValue(value, options) || { value: value, label: value }
 
   static inclusiveOptionsForValues = (values, options) => {
-    return values ? values.map((value) => this.inclusiveOptionForValue(value, options)) : []
+    return values ? Array.from(values).map((value) => this.inclusiveOptionForValue(value, options)) : options
   }
+
+  static inclusiveOptionsForValue = (value, options) => {
+    if (!this.optionForValue(value, options)) {
+      options = options.push({ label: value, value: value })
+    }
+    return options
+  }
+
 }

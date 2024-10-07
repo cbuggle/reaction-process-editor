@@ -152,37 +152,37 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'measurement',
-    label: 'Measurement',
+    id: 'analysis',
+    label: 'Analysis',
     types: [
       {
-        id: 'measurement_chromatography',
+        id: 'analysis_chromatography',
         createLabel: 'Chromatography',
         activity: {
-          activity_name: 'MEASUREMENT',
+          activity_name: 'ANALYSIS',
           workup: {
-            measurement_type: 'CHROMATOGRAPHY',
+            analysis_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
           }
         }
       },
       {
-        id: 'measurement_spectronomy',
+        id: 'analysis_spectronomy',
         createLabel: 'Spectronomy',
         activity: {
-          activity_name: 'MEASUREMENT',
+          activity_name: 'ANALYSIS',
           workup: {
-            measurement_type: 'SPECTRONOMY'
+            analysis_type: 'SPECTRONOMY'
           }
         }
       },
       {
-        id: 'measurement_spectroscopy',
+        id: 'analysis_spectroscopy',
         createLabel: 'Spectroscopy',
         activity: {
-          activity_name: 'MEASUREMENT',
+          activity_name: 'ANALYSIS',
           workup: {
-            measurement_type: 'SPECTROSCOPY'
+            analysis_type: 'SPECTROSCOPY'
           }
         }
       },

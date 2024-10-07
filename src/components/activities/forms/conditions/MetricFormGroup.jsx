@@ -17,6 +17,7 @@ const MetricFormGroup = ({
   workup,
   onWorkupChange,
   typeColor = "condition",
+  showEquipmentForm = true
 }) => {
   const selectOptions = useContext(SelectOptions);
 
@@ -125,11 +126,11 @@ const MetricFormGroup = ({
         onCancel={handleCancel}
         onResetToPredefined={handleResetToPredifined}
       >
-        <EquipmentSubsetFormSection
+        {showEquipmentForm && <EquipmentSubsetFormSection
           metricName={metricName}
           equipment={equipment}
           onChangeEquipment={handleChangeEquipment}
-        />
+        />}
       </GenericMetricSubForm>
     )
   }

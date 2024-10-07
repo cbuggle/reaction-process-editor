@@ -85,7 +85,7 @@ export const metrics = {
   },
   'WEIGHT': {
     label: 'Weight',
-    measurementTypeLabel: 'gravimetric',
+    analysisTypeLabel: 'gravimetric',
     defaultUnit: 'mg',
     units: ['mg', 'g', 'mcg']
   },
@@ -101,19 +101,19 @@ export const metrics = {
   },
   'VOLUME': {
     label: 'Volume',
-    measurementTypeLabel: 'volumetric',
+    analysisTypeLabel: 'volumetric',
     defaultUnit: 'ml',
     units: ['ml', 'l']
   },
   'MOLAR': {
     label: 'Moles',
-    measurementTypeLabel: 'molar',
+    analysisTypeLabel: 'molar',
     defaultUnit: 'mmol',
     units: ['mol', 'mmol', 'mcmol', 'nmol']
   },
   'VOLTAGE': {
     label: 'Voltage',
-    measurementTypeLabel: 'Voltage',
+    analysisTypeLabel: 'Voltage',
     defaultUnit: 'mV',
     units: ['mV', 'V']
   }

@@ -1,62 +1,24 @@
-import React, { useContext } from "react";
-import { Input } from "reactstrap";
-import Select from "react-select";
+import React from 'react'
 
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
-import FormSection from "../../../utilities/FormSection";
+import SpectronomyForm from './analysis/SpectronomyForm';
+import SpectroscopyForm from './analysis/SpectroscopyForm';
+import AnalysisChromatographyForm from './analysis/AnalysisChromatographyForm';
 
-import OptionsDecorator from "../../../../decorators/OptionsDecorator";
+const AnalysisForm = (
+  {
+    workup,
+    onWorkupChange
+  }) => {
+  switch (workup['analysis_type']) {
+    case "CHROMATOGRAPHY":
+      return (<AnalysisChromatographyForm workup={workup} onWorkupChange={onWorkupChange} />)
+    case "SPECTRONOMY":
+      return (<SpectronomyForm workup={workup} onWorkupChange={onWorkupChange} />)
+    case "SPECTROSCOPY":
+      return (<SpectroscopyForm workup={workup} onWorkupChange={onWorkupChange} />)
+    default:
+      return (<>{"Unknown analysis type Error in AnalysisBaseForm: " + workup['analysis_type']} </>)
+  }
+}
 
-import { SelectOptions } from "../../../../contexts/SelectOptions";
-
-const AnalysisForm = ({ workup, onWorkupChange }) => {
-  const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS;
-
-  return (
-    <FormSection type="action">
-      <SingleLineFormGroup label="Type">
-        <Select
-          className="react-select--overwrite"
-          classNamePrefix="react-select"
-          name="analysis_type"
-          options={selectOptions.types}
-          value={OptionsDecorator.optionToLabel(
-            workup.analysis_type,
-            selectOptions.types
-          )}
-          onChange={(selectedOption) =>
-            onWorkupChange({
-              name: "analysis_type",
-              value: selectedOption.value,
-            })
-          }
-        />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label="CHMO ID">
-        <Input
-          type="textarea"
-          value={workup["chmo_id"]}
-          placeholder="CHMO Id"
-          onChange={(event) =>
-            onWorkupChange({ name: "chmo_id", value: event.target.value })
-          }
-        />
-      </SingleLineFormGroup>
-      <SingleLineFormGroup label="Number">
-        <Input
-          type="textarea"
-          value={workup["analysis_number"]}
-          placeholder="Description"
-          onChange={(event) =>
-            onWorkupChange({
-              name: "analysis_number",
-              value: event.target.value,
-            })
-          }
-        />
-      </SingleLineFormGroup>
-    </FormSection>
-  );
-};
-
-export default AnalysisForm;
+export default AnalysisForm

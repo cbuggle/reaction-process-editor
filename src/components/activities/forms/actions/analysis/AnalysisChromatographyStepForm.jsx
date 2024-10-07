@@ -13,7 +13,7 @@ import PurificationDecorator from "../../../../../decorators/PurificationDecorat
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
-const MeasurementChromatographyStepForm = ({
+const AnalysisChromatographyStepForm = ({
   label,
   workup,
   onSave,
@@ -22,7 +22,7 @@ const MeasurementChromatographyStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const chromatographyOptions = useContext(SelectOptions).FORMS.MEASUREMENT.CHROMATOGRAPHY;
+  const chromatographyOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY;
   const solventOptions = chromatographyOptions.solvent_options;
   const subFormController = useContext(SubFormController);
 
@@ -120,4 +120,4 @@ const MeasurementChromatographyStepForm = ({
   );
 };
 
-export default MeasurementChromatographyStepForm;
+export default AnalysisChromatographyStepForm;

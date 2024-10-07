@@ -21,7 +21,7 @@ export default class MetricsDecorator {
 
   static defaultValueInDefaultUnit = (metricName) => this.defaultValueForUnitType(this.defaultUnitType(metricName))
 
-  static measurementTypeLabel = (metricName) => this.metric(metricName).measurementTypeLabel
+  static analysisTypeLabel = (metricName) => this.metric(metricName).analysisTypeLabel
 
   static baseUnit = (unit) => Object.values(metrics).find(metric => metric.units.includes(unit))?.defaultUnit
 

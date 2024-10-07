@@ -45,7 +45,7 @@ const AmountInput = (
     <div className={baseCSSClass + (isCurrentMetric ? ' amount-input--active' : ' amount-input--passive')}>
       <MetricsInput
         metricName={metricName}
-        label={MetricsDecorator.measurementTypeLabel(metricName)}
+        label={MetricsDecorator.analysisTypeLabel(metricName)}
         amount={localAmount}
         max={localMax}
         onChange={onChange}

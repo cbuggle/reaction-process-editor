@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 import Select from 'react-select'
 
-import MeasurementChromatographyStepForm from "./MeasurementChromatographyStepForm";
+import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
 
 import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
@@ -18,7 +18,7 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-const MeasurementChromatographyForm = (
+const AnalysisChromatographyForm = (
   {
     workup,
     onWorkupChange,
@@ -30,7 +30,7 @@ const MeasurementChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).FORMS.MEASUREMENT.CHROMATOGRAPHY
+  const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY
 
   const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
   const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, currentType?.subtypes)
@@ -41,10 +41,10 @@ const MeasurementChromatographyForm = (
   const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethod?.stationary_phases)
   const isAutomated = workup.automation === "AUTOMATED"
 
-  const hasDetectorMeasurementType = (measurementType) => {
+  const hasDetectorAnalysisType = (analysisType) => {
     let selectedDetectorValues = currentDetectors?.map((item) => item.value) || []
     return !!currentMethod?.detectors?.find((detector) =>
-      selectedDetectorValues.includes(detector.value) && detector.measurement_defaults?.[measurementType]
+      selectedDetectorValues.includes(detector.value) && detector.analysis_defaults?.[analysisType]
     )
   }
 
@@ -59,8 +59,8 @@ const MeasurementChromatographyForm = (
       : []
   }
 
-  const hasStationaryPhaseMeasurementType = (measurementType) => {
-    return !!currentStationaryPhase?.measurement_defaults?.[measurementType]
+  const hasStationaryPhaseAnalysisType = (analysisType) => {
+    return !!currentStationaryPhase?.analysis_defaults?.[analysisType]
   }
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
@@ -75,15 +75,15 @@ const MeasurementChromatographyForm = (
     }
   }
 
-  const setMethodMeasurementDefaults = (detectors) => {
+  const setMethodAnalysisDefaults = (detectors) => {
     detectors?.forEach((detector) => {
-      let measurementTypes = Object.keys(detector.measurement_defaults)
+      let analysisTypes = Object.keys(detector.analysis_defaults)
 
-      measurementTypes.forEach((measurementType) => {
+      analysisTypes.forEach((analysisType) => {
         if (workup.detectors?.includes(detector.value)) {
-          onWorkupChange({ name: measurementType, value: detector.measurement_defaults[measurementType] })
+          onWorkupChange({ name: analysisType, value: detector.analysis_defaults[analysisType] })
         } else {
-          onWorkupChange({ name: measurementType, value: undefined })
+          onWorkupChange({ name: analysisType, value: undefined })
         }
       })
     }
@@ -98,7 +98,7 @@ const MeasurementChromatographyForm = (
     onWorkupChange({ name: 'method', value: selected.value })
     onWorkupChange({ name: 'volume', value: selected.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: selected.mobile_phases })
-    setMethodMeasurementDefaults(selected.detectors)
+    setMethodAnalysisDefaults(selected.detectors)
   }
 
   const handleDetectorsChange = (selected) => {
@@ -106,14 +106,14 @@ const MeasurementChromatographyForm = (
     let detectors = currentMethod?.detectors?.filter((detector) => selected_detector_values.includes(detector.value))
 
     handleNoDetectorSetting(selected_detector_values)
-    setMethodMeasurementDefaults(detectors)
+    setMethodAnalysisDefaults(detectors)
   }
 
   const handleStationaryPhaseChange = (phase) => {
     onWorkupChange({ name: 'stationary_phase', value: phase.value })
 
     !workup['STATIONARY_PHASE_TEMPERATURE'] &&
-      onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.measurement_defaults?.['TEMPERATURE'] })
+      onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.analysis_defaults?.['TEMPERATURE'] })
   }
 
   const handleTemperatureChange = (value) => {
@@ -124,9 +124,9 @@ const MeasurementChromatographyForm = (
     onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: value })
   }
 
-  const renderMeasurementForms = () => {
+  const renderAnalysisForms = () => {
     return <>
-      {hasDetectorMeasurementType("TEMPERATURE") &&
+      {hasDetectorAnalysisType("TEMPERATURE") &&
         <>
           <FormGroup>
             <MetricsInput
@@ -139,13 +139,13 @@ const MeasurementChromatographyForm = (
           </FormGroup>
         </>
       }
-      {hasDetectorMeasurementType("VOLTAGES") &&
+      {hasDetectorAnalysisType("VOLTAGES") &&
         <MetricsListForm
           wavelengths={workup.VOLTAGES}
           onChange={handleWorkupChange('VOLTAGES')}
           disabled={isAutomated}
         />}
-      {hasDetectorMeasurementType("WAVELENGTHS") &&
+      {hasDetectorAnalysisType("WAVELENGTHS") &&
         <WavelengthListForm
           wavelengths={workup.WAVELENGTHS}
           onChange={handleWorkupChange('WAVELENGTHS')}
@@ -166,12 +166,13 @@ const MeasurementChromatographyForm = (
                   className="react-select--overwrite"
                   classNamePrefix="react-select"
                   name="chromatography_type"
-                  options={selectOptions.chromatography_types}
+                  options={OptionsDecorator.inclusiveOptionsForValues(currentType, selectOptions.chromatography_types)}
                   value={currentType}
                   onChange={selected => onWorkupChange({ name: 'chromatography_type', value: selected.value })}
                 />
               </SingleLineFormGroup>
-              <SingleLineFormGroup label='Sub-Type'>
+              <SingleLineFormGroup label='Sub-Type'
+              >
                 <Select
                   key={currentType}
                   className="react-select--overwrite"
@@ -217,7 +218,7 @@ const MeasurementChromatographyForm = (
                   onChange={handleStationaryPhaseChange}
                 />
               </SingleLineFormGroup>
-              {hasStationaryPhaseMeasurementType("TEMPERATURE") &&
+              {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
                 <MetricsInput
                   label={'Stat. Phase Temp'}
                   metricName={"TEMPERATURE"}
@@ -264,7 +265,7 @@ const MeasurementChromatographyForm = (
                 />
               </SingleLineFormGroup>
             </FormSection>
-            {renderMeasurementForms()}
+            {renderAnalysisForms()}
           </>)
       case 'MANUAL':
         return (
@@ -317,7 +318,7 @@ const MeasurementChromatographyForm = (
       </FormSection>
       {renderAutomationSpecificFields()}
       {activitySteps.map((step, idx) =>
-        <MeasurementChromatographyStepForm
+        <AnalysisChromatographyStepForm
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
           label={'Chromatography Step ' + (idx + 1)}
           workup={step}
@@ -328,7 +329,7 @@ const MeasurementChromatographyForm = (
         />
       )}
       {showNewStepForm &&
-        <MeasurementChromatographyStepForm
+        <AnalysisChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
           initialShowForm={true}
@@ -348,5 +349,5 @@ const MeasurementChromatographyForm = (
   )
 }
 
-export default withActivitySteps(MeasurementChromatographyForm, 'purification_steps')
+export default withActivitySteps(AnalysisChromatographyForm, 'purification_steps')
 

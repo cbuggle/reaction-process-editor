@@ -5,7 +5,7 @@ import ExtractionForm from './purification/ExtractionForm';
 import CrystallizationForm from './purification/CrystallizationForm';
 import ChromatographyForm from './purification/ChromatographyForm';
 
-const PurificationBaseForm = (
+const PurificationForm = (
   {
     workup,
     onWorkupChange,
@@ -27,8 +27,8 @@ const PurificationBaseForm = (
     case "FILTRATION":
       return (<FiltrationForm workup={workup} onWorkupChange={onWorkupChange} />)
     default:
-      return (<>{"Unknown purification type Error in PurificationBaseForm: " + workup.purification_type} </>)
+      return (<>{"Unknown purification type Error in PurificationForm: " + workup.purification_type} </>)
   }
 }
 
-export default PurificationBaseForm
+export default PurificationForm

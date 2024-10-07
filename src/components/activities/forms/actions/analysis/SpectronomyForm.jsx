@@ -9,7 +9,7 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const SpectronomyForm = ({ workup, onWorkupChange }) => {
-	const spectronomyOptions = useContext(SelectOptions).FORMS.MEASUREMENT.SPECTRONOMY
+	const spectronomyOptions = useContext(SelectOptions).FORMS.ANALYSIS.SPECTRONOMY
 
 
 	useEffect(() => {
