@@ -1,14 +1,14 @@
 export default class OptionsDecorator {
   // Avoid issues with numerical vs. string kay by using "==", not "===".
   // eslint-disable-next-line
-  static optionForValue = (value, options) => value && options?.find((option) => value == option.value)
+  static optionForValue = (value, options) => value && options?.find(option => value == option.value)
 
   static optionsForValues = (values, options) => options?.filter(option => values?.includes(option.value))
 
-  static optionToLabel = (value, options) => this.optionForValue(value, options)?.label;
+  static labelForValue = (value, options) => this.optionForValue(value, options)?.label;
 
   static optionsArrayToLabel = (values, options) =>
-    !!values && values.map((value) => this.optionToLabel(value, options)).join(", ");
+    !!values && values.map((value) => this.labelForValue(value, options)).join(", ");
 
   static inclusiveOptionForValue = (value, options) =>
     this.optionForValue(value, options) || { value: value, label: value }
@@ -18,7 +18,7 @@ export default class OptionsDecorator {
   }
 
   static inclusiveOptions = (currentOption, options) => {
-    if (currentOption && !this.optionForValue(currentOption.value, options)) {
+    if (currentOption?.value && !this.optionForValue(currentOption.value, options)) {
       options?.push(currentOption)
     }
     return options

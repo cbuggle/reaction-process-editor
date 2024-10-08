@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 
 import EquipmentSubsetFormSection from "./EquipmentSubsetFormSection";
 import EquipmentForm from "./EquipmentForm";
-import GenericMetricSubForm from "./GenericMetricSubForm";
+import ConditionMetricSubForm from "./ConditionMetricSubForm";
 import MotionForm from "./MotionForm";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
@@ -113,9 +113,9 @@ const MetricFormGroup = ({
     )
   }
 
-  const renderGenericMetricForm = () => {
+  const renderConditionMetricForm = () => {
     return (
-      <GenericMetricSubForm
+      <ConditionMetricSubForm
         metricName={metricName}
         label={label}
         valueSummary={summary()}
@@ -131,7 +131,7 @@ const MetricFormGroup = ({
           equipment={equipment}
           onChangeEquipment={handleChangeEquipment}
         />}
-      </GenericMetricSubForm>
+      </ConditionMetricSubForm>
     )
   }
 
@@ -142,7 +142,7 @@ const MetricFormGroup = ({
     case 'EQUIPMENT':
       return renderEquipmentForm();
     default:
-      return renderGenericMetricForm();
+      return renderConditionMetricForm();
   }
 };
 

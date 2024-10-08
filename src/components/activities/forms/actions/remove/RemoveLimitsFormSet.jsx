@@ -9,7 +9,7 @@ import OptionalFormSet from "../../../../utilities/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 
-const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
+const RemoveLimitsFormSet = ({ limits, onSave }) => {
 
   const emptyLimitsForm = {}
 
@@ -17,11 +17,11 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
 
   const resetForm = () => setLimitsForm(emptyLimitsForm)
 
-  const handleSave = () => onChange(limitsForm)
+  const handleSave = () => onSave(limitsForm)
 
   const handleCancel = () => { setLimitsForm(limits || emptyLimitsForm) }
 
-  const changeLimit = (name) => (value) => {
+  const onChangeLimit = (name) => (value) => {
     setLimitsForm({ ...limitsForm, [name]: value })
   }
 
@@ -43,14 +43,14 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
       <MetricsInput
         metricName={"TEMPERATURE"}
         amount={limitsForm.TEMPERATURE}
-        onChange={changeLimit('TEMPERATURE')}
+        onChange={onChangeLimit('TEMPERATURE')}
       />
       <MetricsInput
         metricName={"PRESSURE"}
         amount={limitsForm.PRESSURE}
-        onChange={changeLimit('PRESSURE')}
+        onChange={onChangeLimit('PRESSURE')}
       />
-      <DurationSelection duration={limitsForm.duration} onChangeDuration={changeLimit('duration')} />
+      <DurationSelection duration={limitsForm.duration} onChangeDuration={onChangeLimit('duration')} />
     </OptionalFormSet>
   );
 };

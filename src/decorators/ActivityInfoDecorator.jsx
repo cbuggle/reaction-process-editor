@@ -63,11 +63,11 @@ export default class ActivityInfoDecorator {
 
   static infoLineMotion = (conditionWorkup, selectOptions) => {
     return [
-      OptionsDecorator.optionToLabel(
+      OptionsDecorator.labelForValue(
         conditionWorkup.motion_type,
         selectOptions.FORMS.MOTION.motion_types
       ),
-      OptionsDecorator.optionToLabel(
+      OptionsDecorator.labelForValue(
         conditionWorkup.motion_mode,
         selectOptions.FORMS.MOTION.automation_modes
       ),

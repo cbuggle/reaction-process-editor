@@ -12,7 +12,7 @@ import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../contexts/SubFormController";
 
-const GenericMetricSubForm = ({
+const ConditionMetricSubForm = ({
   metricName,
   label,
   valueSummary,
@@ -168,4 +168,4 @@ const GenericMetricSubForm = ({
   );
 };
 
-export default GenericMetricSubForm;
+export default ConditionMetricSubForm;

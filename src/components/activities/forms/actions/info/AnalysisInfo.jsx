@@ -16,7 +16,7 @@ const AnalysisInfo = ({ activity }) => {
 	const purificationOptions = useContext(SelectOptions).FORMS.ANALYSIS[workup.analysis_type] || {};
 
 	const addAutomationToTitle = () => {
-		infoTitle += " " + OptionsDecorator.optionToLabel(workup.automation, purificationOptions.automation_modes);
+		infoTitle += " " + OptionsDecorator.labelForValue(workup.automation, purificationOptions.automation_modes);
 	}
 
 	const addStepsToTitle = () => {

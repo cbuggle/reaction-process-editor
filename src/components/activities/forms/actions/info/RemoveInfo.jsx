@@ -21,9 +21,9 @@ const RemoveInfo = ({ activity }) => {
 	if (solventsLine) { infoLines.push("Solvents: " + solventsLine) }
 
 	if (workup['remove_steps']) {
-		infoLines.push(' ' + workup['remove_steps'].length + ' Steps ' + OptionsDecorator.optionToLabel(workup.automation, selectOptions.automation_modes))
+		infoLines.push(' ' + workup['remove_steps'].length + ' Steps ' + OptionsDecorator.labelForValue(workup.automation, selectOptions.automation_modes))
 	} else {
-		infoLines.push(OptionsDecorator.optionToLabel(workup.automation, selectOptions.automation_modes))
+		infoLines.push(OptionsDecorator.labelForValue(workup.automation, selectOptions.automation_modes))
 	}
 
 	for (let [key, removeWorkup] of Object.entries(workup)) {
