@@ -43,6 +43,10 @@ const ActivityCard = ({
     isInitialised ? "info" : uninitialisedDisplayMode
   );
 
+  const fillActivityForm = (activity) => {
+    setActivityForm(structuredClone(activity))
+  }
+
   const cardTitle = !!activityForm?.activity_name
     ? ActivityInfoDecorator.cardTitle(activityForm)
     : uninitialisedTitle;
@@ -55,7 +59,7 @@ const ActivityCard = ({
   const onDelete = () => api.deleteActivity(activity.id);
 
   const onSelectType = (newActivity) => () => {
-    setActivityForm(newActivity);
+    fillActivityForm(newActivity);
     setDisplayMode("form");
   };
 
@@ -66,17 +70,17 @@ const ActivityCard = ({
       if (isInitialised) {
         setDisplayMode("info");
       } else {
-        setActivityForm({ workup: {} });
+        fillActivityForm({ workup: {} });
       }
     }
   };
 
   const handleCancel = () => {
     if (isInitialised) {
-      setActivityForm(activity);
+      fillActivityForm(activity);
       setDisplayMode("info");
     } else {
-      setActivityForm({ workup: {} });
+      fillActivityForm({ workup: {} });
       onCancel();
     }
   };
