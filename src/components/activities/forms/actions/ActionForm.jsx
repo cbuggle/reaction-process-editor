@@ -70,7 +70,6 @@ const ActionForm = (
           </>
         )
       case "ANALYSIS":
-      case "ANALYSIS":
         return (
           <>
             <AnalysisForm

@@ -17,11 +17,14 @@ export default class OptionsDecorator {
     return values ? Array.from(values).map((value) => this.inclusiveOptionForValue(value, options)) : options
   }
 
-  static inclusiveOptions = (currentOption, options) => {
-    if (currentOption?.value && !this.optionForValue(currentOption.value, options)) {
-      options?.push(currentOption)
-    }
-    return options
+  static inclusiveOptions = (currentOptions, options) => {
+    var newOptions = options?.slice() || []
+    currentOptions && Array(currentOptions).forEach(currentOption => {
+      if (currentOption.value && !this.optionForValue(currentOption.value, options)) {
+        currentOption['unavailable'] = true
+        newOptions?.push(currentOption)
+      }
+    })
+    return newOptions || []
   }
-
 }

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FormGroup, Input, Label } from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
-import DurationSelection from "../../utilities/DurationSelection";
-import OptionalFormSet from "../../utilities/OptionalFormSet";
+import DurationSelection from "../forms/formgroups/DurationSelection";
+import OptionalFormSet from "../forms/formsets/OptionalFormSet";
 import TimerButton from "./TimerButton";
 
 import TimeDecorator from "../../../decorators/TimeDecorator";

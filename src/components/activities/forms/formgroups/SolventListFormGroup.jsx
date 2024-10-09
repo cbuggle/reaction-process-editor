@@ -2,12 +2,12 @@ import React from 'react'
 import { FormGroup, Label, Row } from 'reactstrap'
 import Select from "react-select";
 
-import { SolventRatioListEntry } from './SolventRatioListEntry';
-import { SolventAmountListEntry } from './SolventAmountListEntry';
+import { SolventRatioListEntry } from '../../../utilities/SolventRatioListEntry';
+import { SolventAmountListEntry } from '../../../utilities/SolventAmountListEntry';
 
-import MetricsDecorator from '../../decorators/MetricsDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-const SolventListForm = ({
+const SolventListFormGroup = ({
 	label = 'Solvent',
 	solvents = [],
 	solventOptions,
@@ -65,4 +65,4 @@ const SolventListForm = ({
 	)
 }
 
-export default SolventListForm
+export default SolventListFormGroup

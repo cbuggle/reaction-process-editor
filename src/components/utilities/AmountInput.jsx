@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import MetricsInput from "./MetricsInput.jsx";
+import MetricsInputFormGroup from "../activities/forms/formgroups/MetricsInputFormGroup.jsx";
 
 import MetricsDecorator from "../../decorators/MetricsDecorator.jsx";
 
@@ -43,7 +43,7 @@ const AmountInput = (
 
   return (
     <div className={baseCSSClass + (isCurrentMetric ? ' amount-input--active' : ' amount-input--passive')}>
-      <MetricsInput
+      <MetricsInputFormGroup
         metricName={metricName}
         label={MetricsDecorator.analysisTypeLabel(metricName)}
         amount={localAmount}

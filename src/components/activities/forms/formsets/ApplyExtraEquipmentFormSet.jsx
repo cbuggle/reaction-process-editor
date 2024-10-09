@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Select from "react-select";
 
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";

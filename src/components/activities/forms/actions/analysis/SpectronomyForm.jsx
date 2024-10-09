@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import Select from 'react-select'
 
 import FormSection from '../../../../utilities/FormSection'
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup'
+import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 

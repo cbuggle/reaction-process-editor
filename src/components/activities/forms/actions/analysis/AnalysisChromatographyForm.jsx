@@ -1,23 +1,23 @@
 import React, { useContext } from 'react'
 import { Label, FormGroup } from 'reactstrap';
-import Select from 'react-select'
 import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
 
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
-import MetricsInput from '../../../../utilities/MetricsInput';
 
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup';
-import WavelengthListForm from '../../../../utilities/WavelengthListForm';
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
+import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
+import SelectFormGroup from '../../formgroups/SelectFormGroup';
+
+import MetricSubFormSet from '../../formsets/MetricSubFormSet';
 import TextInputFormSet from '../../formsets/TextInputFormSet';
+import WavelengthListFormSet from '../../formsets/WavelengthListFormSet';
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
-import MetricSubFormSet from '../../formsets/MetricSubFormSet';
 
 const AnalysisChromatographyForm = (
   {
@@ -39,6 +39,7 @@ const AnalysisChromatographyForm = (
   const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, currentDevice?.detectors)
 
   const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
+  const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMethod?.mobile_phases)
   const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethod?.stationary_phases)
   const isAutomated = workup.automation === "AUTOMATED"
 
@@ -62,22 +63,17 @@ const AnalysisChromatographyForm = (
   const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhase?.analysis_defaults?.[analysisType]
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
+  const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
-  const setDetectorAnalyisDefaults = (detector) => {
-    let analysisTypes = Object.keys(detector.analysis_defaults)
 
-    analysisTypes.forEach((analysisType) => {
-      if (workup.detectors?.includes(detector.value)) {
-        onWorkupChange({ name: analysisType, value: detector.analysis_defaults[analysisType] })
-      } else {
-        onWorkupChange({ name: analysisType, value: undefined })
-      }
-    })
-
+  const handleChangeType = (newType) => {
+    onWorkupChange({ name: 'chromatography_type', value: newType.value })
+    handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, newType.subtypes))
   }
 
-  const setMethodAnalysisDefaults = () => {
-    currentMethod?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
+  const handleChangeSubType = (newSubType) => {
+    onWorkupChange({ name: 'chromatography_subtype', value: newSubType?.value })
+    handleChangeDevice(OptionsDecorator.optionForValue(workup.device, newSubType?.devices))
   }
 
   const handleChangeAutomation = (automation) => {
@@ -88,44 +84,66 @@ const AnalysisChromatographyForm = (
     onWorkupChange({ name: 'automation', value: automation })
   }
 
-  const handleChangeDevice = (selected) => {
-    console.log(selected)
-    onWorkupChange({ name: 'device', value: selected.value })
-    handleChangeMethod(OptionsDecorator.optionForValue(currentMethod?.value, selected.methods))
+  const handleChangeDevice = (device) => {
+    onWorkupChange({ name: 'device', value: device?.value })
+    onWorkupChange({ name: 'detectors', value: device?.detectors?.map(option => option.value) })
+    handleChangeMethod(OptionsDecorator.optionForValue(currentMethod?.value, device?.methods))
   }
 
   const handleChangeMethod = (method) => {
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases })
+    method?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
+  }
+
+  const handleChangeMobilePhases = (phases) => {
+    onWorkupChange({ name: "mobile_phases", value: phases?.map(phase => phase.value) })
+  }
+
+  const handleChangeDetectors = (detectors) => {
+    handleNoDetectorSetting(detectors)
     setMethodAnalysisDefaults()
   }
 
-  const handleChangeDetectors = (selected) => {
-    handleNoDetectorSetting(selected)
-    setMethodAnalysisDefaults()
-  }
-
-  const handleNoDetectorSetting = (selected) => {
+  const handleNoDetectorSetting = (detectors) => {
     // 'NO_DETECTOR' is a special case (setting on some chromatography devices) and needs to be the sole selection.
     // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
-    if (selected.length > 1 && selected.find(el => el.value === 'NO_DETECTOR')) {
+    if (detectors.length > 1 && detectors.find(detector => detector.value === 'NO_DETECTOR')) {
       onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
     } else {
-      onWorkupChange({ name: 'detectors', value: selected?.map(option => option.value) })
+      onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
     }
   }
+
+  const setDetectorAnalyisDefaults = (detector) => {
+    let analysisTypes = Object.keys(detector.analysis_defaults)
+
+    analysisTypes.forEach((analysisType) => {
+      if (workup.detectors?.includes(detector.value)) {
+          onWorkupChange({ name: analysisType, value: detector.analysis_defaults[analysisType] })
+      } else {
+        onWorkupChange({ name: analysisType, value: undefined })
+      }
+    })
+  }
+
+  const setMethodAnalysisDefaults = () => {
+    isAutomated && currentMethod?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
+  }
+
 
   const setStationaryPhaseDefaults = (phase) => {
     phase && onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.analysis_defaults?.['TEMPERATURE'] })
   }
 
   const handleChangeStationaryPhase = (phase) => {
-    if (isAutomated || !workup['STATIONARY_PHASE_TEMPERATURE']) {
+    if (isAutomated) {
       setStationaryPhaseDefaults(phase)
     }
     onWorkupChange({ name: 'stationary_phase', value: phase?.value })
   }
+
 
   const renderAnalysisForms = () => {
     return <>
@@ -146,7 +164,7 @@ const AnalysisChromatographyForm = (
           typeColor='action'
         />}
       {hasDetectorAnalysisType("WAVELENGTHS") &&
-        <WavelengthListForm
+        <WavelengthListFormSet
           wavelengths={workup.WAVELENGTHS}
           onChange={handleWorkupChange('WAVELENGTHS')}
           disabled={isAutomated}
@@ -161,149 +179,120 @@ const AnalysisChromatographyForm = (
         return (
           <>
             <FormSection>
-              <SingleLineFormGroup label='Type'>
-                <Select
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="chromatography_type"
-                  options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
-                  value={currentType}
-                  onChange={selected => onWorkupChange({ name: 'chromatography_type', value: selected.value })}
-                />
-              </SingleLineFormGroup>
-              <SingleLineFormGroup label='Sub-Type'>
-                <Select
-                  key={currentType}
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="chromatography_subtype"
-                  options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
-                  value={currentSubtype}
-                  onChange={selected => onWorkupChange({ name: 'chromatography_subtype', value: selected.value })}
-                />
-              </SingleLineFormGroup>
-              <SingleLineFormGroup label='Device'>
-                <Select
-                  key={currentSubtype}
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="device"
-                  options={OptionsDecorator.inclusiveOptions(currentDevice, currentSubtype?.devices)}
-                  value={currentDevice}
-                  onChange={handleChangeDevice}
-                />
-              </SingleLineFormGroup>
-              <SingleLineFormGroup label='Detectors'>
-                <Select
-                  key={currentDevice}
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="detectors"
-                  options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
-                  value={currentDetectors}
-                  isMulti
-                  isClearable={false}
-                  onChange={handleChangeDetectors}
-                />
-              </SingleLineFormGroup>
-              <SingleLineFormGroup label='Mobile Phases'>
-                <Select
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="mobile_phases"
-                  options={OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMethod?.mobile_phases)}
-                  value={workup.mobile_phases}
-                  onChange={selected => onWorkupChange({ name: 'mobile_phases', value: selected })}
-                  isMulti
-                  isDisabled={isAutomated}
-                  placeholder={isAutomated ? "Determined by Method" : undefined}
-                />
-              </SingleLineFormGroup>
+              <SelectFormGroup
+                label={'Type'}
+                name={'chromatography_type'}
+                options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
+                value={currentType}
+                onChange={handleChangeType}
+                tooltipName={currentType?.unavailable && 'selection_unavailable'}
+              />
+              <SelectFormGroup
+                label={'Sub-Type'}
+                name={'chromatography_subtype'}
+                options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
+                value={currentSubtype}
+                onChange={handleChangeSubType}
+                tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
+              />
+              <SelectFormGroup
+                label={'Device'}
+                name={'device'}
+                options={OptionsDecorator.inclusiveOptions(currentDevice, currentSubtype?.devices)}
+                value={currentDevice}
+                onChange={handleChangeDevice}
+                tooltipName={currentDevice?.unavailable && 'selection_unavailable'}
+              />
+              <SelectFormGroup
+                key={"currentDetectors"}
+                label="Detectors"
+                name="detectors"
+                options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
+                value={currentDetectors}
+                isMulti
+                isClearable={false}
+                onChange={handleChangeDetectors}
+                tooltipName={currentDetectors?.find(det => det.unavailable) && 'selection_unavailable'}
+              />
+              <SelectFormGroup
+                key={"currentMobilePhases"}
+                label="Mobile Phases"
+                name="mobile_phases"
+                options={OptionsDecorator.inclusiveOptionsForValues(currentMobilePhases, currentMethod?.mobile_phases)}
+                value={currentMobilePhases}
+                onChange={handleChangeMobilePhases}
+                isMulti
+                disabled={isAutomated}
+                placeholder={isAutomated ? "Depends on Method" : undefined}
+                tooltipName={workup.mobile_phases?.find(phase => phase.unavailable) && 'selection_unavailable'}
+              />
               {isAutomated &&
                 <>
-                  <SingleLineFormGroup label='Method'>
-                    <Select
-                      key={"chromatography-device-" + workup.device}
-                      className="react-select--overwrite"
-                      classNamePrefix="react-select"
-                      name="method"
-                      options={filterMethodsByDetectorsOptions(currentDetectors)}
-                      value={currentMethod}
-                      onChange={handleChangeMethod}
-                    />
-                  </SingleLineFormGroup>
+                  <SelectFormGroup
+                    label="Method"
+                    name="method"
+                    options={filterMethodsByDetectorsOptions(currentDetectors)}
+                    value={currentMethod}
+                    onChange={handleChangeMethod}
+                  />
                   <FormGroup>
                     {currentMethod?.description}
                   </FormGroup>
-                </>
-              }
-              <SingleLineFormGroup label='Stationary Phase'>
-                <Select
-                  key={currentStationaryPhase}
-                  className="react-select--overwrite"
-                  classNamePrefix="react-select"
-                  name="stationary_phase"
-                  options={currentMethod?.stationary_phases}
-                  value={currentStationaryPhase}
-                  onChange={handleChangeStationaryPhase}
-                />
-              </SingleLineFormGroup>
+                </>}
+              <SelectFormGroup
+                label="Stationary Phase"
+                name="stationary_phase"
+                options={currentMethod?.stationary_phases}
+                value={currentStationaryPhase}
+                onChange={handleChangeStationaryPhase}
+              />
               {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
-                <MetricsInput
+                <MetricsInputFormGroup
                   label={'Stat. Phase Temp'}
                   metricName={"TEMPERATURE"}
                   amount={workup.STATIONARY_PHASE_TEMPERATURE}
                   onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
                 />}
-              <SingleLineFormGroup label={'Inj. Volume'}>
-                <MetricsInput
-                  displayMultiLine
-                  metricName={"VOLUME"}
-                  amount={workup.VOLUME}
-                  onChange={handleWorkupChange('VOLUME')}
-                  disabled={isAutomated}
-                />
-              </SingleLineFormGroup>
+              <MetricsInputFormGroup
+                label={'Inj. Volume'}
+                metricName={"VOLUME"}
+                amount={workup.VOLUME}
+                onChange={handleWorkupChange('VOLUME')}
+                disabled={isAutomated}
+              />
             </FormSection>
             {renderAnalysisForms()}
           </>)
       case 'MANUAL':
         return (
           <FormSection>
-            <SingleLineFormGroup label='Material'>
-              <Select
-                className="react-select--overwrite"
-                classNamePrefix="react-select"
-                name="sample_id"
-                options={selectOptions.jar_materials}
-                value={OptionsDecorator.optionForValue(workup.jar_material, selectOptions.jar_materials)}
-                onChange={selected => onWorkupChange({ name: 'jar_material', value: selected.value })}
-              />
-            </SingleLineFormGroup>
-            <FormGroup>
-              <MetricsInput
-                metricName={'LENGTH'}
-                label={'Diameter'}
-                amount={workup.jar_diameter}
-                onChange={handleWorkupChange('jar_diameter')}
-              />
-              <MetricsInput
-                metricName={'LENGTH'}
-                label={'Height'}
-                amount={workup.jar_height}
-                onChange={handleWorkupChange('jar_height')}
-              />
-            </FormGroup>
-            <FormGroup>
-              <MetricsInput
-                metricName={'LENGTH'}
-                label={'Filling Height'}
-                amount={workup.jar_filling_height}
-                max={workup.jar_height?.value}
-                onChange={handleWorkupChange('jar_filling_height')}
-              />
-            </FormGroup>
-          </FormSection>)
+            <SelectFormGroup
+              label='Material'
+              name="sample_id"
+              options={selectOptions.jar_materials}
+              value={OptionsDecorator.optionForValue(workup.jar_material, selectOptions.jar_materials)}
+              onChange={handleSelectChange('jar_material')}
+            />
+            <MetricsInputFormGroup
+              metricName={'LENGTH'}
+              label={'Diameter'}
+              amount={workup.jar_diameter}
+              onChange={handleWorkupChange('jar_diameter')}
+            />
+            <MetricsInputFormGroup
+              metricName={'LENGTH'}
+              label={'Height'}
+              amount={workup.jar_height}
+              onChange={handleWorkupChange('jar_height')}
+            />
+            <MetricsInputFormGroup
+              metricName={'LENGTH'}
+              label={'Filling Height'}
+              amount={workup.jar_filling_height}
+              max={workup.jar_height?.value}
+              onChange={handleWorkupChange('jar_filling_height')}
+            />
+          </FormSection >)
       default:
         break;
     }

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import Select from 'react-select'
 
 import AmountInputSet from '../../../utilities/AmountInputSet';
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 
 import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';

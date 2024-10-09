@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import DurationSelection from "../../../../utilities/DurationSelection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../../utilities/OptionalFormSet";
-import SolventListForm from "../../../../utilities/SolventListForm";
+import DurationSelection from "../../formgroups/DurationSelection";
+import MetricsInputFormGroup from "../../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
+import SolventListFormGroup from "../../formgroups/SolventListFormGroup";
 
 import PurificationDecorator from "../../../../../decorators/PurificationDecorator";
 
@@ -88,19 +88,19 @@ const FiltrationStepForm = ({
           </Button>
         </OptionalFormSet.ExtraButton>
       )}
-      <SolventListForm
+      <SolventListFormGroup
         solvents={formData.solvents}
         solventOptions={solventOptions}
         setSolvents={handleChangeFormData('solvents')}
       />
       <FormGroup>
-        <MetricsInput
+        <MetricsInputFormGroup
           tooltipName={'purification_amount'}
           metricName={"VOLUME"}
           amount={formData.amount}
           onChange={handleChangeFormData('amount')}
         />
-        <MetricsInput
+        <MetricsInputFormGroup
           metricName={"REPETITIONS"}
           amount={formData.repetitions}
           onChange={handleChangeFormData('repetitions')}

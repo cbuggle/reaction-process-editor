@@ -5,7 +5,7 @@ export default class MetricsDecorator {
 
   static label = (metricName) => this.metric(metricName).label
 
-  static units = (metricName) => this.metric(metricName).units
+  static units = (metricName) => this.metric(metricName)?.units
 
   static defaultAmount = (metricName) => {
     return {

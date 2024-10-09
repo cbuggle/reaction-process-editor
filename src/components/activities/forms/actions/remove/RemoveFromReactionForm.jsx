@@ -5,7 +5,7 @@ import RemoveSolventListFormSection from './RemoveSolventListFormSection';
 
 import AmountInputSet from '../../../../utilities/AmountInputSet'
 import FormSection from '../../../../utilities/FormSection';
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup'
+import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
 import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions'
 

@@ -2,14 +2,14 @@ import React from "react";
 import Select from "react-select";
 import { Col, Label, Row } from "reactstrap";
 
-import NumericalInput from "./NumericalInput";
+import NumericalInput from "../../../utilities/NumericalInput";
 import SingleLineFormGroup from "./SingleLineFormGroup";
-import TooltipLabel from "./TooltipLabel";
+import TooltipLabel from "../../../utilities/TooltipLabel";
 
-import MetricsDecorator from "../../decorators/MetricsDecorator";
-import OptionsDecorator from "../../decorators/OptionsDecorator";
+import MetricsDecorator from "../../../../decorators/MetricsDecorator";
+import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
-const MetricsInput = (
+const MetricsInputFormGroup = (
   {
     metricName,
     label,
@@ -19,12 +19,11 @@ const MetricsInput = (
     min,
     initialstep,
     onChange,
-    displayMultiLine,
     disabled,
   }) => {
 
   const availableUnitOptions = MetricsDecorator.units(metricName)
-    .map(unit => ({ value: unit, label: MetricsDecorator.unitLabel(unit) }))
+    ?.map(unit => ({ value: unit, label: MetricsDecorator.unitLabel(unit) }))
 
   const unitIsSelectable = availableUnitOptions.length > 1
 
@@ -36,8 +35,9 @@ const MetricsInput = (
   const handleChangeValue = (value) => onChange({ value: value, unit: localUnit })
 
   const handleChangeUnit = (oldUnit) => (newUnit) => {
-    let newValue = MetricsDecorator.unitType(newUnit).fromBase(
-      MetricsDecorator.unitType(oldUnit).toBase(amount?.value))
+    let newValue = MetricsDecorator.unitType(newUnit)
+      .fromBase(MetricsDecorator.unitType(oldUnit)
+        .toBase(amount?.value))
 
     onChange({ value: newValue, unit: newUnit })
   }
@@ -82,7 +82,7 @@ const MetricsInput = (
     }
   }
 
-  const renderLabel = () => {
+  const renderTooltipLabel = () => {
     let displayLabel = label || MetricsDecorator.label(metricName)
     return tooltipName ?
       <TooltipLabel name={tooltipName} label={displayLabel} />
@@ -102,18 +102,12 @@ const MetricsInput = (
     )
   }
 
-  const renderSingleLine = () => {
-    return (
-      <SingleLineFormGroup
-        label={renderLabel()}>
-        {renderInputs()}
-      </SingleLineFormGroup >
-    )
-  }
-
   return (
-    displayMultiLine ? renderInputs() : renderSingleLine()
+    <SingleLineFormGroup
+      label={renderTooltipLabel()}>
+      {renderInputs()}
+    </SingleLineFormGroup >
   )
 }
 
-export default MetricsInput
+export default MetricsInputFormGroup

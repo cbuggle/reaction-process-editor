@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "reactstrap";
 
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import OptionalFormSet from "./OptionalFormSet";
 
 const TextInputFormSet = ({ label, value, onSave, disabled, typeColor }) => {
   const [currentValue, setCurrentValue] = useState(value);

@@ -4,12 +4,19 @@ import TooltipButton from './TooltipButton'
 
 import { tooltips } from '../../constants/translations'
 
-const TooltipLabel = ({ label, name }) => {
+const TooltipLabel = ({ label, name, disabled }) => {
+
+	const render = () => {
+		return (
+			<>
+				{label}
+				<TooltipButton tooltip={tooltips[name]} size="lg" />
+			</>)
+	}
 
 	return (
 		<>
-			{label}
-			<TooltipButton tooltip={tooltips[name]} size="lg" />
+			{disabled || render()}
 		</>
 	)
 }

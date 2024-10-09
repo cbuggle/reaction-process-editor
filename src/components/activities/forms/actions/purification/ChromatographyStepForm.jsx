@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import { Button, FormGroup, Label } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
-import DurationSelection from "../../../../utilities/DurationSelection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../../utilities/OptionalFormSet";
-import SolventListForm from "../../../../utilities/SolventListForm";
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
+import DurationSelection from "../../formgroups/DurationSelection";
+import MetricsInputFormGroup from "../../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
+import SolventListFormGroup from "../../formgroups/SolventListFormGroup";
 
 import PurificationDecorator from "../../../../../decorators/PurificationDecorator";
 
@@ -76,14 +76,14 @@ const ChromatographyStepForm = ({
             </Button>
           </OptionalFormSet.ExtraButton>
         )}
-        <SolventListForm
+        <SolventListFormGroup
           label={'Mobile Phase'}
           solvents={formData.solvents}
           solventOptions={chromatographyOptions.solvent_options}
           setSolvents={handleChangeFormData('solvents')}
         />
         <FormGroup>
-          <MetricsInput
+          <MetricsInputFormGroup
             tooltipName={'purification_amount'}
             metricName={"VOLUME"}
             amount={formData.amount}
@@ -91,7 +91,7 @@ const ChromatographyStepForm = ({
           />
         </FormGroup>
         <FormGroup>
-          <MetricsInput
+          <MetricsInputFormGroup
             metricName={'VELOCITY'}
             amount={formData.flow_rate}
             onChange={handleChangeFormData('flow_rate')}

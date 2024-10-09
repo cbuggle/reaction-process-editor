@@ -3,8 +3,8 @@ import { Input, Label, FormGroup, Row, Col, Button } from "reactstrap";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import MetricsInput from "../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -76,13 +76,13 @@ const ConditionMetricSubForm = ({
           />
           <Label check>{"Power Ramp"}</Label>
         </FormGroup>
-        <MetricsInput
+        <MetricsInputFormGroup
           metricName={"POWER_START"}
           amount={powerAmount}
           onChange={setPowerAmount}
         />
         {!!powerRamp && (
-          <MetricsInput
+          <MetricsInputFormGroup
             metricName={"POWER_END"}
             amount={powerEndAmount}
             onChange={setPowerEndAmount}
@@ -152,7 +152,7 @@ const ConditionMetricSubForm = ({
       </OptionalFormSet.ExtraButton>
       <Row className="gx-1 mb-3">
         <Col md={8}>
-          <MetricsInput
+          <MetricsInputFormGroup
             metricName={metricName}
             amount={amount}
             onChange={setAmount}

@@ -3,9 +3,9 @@ import { Button } from "reactstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import DurationSelection from "../../../../utilities/DurationSelection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../../utilities/OptionalFormSet";
+import DurationSelection from "../../formgroups/DurationSelection";
+import MetricsInputFormGroup from "../../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 
@@ -40,12 +40,12 @@ const RemoveLimitsFormSet = ({ limits, onSave }) => {
         </Button>
       </OptionalFormSet.ExtraButton>
 
-      <MetricsInput
+      <MetricsInputFormGroup
         metricName={"TEMPERATURE"}
         amount={limitsForm.TEMPERATURE}
         onChange={onChangeLimit('TEMPERATURE')}
       />
-      <MetricsInput
+      <MetricsInputFormGroup
         metricName={"PRESSURE"}
         amount={limitsForm.PRESSURE}
         onChange={onChangeLimit('PRESSURE')}

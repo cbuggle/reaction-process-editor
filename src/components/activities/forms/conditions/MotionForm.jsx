@@ -2,9 +2,9 @@ import React, { useState, useContext } from "react";
 import { FormGroup } from "reactstrap";
 import Select from "react-select";
 
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
-import MetricsInput from "../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -82,7 +82,7 @@ const MotionForm = ({
         />
         {displayRpmInput() &&
           <FormGroup>
-            <MetricsInput
+            <MetricsInputFormGroup
               metricName={"MOTION"}
               amount={speed}
               onChange={setSpeed}

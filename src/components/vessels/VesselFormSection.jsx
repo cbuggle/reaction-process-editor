@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Select from "react-select";
-import MultiInputFormGroup from "../utilities/MultiInputFormGroup";
-import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
+import MultiInputFormGroup from "../activities/forms/formgroups/MultiInputFormGroup";
+import SingleLineFormGroup from "../activities/forms/formgroups/SingleLineFormGroup";
 import VesselSelector from "../vessels/VesselSelector";
 import VesselDecorator from "../../decorators/VesselDecorator";
 

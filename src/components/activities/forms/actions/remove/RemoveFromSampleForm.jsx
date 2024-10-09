@@ -6,7 +6,7 @@ import FormSection from '../../../../utilities/FormSection'
 
 import Select from 'react-select'
 
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup'
+import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
 import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions'
 import RemoveSolventListFormSection from './RemoveSolventListFormSection'

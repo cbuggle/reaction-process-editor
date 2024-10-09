@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FiltrationStepForm from "./FiltrationStepForm";
 import FormSection from '../../../../utilities/FormSection'

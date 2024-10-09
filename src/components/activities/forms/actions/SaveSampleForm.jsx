@@ -3,11 +3,11 @@ import { FormGroup, Label, Input } from "reactstrap";
 import Select from "react-select";
 
 import AmountInputSet from "../../../utilities/AmountInputSet";
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
-import MetricsInput from "../../../utilities/MetricsInput";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
 import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 import VesselFormSection from "../../../vessels/VesselFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -77,14 +77,12 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           />
         </SingleLineFormGroup>
         {renderStepSelect()}
-        <SingleLineFormGroup label={'Amount'}>
-          <MetricsInput
-            displayMultiLine
-            metricName={"VOLUME"}
-            amount={workup.solvents_amount}
-            onChange={handleWorkupChange('solvents_amount')}
-          />
-        </SingleLineFormGroup>
+        <MetricsInputFormGroup
+          label={'Amount'}
+          metricName={"VOLUME"}
+          amount={workup.solvents_amount}
+          onChange={handleWorkupChange('solvents_amount')}
+        />
 
         <SingleLineFormGroup label="Solvents">
           <Select
@@ -184,7 +182,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           maxAmounts={undefined}
           onChangeAmount={handleWorkupChange("target_amount")}
         />
-        <MetricsInput
+        <MetricsInputFormGroup
           metricName={"PURITY"}
           amount={workup.purity}
           onChange={handleWorkupChange("purity")}

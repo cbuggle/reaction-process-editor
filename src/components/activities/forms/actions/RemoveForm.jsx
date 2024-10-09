@@ -8,9 +8,9 @@ import RemoveFromSampleForm from "./remove/RemoveFromSampleForm";
 import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
 import RemoveStepWiseForm from "./remove/RemoveStepWiseForm";
 
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 

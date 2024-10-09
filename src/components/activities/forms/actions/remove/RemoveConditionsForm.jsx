@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import DurationSelection from '../../../../utilities/DurationSelection'
-import MetricsInput from '../../../../utilities/MetricsInput'
+import DurationSelection from '../../formgroups/DurationSelection'
+import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup'
 
 const RemoveConditionsForm = ({
 	conditions,
@@ -18,12 +18,12 @@ const RemoveConditionsForm = ({
 
 	return (
 		<>
-			<MetricsInput
+			<MetricsInputFormGroup
 				metricName={"TEMPERATURE"}
 				amount={conditionsForm.TEMPERATURE}
 				onChange={handleChange('TEMPERATURE')}
 			/>
-			<MetricsInput
+			<MetricsInputFormGroup
 				metricName={"PRESSURE"}
 				amount={conditionsForm.PRESSURE}
 				onChange={handleChange('PRESSURE')}

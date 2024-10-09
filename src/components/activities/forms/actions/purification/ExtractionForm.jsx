@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import ExtractionStepForm from "./ExtractionStepForm";
 
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from "../../../../utilities/FormSection";
 

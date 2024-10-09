@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 
 import AmountInputSet from "../../../utilities/AmountInputSet";
 import FormSection from "../../../utilities/FormSection";
-import MetricsInput from "../../../utilities/MetricsInput";
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -93,7 +93,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     return inputMetrics.map(([metricName, workupKey]) => {
       return (
         <>
-          <MetricsInput
+          <MetricsInputFormGroup
             key={metricName}
             metricName={metricName}
             amount={workup[workupKey]}

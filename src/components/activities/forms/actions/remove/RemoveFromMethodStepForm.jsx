@@ -3,7 +3,7 @@ import { Button } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import RemoveConditionsForm from './RemoveConditionsForm'
-import OptionalFormSet from '../../../../utilities/OptionalFormSet'
+import OptionalFormSet from '../../formsets/OptionalFormSet'
 
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator'
 

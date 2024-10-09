@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, FormGroup, Label } from "reactstrap";
 
-import FormButtons from "./FormButtons";
-import FormSection from "./FormSection";
+import FormButtons from "../../../utilities/FormButtons";
+import FormSection from "../../../utilities/FormSection";
 
-import { SubFormController } from "../../contexts/SubFormController";
+import { SubFormController } from "../../../../contexts/SubFormController";
 
 const ExtraButton = () => null;
 
