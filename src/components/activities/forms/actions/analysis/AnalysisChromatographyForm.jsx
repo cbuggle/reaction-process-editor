@@ -203,7 +203,7 @@ const AnalysisChromatographyForm = (
                 tooltipName={currentDevice?.unavailable && 'selection_unavailable'}
               />
               <SelectFormGroup
-                key={"currentDetectors"}
+                key={currentDetectors}
                 label="Detectors"
                 name="detectors"
                 options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
@@ -214,7 +214,7 @@ const AnalysisChromatographyForm = (
                 tooltipName={currentDetectors?.find(det => det.unavailable) && 'selection_unavailable'}
               />
               <SelectFormGroup
-                key={"currentMobilePhases"}
+                key={currentMobilePhases}
                 label="Mobile Phases"
                 name="mobile_phases"
                 options={OptionsDecorator.inclusiveOptionsForValues(currentMobilePhases, currentMethod?.mobile_phases)}
