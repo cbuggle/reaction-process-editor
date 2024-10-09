@@ -22,21 +22,22 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
   const removableSamplesOptions = useContext(StepSelectOptions).FORMS.REMOVE.removable_samples;
 
   useEffect(() => {
-    fillSamplesFields(workup.origin_type) ?
+    hasSampleFields(workup.origin_type) ?
       onWorkupChange({ name: 'samples', value: removableSamplesOptions[workup.origin_type] })
       : onWorkupChange({ name: 'samples', value: undefined })
+    // eslint-disable-next-line
   }, [])
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   const handleTypeChange = (newType) => {
     onWorkupChange({ name: "origin_type", value: newType })
-    fillSamplesFields(newType) ?
+    hasSampleFields(newType) ?
       onWorkupChange({ name: 'samples', value: removableSamplesOptions[newType] })
       : onWorkupChange({ name: 'samples', value: undefined })
   }
 
-  const fillSamplesFields = (originType) => {
+  const hasSampleFields = (originType) => {
     return ['FROM_REACTION_STEP', 'FROM_REACTION'].find((fillSamplesType) => originType === fillSamplesType)
   }
 
