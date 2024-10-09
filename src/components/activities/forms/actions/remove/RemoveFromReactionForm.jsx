@@ -5,13 +5,13 @@ import RemoveSolventListFormSection from './RemoveSolventListFormSection';
 
 import AmountInputSet from '../../../../utilities/AmountInputSet'
 import FormSection from '../../../../utilities/FormSection';
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup'
+import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
 import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions'
 
 const RemoveFromReactionForm = ({ workup, onWorkupChange }) => {
 	const stepSelectOptions = useContext(StepSelectOptions);
-	const removableSamplesOptions = stepSelectOptions.removable_samples[workup.origin_type]
+	const removableSamplesOptions = stepSelectOptions.FORMS.REMOVE[workup.origin_type]
 
 	const handleWorkupChange = (name) => (value) => {
 		onWorkupChange({ name: name, value: value });

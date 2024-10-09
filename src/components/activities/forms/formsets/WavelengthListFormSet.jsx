@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { FormGroup, Button, Row } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ButtonGroupToggle from "./ButtonGroupToggle";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
 
-import IconButton from './IconButton';
-import MetricsInput from './MetricsInput';
+import IconButton from '../../../utilities/IconButton';
+import MetricsInputFormGroup from '../formgroups/MetricsInputFormGroup';
 import OptionalFormSet from './OptionalFormSet';
-import ActivityInfoDecorator from '../../decorators/ActivityInfoDecorator';
-import MetricsDecorator from '../../decorators/MetricsDecorator';
+import ActivityInfoDecorator from '../../../../decorators/ActivityInfoDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-const WavelengthListForm = (
+const WavelengthListFormSet = (
   {
     wavelengths,
     onChange,
+    disabled
   }) => {
 
   const defaultPeak = MetricsDecorator.defaultAmount("WAVELENGTH")
@@ -105,12 +106,13 @@ const WavelengthListForm = (
             return (
               <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peak.value}>
                 <div className='col-11 d-flex flex-column justify-content-end'>
-                  <MetricsInput
+                  <MetricsInputFormGroup
                     initialstep={peaks.at(-2)?.value + 1}
                     label={'Peak'}
                     metricName={'WAVELENGTH'}
                     amount={peak}
                     onChange={handleChangePeak(index)}
+                    disabled={disabled}
                   />
                 </div>
                 <div className='col-1 d-flex flex-column justify-content-center'>
@@ -135,7 +137,7 @@ const WavelengthListForm = (
       <>
         <Row className='gx-2 py-1 px-2 mx-0' key={'peak-0'}>
           <div className='col-11'>
-            <MetricsInput
+            <MetricsInputFormGroup
               label={'Range min'}
               metricName={'WAVELENGTH'}
               amount={amount_start}
@@ -148,7 +150,7 @@ const WavelengthListForm = (
         </Row>
         <Row className='gx-2 py-1 px-2 mx-0' key={'peak-1'}>
           <div className='col-11'>
-            <MetricsInput
+            <MetricsInputFormGroup
               label={'Range max'}
               metricName={'WAVELENGTH'}
               amount={amound_end}
@@ -179,11 +181,12 @@ const WavelengthListForm = (
 
   return (
     <OptionalFormSet
-      subFormLabel="Wavelengths"
+      subFormLabel="Wavelengths (nm)"
       valueSummary={ActivityInfoDecorator.infoLineWavelengths(wavelengths)}
       onSave={handleSave}
       onCancel={handleCancel}
       typeColor={'action'}
+      disabled={disabled}
     >
       {renderAutomationToggle()}
       {isRange ? renderRangeForm() : renderPeaksForm()}
@@ -193,5 +196,5 @@ const WavelengthListForm = (
   )
 }
 
-export default WavelengthListForm
+export default WavelengthListFormSet
 

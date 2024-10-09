@@ -2,12 +2,12 @@ import React from 'react'
 import { FormGroup, Label, Row } from 'reactstrap'
 import Select from "react-select";
 
-import { SolventRatioListEntry } from './SolventRatioListEntry';
-import { SolventAmountListEntry } from './SolventAmountListEntry';
+import { SolventRatioListEntry } from '../../../utilities/SolventRatioListEntry';
+import { SolventAmountListEntry } from '../../../utilities/SolventAmountListEntry';
 
-import MetricsDecorator from '../../decorators/MetricsDecorator';
+import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-const SolventListForm = ({
+const SolventListFormGroup = ({
 	label = 'Solvent',
 	solvents = [],
 	solventOptions,
@@ -56,7 +56,7 @@ const SolventListForm = ({
 				placeholder={'Add ' + label}
 				className="react-select--overwrite filtration-step-form__solvent-select"
 				classNamePrefix="react-select"
-				name="purify_solvent_solvent_ids"
+				name="purification_solvent_solvent_ids"
 				options={selectableSolventOptions}
 				value={''}
 				onChange={selectedOption => addSolvent(selectedOption)}
@@ -65,4 +65,4 @@ const SolventListForm = ({
 	)
 }
 
-export default SolventListForm
+export default SolventListFormGroup

@@ -3,8 +3,8 @@ import { Form, Input } from "reactstrap";
 import DateTimePicker from "react-datetime-picker";
 
 import FormButtons from "../../utilities/FormButtons";
-import MultiInputFormGroup from "../../utilities/MultiInputFormGroup";
-import SingleLineFormGroup from "../../utilities/SingleLineFormGroup";
+import MultiInputFormGroup from "../../activities/forms/formgroups/MultiInputFormGroup";
+import SingleLineFormGroup from "../../activities/forms/formgroups/SingleLineFormGroup";
 
 import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 

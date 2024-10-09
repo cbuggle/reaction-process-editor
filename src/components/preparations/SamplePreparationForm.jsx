@@ -46,7 +46,7 @@ const PreparationForm = ({
           sampleOptions={sampleOptions}
           sample={
             preparationForm.sample_id
-              ? OptionsDecorator.optionForKey(preparationForm.sample_id, sampleOptions)
+              ? OptionsDecorator.optionForValue(preparationForm.sample_id, sampleOptions)
               : undefined
           }
           onChange={handleSelectSample}
@@ -62,7 +62,7 @@ const PreparationForm = ({
           isClearable={false}
           name="preparations"
           options={samplePreparationOptions}
-          value={OptionsDecorator.optionsForKeys(preparationForm.preparations, samplePreparationOptions)}
+          value={OptionsDecorator.optionsForValues(preparationForm.preparations, samplePreparationOptions)}
           onChange={(selectedOptions) =>
             onInputChange({
               name: "preparations",
@@ -80,7 +80,7 @@ const PreparationForm = ({
           isClearable={false}
           name="equipment"
           options={preparationOptions.equipment}
-          value={OptionsDecorator.optionsForKeys(preparationForm.equipment, preparationOptions.equipment)}
+          value={OptionsDecorator.optionsForValues(preparationForm.equipment, preparationOptions.equipment)}
           onChange={(selectedOptions) =>
             onInputChange({
               name: "equipment",

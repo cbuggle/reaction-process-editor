@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SingleLineFormGroup from "../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "./SingleLineFormGroup";
 import { Typeahead } from "react-bootstrap-typeahead";
 
 const AutoComplete = ({ label, options, value, onChange, domId }) => {

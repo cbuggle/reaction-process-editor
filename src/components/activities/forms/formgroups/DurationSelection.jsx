@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Label, FormGroup } from "reactstrap";
 
-import NumericalInput from "./NumericalInput";
-import TimeDecorator from "../../decorators/TimeDecorator";
-import TooltipLabel from "./TooltipLabel";
+import NumericalInput from "../../../utilities/NumericalInput";
+import TimeDecorator from "../../../../decorators/TimeDecorator";
+import TooltipLabel from "../../../utilities/TooltipLabel";
 
 const DurationSelection = (
   {

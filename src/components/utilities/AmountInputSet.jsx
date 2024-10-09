@@ -1,7 +1,7 @@
 import React from "react";
 
 import AmountInput from "./AmountInput";
-import MetricsInput from "./MetricsInput";
+import MetricsInputFormGroup from "../activities/forms/formgroups/MetricsInputFormGroup";
 
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 import { amountInputSetMetricNames } from "../../constants/metrics";
@@ -50,7 +50,7 @@ const AmountInputSet = (
         ))
       }
       {maxAmounts?.[currentBaseUnit] &&
-        <MetricsInput
+        <MetricsInputFormGroup
           key={'PERCENTAGE'}
           metricName={'PERCENTAGE'}
           amount={{ value: 100 * currentFraction || 100, unit: 'PERCENT' }}

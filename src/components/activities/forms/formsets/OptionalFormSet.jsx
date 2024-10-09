@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, FormGroup, Label } from "reactstrap";
 
-import FormButtons from "./FormButtons";
-import FormSection from "./FormSection";
+import FormButtons from "../../../utilities/FormButtons";
+import FormSection from "../../../utilities/FormSection";
 
-import { SubFormController } from "../../contexts/SubFormController";
+import { SubFormController } from "../../../../contexts/SubFormController";
 
 const ExtraButton = () => null;
 
@@ -17,6 +17,7 @@ const OptionalFormSet = ({
   isEqualToPredefinedValue = false,
   typeColor = "condition",
   disableFormButtons,
+  disabled,
   initialShowForm = false,
 }) => {
   const subFormController = useContext(SubFormController);
@@ -67,13 +68,15 @@ const OptionalFormSet = ({
           >
             {labelWithSummary}
           </Label>
-          <div className="optional-form-group__open-controls">
-            <div className="d-grid gap-2">
-              <Button color={typeColor} onClick={toggleShowForm} outline>
-                {toggleFormButtonLabel}
-              </Button>
+          {!disabled &&
+            <div className="optional-form-group__open-controls">
+              <div className="d-grid gap-2">
+                <Button color={typeColor} onClick={toggleShowForm} outline disabled={disabled}>
+                  {toggleFormButtonLabel}
+                </Button>
+              </div>
             </div>
-          </div>
+          }
         </div>
       )}
       {showForm && (

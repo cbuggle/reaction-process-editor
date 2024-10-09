@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 
 import AmountInputSet from "../../../utilities/AmountInputSet";
 import FormSection from "../../../utilities/FormSection";
-import MetricsInput from "../../../utilities/MetricsInput";
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -22,7 +22,9 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     ["PRESSURE", "add_sample_pressure"],
   ];
 
-  const selectOptions = useContext(SelectOptions);
+  const selectOptions = useContext(SelectOptions)
+  const additionOptions = selectOptions.FORMS.ADD
+
   useEffect(() => {
     inputMetrics.forEach(([metricName, workupKey]) => {
       const unit =
@@ -44,7 +46,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     workup["addition_speed_type"] ||
       onWorkupChange({
         name: "addition_speed_type",
-        value: selectOptions.addition_speed_types[0].value,
+        value: additionOptions.addition_speed_types[0].value,
       });
     // eslint-disable-next-line
   }, []);
@@ -91,7 +93,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     return inputMetrics.map(([metricName, workupKey]) => {
       return (
         <>
-          <MetricsInput
+          <MetricsInputFormGroup
             key={metricName}
             metricName={metricName}
             amount={workup[workupKey]}
@@ -140,8 +142,8 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="addition_speed_type"
-            options={selectOptions.addition_speed_types}
-            value={OptionsDecorator.optionForKey(workup["addition_speed_type"], selectOptions.addition_speed_types)}
+            options={additionOptions.addition_speed_types}
+            value={OptionsDecorator.optionForValue(workup["addition_speed_type"], additionOptions.addition_speed_types)}
             onChange={(selected) =>
               handleChange("addition_speed_type")(selected.value)
             }

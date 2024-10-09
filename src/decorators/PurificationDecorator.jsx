@@ -1,13 +1,13 @@
 import MetricsDecorator from "./MetricsDecorator";
 import StringDecorator from "./StringDecorator";
 import OptionsDecorator from "./OptionsDecorator";
-export default class PurifyDecorator {
+export default class PurificationDecorator {
 
-  static purifyStepInfo = (stepData, purifySolventOptions) => {
+  static purificationStepInfo = (stepData, purificationSolventOptions) => {
 
     const solventsList = OptionsDecorator.optionsArrayToLabel(
       stepData.solvents?.map((solvent) => solvent.id),
-      purifySolventOptions
+      purificationSolventOptions
     );
 
     let ratioList = "";
@@ -75,13 +75,13 @@ export default class PurifyDecorator {
 
   };
 
-  static infoLinePurifySolvents = (workup, purifySolventOptions) => {
+  static infoLinePurificationSolvents = (workup, purificationSolventOptions) => {
     let infoLines = []
 
-    if (workup.purify_type === 'CRYSTALLIZATION') {
-      infoLines.push(PurifyDecorator.infoLineSolvents(workup.solvents, purifySolventOptions))
+    if (workup.purification_type === 'CRYSTALLIZATION') {
+      infoLines.push(PurificationDecorator.infoLineSolvents(workup.solvents, purificationSolventOptions))
     } else { }
-    let steps = workup["purify_steps"];
+    let steps = workup["purification_steps"];
 
     if (steps) {
       for (let i = 0; i < steps.length; i++) {
@@ -89,7 +89,7 @@ export default class PurifyDecorator {
           infoLines.push("Step " + (i + 1));
         }
         infoLines.push(
-          PurifyDecorator.purifyStepInfo(steps[i], purifySolventOptions)
+          PurificationDecorator.purificationStepInfo(steps[i], purificationSolventOptions)
         );
       }
     }
