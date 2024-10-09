@@ -10,8 +10,12 @@ export default class OptionsDecorator {
   static optionsArrayToLabel = (values, options) =>
     !!values && values.map((value) => this.labelForValue(value, options)).join(", ");
 
+  static newOption = (value) => {
+    return value && { value: value, label: value, unavailable: true }
+  }
+
   static inclusiveOptionForValue = (value, options) =>
-    this.optionForValue(value, options) || { value: value, label: value }
+    this.optionForValue(value, options) || this.newOption(value)
 
   static inclusiveOptionsForValues = (values, options) => {
     return values ? Array.from(values).map((value) => this.inclusiveOptionForValue(value, options)) : options

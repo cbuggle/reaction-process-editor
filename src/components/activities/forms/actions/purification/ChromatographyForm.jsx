@@ -31,7 +31,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY
+  const selectOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY
 
   const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
   const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, currentType?.subtypes)
@@ -57,7 +57,7 @@ const ChromatographyForm = (
   }
 
   const filterMethodsByDetectorsOptions = (detectors) => {
-    return detectors?.length > 100 ? filterMethodsByDetectors(currentDevice?.methods, detectors) : currentDevice?.methods
+    return detectors?.length > 0 ? filterMethodsByDetectors(currentDevice?.methods, detectors) : currentDevice?.methods
   }
 
   const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhase?.analysis_defaults?.[analysisType]
@@ -65,10 +65,9 @@ const ChromatographyForm = (
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
-
   const handleChangeType = (newType) => {
     onWorkupChange({ name: 'chromatography_type', value: newType.value })
-    handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, newType.subtypes))
+    handleChangeSubType(OptionsDecorator.optionForValue(workup.chromatography_subtype, newType.subtypes))
   }
 
   const handleChangeSubType = (newSubType) => {
@@ -94,12 +93,21 @@ const ChromatographyForm = (
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
+    handleChangeStationaryPhase(OptionsDecorator.optionForValue(currentStationaryPhase, method?.stationary_phases))
     method?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
   }
 
   const handleChangeMobilePhases = (phases) => {
     onWorkupChange({ name: "mobile_phases", value: phases?.map(phase => phase.value) })
   }
+
+  const handleChangeStationaryPhase = (phase) => {
+    if (isAutomated) {
+      setStationaryPhaseDefaults(phase)
+    }
+    onWorkupChange({ name: 'stationary_phase', value: phase?.value })
+  }
+
 
   const handleChangeDetectors = (detectors) => {
     handleNoDetectorSetting(detectors)
@@ -132,16 +140,8 @@ const ChromatographyForm = (
     isAutomated && currentMethod?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
   }
 
-
   const setStationaryPhaseDefaults = (phase) => {
     phase && onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.analysis_defaults?.['TEMPERATURE'] })
-  }
-
-  const handleChangeStationaryPhase = (phase) => {
-    if (isAutomated) {
-      setStationaryPhaseDefaults(phase)
-    }
-    onWorkupChange({ name: 'stationary_phase', value: phase?.value })
   }
 
 
@@ -188,6 +188,7 @@ const ChromatographyForm = (
                 tooltipName={currentType?.unavailable && 'selection_unavailable'}
               />
               <SelectFormGroup
+                key={"subtype" + currentSubtype}
                 label={'Sub-Type'}
                 name={'chromatography_subtype'}
                 options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
@@ -196,6 +197,7 @@ const ChromatographyForm = (
                 tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
               />
               <SelectFormGroup
+                key={"device" + currentDevice}
                 label={'Device'}
                 name={'device'}
                 options={OptionsDecorator.inclusiveOptions(currentDevice, currentSubtype?.devices)}
@@ -215,7 +217,7 @@ const ChromatographyForm = (
                 tooltipName={currentDetectors?.find(det => det.unavailable) && 'selection_unavailable'}
               />
               <SelectFormGroup
-                key={currentMobilePhases}
+                key={currentMethod}
                 label="Mobile Phases"
                 name="mobile_phases"
                 options={OptionsDecorator.inclusiveOptionsForValues(currentMobilePhases, currentMethod?.mobile_phases)}
@@ -229,11 +231,14 @@ const ChromatographyForm = (
               {isAutomated &&
                 <>
                   <SelectFormGroup
+                    key={currentMethod}
                     label="Method"
                     name="method"
-                    options={filterMethodsByDetectorsOptions(currentDetectors)}
+                    options={OptionsDecorator.inclusiveOptions(currentMethod, filterMethodsByDetectorsOptions(currentDetectors))}
                     value={currentMethod}
                     onChange={handleChangeMethod}
+                    tooltipName={currentMethod?.unavailable && 'selection_unavailable'}
+
                   />
                   <FormGroup>
                     {currentMethod?.description}
