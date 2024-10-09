@@ -3,13 +3,13 @@ import { Button } from "reactstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import DurationSelection from "../../../../utilities/DurationSelection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../../utilities/OptionalFormSet";
+import DurationSelection from "../../formgroups/DurationSelection";
+import MetricsInputFormGroup from "../../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 
-const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
+const RemoveLimitsFormSet = ({ limits, onSave }) => {
 
   const emptyLimitsForm = {}
 
@@ -17,11 +17,11 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
 
   const resetForm = () => setLimitsForm(emptyLimitsForm)
 
-  const handleSave = () => onChange(limitsForm)
+  const handleSave = () => onSave(limitsForm)
 
   const handleCancel = () => { setLimitsForm(limits || emptyLimitsForm) }
 
-  const changeLimit = (name) => (value) => {
+  const onChangeLimit = (name) => (value) => {
     setLimitsForm({ ...limitsForm, [name]: value })
   }
 
@@ -40,17 +40,17 @@ const RemoveLimitsFormSet = ({ limits, preconditions, onChange }) => {
         </Button>
       </OptionalFormSet.ExtraButton>
 
-      <MetricsInput
+      <MetricsInputFormGroup
         metricName={"TEMPERATURE"}
         amount={limitsForm.TEMPERATURE}
-        onChange={changeLimit('TEMPERATURE')}
+        onChange={onChangeLimit('TEMPERATURE')}
       />
-      <MetricsInput
+      <MetricsInputFormGroup
         metricName={"PRESSURE"}
         amount={limitsForm.PRESSURE}
-        onChange={changeLimit('PRESSURE')}
+        onChange={onChangeLimit('PRESSURE')}
       />
-      <DurationSelection duration={limitsForm.duration} onChangeDuration={changeLimit('duration')} />
+      <DurationSelection duration={limitsForm.duration} onChangeDuration={onChangeLimit('duration')} />
     </OptionalFormSet>
   );
 };

@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Button, FormGroup } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import DurationSelection from "../../../../utilities/DurationSelection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../../utilities/OptionalFormSet";
-import SolventListForm from "../../../../utilities/SolventListForm";
+import DurationSelection from "../../formgroups/DurationSelection";
+import MetricsInputFormGroup from "../../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
+import SolventListFormGroup from "../../formgroups/SolventListFormGroup";
 
-import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
+import PurificationDecorator from "../../../../../decorators/PurificationDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
-const FiltrationStepForm = ({
+const ExtractionStepForm = ({
   label,
   workup,
   onSave,
@@ -21,16 +21,14 @@ const FiltrationStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const selectOptions = useContext(SelectOptions);
-  const solventOptions = selectOptions.purify.FILTRATION.solvent_options;
+  const extractionOptions = useContext(SelectOptions).FORMS.PURIFICATION.EXTRACTION;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {
     duration: workup.duration || 0,
     solvents: workup.solvents || [],
     amount: workup.amount || { value: 0, unit: "ml" },
-    rinse_vessel: workup.rinse_vessel || false,
-    repetitions: workup.repetitions || { value: 1, unit: "TIMES" }
+    flow_rate: workup.flow_rate || { value: undefined, unit: "MLMIN" }
   }
 
   const [formData, setFormData] = useState(initialFormData);
@@ -42,8 +40,6 @@ const FiltrationStepForm = ({
       return { ...prevData, [key]: value }
     })
   }
-
-  const handleRinseCheckBox = (event) => handleChangeFormData('rinse_vessel')(event.target.value)
 
   const handleCancel = () => {
     onCancel()
@@ -59,18 +55,7 @@ const FiltrationStepForm = ({
     onDelete();
   };
 
-  const summary = PurifyDecorator.purifyStepInfo(formData, solventOptions)
-
-  // const valueSummary =
-  //   PurifyDecorator.purifyStepInfo(
-  //     {
-  //       solvents,
-  //       amount,
-  //       repetitions,
-  //     },
-  //     solventOptions
-  //   )
-
+  const summary = PurificationDecorator.infoLineSolventsWithRatio(formData)
 
   return (
     <OptionalFormSet
@@ -88,41 +73,31 @@ const FiltrationStepForm = ({
           </Button>
         </OptionalFormSet.ExtraButton>
       )}
-      <SolventListForm
+      <SolventListFormGroup
         solvents={formData.solvents}
-        solventOptions={solventOptions}
+        solventOptions={extractionOptions.solvent_options}
         setSolvents={handleChangeFormData('solvents')}
       />
       <FormGroup>
-        <MetricsInput
-          tooltipName={'purify_amount'}
+        <MetricsInputFormGroup
+          tooltipName={'purification_amount'}
           metricName={"VOLUME"}
           amount={formData.amount}
           onChange={handleChangeFormData('amount')}
         />
-        <MetricsInput
-          metricName={"REPETITIONS"}
-          amount={formData.repetitions}
-          onChange={handleChangeFormData('repetitions')}
+        <MetricsInputFormGroup
+          metricName={'VELOCITY'}
+          amount={formData.flow_rate}
+          onChange={handleChangeFormData('flow_Rate')}
         />
         <DurationSelection
-          tooltipName={'purify_duration'}
+          tooltipName={'purification_duration'}
           duration={formData.duration}
           onChangeDuration={handleChangeFormData('duration')}
         />
-        <FormGroup check className="mb-3">
-          <Label check>
-            <Input
-              type="checkbox"
-              checked={formData.rinse}
-              onChange={handleRinseCheckBox}
-            />
-            Rinse Vessel
-          </Label>
-        </FormGroup>
       </FormGroup>
     </OptionalFormSet>
   );
 };
 
-export default FiltrationStepForm;
+export default ExtractionStepForm;

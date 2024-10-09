@@ -2,9 +2,9 @@ import React, { useState, useContext } from "react";
 import { FormGroup } from "reactstrap";
 import Select from "react-select";
 
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
-import MetricsInput from "../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -17,18 +17,16 @@ const MotionForm = ({
   children,
   onSave,
 }) => {
-  const selectOptions = useContext(SelectOptions);
-  const automationModeOptions = selectOptions.automation_modes;
-  const motionTypeOptions = selectOptions.motion_types;
+  const motionOptions = useContext(SelectOptions).FORMS.MOTION;
 
   const initialSpeed = () =>
     findInitialValue("speed", MetricsDecorator.defaultAmount("MOTION"));
 
   const initialMotionType = () =>
-    findInitialValue("motion_type", motionTypeOptions[0].value);
+    findInitialValue("motion_type", motionOptions.types[0].value);
 
   const initialMotionMode = () =>
-    findInitialValue("motion_mode", automationModeOptions[1].value);
+    findInitialValue("motion_mode", motionOptions.automation_modes[1].value);
 
   const [speed, setSpeed] = useState(initialSpeed());
   const [motionType, setMotionType] = useState(initialMotionType());
@@ -70,13 +68,13 @@ const MotionForm = ({
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="motion_type"
-            options={motionTypeOptions}
-            value={OptionsDecorator.optionForKey(motionType, motionTypeOptions)}
+            options={motionOptions.motion_types}
+            value={OptionsDecorator.optionForValue(motionType, motionOptions.motion_types)}
             onChange={(selectedOption) => setMotionType(selectedOption.value)}
           />
         </FormGroup>
         <ButtonGroupToggle
-          options={automationModeOptions}
+          options={motionOptions.automation_modes}
           value={motionMode}
           onChange={setMotionMode}
           activityType="condition"
@@ -84,7 +82,7 @@ const MotionForm = ({
         />
         {displayRpmInput() &&
           <FormGroup>
-            <MetricsInput
+            <MetricsInputFormGroup
               metricName={"MOTION"}
               amount={speed}
               onChange={setSpeed}

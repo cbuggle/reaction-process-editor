@@ -3,15 +3,15 @@ import { FormGroup, Label, Input } from "reactstrap";
 import Select from "react-select";
 
 import AmountInputSet from "../../../utilities/AmountInputSet";
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
-import MetricsInput from "../../../utilities/MetricsInput";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
 import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 import VesselFormSection from "../../../vessels/VesselFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
-import PurifyDecorator from "../../../../decorators/PurifyDecorator";
+import PurificationDecorator from "../../../../decorators/PurificationDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
@@ -19,47 +19,46 @@ import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
 const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
 
   const selectOptions = useContext(SelectOptions);
-  const stepSelectOptions = useContext(StepSelectOptions);
+  const saveSampleOptions = selectOptions.FORMS.SAVE
 
+  const stepSelectOptions = useContext(StepSelectOptions);
 
   useEffect(() => {
     workup.solvents_amount ||
-      (workup.sample_origin_purify_step && onWorkupChange({ name: 'solvents_amount', value: workup.sample_origin_purify_step?.amount }))
+      (workup.sample_origin_purification_step && onWorkupChange({ name: 'solvents_amount', value: workup.sample_origin_purification_step?.amount }))
 
     // eslint-disable-next-line
-  }, [workup.sample_origin_purify_step])
+  }, [workup.sample_origin_purification_step])
 
   const handleWorkupChange = (name) => (value) => {
     onWorkupChange({ name: name, value: value });
   };
 
   const handleChangeAction = (action) => {
-    onWorkupChange({ name: 'sample_origin_purify_step', value: action.purify_steps?.[0] });
+    onWorkupChange({ name: 'sample_origin_purification_step', value: action.purification_steps?.[0] });
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
-  const currentOriginAction = OptionsDecorator.optionForKey(
-    workup.sample_origin_action_id, stepSelectOptions.save_sample_origins
-  )
+  const currentOriginAction = OptionsDecorator.optionForValue(workup.sample_origin_action_id, saveSampleOptions.origins)
 
-  const purifyStepFormIsDisabled = currentOriginAction?.purify_type === 'CRYSTALLIZATION'
+  const purificationStepFormIsDisabled = currentOriginAction?.purification_type === 'CRYSTALLIZATION'
 
   const renderStepSelect = () => {
     return (<>
-      <SingleLineFormGroup label="Purify Step">
+      <SingleLineFormGroup label="Purification Step">
         <Select
           key={'action-select' + currentOriginAction?.value}
-          isDisabled={purifyStepFormIsDisabled}
+          isDisabled={purificationStepFormIsDisabled}
           className="react-select--overwrite"
           classNamePrefix="react-select"
-          name="sample_origin_purify_step"
-          options={currentOriginAction?.purify_steps || []}
-          value={workup.sample_origin_purify_step}
-          onChange={(selectedOption) => handleWorkupChange("sample_origin_purify_step")(selectedOption)}
+          name="sample_origin_purification_step"
+          options={currentOriginAction?.purification_steps || []}
+          value={workup.sample_origin_purification_step}
+          onChange={(selectedOption) => handleWorkupChange("sample_origin_purification_step")(selectedOption)}
         />
       </SingleLineFormGroup>
       <SingleLineFormGroup label={'Solvents'}>
-        {workup?.sample_origin_purify_step && PurifyDecorator.infoLineSolvents(workup.sample_origin_purify_step.solvents)}
+        {workup?.sample_origin_purification_step && PurificationDecorator.infoLineSolvents(workup.sample_origin_purification_step.solvents)}
       </SingleLineFormGroup >
     </>)
   }
@@ -72,20 +71,18 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="sample_origin_action_id"
-            options={stepSelectOptions.save_sample_origins}
+            options={stepSelectOptions.FORMS.SAVE.origins}
             value={currentOriginAction}
             onChange={handleChangeAction}
           />
         </SingleLineFormGroup>
         {renderStepSelect()}
-        <SingleLineFormGroup label={'Amount'}>
-          <MetricsInput
-            displayMultiLine
-            metricName={"VOLUME"}
-            amount={workup.solvents_amount}
-            onChange={handleWorkupChange('solvents_amount')}
-          />
-        </SingleLineFormGroup>
+        <MetricsInputFormGroup
+          label={'Amount'}
+          metricName={"VOLUME"}
+          amount={workup.solvents_amount}
+          onChange={handleWorkupChange('solvents_amount')}
+        />
 
         <SingleLineFormGroup label="Solvents">
           <Select
@@ -106,12 +103,13 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
   }
 
   const renderOriginToggle = () => {
+
     return (
       <FormGroup>
         <ButtonGroupToggle
           label="Origin"
-          value={workup.sample_origin_type || selectOptions.save_sample_origin_types[0].value}
-          options={selectOptions.save_sample_origin_types}
+          value={workup.sample_origin_type || saveSampleOptions.origin_types[0].value}
+          options={saveSampleOptions.origin_types}
           onChange={handleWorkupChange("sample_origin_type")}
         />
       </FormGroup>
@@ -184,7 +182,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           maxAmounts={undefined}
           onChangeAmount={handleWorkupChange("target_amount")}
         />
-        <MetricsInput
+        <MetricsInputFormGroup
           metricName={"PURITY"}
           amount={workup.purity}
           onChange={handleWorkupChange("purity")}
@@ -204,8 +202,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="intermediate_type"
-            options={selectOptions.save_sample_types}
-            value={OptionsDecorator.optionForKey(workup.intermediate_type, selectOptions.save_sample_types)}
+            options={saveSampleOptions.types}
+            value={OptionsDecorator.optionForValue(workup.intermediate_type, saveSampleOptions.types)}
             onChange={(selectedOption) =>
               handleWorkupChange("intermediate_type")(
                 selectedOption.value

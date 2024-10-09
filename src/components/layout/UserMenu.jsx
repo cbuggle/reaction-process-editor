@@ -1,8 +1,8 @@
-import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DefaultConditionsFormModal from "../utilities/DefaultConditionsFormModal";
-import React, {useState} from "react";
-import {useAuthenticationFetcher} from "../../fetchers/AuthenticationFetcher";
+import React, { useState } from "react";
+import { useAuthenticationFetcher } from "../../fetchers/AuthenticationFetcher";
 
 const UserMenu = (
   {

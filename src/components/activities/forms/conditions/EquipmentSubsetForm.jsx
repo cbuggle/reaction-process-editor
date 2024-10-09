@@ -12,7 +12,7 @@ const EquipmentSubsetForm = (
   }) => {
 
   const selectOptions = useContext(SelectOptions)
-  const localEquipmentOptions = selectOptions.activity_type_equipment['CONDITION'][metricName]
+  const localEquipmentOptions = selectOptions.FORMS.CONDITION.equipment[metricName]
   const localEquipmentOptionNames = localEquipmentOptions.map(item => item.value)
 
   const handleChangeEquipment = (localEquipment) => {
@@ -31,7 +31,7 @@ const EquipmentSubsetForm = (
         isClearable={false}
         name="equipment"
         options={localEquipmentOptions}
-        value={OptionsDecorator.optionsForKeys(equipment, localEquipmentOptions)}
+        value={OptionsDecorator.optionsForValues(equipment, localEquipmentOptions)}
         onChange={selectedOptions => handleChangeEquipment(selectedOptions.map(option => option.value))}
       />
     </>

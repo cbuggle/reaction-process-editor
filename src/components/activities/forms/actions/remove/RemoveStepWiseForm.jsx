@@ -9,7 +9,7 @@ const RemoveStepWiseForm = ({
 	workup,
 	preconditions,
 	onWorkupChange,
-	handleCancelStep
+	onCancelStep
 }) => {
 
 	const handleWorkupChange = (name) => (value) => {
@@ -28,9 +28,12 @@ const RemoveStepWiseForm = ({
 				label={"Continuous/Starter"}
 				workup={workup.starter_conditions || preconditions}
 				onSave={handleChangeStarterConditions}
-				onCancel={handleCancelStep}
+				onCancel={onCancelStep}
 			/>
-			<RemoveLimitsFormSet limits={workup.limits} preconditions={preconditions} onChange={handleWorkupChange('limits')} />
+			<RemoveLimitsFormSet
+				limits={workup.limits}
+				preconditions={preconditions}
+				onChange={handleWorkupChange('limits')} />
 		</>
 	);
 };

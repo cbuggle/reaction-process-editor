@@ -11,7 +11,7 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
     if (!id) {
       setPreviewSample(sample);
     } else {
-      setPreviewSample(OptionsDecorator.optionForKey(id, sampleOptions))
+      setPreviewSample(OptionsDecorator.optionForValue(id, sampleOptions))
     }
   };
 

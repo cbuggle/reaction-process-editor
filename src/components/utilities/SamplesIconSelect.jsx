@@ -12,7 +12,7 @@ const SamplesIconSelect = ({ samples, isMulti, onChange }) => {
 	const selectOptions = useContext(SelectOptions);
 
 	const IconOption = (props) => {
-		let sample = OptionsDecorator.optionForKey(props.value, props.options)
+		let sample = OptionsDecorator.optionForValue(props.value, props.options)
 		return (
 			<Option {...props}>
 				<div className="flex items-center gap-2">

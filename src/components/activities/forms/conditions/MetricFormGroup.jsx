@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 
 import EquipmentSubsetFormSection from "./EquipmentSubsetFormSection";
 import EquipmentForm from "./EquipmentForm";
-import GenericMetricSubForm from "./GenericMetricSubForm";
+import ConditionMetricSubForm from "./ConditionMetricSubForm";
 import MotionForm from "./MotionForm";
 
 import ActivityInfoDecorator from "../../../../decorators/ActivityInfoDecorator";
@@ -13,9 +13,11 @@ import { SelectOptions } from "../../../../contexts/SelectOptions";
 const MetricFormGroup = ({
   metricName,
   precondition,
+  label,
   workup,
   onWorkupChange,
   typeColor = "condition",
+  showEquipmentForm = true
 }) => {
   const selectOptions = useContext(SelectOptions);
 
@@ -76,57 +78,72 @@ const MetricFormGroup = ({
     onWorkupChange({ name: metricName, value: undefined });
   };
 
-  return (
-    <>
-      {metricName === "MOTION" && (
-        <MotionForm
-          label={MetricsDecorator.label(metricName)}
+  const renderMotionForm = () => {
+    return (
+      <MotionForm
+        label={label || MetricsDecorator.label(metricName)}
+        valueSummary={summary()}
+        findInitialValue={findInitialValue}
+        onSave={handleSave}
+        onCancel={handleCancel}
+      >
+        <EquipmentSubsetFormSection
           valueSummary={summary()}
-          findInitialValue={findInitialValue}
-          onSave={handleSave}
-          onCancel={handleCancel}
-        >
-          <EquipmentSubsetFormSection
-            valueSummary={summary()}
-            equipment={equipment}
-            metricName={metricName}
-            onChangeEquipment={handleChangeEquipment}
-          />
-        </MotionForm>
-      )}
-      {metricName === "EQUIPMENT" && (
-        <div>
-          <EquipmentForm
-            metricName={metricName}
-            equipment={equipment}
-            isEqualToPredefinedValue={!hasWorkupCondition}
-            onChangeEquipment={handleChangeEquipment}
-            valueSummary={summary()}
-            onSave={handleSave}
-            onCancel={handleCancel}
-          ></EquipmentForm>
-        </div>
-      )}
-      {["MOTION", "EQUIPMENT"].includes(metricName) || (
-        <GenericMetricSubForm
+          equipment={equipment}
           metricName={metricName}
-          valueSummary={summary()}
-          findInitialValue={findInitialValue}
-          onSave={handleSave}
+          onChangeEquipment={handleChangeEquipment}
+        />
+      </MotionForm>
+    )
+  }
+
+  const renderEquipmentForm = () => {
+    return (
+      <div>
+        <EquipmentForm
+          metricName={metricName}
+          equipment={equipment}
           isEqualToPredefinedValue={!hasWorkupCondition}
-          typeColor={typeColor}
+          onChangeEquipment={handleChangeEquipment}
+          valueSummary={summary()}
+          onSave={handleSave}
           onCancel={handleCancel}
-          onResetToPredefined={handleResetToPredifined}
-        >
-          <EquipmentSubsetFormSection
-            metricName={metricName}
-            equipment={equipment}
-            onChangeEquipment={handleChangeEquipment}
-          />
-        </GenericMetricSubForm>
-      )}
-    </>
-  );
+        ></EquipmentForm>
+      </div>
+    )
+  }
+
+  const renderConditionMetricForm = () => {
+    return (
+      <ConditionMetricSubForm
+        metricName={metricName}
+        label={label}
+        valueSummary={summary()}
+        findInitialValue={findInitialValue}
+        onSave={handleSave}
+        isEqualToPredefinedValue={!hasWorkupCondition}
+        typeColor={typeColor}
+        onCancel={handleCancel}
+        onResetToPredefined={handleResetToPredifined}
+      >
+        {showEquipmentForm && <EquipmentSubsetFormSection
+          metricName={metricName}
+          equipment={equipment}
+          onChangeEquipment={handleChangeEquipment}
+        />}
+      </ConditionMetricSubForm>
+    )
+  }
+
+
+  switch (metricName) {
+    case 'MOTION':
+      return renderMotionForm();
+    case 'EQUIPMENT':
+      return renderEquipmentForm();
+    default:
+      return renderConditionMetricForm();
+  }
 };
 
 export default MetricFormGroup;

@@ -135,7 +135,7 @@ const MainHeader = () => {
               <Nav navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    {OptionsDecorator.optionToLabel(
+                    {OptionsDecorator.labelForValue(
                       filterCollectionId,
                       collectionOptions
                     ) || "Collections"}

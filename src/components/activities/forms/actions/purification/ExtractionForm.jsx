@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import ExtractionStepForm from "./ExtractionStepForm";
 
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from "../../../../utilities/FormSection";
 
@@ -20,7 +20,7 @@ const ExtractionForm = ({
   onCancelStep,
   onDeleteStep
 }) => {
-  const extractionOptions = useContext(SelectOptions).purify.EXTRACTION;
+  const extractionOptions = useContext(SelectOptions).FORMS.PURIFICATION.EXTRACTION;
 
   const renderAutomationToggle = () => {
     return (
@@ -89,4 +89,4 @@ const ExtractionForm = ({
 };
 
 
-export default withActivitySteps(ExtractionForm, 'purify_steps');
+export default withActivitySteps(ExtractionForm, 'purification_steps');

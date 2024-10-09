@@ -10,11 +10,11 @@ export default class ActivityInfoDecorator {
 
     if (workup && !!Object.keys(workup).length) {
       switch (activity.activity_name) {
-        case "PURIFY":
-          title = workup.purify_type;
+        case "PURIFICATION":
+          title = 'Purification ' + workup.purification_type;
           break;
-        case "MEASUREMENT":
-          title = 'Measurement ' + workup.measurement_type;
+        case "ANALYSIS":
+          title = 'Analysis ' + workup.analysis_type;
           break;
         case "CONDITION":
           title = "Change Condition";
@@ -63,13 +63,13 @@ export default class ActivityInfoDecorator {
 
   static infoLineMotion = (conditionWorkup, selectOptions) => {
     return [
-      OptionsDecorator.optionToLabel(
+      OptionsDecorator.labelForValue(
         conditionWorkup.motion_type,
-        selectOptions.motion_types
+        selectOptions.FORMS.MOTION.motion_types
       ),
-      OptionsDecorator.optionToLabel(
+      OptionsDecorator.labelForValue(
         conditionWorkup.motion_mode,
-        selectOptions.automation_modes
+        selectOptions.FORMS.MOTION.automation_modes
       ),
       MetricsDecorator.infoLineAmount(conditionWorkup.speed),
     ].join(" ");
@@ -80,7 +80,7 @@ export default class ActivityInfoDecorator {
       wavelengths.is_range ?
         'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'
         :
-        'Single ' + wavelengths.peaks.map((peak) => peak.value).join(', ') + ' nm'
+        '' + wavelengths.peaks.map((peak) => peak.value).join(', ')
     )
   }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { FormGroup } from "reactstrap";
 
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import EquipmentSubsetForm from "./EquipmentSubsetForm";
 

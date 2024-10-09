@@ -8,9 +8,9 @@ import RemoveFromSampleForm from "./remove/RemoveFromSampleForm";
 import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
 import RemoveStepWiseForm from "./remove/RemoveStepWiseForm";
 
-import ButtonGroupToggle from "../../../utilities/ButtonGroupToggle";
+import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
-import SingleLineFormGroup from "../../../utilities/SingleLineFormGroup";
+import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
@@ -18,12 +18,12 @@ import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
 
 const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
-  const stepSelectOptions = useContext(StepSelectOptions);
-  const selectOptions = useContext(SelectOptions);
+  const selectOptions = useContext(SelectOptions).FORMS.REMOVE;
+  const removableSamplesOptions = useContext(StepSelectOptions).FORMS.REMOVE.removable_samples;
 
   useEffect(() => {
     fillSamplesFields(workup.origin_type) ?
-      onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[workup.origin_type] })
+      onWorkupChange({ name: 'samples', value: removableSamplesOptions[workup.origin_type] })
       : onWorkupChange({ name: 'samples', value: undefined })
   }, [])
 
@@ -32,7 +32,7 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
   const handleTypeChange = (newType) => {
     onWorkupChange({ name: "origin_type", value: newType })
     fillSamplesFields(newType) ?
-      onWorkupChange({ name: 'samples', value: stepSelectOptions.removable_samples[newType] })
+      onWorkupChange({ name: 'samples', value: removableSamplesOptions[newType] })
       : onWorkupChange({ name: 'samples', value: undefined })
   }
 
@@ -73,8 +73,8 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="origin_type"
-            options={selectOptions.remove_origin_types}
-            value={OptionsDecorator.optionForKey(workup["origin_type"], selectOptions.remove_origin_types)}
+            options={selectOptions.origin_types}
+            value={OptionsDecorator.optionForValue(workup["origin_type"], selectOptions.origin_types)}
             onChange={(selectedOption) => handleTypeChange(selectedOption.value)
             }
           />

@@ -38,7 +38,7 @@ const ReactionNavbar = ({ reactionProcess }) => {
     if (open) {
       setOpen("");
     } else {
-      setOpen("scheme");
+      setOpen("");
     }
   };
   const toggleSchemeEnlarge = () => {

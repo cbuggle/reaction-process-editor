@@ -3,8 +3,8 @@ import { Input, Label, FormGroup, Row, Col, Button } from "reactstrap";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import MetricsInput from "../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../utilities/OptionalFormSet";
+import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../formsets/OptionalFormSet";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -12,23 +12,23 @@ import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../contexts/SubFormController";
 
-const GenericMetricSubForm = ({
+const ConditionMetricSubForm = ({
   metricName,
+  label,
   valueSummary,
   children,
   findInitialValue,
   onSave,
   onCancel,
-  isEqualToPredefinedValue = false,
+  isEqualToPredefinedValue,
   typeColor = "condition",
   onResetToPredefined,
 }) => {
-  const formLabel = MetricsDecorator.label(metricName);
-  const selectOptions = useContext(SelectOptions);
   const subFormController = useContext(SubFormController);
+  const selectOptions = useContext(SelectOptions);
+  const additionalInformationOptions = selectOptions.FORMS.CONDITION.additional_information[metricName];
 
-  const additionalInformationOptions =
-    selectOptions.condition_additional_information[metricName];
+  const formLabel = label || MetricsDecorator.label(metricName);
 
   const initialAmount = () => {
     return {
@@ -76,13 +76,13 @@ const GenericMetricSubForm = ({
           />
           <Label check>{"Power Ramp"}</Label>
         </FormGroup>
-        <MetricsInput
+        <MetricsInputFormGroup
           metricName={"POWER_START"}
           amount={powerAmount}
           onChange={setPowerAmount}
         />
         {!!powerRamp && (
-          <MetricsInput
+          <MetricsInputFormGroup
             metricName={"POWER_END"}
             amount={powerEndAmount}
             onChange={setPowerEndAmount}
@@ -101,7 +101,7 @@ const GenericMetricSubForm = ({
           classNamePrefix="react-select"
           name="additional_information"
           options={additionalInformationOptions}
-          value={OptionsDecorator.optionForKey(additionalInformation, additionalInformationOptions)}
+          value={OptionsDecorator.optionForValue(additionalInformation, additionalInformationOptions)}
           onChange={(selectedOption) =>
             setAdditionalInformation(selectedOption.value)
           }
@@ -152,7 +152,7 @@ const GenericMetricSubForm = ({
       </OptionalFormSet.ExtraButton>
       <Row className="gx-1 mb-3">
         <Col md={8}>
-          <MetricsInput
+          <MetricsInputFormGroup
             metricName={metricName}
             amount={amount}
             onChange={setAmount}
@@ -168,4 +168,4 @@ const GenericMetricSubForm = ({
   );
 };
 
-export default GenericMetricSubForm;
+export default ConditionMetricSubForm;

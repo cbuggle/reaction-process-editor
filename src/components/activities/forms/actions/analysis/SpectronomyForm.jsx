@@ -2,19 +2,19 @@ import React, { useContext, useEffect } from 'react'
 import Select from 'react-select'
 
 import FormSection from '../../../../utilities/FormSection'
-import SingleLineFormGroup from '../../../../utilities/SingleLineFormGroup'
+import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const SpectronomyForm = ({ workup, onWorkupChange }) => {
-	const selectOptions = useContext(SelectOptions).measurement.SPECTRONOMY
+	const spectronomyOptions = useContext(SelectOptions).FORMS.ANALYSIS.SPECTRONOMY
 
 
 	useEffect(() => {
 		workup.spectronomy_type ||
-			onWorkupChange({ name: 'spectronomy_type', value: selectOptions.spectronomy_types[0].value })
+			onWorkupChange({ name: 'spectronomy_type', value: spectronomyOptions.spectronomy_types[0].value })
 		// eslint-disable-next-line
 	}, [])
 
@@ -27,8 +27,8 @@ const SpectronomyForm = ({ workup, onWorkupChange }) => {
 					className="react-select--overwrite"
 					classNamePrefix="react-select"
 					name="spectronomy_type"
-					options={selectOptions.spectronomy_types}
-					value={OptionsDecorator.optionForKey(workup.spectronomy_type, selectOptions.spectronomy_types)}
+					options={spectronomyOptions.spectronomy_types}
+					value={OptionsDecorator.optionForValue(workup.spectronomy_type, spectronomyOptions.spectronomy_types)}
 					onChange={selected => onWorkupChange({ name: 'spectronomy_type', value: selected.value })}
 				/>
 			</SingleLineFormGroup>

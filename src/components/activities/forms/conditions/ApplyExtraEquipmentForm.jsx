@@ -39,7 +39,7 @@ const ApplyExtraEquipmentForm = (
             isMulti
             name="equipment"
             options={equipmentOptions}
-            value={OptionsDecorator.optionsForKeys(equipment, equipmentOptions)}
+            value={OptionsDecorator.optionsForValues(equipment, equipmentOptions)}
             onChange={selectedOptions => onChangeEquipment(selectedOptions.map(option => option.value))}
           />
         </FormGroup>

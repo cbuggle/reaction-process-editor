@@ -2,18 +2,18 @@ import React, { useContext, useState } from "react";
 import { Button, FormGroup, Label } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import ButtonGroupToggle from "../../../../utilities/ButtonGroupToggle";
-import DurationSelection from "../../../../utilities/DurationSelection";
-import MetricsInput from "../../../../utilities/MetricsInput";
-import OptionalFormSet from "../../../../utilities/OptionalFormSet";
-import SolventListForm from "../../../../utilities/SolventListForm";
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
+import DurationSelection from "../../formgroups/DurationSelection";
+import MetricsInputFormGroup from "../../formgroups/MetricsInputFormGroup";
+import OptionalFormSet from "../../formsets/OptionalFormSet";
+import SolventListFormGroup from "../../formgroups/SolventListFormGroup";
 
-import PurifyDecorator from "../../../../../decorators/PurifyDecorator";
+import PurificationDecorator from "../../../../../decorators/PurificationDecorator";
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 import { SubFormController } from "../../../../../contexts/SubFormController";
 
-const MeasurementChromatographyStepForm = ({
+const AnalysisChromatographyStepForm = ({
   label,
   workup,
   onSave,
@@ -22,7 +22,7 @@ const MeasurementChromatographyStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const chromatographyOptions = useContext(SelectOptions).measurement.CHROMATOGRAPHY;
+  const chromatographyOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY;
   const solventOptions = chromatographyOptions.solvent_options;
   const subFormController = useContext(SubFormController);
 
@@ -58,7 +58,7 @@ const MeasurementChromatographyStepForm = ({
     onDelete();
   };
 
-  const summary = PurifyDecorator.infoLineSolventsWithRatio(formData)
+  const summary = PurificationDecorator.infoLineSolventsWithRatio(formData)
 
   return (
     <>
@@ -77,28 +77,28 @@ const MeasurementChromatographyStepForm = ({
             </Button>
           </OptionalFormSet.ExtraButton>
         )}
-        <SolventListForm
-          label={'Modifier'}
+        <SolventListFormGroup
+          label={'Mobile Phase'}
           solvents={formData.solvents}
           solventOptions={solventOptions}
           setSolvents={handleChangeFormData('solvents')}
         />
         <FormGroup>
-          <MetricsInput
-            tooltipName={'purify_amount'}
+          <MetricsInputFormGroup
+            tooltipName={'purification_amount'}
             metricName={"VOLUME"}
             amount={formData.amount}
             onChange={handleChangeFormData('amount')}
           />
         </FormGroup>
         <FormGroup>
-          <MetricsInput
+          <MetricsInputFormGroup
             metricName={'VELOCITY'}
             amount={formData.flow_rate}
             onChange={handleChangeFormData('flow_rate')}
           />
           <DurationSelection
-            tooltipName={'purify_duration'}
+            tooltipName={'purification_duration'}
             duration={formData.duration}
             onChangeDuration={handleChangeFormData('duration')}
           />
@@ -120,4 +120,4 @@ const MeasurementChromatographyStepForm = ({
   );
 };
 
-export default MeasurementChromatographyStepForm;
+export default AnalysisChromatographyStepForm;

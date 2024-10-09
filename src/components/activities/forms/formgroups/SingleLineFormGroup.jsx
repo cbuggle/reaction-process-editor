@@ -1,12 +1,11 @@
 import React from 'react';
 import { FormGroup, Label } from "reactstrap";
-import TooltipButton from "./TooltipButton";
+import TooltipButton from "../../../utilities/TooltipButton";
 
 const SingleLineFormGroup = (
   {
     label,
     tooltip,
-    tooltipId,
     children
   }) => {
   return (
@@ -14,7 +13,7 @@ const SingleLineFormGroup = (
       <Label className='col-5 col-form-label d-flex'>
         {label}
         {tooltip &&
-          <TooltipButton tooltip={tooltip} tooltipId={tooltipId} />
+          <TooltipButton tooltip={tooltip} size="m"/>
         }
       </Label>
       <div className='col-7'>

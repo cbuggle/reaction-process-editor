@@ -100,16 +100,16 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'purify',
+    id: 'purification',
     label: 'Separate / Purify',
     types: [
       {
         id: 'filtration',
         createLabel: 'Filtration',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'FILTRATION',
+            purification_type: 'FILTRATION',
             automation: 'AUTOMATED',
             filtration_mode: 'KEEP_PRECIPITATE'
           }
@@ -119,9 +119,9 @@ export const actionTypeClusters = [
         id: 'extraction',
         createLabel: 'Extraction',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'EXTRACTION',
+            purification_type: 'EXTRACTION',
             automation: 'AUTOMATED',
             phase: 'ORGANIC'
           }
@@ -131,9 +131,9 @@ export const actionTypeClusters = [
         id: 'chromatography',
         createLabel: 'Chromatography',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'CHROMATOGRAPHY',
+            purification_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
           }
         }
@@ -142,9 +142,9 @@ export const actionTypeClusters = [
         id: 'crystallization',
         createLabel: 'Crystallization',
         activity: {
-          activity_name: 'PURIFY',
+          activity_name: 'PURIFICATION',
           workup: {
-            purify_type: 'CRYSTALLIZATION',
+            purification_type: 'CRYSTALLIZATION',
             automation: 'AUTOMATED'
           }
         }
@@ -152,37 +152,37 @@ export const actionTypeClusters = [
     ]
   },
   {
-    id: 'measurement',
-    label: 'Measurement',
+    id: 'analysis',
+    label: 'Analysis',
     types: [
       {
-        id: 'measurement_chromatography',
+        id: 'analysis_chromatography',
         createLabel: 'Chromatography',
         activity: {
-          activity_name: 'MEASUREMENT',
+          activity_name: 'ANALYSIS',
           workup: {
-            measurement_type: 'CHROMATOGRAPHY',
+            analysis_type: 'CHROMATOGRAPHY',
             automation: 'AUTOMATED',
           }
         }
       },
       {
-        id: 'measurement_spectronomy',
+        id: 'analysis_spectronomy',
         createLabel: 'Spectronomy',
         activity: {
-          activity_name: 'MEASUREMENT',
+          activity_name: 'ANALYSIS',
           workup: {
-            measurement_type: 'SPECTRONOMY'
+            analysis_type: 'SPECTRONOMY'
           }
         }
       },
       {
-        id: 'measurement_spectroscopy',
+        id: 'analysis_spectroscopy',
         createLabel: 'Spectroscopy',
         activity: {
-          activity_name: 'MEASUREMENT',
+          activity_name: 'ANALYSIS',
           workup: {
-            measurement_type: 'SPECTROSCOPY'
+            analysis_type: 'SPECTROSCOPY'
           }
         }
       },

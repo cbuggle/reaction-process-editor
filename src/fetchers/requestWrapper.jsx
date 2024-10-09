@@ -4,6 +4,8 @@ import NotificationContext from "../contexts/NotificationContext";
 
 import { apiBasePath, afterSignOutPath } from "../constants";
 
+import { translations } from "../constants/translations";
+
 export { useRequestWrapper };
 
 function useRequestWrapper() {
@@ -41,9 +43,8 @@ function useRequestWrapper() {
     localStorage.removeItem("username");
     localStorage.removeItem("bearer_auth_token");
     addNotification({
-      title: "Network Error",
-      message:
-        "Network connection to Backend failed. Is the ELN server running and reachable?",
+      title: translations.network.error.server_not_reachable.title,
+      message: translations.network.error.server_not_reachable.message,
       type: "error",
     });
     navigate(afterSignOutPath);

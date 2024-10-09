@@ -3,8 +3,8 @@ import React, { useContext } from 'react'
 import { FormGroup } from 'reactstrap'
 import FormSection from '../../../../utilities/FormSection'
 
-import MetricsInput from '../../../../utilities/MetricsInput'
-import SolventListForm from '../../../../utilities/SolventListForm'
+import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup'
+import SolventListFormGroup from '../../formgroups/SolventListFormGroup'
 import { SelectOptions } from '../../../../../contexts/SelectOptions'
 
 const RemoveSolventListFormSection = ({ workup, onWorkupChange }) => {
@@ -20,14 +20,14 @@ const RemoveSolventListFormSection = ({ workup, onWorkupChange }) => {
 	return (
 		<FormSection>
 			<FormGroup>
-				<SolventListForm
+				<SolventListFormGroup
 					label={'Solvent'}
 					solvents={workup.solvents}
 					solventOptions={selectOptions.materials.DIVERSE_SOLVENT}
 					setSolvents={handleWorkupChange('solvents')} />
 			</FormGroup>
 			<FormGroup>
-				<MetricsInput
+				<MetricsInputFormGroup
 					metricName={"VOLUME"}
 					amount={workup.solvents_amount}
 					onChange={handleChangeAmount}
