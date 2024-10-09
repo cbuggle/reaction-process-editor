@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Label } from 'reactstrap'
-
 import RemoveFromMethodStepForm from './RemoveFromMethodStepForm'
 
 import FormSection from '../../../../utilities/FormSection'
@@ -22,7 +20,6 @@ const RemoveFromMethodForm = ({
 }) => {
 
 	const handleChangeStarterConditions = (value) => {
-		// TODO: Restrict condition hash to actually required attributes only. (temp, press, duration)
 		onWorkupChange({ name: 'starter_conditions', value: value.data })
 	}
 

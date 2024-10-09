@@ -1,7 +1,5 @@
 import React from "react";
 
-import { apiHostname } from "../constants";
-
 import StringDecorator from "./StringDecorator";
 import OptionsDecorator from "./OptionsDecorator";
 

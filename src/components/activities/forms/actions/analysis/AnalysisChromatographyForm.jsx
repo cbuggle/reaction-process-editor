@@ -40,7 +40,7 @@ const AnalysisChromatographyForm = (
 
   const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
   const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMethod?.mobile_phases)
-  const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethod?.stationary_phases)
+  const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, [currentMethod?.stationary_phase])
   const isAutomated = workup.automation === "AUTOMATED"
 
   const hasDetectorAnalysisType = (analysisType) => {
@@ -93,7 +93,7 @@ const AnalysisChromatographyForm = (
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
-    handleChangeStationaryPhase(OptionsDecorator.optionForValue(currentStationaryPhase, method?.stationary_phases))
+    handleChangeStationaryPhase(method?.stationary_phase)
     method?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
   }
 
@@ -245,11 +245,14 @@ const AnalysisChromatographyForm = (
                   </FormGroup>
                 </>}
               <SelectFormGroup
+                key={"stationary_phase" + currentStationaryPhase}
                 label="Stationary Phase"
                 name="stationary_phase"
-                options={currentMethod?.stationary_phases}
+                options={OptionsDecorator.inclusiveOptions(currentStationaryPhase, [currentMethod?.stationary_phase])}
                 value={currentStationaryPhase}
                 onChange={handleChangeStationaryPhase}
+                disabled={isAutomated}
+                tooltipName={currentStationaryPhase?.unavailable && 'selection_unavailable'}
               />
               {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
                 <MetricsInputFormGroup
@@ -257,6 +260,7 @@ const AnalysisChromatographyForm = (
                   metricName={"TEMPERATURE"}
                   amount={workup.STATIONARY_PHASE_TEMPERATURE}
                   onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
+                  disabled={isAutomated}
                 />}
               <MetricsInputFormGroup
                 label={'Inj. Volume'}
