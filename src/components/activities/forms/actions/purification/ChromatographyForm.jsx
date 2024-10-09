@@ -93,7 +93,7 @@ const ChromatographyForm = (
   const handleChangeMethod = (method) => {
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
-    onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases })
+    onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
     method?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
   }
 

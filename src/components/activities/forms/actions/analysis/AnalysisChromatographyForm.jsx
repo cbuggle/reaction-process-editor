@@ -65,7 +65,6 @@ const AnalysisChromatographyForm = (
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
-
   const handleChangeType = (newType) => {
     onWorkupChange({ name: 'chromatography_type', value: newType.value })
     handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, newType.subtypes))
@@ -93,7 +92,7 @@ const AnalysisChromatographyForm = (
   const handleChangeMethod = (method) => {
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
-    onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases })
+    onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
     method?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
   }
 
