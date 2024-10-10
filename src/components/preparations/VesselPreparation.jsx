@@ -47,7 +47,7 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
         {reactionProcessVessel.preparations.length > 0 && (
           <span className="procedure-card__info-line">
             Preparations:{" "}
-            {OptionsDecorator.optionsArrayToLabel(
+            {OptionsDecorator.valuesToLabel(
               reactionProcessVessel.preparations,
               preparationOptions
             )}

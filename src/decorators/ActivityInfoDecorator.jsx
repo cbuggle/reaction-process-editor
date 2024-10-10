@@ -60,11 +60,11 @@ export default class ActivityInfoDecorator {
 
   static infoLineMotion = (conditionWorkup, selectOptions) => {
     return [
-      OptionsDecorator.labelForValue(
+      OptionsDecorator.valueToLabel(
         conditionWorkup.motion_type,
         selectOptions.FORMS.MOTION.motion_types
       ),
-      OptionsDecorator.labelForValue(
+      OptionsDecorator.valueToLabel(
         conditionWorkup.motion_mode,
         selectOptions.FORMS.MOTION.automation_modes
       ),
@@ -84,7 +84,7 @@ export default class ActivityInfoDecorator {
   static infoLineEquipment = (equipment, equipmentOptions) => {
     return (
       equipment?.value &&
-      OptionsDecorator.optionsArrayToLabel(equipment.value, equipmentOptions)
+      OptionsDecorator.valuesToLabel(equipment.value, equipmentOptions)
     );
   };
 

@@ -5,7 +5,7 @@ export default class PurificationDecorator {
 
   static purificationStepInfo = (stepData, purificationSolventOptions) => {
 
-    const solventsList = OptionsDecorator.optionsArrayToLabel(
+    const solventsList = OptionsDecorator.valuesToLabel(
       stepData.solvents?.map((solvent) => solvent.id),
       purificationSolventOptions
     );

@@ -82,7 +82,7 @@ export default class VesselDecorator {
   };
 
   static vesselPreparationsLine = (preparations, preparationOptions) => {
-    return OptionsDecorator.optionsArrayToLabel(
+    return OptionsDecorator.valuesToLabel(
       preparations,
       preparationOptions
     );

@@ -30,7 +30,6 @@ const ChromatographyForm = (
     onCancelStep,
     onDeleteStep
   }) => {
-
   const selectOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY
 
   const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
@@ -40,7 +39,8 @@ const ChromatographyForm = (
 
   const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
   const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMethod?.mobile_phases)
-  const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, [currentMethod?.stationary_phase])
+  const currentStationaryPhase = OptionsDecorator.stationaryPhaseOption(workup.stationary_phase, currentMethod?.stationary_phase)
+
   const isAutomated = workup.automation === "AUTOMATED"
 
   const hasDetectorAnalysisType = (analysisType) => {
@@ -206,7 +206,7 @@ const ChromatographyForm = (
                 tooltipName={currentDevice?.unavailable && 'selection_unavailable'}
               />
               <SelectFormGroup
-                key={currentDetectors}
+                key={"detectors" + currentDetectors}
                 label="Detectors"
                 name="detectors"
                 options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
@@ -217,7 +217,7 @@ const ChromatographyForm = (
                 tooltipName={currentDetectors?.find(det => det.unavailable) && 'selection_unavailable'}
               />
               <SelectFormGroup
-                key={currentMethod}
+                key={"mobile_phases" + currentMobilePhases}
                 label="Mobile Phases"
                 name="mobile_phases"
                 options={OptionsDecorator.inclusiveOptionsForValues(currentMobilePhases, currentMethod?.mobile_phases)}
@@ -231,7 +231,7 @@ const ChromatographyForm = (
               {isAutomated &&
                 <>
                   <SelectFormGroup
-                    key={currentMethod}
+                    key={"currentMethod" + currentMethod}
                     label="Method"
                     name="method"
                     options={OptionsDecorator.inclusiveOptions(currentMethod, filterMethodsByDetectorsOptions(currentDetectors))}
@@ -248,7 +248,7 @@ const ChromatographyForm = (
                 key={"stationary_phase" + currentStationaryPhase}
                 label="Stationary Phase"
                 name="stationary_phase"
-                options={OptionsDecorator.inclusiveOptions(currentStationaryPhase, [currentMethod?.stationary_phase])}
+                options={OptionsDecorator.stationaryPhaseOptions(currentStationaryPhase, currentMethod?.stationary_phase)}
                 value={currentStationaryPhase}
                 onChange={handleChangeStationaryPhase}
                 disabled={isAutomated}
