@@ -244,16 +244,24 @@ const AnalysisChromatographyForm = (
                     {currentMethod?.description}
                   </FormGroup>
                 </>}
-              <SelectFormGroup
-                key={"stationary_phase" + currentStationaryPhase}
-                label="Stationary Phase"
-                name="stationary_phase"
-                options={OptionsDecorator.stationaryPhaseOptions(currentStationaryPhase, currentMethod?.stationary_phase)}
-                value={currentStationaryPhase}
-                onChange={handleChangeStationaryPhase}
-                disabled={isAutomated}
-                tooltipName={currentStationaryPhase?.unavailable && 'selection_unavailable'}
-              />
+              {isAutomated ?
+                <TextInputFormSet
+                  label={"Stationary Phase"}
+                  value={workup.stationary_phase}
+                  disabled={true}
+                  typeColor='action' />
+                :
+                <SelectFormGroup
+                  key={"stationary_phase" + currentStationaryPhase}
+                  label="Stationary Phasex  "
+                  name="stationary_phase"
+                  options={OptionsDecorator.stationaryPhaseOptions(currentStationaryPhase, currentMethod?.stationary_phase)}
+                  value={currentStationaryPhase}
+                  onChange={handleChangeStationaryPhase}
+                  disabled={isAutomated}
+                  tooltipName={currentStationaryPhase?.unavailable && 'selection_unavailable'}
+                />
+              }
               {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
                 <MetricsInputFormGroup
                   label={'Stat. Phase Temp'}
@@ -267,7 +275,6 @@ const AnalysisChromatographyForm = (
                 metricName={"VOLUME"}
                 amount={workup.VOLUME}
                 onChange={handleWorkupChange('VOLUME')}
-                disabled={isAutomated}
               />
             </FormSection>
             {renderAnalysisForms()}
