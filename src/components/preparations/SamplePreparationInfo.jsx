@@ -16,13 +16,13 @@ const PreparationInfo = ({ preparation, preparationOptions }) => {
       />
       <p>
         <span className="procedure-card__info-line">
-          {OptionsDecorator.optionsArrayToLabel(
+          {OptionsDecorator.valuesToLabel(
             preparation.preparations,
             preparationOptions.preparation_types
           )}
         </span>
         <span className="procedure-card__info-line">
-          {OptionsDecorator.optionsArrayToLabel(
+          {OptionsDecorator.valuesToLabel(
             preparation.equipment,
             preparationOptions.equipment
           )}

@@ -19,7 +19,7 @@ const PurificationInfo = ({ activity }) => {
 	const isCristallization = workup.purification_type === 'CRYSTALLIZATION'
 
 	const addAutomationToTitle = () => {
-		infoTitle += " " + OptionsDecorator.labelForValue(workup.automation, purificationOptions.automation_modes);
+		infoTitle += " " + OptionsDecorator.valueToLabel(workup.automation, purificationOptions.automation_modes);
 	}
 
 	const addStepsToTitle = () => {
@@ -48,7 +48,7 @@ const PurificationInfo = ({ activity }) => {
 		case "FILTRATION":
 			addStepsToTitle()
 			addAutomationToTitle()
-			infoTitle += " Keep " + OptionsDecorator.labelForValue(workup.filtration_mode, purificationOptions.modes
+			infoTitle += " Keep " + OptionsDecorator.valueToLabel(workup.filtration_mode, purificationOptions.modes
 			);
 			addPurificationSolventsToLines()
 			break;

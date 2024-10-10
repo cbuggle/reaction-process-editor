@@ -23,7 +23,7 @@ const SamplePreparation = ({ preparation, reactionProcessId }) => {
 
   const showCard = preparation || initPreparation;
   const sampleName = preparation
-    ? OptionsDecorator.labelForValue(
+    ? OptionsDecorator.valueToLabel(
         preparation.sample_id,
         preparationOptions.prepared_samples
       )
