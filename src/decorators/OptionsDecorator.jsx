@@ -19,17 +19,24 @@ export default class OptionsDecorator {
     this.optionForValue(value, options) || this.createUnavailableOption(value)
 
   static inclusiveOptionsForValues = (values, options) => {
-    return values ? Array.from(values).map((value) => this.inclusiveOptionForValue(value, options)) : options
+    return values ?
+      Array.from(values).map((option) => this.inclusiveOptionForValue(option, options))
+      :
+      options
   }
 
   static inclusiveOptions = (currentOptions, options) => {
-    var newOptions = options?.slice()?.filter(e => e) || []
-    Array(currentOptions)
-      .filter(e => e)
-      .forEach(currentOption => {
-        this.optionForValue(currentOption.value, options) || newOptions.push(this.unavailableOption(currentOption))
-      })
-    return newOptions || []
+    var newOptions = options?.slice() || []
+
+    currentOptions ||= []
+    currentOptions = Array.isArray(currentOptions) ? currentOptions : Array.from(currentOptions)
+
+    currentOptions.forEach(currentOption => {
+        newOptions.push(
+          this.optionForValue(currentOption.value, options) || this.unavailableOption(currentOption)
+        )
+    })
+    return newOptions
   }
 
   static stationaryPhaseOption = (currentPhaseValue, phase) => {
