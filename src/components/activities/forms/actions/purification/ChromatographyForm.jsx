@@ -9,9 +9,8 @@ import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
 import SelectFormGroup from '../../formgroups/SelectFormGroup';
 
-import MetricSubFormSet from '../../formsets/MetricSubFormSet';
+import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
 import TextInputFormSet from '../../formsets/TextInputFormSet';
-import WavelengthListFormSet from '../../formsets/WavelengthListFormSet';
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
@@ -43,13 +42,6 @@ const ChromatographyForm = (
 
   const isAutomated = workup.automation === "AUTOMATED"
 
-  const hasDetectorAnalysisType = (analysisType) => {
-    let selectedDetectorsValues = currentDetectors?.map((item) => item.value) || []
-    return !!currentMethod?.detectors?.find((detector) =>
-      selectedDetectorsValues.includes(detector.value) && detector.analysis_defaults?.[analysisType]
-    )
-  }
-
   const filterMethodsByDetectors = (methods, detectors) => {
     return methods?.filter((method) =>
       detectors.every(detector => method.detectors?.find(methodDetector => methodDetector.value === detector.value)
@@ -77,8 +69,9 @@ const ChromatographyForm = (
 
   const handleChangeAutomation = (automation) => {
     if (automation === "AUTOMATED") {
-      setMethodAnalysisDefaults()
-      setStationaryPhaseDefaults(workup.stationary_phase)
+      handleChangeDevice(currentDevice)
+      setMethodAnalysisDefaults(currentMethod)
+      setStationaryPhaseDefaults(currentStationaryPhase)
     }
     onWorkupChange({ name: 'automation', value: automation })
   }
@@ -94,7 +87,7 @@ const ChromatographyForm = (
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
     handleChangeStationaryPhase(method?.stationary_phase)
-    method?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
+    isAutomated && setMethodAnalysisDefaults(method)
   }
 
   const handleChangeMobilePhases = (phases) => {
@@ -102,16 +95,13 @@ const ChromatographyForm = (
   }
 
   const handleChangeStationaryPhase = (phase) => {
-    if (isAutomated) {
-      setStationaryPhaseDefaults(phase)
-    }
     onWorkupChange({ name: 'stationary_phase', value: phase?.value })
+    isAutomated && setStationaryPhaseDefaults(phase)
   }
-
 
   const handleChangeDetectors = (detectors) => {
     handleNoDetectorSetting(detectors)
-    setMethodAnalysisDefaults()
+    isAutomated && setMethodAnalysisDefaults(currentMethod)
   }
 
   const handleNoDetectorSetting = (detectors) => {
@@ -124,52 +114,24 @@ const ChromatographyForm = (
     }
   }
 
-  const setDetectorAnalyisDefaults = (detector) => {
-    let analysisTypes = Object.keys(detector.analysis_defaults)
+  const setMethodAnalysisDefaults = (method) => {
+    let newConditions = {}
 
-    analysisTypes.forEach((analysisType) => {
-      if (workup.detectors?.includes(detector.value)) {
-        onWorkupChange({ name: analysisType, value: detector.analysis_defaults[analysisType] })
-      } else {
-        onWorkupChange({ name: analysisType, value: undefined })
-      }
-    })
-  }
+    method?.detectors &&
+      method.detectors
+        .filter(d => workup.detectors?.includes(d.value))
+        .filter(detector => !!detector.analysis_defaults)
+        .forEach((detector) => {
+          let defaults = detector.analysis_defaults
 
-  const setMethodAnalysisDefaults = () => {
-    isAutomated && currentMethod?.detectors?.forEach(detector => setDetectorAnalyisDefaults(detector))
+          newConditions[defaults.detector] ||= {}
+          newConditions[defaults.detector][defaults.analysis_type] = defaults.values
+        })
+    onWorkupChange({ name: 'detector_conditions', value: newConditions })
   }
 
   const setStationaryPhaseDefaults = (phase) => {
     phase && onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.analysis_defaults?.['TEMPERATURE'] })
-  }
-
-
-  const renderAnalysisForms = () => {
-    return <>
-      {hasDetectorAnalysisType("TEMPERATURE") &&
-        <MetricSubFormSet
-          metricName={'TEMPERATURE'}
-          label={'Detector Temperature'}
-          amount={workup.TEMPERATURE}
-          onSave={handleWorkupChange('TEMPERATURE')}
-          disabled={isAutomated}
-        />}
-      {hasDetectorAnalysisType("MS_PARAMETER") &&
-        <TextInputFormSet
-          label="MS Parameter"
-          value={workup.MS_PARAMETER}
-          onSave={handleWorkupChange('MS_PARAMETER')}
-          disabled={isAutomated}
-          typeColor='action'
-        />}
-      {hasDetectorAnalysisType("WAVELENGTHS") &&
-        <WavelengthListFormSet
-          wavelengths={workup.WAVELENGTHS}
-          onChange={handleWorkupChange('WAVELENGTHS')}
-          disabled={isAutomated}
-        />}
-    </>
   }
 
   const renderAutomationSpecificFields = () => {
@@ -220,13 +182,13 @@ const ChromatographyForm = (
                 key={"mobile_phases" + currentMobilePhases}
                 label="Mobile Phases"
                 name="mobile_phases"
-                options={OptionsDecorator.inclusiveOptionsForValues(currentMobilePhases, currentMethod?.mobile_phases)}
+                options={OptionsDecorator.inclusiveOptions(currentMobilePhases, currentMethod?.mobile_phases)}
                 value={currentMobilePhases}
                 onChange={handleChangeMobilePhases}
                 isMulti
                 disabled={isAutomated}
                 placeholder={isAutomated ? "Depends on Method" : undefined}
-                tooltipName={workup.mobile_phases?.find(phase => phase.unavailable) && 'selection_unavailable'}
+                tooltipName={currentMobilePhases?.find(phase => phase.unavailable) && 'selection_unavailable'}
               />
               {isAutomated &&
                 <>
@@ -244,16 +206,24 @@ const ChromatographyForm = (
                     {currentMethod?.description}
                   </FormGroup>
                 </>}
-              <SelectFormGroup
-                key={"stationary_phase" + currentStationaryPhase}
-                label="Stationary Phase"
-                name="stationary_phase"
-                options={OptionsDecorator.stationaryPhaseOptions(currentStationaryPhase, currentMethod?.stationary_phase)}
-                value={currentStationaryPhase}
-                onChange={handleChangeStationaryPhase}
-                disabled={isAutomated}
-                tooltipName={currentStationaryPhase?.unavailable && 'selection_unavailable'}
-              />
+              {isAutomated ?
+                <TextInputFormSet
+                  label={"Stationary Phase"}
+                  value={workup.stationary_phase}
+                  disabled
+                  typeColor='action' />
+                :
+                <SelectFormGroup
+                  key={"stationary_phase" + currentStationaryPhase}
+                  label="Stationary Phasex  "
+                  name="stationary_phase"
+                  options={OptionsDecorator.stationaryPhaseOptions(currentStationaryPhase, currentMethod?.stationary_phase)}
+                  value={currentStationaryPhase}
+                  onChange={handleChangeStationaryPhase}
+                  disabled={isAutomated}
+                  tooltipName={currentStationaryPhase?.unavailable && 'selection_unavailable'}
+                />
+              }
               {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
                 <MetricsInputFormGroup
                   label={'Stat. Phase Temp'}
@@ -270,7 +240,13 @@ const ChromatographyForm = (
                 disabled={isAutomated}
               />
             </FormSection>
-            {renderAnalysisForms()}
+            <DetectorConditionsFormGroup
+              detectors={currentDetectors}
+              methodDetectors={currentMethod?.detectors}
+              conditions={workup.detector_conditions}
+              onChange={handleWorkupChange('detector_conditions')}
+              disabled={isAutomated}
+            />
           </>)
       case 'MANUAL':
         return (

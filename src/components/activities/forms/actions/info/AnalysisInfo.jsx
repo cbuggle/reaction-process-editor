@@ -36,7 +36,7 @@ const AnalysisInfo = ({ activity }) => {
 			addAutomationToTitle()
 			addPurificationSolventsToLines()
 			break;
-		case "SPECTRONOMY":
+		case "SPECTROMETRY":
 			break;
 		case "SPECTROSCOPY":
 			break;

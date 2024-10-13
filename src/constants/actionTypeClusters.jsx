@@ -167,12 +167,12 @@ export const actionTypeClusters = [
         }
       },
       {
-        id: 'analysis_spectronomy',
-        createLabel: 'Spectronomy',
+        id: 'analysis_spectrometry',
+        createLabel: 'Spectrometry',
         activity: {
           activity_name: 'ANALYSIS',
           workup: {
-            analysis_type: 'SPECTRONOMY'
+            analysis_type: 'SPECTROMETRY'
           }
         }
       },

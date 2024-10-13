@@ -8,32 +8,30 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
-const SpectronomyForm = ({ workup, onWorkupChange }) => {
-	const spectronomyOptions = useContext(SelectOptions).FORMS.ANALYSIS.SPECTRONOMY
-
+const SpectrometryForm = ({ workup, onWorkupChange }) => {
+	const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.SPECTROMETRY
 
 	useEffect(() => {
-		workup.spectronomy_type ||
-			onWorkupChange({ name: 'spectronomy_type', value: spectronomyOptions.spectronomy_types[0].value })
+		workup.device ||
+			onWorkupChange({ name: 'device', value: selectOptions.devices[0].value })
 		// eslint-disable-next-line
 	}, [])
-
 
 	return (
 		<FormSection>
 			<SingleLineFormGroup label='Type'>
 				<Select
-					key={'spectronomy_type'}
+					key={'device'}
 					className="react-select--overwrite"
 					classNamePrefix="react-select"
-					name="spectronomy_type"
-					options={spectronomyOptions.spectronomy_types}
-					value={OptionsDecorator.optionForValue(workup.spectronomy_type, spectronomyOptions.spectronomy_types)}
-					onChange={selected => onWorkupChange({ name: 'spectronomy_type', value: selected.value })}
+					name="device"
+					options={selectOptions.devices}
+					value={OptionsDecorator.optionForValue(workup.device, selectOptions.devices)}
+					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
 				/>
 			</SingleLineFormGroup>
 		</FormSection>
 	)
 }
 
-export default SpectronomyForm
+export default SpectrometryForm

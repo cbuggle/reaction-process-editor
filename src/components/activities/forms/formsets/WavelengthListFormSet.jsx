@@ -12,6 +12,7 @@ import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
 const WavelengthListFormSet = (
   {
+    label,
     wavelengths,
     onChange,
     disabled
@@ -181,7 +182,7 @@ const WavelengthListFormSet = (
 
   return (
     <OptionalFormSet
-      subFormLabel="Wavelengths (nm)"
+      subFormLabel={label || "Wavelengths"}
       valueSummary={ActivityInfoDecorator.infoLineWavelengths(wavelengths)}
       onSave={handleSave}
       onCancel={handleCancel}
