@@ -12,23 +12,22 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.SPECTROSCOPY
 
 	useEffect(() => {
-		workup.spectroscopy_type ||
-			onWorkupChange({ name: 'spectroscopy_type', value: selectOptions.spectroscopy_types[0].value })
+		workup.device ||
+			onWorkupChange({ name: 'device', value: selectOptions.devices[0]?.value })
 		// eslint-disable-next-line
 	}, [])
-
 
 	return (
 		<FormSection>
 			<SingleLineFormGroup label='Type'>
 				<Select
-					key={'spectroscopy_type'}
+					key={'device'}
 					className="react-select--overwrite"
 					classNamePrefix="react-select"
-					name="spectroscopy_type"
-					options={selectOptions.spectroscopy_types}
-					value={OptionsDecorator.optionForValue(workup.spectroscopy_type, selectOptions.spectroscopy_types)}
-					onChange={selected => onWorkupChange({ name: 'spectroscopy_type', value: selected.value })}
+					name="device"
+					options={selectOptions.devices}
+					value={OptionsDecorator.optionForValue(workup.device, selectOptions.devices)}
+					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
 				/>
 			</SingleLineFormGroup>
 		</FormSection>

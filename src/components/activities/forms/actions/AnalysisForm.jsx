@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SpectronomyForm from './analysis/SpectronomyForm';
+import SpectrometryForm from './analysis/SpectrometryForm';
 import SpectroscopyForm from './analysis/SpectroscopyForm';
 import AnalysisChromatographyForm from './analysis/AnalysisChromatographyForm';
 
@@ -12,8 +12,8 @@ const AnalysisForm = (
   switch (workup['analysis_type']) {
     case "CHROMATOGRAPHY":
       return (<AnalysisChromatographyForm workup={workup} onWorkupChange={onWorkupChange} />)
-    case "SPECTRONOMY":
-      return (<SpectronomyForm workup={workup} onWorkupChange={onWorkupChange} />)
+    case "SPECTROMETRY":
+      return (<SpectrometryForm workup={workup} onWorkupChange={onWorkupChange} />)
     case "SPECTROSCOPY":
       return (<SpectroscopyForm workup={workup} onWorkupChange={onWorkupChange} />)
     default:
