@@ -12,6 +12,7 @@ export const SolventAmountListEntry = (
     index,
     onRemoveSolvent,
     onSetAmount,
+    disabled
   }) => {
 
     const handleChangeAmount = (value) => {
@@ -30,6 +31,7 @@ export const SolventAmountListEntry = (
           min={MetricsDecorator.inputRange('ml').min}
           initialstep={MetricsDecorator.inputRange('ml').initialstep}
           onChange={handleChangeAmount}
+          disabled={disabled}
         />
       </div>
       <div className='col-1 d-flex flex-column justify-content-center'>
@@ -38,6 +40,7 @@ export const SolventAmountListEntry = (
             positive={true}
             icon='trash'
             onClick={onRemoveSolvent(index)}
+            disabled={disabled}
           />
         </div>
       </div>

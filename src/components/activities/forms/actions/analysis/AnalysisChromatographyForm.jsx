@@ -78,6 +78,8 @@ const AnalysisChromatographyForm = (
       handleChangeDevice(currentDevice)
       setMethodAnalysisDefaults(currentMethod)
       setStationaryPhaseDefaults(currentStationaryPhase)
+    } else {
+      onWorkupChange({ name: 'method', value: undefined })
     }
     onWorkupChange({ name: 'automation', value: automation })
   }
@@ -92,6 +94,7 @@ const AnalysisChromatographyForm = (
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
+    onWorkupChange({ name: 'purification_steps', value: method?.steps })
     handleChangeStationaryPhase(method?.stationary_phases[0])
     isAutomated && setMethodAnalysisDefaults(method)
   }
@@ -232,7 +235,6 @@ const AnalysisChromatographyForm = (
               }
               {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
                 <FormSection>
-
                   <MetricsInputFormGroup
                     label={'Stat. Phase Temp'}
                     metricName={"TEMPERATURE"}
@@ -310,6 +312,7 @@ const AnalysisChromatographyForm = (
           onCancel={onCancelStep(idx)}
           onDelete={onDeleteStep(idx)}
           canDelete={activitySteps.length > 1}
+          disabled={isAutomated}
         />
       )}
       {showNewStepForm &&
@@ -321,14 +324,16 @@ const AnalysisChromatographyForm = (
           onCancel={onCancelStep(activitySteps.length)}
         />
       }
-      <FormSection type='action'>
-        <CreateButton
-          label='Chromatography Step'
-          type='action'
-          onClick={addStep}
-          size='sm'
-        />
-      </FormSection>
+      {!isAutomated &&
+        <FormSection type='action'>
+          <CreateButton
+            label='Chromatography Step'
+            type='action'
+            onClick={addStep}
+            size='sm'
+          />
+        </FormSection>
+      }
     </>
   )
 }

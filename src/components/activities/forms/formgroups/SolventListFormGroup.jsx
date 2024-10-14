@@ -12,7 +12,8 @@ const SolventListFormGroup = ({
 	solvents = [],
 	solventOptions,
 	setSolvents,
-	unitTypeName = 'RATIO'
+	unitTypeName = 'RATIO',
+	disabled
 }) => {
 
 	const solventIds = solvents.map((solvent) => solvent.value)
@@ -33,6 +34,7 @@ const SolventListFormGroup = ({
 			onRemoveSolvent={removeSolvent}
 			onSetAmount={handleSetAmount('ratio', idx)}
 			key={solvent.id + '-' + idx}
+			disabled={disabled}
 		/>) :
 			(<SolventAmountListEntry
 				solvent={solvent}
@@ -40,6 +42,7 @@ const SolventListFormGroup = ({
 				onRemoveSolvent={removeSolvent}
 				onSetAmount={handleSetAmount('amount', idx)}
 				key={solvent.id + '-' + idx}
+				disabled={disabled}
 			/>)
 	}
 
@@ -60,6 +63,7 @@ const SolventListFormGroup = ({
 				options={selectableSolventOptions}
 				value={''}
 				onChange={selectedOption => addSolvent(selectedOption)}
+				isDisabled={disabled}
 			/>
 		</FormGroup>
 	)

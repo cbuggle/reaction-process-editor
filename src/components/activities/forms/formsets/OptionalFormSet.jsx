@@ -17,6 +17,7 @@ const OptionalFormSet = ({
   isEqualToPredefinedValue = false,
   typeColor = "condition",
   disableFormButtons,
+  disableSave,
   disabled,
   initialShowForm = false,
 }) => {
@@ -43,7 +44,7 @@ const OptionalFormSet = ({
   };
 
   const hasLocalValue = !!valueSummary && !isEqualToPredefinedValue;
-  const toggleFormButtonLabel = hasLocalValue ? "Change" : "Set";
+  const toggleFormButtonLabel = disableSave ? 'View' : hasLocalValue ? "Change" : "Set";
 
   const labelWithSummary = subFormLabel + ": " + (valueSummary || "-");
 
@@ -91,6 +92,7 @@ const OptionalFormSet = ({
             onCancel={handleCancel}
             saveLabel="Set"
             disabled={disableFormButtons}
+            disableSave={disableSave}
           >
             {extraButton && extraButton.props.children}
           </FormButtons>

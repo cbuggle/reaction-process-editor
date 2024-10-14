@@ -8,6 +8,7 @@ const ButtonGroupToggle = ({
   options,
   activityType = "action",
   label,
+  disabled
 }) => {
   const hasLabel = !!label;
   const classNames = "d-flex" + (hasLabel ? "" : " my-1");
@@ -21,10 +22,9 @@ const ButtonGroupToggle = ({
             key={option.label + index}
             outline
             color={activityType}
-            onClick={() => {
-              onChange(option.value);
-            }}
+            onClick={() => { onChange(option.value) }}
             active={value === option.value}
+            disabled={disabled && (value !== option.value) } // Retaining current enabled keeps it recognizable in UI.
           >
             {option.label}
           </Button>

@@ -27,7 +27,7 @@ const AnalysisInfo = ({ activity }) => {
 	}
 
 	const addPurificationSolventsToLines = () => {
-		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvent_options))
+		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvents))
 	}
 
 	switch (workup.analysis_type) {

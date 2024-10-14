@@ -6,7 +6,7 @@ import WavelengthListFormSet from '../formsets/WavelengthListFormSet'
 
 const DetectorConditionsFormGroup = ({ detectors, methodDetectors, conditions, onChange, disabled }) => {
 
-	const handleWorkupChange = (detectorDefaults) => (value) => {
+	const handleChangeDefaults = (detectorDefaults) => (value) => {
 		let analysis = detectorDefaults.analysis_type
 		let detector = detectorDefaults.detector
 
@@ -24,7 +24,7 @@ const DetectorConditionsFormGroup = ({ detectors, methodDetectors, conditions, o
 						key={"abc" + detectorDefaults.label}
 						label={detectorDefaults.label}
 						value={value}
-						onSave={handleWorkupChange(detectorDefaults)}
+						onSave={handleChangeDefaults(detectorDefaults)}
 						typeColor='action'
 						disabled={disabled}
 					/>)
@@ -33,18 +33,18 @@ const DetectorConditionsFormGroup = ({ detectors, methodDetectors, conditions, o
 						label={detectorDefaults.label}
 						metricName={detectorDefaults.analysis_type}
 						amount={value}
-						onSave={handleWorkupChange(detectorDefaults)}
+						onSave={handleChangeDefaults(detectorDefaults)}
 						disabled={disabled}
 					/>)
 				case 'WAVELENGTHLIST':
 					return (<WavelengthListFormSet
 						label={detectorDefaults.label}
 						wavelengths={value}
-						onChange={handleWorkupChange(detectorDefaults)}
+						onChange={handleChangeDefaults(detectorDefaults)}
 						disabled={disabled}
 					/>)
 				default:
-					return <>Error: Detector has data type {detectorDefaults?.data_type}. We have no form for this. Data corrupted?.</>
+					return <>Error: Detector has unknown data type {detectorDefaults?.data_type}. Data corrupted?.</>
 			}
 		})
 
