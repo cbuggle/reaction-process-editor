@@ -13,37 +13,41 @@ const DetectorConditionsFormGroup = ({ detectors, methodDetectors, conditions, o
 		onChange({ ...conditions, [detector]: { ...conditions[detector], [analysis]: value } })
 	}
 
-	const renderDetectorInputs = (detectorDefaults) => {
-		let value = conditions?.[detectorDefaults.detector]?.[detectorDefaults.analysis_type]
+	const renderDetectorInputs = (detectorAnalysisDefaults) => {
 
-		switch (detectorDefaults?.input_type) {
-			case 'TEXT':
-				return (<TextInputFormSet
-					key={"abc" + detectorDefaults.label}
-					label={detectorDefaults.label}
-					value={value}
-					onSave={handleWorkupChange(detectorDefaults)}
-					typeColor='action'
-					disabled={disabled}
-				/>)
-			case 'METRIC':
-				return (<MetricSubFormSet
-					label={detectorDefaults.label}
-					metricName={detectorDefaults.analysis_type}
-					amount={value}
-					onSave={handleWorkupChange(detectorDefaults)}
-					disabled={disabled}
-				/>)
-			case 'WAVELENGTHLIST':
-				return (<WavelengthListFormSet
-					label={detectorDefaults.label}
-					wavelengths={value}
-					onChange={handleWorkupChange(detectorDefaults)}
-					disabled={disabled}
-				/>)
-			default:
-				return <>Detector {detectorDefaults?.input_type} can not be set</>
-		}
+		return detectorAnalysisDefaults.map(detectorDefaults => {
+
+			let value = conditions?.[detectorDefaults.detector]?.[detectorDefaults.analysis_type]
+			switch (detectorDefaults?.data_type) {
+				case 'TEXT':
+					return (<TextInputFormSet
+						key={"abc" + detectorDefaults.label}
+						label={detectorDefaults.label}
+						value={value}
+						onSave={handleWorkupChange(detectorDefaults)}
+						typeColor='action'
+						disabled={disabled}
+					/>)
+				case 'METRIC':
+					return (<MetricSubFormSet
+						label={detectorDefaults.label}
+						metricName={detectorDefaults.analysis_type}
+						amount={value}
+						onSave={handleWorkupChange(detectorDefaults)}
+						disabled={disabled}
+					/>)
+				case 'WAVELENGTHLIST':
+					return (<WavelengthListFormSet
+						label={detectorDefaults.label}
+						wavelengths={value}
+						onChange={handleWorkupChange(detectorDefaults)}
+						disabled={disabled}
+					/>)
+				default:
+					return <>Error: Detector has data type {detectorDefaults?.data_type}. We have no form for this. Data corrupted?.</>
+			}
+		})
+
 	}
 
 	return (

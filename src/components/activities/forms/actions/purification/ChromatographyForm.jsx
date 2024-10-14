@@ -29,6 +29,9 @@ const ChromatographyForm = (
     onCancelStep,
     onDeleteStep
   }) => {
+
+  const isAutomated = workup.automation === "AUTOMATED"
+
   const selectOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY
 
   const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
@@ -37,10 +40,13 @@ const ChromatographyForm = (
   const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, currentDevice?.detectors)
 
   const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
-  const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMethod?.mobile_phases)
-  const currentStationaryPhase = OptionsDecorator.stationaryPhaseOption(workup.stationary_phase, currentMethod?.stationary_phase)
 
-  const isAutomated = workup.automation === "AUTOMATED"
+  const currentMobilePhasesOptions = isAutomated ? currentMethod?.mobile_phases : currentDevice?.mobile_phases
+  const currentStationaryPhasesOptions = isAutomated ? currentMethod?.stationary_phases : currentDevice?.stationary_phases
+
+  const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMobilePhasesOptions)
+  const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentStationaryPhasesOptions)
+
 
   const filterMethodsByDetectors = (methods, detectors) => {
     return methods?.filter((method) =>
@@ -72,6 +78,8 @@ const ChromatographyForm = (
       handleChangeDevice(currentDevice)
       setMethodAnalysisDefaults(currentMethod)
       setStationaryPhaseDefaults(currentStationaryPhase)
+    } else {
+      handleChangeMethod(undefined)
     }
     onWorkupChange({ name: 'automation', value: automation })
   }
@@ -86,7 +94,7 @@ const ChromatographyForm = (
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
-    handleChangeStationaryPhase(method?.stationary_phase)
+    handleChangeStationaryPhase(method?.stationary_phases[0])
     isAutomated && setMethodAnalysisDefaults(method)
   }
 
@@ -122,10 +130,10 @@ const ChromatographyForm = (
         .filter(d => workup.detectors?.includes(d.value))
         .filter(detector => !!detector.analysis_defaults)
         .forEach((detector) => {
-          let defaults = detector.analysis_defaults
-
-          newConditions[defaults.detector] ||= {}
-          newConditions[defaults.detector][defaults.analysis_type] = defaults.values
+          newConditions[detector.value] = {}
+          detector.analysis_defaults.forEach(defaults => {
+            newConditions[detector.value][defaults.analysis_type] = defaults.values
+          })
         })
     onWorkupChange({ name: 'detector_conditions', value: newConditions })
   }
@@ -182,7 +190,7 @@ const ChromatographyForm = (
                 key={"mobile_phases" + currentMobilePhases}
                 label="Mobile Phases"
                 name="mobile_phases"
-                options={OptionsDecorator.inclusiveOptions(currentMobilePhases, currentMethod?.mobile_phases)}
+                options={OptionsDecorator.inclusiveOptions(currentMobilePhases, currentMobilePhasesOptions)}
                 value={currentMobilePhases}
                 onChange={handleChangeMobilePhases}
                 isMulti
@@ -215,9 +223,9 @@ const ChromatographyForm = (
                 :
                 <SelectFormGroup
                   key={"stationary_phase" + currentStationaryPhase}
-                  label="Stationary Phasex  "
-                  name="stationary_phase"
-                  options={OptionsDecorator.stationaryPhaseOptions(currentStationaryPhase, currentMethod?.stationary_phase)}
+                  label={"Stationary Phase"}
+                  name={"stationary_phase"}
+                  options={OptionsDecorator.inclusiveOptions(currentStationaryPhase, currentStationaryPhasesOptions)}
                   value={currentStationaryPhase}
                   onChange={handleChangeStationaryPhase}
                   disabled={isAutomated}
@@ -225,13 +233,16 @@ const ChromatographyForm = (
                 />
               }
               {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
-                <MetricsInputFormGroup
-                  label={'Stat. Phase Temp'}
-                  metricName={"TEMPERATURE"}
-                  amount={workup.STATIONARY_PHASE_TEMPERATURE}
-                  onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
-                  disabled={isAutomated}
-                />}
+                <FormSection>
+                  <MetricsInputFormGroup
+                    label={'Stat. Phase Temp'}
+                    metricName={"TEMPERATURE"}
+                    amount={workup.STATIONARY_PHASE_TEMPERATURE}
+                    onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
+                    disabled={isAutomated}
+                  />
+                </FormSection>
+              }
               <MetricsInputFormGroup
                 label={'Inj. Volume'}
                 metricName={"VOLUME"}

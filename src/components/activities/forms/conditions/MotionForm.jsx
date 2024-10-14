@@ -68,8 +68,8 @@ const MotionForm = ({
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="motion_type"
-            options={motionOptions.motion_types}
-            value={OptionsDecorator.optionForValue(motionType, motionOptions.motion_types)}
+            options={motionOptions.types}
+            value={OptionsDecorator.optionForValue(motionType, motionOptions.types)}
             onChange={(selectedOption) => setMotionType(selectedOption.value)}
           />
         </FormGroup>

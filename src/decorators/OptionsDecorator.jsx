@@ -32,25 +32,10 @@ export default class OptionsDecorator {
     currentOptions = Array.isArray(currentOptions) ? currentOptions : Array.from(currentOptions)
 
     currentOptions.forEach(currentOption => {
-        newOptions.push(
-          this.optionForValue(currentOption.value, options) || this.unavailableOption(currentOption)
-        )
+      newOptions.push(
+        this.optionForValue(currentOption.value, options) || this.unavailableOption(currentOption)
+      )
     })
     return newOptions
-  }
-
-  static stationaryPhaseOption = (currentPhaseValue, phase) => {
-    if (currentPhaseValue) {
-      return currentPhaseValue === phase?.value ? this.toOption(currentPhaseValue) : this.createUnavailableOption(currentPhaseValue)
-    } else {
-      return phase || {}
-    }
-  }
-
-  static stationaryPhaseOptions = (currentPhase, phase) => {
-    let options = []
-    phase && options.push(phase)
-    currentPhase && currentPhase.value !== phase?.value && options.push(this.unavailableOption(currentPhase))
-    return options
   }
 }
