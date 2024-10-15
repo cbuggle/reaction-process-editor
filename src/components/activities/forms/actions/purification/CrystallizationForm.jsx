@@ -55,7 +55,7 @@ const CrystallizationForm = (
         <FormGroup>
           <SolventListFormGroup
             solvents={solvents}
-            solventOptions={crystallizationOptions.solvent_options}
+            solventOptions={crystallizationOptions.solvents}
             setSolvents={handleSolventsChange}
           />
         </FormGroup>

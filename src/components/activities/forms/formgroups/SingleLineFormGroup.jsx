@@ -13,7 +13,7 @@ const SingleLineFormGroup = (
       <Label className='col-5 col-form-label d-flex'>
         {label}
         {tooltip &&
-          <TooltipButton tooltip={tooltip} size="m"/>
+          <TooltipButton tooltip={tooltip}/>
         }
       </Label>
       <div className='col-7'>

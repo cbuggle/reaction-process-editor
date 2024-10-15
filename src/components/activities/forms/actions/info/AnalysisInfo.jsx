@@ -27,7 +27,7 @@ const AnalysisInfo = ({ activity }) => {
 	}
 
 	const addPurificationSolventsToLines = () => {
-		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvent_options))
+		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvents))
 	}
 
 	switch (workup.analysis_type) {
@@ -41,7 +41,7 @@ const AnalysisInfo = ({ activity }) => {
 		case "SPECTROSCOPY":
 			break;
 		default:
-			infoTitle = "Error in PurificationInfo: Unknown type: " + workup.analysis_type
+			infoTitle = "Error in PurificationInfo: Unknown type " + workup.analysis_type + "."
 			break;
 	}
 

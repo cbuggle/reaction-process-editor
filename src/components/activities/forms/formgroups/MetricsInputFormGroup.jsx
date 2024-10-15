@@ -21,7 +21,6 @@ const MetricsInputFormGroup = (
     onChange,
     disabled,
   }) => {
-
   const availableUnitOptions = MetricsDecorator.units(metricName)
     ?.map(unit => ({ value: unit, label: MetricsDecorator.unitLabel(unit) }))
 

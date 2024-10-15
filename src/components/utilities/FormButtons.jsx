@@ -19,7 +19,7 @@ const FormButtons = ({
     <div className={classNames}>
       {children}
       <Button color={type} onClick={onCancel} disabled={disabled} outline>
-        Cancel
+        {disableSave ? 'Close' : 'Cancel'}
       </Button>
       <Button color={type} onClick={onSave} disabled={disabled || disableSave}>
         {saveLabel}

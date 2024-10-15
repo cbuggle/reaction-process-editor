@@ -75,7 +75,7 @@ const ExtractionStepForm = ({
       )}
       <SolventListFormGroup
         solvents={formData.solvents}
-        solventOptions={extractionOptions.solvent_options}
+        solventOptions={extractionOptions.solvents}
         setSolvents={handleChangeFormData('solvents')}
       />
       <FormGroup>

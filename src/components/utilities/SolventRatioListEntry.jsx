@@ -11,7 +11,8 @@ export const SolventRatioListEntry = (
     solvent,
     index,
     onRemoveSolvent,
-    onSetAmount
+    onSetAmount,
+    disabled
   }) => {
 
   return (
@@ -26,6 +27,7 @@ export const SolventRatioListEntry = (
           min={MetricsDecorator.inputRange('RATIO').min}
           initialstep={MetricsDecorator.inputRange('RATIO').initialstep}
           onChange={onSetAmount}
+          disabled={disabled}
         />
       </div>
       <div className='col-1 d-flex flex-column justify-content-center'>
@@ -34,6 +36,7 @@ export const SolventRatioListEntry = (
             positive={true}
             icon='trash'
             onClick={onRemoveSolvent(index)}
+            disabled={disabled}
           />
         </div>
       </div>

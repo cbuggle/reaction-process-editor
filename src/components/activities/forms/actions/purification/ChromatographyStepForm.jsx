@@ -20,7 +20,8 @@ const ChromatographyStepForm = ({
   onCancel,
   onDelete,
   canDelete,
-  initialShowForm
+  initialShowForm,
+  disabled
 }) => {
   const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY;
   const subFormController = useContext(SubFormController);
@@ -68,10 +69,11 @@ const ChromatographyStepForm = ({
         onCancel={handleCancel}
         typeColor="action"
         initialShowForm={initialShowForm}
+        disableSave={disabled}
       >
         {canDelete && (
           <OptionalFormSet.ExtraButton>
-            <Button color="danger" onClick={handleDelete}>
+            <Button color="danger" onClick={handleDelete} disabled={disabled}>
               <FontAwesomeIcon icon="trash" />
             </Button>
           </OptionalFormSet.ExtraButton>
@@ -79,15 +81,17 @@ const ChromatographyStepForm = ({
         <SolventListFormGroup
           label={'Mobile Phase'}
           solvents={formData.solvents}
-          solventOptions={chromatographyOptions.solvent_options}
+          solventOptions={chromatographyOptions.solvents}
           setSolvents={handleChangeFormData('solvents')}
+          disabled={disabled}
         />
         <FormGroup>
           <MetricsInputFormGroup
-            tooltipName={'purification_amount'}
+            tooltipName={!disabled && 'purification_amount'}
             metricName={"VOLUME"}
             amount={formData.amount}
             onChange={handleChangeFormData('amount')}
+            disabled={disabled}
           />
         </FormGroup>
         <FormGroup>
@@ -95,23 +99,27 @@ const ChromatographyStepForm = ({
             metricName={'VELOCITY'}
             amount={formData.flow_rate}
             onChange={handleChangeFormData('flow_rate')}
+            disabled={disabled}
           />
           <DurationSelection
-            tooltipName={'purification_duration'}
+            tooltipName={!disabled && 'purification_duration'}
             duration={formData.duration}
             onChangeDuration={handleChangeFormData('duration')}
+            disabled={disabled}
           />
           <Label>Step</Label>
           <ButtonGroupToggle
             value={formData.step_mode}
             options={chromatographyOptions.step_modes}
             onChange={handleChangeFormData('step_mode')}
+            disabled={disabled}
           />
           <Label>Prod</Label>
           <ButtonGroupToggle
             value={formData.prod_mode}
             options={chromatographyOptions.prod_modes}
             onChange={handleChangeFormData('prod_mode')}
+            disabled={disabled}
           />
         </FormGroup>
       </OptionalFormSet>
