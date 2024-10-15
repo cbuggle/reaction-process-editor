@@ -4,57 +4,56 @@ import MetricSubFormSet from '../formsets/MetricSubFormSet'
 import TextInputFormSet from '../formsets/TextInputFormSet'
 import WavelengthListFormSet from '../formsets/WavelengthListFormSet'
 
-const DetectorConditionsFormGroup = ({ detectors, methodDetectors, conditions, onChange, disabled }) => {
+const DetectorConditionsFormGroup = ({ detectors, conditions, onChange, disabled }) => {
 
-	const handleChangeDefaults = (detectorDefaults) => (value) => {
-		let analysis = detectorDefaults.analysis_type
-		let detector = detectorDefaults.detector
-
-		onChange({ ...conditions, [detector]: { ...conditions[detector], [analysis]: value } })
+	const handleChangeDetectorValue = (detectorName, metricName) => (value) => {
+		onChange({ ...conditions, [detectorName]: { ...conditions[detectorName], [metricName]: value } })
 	}
 
-	const renderDetectorInputs = (detectorAnalysisDefaults) => {
+	const renderDetectorInputs = (detector) => {
 
-		return detectorAnalysisDefaults.map(detectorDefaults => {
+		let detectorName = detector.value
 
-			let value = conditions?.[detectorDefaults.detector]?.[detectorDefaults.analysis_type]
-			switch (detectorDefaults?.data_type) {
+		return detector.analysis_types?.map(analysis_type => {
+			let metricName = analysis_type.metric_name
+
+			let label = '' + detectorName + ' ' + analysis_type.label
+			let value = conditions?.[detectorName]?.[metricName]
+
+			switch (analysis_type.data_type) {
 				case 'TEXT':
 					return (<TextInputFormSet
-						key={"abc" + detectorDefaults.label}
-						label={detectorDefaults.label}
+						key={"text" + analysis_type.label}
+						label={label}
 						value={value}
-						onSave={handleChangeDefaults(detectorDefaults)}
+						onSave={handleChangeDetectorValue(detectorName, metricName)}
 						typeColor='action'
 						disabled={disabled}
 					/>)
 				case 'METRIC':
 					return (<MetricSubFormSet
-						label={detectorDefaults.label}
-						metricName={detectorDefaults.analysis_type}
+						label={label}
+						metricName={analysis_type.metric_name}
 						amount={value}
-						onSave={handleChangeDefaults(detectorDefaults)}
+						onSave={handleChangeDetectorValue(detectorName, metricName)}
 						disabled={disabled}
 					/>)
 				case 'WAVELENGTHLIST':
 					return (<WavelengthListFormSet
-						label={detectorDefaults.label}
+						label={label}
 						wavelengths={value}
-						onChange={handleChangeDefaults(detectorDefaults)}
+						onChange={handleChangeDetectorValue(detectorName, metricName)}
 						disabled={disabled}
 					/>)
 				default:
-					return <>Error: Detector has unknown data type {detectorDefaults?.data_type}. Data corrupted?.</>
+					return <>Error: Detector {detectorName} has unknown data type {analysis_type?.data_type}. Data corrupted?.</>
 			}
 		})
-
 	}
 
 	return (
 		<>
-			{methodDetectors && methodDetectors
-				.filter(option => detectors.map(d => d.value).includes(option.value))
-				.map(methodDetector => renderDetectorInputs(methodDetector.analysis_defaults))}
+			{detectors?.map(detector => renderDetectorInputs(detector))}
 		</>
 	)
 }

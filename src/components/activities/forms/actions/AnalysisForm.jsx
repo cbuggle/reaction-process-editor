@@ -17,7 +17,7 @@ const AnalysisForm = (
     case "SPECTROSCOPY":
       return (<SpectroscopyForm workup={workup} onWorkupChange={onWorkupChange} />)
     default:
-      return (<>{"Unknown analysis type Error in AnalysisBaseForm: " + workup['analysis_type']} </>)
+      return (<>{"Unknown analysis type Error in AnalysisBaseForm: " + workup['analysis_type'] + '.'} </>)
   }
 }
 

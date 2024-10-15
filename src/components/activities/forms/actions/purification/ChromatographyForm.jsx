@@ -133,7 +133,7 @@ const ChromatographyForm = (
         .forEach((detector) => {
           newConditions[detector.value] = {}
           detector.analysis_defaults.forEach(defaults => {
-            newConditions[detector.value][defaults.analysis_type] = defaults.values
+            newConditions[detector.value][defaults.metric_name] = defaults.values
           })
         })
     onWorkupChange({ name: 'detector_conditions', value: newConditions })
