@@ -28,7 +28,7 @@ const RemoveFromMethodStepForm = ({
 
 	label ||= "Limits Step " + (index + 1);
 
-	const handleSave = () => { onSave({ index, data: conditionsForm }) }
+	const handleSave = () => onSave(conditionsForm)
 
 	const handleDelete = () => {
 		subFormController.toggleSubForm(label);
@@ -42,7 +42,6 @@ const RemoveFromMethodStepForm = ({
 
 	return (
 		<OptionalFormSet
-			key={'limits-step-' + index}
 			subFormLabel={label}
 			valueSummary={summary}
 			onSave={handleSave}

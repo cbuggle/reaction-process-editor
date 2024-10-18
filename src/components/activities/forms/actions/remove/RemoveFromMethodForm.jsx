@@ -14,9 +14,9 @@ const RemoveFromMethodForm = ({
 	activitySteps,
 	showNewStepForm,
 	addStep,
-	handleSaveStep,
-	handleCancelStep,
-	handleDeleteStep
+	onSaveStep,
+	onCancelStep,
+	onDeleteStep
 }) => {
 
 	const handleChangeStarterConditions = (value) => {
@@ -29,27 +29,28 @@ const RemoveFromMethodForm = ({
 				label={"Continuous/Starter"}
 				workup={workup.starter_conditions || preconditions}
 				onSave={handleChangeStarterConditions}
-				onCancel={handleCancelStep} />
+				onCancel={onCancelStep} />
 
 			{activitySteps.map((step, idx) =>
 				<RemoveFromMethodStepForm
 					key={'remove-step-' + idx + '-' + activitySteps.length}
+					label={'Remove Step ' + (idx + 1)}
 					index={idx}
 					workup={step}
-					onSave={handleSaveStep}
-					onCancel={handleCancelStep}
-					onDelete={handleDeleteStep}
+					onSave={onSaveStep(idx)}
+					onCancel={onCancelStep(idx)}
+					onDelete={onDeleteStep(idx)}
 					canDelete={true}
 				/>
 			)}
 			{showNewStepForm &&
 				<RemoveFromMethodStepForm
+					key={'remove-step-' + + (activitySteps.length + 1)}
 					index={activitySteps.length}
-					workup={activitySteps?.at(-1)}
+					workup={activitySteps?.at(-1) || {}}
 					initialShowForm={true}
-					onSave={handleSaveStep}
-					onCancel={handleCancelStep}
-					onDelete={handleDeleteStep}
+					onSave={onSaveStep(activitySteps.length)}
+					onCancel={onCancelStep(activitySteps.length)}
 				/>
 			}
 			<FormSection type='action'>
