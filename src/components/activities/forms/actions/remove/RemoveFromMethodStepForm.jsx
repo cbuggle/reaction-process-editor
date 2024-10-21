@@ -12,6 +12,7 @@ import { SubFormController } from "../../../../../contexts/SubFormController";
 const RemoveFromMethodStepForm = ({
 	index,
 	workup,
+	preconditions,
 	onSave,
 	onCancel,
 	onDelete,
@@ -22,7 +23,7 @@ const RemoveFromMethodStepForm = ({
 
 	const subFormController = useContext(SubFormController);
 
-	const [conditionsForm, setConditionsForm] = useState(workup || {});
+	const [conditionsForm, setConditionsForm] = useState(workup || preconditions || {});
 
 	const summary = ActivityInfoDecorator.infoLineRemoveConditions(conditionsForm)
 
@@ -40,6 +41,14 @@ const RemoveFromMethodStepForm = ({
 		onCancel()
 	}
 
+	const resetForm = () => {
+		console.log("resetting")
+		console.log(preconditions)
+		console.log(workup)
+		setConditionsForm(preconditions || {})
+	}
+
+
 	return (
 		<OptionalFormSet
 			subFormLabel={label}
@@ -49,14 +58,21 @@ const RemoveFromMethodStepForm = ({
 			typeColor="action"
 			initialShowForm={initialShowForm}
 		>
-			{canDelete && (
-				<OptionalFormSet.ExtraButton>
+			<OptionalFormSet.ExtraButton>
+				{canDelete &&
 					<Button color="danger" onClick={handleDelete}>
 						<FontAwesomeIcon icon="trash" />
 					</Button>
-				</OptionalFormSet.ExtraButton>
-			)}
-			<RemoveConditionsForm conditions={conditionsForm} onChange={setConditionsForm} />
+				}
+				<Button color="condition" onClick={resetForm} outline>
+					<FontAwesomeIcon icon="undo-alt" /> Reset
+				</Button>
+			</OptionalFormSet.ExtraButton>
+
+			<RemoveConditionsForm
+				key={conditionsForm}
+				conditions={conditionsForm}
+				onChange={setConditionsForm} />
 		</OptionalFormSet>
 	);
 };

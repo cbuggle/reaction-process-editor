@@ -36,6 +36,7 @@ const RemoveFromMethodForm = ({
 					key={'remove-step-' + idx + '-' + activitySteps.length}
 					label={'Remove Step ' + (idx + 1)}
 					index={idx}
+					preconditions={workup.starter_conditions || preconditions}
 					workup={step}
 					onSave={onSaveStep(idx)}
 					onCancel={onCancelStep(idx)}
@@ -47,7 +48,7 @@ const RemoveFromMethodForm = ({
 				<RemoveFromMethodStepForm
 					key={'remove-step-' + (activitySteps.length + 1)}
 					index={activitySteps.length}
-					workup={activitySteps.at(-1) || workup.starter_conditions || preconditions}
+					preconditions={workup.starter_conditions || preconditions}
 					initialShowForm={true}
 					onSave={onSaveStep(activitySteps.length)}
 					onCancel={onCancelStep(activitySteps.length)}

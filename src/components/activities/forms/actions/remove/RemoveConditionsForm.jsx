@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import DurationSelection from '../../formgroups/DurationSelection'
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup'
@@ -8,11 +8,8 @@ const RemoveConditionsForm = ({
 	onChange,
 }) => {
 
-	const [conditionsForm, setConditionsForm] = useState(conditions || {})
-
 	const handleChange = (name) => (value) => {
-		let newConditions = { ...conditionsForm, [name]: value }
-		setConditionsForm(newConditions)
+		let newConditions = { ...conditions, [name]: value }
 		onChange(newConditions)
 	}
 
@@ -20,15 +17,15 @@ const RemoveConditionsForm = ({
 		<>
 			<MetricsInputFormGroup
 				metricName={"TEMPERATURE"}
-				amount={conditionsForm.TEMPERATURE}
+				amount={conditions?.TEMPERATURE}
 				onChange={handleChange('TEMPERATURE')}
 			/>
 			<MetricsInputFormGroup
 				metricName={"PRESSURE"}
-				amount={conditionsForm.PRESSURE}
+				amount={conditions?.PRESSURE}
 				onChange={handleChange('PRESSURE')}
 			/>
-			<DurationSelection duration={conditionsForm.duration} onChangeDuration={handleChange('duration')} />
+			<DurationSelection duration={conditions?.duration} onChangeDuration={handleChange('duration')} />
 		</>
 	);
 };
