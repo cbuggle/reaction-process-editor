@@ -42,9 +42,6 @@ const RemoveFromMethodStepForm = ({
 	}
 
 	const resetForm = () => {
-		console.log("resetting")
-		console.log(preconditions)
-		console.log(workup)
 		setConditionsForm(preconditions || {})
 	}
 
