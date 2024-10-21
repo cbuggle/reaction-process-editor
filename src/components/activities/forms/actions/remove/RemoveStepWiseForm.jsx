@@ -18,12 +18,11 @@ const RemoveStepWiseForm = ({
 
 	const handleChangeStarterConditions = (value) => {
 		// TODO: Restrict condition hash to actually required attributes only. (temp, press, duration)
-		onWorkupChange({ name: 'starter_conditions', value: value.data })
+		onWorkupChange({ name: 'starter_conditions', value: value })
 	}
 
 	return (
 		<>
-
 			<RemoveFromMethodStepForm
 				label={"Continuous/Starter"}
 				workup={workup.starter_conditions || preconditions}
@@ -32,8 +31,8 @@ const RemoveStepWiseForm = ({
 			/>
 			<RemoveLimitsFormSet
 				limits={workup.limits}
-				preconditions={preconditions}
-				onChange={handleWorkupChange('limits')} />
+				preconditions={workup.starter_conditions || preconditions}
+				onSave={handleWorkupChange('limits')} />
 		</>
 	);
 };

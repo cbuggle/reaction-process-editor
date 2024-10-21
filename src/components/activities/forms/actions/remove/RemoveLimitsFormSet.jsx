@@ -9,17 +9,17 @@ import OptionalFormSet from "../../formsets/OptionalFormSet";
 
 import ActivityInfoDecorator from "../../../../../decorators/ActivityInfoDecorator";
 
-const RemoveLimitsFormSet = ({ limits, onSave }) => {
+const RemoveLimitsFormSet = ({ limits, preconditions, onSave }) => {
 
   const emptyLimitsForm = {}
 
-  const [limitsForm, setLimitsForm] = useState(limits || emptyLimitsForm);
+  const [limitsForm, setLimitsForm] = useState(limits || preconditions || emptyLimitsForm);
 
-  const resetForm = () => setLimitsForm(emptyLimitsForm)
+  const resetForm = () => setLimitsForm(preconditions || emptyLimitsForm)
 
   const handleSave = () => onSave(limitsForm)
 
-  const handleCancel = () => { setLimitsForm(limits || emptyLimitsForm) }
+  const handleCancel = () => { setLimitsForm(limits || preconditions || emptyLimitsForm) }
 
   const onChangeLimit = (name) => (value) => {
     setLimitsForm({ ...limitsForm, [name]: value })

@@ -20,7 +20,7 @@ const RemoveFromMethodForm = ({
 }) => {
 
 	const handleChangeStarterConditions = (value) => {
-		onWorkupChange({ name: 'starter_conditions', value: value.data })
+		onWorkupChange({ name: 'starter_conditions', value: value })
 	}
 
 	return (
@@ -45,9 +45,9 @@ const RemoveFromMethodForm = ({
 			)}
 			{showNewStepForm &&
 				<RemoveFromMethodStepForm
-					key={'remove-step-' + + (activitySteps.length + 1)}
+					key={'remove-step-' + (activitySteps.length + 1)}
 					index={activitySteps.length}
-					workup={activitySteps.at(-1) || {}}
+					workup={activitySteps.at(-1) || workup.starter_conditions || preconditions}
 					initialShowForm={true}
 					onSave={onSaveStep(activitySteps.length)}
 					onCancel={onCancelStep(activitySteps.length)}
