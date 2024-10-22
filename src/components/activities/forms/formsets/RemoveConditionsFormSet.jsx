@@ -1,15 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import RemoveConditionsForm from './RemoveConditionsForm'
-import OptionalFormSet from '../../formsets/OptionalFormSet'
+import RemoveConditionsFormGroup from '../formgroups/RemoveConditionsFormGroup'
+import OptionalFormSet from './OptionalFormSet'
 
-import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator'
+import ActivityInfoDecorator from '../../../../decorators/ActivityInfoDecorator'
 
-import { SubFormController } from "../../../../../contexts/SubFormController";
+import { SubFormController } from "../../../../contexts/SubFormController";
 
-const RemoveFromMethodStepForm = ({
+const RemoveConditionsFormSet = ({
 	index,
 	workup,
 	preconditions,
@@ -23,11 +23,15 @@ const RemoveFromMethodStepForm = ({
 
 	const subFormController = useContext(SubFormController);
 
-	const [conditionsForm, setConditionsForm] = useState(workup || preconditions || {});
+	const [conditionsForm, setConditionsForm] = useState(workup || preconditions);
 
-	const summary = ActivityInfoDecorator.infoLineRemoveConditions(conditionsForm)
+	useEffect(() => {
+		setConditionsForm(workup || preconditions)
+	}, [workup, preconditions])
 
-	label ||= "Limits Step " + (index + 1);
+	const summary = ActivityInfoDecorator.infoLineRemoveConditions(workup)
+
+	label ||= index ? "Conditions Step " + (index + 1) : 'Conditions';
 
 	const handleSave = () => onSave(conditionsForm)
 
@@ -37,14 +41,13 @@ const RemoveFromMethodStepForm = ({
 	};
 
 	const handleCancel = () => {
-		setConditionsForm(workup)
-		onCancel()
+		setConditionsForm(workup || preconditions)
+		onCancel && onCancel()
 	}
 
 	const resetForm = () => {
 		setConditionsForm(preconditions || {})
 	}
-
 
 	return (
 		<OptionalFormSet
@@ -66,7 +69,7 @@ const RemoveFromMethodStepForm = ({
 				</Button>
 			</OptionalFormSet.ExtraButton>
 
-			<RemoveConditionsForm
+			<RemoveConditionsFormGroup
 				key={conditionsForm}
 				conditions={conditionsForm}
 				onChange={setConditionsForm} />
@@ -74,4 +77,4 @@ const RemoveFromMethodStepForm = ({
 	);
 };
 
-export default RemoveFromMethodStepForm
+export default RemoveConditionsFormSet

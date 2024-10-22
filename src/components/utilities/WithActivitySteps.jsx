@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 
 const withActivitySteps = (WrappedComponent, stepsWorkupKey) => {
   const WithActivitySteps = (props) => {
 
-    const workupActivitySteps = props.workup[stepsWorkupKey]
+    const workupActivitySteps = props.workup[stepsWorkupKey] || []
 
-    const [activitySteps, setActivitySteps] = useState(workupActivitySteps || []);
     const [showNewStepForm, setShowNewStepForm] = useState(false);
 
-    useEffect(() => {
-      setActivitySteps(workupActivitySteps || [])
-    }, [props.workup, workupActivitySteps])
-
-    const addStep = () => setShowNewStepForm(true);
+   const addStep = () => setShowNewStepForm(true);
 
     const handleSaveStep = (index) => (data) => {
-      let updatedSteps = [...activitySteps];
+      let updatedSteps = [...workupActivitySteps];
       updatedSteps[index] = data;
-      setActivitySteps(updatedSteps);
       setShowNewStepForm(false);
 
       props.onWorkupChange({ name: stepsWorkupKey, value: updatedSteps });
     };
 
-    const handleCancelStep = (index) => () => {
-      setActivitySteps(workupActivitySteps || []);
+    const handleCancelStep = (_index) => () => {
       setShowNewStepForm(false);
     }
 
     const handleDeleteStep = (index) => () => {
-      const updatedSteps = [...activitySteps];
+      const updatedSteps = [...workupActivitySteps];
       updatedSteps.splice(index, 1);
       props.onWorkupChange({ name: stepsWorkupKey, value: updatedSteps });
     };
@@ -37,7 +30,7 @@ const withActivitySteps = (WrappedComponent, stepsWorkupKey) => {
     return (
       <WrappedComponent
         {...props}
-        activitySteps={activitySteps}
+        activitySteps={workupActivitySteps}
         showNewStepForm={showNewStepForm}
         addStep={addStep}
         onSaveStep={handleSaveStep}

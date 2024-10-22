@@ -1,6 +1,6 @@
 import React from 'react'
 
-import RemoveFromMethodStepForm from './RemoveFromMethodStepForm'
+import RemoveConditionsFormSet from '../../formsets/RemoveConditionsFormSet'
 
 import FormSection from '../../../../utilities/FormSection'
 import CreateButton from '../../../../utilities/CreateButton'
@@ -25,18 +25,18 @@ const RemoveFromMethodForm = ({
 
 	return (
 		<>
-			<RemoveFromMethodStepForm
+			<RemoveConditionsFormSet
 				label={"Continuous/Starter"}
 				workup={workup.starter_conditions || preconditions}
 				onSave={handleChangeStarterConditions}
-				onCancel={onCancelStep} />
+				onCancel={onCancelStep()} />
 
 			{activitySteps.map((step, idx) =>
-				<RemoveFromMethodStepForm
+				<RemoveConditionsFormSet
 					key={'remove-step-' + idx + '-' + activitySteps.length}
-					label={'Remove Step ' + (idx + 1)}
+					label={'Limits Step ' + (idx + 1)}
 					index={idx}
-					preconditions={workup.starter_conditions || preconditions}
+					preconditions={activitySteps.at(idx - 1) || workup.starter_conditions || preconditions}
 					workup={step}
 					onSave={onSaveStep(idx)}
 					onCancel={onCancelStep(idx)}
@@ -45,10 +45,11 @@ const RemoveFromMethodForm = ({
 				/>
 			)}
 			{showNewStepForm &&
-				<RemoveFromMethodStepForm
+				<RemoveConditionsFormSet
 					key={'remove-step-' + (activitySteps.length + 1)}
+					// label={"Limits Step " + (activitySteps.length + 1)}
 					index={activitySteps.length}
-					preconditions={workup.starter_conditions || preconditions}
+					preconditions={activitySteps.at(-1) || workup.starter_conditions || preconditions}
 					initialShowForm={true}
 					onSave={onSaveStep(activitySteps.length)}
 					onCancel={onCancelStep(activitySteps.length)}

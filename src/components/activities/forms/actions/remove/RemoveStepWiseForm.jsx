@@ -1,15 +1,11 @@
 import React from 'react'
 
-import RemoveLimitsFormSet from './RemoveLimitsFormSet';
-import RemoveFromMethodStepForm from './RemoveFromMethodStepForm';
-
-import withActivitySteps from '../../../../utilities/WithActivitySteps'
+import RemoveConditionsFormSet from '../../formsets/RemoveConditionsFormSet';
 
 const RemoveStepWiseForm = ({
 	workup,
 	preconditions,
 	onWorkupChange,
-	onCancelStep
 }) => {
 
 	const handleWorkupChange = (name) => (value) => {
@@ -21,20 +17,32 @@ const RemoveStepWiseForm = ({
 		onWorkupChange({ name: 'starter_conditions', value: value })
 	}
 
+	const handleDelete = (name) => () => {
+		onWorkupChange({ name: name, value: undefined })
+	}
+
 	return (
 		<>
-			<RemoveFromMethodStepForm
+			<RemoveConditionsFormSet
 				label={"Continuous/Starter"}
-				workup={workup.starter_conditions || preconditions}
+				preconditions={preconditions}
+				workup={workup.starter_conditions}
 				onSave={handleChangeStarterConditions}
-				onCancel={onCancelStep}
+				onDelete={handleDelete('starter_conditions')}
+				onCancel={()=>{}}
+				canDelete
 			/>
-			<RemoveLimitsFormSet
-				limits={workup.limits}
+			<RemoveConditionsFormSet
+				key={"limits" + workup.starter_conditions }
+				label={"Limits"}
 				preconditions={workup.starter_conditions || preconditions}
-				onSave={handleWorkupChange('limits')} />
+				workup={workup.limits}
+				onSave={handleWorkupChange('limits')}
+				onDelete={handleDelete('limits')}
+				canDelete
+			/>
 		</>
 	);
 };
 
-export default withActivitySteps(RemoveStepWiseForm, 'remove_steps')
+export default RemoveStepWiseForm

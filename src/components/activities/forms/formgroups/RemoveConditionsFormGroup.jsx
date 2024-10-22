@@ -1,9 +1,9 @@
 import React from 'react'
 
-import DurationSelection from '../../formgroups/DurationSelection'
-import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup'
+import DurationSelection from './DurationSelection'
+import MetricsInputFormGroup from './MetricsInputFormGroup'
 
-const RemoveConditionsForm = ({
+const RemoveConditionsFormGroup = ({
 	conditions,
 	onChange,
 }) => {
@@ -30,4 +30,4 @@ const RemoveConditionsForm = ({
 	);
 };
 
-export default RemoveConditionsForm
+export default RemoveConditionsFormGroup
