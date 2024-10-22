@@ -1,14 +1,10 @@
 import MetricsDecorator from "./MetricsDecorator";
 import StringDecorator from "./StringDecorator";
-import OptionsDecorator from "./OptionsDecorator";
 export default class PurificationDecorator {
 
   static purificationStepInfo = (stepData, purificationSolventOptions) => {
 
-    const solventsList = OptionsDecorator.valuesToLabel(
-      stepData.solvents?.map((solvent) => solvent.id),
-      purificationSolventOptions
-    );
+    const solventsList = stepData.solvents?.map((solvent) => solvent.label).join(', ')
 
     let ratioList = "";
 
