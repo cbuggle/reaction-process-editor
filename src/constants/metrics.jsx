@@ -141,7 +141,7 @@ export const unitTypes = {
     toBase: (value) => value,
   },
   'mcmol': {
-    label: 'mcmol',
+    label: 'µmol',
     inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
@@ -166,7 +166,7 @@ export const unitTypes = {
     toBase: (value) => value,
   },
   'mcg': {
-    label: 'mcg',
+    label: 'µg',
     inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
