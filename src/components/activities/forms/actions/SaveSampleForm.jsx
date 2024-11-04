@@ -202,8 +202,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="intermediate_type"
-            options={saveSampleOptions.types}
-            value={OptionsDecorator.optionForValue(workup.intermediate_type, saveSampleOptions.types)}
+            options={saveSampleOptions.save_sample_types}
+            value={OptionsDecorator.optionForValue(workup.intermediate_type, saveSampleOptions.save_sample_types)}
             onChange={(selectedOption) =>
               handleWorkupChange("intermediate_type")(
                 selectedOption.value
