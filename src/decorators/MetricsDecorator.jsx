@@ -37,11 +37,15 @@ export default class MetricsDecorator {
     if (amount?.value || amount?.value === 0) {
       let value = parseFloat(amount.value).toPrecision(12) / 1
       return value + ' ' + this.unitLabel(amount.unit)
+    } else {
+      return 'Unspecified Amount'
     }
   }
 
   static infoLineAmountWithPercentage(amount) {
-    return this.infoLineAmount(amount) + ' (' + parseFloat(amount?.percentage).toPrecision(3) + '%)'
+    let infoLine = this.infoLineAmount(amount)
+    amount?.percentage && (infoLine +=  ' (' + parseFloat(amount?.percentage || 0).toPrecision(3) + '%)')
+    return infoLine
   }
 
   static infoLineAmountWithDelta = (conditionWorkup, precondition) => {
