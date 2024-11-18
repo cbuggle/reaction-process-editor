@@ -34,8 +34,12 @@ const AnalysisChromatographyForm = (
 
   const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY
 
-  const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
-  const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, currentType?.subtypes)
+  const ontologieOptions = selectOptions.ontologies
+
+  console.log(ontologieOptions)
+
+  const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, ontologieOptions.type)
+  const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, ontologieOptions.subtype)
   const currentDevice = OptionsDecorator.inclusiveOptionForValue(workup.device, currentSubtype?.devices)
   const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, currentDevice?.detectors)
 
@@ -64,6 +68,7 @@ const AnalysisChromatographyForm = (
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
   const handleChangeType = (newType) => {
+    console.log(workup)
     onWorkupChange({ name: 'chromatography_type', value: newType.value })
     handleChangeSubType(OptionsDecorator.optionForValue(workup.chromatography_subtype, newType.subtypes))
   }
@@ -81,7 +86,7 @@ const AnalysisChromatographyForm = (
     } else {
       onWorkupChange({ name: 'method', value: undefined })
     }
-    onWorkupChange({ name: 'automation', value: automation })
+    onWorkupChange({ name: 'mode_usage', value: automation })
   }
 
   const handleChangeDevice = (device) => {
@@ -153,7 +158,7 @@ const AnalysisChromatographyForm = (
               <SelectFormGroup
                 label={'Type'}
                 name={'chromatography_type'}
-                options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
+                options={OptionsDecorator.inclusiveOptions(currentType, ontologieOptions.type)}
                 value={currentType}
                 onChange={handleChangeType}
                 tooltipName={currentType?.unavailable && 'selection_unavailable'}
@@ -162,7 +167,7 @@ const AnalysisChromatographyForm = (
                 key={"subtype" + currentSubtype}
                 label={'Sub-Type'}
                 name={'chromatography_subtype'}
-                options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
+                options={OptionsDecorator.inclusiveOptions(currentSubtype, ontologieOptions.subtype)}
                 value={currentSubtype}
                 onChange={handleChangeSubType}
                 tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
@@ -264,10 +269,27 @@ const AnalysisChromatographyForm = (
         return (
           <FormSection>
             <SelectFormGroup
+              label={'Type'}
+              name={'chromatography_type'}
+              options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
+              value={currentType}
+              onChange={handleChangeType}
+              tooltipName={currentType?.unavailable && 'selection_unavailable'}
+            />
+            <SelectFormGroup
+              key={"subtype" + currentSubtype}
+              label={'Sub-Type'}
+              name={'chromatography_subtype'}
+              options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
+              value={currentSubtype}
+              onChange={handleChangeSubType}
+              tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
+            />
+            <SelectFormGroup
               label='Material'
               name="sample_id"
-              options={selectOptions.jar_materials}
-              value={OptionsDecorator.optionForValue(workup.jar_material, selectOptions.jar_materials)}
+              options={selectOptions.engineering_materials}
+              value={OptionsDecorator.optionForValue(workup.engineering_material, selectOptions.engineering_materials)}
               onChange={handleSelectChange('jar_material')}
             />
             <MetricsInputFormGroup
@@ -298,8 +320,8 @@ const AnalysisChromatographyForm = (
   return (
     <>
       <FormSection type='action'>
-        <Label>Automation</Label>
-        <ButtonGroupToggle value={workup.automation} options={selectOptions.automation_modes}
+        <Label>Mode</Label>
+        <ButtonGroupToggle value={workup.mode_usage} options={ontologieOptions.mode_usage}
           onChange={handleChangeAutomation} />
       </FormSection>
       {renderAutomationSpecificFields()}

@@ -133,8 +133,9 @@ export const actionTypeClusters = [
         activity: {
           activity_name: 'PURIFICATION',
           workup: {
-            purification_type: 'CHROMATOGRAPHY',
-            automation: 'AUTOMATED',
+            purification_type: 'CHROMATOGRAPHY', // soon unused
+            action: "CHMO:0001000", // "Chromatography"
+            mode_usage: "ChemASAP:0000003" // "Automated"
           }
         }
       },
@@ -161,18 +162,9 @@ export const actionTypeClusters = [
         activity: {
           activity_name: 'ANALYSIS',
           workup: {
-            analysis_type: 'CHROMATOGRAPHY',
-            automation: 'AUTOMATED',
-          }
-        }
-      },
-      {
-        id: 'analysis_spectrometry',
-        createLabel: 'Spectrometry',
-        activity: {
-          activity_name: 'ANALYSIS',
-          workup: {
-            analysis_type: 'SPECTROMETRY'
+            analysis_type: 'CHROMATOGRAPHY', // soon unused
+            action: "CHMO:0001000", // "Chromatography"
+            mode_usage: "ChemASAP:0000003" // "Automated"
           }
         }
       },

@@ -30,14 +30,18 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const isAutomated = workup.automation === "AUTOMATED"
+  const isAutomated = workup.mode_usage === "ChemASAP:0000003"
 
-  const selectOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY
+  const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY
 
-  const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
-  const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, currentType?.subtypes)
-  const currentDevice = OptionsDecorator.inclusiveOptionForValue(workup.device, currentSubtype?.devices)
-  const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, currentDevice?.detectors)
+  const ontologieOptions = selectOptions.ontologies
+
+  console.log(ontologieOptions)
+
+  const currentType = OptionsDecorator.inclusiveOptionForValue(workup.type, ontologieOptions.type)
+  const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.subtype, ontologieOptions.subtype)
+  const currentDevice = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologieOptions.device)
+  const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, ontologieOptions.detector)
 
   const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
 
@@ -46,6 +50,26 @@ const ChromatographyForm = (
 
   const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMobilePhasesOptions)
   const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentStationaryPhasesOptions)
+
+
+  const filterbyDependencies = (currentOption, options) => {
+
+    options.filter((option) => {
+      let meets_dependencies = false
+      if (option.dependencies) {
+        Object.entries(option.dependencies).forEach(([dependency_key, dependencies]) => {
+          console.log("Checking dependency")
+          console.log(dependency_key + " " + dependencies)
+          console.log(workup[dependency_key] + " " + dependencies.includes(workup[dependency_key]))
+
+          // let value = workup[dependency_key]
+          meets_dependencies &&= dependencies.includes(workup[dependency_key])
+        })
+      }
+      return meets_dependencies
+    })
+
+  }
 
 
   const filterMethodsByDetectors = (methods, detectors) => {
@@ -64,12 +88,15 @@ const ChromatographyForm = (
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
   const handleChangeType = (newType) => {
-    onWorkupChange({ name: 'chromatography_type', value: newType.value })
+    console.log(workup)
+    onWorkupChange({ name: 'type', value: newType.value })
     handleChangeSubType(OptionsDecorator.optionForValue(workup.chromatography_subtype, newType.subtypes))
   }
 
   const handleChangeSubType = (newSubType) => {
-    onWorkupChange({ name: 'chromatography_subtype', value: newSubType?.value })
+    console.log("change subtype")
+    console.log(newSubType)
+    onWorkupChange({ name: 'subtype', value: newSubType?.value })
     handleChangeDevice(OptionsDecorator.optionForValue(workup.device, newSubType?.devices))
   }
 
@@ -79,15 +106,17 @@ const ChromatographyForm = (
       setMethodAnalysisDefaults(currentMethod)
       setStationaryPhaseDefaults(currentStationaryPhase)
     } else {
-      onWorkupChange({name: 'method', value: undefined})
+      onWorkupChange({ name: 'method', value: undefined })
     }
-    onWorkupChange({ name: 'automation', value: automation })
+    onWorkupChange({ name: 'mode_usage', value: automation })
   }
 
   const handleChangeDevice = (device) => {
+    console.log("change device")
+    console.log(device)
     onWorkupChange({ name: 'device', value: device?.value })
-    onWorkupChange({ name: 'detectors', value: device?.detectors?.map(option => option.value) })
-    handleChangeMethod(OptionsDecorator.optionForValue(currentMethod?.value, device?.methods))
+    // onWorkupChange({ name: 'detectors', value: device?.detectors?.map(option => option.value) })
+    // handleChangeMethod(OptionsDecorator.optionForValue(currentMethod?.value, device?.methods))
   }
 
   const handleChangeMethod = (method) => {
@@ -109,19 +138,19 @@ const ChromatographyForm = (
   }
 
   const handleChangeDetectors = (detectors) => {
-    handleNoDetectorSetting(detectors)
+    onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
     isAutomated && setMethodAnalysisDefaults(currentMethod)
   }
 
-  const handleNoDetectorSetting = (detectors) => {
-    // 'NO_DETECTOR' is a special case (setting on some chromatography devices) and needs to be the sole selection.
-    // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
-    if (detectors.length > 1 && detectors.find(detector => detector.value === 'NO_DETECTOR')) {
-      onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
-    } else {
-      onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
-    }
-  }
+  // const handleNoDetectorSetting = (detectors) => {
+  //   // 'NO_DETECTOR' is a special case (setting on some chromatography devices) and needs to be the sole selection.
+  //   // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
+  //   if (detectors.length > 1 && detectors.find(detector => detector.value === 'NO_DETECTOR')) {
+  //     onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
+  //   } else {
+  //     onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
+  //   }
+  // }
 
   const setMethodAnalysisDefaults = (method) => {
     let newConditions = {}
@@ -144,16 +173,16 @@ const ChromatographyForm = (
   }
 
   const renderAutomationSpecificFields = () => {
-    switch (workup.automation) {
-      case 'AUTOMATED':
-      case 'SEMI_AUTOMATED':
+    switch (workup.mode_usage) {
+      case 'ChemASAP:0000002':
+      case 'ChemASAP:0000003':
         return (
           <>
             <FormSection>
               <SelectFormGroup
                 label={'Type'}
                 name={'chromatography_type'}
-                options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
+                options={OptionsDecorator.inclusiveOptions(currentType, ontologieOptions.type)}
                 value={currentType}
                 onChange={handleChangeType}
                 tooltipName={currentType?.unavailable && 'selection_unavailable'}
@@ -162,7 +191,7 @@ const ChromatographyForm = (
                 key={"subtype" + currentSubtype}
                 label={'Sub-Type'}
                 name={'chromatography_subtype'}
-                options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
+                options={OptionsDecorator.inclusiveOptions(currentSubtype, ontologieOptions.subtype)}
                 value={currentSubtype}
                 onChange={handleChangeSubType}
                 tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
@@ -171,7 +200,7 @@ const ChromatographyForm = (
                 key={"device" + currentDevice}
                 label={'Device'}
                 name={'device'}
-                options={OptionsDecorator.inclusiveOptions(currentDevice, currentSubtype?.devices)}
+                options={OptionsDecorator.inclusiveOptions(currentDevice, ontologieOptions.device)}
                 value={currentDevice}
                 onChange={handleChangeDevice}
                 tooltipName={currentDevice?.unavailable && 'selection_unavailable'}
@@ -180,7 +209,7 @@ const ChromatographyForm = (
                 key={"detectors" + currentDetectors}
                 label="Detectors"
                 name="detectors"
-                options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
+                options={filterbyDependencies(currentDetectors, ontologieOptions.detector)}
                 value={currentDetectors}
                 isMulti
                 isClearable={false}
@@ -260,14 +289,30 @@ const ChromatographyForm = (
               disabled={isAutomated}
             />
           </>)
-      case 'MANUAL':
+      case 'ChemASAP:0000001':
         return (
           <FormSection>
             <SelectFormGroup
+              label={'Type'}
+              name={'chromatography_type'}
+              options={OptionsDecorator.inclusiveOptions(currentType, ontologieOptions.type)}
+              value={currentType}
+              onChange={handleChangeType}
+              tooltipName={currentType?.unavailable && 'selection_unavailable'}
+            />
+            <SelectFormGroup
+              key={"subtype" + currentSubtype}
+              label={'Sub-Type'}
+              name={'chromatography_subtype'}
+              options={OptionsDecorator.inclusiveOptions(currentSubtype, ontologieOptions.subtype)}
+              value={currentSubtype}
+              onChange={handleChangeSubType}
+              tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
+            />
+            <SelectFormGroup
               label='Material'
-              name="sample_id"
-              options={selectOptions.jar_materials}
-              value={OptionsDecorator.optionForValue(workup.jar_material, selectOptions.jar_materials)}
+              options={ontologieOptions.engineering_material}
+              value={OptionsDecorator.optionForValue(workup.engineering_material, ontologieOptions.engineering_material)}
               onChange={handleSelectChange('jar_material')}
             />
             <MetricsInputFormGroup
@@ -298,8 +343,8 @@ const ChromatographyForm = (
   return (
     <>
       <FormSection type='action'>
-        <Label>Automation</Label>
-        <ButtonGroupToggle value={workup.automation} options={selectOptions.automation_modes}
+        <Label>Mode</Label>
+        <ButtonGroupToggle value={workup.mode_usage} options={ontologieOptions.mode_usage}
           onChange={handleChangeAutomation} />
       </FormSection>
       {renderAutomationSpecificFields()}
