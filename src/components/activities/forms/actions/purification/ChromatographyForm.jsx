@@ -30,7 +30,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const isAutomated = workup.mode_usage === "ChemASAP:0000003"
+  const isAutomated = workup.mode === "ChemASAP:0000003"
 
   const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY
 
@@ -53,22 +53,26 @@ const ChromatographyForm = (
 
 
   const filterbyDependencies = (currentOption, options) => {
+    options ||= []
 
-    options.filter((option) => {
-      let meets_dependencies = false
+    let filteredOptions = options.filter((option) => {
       if (option.dependencies) {
+        let meets_dependencies = false
         Object.entries(option.dependencies).forEach(([dependency_key, dependencies]) => {
           console.log("Checking dependency")
+          console.log(option)
           console.log(dependency_key + " " + dependencies)
           console.log(workup[dependency_key] + " " + dependencies.includes(workup[dependency_key]))
 
           // let value = workup[dependency_key]
-          meets_dependencies &&= dependencies.includes(workup[dependency_key])
+          meets_dependencies ||= dependencies.includes(workup[dependency_key])
         })
+        return meets_dependencies
+      } else {
+        return true
       }
-      return meets_dependencies
     })
-
+    return OptionsDecorator.inclusiveOptions(currentOption, filteredOptions)
   }
 
 
@@ -101,14 +105,17 @@ const ChromatographyForm = (
   }
 
   const handleChangeAutomation = (automation) => {
-    if (automation === "AUTOMATED") {
-      handleChangeDevice(currentDevice)
-      setMethodAnalysisDefaults(currentMethod)
-      setStationaryPhaseDefaults(currentStationaryPhase)
-    } else {
-      onWorkupChange({ name: 'method', value: undefined })
-    }
-    onWorkupChange({ name: 'mode_usage', value: automation })
+    console.log("handleChangeAutomation")
+    console.log(automation)
+    // TODO: Autofill needs adaption to ontologies.
+    // if (automation === "AUTOMATED") {
+    //   handleChangeDevice(currentDevice)
+    //   setMethodAnalysisDefaults(currentMethod)
+    //   setStationaryPhaseDefaults(currentStationaryPhase)
+    // } else {
+    //   onWorkupChange({ name: 'method', value: undefined })
+    // }
+    onWorkupChange({ name: 'mode', value: automation })
   }
 
   const handleChangeDevice = (device) => {
@@ -173,38 +180,43 @@ const ChromatographyForm = (
   }
 
   const renderAutomationSpecificFields = () => {
-    switch (workup.mode_usage) {
+    switch (workup.mode) {
       case 'ChemASAP:0000002':
       case 'ChemASAP:0000003':
         return (
           <>
             <FormSection>
+              {workup.type}
+              {console.log("workup.type")}
               <SelectFormGroup
                 label={'Type'}
                 name={'chromatography_type'}
-                options={OptionsDecorator.inclusiveOptions(currentType, ontologieOptions.type)}
+                options={filterbyDependencies(currentType, ontologieOptions.type)}
                 value={currentType}
                 onChange={handleChangeType}
                 tooltipName={currentType?.unavailable && 'selection_unavailable'}
               />
+              {workup.subtype}
               <SelectFormGroup
                 key={"subtype" + currentSubtype}
                 label={'Sub-Type'}
                 name={'chromatography_subtype'}
-                options={OptionsDecorator.inclusiveOptions(currentSubtype, ontologieOptions.subtype)}
+                options={filterbyDependencies(currentSubtype, ontologieOptions.subtype)}
                 value={currentSubtype}
                 onChange={handleChangeSubType}
                 tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
               />
+              {workup.device}
               <SelectFormGroup
                 key={"device" + currentDevice}
                 label={'Device'}
                 name={'device'}
-                options={OptionsDecorator.inclusiveOptions(currentDevice, ontologieOptions.device)}
+                options={filterbyDependencies(currentDevice, ontologieOptions.device)}
                 value={currentDevice}
                 onChange={handleChangeDevice}
                 tooltipName={currentDevice?.unavailable && 'selection_unavailable'}
               />
+              {workup.detectors}
               <SelectFormGroup
                 key={"detectors" + currentDetectors}
                 label="Detectors"
@@ -255,7 +267,7 @@ const ChromatographyForm = (
                   key={"stationary_phase" + currentStationaryPhase}
                   label={"Stationary Phase"}
                   name={"stationary_phase"}
-                  options={OptionsDecorator.inclusiveOptions(currentStationaryPhase, currentStationaryPhasesOptions)}
+                  options={filterbyDependencies(currentStationaryPhase, currentStationaryPhasesOptions)}
                   value={currentStationaryPhase}
                   onChange={handleChangeStationaryPhase}
                   disabled={isAutomated}
@@ -295,7 +307,7 @@ const ChromatographyForm = (
             <SelectFormGroup
               label={'Type'}
               name={'chromatography_type'}
-              options={OptionsDecorator.inclusiveOptions(currentType, ontologieOptions.type)}
+              options={filterbyDependencies(currentType, ontologieOptions.type)}
               value={currentType}
               onChange={handleChangeType}
               tooltipName={currentType?.unavailable && 'selection_unavailable'}
@@ -304,7 +316,7 @@ const ChromatographyForm = (
               key={"subtype" + currentSubtype}
               label={'Sub-Type'}
               name={'chromatography_subtype'}
-              options={OptionsDecorator.inclusiveOptions(currentSubtype, ontologieOptions.subtype)}
+              options={filterbyDependencies(currentSubtype, ontologieOptions.subtype)}
               value={currentSubtype}
               onChange={handleChangeSubType}
               tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
@@ -312,7 +324,7 @@ const ChromatographyForm = (
             <SelectFormGroup
               label='Material'
               options={ontologieOptions.engineering_material}
-              value={OptionsDecorator.optionForValue(workup.engineering_material, ontologieOptions.engineering_material)}
+              value={filterbyDependencies(workup.engineering_material, ontologieOptions.engineering_material)}
               onChange={handleSelectChange('jar_material')}
             />
             <MetricsInputFormGroup
@@ -344,7 +356,10 @@ const ChromatographyForm = (
     <>
       <FormSection type='action'>
         <Label>Mode</Label>
-        <ButtonGroupToggle value={workup.mode_usage} options={ontologieOptions.mode_usage}
+        {workup.mode}
+        {console.log("workup")}
+        {console.log(workup)}
+        <ButtonGroupToggle value={workup.mode} options={ontologieOptions.mode_usage}
           onChange={handleChangeAutomation} />
       </FormSection>
       {renderAutomationSpecificFields()}
