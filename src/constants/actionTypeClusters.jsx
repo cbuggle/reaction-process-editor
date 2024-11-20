@@ -164,7 +164,8 @@ export const actionTypeClusters = [
           activity_name: 'ANALYSIS',
           workup: {
             analysis_type: 'CHROMATOGRAPHY', // soon unused
-            action: "CHMO:0001000", // "Chromatography"
+            action: 'OBI:0000070',
+            class: "CHMO:0001000", // "Chromatography"
             mode: "ChemASAP:0000003" // "Automated"
           }
         }
@@ -175,8 +176,8 @@ export const actionTypeClusters = [
         activity: {
           activity_name: 'ANALYSIS',
           workup: {
-            class: 'CHMO:0000228',
             action: 'OBI:0000070',
+            class: 'CHMO:0000228',
             analysis_type: 'SPECTROSCOPY'
           }
         }
