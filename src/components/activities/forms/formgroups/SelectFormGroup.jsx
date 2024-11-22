@@ -1,8 +1,9 @@
 import React from 'react';
-
 import Select from 'react-select'
 
 import SingleLineFormGroup from './SingleLineFormGroup';
+import OptionsDecorator from '../../../../decorators/OptionsDecorator';
+
 import { tooltips } from '../../../../constants/translations';
 
 const SelectFormGroup = (
@@ -11,25 +12,45 @@ const SelectFormGroup = (
     value,
     options,
     label,
-    tooltipName,
     onChange,
     isMulti,
     isClearable,
+    includesCurrentOption = true,
     placeholder,
     disabled
   }) => {
 
+    let displayOptions = options
+    let selected = OptionsDecorator.optionForValue(value, displayOptions)
+
+  if (value && includesCurrentOption) {
+    displayOptions = Array.isArray(value) ?
+    OptionsDecorator.appendValuesToOptions(value, options)
+    :
+    OptionsDecorator.appendValueToOptions(value, options)
+
+    selected = OptionsDecorator.optionsForValues(value, displayOptions)
+  }
+
+
+  let tooltip = selected?.unavailable && tooltips['selection_unavailable']
+
+  console.log("SelectFormGroup " + label)
+  console.log(value)
+  console.log(options)
+  console.log(displayOptions)
+
   return (<>
     <SingleLineFormGroup
       label={label}
-      tooltip={tooltips[tooltipName] || tooltipName}>
+      tooltip={tooltip}>
 
       <Select
         className="react-select--overwrite"
         classNamePrefix="react-select"
         name={name}
-        options={options}
-        value={value}
+        options={displayOptions}
+        value={selected}
         onChange={onChange}
         isMulti={isMulti}
         isClearable={isClearable}

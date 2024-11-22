@@ -24,6 +24,7 @@ const ChromatographyStepForm = ({
   disabled
 }) => {
   const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY;
+  const ontologieOptions = useContext(SelectOptions).ONTOLOGIES;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {
@@ -81,7 +82,7 @@ const ChromatographyStepForm = ({
         <SolventListFormGroup
           label={'Mobile Phase'}
           solvents={formData.solvents}
-          solventOptions={chromatographyOptions.solvents}
+          solventOptions={ontologieOptions.solvent}
           setSolvents={handleChangeFormData('solvents')}
           disabled={disabled}
         />

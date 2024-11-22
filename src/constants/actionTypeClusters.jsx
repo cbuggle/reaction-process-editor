@@ -1,3 +1,5 @@
+import { chmoId } from "./chmoId"
+
 export const actionTypeClusters = [
   {
     id: 'add',
@@ -134,9 +136,9 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'CHROMATOGRAPHY', // supportive? soon unused?
-            action: "CHMO:0002231", // "Separate/Purify"
-            class: "CHMO:0001000", // "Chromatography"
-            mode: "ChemASAP:0000003" // "Automated"
+            action: chmoId.action.purification,
+            class: chmoId.class.chromatography,
+            mode: chmoId.mode.automated
           }
         }
       },
@@ -164,9 +166,9 @@ export const actionTypeClusters = [
           activity_name: 'ANALYSIS',
           workup: {
             analysis_type: 'CHROMATOGRAPHY', // soon unused
-            action: 'OBI:0000070',
-            class: "CHMO:0001000", // "Chromatography"
-            mode: "ChemASAP:0000003" // "Automated"
+            action: chmoId.action.analysis,
+            class: chmoId.class.chromatography,
+            mode: chmoId.mode.automated
           }
         }
       },
@@ -176,8 +178,9 @@ export const actionTypeClusters = [
         activity: {
           activity_name: 'ANALYSIS',
           workup: {
-            action: 'OBI:0000070',
-            class: 'CHMO:0000228',
+            action: chmoId.action.analysis,
+            class: chmoId.class.spectroscopy,
+            mode: chmoId.mode.automated,
             analysis_type: 'SPECTROSCOPY'
           }
         }
