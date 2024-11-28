@@ -91,7 +91,7 @@ const ChromatographyForm = (
     handleChangeStationaryPhase(method?.stationary_phases?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
 
-    workup.detectors?.length > 0 || onWorkupChange({name: 'detectors', value: method.detectors?.map(el => el.value)})
+    workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method.detectors?.map(el => el.value) })
   }
 
   const handleChangeMobilePhases = (phases) => {
@@ -272,6 +272,7 @@ const ChromatographyForm = (
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
           label={'Chromatography Step ' + (idx + 1)}
           workup={step}
+          solventOptions={filteredOntologiesForRole('solvent')}
           onSave={onSaveStep(idx)}
           onCancel={onCancelStep(idx)}
           onDelete={onDeleteStep(idx)}
@@ -283,6 +284,7 @@ const ChromatographyForm = (
         <ChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
+          solventOptions={filteredOntologiesForRole('solvent')}
           initialShowForm={true}
           onSave={onSaveStep(activitySteps.length)}
           onCancel={onCancelStep(activitySteps.length)}

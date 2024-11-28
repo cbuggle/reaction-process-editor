@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Label, FormGroup } from 'reactstrap';
 
-import ChromatographyStepForm from "./ChromatographyStepForm";
+import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
 
 import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
@@ -18,8 +18,9 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-const AnalysisChromatographyForm = (
 import { chmoId } from '../../../../../constants/chmoId'
+
+const AnalysisChromatographyForm = (
 
   {
     workup,
@@ -272,6 +273,7 @@ import { chmoId } from '../../../../../constants/chmoId'
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
           label={'Chromatography Step ' + (idx + 1)}
           workup={step}
+          solventOptions={filteredOntologiesForRole('solvent')}
           onSave={onSaveStep(idx)}
           onCancel={onCancelStep(idx)}
           onDelete={onDeleteStep(idx)}
@@ -283,6 +285,7 @@ import { chmoId } from '../../../../../constants/chmoId'
         <AnalysisChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
+          solventOptions={filteredOntologiesForRole('solvent')}
           initialShowForm={true}
           onSave={onSaveStep(activitySteps.length)}
           onCancel={onCancelStep(activitySteps.length)}

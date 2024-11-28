@@ -16,6 +16,7 @@ import { SubFormController } from "../../../../../contexts/SubFormController";
 const AnalysisChromatographyStepForm = ({
   label,
   workup,
+  solventOptions,
   onSave,
   onCancel,
   onDelete,
@@ -82,7 +83,7 @@ const AnalysisChromatographyStepForm = ({
         <SolventListFormGroup
           label={'Mobile Phase'}
           solvents={formData.solvents}
-          solventOptions={chromatographyOptions.solvents}
+          solventOptions={solventOptions}
           setSolvents={handleChangeFormData('solvents')}
           disabled={disabled}
         />

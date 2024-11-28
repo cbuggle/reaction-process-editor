@@ -16,6 +16,7 @@ import { SubFormController } from "../../../../../contexts/SubFormController";
 const ChromatographyStepForm = ({
   label,
   workup,
+  solventOptions,
   onSave,
   onCancel,
   onDelete,
@@ -24,7 +25,6 @@ const ChromatographyStepForm = ({
   disabled
 }) => {
   const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY;
-  const ontologieOptions = useContext(SelectOptions).ONTOLOGIES;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {
@@ -82,7 +82,7 @@ const ChromatographyStepForm = ({
         <SolventListFormGroup
           label={'Mobile Phase'}
           solvents={formData.solvents}
-          solventOptions={ontologieOptions.solvent}
+          solventOptions={solventOptions}
           setSolvents={handleChangeFormData('solvents')}
           disabled={disabled}
         />
