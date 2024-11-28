@@ -28,7 +28,7 @@ const MetricSubFormSet = ({
   return (
     <OptionalFormSet
       subFormLabel={label || MetricsDecorator.label(metricName)}
-      valueSummary={valueSummary || MetricsDecorator.infoLineAmount(amount)}
+      valueSummary={valueSummary || MetricsDecorator.infoAmount(amount)}
       onSave={handleSave}
       onCancel={resetFormData}
       typeColor={typeColor}

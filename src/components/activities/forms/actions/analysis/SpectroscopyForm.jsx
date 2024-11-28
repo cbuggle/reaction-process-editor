@@ -15,10 +15,13 @@ import { chmoId } from '../../../../../constants/chmoId'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologieOptions = useContext(SelectOptions).ONTOLOGIES
-	console.log(ontologieOptions)
-	const currentType = OptionsDecorator.inclusiveOptionForValue(workup.type, ontologieOptions.type)
-	const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.subtype, ontologieOptions.subtype)
-	const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, ontologieOptions.detector)
+	const ontologies = useContext(SelectOptions).ontologies
+
+	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByRole({ roleName: roleName, options: ontologies, workup: workup })
+
+	const currentType = OptionsDecorator.inclusiveOptionForValue(workup.type, filteredOntologiesForRole('type'))
+	const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.subtype, filteredOntologiesForRole('subtype'))
+	const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, filteredOntologiesForRole('detector'))
 
 
 	const handleChangeAutomation = (automation) => {
@@ -33,9 +36,11 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 
 	const handleChangeType = (newType) => {
+		console.log("handleChangeType")
+		console.log(newType)
 		console.log(workup)
 		onWorkupChange({ name: 'type', value: newType.value })
-		handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filterByDependencies(ontologieOptions.subtype)))
+		handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesForRole('subtype')))
 	}
 
 	const handleChangeSubType = (newSubType) => {
@@ -48,53 +53,50 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
 	}
 
-	const filterByDependencies = (options) => OntologiesDecorator.filterByDependencies(workup, options)
+	// const filterByDependencies = (options) => OntologiesDecorator.filterByDependencies(workup, options)
 
-	useEffect(() => {
-		workup.device ||
-			onWorkupChange({ name: 'device', value: ontologieOptions.device[0]?.value })
-		// eslint-disable-next-line
-	}, [])
+	// useEffect(() => {
+	// 	workup.device ||
+	// 		onWorkupChange({ name: 'device', value: ontologieOptions.device[0]?.value })
+	// 	// eslint-disable-next-line
+	// }, [])
 
 	return (
 		<FormSection>
-			<ButtonGroupToggle value={workup.mode} options={ontologieOptions.mode_usage}
+			<ButtonGroupToggle value={workup.mode} options={filteredOntologiesForRole('mode_usage')}
 				onChange={handleChangeAutomation} />
 			{workup.action}
 			{workup.class}
 			<SelectFormGroup
 				label={'Type'}
-				options={OptionsDecorator.inclusiveOptions(currentType, filterByDependencies(ontologieOptions.type))}
-				value={currentType}
+				options={OptionsDecorator.inclusiveOptions(currentType, filteredOntologiesForRole('type'))}
+				value={workup.type}
 				onChange={handleChangeType}
-				tooltipName={currentType?.unavailable && 'selection_unavailable'}
 			/>
 			{workup.subtype}
 			<SelectFormGroup
-				key={"subtype" + currentSubtype}
+				key={"subtype" + workup.subtype}
 				label={'Subtype'}
-				options={OptionsDecorator.inclusiveOptions(currentSubtype, filterByDependencies(ontologieOptions.subtype))}
-				value={currentSubtype}
+				options={OptionsDecorator.inclusiveOptions(currentSubtype, filteredOntologiesForRole('subtype'))}
+				value={workup.subtype}
 				onChange={handleChangeSubType}
-				tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
 			/>
 			<SelectFormGroup
-				key={"detectors" + currentDetectors}
+				key={"detectors" + workup.detectors}
 				label={"Detectors"}
-				options={OptionsDecorator.inclusiveOptions(currentDetectors, filterByDependencies(ontologieOptions.detector))}
-				value={currentDetectors}
+				options={filteredOntologiesForRole('detector')}
+				value={workup.detectors}
+				onChange={handleChangeDetectors}
 				isMulti
 				isClearable={false}
-				onChange={handleChangeDetectors}
-				tooltipName={currentDetectors?.find(det => det.unavailable) && 'selection_unavailable'}
 			/>
 			{workup.device}
 			<SingleLineFormGroup label='Type'>
 				<Select
 					className="react-select--overwrite"
 					classNamePrefix="react-select"
-					options={ontologieOptions.device}
-					selected={OptionsDecorator.inclusiveOptionForValue(workup.device, ontologieOptions.device)}
+					options={filteredOntologiesForRole('device')}
+					selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filteredOntologiesForRole('device'))}
 					// selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filterByDependencies(ontologieOptions.device))}
 					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
 				/>

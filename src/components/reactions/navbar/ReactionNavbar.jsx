@@ -27,7 +27,7 @@ import {
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
-  const [open, setOpen] = useState("scheme");
+  const [open, setOpen] = useState("");
   const [schemeIsEnlarged, setSchemeIsEnlarged] = useState(false);
   const zoomIcon = schemeIsEnlarged ? "search-minus" : "search-plus";
   const schemeImageClass = schemeIsEnlarged
