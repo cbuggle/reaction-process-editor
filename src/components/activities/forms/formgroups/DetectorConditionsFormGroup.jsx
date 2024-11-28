@@ -10,8 +10,6 @@ const DetectorConditionsFormGroup = ({ detectorsOptions, conditions, onChange, d
 		onChange({ ...conditions, [detectorId]: { ...conditions[detectorId], [metricName]: value } })
 	}
 
-	console.log("DetectorConditionsFormGroup")
-	console.log(detectorsOptions)
 
 
 	const renderDetectorInputs = (detector) => {

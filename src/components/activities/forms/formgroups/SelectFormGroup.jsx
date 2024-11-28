@@ -22,34 +22,18 @@ const SelectFormGroup = (
 
   let displayOptions = options
   let selected = OptionsDecorator.optionForValue(value, displayOptions)
-  // console.log("SelectFormGroup")
-  // console.log(label)
-  // console.log(value)
-  // console.log(selected)
-  // console.log(displayOptions)
 
   if (value && includesCurrentOption) {
     if (Array.isArray(value)) {
-      // console.log("displayOptions append array")
       displayOptions = OptionsDecorator.appendValuesToOptions(value, displayOptions)
-      // console.log(displayOptions)
       selected = OptionsDecorator.optionsForValues(value, displayOptions)
-      // console.log("displayOptions append array end")
     } else {
-      // console.log("displayOptions append")
       displayOptions = OptionsDecorator.appendValueToOptions(value, displayOptions)
-      // console.log(displayOptions)
       selected = OptionsDecorator.optionForValue(value, displayOptions)
-      // console.log("displayOptions append end")
     }
   }
 
   let tooltip = selected?.unavailable && tooltips['selection_unavailable']
-
-  // console.log("SelectFormGroup " + label)
-  // console.log(value)
-  // console.log(options)
-  // console.log(displayOptions)
 
   return (<>
     <SingleLineFormGroup

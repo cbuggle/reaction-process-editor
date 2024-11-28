@@ -14,21 +14,16 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 import { chmoId } from '../../../../../constants/chmoId'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
-	const ontologieOptions = useContext(SelectOptions).ONTOLOGIES
 	const ontologies = useContext(SelectOptions).ontologies
 
 	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByRole({ roleName: roleName, options: ontologies, workup: workup })
 
 	const currentType = OptionsDecorator.inclusiveOptionForValue(workup.type, filteredOntologiesForRole('type'))
 	const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.subtype, filteredOntologiesForRole('subtype'))
-	const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, filteredOntologiesForRole('detector'))
 
 
 	const handleChangeAutomation = (automation) => {
-		console.log("handleChangeAutomation")
-		console.log(automation)
-		if (automation === chmoId.mode.automated) {
-		} else {
+		if (automation !== chmoId.mode.automated) {
 			onWorkupChange({ name: 'method', value: undefined })
 		}
 		onWorkupChange({ name: 'mode', value: automation })
@@ -36,30 +31,17 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 
 	const handleChangeType = (newType) => {
-		console.log("handleChangeType")
-		console.log(newType)
-		console.log(workup)
 		onWorkupChange({ name: 'type', value: newType.value })
 		handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesForRole('subtype')))
 	}
 
 	const handleChangeSubType = (newSubType) => {
-		console.log("change subtype")
-		console.log(newSubType)
 		onWorkupChange({ name: 'subtype', value: newSubType?.value })
 	}
 
 	const handleChangeDetectors = (detectors) => {
 		onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
 	}
-
-	// const filterByDependencies = (options) => OntologiesDecorator.filterByDependencies(workup, options)
-
-	// useEffect(() => {
-	// 	workup.device ||
-	// 		onWorkupChange({ name: 'device', value: ontologieOptions.device[0]?.value })
-	// 	// eslint-disable-next-line
-	// }, [])
 
 	return (
 		<FormSection>
@@ -97,7 +79,6 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 					classNamePrefix="react-select"
 					options={filteredOntologiesForRole('device')}
 					selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filteredOntologiesForRole('device'))}
-					// selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filterByDependencies(ontologieOptions.device))}
 					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
 				/>
 			</SingleLineFormGroup>
