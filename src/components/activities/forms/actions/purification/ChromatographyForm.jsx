@@ -79,8 +79,8 @@ const ChromatographyForm = (
 
   const handleChangeDevice = (device) => {
     onWorkupChange({ name: 'device', value: device?.value })
-    onWorkupChange({ name: 'detectors', value: device?.detectors?.map((detector) => detector.value) })
     handleChangeMethod(OptionsDecorator.optionForValue(currentMethodOption?.value, device?.methods))
+    onWorkupChange({ name: 'detectors', value: device?.detectors?.map((detector) => detector.value) })
   }
 
   const handleChangeMethod = (method) => {
@@ -91,7 +91,7 @@ const ChromatographyForm = (
     handleChangeStationaryPhase(method?.stationary_phases?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
 
-    workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method.detectors?.map(el => el.value) })
+    workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method?.detectors?.map(el => el.value) })
   }
 
   const handleChangeMobilePhases = (phases) => {
@@ -264,8 +264,8 @@ const ChromatographyForm = (
           value={workup.subtype}
           onChange={handleChangeSubType}
         />
+        {renderAutomationSpecificFields()}
       </FormSection>
-      {renderAutomationSpecificFields()}
 
       {activitySteps.map((step, idx) =>
         <ChromatographyStepForm
