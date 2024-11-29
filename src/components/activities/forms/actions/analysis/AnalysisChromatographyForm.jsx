@@ -1,24 +1,27 @@
 import React, { useContext } from 'react'
 import { Label, FormGroup } from 'reactstrap';
+
 import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
+
+import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
+import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
+import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
+import SelectFormGroup from '../../formgroups/SelectFormGroup';
 
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
 
-import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
-import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
-import SelectFormGroup from '../../formgroups/SelectFormGroup';
-
-import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
-import TextInputFormSet from '../../formsets/TextInputFormSet';
-
+import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
+import { chmoId } from '../../../../../constants/chmoId'
+
 const AnalysisChromatographyForm = (
+
   {
     workup,
     onWorkupChange,
@@ -30,73 +33,66 @@ const AnalysisChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const isAutomated = workup.automation === "AUTOMATED"
+  const isAutomated = workup.mode === chmoId.mode.automated
+  const ontologies = useContext(SelectOptions).ontologies
 
-  const selectOptions = useContext(SelectOptions).FORMS.ANALYSIS.CHROMATOGRAPHY
+  const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
+  const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
 
-  const currentType = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_type, selectOptions.chromatography_types)
-  const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.chromatography_subtype, currentType?.subtypes)
-  const currentDevice = OptionsDecorator.inclusiveOptionForValue(workup.device, currentSubtype?.devices)
-  const currentDetectors = OptionsDecorator.inclusiveOptionsForValues(workup.detectors, currentDevice?.detectors)
+  const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phases, currentMethodOption?.stationary_phases)
 
-  const currentMethod = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDevice?.methods)
+  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByRole({ roleName: roleName, options: ontologies, workup: workup })
 
-  const currentMobilePhasesOptions = isAutomated ? currentMethod?.mobile_phases : currentDevice?.mobile_phases
-  const currentStationaryPhasesOptions = isAutomated ? currentMethod?.stationary_phases : currentDevice?.stationary_phases
-
-  const currentMobilePhases = OptionsDecorator.inclusiveOptionsForValues(workup.mobile_phases, currentMobilePhasesOptions)
-  const currentStationaryPhase = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentStationaryPhasesOptions)
-
-
-  const filterMethodsByDetectors = (methods, detectors) => {
-    return methods?.filter((method) =>
-      detectors.every(detector => method.detectors?.find(methodDetector => methodDetector.value === detector.value)
-      )) || []
+  const filterMethodsByDetectors = (detectors, methods) => {
+    if (!methods) { return [] }
+    return (detectors?.length > 0) ?
+      methods.filter((method) => method.detectors.every(method_detector => detectors.includes(method_detector.value)))
+      :
+      methods
   }
 
-  const filterMethodsByDetectorsOptions = (detectors) => {
-    return detectors?.length > 0 ? filterMethodsByDetectors(currentDevice?.methods, detectors) : currentDevice?.methods
-  }
-
-  const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhase?.analysis_defaults?.[analysisType]
+  const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhaseOption?.analysis_defaults?.[analysisType]
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
+
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
   const handleChangeType = (newType) => {
-    onWorkupChange({ name: 'chromatography_type', value: newType.value })
-    handleChangeSubType(OptionsDecorator.optionForValue(workup.chromatography_subtype, newType.subtypes))
+    onWorkupChange({ name: 'type', value: newType.value })
+    handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesForRole('subtype')))
   }
 
   const handleChangeSubType = (newSubType) => {
-    onWorkupChange({ name: 'chromatography_subtype', value: newSubType?.value })
-    handleChangeDevice(OptionsDecorator.optionForValue(workup.device, newSubType?.devices))
+    onWorkupChange({ name: 'subtype', value: newSubType?.value })
+    handleChangeDevice(OptionsDecorator.optionForValue(workup.device, filteredOntologiesForRole('device')))
   }
 
   const handleChangeAutomation = (automation) => {
-    if (automation === "AUTOMATED") {
-      handleChangeDevice(currentDevice)
-      setMethodAnalysisDefaults(currentMethod)
-      setStationaryPhaseDefaults(currentStationaryPhase)
+    if (automation === chmoId.mode.automated) {
+      handleChangeDevice(currentDeviceOption)
+      setMethodAnalysisDefaults(currentMethodOption)
+      setStationaryPhaseDefaults(currentStationaryPhaseOption)
     } else {
       onWorkupChange({ name: 'method', value: undefined })
     }
-    onWorkupChange({ name: 'automation', value: automation })
+    onWorkupChange({ name: 'mode', value: automation })
   }
 
   const handleChangeDevice = (device) => {
     onWorkupChange({ name: 'device', value: device?.value })
-    onWorkupChange({ name: 'detectors', value: device?.detectors?.map(option => option.value) })
-    handleChangeMethod(OptionsDecorator.optionForValue(currentMethod?.value, device?.methods))
+    handleChangeMethod(OptionsDecorator.optionForValue(currentMethodOption?.value, device?.methods))
+    onWorkupChange({ name: 'detectors', value: device?.detectors?.map((detector) => detector.value) })
   }
 
   const handleChangeMethod = (method) => {
     onWorkupChange({ name: 'method', value: method?.value })
-    onWorkupChange({ name: 'VOLUME', value: method?.default_volume })
+    onWorkupChange({ name: 'inject_volume', value: method?.default_inject_volume })
     onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
     onWorkupChange({ name: 'purification_steps', value: method?.steps })
-    handleChangeStationaryPhase(method?.stationary_phases[0])
+    handleChangeStationaryPhase(method?.stationary_phases?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
+
+    workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method?.detectors?.map(el => el.value) })
   }
 
   const handleChangeMobilePhases = (phases) => {
@@ -104,23 +100,13 @@ const AnalysisChromatographyForm = (
   }
 
   const handleChangeStationaryPhase = (phase) => {
-    onWorkupChange({ name: 'stationary_phase', value: phase?.value })
+    onWorkupChange({ name: 'stationary_phases', value: phase?.value })
     isAutomated && setStationaryPhaseDefaults(phase)
   }
 
   const handleChangeDetectors = (detectors) => {
-    handleNoDetectorSetting(detectors)
-    isAutomated && setMethodAnalysisDefaults(currentMethod)
-  }
-
-  const handleNoDetectorSetting = (detectors) => {
-    // 'NO_DETECTOR' is a special case (setting on some chromatography devices) and needs to be the sole selection.
-    // It is opposed to and not be mixed up with having none selected at all. cbuggle, 11.6.2024.
-    if (detectors.length > 1 && detectors.find(detector => detector.value === 'NO_DETECTOR')) {
-      onWorkupChange({ name: 'detectors', value: ['NO_DETECTOR'] })
-    } else {
-      onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
-    }
+    onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
+    isAutomated && setMethodAnalysisDefaults(currentMethodOption)
   }
 
   const setMethodAnalysisDefaults = (method) => {
@@ -128,7 +114,7 @@ const AnalysisChromatographyForm = (
 
     method?.detectors &&
       method.detectors
-        .filter(d => workup.detectors?.includes(d.value))
+        .filter(detector => workup.detectors?.includes(detector.value))
         .filter(detector => !!detector.analysis_defaults)
         .forEach((detector) => {
           newConditions[detector.value] = {}
@@ -140,134 +126,96 @@ const AnalysisChromatographyForm = (
   }
 
   const setStationaryPhaseDefaults = (phase) => {
-    phase && onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase.analysis_defaults?.['TEMPERATURE'] })
+    onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase?.analysis_defaults?.['TEMPERATURE'] })
   }
 
   const renderAutomationSpecificFields = () => {
-    switch (workup.automation) {
-      case 'AUTOMATED':
-      case 'SEMI_AUTOMATED':
+    switch (workup.mode) {
+      case chmoId.mode.automated:
+      case chmoId.mode.semiAutomated:
         return (
           <>
-            <FormSection>
-              <SelectFormGroup
-                label={'Type'}
-                name={'chromatography_type'}
-                options={OptionsDecorator.inclusiveOptions(currentType, selectOptions.chromatography_types)}
-                value={currentType}
-                onChange={handleChangeType}
-                tooltipName={currentType?.unavailable && 'selection_unavailable'}
-              />
-              <SelectFormGroup
-                key={"subtype" + currentSubtype}
-                label={'Sub-Type'}
-                name={'chromatography_subtype'}
-                options={OptionsDecorator.inclusiveOptions(currentSubtype, currentType?.subtypes)}
-                value={currentSubtype}
-                onChange={handleChangeSubType}
-                tooltipName={currentSubtype?.unavailable && 'selection_unavailable'}
-              />
-              <SelectFormGroup
-                key={"device" + currentDevice}
-                label={'Device'}
-                name={'device'}
-                options={OptionsDecorator.inclusiveOptions(currentDevice, currentSubtype?.devices)}
-                value={currentDevice}
-                onChange={handleChangeDevice}
-                tooltipName={currentDevice?.unavailable && 'selection_unavailable'}
-              />
-              <SelectFormGroup
-                key={"detectors" + currentDetectors}
-                label="Detectors"
-                name="detectors"
-                options={OptionsDecorator.inclusiveOptions(currentDetectors, currentDevice?.detectors)}
-                value={currentDetectors}
-                isMulti
-                isClearable={false}
-                onChange={handleChangeDetectors}
-                tooltipName={currentDetectors?.find(det => det.unavailable) && 'selection_unavailable'}
-              />
-              <SelectFormGroup
-                key={"mobile_phases" + currentMobilePhases}
-                label="Mobile Phases"
-                name="mobile_phases"
-                options={OptionsDecorator.inclusiveOptions(currentMobilePhases, currentMobilePhasesOptions)}
-                value={currentMobilePhases}
-                onChange={handleChangeMobilePhases}
-                isMulti
-                disabled={isAutomated}
-                placeholder={isAutomated ? "Depends on Method" : undefined}
-                tooltipName={currentMobilePhases?.find(phase => phase.unavailable) && 'selection_unavailable'}
-              />
-              {isAutomated &&
-                <>
-                  <SelectFormGroup
-                    key={"currentMethod" + currentMethod}
-                    label="Method"
-                    name="method"
-                    options={OptionsDecorator.inclusiveOptions(currentMethod, filterMethodsByDetectorsOptions(currentDetectors))}
-                    value={currentMethod}
-                    onChange={handleChangeMethod}
-                    tooltipName={currentMethod?.unavailable && 'selection_unavailable'}
-
-                  />
-                  <FormGroup>
-                    {currentMethod?.description}
-                  </FormGroup>
-                </>}
-              {isAutomated ?
-                <TextInputFormSet
-                  label={"Stationary Phase"}
-                  value={workup.stationary_phase}
-                  disabled
-                  typeColor='action' />
-                :
+            <SelectFormGroup
+              key={"device" + workup.device}
+              label={'Device'}
+              options={filteredOntologiesForRole('device')}
+              value={workup.device}
+              onChange={handleChangeDevice}
+            />
+            <SelectFormGroup
+              key={"detectors" + workup.detectors}
+              label={"Detectors"}
+              options={filteredOntologiesForRole('detector')}
+              value={workup.detectors}
+              onChange={handleChangeDetectors}
+              isMulti
+              isClearable={false}
+            />
+            <SelectFormGroup
+              key={"mobile_phases" + workup.mobile_phases}
+              label={"Mobile Phases"}
+              options={currentMethodOption?.mobile_phases}
+              value={workup.mobile_phases}
+              onChange={handleChangeMobilePhases}
+              isMulti
+              disabled={isAutomated}
+              placeholder={isAutomated ? "Depends on Method" : undefined}
+            />
+            {isAutomated &&
+              <>
                 <SelectFormGroup
-                  key={"stationary_phase" + currentStationaryPhase}
-                  label={"Stationary Phase"}
-                  name={"stationary_phase"}
-                  options={OptionsDecorator.inclusiveOptions(currentStationaryPhase, currentStationaryPhasesOptions)}
-                  value={currentStationaryPhase}
-                  onChange={handleChangeStationaryPhase}
-                  disabled={isAutomated}
-                  tooltipName={currentStationaryPhase?.unavailable && 'selection_unavailable'}
+                  key={"method" + workup.method}
+                  label={"Method"}
+                  options={filterMethodsByDetectors(workup.detectors, currentDeviceOption?.methods)}
+                  value={workup.method}
+                  onChange={handleChangeMethod}
                 />
-              }
-              {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
-                <FormSection>
-                  <MetricsInputFormGroup
-                    label={'Stat. Phase Temp'}
-                    metricName={"TEMPERATURE"}
-                    amount={workup.STATIONARY_PHASE_TEMPERATURE}
-                    onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
-                    disabled={isAutomated}
-                  />
-                </FormSection>
-              }
-              <MetricsInputFormGroup
-                label={'Inj. Volume'}
-                metricName={"VOLUME"}
-                amount={workup.VOLUME}
-                onChange={handleWorkupChange('VOLUME')}
+                <FormGroup>
+                  {currentMethodOption?.description}
+                </FormGroup>
+              </>}
+            {isAutomated ?
+              <>{"Stationary Phases " + (workup.stationary_phases || "-")}</>
+              :
+              <SelectFormGroup
+                key={"stationary_phases" + workup.stationary_phases}
+                label={"Stationary Phases"}
+                options={currentMethodOption?.stationary_phases}
+                value={workup.stationary_phases}
+                onChange={handleChangeStationaryPhase}
                 disabled={isAutomated}
               />
-            </FormSection>
+            }
+            {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
+              <MetricsInputFormGroup
+                label={'Stat. Phases Temp'}
+                metricName={"TEMPERATURE"}
+                amount={workup.STATIONARY_PHASE_TEMPERATURE}
+                onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
+                disabled={isAutomated}
+              />
+            }
+            <MetricsInputFormGroup
+              label={'Inj. Volume'}
+              metricName={"VOLUME"}
+              amount={workup.inject_volume}
+              onChange={handleWorkupChange('inject_volume')}
+              disabled={isAutomated}
+            />
             <DetectorConditionsFormGroup
-              detectors={currentDetectors}
-              methodDetectors={currentMethod?.detectors}
+              detectorsOptions={OptionsDecorator.optionsForValues(workup.detectors, currentDeviceOption?.detectors)}
               conditions={workup.detector_conditions}
               onChange={handleWorkupChange('detector_conditions')}
               disabled={isAutomated}
             />
           </>)
-      case 'MANUAL':
+      case chmoId.mode.manual:
         return (
-          <FormSection>
+          <>
             <SelectFormGroup
               label='Material'
-              name="sample_id"
-              options={selectOptions.jar_materials}
-              value={OptionsDecorator.optionForValue(workup.jar_material, selectOptions.jar_materials)}
+              options={filteredOntologiesForRole('material_engineering')}
+              value={workup.engineering_material}
               onChange={handleSelectChange('jar_material')}
             />
             <MetricsInputFormGroup
@@ -289,7 +237,7 @@ const AnalysisChromatographyForm = (
               max={workup.jar_height?.value}
               onChange={handleWorkupChange('jar_filling_height')}
             />
-          </FormSection >)
+          </ >)
       default:
         break;
     }
@@ -298,16 +246,34 @@ const AnalysisChromatographyForm = (
   return (
     <>
       <FormSection type='action'>
-        <Label>Automation</Label>
-        <ButtonGroupToggle value={workup.automation} options={selectOptions.automation_modes}
+        <Label>Mode</Label>
+        <ButtonGroupToggle
+          value={workup.mode}
+          options={filteredOntologiesForRole('mode_usage')}
           onChange={handleChangeAutomation} />
+        <SelectFormGroup
+          key={"type" + workup.type}
+          label={'Type'}
+          options={filteredOntologiesForRole('type')}
+          value={workup.type}
+          onChange={handleChangeType}
+        />
+        <SelectFormGroup
+          key={"device" + workup.subtype}
+          label={'Subtype'}
+          options={filteredOntologiesForRole('subtype')}
+          value={workup.subtype}
+          onChange={handleChangeSubType}
+        />
+        {renderAutomationSpecificFields()}
       </FormSection>
-      {renderAutomationSpecificFields()}
+
       {activitySteps.map((step, idx) =>
         <AnalysisChromatographyStepForm
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
           label={'Chromatography Step ' + (idx + 1)}
           workup={step}
+          solventOptions={filteredOntologiesForRole('solvent')}
           onSave={onSaveStep(idx)}
           onCancel={onCancelStep(idx)}
           onDelete={onDeleteStep(idx)}
@@ -319,6 +285,7 @@ const AnalysisChromatographyForm = (
         <AnalysisChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
+          solventOptions={filteredOntologiesForRole('solvent')}
           initialShowForm={true}
           onSave={onSaveStep(activitySteps.length)}
           onCancel={onCancelStep(activitySteps.length)}

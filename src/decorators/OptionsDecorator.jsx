@@ -22,7 +22,7 @@ export default class OptionsDecorator {
     return values ?
       Array.from(values).map((option) => this.inclusiveOptionForValue(option, options))
       :
-      options
+      []
   }
 
   static inclusiveOptions = (currentOptions, options) => {
@@ -38,4 +38,25 @@ export default class OptionsDecorator {
     })
     return newOptions
   }
+
+  static appendValuesToOptions = (currentValues, options) => {
+    var newOptions = options?.slice() || []
+
+    currentValues ||= []
+
+    currentValues.forEach(currentValue => {
+      this.optionForValue(currentValue, options) || newOptions.push(this.createUnavailableOption(currentValue))
+    })
+    return newOptions
+  }
+
+  static appendValueToOptions = (currentValue, options) => {
+    var newOptions = options?.slice() || []
+
+    if (currentValue && !this.optionForValue(currentValue, options)) {
+      newOptions.push(this.createUnavailableOption(currentValue))
+    }
+    return newOptions
+  }
+
 }

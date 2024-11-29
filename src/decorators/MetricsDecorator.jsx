@@ -33,18 +33,18 @@ export default class MetricsDecorator {
 
   static overscaledAmount = (value) => allowedAmountOverscale * value
 
-  static infoLineAmount(amount) {
+  static infoAmount = (amount) => {
     if (amount?.value || amount?.value === 0) {
       let value = parseFloat(amount.value).toPrecision(12) / 1
       return value + ' ' + this.unitLabel(amount.unit)
-    } else {
-      return 'Unspecified Amount'
     }
   }
 
-  static infoLineAmountWithPercentage(amount) {
+  static infoLineAmount = (amount) => this.infoAmount(amount) || 'Unspecified Amount'
+
+  static infoLineAmountWithPercentage = (amount) => {
     let infoLine = this.infoLineAmount(amount)
-    amount?.percentage && (infoLine +=  ' (' + parseFloat(amount?.percentage || 0).toPrecision(3) + '%)')
+    amount?.percentage && (infoLine += ' (' + parseFloat(amount?.percentage || 0).toPrecision(3) + '%)')
     return infoLine
   }
 

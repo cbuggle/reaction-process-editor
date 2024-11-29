@@ -46,7 +46,7 @@ const OptionalFormSet = ({
   const hasLocalValue = !!valueSummary && !isEqualToPredefinedValue;
   const toggleFormButtonLabel = disableSave ? 'View' : hasLocalValue ? "Change" : "Set";
 
-  const labelWithSummary = subFormLabel + ": " + (valueSummary || "-");
+  const labelWithSummary = subFormLabel + " " + (valueSummary || "-");
 
   const handleSave = (data) => {
     toggleShowForm();
