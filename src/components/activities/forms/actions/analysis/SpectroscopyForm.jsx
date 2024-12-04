@@ -16,7 +16,7 @@ import { chmoId } from '../../../../../constants/chmoId'
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
 
-	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByRole({ roleName: roleName, options: ontologies, workup: workup })
+	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
 	const currentType = OptionsDecorator.inclusiveOptionForValue(workup.type, filteredOntologiesForRole('type'))
 	const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.subtype, filteredOntologiesForRole('subtype'))
@@ -28,7 +28,6 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		}
 		onWorkupChange({ name: 'mode', value: automation })
 	}
-
 
 	const handleChangeType = (newType) => {
 		onWorkupChange({ name: 'type', value: newType.value })
@@ -47,15 +46,12 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		<FormSection>
 			<ButtonGroupToggle value={workup.mode} options={filteredOntologiesForRole('mode_usage')}
 				onChange={handleChangeAutomation} />
-			{workup.action}
-			{workup.class}
 			<SelectFormGroup
 				label={'Type'}
 				options={OptionsDecorator.inclusiveOptions(currentType, filteredOntologiesForRole('type'))}
 				value={workup.type}
 				onChange={handleChangeType}
 			/>
-			{workup.subtype}
 			<SelectFormGroup
 				key={"subtype" + workup.subtype}
 				label={'Subtype'}
