@@ -82,7 +82,7 @@ const ChromatographyForm = (
       case chmoId.mode.semiAutomated:
         handleChangeDevice(currentDeviceOption)
         onWorkupChange({ name: 'method', value: undefined })
-        onWorkupChange({name: 'stationary_phases'})
+        onWorkupChange({name: 'stationary_phases', value: undefined})
         break;
       case chmoId.mode.manual:
         handleChangeDevice(undefined)
