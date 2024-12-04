@@ -15,11 +15,14 @@ const PurificationInfo = ({ activity }) => {
 	let steps = workup["purification_steps"];
 
 	const purificationOptions = useContext(SelectOptions).FORMS.PURIFICATION[workup.purification_type];
+	const ontologies = useContext(SelectOptions).ontologies;
 
 	const isCristallization = workup.purification_type === 'CRYSTALLIZATION'
 
 	const addAutomationToTitle = () => {
-		infoTitle += " " + OptionsDecorator.valueToLabel(workup.automation, purificationOptions.automation_modes);
+		infoTitle += " "
+		infoTitle += OptionsDecorator.valueToLabel(workup.mode, purificationOptions.automation_modes) ||
+			OptionsDecorator.valueToLabel(workup.mode, ontologies)
 	}
 
 	const addStepsToTitle = () => {

@@ -21,7 +21,6 @@ import withActivitySteps from '../../../../utilities/WithActivitySteps';
 import { chmoId } from '../../../../../constants/chmoId'
 
 const AnalysisChromatographyForm = (
-
   {
     workup,
     onWorkupChange,
@@ -38,10 +37,9 @@ const AnalysisChromatographyForm = (
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
-
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phases, currentMethodOption?.stationary_phases)
 
-  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByRole({ roleName: roleName, options: ontologies, workup: workup })
+  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }
@@ -50,6 +48,9 @@ const AnalysisChromatographyForm = (
       :
       methods
   }
+  const currentDetectorsOptions = OptionsDecorator.optionsForValues(workup.detectors, currentDeviceOption?.detectors)
+  const filteredMethodOptions = filterMethodsByDetectors(workup.detectors, currentDeviceOption?.methods)
+  const filteredDetectorOptions = OntologiesDecorator.findAllByChmoId(currentDeviceOption?.detectors?.map(d => d.value), ontologies)
 
   const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhaseOption?.analysis_defaults?.[analysisType]
 
@@ -58,29 +59,44 @@ const AnalysisChromatographyForm = (
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
 
   const handleChangeType = (newType) => {
-    onWorkupChange({ name: 'type', value: newType.value })
-    handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesForRole('subtype')))
+    if (newType?.value !== workup.type) {
+      onWorkupChange({ name: 'type', value: newType?.value })
+      handleChangeSubType({ value: undefined })
+    }
   }
 
   const handleChangeSubType = (newSubType) => {
-    onWorkupChange({ name: 'subtype', value: newSubType?.value })
-    handleChangeDevice(OptionsDecorator.optionForValue(workup.device, filteredOntologiesForRole('device')))
+    if (newSubType?.value !== workup.subtype) {
+      onWorkupChange({ name: 'subtype', value: newSubType?.value })
+      handleChangeDevice({ value: undefined })
+    }
   }
 
   const handleChangeAutomation = (automation) => {
-    if (automation === chmoId.mode.automated) {
-      handleChangeDevice(currentDeviceOption)
-      setMethodAnalysisDefaults(currentMethodOption)
-      setStationaryPhaseDefaults(currentStationaryPhaseOption)
-    } else {
-      onWorkupChange({ name: 'method', value: undefined })
+    switch (automation) {
+      case chmoId.mode.automated:
+        handleChangeDevice(currentDeviceOption)
+        setMethodAnalysisDefaults(currentMethodOption)
+        setStationaryPhaseDefaults(currentStationaryPhaseOption)
+        break;
+      case chmoId.mode.semiAutomated:
+        handleChangeDevice(currentDeviceOption)
+        onWorkupChange({ name: 'method', value: undefined })
+        onWorkupChange({ name: 'stationary_phases', value: undefined })
+        break;
+      case chmoId.mode.manual:
+        handleChangeDevice(undefined)
+        break;
+      default:
     }
     onWorkupChange({ name: 'mode', value: automation })
   }
 
   const handleChangeDevice = (device) => {
-    onWorkupChange({ name: 'device', value: device?.value })
-    handleChangeMethod(OptionsDecorator.optionForValue(currentMethodOption?.value, device?.methods))
+    if (device?.value !== workup.device) {
+      onWorkupChange({ name: 'device', value: device?.value })
+      handleChangeMethod(undefined)
+    }
     onWorkupChange({ name: 'detectors', value: device?.detectors?.map((detector) => detector.value) })
   }
 
@@ -93,10 +109,6 @@ const AnalysisChromatographyForm = (
     isAutomated && setMethodAnalysisDefaults(method)
 
     workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method?.detectors?.map(el => el.value) })
-  }
-
-  const handleChangeMobilePhases = (phases) => {
-    onWorkupChange({ name: "mobile_phases", value: phases?.map(phase => phase.value) })
   }
 
   const handleChangeStationaryPhase = (phase) => {
@@ -137,15 +149,16 @@ const AnalysisChromatographyForm = (
           <>
             <SelectFormGroup
               key={"device" + workup.device}
+              // The key is required  when switching to automate else the selected engineering_material will be retained.
+              // Even though the label gets updated the selected value does not. React state handling facepalm.
               label={'Device'}
               options={filteredOntologiesForRole('device')}
               value={workup.device}
               onChange={handleChangeDevice}
             />
             <SelectFormGroup
-              key={"detectors" + workup.detectors}
               label={"Detectors"}
-              options={filteredOntologiesForRole('detector')}
+              options={filteredDetectorOptions}
               value={workup.detectors}
               onChange={handleChangeDetectors}
               isMulti
@@ -156,7 +169,7 @@ const AnalysisChromatographyForm = (
               label={"Mobile Phases"}
               options={currentMethodOption?.mobile_phases}
               value={workup.mobile_phases}
-              onChange={handleChangeMobilePhases}
+              onChange={handleSelectChange('mobile_phases')}
               isMulti
               disabled={isAutomated}
               placeholder={isAutomated ? "Depends on Method" : undefined}
@@ -166,7 +179,7 @@ const AnalysisChromatographyForm = (
                 <SelectFormGroup
                   key={"method" + workup.method}
                   label={"Method"}
-                  options={filterMethodsByDetectors(workup.detectors, currentDeviceOption?.methods)}
+                  options={filteredMethodOptions}
                   value={workup.method}
                   onChange={handleChangeMethod}
                 />
@@ -202,17 +215,14 @@ const AnalysisChromatographyForm = (
               onChange={handleWorkupChange('inject_volume')}
               disabled={isAutomated}
             />
-            <DetectorConditionsFormGroup
-              detectorsOptions={OptionsDecorator.optionsForValues(workup.detectors, currentDeviceOption?.detectors)}
-              conditions={workup.detector_conditions}
-              onChange={handleWorkupChange('detector_conditions')}
-              disabled={isAutomated}
-            />
           </>)
       case chmoId.mode.manual:
         return (
           <>
             <SelectFormGroup
+              key={"material" + workup.material_engineering}
+              // The key is required when switching to manual else the selected device will be retained.
+              // Even though the label gets updated the selected value does not. React state handling facepalm.
               label='Material'
               options={filteredOntologiesForRole('material_engineering')}
               value={workup.engineering_material}
@@ -243,6 +253,19 @@ const AnalysisChromatographyForm = (
     }
   }
 
+  const renderDetectorFormSection = () => {
+    return (
+      <>
+        <DetectorConditionsFormGroup
+          detectorsOptions={currentDetectorsOptions}
+          conditions={workup.detector_conditions}
+          onChange={handleWorkupChange('detector_conditions')}
+          disabled={isAutomated}
+        />
+      </>
+    )
+  }
+
   return (
     <>
       <FormSection type='action'>
@@ -267,6 +290,7 @@ const AnalysisChromatographyForm = (
         />
         {renderAutomationSpecificFields()}
       </FormSection>
+      {renderDetectorFormSection()}
 
       {activitySteps.map((step, idx) =>
         <AnalysisChromatographyStepForm
