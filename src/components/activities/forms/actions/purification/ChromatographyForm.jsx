@@ -35,8 +35,6 @@ const ChromatographyForm = (
   const isAutomated = workup.automation_mode === chmoId.automation_mode.automated
   const ontologies = useContext(SelectOptions).ontologies
 
-  console.log(ontologies.filter(o => o.label))
-
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phases, currentMethodOption?.stationary_phases)
