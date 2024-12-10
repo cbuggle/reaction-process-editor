@@ -32,7 +32,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const isAutomated = workup.mode === chmoId.mode.automated
+  const isAutomated = workup.automation_mode === chmoId.automation_mode.automated
   const ontologies = useContext(SelectOptions).ontologies
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
@@ -74,22 +74,22 @@ const ChromatographyForm = (
 
   const handleChangeAutomation = (automation) => {
     switch (automation) {
-      case chmoId.mode.automated:
+      case chmoId.automation_mode.automated:
         handleChangeDevice(currentDeviceOption)
         setMethodAnalysisDefaults(currentMethodOption)
         setStationaryPhaseDefaults(currentStationaryPhaseOption)
         break;
-      case chmoId.mode.semiAutomated:
+      case chmoId.automation_mode.semiAutomated:
         handleChangeDevice(currentDeviceOption)
         onWorkupChange({ name: 'method', value: undefined })
-        onWorkupChange({name: 'stationary_phases', value: undefined})
+        onWorkupChange({ name: 'stationary_phases', value: undefined })
         break;
-      case chmoId.mode.manual:
+      case chmoId.automation_mode.manual:
         handleChangeDevice(undefined)
         break;
       default:
     }
-    onWorkupChange({ name: 'mode', value: automation })
+    onWorkupChange({ name: 'automation_mode', value: automation })
   }
 
   const handleChangeDevice = (device) => {
@@ -142,9 +142,9 @@ const ChromatographyForm = (
   }
 
   const renderAutomationSpecificFields = () => {
-    switch (workup.mode) {
-      case chmoId.mode.automated:
-      case chmoId.mode.semiAutomated:
+    switch (workup.automation_mode) {
+      case chmoId.automation_mode.automated:
+      case chmoId.automation_mode.semiAutomated:
         return (
           <>
             <SelectFormGroup
@@ -216,7 +216,7 @@ const ChromatographyForm = (
               disabled={isAutomated}
             />
           </>)
-      case chmoId.mode.manual:
+      case chmoId.automation_mode.manual:
         return (
           <>
             <SelectFormGroup
@@ -271,8 +271,8 @@ const ChromatographyForm = (
       <FormSection type='action'>
         <Label>Mode</Label>
         <ButtonGroupToggle
-          value={workup.mode}
-          options={filteredOntologiesForRole('mode_usage')}
+          value={workup.automation_mode}
+          options={filteredOntologiesForRole('automation_mode')}
           onChange={handleChangeAutomation} />
         <SelectFormGroup
           key={"type" + workup.type}
@@ -282,7 +282,7 @@ const ChromatographyForm = (
           onChange={handleChangeType}
         />
         <SelectFormGroup
-          key={"device" + workup.subtype}
+          key={"subtype" + workup.subtype}
           label={'Subtype'}
           options={filteredOntologiesForRole('subtype')}
           value={workup.subtype}

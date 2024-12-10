@@ -138,7 +138,7 @@ export const actionTypeClusters = [
             purification_type: 'CHROMATOGRAPHY', // supportive? soon unused?
             action: chmoId.action.purification,
             class: chmoId.class.chromatography,
-            mode: chmoId.mode.automated
+            automation_mode: chmoId.automation_mode.automated
           }
         }
       },
@@ -168,7 +168,7 @@ export const actionTypeClusters = [
             analysis_type: 'CHROMATOGRAPHY', // soon unused
             action: chmoId.action.analysis,
             class: chmoId.class.chromatography,
-            mode: chmoId.mode.automated
+            automation_mode: chmoId.automation_mode.automated
           }
         }
       },
@@ -180,7 +180,7 @@ export const actionTypeClusters = [
           workup: {
             action: chmoId.action.analysis,
             class: chmoId.class.spectroscopy,
-            mode: chmoId.mode.automated,
+            automation_mode: chmoId.automation_mode.automated,
             analysis_type: 'SPECTROSCOPY'
           }
         }

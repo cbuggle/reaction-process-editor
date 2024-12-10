@@ -8,9 +8,9 @@ export const chmoId = {
 		chromatography: "CHMO:0001000",
 		spectroscopy: 'CHMO:0000228',
 	},
-	mode: {
-		manual: "ChemASAP:0000001",
-		semiAutomated: "ChemASAP:0000002",
-		automated: "ChemASAP:0000003"
+	automation_mode: {
+		manual: "CPOKIT:0000001",
+		semiAutomated: "CPOKIT:0000002",
+		automated: "CPOKIT:0000003"
 	},
 }

@@ -5,10 +5,10 @@ export default class OntologiesDecorator {
     return options.filter((option) => {
       let roles = option.roles[roleName]
 
-      return !!roles?.find(role => {
+      return option.active && roles?.find(role => {
         return Object
           .entries(role)
-          .every(([role_key, dependencies]) => dependencies.includes(workup[role_key]))
+          .every(([dependency_key, dependencies]) => dependencies.includes(workup[dependency_key]))
       })
     })
   }
