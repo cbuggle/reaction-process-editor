@@ -37,7 +37,7 @@ const ChromatographyForm = (
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
-  const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phases, currentMethodOption?.stationary_phases)
+  const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
   const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
@@ -78,11 +78,12 @@ const ChromatographyForm = (
         handleChangeDevice(currentDeviceOption)
         setMethodAnalysisDefaults(currentMethodOption)
         setStationaryPhaseDefaults(currentStationaryPhaseOption)
+        onWorkupChange({ name: 'mobile_phase', value: undefined })
         break;
       case chmoId.automation_mode.semiAutomated:
         handleChangeDevice(currentDeviceOption)
         onWorkupChange({ name: 'method', value: undefined })
-        onWorkupChange({ name: 'stationary_phases', value: undefined })
+        onWorkupChange({ name: 'stationary_phase', value: undefined })
         break;
       case chmoId.automation_mode.manual:
         handleChangeDevice(undefined)
@@ -93,26 +94,24 @@ const ChromatographyForm = (
   }
 
   const handleChangeDevice = (device) => {
-    if (device?.value !== workup.device) {
-      onWorkupChange({ name: 'device', value: device?.value })
-      handleChangeMethod(undefined)
-    }
+    onWorkupChange({ name: 'device', value: device?.value })
+    if (device?.value !== workup.device) { handleChangeMethod(undefined) }
     onWorkupChange({ name: 'detectors', value: device?.detectors?.map((detector) => detector.value) })
   }
 
   const handleChangeMethod = (method) => {
     onWorkupChange({ name: 'method', value: method?.value })
     onWorkupChange({ name: 'inject_volume', value: method?.default_inject_volume })
-    onWorkupChange({ name: 'mobile_phases', value: method?.mobile_phases?.map(phase => phase.value) })
+    onWorkupChange({ name: 'mobile_phase', value: method?.mobile_phase?.map(phase => phase.value) })
     onWorkupChange({ name: 'purification_steps', value: method?.steps })
-    handleChangeStationaryPhase(method?.stationary_phases?.[0])
+    handleChangeStationaryPhase(method?.stationary_phase?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
 
     workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method?.detectors?.map(el => el.value) })
   }
 
   const handleChangeStationaryPhase = (phase) => {
-    onWorkupChange({ name: 'stationary_phases', value: phase?.value })
+    onWorkupChange({ name: 'stationary_phase', value: phase?.value })
     isAutomated && setStationaryPhaseDefaults(phase)
   }
 
@@ -165,14 +164,15 @@ const ChromatographyForm = (
               isClearable={false}
             />
             <SelectFormGroup
-              key={"mobile_phases" + workup.mobile_phases}
+              key={"mobile_phase" + workup.mobile_phase}
               label={"Mobile Phases"}
-              options={currentMethodOption?.mobile_phases}
-              value={workup.mobile_phases}
-              onChange={handleSelectChange('mobile_phases')}
+              options={currentMethodOption?.mobile_phase || filteredOntologiesForRole('mobile_phase')}
+              value={workup.mobile_phase}
+              onChange={handleSelectChange('mobile_phase')}
               isMulti
-              disabled={isAutomated}
               placeholder={isAutomated ? "Depends on Method" : undefined}
+              isClearable={false}
+              disabled={isAutomated}
             />
             {isAutomated &&
               <>
@@ -188,15 +188,14 @@ const ChromatographyForm = (
                 </FormGroup>
               </>}
             {isAutomated ?
-              <>{"Stationary Phases " + (workup.stationary_phases || "-")}</>
+              <>{"Stationary Phases " + (workup.stationary_phase || "-")}</>
               :
               <SelectFormGroup
-                key={"stationary_phases" + workup.stationary_phases}
+                key={"stationary_phase" + workup.stationary_phase}
                 label={"Stationary Phases"}
-                options={currentMethodOption?.stationary_phases}
-                value={workup.stationary_phases}
+                options={currentMethodOption?.stationary_phase || filteredOntologiesForRole('stationary_phase')}
+                value={workup.stationary_phase}
                 onChange={handleChangeStationaryPhase}
-                disabled={isAutomated}
               />
             }
             {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
