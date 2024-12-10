@@ -45,7 +45,7 @@ const DetectorConditionsFormGroup = ({ detectorsOptions, conditions, onChange, d
 						disabled={disabled}
 					/>)
 				default:
-					return <>Error: Detector {detectorId} has unknown data type {analysis_default?.data_type}. Data corrupted?.</>
+					return <> Detector {detectorId} {detector.label} has no measurements.</>
 			}
 		})
 	}
