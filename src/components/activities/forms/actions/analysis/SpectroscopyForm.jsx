@@ -23,10 +23,10 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 
 	const handleChangeAutomation = (automation) => {
-		if (automation !== chmoId.mode.automated) {
+		if (automation !== chmoId.automation_mode.automated) {
 			onWorkupChange({ name: 'method', value: undefined })
 		}
-		onWorkupChange({ name: 'mode', value: automation })
+		onWorkupChange({ name: 'automation_mode', value: automation })
 	}
 
 	const handleChangeType = (newType) => {
@@ -44,7 +44,7 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 	return (
 		<FormSection>
-			<ButtonGroupToggle value={workup.mode} options={filteredOntologiesForRole('mode_usage')}
+			<ButtonGroupToggle value={workup.automation_mode} options={filteredOntologiesForRole('automation_mode')}
 				onChange={handleChangeAutomation} />
 			<SelectFormGroup
 				label={'Type'}
@@ -59,6 +59,15 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 				value={workup.subtype}
 				onChange={handleChangeSubType}
 			/>
+			<SingleLineFormGroup label='Device'>
+				<Select
+					className="react-select--overwrite"
+					classNamePrefix="react-select"
+					options={filteredOntologiesForRole('device')}
+					selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filteredOntologiesForRole('device'))}
+					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
+				/>
+			</SingleLineFormGroup>
 			<SelectFormGroup
 				key={"detectors" + workup.detectors}
 				label={"Detectors"}
@@ -68,16 +77,6 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 				isMulti
 				isClearable={false}
 			/>
-			{workup.device}
-			<SingleLineFormGroup label='Type'>
-				<Select
-					className="react-select--overwrite"
-					classNamePrefix="react-select"
-					options={filteredOntologiesForRole('device')}
-					selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filteredOntologiesForRole('device'))}
-					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
-				/>
-			</SingleLineFormGroup>
 		</FormSection>
 	)
 }
