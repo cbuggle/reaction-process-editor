@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Label, FormGroup } from 'reactstrap';
+import { Input, Label, FormGroup } from 'reactstrap';
 
 import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
 
@@ -7,6 +7,7 @@ import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
 import SelectFormGroup from '../../formgroups/SelectFormGroup';
+import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup';
 
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
@@ -172,7 +173,7 @@ const AnalysisChromatographyForm = (
               isMulti
               placeholder={isAutomated ? "Depends on Method" : undefined}
               isClearable={false}
-              disabled={isAutomated}
+              disabled={isAutomated || !workup.device}
             />
             {isAutomated &&
               <>
@@ -227,6 +228,25 @@ const AnalysisChromatographyForm = (
               value={workup.engineering_material}
               onChange={handleSelectChange('jar_material')}
             />
+            {filteredOntologiesForRole('stationary_phase')?.length > 0 ?
+              <SelectFormGroup
+                key={"stationary_phase" + workup.stationary_phase}
+                label={"Stationary Phases"}
+                options={currentMethodOption?.stationary_phase || filteredOntologiesForRole('stationary_phase')}
+                value={workup.stationary_phase}
+                onChange={handleChangeStationaryPhase}
+              /> :
+              <SingleLineFormGroup
+                label={'Stationary Phase'}
+              >
+                <Input
+                  type="textarea"
+                  name="stationary_phase"
+                  value={workup.stationary_phase}
+                  onChange={(event) => onWorkupChange({ name: 'stationary_phase', value: event.target.value })}
+                />
+              </SingleLineFormGroup>
+            }
             <MetricsInputFormGroup
               metricName={'LENGTH'}
               label={'Diameter'}
