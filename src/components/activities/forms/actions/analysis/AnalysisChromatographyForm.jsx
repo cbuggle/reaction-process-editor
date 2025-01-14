@@ -173,7 +173,7 @@ const AnalysisChromatographyForm = (
               isMulti
               placeholder={isAutomated ? "Depends on Method" : undefined}
               isClearable={false}
-              disabled={isAutomated}
+              disabled={isAutomated || !workup.device}
             />
             {isAutomated &&
               <>
