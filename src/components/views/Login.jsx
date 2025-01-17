@@ -25,7 +25,7 @@ const Login = () => {
     <>
       <div className='bg-primary d-flex align-items-center justify-content-center h-100'>
         <div className='d-flex flex-column align-items-center h-75'>
-          <h1 className='mb-4 text-light'>Please Login with your eln credentials</h1>
+          <h1 className='mb-4 text-light'>Please login with your ELN credentials</h1>
           <Form>
             <FormGroup>
               <Input
