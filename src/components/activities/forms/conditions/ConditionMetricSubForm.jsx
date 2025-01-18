@@ -151,7 +151,7 @@ const ConditionMetricSubForm = ({
         </Button>
       </OptionalFormSet.ExtraButton>
       <Row className="gx-1 mb-3">
-        <Col md={8}>
+        <Col md={12}>
           <MetricsInputFormGroup
             metricName={metricName}
             amount={amount}
