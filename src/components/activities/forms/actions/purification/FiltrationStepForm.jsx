@@ -51,7 +51,6 @@ const FiltrationStepForm = ({
   }
   const handleSave = () => {
     onSave(formData)
-    resetForm()
   }
 
   const handleDelete = () => {
@@ -60,17 +59,6 @@ const FiltrationStepForm = ({
   };
 
   const summary = PurificationDecorator.purificationStepInfo(formData, solventOptions)
-
-  // const valueSummary =
-  //   PurificationDecorator.purificationStepInfo(
-  //     {
-  //       solvents,
-  //       amount,
-  //       repetitions,
-  //     },
-  //     solventOptions
-  //   )
-
 
   return (
     <OptionalFormSet

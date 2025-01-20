@@ -171,7 +171,7 @@ const AnalysisChromatographyForm = (
               value={workup.mobile_phase}
               onChange={handleSelectChange('mobile_phase')}
               isMulti
-              placeholder={isAutomated ? "Depends on Method" : undefined}
+              placeholder={isAutomated ? "Depends on Method" : workup.device ? "Please Select" : "Depends on Device"}
               isClearable={false}
               disabled={isAutomated || !workup.device}
             />

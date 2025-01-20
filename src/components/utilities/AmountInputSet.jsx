@@ -49,7 +49,7 @@ const AmountInputSet = (
           />
         ))
       }
-      {maxAmounts?.[currentBaseUnit] &&
+      {maxAmounts?.[currentBaseUnit] ?
         <MetricsInputFormGroup
           key={'PERCENTAGE'}
           metricName={'PERCENTAGE'}
@@ -57,7 +57,7 @@ const AmountInputSet = (
           max={MetricsDecorator.overscaledAmount(100)}
           onChange={handlePercentageInput}
           disabled={!maxAmounts?.[currentBaseUnit]}
-        />
+        /> : <></>
       }
     </>
   );
