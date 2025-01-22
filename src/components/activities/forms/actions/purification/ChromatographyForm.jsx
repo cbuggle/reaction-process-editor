@@ -97,7 +97,6 @@ const ChromatographyForm = (
   const handleChangeDevice = (device) => {
     onWorkupChange({ name: 'device', value: device?.value })
     if (device?.value !== workup.device) { handleChangeMethod(undefined) }
-    onWorkupChange({ name: 'detectors', value: device?.detectors?.map((detector) => detector.value) })
   }
 
   const handleChangeMethod = (method) => {
