@@ -6,12 +6,12 @@ import SamplesDecorator from "../../decorators/SamplesDecorator";
 import StringDecorator from "../../decorators/StringDecorator";
 import MetricsDecorator from "../../decorators/MetricsDecorator";
 
-const SampleBox = ({ material }) => {
+const MaterialBox = ({ material }) => {
   const materialInfo = () => {
     const type =
       material.acts_as === "DIVERSE_SOLVENT"
         ? "Solvent"
-        : StringDecorator.toLabelSpelling(material.acts_as);
+        : StringDecorator.toLabelSpelling(material.acts_as || 'Transfer');
     const amount = MetricsDecorator.infoLineAmount(material.amount);
     return `${type}: ${material.label} (${amount})`;
   };
@@ -36,4 +36,4 @@ const SampleBox = ({ material }) => {
   );
 };
 
-export default SampleBox;
+export default MaterialBox;

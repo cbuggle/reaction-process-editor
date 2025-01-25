@@ -1,4 +1,4 @@
-import { chmoId } from "./chmoId"
+import { ontologyId } from "./ontologyId"
 
 export const actionTypeClusters = [
   {
@@ -56,7 +56,7 @@ export const actionTypeClusters = [
         createLabel: 'From Reaction',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_REACTION', automation: 'AUTOMATED' }
+          workup: { origin_type: 'FROM_REACTION', automation_mode: 'AUTOMATED' }
         }
       },
       {
@@ -64,7 +64,7 @@ export const actionTypeClusters = [
         createLabel: 'From Reaction Step',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_REACTION_STEP', automation: 'AUTOMATED' }
+          workup: { origin_type: 'FROM_REACTION_STEP', automation_mode: 'AUTOMATED' }
         }
       },
       {
@@ -72,7 +72,7 @@ export const actionTypeClusters = [
         createLabel: 'From Sample',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_SAMPLE', automation: 'AUTOMATED' }
+          workup: { origin_type: 'FROM_SAMPLE', automation_mode: 'AUTOMATED' }
         }
       },
       {
@@ -80,7 +80,7 @@ export const actionTypeClusters = [
         createLabel: 'Diverse Solvents',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'DIVERSE_SOLVENTS', automation: 'AUTOMATED' }
+          workup: { origin_type: 'DIVERSE_SOLVENTS', automation_mode: 'AUTOMATED' }
         }
       },
       {
@@ -88,7 +88,7 @@ export const actionTypeClusters = [
         createLabel: 'Stepwise',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'STEPWISE', automation: 'AUTOMATED' }
+          workup: { origin_type: 'STEPWISE', automation_mode: 'AUTOMATED' }
         }
       },
       {
@@ -96,7 +96,7 @@ export const actionTypeClusters = [
         createLabel: 'From Method',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_METHOD', automation: 'AUTOMATED' }
+          workup: { origin_type: 'FROM_METHOD', automation_mode: 'AUTOMATED' }
         }
       },
     ]
@@ -112,7 +112,7 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'FILTRATION',
-            automation: 'AUTOMATED',
+            automation_mode: 'AUTOMATED',
             filtration_mode: 'KEEP_PRECIPITATE'
           }
         }
@@ -124,7 +124,7 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'EXTRACTION',
-            automation: 'AUTOMATED',
+            automation_mode: 'AUTOMATED',
             phase: 'ORGANIC'
           }
         }
@@ -136,9 +136,9 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'CHROMATOGRAPHY', // supportive? soon unused?
-            action: chmoId.action.purification,
-            class: chmoId.class.chromatography,
-            automation_mode: chmoId.automation_mode.automated
+            action: ontologyId.action.purification,
+            class: ontologyId.class.chromatography,
+            automation_mode: ontologyId.automation_modes.automated
           }
         }
       },
@@ -149,7 +149,7 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'CRYSTALLIZATION',
-            automation: 'AUTOMATED'
+            automation_mode: 'AUTOMATED'
           }
         }
       },
@@ -166,9 +166,9 @@ export const actionTypeClusters = [
           activity_name: 'ANALYSIS',
           workup: {
             analysis_type: 'CHROMATOGRAPHY', // soon unused
-            action: chmoId.action.analysis,
-            class: chmoId.class.chromatography,
-            automation_mode: chmoId.automation_mode.automated
+            action: ontologyId.action.analysis,
+            class: ontologyId.class.chromatography,
+            automation_mode: ontologyId.automation_modes.automated
           }
         }
       },
@@ -178,9 +178,9 @@ export const actionTypeClusters = [
         activity: {
           activity_name: 'ANALYSIS',
           workup: {
-            action: chmoId.action.analysis,
-            class: chmoId.class.spectroscopy,
-            automation_mode: chmoId.automation_mode.automated,
+            action: ontologyId.action.analysis,
+            class: ontologyId.class.spectroscopy,
+            automation_mode: ontologyId.automation_modes.automated,
             analysis_type: 'SPECTROSCOPY'
           }
         }

@@ -22,8 +22,8 @@ const CrystallizationForm = (
   const crystallizationOptions = useContext(SelectOptions).FORMS.PURIFICATION.CRYSTALLIZATION
 
   useEffect(() => {
-    workup.automation ||
-      onWorkupChange({ name: 'automation', value: crystallizationOptions.automation_modes[0].value })
+    workup.automation_mode ||
+      onWorkupChange({ name: 'automation_mode', value: crystallizationOptions.automation_modes[0].value })
     workup.TEMPERATURE ||
       onWorkupChange({ name: 'TEMPERATURE', value: preconditions.TEMPERATURE })
     workup.crystallization_mode ||
@@ -45,9 +45,9 @@ const CrystallizationForm = (
     <>
       <FormSection type='action'>
         <ButtonGroupToggle
-          value={workup.automation}
+          value={workup.automation_mode}
           options={crystallizationOptions.automation_modes}
-          onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
+          onChange={selectedValue => onWorkupChange({ name: 'automation_mode', value: selectedValue })}
           label='Automation'
         />
       </FormSection>

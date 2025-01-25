@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import InfoLinesBox from './InfoLinesBox';
 
-import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
+import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 import PurificationDecorator from '../../../../../decorators/PurificationDecorator';
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
@@ -14,9 +14,11 @@ const AnalysisInfo = ({ activity }) => {
 	let steps = workup["purification_steps"] || [];
 
 	const purificationOptions = useContext(SelectOptions).FORMS.ANALYSIS[workup.analysis_type] || {};
+	const ontologies = useContext(SelectOptions).ontologies;
 
-	const addAutomationToTitle = () => {
-		infoTitle += " " + OptionsDecorator.valueToLabel(workup.automation, purificationOptions.automation_modes);
+	const addOntologyAutomationToTitle = () => {
+		infoTitle += " "
+		infoTitle += OntologiesDecorator.labelForOntologyId(workup.automation_mode, ontologies)
 	}
 
 	const addStepsToTitle = () => {
@@ -33,7 +35,7 @@ const AnalysisInfo = ({ activity }) => {
 	switch (workup.analysis_type) {
 		case "CHROMATOGRAPHY":
 			addStepsToTitle()
-			addAutomationToTitle()
+			addOntologyAutomationToTitle()
 			addPurificationSolventsToLines()
 			break;
 		case "SPECTROSCOPY":
@@ -44,7 +46,7 @@ const AnalysisInfo = ({ activity }) => {
 	}
 
 	return (
-		<InfoLinesBox title={infoTitle} lines={infoLines} description={workup.description} />
+		<InfoLinesBox title={infoTitle} lines={infoLines} />
 	)
 }
 

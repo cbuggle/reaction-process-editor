@@ -23,7 +23,7 @@ const SaveInfo = ({ activity }) => {
 	infoLines.push(workup.location);
 
 	return (
-		<InfoLinesBox title={infoTitle} lines={infoLines} description={workup.description} />
+		<InfoLinesBox title={infoTitle} lines={infoLines} />
 	)
 }
 

@@ -7,7 +7,7 @@ import MetricsDecorator from '../../../../../decorators/MetricsDecorator';
 const TransferInfo = ({ activity }) => {
 	let workup = activity.workup
 	let infoTitle = activity.sample ?
-		workup.intermediate_type + " " + (activity.sample.name || activity.sample.short_label)
+		activity.sample.intermediate_type + " " + (activity.sample.name || activity.sample.short_label)
 		: ""
 
 	let infoLines = []

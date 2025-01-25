@@ -36,7 +36,7 @@ const ActivityInfo = (props) => {
       return (<ActivityComponent {...props} />
       )
     } else {
-      return "Error in ActivityInfo. Unknown activity type: "+ activity.activity_name
+      return "Error in ActivityInfo. Unknown activity type: " + activity.activity_name
     }
   };
 
@@ -44,7 +44,7 @@ const ActivityInfo = (props) => {
     return ActivityInfoDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment)
   }
 
-  const renderDescription = () => {
+  const renderWorkupDescription = () => {
     return workup.description ?
       <p className="activity-info__description">
         {workup.description}
@@ -57,7 +57,7 @@ const ActivityInfo = (props) => {
       <div className="activity-info__text-block">
         {renderActivityInfo()}
         {renderEquipmentLines()}
-        {renderDescription()}
+        {renderWorkupDescription()}
       </div>
     </div>
   </>
