@@ -11,7 +11,7 @@ import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
-import { chmoId } from '../../../../../constants/chmoId'
+import { ontologyId } from '../../../../../constants/ontologyId'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
@@ -23,7 +23,7 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 
 	const handleChangeAutomation = (automation) => {
-		if (automation !== chmoId.automation_mode.automated) {
+		if (automation !== ontologyId.automation_modes.automated) {
 			onWorkupChange({ name: 'method', value: undefined })
 		}
 		onWorkupChange({ name: 'automation_mode', value: automation })

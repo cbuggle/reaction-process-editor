@@ -37,9 +37,9 @@ const FiltrationForm = (
   const renderAutomationToggle = () => {
     return (
       <ButtonGroupToggle
-        value={workup.automation}
+        value={workup.automation_mode}
         options={filtrationOptions.automation_modes}
-        onChange={selectedValue => onWorkupChange({ name: 'automation', value: selectedValue })}
+        onChange={selectedValue => onWorkupChange({ name: 'automation_mode', value: selectedValue })}
         label='Automation'
       />
     )

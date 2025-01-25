@@ -34,7 +34,7 @@ const RemoveFromMethodForm = ({
 			{activitySteps.map((step, idx) =>
 				<RemoveConditionsFormSet
 					key={'remove-step-' + idx + '-' + activitySteps.length}
-					label={'Limits Step ' + (idx + 1)}
+					label={'Limits Step ' + (idx + 1) + ":"}
 					index={idx}
 					preconditions={activitySteps.at(idx - 1) || workup.starter_conditions || preconditions}
 					workup={step}

@@ -19,7 +19,7 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-import { chmoId } from '../../../../../constants/chmoId'
+import { ontologyId } from '../../../../../constants/ontologyId'
 
 const AnalysisChromatographyForm = (
   {
@@ -33,7 +33,7 @@ const AnalysisChromatographyForm = (
     onDeleteStep
   }) => {
 
-  const isAutomated = workup.automation_mode === chmoId.automation_mode.automated
+  const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
   const ontologies = useContext(SelectOptions).ontologies
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
@@ -51,7 +51,7 @@ const AnalysisChromatographyForm = (
   }
   const currentDetectorsOptions = OptionsDecorator.optionsForValues(workup.detectors, currentDeviceOption?.detectors)
   const filteredMethodOptions = filterMethodsByDetectors(workup.detectors, currentDeviceOption?.methods)
-  const filteredDetectorOptions = OntologiesDecorator.findAllByChmoId(currentDeviceOption?.detectors?.map(d => d.value), ontologies)
+  const filteredDetectorOptions = OntologiesDecorator.findAllByontologyId(currentDeviceOption?.detectors?.map(d => d.value), ontologies)
 
   const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhaseOption?.analysis_defaults?.[analysisType]
 
@@ -75,18 +75,18 @@ const AnalysisChromatographyForm = (
 
   const handleChangeAutomation = (automation) => {
     switch (automation) {
-      case chmoId.automation_mode.automated:
+      case ontologyId.automation_modes.automated:
         handleChangeDevice(currentDeviceOption)
         setMethodAnalysisDefaults(currentMethodOption)
         setStationaryPhaseDefaults(currentStationaryPhaseOption)
         onWorkupChange({ name: 'mobile_phase', value: undefined })
         break;
-      case chmoId.automation_mode.semiAutomated:
+      case ontologyId.automation_modes.semiAutomated:
         handleChangeDevice(currentDeviceOption)
         onWorkupChange({ name: 'method', value: undefined })
         onWorkupChange({ name: 'stationary_phase', value: undefined })
         break;
-      case chmoId.automation_mode.manual:
+      case ontologyId.automation_modes.manual:
         handleChangeDevice(undefined)
         break;
       default:
@@ -142,8 +142,8 @@ const AnalysisChromatographyForm = (
 
   const renderAutomationSpecificFields = () => {
     switch (workup.automation_mode) {
-      case chmoId.automation_mode.automated:
-      case chmoId.automation_mode.semiAutomated:
+      case ontologyId.automation_modes.automated:
+      case ontologyId.automation_modes.semiAutomated:
         return (
           <>
             <SelectFormGroup
@@ -215,7 +215,7 @@ const AnalysisChromatographyForm = (
               disabled={isAutomated}
             />
           </>)
-      case chmoId.automation_mode.manual:
+      case ontologyId.automation_modes.manual:
         return (
           <>
             <SelectFormGroup

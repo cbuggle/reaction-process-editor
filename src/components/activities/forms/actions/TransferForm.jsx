@@ -33,7 +33,6 @@ const TransferForm = (
     if (newSample) {
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
-      onWorkupChange({ name: 'sample_name', value: newSample.label })
       newSample?.amount?.value && onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
     }

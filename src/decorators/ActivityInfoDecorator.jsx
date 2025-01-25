@@ -106,8 +106,8 @@ export default class ActivityInfoDecorator {
 
   static infoLineRemoveConditions = (conditions) => {
     return [
-      MetricsDecorator.infoLineAmount(conditions?.TEMPERATURE),
-      MetricsDecorator.infoLineAmount(conditions?.PRESSURE),
+      MetricsDecorator.infoAmount(conditions?.TEMPERATURE),
+      MetricsDecorator.infoAmount(conditions?.PRESSURE),
       conditions?.duration && TimeDecorator.timeString(conditions?.duration)
     ].filter((item) => (item)).join(", ");
   }

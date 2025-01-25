@@ -6,6 +6,7 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import PurificationDecorator from '../../../../../decorators/PurificationDecorator'
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
+import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 
 const PurificationInfo = ({ activity }) => {
 
@@ -17,16 +18,18 @@ const PurificationInfo = ({ activity }) => {
 	const purificationOptions = useContext(SelectOptions).FORMS.PURIFICATION[workup.purification_type];
 	const ontologies = useContext(SelectOptions).ontologies;
 
-	const isCristallization = workup.purification_type === 'CRYSTALLIZATION'
+	const addOntologyAutomationToTitle = () => {
+		infoTitle += " "
+		infoTitle += OntologiesDecorator.labelForOntologyId(workup.automation_mode, ontologies)
+	}
 
 	const addAutomationToTitle = () => {
 		infoTitle += " "
-		infoTitle += OptionsDecorator.valueToLabel(workup.mode, purificationOptions.automation_modes) ||
-			OptionsDecorator.valueToLabel(workup.mode, ontologies)
+		infoTitle += OptionsDecorator.valueToLabel(workup.automation_mode, purificationOptions.automation_modes)
 	}
 
 	const addStepsToTitle = () => {
-		if (!isCristallization && steps) {
+		if (steps) {
 			infoTitle += steps.length + " Step";
 			if (steps.length > 1) { infoTitle += "s"; }
 		}
@@ -38,14 +41,17 @@ const PurificationInfo = ({ activity }) => {
 
 	switch (workup.purification_type) {
 		case "CRYSTALLIZATION":
+			addAutomationToTitle()
+			addPurificationSolventsToLines()
+			break;
 		case "CHROMATOGRAPHY":
 			addStepsToTitle()
-			addAutomationToTitle()
+			addOntologyAutomationToTitle()
 			addPurificationSolventsToLines()
 			break;
 		case "EXTRACTION":
 			addStepsToTitle()
-			infoTitle += " " + workup.automation.toLowerCase() + ", Phase: " + workup.phase.toLowerCase();
+			infoTitle += " " + workup.automation_mode.toLowerCase() + ", Phase: " + workup.phase.toLowerCase();
 			addPurificationSolventsToLines()
 			break;
 		case "FILTRATION":
@@ -61,7 +67,7 @@ const PurificationInfo = ({ activity }) => {
 	}
 
 	return (
-		<InfoLinesBox title={infoTitle} lines={infoLines} description={workup.description} />
+		<InfoLinesBox title={infoTitle} lines={infoLines} />
 	)
 }
 
