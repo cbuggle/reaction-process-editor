@@ -223,9 +223,9 @@ const AnalysisChromatographyForm = (
               // The key is required when switching to manual else the selected device will be retained in the materials select!
               // Even though the label gets updated the selected value does not. React state handling facepalm.
               label='Material'
-              options={filteredOntologiesForRole('material_engineering')}
-              value={workup.engineering_material}
-              onChange={handleSelectChange('jar_material')}
+              options={filteredOntologiesForRole('material')}
+              value={workup.material}
+              onChange={handleSelectChange('material')}
             />
             {filteredOntologiesForRole('stationary_phase')?.length > 0 ?
               <SelectFormGroup
