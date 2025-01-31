@@ -6,6 +6,9 @@ import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
 import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
 
+import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
+import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
+
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 
