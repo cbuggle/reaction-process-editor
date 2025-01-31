@@ -9,8 +9,8 @@ export const ontologyId = {
 		spectroscopy: 'CHMO:0000228',
 	},
 	automation_modes: {
-		manual: "CPOKIT:0000001",
-		semiAutomated: "CPOKIT:0000002",
-		automated: "CPOKIT:0000003"
+		manual: "NCIT:C63513",
+		semiAutomated: "NCIT:C172484",
+		automated: "NCIT:C70669"
 	},
 }

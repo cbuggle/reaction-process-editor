@@ -6,6 +6,9 @@ import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
 import SelectFormGroup from '../../formgroups/SelectFormGroup'
 import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
+import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
+import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
+
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 
@@ -16,11 +19,7 @@ import { ontologyId } from '../../../../../constants/ontologyId'
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
 
-	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByDependencies({ roleName: roleName, options: ontologies, workup: workup })
-
-	const currentType = OptionsDecorator.inclusiveOptionForValue(workup.type, filteredOntologiesForRole('type'))
-	const currentSubtype = OptionsDecorator.inclusiveOptionForValue(workup.subtype, filteredOntologiesForRole('subtype'))
-
+	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
 	const handleChangeAutomation = (automation) => {
 		if (automation !== ontologyId.automation_modes.automated) {
@@ -30,7 +29,7 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	}
 
 	const handleChangeType = (newType) => {
-		onWorkupChange({ name: 'type', value: newType.value })
+		onWorkupChange({ name: 'type', value: newType?.value })
 		handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesForRole('subtype')))
 	}
 
@@ -39,43 +38,40 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	}
 
 	const handleChangeDetectors = (detectors) => {
-		onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
+		onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
 	}
 
 	return (
 		<FormSection>
-			<ButtonGroupToggle value={workup.automation_mode} options={filteredOntologiesForRole('automation_mode')}
+			<ButtonGroupToggle
+				value={workup.automation_mode}
+				options={filteredOntologiesForRole('automation_mode')}
 				onChange={handleChangeAutomation} />
-			<SelectFormGroup
-				label={'Type'}
-				options={OptionsDecorator.inclusiveOptions(currentType, filteredOntologiesForRole('type'))}
-				value={workup.type}
+
+			<OntologySelectFormGroup
+				key={"type" + workup.type}
+				roleName={'type'}
+				workup={workup}
 				onChange={handleChangeType}
 			/>
-			<SelectFormGroup
+			<OntologySelectFormGroup
 				key={"subtype" + workup.subtype}
-				label={'Subtype'}
-				options={OptionsDecorator.inclusiveOptions(currentSubtype, filteredOntologiesForRole('subtype'))}
-				value={workup.subtype}
+				roleName={'subtype'}
+				workup={workup}
 				onChange={handleChangeSubType}
 			/>
-			<SingleLineFormGroup label='Device'>
-				<Select
-					className="react-select--overwrite"
-					classNamePrefix="react-select"
-					options={filteredOntologiesForRole('device')}
-					selected={OptionsDecorator.inclusiveOptionForValue(workup.device, filteredOntologiesForRole('device'))}
-					onChange={selected => onWorkupChange({ name: 'device', value: selected.value })}
-				/>
-			</SingleLineFormGroup>
-			<SelectFormGroup
-				key={"detectors" + workup.detectors}
-				label={"Detectors"}
-				options={filteredOntologiesForRole('detector')}
-				value={workup.detectors}
+			<OntologySelectFormGroup
+				key={"device" + workup.device}
+				roleName={'device'}
+				workup={workup}
+				onChange={selected => onWorkupChange({ name: 'device', value: selected?.value })}
+			/>
+			<OntologyMultiSelectFormGroup
+				key={"detector" + workup.detector}
+				label={'Detectors'}
+				roleName={'detector'}
+				workup={workup}
 				onChange={handleChangeDetectors}
-				isMulti
-				isClearable={false}
 			/>
 		</FormSection>
 	)

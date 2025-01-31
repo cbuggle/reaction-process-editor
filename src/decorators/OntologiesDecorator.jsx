@@ -1,9 +1,17 @@
 export default class OntologiesDecorator {
 
-  static labelForOntologyId = (ontologyId, ontologies) => this.find_by(ontologyId, ontologies)?.label
+  static labelForOntologyId = ({ ontologyId, ontologies }) =>
+    this.findByOntologyId({ ontologyId: ontologyId, ontologies: ontologies })?.label
 
-  static filterByDependencies = ({ roleName, workup, options }) => {
+  static findByOntologyId = ({ ontologyId, ontologies }) =>
+    ontologyId && ontologies?.find(option => ontologyId === option.ontology_id)
 
+  static findAllByOntologyIds = ({ ontologyIds, ontologies }) =>
+    ontologies.filter(option => ontologyIds?.includes(option.ontology_id))
+
+  static createUnavailableOption = ({ ontologyId }) => ontologyId && { value: ontologyId, label: ontologyId, unavailable: true, roles: [] }
+
+  static activeOptionsMeetingDependencies = ({ roleName, workup, options }) => {
     return options.filter((option) => {
       let roles = option.roles[roleName]
 
@@ -15,9 +23,36 @@ export default class OntologiesDecorator {
     })
   }
 
-  static find_by = (ontology_id, options) => options.find(option => option.ontology_id === ontology_id)
-  static findAllByontologyId = (ontology_ids, options) => options.filter(option => ontology_ids?.includes(option.ontology_id))
+  static selectableOptions = ({ roleName, options, ontologies, workup }) => {
+    options ||= ontologies
+    let currentValue = workup[roleName]
+    let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
 
-  static find_all_by = (ontology_ids, options) => options.filter(option => ontology_ids?.includes(option.ontology_id))
+    if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
+      let missingCurrentOption =
+        this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
+        || this.createUnavailableOption({ ontologyId: currentValue })
 
+      activeDependencyOptions.push({ ...missingCurrentOption, unmetDependency: true })
+    }
+    return activeDependencyOptions
+  }
+
+  static selectableMultiOptions = ({ roleName, ontologies, options, workup }) => {
+    options ||= ontologies
+
+    let currentValues = workup[roleName]
+    let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
+
+    currentValues?.forEach(currentValue => {
+      if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
+        let missingCurrentOption = this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
+          || this.createUnavailableOption({ ontologyId: currentValue })
+
+        activeDependencyOptions.push({ ...missingCurrentOption, unmetDependency: true })
+      }
+    }
+    )
+    return activeDependencyOptions
+  }
 }

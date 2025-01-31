@@ -33,7 +33,7 @@ const SelectFormGroup = (
     }
   }
 
-  let tooltip = selected?.unavailable && tooltips['selection_unavailable']
+  let tooltip = selected?.unavailable && tooltips['selection_unmet_dependency']
 
   return (<>
     <SingleLineFormGroup

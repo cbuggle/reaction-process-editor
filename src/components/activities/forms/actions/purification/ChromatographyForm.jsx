@@ -6,6 +6,8 @@ import ChromatographyStepForm from "./ChromatographyStepForm";
 import ButtonGroupToggle from "../../formgroups/ButtonGroupToggle";
 import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
+import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup';
+import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup.jsx';
 import SelectFormGroup from '../../formgroups/SelectFormGroup';
 import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup';
 
@@ -21,6 +23,7 @@ import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { ontologyId } from '../../../../../constants/ontologyId'
 
+
 const ChromatographyForm = (
   {
     workup,
@@ -33,6 +36,7 @@ const ChromatographyForm = (
     onDeleteStep
   }) => {
 
+
   const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
   const ontologies = useContext(SelectOptions).ontologies
 
@@ -40,24 +44,28 @@ const ChromatographyForm = (
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
-  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.filterByDependencies({ roleName: roleName, options: ontologies, workup: workup })
+  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }
     return (detectors?.length > 0) ?
-      methods.filter((method) => method.detectors.every(method_detector => detectors.includes(method_detector.value)))
+      methods.filter((method) => detectors.every(detector => method.detectors?.map(item => item.value)?.includes(detector)))
       :
       methods
   }
-  const currentDetectorsOptions = OptionsDecorator.optionsForValues(workup.detectors, currentDeviceOption?.detectors)
-  const filteredMethodOptions = filterMethodsByDetectors(workup.detectors, currentDeviceOption?.methods)
-  const filteredDetectorOptions = OntologiesDecorator.findAllByontologyId(currentDeviceOption?.detectors?.map(d => d.value), ontologies)
+  const currentDetectorsOptions = OptionsDecorator.optionsForValues(workup.detector, currentDeviceOption?.detectors)
+  const filteredMethodOptions = filterMethodsByDetectors(workup.detector, currentDeviceOption?.methods)
+  const filteredDetectorOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: currentDeviceOption?.detectors?.map(d => d.value), ontologies: ontologies })
 
   const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhaseOption?.analysis_defaults?.[analysisType]
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
   const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
+
+  const handleMultiSelectChange = (workupKey) => (selected) => {
+    onWorkupChange({ name: workupKey, value: selected?.map(item => item.value) })
+  }
 
   const handleChangeType = (newType) => {
     if (newType?.value !== workup.type) {
@@ -88,6 +96,7 @@ const ChromatographyForm = (
         break;
       case ontologyId.automation_modes.manual:
         handleChangeDevice(undefined)
+        onWorkupChange({ name: 'stationary_phase', value: undefined })
         break;
       default:
     }
@@ -107,7 +116,7 @@ const ChromatographyForm = (
     handleChangeStationaryPhase(method?.stationary_phase?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
 
-    workup.detectors?.length > 0 || onWorkupChange({ name: 'detectors', value: method?.detectors?.map(el => el.value) })
+    workup.detector?.length > 0 || onWorkupChange({ name: 'detector', value: method?.detectors?.map(el => el.value) })
   }
 
   const handleChangeStationaryPhase = (phase) => {
@@ -116,7 +125,7 @@ const ChromatographyForm = (
   }
 
   const handleChangeDetectors = (detectors) => {
-    onWorkupChange({ name: 'detectors', value: detectors?.map(detector => detector.value) })
+    onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
     isAutomated && setMethodAnalysisDefaults(currentMethodOption)
   }
 
@@ -140,37 +149,46 @@ const ChromatographyForm = (
     onWorkupChange({ name: 'STATIONARY_PHASE_TEMPERATURE', value: phase?.analysis_defaults?.['TEMPERATURE'] })
   }
 
+  const mobilePhasePlaceHolder = isAutomated ? "Depends on Method" : workup.device ? "Please Select" : "Depends on Device"
+
   const renderAutomationSpecificFields = () => {
     switch (workup.automation_mode) {
       case ontologyId.automation_modes.automated:
       case ontologyId.automation_modes.semiAutomated:
         return (
           <>
-            <SelectFormGroup
+            <OntologySelectFormGroup
               key={"device" + workup.device}
-              // The key is required  when switching to automate else the selected material will be retained in the devices select!
-              // Even though the label gets updated the selected value does not. React state handling facepalm.
-              label={'Device'}
-              options={filteredOntologiesForRole('device')}
-              value={workup.device}
+              roleName={'device'}
+              workup={workup}
               onChange={handleChangeDevice}
             />
-            <SelectFormGroup
-              label={"Detectors"}
-              options={filteredDetectorOptions}
-              value={workup.detectors}
+
+            <OntologyMultiSelectFormGroup
+              key={"detector" + workup.detector}
+              label={'Detectors'}
+              roleName={'detector'}
+              workup={workup}
               onChange={handleChangeDetectors}
-              isMulti
-              isClearable={false}
+              restrictedOptions={filteredDetectorOptions}
+            />
+            <OntologyMultiSelectFormGroup
+              key={"mobile_phase" + workup.mobile_phase}
+              roleName={'mobile_phase'}
+              workup={workup}
+              onChange={handleMultiSelectChange('mobile_phase')}
+              // restrictedOptions={currentMethodOption?.mobile_phase}
+              placeholder={mobilePhasePlaceHolder}
+              disabled={isAutomated || !workup.device}
             />
             <SelectFormGroup
-              key={"mobile_phase" + workup.mobile_phase}
+              key={"mobile_phases" + workup.mobile_phase}
               label={"Mobile Phases"}
               options={currentMethodOption?.mobile_phase || filteredOntologiesForRole('mobile_phase')}
               value={workup.mobile_phase}
-              onChange={handleSelectChange('mobile_phase')}
+              onChange={handleMultiSelectChange('mobile_phase')}
               isMulti
-              placeholder={isAutomated ? "Depends on Method" : workup.device ? "Please Select" : "Depends on Device"}
+              placeholder={mobilePhasePlaceHolder}
               isClearable={false}
               disabled={isAutomated || !workup.device}
             />
@@ -182,22 +200,30 @@ const ChromatographyForm = (
                   options={filteredMethodOptions}
                   value={workup.method}
                   onChange={handleChangeMethod}
+                  isClearable
                 />
                 <FormGroup>
                   {currentMethodOption?.description}
                 </FormGroup>
               </>}
-            {isAutomated ?
-              <>{"Stationary Phases " + (workup.stationary_phase || "-")}</>
-              :
-              <SelectFormGroup
+            {/* <SelectFormGroup
+              key={"stationary_phase1" + workup.stationary_phase}
+              label={"Stationary Phases old"}
+              options={currentDeviceOption?.stationary_phase || filteredOntologiesForRole('stationary_phase')}
+              value={workup.stationary_phase}
+              onChange={handleChangeStationaryPhase}
+            /> */}
+            {isAutomated ||
+              <OntologySelectFormGroup
                 key={"stationary_phase" + workup.stationary_phase}
-                label={"Stationary Phases"}
-                options={currentMethodOption?.stationary_phase || filteredOntologiesForRole('stationary_phase')}
-                value={workup.stationary_phase}
+                roleName={'stationary_phase'}
+                options={currentDeviceOption?.stationary_phase}
+                workup={workup}
                 onChange={handleChangeStationaryPhase}
               />
             }
+            <>{(isAutomated ? "Stationary Phase " : '') + (workup.stationary_phase || "-")}</>
+
             {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
               <MetricsInputFormGroup
                 label={'Stat. Phases Temp'}
@@ -218,22 +244,18 @@ const ChromatographyForm = (
       case ontologyId.automation_modes.manual:
         return (
           <>
-            <SelectFormGroup
-              key={"material" + workup.material_engineering}
-              // The key is required when switching to manual else the selected device will be retained in the materials select!
-              // Even though the label gets updated the selected value does not. React state handling facepalm.
-              label='Material'
-              options={filteredOntologiesForRole('material')}
-              value={workup.material}
+            <OntologySelectFormGroup
+              key={"material" + workup.material}
+              roleName={'material'}
+              workup={workup}
               onChange={handleSelectChange('material')}
             />
 
             {filteredOntologiesForRole('stationary_phase')?.length > 0 ?
-              <SelectFormGroup
+              <OntologySelectFormGroup
                 key={"stationary_phase" + workup.stationary_phase}
-                label={"Stationary Phases"}
-                options={currentMethodOption?.stationary_phase || filteredOntologiesForRole('stationary_phase')}
-                value={workup.stationary_phase}
+                roleName={'stationary_phase'}
+                workup={workup}
                 onChange={handleChangeStationaryPhase}
               /> :
               <SingleLineFormGroup
@@ -285,26 +307,32 @@ const ChromatographyForm = (
     )
   }
 
+  console.log("ChromatographyForm")
+  console.log(workup)
+  console.log(currentDeviceOption)
+
   return (
     <>
       <FormSection type='action'>
         <Label>Mode</Label>
+        {workup.automation_mode}
+        {isAutomated ? "automated" : "manual"}
+
         <ButtonGroupToggle
           value={workup.automation_mode}
           options={filteredOntologiesForRole('automation_mode')}
           onChange={handleChangeAutomation} />
-        <SelectFormGroup
+
+        <OntologySelectFormGroup
           key={"type" + workup.type}
-          label={'Type'}
-          options={filteredOntologiesForRole('type')}
-          value={workup.type}
+          roleName={'type'}
+          workup={workup}
           onChange={handleChangeType}
         />
-        <SelectFormGroup
-          key={"subtype" + workup.subtype}
-          label={'Subtype'}
-          options={filteredOntologiesForRole('subtype')}
-          value={workup.subtype}
+        <OntologySelectFormGroup
+          key={"subtype" + workup.subtype + "type" + workup.type}
+          roleName={'subtype'}
+          workup={workup}
           onChange={handleChangeSubType}
         />
         {renderAutomationSpecificFields()}
