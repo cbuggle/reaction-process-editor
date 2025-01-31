@@ -116,7 +116,7 @@ const ChromatographyForm = (
     handleChangeStationaryPhase(method?.stationary_phase?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
 
-    workup.detector?.length > 0 || onWorkupChange({ name: 'detector', value: method?.detectors?.map(el => el.value) })
+    onWorkupChange({ name: 'detector', value: method?.detectors?.map(el => el.value) })
   }
 
   const handleChangeStationaryPhase = (phase) => {
@@ -170,15 +170,16 @@ const ChromatographyForm = (
               roleName={'detector'}
               workup={workup}
               onChange={handleChangeDetectors}
-              restrictedOptions={filteredDetectorOptions}
+            // restrictedOptions={filteredDetectorOptions}
             />
             <OntologyMultiSelectFormGroup
               key={"mobile_phase" + workup.mobile_phase}
               roleName={'mobile_phase'}
               workup={workup}
               onChange={handleMultiSelectChange('mobile_phase')}
+              options={currentMethodOption?.mobile_phase}
               // restrictedOptions={currentMethodOption?.mobile_phase}
-              placeholder={mobilePhasePlaceHolder}
+              // placeholder={mobilePhasePlaceHolder}
               disabled={isAutomated || !workup.device}
             />
             <SelectFormGroup
@@ -315,8 +316,8 @@ const ChromatographyForm = (
     <>
       <FormSection type='action'>
         <Label>Mode</Label>
-        {workup.automation_mode}
-        {isAutomated ? "automated" : "manual"}
+        {/* {workup.automation_mode}
+        {isAutomated ? "automated" : "manual"} */}
 
         <ButtonGroupToggle
           value={workup.automation_mode}

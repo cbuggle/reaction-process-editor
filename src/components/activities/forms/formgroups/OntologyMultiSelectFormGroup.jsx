@@ -17,34 +17,26 @@ const OntologyMultiSelectFormGroup = (
     disabled,
     placeholder,
     tooltip,
-    restrictedOptions
+    options
   }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
 
-  restrictedOptions = restrictedOptions?.length > 1 ? restrictedOptions : ontologies
+  options ||= ontologies
 
   let value = workup[roleName]
 
-  let dependencyOptions = OntologiesDecorator.activeOptionsMeetingDependencies({ options: restrictedOptions, roleName: roleName, workup: workup })
-  let selectableOptions = OntologiesDecorator.selectableMultiOptions({ ontologies: restrictedOptions, roleName: roleName, workup: workup })
+  let selectableOptions = OntologiesDecorator.selectableMultiOptions({ options: options, ontologies: ontologies, roleName: roleName, workup: workup })
 
-  let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: ontologies })
+  let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptions })
 
   const inactiveSelection = (selected) => selected.find(item => item.inactive)
   const unavailableSelection = (selected) => selected.find(item => item.unavailable)
+  const unmetDependencies = (selected) => selected.find(item => item.unmetDependency)
 
   tooltip = tooltip || ""
 
-  // Temporarily commented; Actual Lab data has some detector settings that would always trigger dependency warning,
-  // to my understanding as they represent two different labs. cbuggle, 29.01.2025.
-  //
-  const violatesDependencies = (selected, dependencies) => {
-    let depValues = dependencies.map(dep => dep.value)
-    return selected.find(item => !depValues.includes(item.value))
-  }
-
-  if (violatesDependencies(selectedOptions, dependencyOptions)) {
+  if (unmetDependencies(selectedOptions)) {
     tooltip += tooltips['selection_unmet_dependency']
   }
 
@@ -56,6 +48,14 @@ const OntologyMultiSelectFormGroup = (
   }
 
   label ||= StringDecorator.toLabelSpelling(roleName) // || value
+  // label = value
+
+  if (roleName === 'mobile_phase') {
+    console.log("MultiSelectFormGroup " + roleName)
+    console.log(value)
+    console.log(selectedOptions)
+  }
+
   return (<>
     <SingleLineFormGroup
       label={label}
@@ -71,7 +71,7 @@ const OntologyMultiSelectFormGroup = (
         isClearable={false}
         placeholder={placeholder}
         isDisabled={disabled}
-        isMulti={true}
+        isMulti
       />
     </SingleLineFormGroup>
   </>

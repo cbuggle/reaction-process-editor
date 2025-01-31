@@ -9,7 +9,7 @@ export default class OntologiesDecorator {
   static findAllByOntologyIds = ({ ontologyIds, ontologies }) =>
     ontologies.filter(option => ontologyIds?.includes(option.ontology_id))
 
-  static createUnavailableOption = ({ ontologyId }) => ontologyId && { value: ontologyId, label: ontologyId, unavailable: true, roles: [] }
+  static createUnavailableOption = ({ ontologyId }) => ontologyId && { ontology_id: ontologyId, value: ontologyId, label: ontologyId, unavailable: true, roles: [] }
 
   static activeOptionsMeetingDependencies = ({ roleName, workup, options }) => {
     return options.filter((option) => {
@@ -28,10 +28,14 @@ export default class OntologiesDecorator {
     let currentValue = workup[roleName]
     let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
 
+
     if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
       let missingCurrentOption =
         this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
         || this.createUnavailableOption({ ontologyId: currentValue })
+
+      console.log("append missingCurrentOption")
+      console.log(missingCurrentOption)
 
       activeDependencyOptions.push({ ...missingCurrentOption, unmetDependency: true })
     }
@@ -40,9 +44,13 @@ export default class OntologiesDecorator {
 
   static selectableMultiOptions = ({ roleName, ontologies, options, workup }) => {
     options ||= ontologies
-
     let currentValues = workup[roleName]
     let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
+
+    console.log("selectableMultiOptions " + roleName)
+    console.log(currentValues)
+    console.log(options)
+    console.log(activeDependencyOptions)
 
     currentValues?.forEach(currentValue => {
       if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
@@ -53,6 +61,7 @@ export default class OntologiesDecorator {
       }
     }
     )
+    console.log(activeDependencyOptions)
     return activeDependencyOptions
   }
 }
