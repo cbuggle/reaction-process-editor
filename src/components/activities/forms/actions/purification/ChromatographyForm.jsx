@@ -8,7 +8,6 @@ import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsForm
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup';
 import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup.jsx';
-import SelectFormGroup from '../../formgroups/SelectFormGroup';
 import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup';
 
 import CreateButton from "../../../../utilities/CreateButton";
@@ -113,10 +112,10 @@ const ChromatographyForm = (
     onWorkupChange({ name: 'inject_volume', value: method?.default_inject_volume })
     onWorkupChange({ name: 'mobile_phase', value: method?.mobile_phase?.map(phase => phase.value) })
     onWorkupChange({ name: 'purification_steps', value: method?.steps })
+    onWorkupChange({ name: 'detector', value: method?.detectors?.map(el => el.value) })
+
     handleChangeStationaryPhase(method?.stationary_phase?.[0])
     isAutomated && setMethodAnalysisDefaults(method)
-
-    onWorkupChange({ name: 'detector', value: method?.detectors?.map(el => el.value) })
   }
 
   const handleChangeStationaryPhase = (phase) => {
@@ -134,7 +133,7 @@ const ChromatographyForm = (
 
     method?.detectors &&
       method.detectors
-        .filter(detector => workup.detectors?.includes(detector.value))
+        .filter(detector => workup.detector?.includes(detector.value))
         .filter(detector => !!detector.analysis_defaults)
         .forEach((detector) => {
           newConditions[detector.value] = {}
@@ -170,50 +169,30 @@ const ChromatographyForm = (
               roleName={'detector'}
               workup={workup}
               onChange={handleChangeDetectors}
-            // restrictedOptions={filteredDetectorOptions}
             />
             <OntologyMultiSelectFormGroup
               key={"mobile_phase" + workup.mobile_phase}
               roleName={'mobile_phase'}
               workup={workup}
               onChange={handleMultiSelectChange('mobile_phase')}
-              options={currentMethodOption?.mobile_phase}
-              // restrictedOptions={currentMethodOption?.mobile_phase}
-              // placeholder={mobilePhasePlaceHolder}
-              disabled={isAutomated || !workup.device}
-            />
-            <SelectFormGroup
-              key={"mobile_phases" + workup.mobile_phase}
-              label={"Mobile Phases"}
-              options={currentMethodOption?.mobile_phase || filteredOntologiesForRole('mobile_phase')}
-              value={workup.mobile_phase}
-              onChange={handleMultiSelectChange('mobile_phase')}
-              isMulti
+              options={currentMethodOption?.mobile_phase || currentDeviceOption?.mobile_phase}
               placeholder={mobilePhasePlaceHolder}
-              isClearable={false}
               disabled={isAutomated || !workup.device}
             />
+
             {isAutomated &&
               <>
-                <SelectFormGroup
+                <OntologySelectFormGroup
                   key={"method" + workup.method}
-                  label={"Method"}
+                  roleName={'method'}
+                  workup={workup}
                   options={filteredMethodOptions}
-                  value={workup.method}
                   onChange={handleChangeMethod}
-                  isClearable
                 />
                 <FormGroup>
                   {currentMethodOption?.description}
                 </FormGroup>
               </>}
-            {/* <SelectFormGroup
-              key={"stationary_phase1" + workup.stationary_phase}
-              label={"Stationary Phases old"}
-              options={currentDeviceOption?.stationary_phase || filteredOntologiesForRole('stationary_phase')}
-              value={workup.stationary_phase}
-              onChange={handleChangeStationaryPhase}
-            /> */}
             {isAutomated ||
               <OntologySelectFormGroup
                 key={"stationary_phase" + workup.stationary_phase}
@@ -308,16 +287,10 @@ const ChromatographyForm = (
     )
   }
 
-  console.log("ChromatographyForm")
-  console.log(workup)
-  console.log(currentDeviceOption)
-
   return (
     <>
       <FormSection type='action'>
         <Label>Mode</Label>
-        {/* {workup.automation_mode}
-        {isAutomated ? "automated" : "manual"} */}
 
         <ButtonGroupToggle
           value={workup.automation_mode}
@@ -378,4 +351,3 @@ const ChromatographyForm = (
 }
 
 export default withActivitySteps(ChromatographyForm, 'purification_steps')
-

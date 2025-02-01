@@ -34,9 +34,6 @@ export default class OntologiesDecorator {
         this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
         || this.createUnavailableOption({ ontologyId: currentValue })
 
-      console.log("append missingCurrentOption")
-      console.log(missingCurrentOption)
-
       activeDependencyOptions.push({ ...missingCurrentOption, unmetDependency: true })
     }
     return activeDependencyOptions
@@ -47,11 +44,6 @@ export default class OntologiesDecorator {
     let currentValues = workup[roleName]
     let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
 
-    console.log("selectableMultiOptions " + roleName)
-    console.log(currentValues)
-    console.log(options)
-    console.log(activeDependencyOptions)
-
     currentValues?.forEach(currentValue => {
       if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
         let missingCurrentOption = this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
@@ -61,7 +53,6 @@ export default class OntologiesDecorator {
       }
     }
     )
-    console.log(activeDependencyOptions)
     return activeDependencyOptions
   }
 }

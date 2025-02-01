@@ -30,7 +30,7 @@ const OntologyMultiSelectFormGroup = (
 
   let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptions })
 
-  const inactiveSelection = (selected) => selected.find(item => item.inactive)
+  const inactiveSelection = (selected) => selected.find(item => !item.active)
   const unavailableSelection = (selected) => selected.find(item => item.unavailable)
   const unmetDependencies = (selected) => selected.find(item => item.unmetDependency)
 
@@ -48,13 +48,6 @@ const OntologyMultiSelectFormGroup = (
   }
 
   label ||= StringDecorator.toLabelSpelling(roleName) // || value
-  // label = value
-
-  if (roleName === 'mobile_phase') {
-    console.log("MultiSelectFormGroup " + roleName)
-    console.log(value)
-    console.log(selectedOptions)
-  }
 
   return (<>
     <SingleLineFormGroup

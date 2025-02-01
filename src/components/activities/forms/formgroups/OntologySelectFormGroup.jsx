@@ -28,18 +28,10 @@ const OntologySelectFormGroup = (
   let value = workup[roleName]
 
   let selectableOptions = OntologiesDecorator.selectableOptions({ options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) })
-
-  // if (roleName === 'subtype') {
-  //   console.log("OntologySelectFormGroup options " + roleName)
-  //   console.log(value)
-  //   console.log(options)
-  //   console.log(selectableOptions)
-  // }
   let selectedOption = OntologiesDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptions })
 
-  // tooltip ||= selectedOption && dependencyOptions && !dependencyOptions.includes(selectedOption) && tooltips['selection_unmet_dependency']
   tooltip ||= selectedOption?.unavailable && tooltips['selection_unavailable']
-  tooltip ||= selectedOption?.inactive && tooltips['selection_inactive']
+  tooltip ||= selectedOption && !selectedOption.active && tooltips['selection_inactive']
   tooltip ||= selectedOption?.unmetDependency && tooltips['selection_unmet_dependency']
 
   label ||= StringDecorator.toLabelSpelling(roleName) // || value
