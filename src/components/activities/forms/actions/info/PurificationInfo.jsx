@@ -20,7 +20,7 @@ const PurificationInfo = ({ activity }) => {
 
 	const addOntologyAutomationToTitle = () => {
 		infoTitle += " "
-		infoTitle += OntologiesDecorator.labelForOntologyId(workup.automation_mode, ontologies)
+		infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: ontologies })
 	}
 
 	const addAutomationToTitle = () => {
