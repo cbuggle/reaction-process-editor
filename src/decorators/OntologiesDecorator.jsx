@@ -28,7 +28,6 @@ export default class OntologiesDecorator {
     let currentValue = workup[roleName]
     let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
 
-
     if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
       let missingCurrentOption =
         this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })

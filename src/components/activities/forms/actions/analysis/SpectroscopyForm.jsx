@@ -1,10 +1,7 @@
-import React, { useContext, useEffect } from 'react'
-import Select from 'react-select'
+import React, { useContext } from 'react'
 
 import FormSection from '../../../../utilities/FormSection'
 import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
-import SelectFormGroup from '../../formgroups/SelectFormGroup'
-import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup'
 
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
 import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
