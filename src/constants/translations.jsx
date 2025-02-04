@@ -1,5 +1,4 @@
 export const tooltips = {
-	'selection_appendend': "Selected item is not selectable.",
 	'selection_unavailable': "Selected item is unknown in the ELN lab setup. Item will be kept when changing and saving other values.",
 	'selection_inactive': "Selected item has been removed from the ELN lab setup. Item will be kept when changing and saving other values.",
 	'selection_unmet_dependency': "Selected item does not meet its dependency requirements.",

@@ -133,7 +133,6 @@ const ChromatographyForm = (
 
     method?.detectors &&
       method.detectors
-        .filter(detector => workup.detector?.includes(detector.value))
         .filter(detector => !!detector.analysis_defaults)
         .forEach((detector) => {
           newConditions[detector.value] = {}
