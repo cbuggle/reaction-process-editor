@@ -309,7 +309,7 @@ const ChromatographyForm = (
           onChange={handleChangeSubType}
         />
         {renderAutomationSpecificFields()}
-      </FormSection >
+      </FormSection>
       {renderDetectorFormSection()}
 
       {activitySteps.map((step, idx) =>
