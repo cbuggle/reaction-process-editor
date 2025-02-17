@@ -53,7 +53,6 @@ const AnalysisChromatographyForm = (
   }
   const currentDetectorsOptions = OptionsDecorator.optionsForValues(workup.detector, currentDeviceOption?.detectors)
   const filteredMethodOptions = filterMethodsByDetectors(workup.detector, currentDeviceOption?.methods)
-  const filteredDetectorOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: currentDeviceOption?.detectors?.map(d => d.value), ontologies: ontologies })
 
   const hasStationaryPhaseAnalysisType = (analysisType) => !!currentStationaryPhaseOption?.analysis_defaults?.[analysisType]
 
@@ -216,7 +215,6 @@ const AnalysisChromatographyForm = (
               metricName={"VOLUME"}
               amount={workup.inject_volume}
               onChange={handleWorkupChange('inject_volume')}
-              disabled={isAutomated}
             />
           </>)
       case ontologyId.automation_modes.manual:
