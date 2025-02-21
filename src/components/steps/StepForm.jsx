@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import AutoComplete from "../activities/forms/formgroups/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
-import VesselFormSection from "../vessels/VesselFormSection";
+import VesselableFormSection from "../vesselables/VesselableFormSection";
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel }) => {
 
@@ -24,7 +24,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         domId="step-name-input"
         label="Name"
       />
-      <VesselFormSection
+      <VesselableFormSection
         onChange={setReactionProcessVessel}
         reactionProcessVessel={reactionProcessVessel}
         reactionProcessVesselSuggestion={previousStep?.reaction_process_vessel}

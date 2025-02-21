@@ -28,7 +28,7 @@ const Reaction = () => {
 
   useEffect(() => {
     vesselApi.index().then((data) => {
-      setVessels(data?.vessels || [])
+      setVessels(data?.vesselabels || [])
     })
 
     const reloadDone = () => {

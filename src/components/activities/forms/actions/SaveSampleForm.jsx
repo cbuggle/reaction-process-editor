@@ -8,7 +8,7 @@ import FormSection from "../../../utilities/FormSection";
 import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
 import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
 import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
-import VesselFormSection from "../../../vessels/VesselFormSection";
+import VesselableFormSection from "../../../vesselables/VesselableFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import PurificationDecorator from "../../../../decorators/PurificationDecorator";
@@ -172,7 +172,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
       {renderOriginFormGroup()}
 
-      <VesselFormSection
+      <VesselableFormSection
         onChange={onChangeVessel}
         reactionProcessVessel={reactionProcessVessel || {}}
       />

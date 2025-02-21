@@ -3,22 +3,12 @@ import React from "react";
 import StringDecorator from "./StringDecorator";
 import OptionsDecorator from "./OptionsDecorator";
 
-export default class VesselDecorator {
-  // TODO: renderVesselProcessStepInfo is the only function called from outside.
-  // The functions actually in use are all marked. ("// called internally only ")
-  //
-  // I'm leaving all legacy code as reference for upcoming UI design :-)
-  //
-  // They should be deleted once Vessel UI design is finished.
+export default class VesselableDecorator {
 
-  /* supporting functions */
-
-  static getVesselById = (vesselId, vessels) => {
-    return vessels.find((vessel) => vessel.id === vesselId);
-  };
-
-  static vesselId = (vessel) => {
-    return vessel.id.substring(0, 4);
+  static getVesselableByParams = (vesselableParams, vesselables) => {
+    return vesselables.find((vesselable) =>
+      vesselable.id === vesselableParams.vesselable_id &&
+      vesselable.vesselable_type === vesselableParams.vesselable_type);
   };
 
   static vesselTitle = (vessel) => {
@@ -27,14 +17,11 @@ export default class VesselDecorator {
       : undefined;
   };
 
-  static vesselIconAltText = (vessel) => {
-    return "Vessel " + this.vesselTitle(vessel);
-  };
-
-  static vesselTabularData = (vesselData) => {
+  static vesselableTabularData = (vesselData) => {
     return vesselData.map((vessel) => {
       return {
-        id: vessel.id,
+        vesselableValue: { vesselable_type: vessel.vesselable_type, vesselable_id: vessel.id },
+        vesselable_type: vessel.vesselable_type,
         name: vessel.name,
         template: vessel.vessel_template_name,
         type: vessel.vessel_type,
@@ -60,8 +47,7 @@ export default class VesselDecorator {
     );
   };
 
-  static vesselSingleLine = (vessel) => {
-    // Called from StepForm.jsx
+  static vesselableSingleLine = (vessel) => {
     return vessel
       ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
       : undefined;
@@ -72,16 +58,14 @@ export default class VesselDecorator {
   };
 
   static vesselMaterial = (vessel) => {
-    // called internally only
     return StringDecorator.toLabelSpelling(vessel.material_type);
   };
 
   static vesselVolumeAndMaterial = (vessel) => {
-    // called internally only
     return this.vesselVolume(vessel) + " (" + this.vesselMaterial(vessel) + ")";
   };
 
-  static vesselPreparationsLine = (preparations, preparationOptions) => {
+  static vesselablePreparationsLine = (preparations, preparationOptions) => {
     return OptionsDecorator.valuesToLabel(
       preparations,
       preparationOptions

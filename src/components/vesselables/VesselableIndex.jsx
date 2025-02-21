@@ -1,20 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
-import VesselDecorator from "../../decorators/VesselDecorator";
+import VesselableDecorator from "../../decorators/VesselableDecorator";
 import { Button } from "reactstrap";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import { AgGridReact } from "ag-grid-react";
 
-const VesselIndex = ({ onSelectVessel, typeColor }) => {
-  const vessels = useContext(VesselOptions);
-  const [colDefs] = useState([
+const VesselableIndex = ({ onSelectVesselable, typeColor }) => {
+  const vesselables = useContext(VesselOptions);
+  const colDefs = [
     {
-      field: "id",
+      field: "vesselableValue",
       headerName: "",
+      valueFormatter: () => { },
       cellRenderer: (params) => {
         return (
           <Button
-            onClick={onSelectVessel(params.value)}
+            onClick={onSelectVesselable(params.value)}
             color={typeColor}
             size="sm"
           >
@@ -23,6 +24,12 @@ const VesselIndex = ({ onSelectVessel, typeColor }) => {
         );
       },
       maxWidth: 85,
+    },
+    {
+      field: "vesselable_type",
+      headerName: "Klass",
+      filter: true,
+      flex: 3,
     },
     {
       field: "name",
@@ -65,7 +72,7 @@ const VesselIndex = ({ onSelectVessel, typeColor }) => {
       flex: 2,
       maxWidth: 180,
     },
-  ]);
+  ];
 
   return (
     <>
@@ -73,7 +80,7 @@ const VesselIndex = ({ onSelectVessel, typeColor }) => {
         <AgGridReact
           suppressMenuHide={true}
           domLayout="autoHeight"
-          rowData={VesselDecorator.vesselTabularData(vessels)}
+          rowData={VesselableDecorator.vesselableTabularData(vesselables)}
           columnDefs={colDefs}
           autoSizeStrategy={{ type: "fitGridWidth", defaultMinWidth: 70 }}
         />
@@ -82,4 +89,4 @@ const VesselIndex = ({ onSelectVessel, typeColor }) => {
   );
 };
 
-export default VesselIndex;
+export default VesselableIndex;

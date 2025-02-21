@@ -2,15 +2,15 @@ import React, { useContext } from "react";
 import Select from "react-select";
 import MultiInputFormGroup from "../activities/forms/formgroups/MultiInputFormGroup";
 import SingleLineFormGroup from "../activities/forms/formgroups/SingleLineFormGroup";
-import VesselSelector from "../vessels/VesselSelector";
-import VesselDecorator from "../../decorators/VesselDecorator";
+import VesselableSelector from "../vesselables/VesselableSelector";
+import VesselableDecorator from "../../decorators/VesselableDecorator";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 import { Button, Label } from "reactstrap";
 
-const VesselFormSection = ({
+const VesselableFormSection = ({
   onChange,
   reactionProcessVessel,
   reactionProcessVesselSuggestion,
@@ -18,17 +18,21 @@ const VesselFormSection = ({
   scope,
 }) => {
   const selectOptions = useContext(SelectOptions);
-  const vessels = useContext(VesselOptions);
+  const vesselables = useContext(VesselOptions);
 
-  const preparationOptions =
-    selectOptions.vessel_preparations.preparation_types;
+  const preparationOptions = selectOptions.vessel_preparations.preparation_types;
 
-  const assignVessel = (vesselId) => {
-    onChange({
-      ...reactionProcessVessel,
-      vessel_id: vesselId,
-      vessel: VesselDecorator.getVesselById(vesselId, vessels),
-    });
+  const currentVesselable = VesselableDecorator.getVesselableByParams(
+    { vesselable_id: reactionProcessVessel.vesselable_id, vesselable_type: reactionProcessVessel.vesselable_type },
+    vesselables)
+
+  const assignVesselable = (vesselableParams) => {
+    onChange(
+      {
+        ...reactionProcessVessel, // retain id & preparations
+        ...vesselableParams
+      }
+    )
   };
 
   const handleSelectPreparations = (preparations) => {
@@ -42,11 +46,11 @@ const VesselFormSection = ({
     return (reactionProcessVesselSuggestion ?
       <div className="d-flex justify-content-between align-self-center">
         <Label className={"col-form-label"}        >
-          Previous: {VesselDecorator.vesselSingleLine(reactionProcessVesselSuggestion.vessel)}
+          Previous: {VesselableDecorator.vesselableSingleLine(reactionProcessVesselSuggestion.vesselable)}
         </Label>
         <div className="optional-form-group__open-controls">
           <div className="d-grid gap-2">
-            <Button size={'sm'} color={'step'} onClick={() => assignVessel(reactionProcessVesselSuggestion.vessel.id)} >
+            <Button size={'sm'} color={'step'} onClick={() => assignVesselable(reactionProcessVesselSuggestion.vesselable)} >
               Use
             </Button>
           </div>
@@ -58,16 +62,16 @@ const VesselFormSection = ({
 
   return (
     <>
-      <MultiInputFormGroup label="Vessel" typeColor={typeColor}>
+      <MultiInputFormGroup label={reactionProcessVessel?.vesselable_type} typeColor={typeColor}>
         <div className="pt-1 mb-3">
           {renderVesselSuggestion()}
         </div>
         <div className="pt-1 mb-3">
-          <VesselSelector
-            currentVessel={reactionProcessVessel.vessel}
-            onSelectVessel={assignVessel}
+          <VesselableSelector
+            currentVesselable={currentVesselable}
+            onSelectVesselable={assignVesselable}
             typeColor={typeColor}
-            buttonLabel={!!reactionProcessVessel.vessel ? "Change" : "Set"}
+            buttonLabel={!!reactionProcessVessel?.vesselable_id ? "Change" : "Set"}
             scope={scope}
           />
         </div>
@@ -75,7 +79,7 @@ const VesselFormSection = ({
           <Select
             className="react-select--overwrite"
             classNamePrefix="react-select"
-            name="vessel_id"
+            name="vesselable_preparations"
             isDisabled={false}
             isMulti
             isClearable={false}
@@ -91,4 +95,4 @@ const VesselFormSection = ({
   );
 };
 
-export default VesselFormSection;
+export default VesselableFormSection;
