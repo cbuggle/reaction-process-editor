@@ -42,6 +42,9 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
     >
       <ProcedureCard.Info>
         <span className="procedure-card__info-line">
+          {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
+        </span>
+        <span className="procedure-card__info-line">
           {VesselableDecorator.vesselVolumeAndMaterial(reactionProcessVessel.vesselable)}
         </span>
         {reactionProcessVessel.preparations.length > 0 && (

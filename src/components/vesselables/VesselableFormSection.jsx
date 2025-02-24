@@ -62,7 +62,7 @@ const VesselableFormSection = ({
 
   return (
     <>
-      <MultiInputFormGroup label={reactionProcessVessel?.vesselable_type} typeColor={typeColor}>
+      <MultiInputFormGroup label={VesselableDecorator.vesselableType(currentVesselable)} typeColor={typeColor}>
         <div className="pt-1 mb-3">
           {renderVesselSuggestion()}
         </div>

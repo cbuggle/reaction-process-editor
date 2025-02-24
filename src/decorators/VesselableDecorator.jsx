@@ -17,6 +17,12 @@ export default class VesselableDecorator {
       : undefined;
   };
 
+  static vesselableType = (vessel) => {
+    return !!vessel
+      ? vessel.vesselable_type
+      : 'Vessel';
+  };
+
   static vesselableTabularData = (vesselData) => {
     return vesselData.map((vessel) => {
       return {

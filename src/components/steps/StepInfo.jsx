@@ -15,7 +15,8 @@ const StepInfo = ({ processStep }) => {
   return (
     <>
       <h6 className="mb-1">
-        Vessel: {VesselableDecorator.vesselableSingleLine(vesselable)}
+        {VesselableDecorator.vesselableType(vesselable) + ': '}
+        {VesselableDecorator.vesselableSingleLine(vesselable)}
       </h6>
       <StepVesselPreparationInfo
         reactionProcessVessel={processStep.reaction_process_vessel}
