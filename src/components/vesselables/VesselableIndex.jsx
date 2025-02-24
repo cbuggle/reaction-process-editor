@@ -27,7 +27,7 @@ const VesselableIndex = ({ onSelectVesselable, typeColor }) => {
     },
     {
       field: "vesselable_type",
-      headerName: "Klass",
+      headerName: "Vessel/Template",
       filter: true,
       flex: 3,
     },
