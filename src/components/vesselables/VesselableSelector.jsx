@@ -11,12 +11,12 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import VesselIndex from "./VesselIndex";
-import VesselDecorator from "../../decorators/VesselDecorator";
+import VesselableIndex from "./VesselableIndex";
+import VesselableDecorator from "../../decorators/VesselableDecorator";
 
-const VesselSelector = ({
-  currentVessel,
-  onSelectVessel,
+const VesselableSelector = ({
+  currentVesselable,
+  onSelectVesselable,
   typeColor,
   buttonLabel,
   scope,
@@ -27,16 +27,16 @@ const VesselSelector = ({
     setModalOpen(!modalOpen);
   };
 
-  const handleSelectVessel = (vesselId) => () => {
+  const handleSelectVesselable = (vesselable) => () => {
     toggleModal();
-    onSelectVessel(vesselId);
+    onSelectVesselable(vesselable);
   };
 
   return (
     <>
       <InputGroup>
         <Input
-          value={VesselDecorator.vesselSingleLine(currentVessel) || "-"}
+          value={VesselableDecorator.vesselableSingleLine(currentVesselable) || "-"}
           onClick={toggleModal}
           readOnly
         />
@@ -55,8 +55,8 @@ const VesselSelector = ({
           {buttonLabel} Vessel for {scope}
         </ModalHeader>
         <ModalBody>
-          <VesselIndex
-            onSelectVessel={handleSelectVessel}
+          <VesselableIndex
+            onSelectVesselable={handleSelectVesselable}
             typeColor={typeColor}
           />
         </ModalBody>
@@ -70,4 +70,4 @@ const VesselSelector = ({
   );
 };
 
-export default VesselSelector;
+export default VesselableSelector;

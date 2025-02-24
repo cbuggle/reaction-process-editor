@@ -2,7 +2,7 @@ import React from 'react'
 
 import MetricsDecorator from '../../../../../decorators/MetricsDecorator';
 
-import VesselDecorator from '../../../../../decorators/VesselDecorator'
+import VesselableDecorator from '../../../../../decorators/VesselableDecorator';
 
 import InfoLinesBox from './InfoLinesBox';
 
@@ -19,7 +19,7 @@ const SaveInfo = ({ activity }) => {
 	if (workup.target_amount) {
 		infoLines.push(MetricsDecorator.infoLineAmount(workup.target_amount));
 	}
-	infoLines.push(VesselDecorator.vesselSingleLine(activity.reaction_process_vessel?.vessel));
+	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vessel));
 	infoLines.push(workup.location);
 
 	return (

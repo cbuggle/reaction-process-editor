@@ -3,7 +3,7 @@ import { Form, FormGroup } from "reactstrap";
 
 import FormButtons from "../utilities/FormButtons";
 
-import VesselFormSection from "../vessels/VesselFormSection";
+import VesselableFormSection from "../vesselables/VesselableFormSection";
 
 const VesselPreparationForm = ({ reactionProcessVessel, onSave, onCancel }) => {
   const [currentVessel, setCurrentVessel] = useState(reactionProcessVessel);
@@ -19,10 +19,10 @@ const VesselPreparationForm = ({ reactionProcessVessel, onSave, onCancel }) => {
 
   return (
     <Form>
-      <VesselFormSection
+      <VesselableFormSection
         onChange={setCurrentVessel}
         reactionProcessVessel={currentVessel}
-        />
+      />
       <FormGroup>
         <FormButtons
           onSave={handleSave}

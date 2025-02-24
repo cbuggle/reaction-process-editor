@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import PreparationCard from "./PreparationCard";
 import ProcedureCard from "../utilities/ProcedureCard";
 import VesselPreparationForm from "./VesselPreparationForm";
-import VesselDecorator from "../../decorators/VesselDecorator";
+import VesselableDecorator from "../../decorators/VesselableDecorator";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
@@ -34,7 +34,7 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
 
   return (
     <PreparationCard
-      title={VesselDecorator.vesselTitle(reactionProcessVessel?.vessel)}
+      title={VesselableDecorator.vesselTitle(reactionProcessVessel?.vesselable)}
       onEdit={openForm}
       onCancel={closeForm}
       showForm={showForm}
@@ -42,7 +42,10 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
     >
       <ProcedureCard.Info>
         <span className="procedure-card__info-line">
-          {VesselDecorator.vesselVolumeAndMaterial(reactionProcessVessel.vessel)}
+          {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
+        </span>
+        <span className="procedure-card__info-line">
+          {VesselableDecorator.vesselVolumeAndMaterial(reactionProcessVessel.vesselable)}
         </span>
         {reactionProcessVessel.preparations.length > 0 && (
           <span className="procedure-card__info-line">

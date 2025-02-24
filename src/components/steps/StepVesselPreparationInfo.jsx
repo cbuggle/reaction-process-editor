@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
-import VesselDecorator from "../../decorators/VesselDecorator";
+import VesselableDecorator from "../../decorators/VesselableDecorator";
 
 const StepVesselPreparationInfo = ({ reactionProcessVessel }) => {
   const selectOptions = useContext(SelectOptions);
 
   return (
     <>
-      {VesselDecorator.vesselPreparationsLine(reactionProcessVessel?.preparations, selectOptions.vessel_preparations.preparation_types)}
+      {VesselableDecorator.vesselablePreparationsLine(reactionProcessVessel?.preparations, selectOptions.vessel_preparations.preparation_types)}
     </>
   );
 };

@@ -2,18 +2,21 @@ import React, { useContext } from "react";
 
 import StepEquipments from "./StepEquipments";
 import StepMaterials from "./StepMaterials";
-import VesselDecorator from "../../decorators/VesselDecorator";
 import StepVesselPreparationInfo from "./StepVesselPreparationInfo";
+
+import VesselableDecorator from "../../decorators/VesselableDecorator";
+
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 
 const StepInfo = ({ processStep }) => {
   const stepSelectOptions = useContext(StepSelectOptions);
-  const vessel = processStep.reaction_process_vessel?.vessel
+  const vesselable = processStep.reaction_process_vessel?.vesselable
 
   return (
     <>
       <h6 className="mb-1">
-        Vessel: {VesselDecorator.vesselSingleLine(vessel)}
+        {VesselableDecorator.vesselableType(vesselable) + ': '}
+        {VesselableDecorator.vesselableSingleLine(vesselable)}
       </h6>
       <StepVesselPreparationInfo
         reactionProcessVessel={processStep.reaction_process_vessel}
