@@ -105,6 +105,12 @@ export const metrics = {
     defaultUnit: 'ml',
     units: ['ml', 'l']
   },
+  'INJECT_VOLUME': {
+    label: 'Volume',
+    analysisTypeLabel: 'volumetric',
+    defaultUnit: 'ml',
+    units: ['mcl', 'ml', 'l']
+  },
   'MOLAR': {
     label: 'Moles',
     analysisTypeLabel: 'molar',
@@ -172,6 +178,12 @@ export const unitTypes = {
     toBase: (value) => value / 1000,
   },
   // VOLUME / volumetric
+  'mcl': {
+    label: 'µl',
+    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    fromBase: (value) => value * 1000,
+    toBase: (value) => value / 1000,
+  },
   'ml': {
     label: 'ml',
     inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
