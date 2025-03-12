@@ -4,6 +4,7 @@ import MultiInputFormGroup from "../activities/forms/formgroups/MultiInputFormGr
 import SingleLineFormGroup from "../activities/forms/formgroups/SingleLineFormGroup";
 import VesselableSelector from "../vesselables/VesselableSelector";
 import VesselableDecorator from "../../decorators/VesselableDecorator";
+import VesselableLabelQuickSelectorInput from "./VesselableLabelQuickSelectorInput";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { VesselOptions } from "../../contexts/VesselOptions";
@@ -65,6 +66,13 @@ const VesselableFormSection = ({
       <MultiInputFormGroup label={VesselableDecorator.vesselableType(currentVesselable)} typeColor={typeColor}>
         <div className="pt-1 mb-3">
           {renderVesselSuggestion()}
+        </div>
+        <div className="pt-1 mb-3">
+          <VesselableLabelQuickSelectorInput
+            onSelectVesselable={assignVesselable}
+            typeColor={typeColor}
+            scope={scope}
+          />
         </div>
         <div className="pt-1 mb-3">
           <VesselableSelector

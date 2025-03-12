@@ -28,6 +28,7 @@ export default class VesselableDecorator {
       return {
         vesselableValue: { vesselable_type: vessel.vesselable_type, vesselable_id: vessel.id },
         vesselable_type: vessel.vesselable_type,
+        short_label: vessel.short_label,
         name: vessel.name,
         template: vessel.vessel_template_name,
         type: vessel.vessel_type,
