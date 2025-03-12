@@ -32,6 +32,12 @@ const VesselableIndex = ({ onSelectVesselable, typeColor }) => {
       flex: 3,
     },
     {
+      field: "short_label",
+      headerName: "ShortLabel",
+      filter: true,
+      flex: 4,
+    },
+    {
       field: "name",
       headerName: "Name",
       filter: true,
