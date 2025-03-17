@@ -9,18 +9,21 @@ import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from "./StepInfo";
 import StepForm from "./StepForm";
 import StepLockButton from "./StepLockButton";
+import StepAutomationStatusButton from "./StepAutomationStatusButton";
+
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 import { StepLock } from "../../contexts/StepLock";
-
 const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel }) => {
   const isInitialised = !!processStep;
   const [showForm, setShowForm] = useState(!isInitialised);
   const cardTitle = isInitialised ? processStep.label : "New Step";
   const api = useReactionsFetcher();
   const isLocked = !!processStep?.locked;
+
+  console.log(processStep)
 
   const displayMode = () => {
     return showForm ? "form" : "info";
@@ -165,14 +168,20 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                   </div>
                 </ProcedureCard.Details>
               )}
-              {isInitialised && (
+              {isInitialised && !showForm && (
                 <ProcedureCard.ExtraButtons>
-                  {!showForm && (
+                  <div className="d-md-flex gap-2">
+                    {!isLocked && (
+                      <StepAutomationStatusButton
+                        stepId={processStep?.id}
+                        status={processStep?.automation_status}
+
+                      />)}
                     <StepLockButton
                       stepId={processStep?.id}
                       locked={isLocked}
                     />
-                  )}
+                  </div>
                 </ProcedureCard.ExtraButtons>
               )}
             </ProcedureCard>
