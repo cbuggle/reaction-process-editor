@@ -1,27 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
+import { Button, UncontrolledTooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Button } from "reactstrap";
-import AutomationDecorator from "../../decorators/AutomationDecorator";
+import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
 
-const AutomationStatusButton = ({ onChange, status, ...props }) => {
+const AutomationStatusButton = ({ onChange, status, disabled, modelId }) => {
+  const [hover, setHover] = useState(false);
 
-  const toggleAutomationStatus = () => {
-    onChange(AutomationDecorator.nextAutomationStatus(status))
+  const nextStatus = AutomationStatusDecorator.nextAutomationStatus(status)
+
+  const displayStatus = hover && !disabled ? nextStatus : status
+
+  const blocked = status === "" || status === undefined
+
+  const toggleIcon = () => blocked || setHover(!hover);
+
+  const handleChhangeAutomationStatus = () => {
+    onChange(nextStatus)
   }
 
   return (
-    <Button
-      size="sm"
-      onClick={toggleAutomationStatus}
-      color={AutomationDecorator.colorForStatus(status)}
-      {...props}
-    >
-      <FontAwesomeIcon
-        icon={AutomationDecorator.iconForStatus(status)}
-        title={AutomationDecorator.labelForStatus(status)} />
-    </Button >
-  )
+    <>
+      <div id={"automation_status_" + modelId}>
+        <div onMouseEnter={toggleIcon} onMouseLeave={toggleIcon} >
+          <Button
+            onClick={handleChhangeAutomationStatus}
+            color={AutomationStatusDecorator.colorForStatus(displayStatus)}
+            size="sm"
+            disabled={disabled || blocked}
+            inverse={!blocked.toString()}
+          >
+            <FontAwesomeIcon icon={AutomationStatusDecorator.iconForStatus(status)} swapOpacity />
+          </Button>
+        </div >
+      </div>
+
+      <UncontrolledTooltip target={"automation_status_" + modelId} >
+        {AutomationStatusDecorator.labelForStatus(status)}
+      </UncontrolledTooltip>
+
+    </>
+  );
 };
 
 export default AutomationStatusButton;

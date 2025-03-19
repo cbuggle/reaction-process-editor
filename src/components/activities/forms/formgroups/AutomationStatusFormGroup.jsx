@@ -2,11 +2,10 @@ import React from "react";
 import { Label } from "reactstrap";
 
 import AutomationStatusButton from "../../../utilities/AutomationStatusButton";
-import AutomationDecorator from "../../../../decorators/AutomationDecorator";
+import AutomationStatusDecorator from "../../../../decorators/AutomationStatusDecorator";
 import FormSection from "../../../utilities/FormSection";
 
-const AutomationStatusFormGroup = ({ activity, onChange, status }) => {
-
+const AutomationStatusFormGroup = ({ onChange, status, activityId }) => {
   return (
     <FormSection>
 
@@ -15,9 +14,10 @@ const AutomationStatusFormGroup = ({ activity, onChange, status }) => {
           {"Automation Status"}
         </Label>
         <Label className={"col-form-label"}>
-          {AutomationDecorator.labelForStatus(status)}
+          {AutomationStatusDecorator.labelForStatus(status)}
         </Label>
         <AutomationStatusButton
+          modelId={activityId}
           onChange={onChange}
           status={status}
         />

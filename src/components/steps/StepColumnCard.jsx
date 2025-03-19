@@ -23,8 +23,6 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
   const api = useReactionsFetcher();
   const isLocked = !!processStep?.locked;
 
-  console.log(processStep)
-
   const displayMode = () => {
     return showForm ? "form" : "info";
   };
@@ -114,6 +112,20 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
     ));
   };
 
+  const renderTitleBar = (title) => {
+    return (
+      <div className="d-md-flex gap-2">
+        <StepAutomationStatusButton
+          stepId={processStep?.id}
+          status={processStep?.automation_status}
+          disabled={isLocked}
+        />
+        {title}
+      </div>
+    )
+
+  }
+
   return (
     <StepSelectOptions.Provider value={processStep?.select_options}>
       <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
@@ -126,7 +138,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
         >
           <StepLock.Provider value={isLocked}>
             <ProcedureCard
-              title={cardTitle}
+              title={renderTitleBar(cardTitle)}
               type="step"
               showEditBtn={!showForm && !isLocked}
               showMoveBtn={!showForm && !isLocked}
@@ -171,12 +183,6 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
               {isInitialised && !showForm && (
                 <ProcedureCard.ExtraButtons>
                   <div className="d-md-flex gap-2">
-                    {!isLocked && (
-                      <StepAutomationStatusButton
-                        stepId={processStep?.id}
-                        status={processStep?.automation_status}
-
-                      />)}
                     <StepLockButton
                       stepId={processStep?.id}
                       locked={isLocked}

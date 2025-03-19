@@ -8,7 +8,6 @@ import FormButtons from "../../utilities/FormButtons";
 import AutomationStatusFormGroup from './formgroups/AutomationStatusFormGroup';
 import Timer from '../timing/Timer';
 
-import SingleLineFormGroup from './formgroups/SingleLineFormGroup';
 import { useActivityValidator } from '../../../validators/ActivityValidator'
 
 import { SubFormController } from '../../../contexts/SubFormController';
@@ -40,6 +39,7 @@ const ActivityForm = (
   const handleSave = () => activityValidator.validate(activity) && onSave()
 
   const handleWorkupChange = (key) => (value) => {
+    console.log(workup)
     onWorkupChange({ name: key, value: value });
   };
 
@@ -67,6 +67,7 @@ const ActivityForm = (
       />
       <AutomationStatusFormGroup
         status={workup['AUTOMATION_STATUS']}
+        activityId={activity.id}
         onChange={handleWorkupChange('AUTOMATION_STATUS')}
       />
       <FormButtons
@@ -77,7 +78,6 @@ const ActivityForm = (
         saveLabel={stepLock ? 'Step is locked' : "Save"}
         type={type}
       >
-
       </FormButtons>
     </Form>
   )
