@@ -16,7 +16,7 @@ const FormSection = (
     let classNames = 'form-section form-section--' + type
     if (subForm.isCurrentOpen(name)) {
       classNames += ' form-section--active'
-    } else if (subForm.isBlocked(name) ) {
+    } else if (subForm.isBlocked(name)) {
       classNames += ' form-section--disabled'
     }
     return classNames

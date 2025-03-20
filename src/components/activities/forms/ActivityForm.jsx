@@ -67,7 +67,7 @@ const ActivityForm = (
       />
       <AutomationStatusFormGroup
         status={workup['AUTOMATION_STATUS']}
-        activityId={activity.id}
+        modelId={activity.id}
         onChange={handleWorkupChange('AUTOMATION_STATUS')}
       />
       <FormButtons

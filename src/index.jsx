@@ -37,7 +37,9 @@ import {
   faForwardStep,
   faForward,
   faShare,
-  faHandPointRight
+  faShareFromSquare,
+  faHandPointRight,
+  faHand
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -73,7 +75,9 @@ library.add(
   faForwardStep,
   faForward,
   faShare,
-  faHandPointRight
+  faShareFromSquare,
+  faHandPointRight,
+  faHand
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
