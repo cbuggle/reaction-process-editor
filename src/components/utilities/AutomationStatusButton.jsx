@@ -25,7 +25,6 @@ const AutomationStatusButton = ({ onChange, status, modelId }) => {
       <UncontrolledTooltip target={"automation_status_" + modelId} >
         {AutomationStatusDecorator.labelForStatus(status)}
       </UncontrolledTooltip>
-
     </>
   );
 };

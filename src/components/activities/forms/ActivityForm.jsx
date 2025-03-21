@@ -66,6 +66,7 @@ const ActivityForm = (
         displayMode={'form'}
       />
       <AutomationStatusFormGroup
+        activity={activity}
         status={workup['AUTOMATION_STATUS']}
         modelId={activity.id}
         onChange={handleWorkupChange('AUTOMATION_STATUS')}

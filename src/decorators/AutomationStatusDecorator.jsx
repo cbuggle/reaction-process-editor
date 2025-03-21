@@ -1,30 +1,35 @@
 export default class AutomationStatusDecorator {
 
+  // static nextAutomationStatus = (currentValue) => {
+  //   // production version where
+  //   return ({
+  //     "": "RUN",
+  //     "RUN": "HALT", // For Activities
+  //     "HALT": "RUN", // For Activities
+  //     "AUTOMATION_RESPONDED": "HALT_RESOLVED", // For Activities
+  //     "HALT_RESOLVED": "HALT_RESOLVED",
+  //     "HALT_BY_PRECEDING": "MANUAL_PROCEED", // for Steps, maybe separate component?
+  //     "MANUAL_PROCEED": "HALT_BY_PRECEDING",  // for Steps, maybe separate component?
+  //   }[currentValue] || "RUN")
+  // }
+
   static nextAutomationStatus = (currentValue) => {
-    // production version where
+    // development helper, delete_me
     return ({
-      "": "RUN",
       "RUN": "HALT", // For Activities
-      "HALT": "RUN", // For Activities
+      "HALT": "AUTOMATION_RESPONDED", // For Activities
       "AUTOMATION_RESPONDED": "HALT_RESOLVED", // For Activities
-      "HALT_RESOLVED": "HALT_RESOLVED",
+      "HALT_RESOLVED": "RUN",
       "HALT_BY_PRECEDING": "MANUAL_PROCEED", // for Steps, maybe separate component?
-      "MANUAL_PROCEED": "HALT_BY_PRECEDING",  // for Steps, maybe separate component?
+      "MANUAL_PROCEED": "HALT_BY_PRECEDING",
+      // "CONTINUE_AFTER_HALT": "CONTINUE_AFTER_HALT" // for Steps, maybe separate component?
     }[currentValue] || "RUN")
   }
 
-  // static nextAutomationStatus = (currentValue) => {
-  //   // development helper, delete_me
-  //   return ({
-  //     "RUN": "HALT", // For Activities
-  //     "HALT": "AUTOMATION_RESPONDED", // For Activities
-  //     "AUTOMATION_RESPONDED": "HALT_RESOLVED", // For Activities
-  //     "HALT_RESOLVED": "RUN",
-  //     "HALT_BY_PRECEDING": "MANUAL_PROCEED", // for Steps, maybe separate component?
-  //     "MANUAL_PROCEED": "HALT_BY_PRECEDING",
-  //     // "CONTINUE_AFTER_HALT": "CONTINUE_AFTER_HALT" // for Steps, maybe separate component?
-  //   }[currentValue] || "RUN")
-  // }
+  static automationNeedsResolve = (status) => {
+    console.log("automationNeedsResolve " + status)
+    return status === "AUTOMATION_RESPONDED"
+  }
 
   static labelForStatus = (currentStatus) => {
     return ({
