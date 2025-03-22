@@ -12,6 +12,7 @@ import WaitInfo from "./forms/actions/info/WaitInfo";
 import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
+import EvaporationInfo from "./forms/actions/info/EvaporationInfo";
 
 const ActivityInfo = (props) => {
   const selectOptions = useContext(SelectOptions);
@@ -29,6 +30,7 @@ const ActivityInfo = (props) => {
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
+      'EVAPORATION': EvaporationInfo,
       'WAIT': WaitInfo,
     }[activity.activity_name]
 

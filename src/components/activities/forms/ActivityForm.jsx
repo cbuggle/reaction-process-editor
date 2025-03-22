@@ -39,7 +39,6 @@ const ActivityForm = (
   const handleSave = () => activityValidator.validate(activity) && onSave()
 
   const handleWorkupChange = (key) => (value) => {
-    console.log(workup)
     onWorkupChange({ name: key, value: value });
   };
 

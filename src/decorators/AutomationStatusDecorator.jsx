@@ -27,7 +27,6 @@ export default class AutomationStatusDecorator {
   }
 
   static automationNeedsResolve = (status) => {
-    console.log("automationNeedsResolve " + status)
     return status === "AUTOMATION_RESPONDED"
   }
 

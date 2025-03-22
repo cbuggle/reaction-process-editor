@@ -1,29 +1,65 @@
 import React, { useState } from 'react'
 import FormButtons from './FormButtons'
-import { Button, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import NumericalInput from './NumericalInput'
-import VialSelectDecorator from '../../decorators/VialSelectDecorator'
+import VialButton from './VialButton'
 
+import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+import EvaporationGroupForm from './EvaporationGroupForm'
 
 const ChromatographyVialSelectForm = ({ activity, closeForm }) => {
+	const api = useReactionsFetcher()
+
 	const automationResponse = activity.automation_response
-	const tray_type = automationResponse['tray_type']
-	const vialPlate = automationResponse['vials']
+	const tray_type = automationResponse?.['tray_type'] || "No tray_type defined, automation response defect?"
+	const vialPlate = automationResponse?.['vials'] || [[]]
 
 	const initialMatrix = [...Array(vialPlate.length)].map(_ => Array(vialPlate[0].length).fill(0))
 
 	const [poolingCounter, setPoolingCounter] = useState(1)
 	const [poolingGroupMatrix, setPoolingGroupMatrix] = useState(initialMatrix)
 
-	const handleSave = () => { closeForm() }
+	const [evaporationGroups, setEvaporationGroups] = useState([])
 
-	const assignVial = (vial, rowNo, colNo) => {
-		const newPoolingGroup = (poolingGroupMatrix[rowNo][colNo] + 1) % poolingCounter
-		console.log("assigning Vial x: " + rowNo + 'y: ' + colNo + "id: " + vial + "poolingG" + newPoolingGroup)
+	const handleSave = () => {
+		closeForm()
+	}
 
+	const createEvaporationActivity = (groupNo, reactionProcessVessel) => {
+		api.appendEvaporationToActivity(activity, { vials: evaporationGroups[groupNo], vessel: reactionProcessVessel })
+	}
+
+	const assignVialGroup = (rowNo, colNo, newGroup) => {
 		let newPoolingGroupMatrix = poolingGroupMatrix
-		newPoolingGroupMatrix[rowNo][colNo] = newPoolingGroup
+		newPoolingGroupMatrix[rowNo][colNo] = newGroup
 		setPoolingGroupMatrix(newPoolingGroupMatrix)
+		recalculateEvaporationGroups()
+	}
+
+	const recalculateEvaporationGroups = () => {
+		let newGroups = []
+		for (let group = 0; group < poolingCounter; group++) {
+			let newGroup = []
+			for (let row = 0; row < vialPlate.length; row++) {
+				for (let col = 0; col < vialPlate[0].length; col++) {
+					if (poolingGroupMatrix[row][col] === group)
+						vialPlate[row][col] && newGroup.push(vialPlate[row][col])
+				}
+			}
+			newGroups.push(newGroup)
+		}
+		setEvaporationGroups(newGroups)
+	}
+
+	const renderEvaporationGroups = () => {
+		return evaporationGroups.map((group, idx) => {
+			return (
+				<EvaporationGroupForm
+					onSave={createEvaporationActivity}
+					group={group}
+					groupNo={idx} />
+			)
+		})
 	}
 
 	const renderVialPlate = () => {
@@ -39,17 +75,14 @@ const ChromatographyVialSelectForm = ({ activity, closeForm }) => {
 	}
 
 	const renderVialButton = (vial, rowNo, colNo) => {
-		const handleClick = () => assignVial(vial, rowNo, colNo)
-
-		const color = VialSelectDecorator.colorFor(poolingGroupMatrix[rowNo][colNo])
-
+		const handleClick = (newGroup) => assignVialGroup(rowNo, colNo, newGroup)
 		return (
-			<Button className="circle-button m-2"
-				disabled={!vial}
-				style={{ backgroundColor: color }}
-				onClick={handleClick}>
-				{vial}
-			</Button>
+			<VialButton
+				key={"vial-button-" + rowNo + "-" + colNo}
+				vial={vial}
+				onClick={handleClick}
+				noOfGroups={poolingCounter}
+			/>
 		)
 	}
 
@@ -57,7 +90,6 @@ const ChromatographyVialSelectForm = ({ activity, closeForm }) => {
 		return (
 			<Row className='gx-2 mb-5'>
 				<Col md={1}>{tray_type}</Col>
-				<Col md={2}>Pooling Groups</Col>
 				<Col md={1}>
 					<NumericalInput
 						value={poolingCounter}
@@ -68,22 +100,16 @@ const ChromatographyVialSelectForm = ({ activity, closeForm }) => {
 						className='form-control'
 					/>
 				</Col>
+				<Col md={2}>Pooling Groups</Col>
 			</Row >
 		)
-	}
-
-	const renderPoolingGroups = () => {
-
-	}
-
-	const poolingGroupOfVial = (vial) => {
-
 	}
 
 	return (
 		<>
 			{renderVialGroupCounter()}
 			{renderVialPlate()}
+			{renderEvaporationGroups()}
 			<FormButtons
 				onSave={handleSave}
 				onCancel={closeForm}

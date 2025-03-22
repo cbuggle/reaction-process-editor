@@ -7,6 +7,7 @@ import PurificationForm from "./PurificationForm";
 import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
+import EvaporationForm from './EvaporationForm';
 
 const ActionForm = (
   {
@@ -30,6 +31,13 @@ const ActionForm = (
             workup={workup}
             preconditions={preconditions}
             onWorkupChange={onWorkupChange}
+          />
+        )
+      case "EVAPORATION":
+        return (
+          <EvaporationForm
+            workup={workup}
+            reactionProcessVessel={activity.reaction_process_vessel}
           />
         )
       case "SAVE":

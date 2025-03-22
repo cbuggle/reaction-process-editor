@@ -30,6 +30,7 @@ function useReactionsFetcher() {
     deleteActivity,
     updateActivityPosition,
     updateProcessStepPosition,
+    appendEvaporationToActivity
   }
 
   function index() {
@@ -121,6 +122,11 @@ function useReactionsFetcher() {
   function createActivity(processStepId, activity, insertBefore) {
     return api.post(`/reaction_process_steps/${processStepId}/activities`,
       { 'activity': activity, 'insert_before': insertBefore })
+  }
+
+  function appendEvaporationToActivity(activity, evaporationActivity) {
+    return api.put(`/reaction_process_activities/${activity.id}/append_evaporation`, { 'evaporation': evaporationActivity })
+
   }
 
   function updateActivity(activity) {
