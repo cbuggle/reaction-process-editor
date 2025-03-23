@@ -12,78 +12,69 @@ const ChromatographyVialSelectForm = ({ activity, closeForm }) => {
 
 	const automationResponse = activity.automation_response
 	const tray_type = automationResponse?.['tray_type'] || "No tray_type defined, automation response defect?"
-	const vialPlate = automationResponse?.['vials'] || [[]]
+	const vials_list = automationResponse?.['vials'] || [[]]
+	const vialPlateColumns = automationResponse?.['vial_columns'] || 1
 
-	const initialMatrix = [...Array(vialPlate.length)].map(_ => Array(vialPlate[0].length).fill(0))
-
-	const [poolingCounter, setPoolingCounter] = useState(1)
-	const [poolingGroupMatrix, setPoolingGroupMatrix] = useState(initialMatrix)
-
-	const [evaporationGroups, setEvaporationGroups] = useState([])
+	const [vials, setVials] = useState(vials_list.map(vial => { return { id: vial, group: 0 } }))
+	const [groupCount, setGroupCount] = useState(1)
 
 	const handleSave = () => {
+		createEvaporationActivities()
 		closeForm()
 	}
 
-	const createEvaporationActivity = (groupNo, reactionProcessVessel) => {
-		api.appendEvaporationToActivity(activity, { vials: evaporationGroups[groupNo], vessel: reactionProcessVessel })
+	const createEvaporationActivities = (reactionProcessVessel) => {
+		api.appendEvaporationsToActivity(activity, { evaporationGroups: evaporationGroups(), vessel: reactionProcessVessel })
 	}
 
-	const assignVialGroup = (rowNo, colNo, newGroup) => {
-		let newPoolingGroupMatrix = poolingGroupMatrix
-		newPoolingGroupMatrix[rowNo][colNo] = newGroup
-		setPoolingGroupMatrix(newPoolingGroupMatrix)
-		recalculateEvaporationGroups()
-	}
-
-	const recalculateEvaporationGroups = () => {
-		let newGroups = []
-		for (let group = 0; group < poolingCounter; group++) {
-			let newGroup = []
-			for (let row = 0; row < vialPlate.length; row++) {
-				for (let col = 0; col < vialPlate[0].length; col++) {
-					if (poolingGroupMatrix[row][col] === group)
-						vialPlate[row][col] && newGroup.push(vialPlate[row][col])
-				}
-			}
-			newGroups.push(newGroup)
+	const evaporationGroups = () => {
+		let groups = []
+		for (let currentGroup = 0; currentGroup < groupCount; currentGroup++) {
+			let newGroup = vials.filter(vial => vial.group === currentGroup)
+			groups.push(newGroup)
 		}
-		setEvaporationGroups(newGroups)
+		return groups
+	}
+
+	const handleVialGroupChange = (idx) => () => {
+		let newGroup = vials[idx].group + 1
+		if (newGroup >= groupCount) { newGroup = 0 }
+		setVials(vials.toSpliced(idx, 1, { ...vials[idx], group: newGroup }))
+	}
+
+	const renderEvaporationGroup = (group) => {
+		let currentGroup = vials.filter(vial => vial.id && vial.group === group)
+		return (
+			< EvaporationGroupForm
+				key={"evaporation-group-form" + group}
+				group={currentGroup}
+				groupNo={group} />
+		)
 	}
 
 	const renderEvaporationGroups = () => {
-		return evaporationGroups.map((group, idx) => {
-			return (
-				<EvaporationGroupForm
-					onSave={createEvaporationActivity}
-					group={group}
-					groupNo={idx} />
-			)
-		})
+		return ([...Array(groupCount)].map((_, i) => (
+			renderEvaporationGroup(i)
+		)))
+	}
+
+	const renderBreak = (idx) => {
+		if (idx % vialPlateColumns === vialPlateColumns - 1) { return (<br />) }
 	}
 
 	const renderVialPlate = () => {
-		return vialPlate.map((row, idx) => renderVialRow(row, idx))
-	}
-
-	const renderVialRow = (vialRow, rowNo) => {
-		return (
-			<div>
-				{vialRow.map((vial, colNo) => renderVialButton(vial, rowNo, colNo))}
-			</div>
-		)
-	}
-
-	const renderVialButton = (vial, rowNo, colNo) => {
-		const handleClick = (newGroup) => assignVialGroup(rowNo, colNo, newGroup)
-		return (
-			<VialButton
-				key={"vial-button-" + rowNo + "-" + colNo}
-				vial={vial}
-				onClick={handleClick}
-				noOfGroups={poolingCounter}
-			/>
-		)
+		return vials.map((vial, idx) => {
+			return (
+				<>
+					<VialButton
+						key={"vial-button-" + vial.id}
+						vial={vial}
+						onClick={handleVialGroupChange(idx)}
+					/>
+					{renderBreak(idx)}
+				</>
+			)
+		})
 	}
 
 	const renderVialGroupCounter = () => {
@@ -92,11 +83,11 @@ const ChromatographyVialSelectForm = ({ activity, closeForm }) => {
 				<Col md={1}>{tray_type}</Col>
 				<Col md={1}>
 					<NumericalInput
-						value={poolingCounter}
+						value={groupCount}
 						step={1}
 						min={1}
 						size={8}
-						onChange={setPoolingCounter}
+						onChange={setGroupCount}
 						className='form-control'
 					/>
 				</Col>

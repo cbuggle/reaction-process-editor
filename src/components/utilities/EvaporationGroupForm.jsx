@@ -1,38 +1,37 @@
 import React, { useState } from 'react'
-import VialSelectDecorator from '../../decorators/VialSelectDecorator'
-import { Button, Row, Col } from 'reactstrap'
+import { Label, Input, Row, Col } from 'reactstrap'
 import VesselableFormSection from '../vesselables/VesselableFormSection'
 
-const EvaporationGroupForm = ({ group, groupNo, onSave }) => {
+import VialButton from './VialButton'
 
-	const colorStyle = VialSelectDecorator.colorFor(groupNo)
+const EvaporationGroupForm = ({ group, groupNo, onChange }) => {
 
 	const [reactionProcessVessel, setReactionProcessVessel] = useState({})
-
-	const createEvaporation = () => {
-		onSave(groupNo, reactionProcessVessel)
-	}
+	const [useGroup, setUseGroup] = useState(true)
 
 	return (
 		<Row>
-			<Col md={3}>
+			<Col md={1}>
+				<Label check>
+					Use Group
+				</Label>
+				<Input
+					type="checkbox"
+					checked={useGroup}
+					onChange={(event) => setUseGroup(event.target.checked)}
+				/>
+			</Col>
+			<Col md={4}>
 				<VesselableFormSection
 					onChange={setReactionProcessVessel}
 					reactionProcessVessel={reactionProcessVessel} />
-
 			</Col>
 			<Col md={6}>
 				{group.map(vial =>
-					<Button className="circle-button m-1"
-						disabled
-						style={{ backgroundColor: colorStyle }}>
-						{vial}
-					</Button>
+					<VialButton
+						vial={vial}
+						onClick={(event => { })} />
 				)}
-			</Col>
-			<Col md={1}>
-				<Button
-					onClick={createEvaporation}>Create Evaporation</Button>
 			</Col>
 		</Row >
 	)

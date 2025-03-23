@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button } from "reactstrap";
 
 import VialSelectDecorator from '../../decorators/VialSelectDecorator'
@@ -6,34 +6,20 @@ import VialSelectDecorator from '../../decorators/VialSelectDecorator'
 const VialButton = (
   {
     vial,
-    onClick,
-    noOfGroups
+    onClick
   }) => {
 
-  const [group, setGroup] = useState(0)
-
-  useEffect(() => {
-    if (group > noOfGroups) {
-      setGroup(0)
-    }
-  }, [group, noOfGroups])
-
-
-  const handleClick = () => {
-    let newGroup = ((group || 0) + 1) % noOfGroups
-    setGroup(newGroup)
-    onClick(newGroup)
-  }
-
-  const colorStyle = vial ? VialSelectDecorator.colorFor(group) : "transparent"
+  const colorStyle = vial.id ? VialSelectDecorator.colorFor(vial.group) : "transparent"
 
   return (
     <Button className="circle-button m-1"
-      disabled={!vial}
+      disabled={!vial.id}
 
       style={{ backgroundColor: colorStyle }}
-      onClick={handleClick}>
-      {vial}
+      onClick={onClick}>
+      {vial.id}
+      <br />
+      {vial.group}
     </Button>
   )
 }
