@@ -3,9 +3,9 @@ import { FormGroup, Label } from "reactstrap";
 
 import AutomationStatusButton from "../../../utilities/AutomationStatusButton";
 import AutomationStatusDecorator from "../../../../decorators/AutomationStatusDecorator";
-import ChromatographyVialSelectFormModal from "../../../utilities/ChromatographyVialSelectFormModal";
+import ChromatographyPoolingFormModal from "../../../utilities/ChromatographyPoolingFormModal";
 
-const AutomationStatusFormGroup = ({ onChange, status, modelId, activity }) => {
+const AutomationStatusFormGroup = ({ onChange, onResolvePooling, status, modelId, activity }) => {
 
   return (
     <FormGroup className={"form-section"}>
@@ -23,8 +23,9 @@ const AutomationStatusFormGroup = ({ onChange, status, modelId, activity }) => {
         />
       </div >
       {activity && AutomationStatusDecorator.automationNeedsResolve(status) &&
-        <ChromatographyVialSelectFormModal
+        <ChromatographyPoolingFormModal
           activity={activity}
+          onResolvePooling={onResolvePooling}
         />
       }
     </FormGroup>

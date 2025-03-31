@@ -30,7 +30,7 @@ function useReactionsFetcher() {
     deleteActivity,
     updateActivityPosition,
     updateProcessStepPosition,
-    appendEvaporationsToActivity
+    appendPoolingsToActivity
   }
 
   function index() {
@@ -124,8 +124,8 @@ function useReactionsFetcher() {
       { 'activity': activity, 'insert_before': insertBefore })
   }
 
-  function appendEvaporationsToActivity(activity, evaporations) {
-    return api.put(`/reaction_process_activities/${activity.id}/append_evaporations`, { 'evaporation_groups': evaporations })
+  function appendPoolingsToActivity(activity, poolings) {
+    return api.put(`/reaction_process_activities/${activity.id}/append_pooling_groups`, { 'pooling_groups': poolings })
   }
 
   function updateActivity(activity) {

@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
 
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import ChromatographyVialSelectForm from './ChromatographyVialSelectForm';
+import ChromatographyPoolingForm from './ChromatographyPoolingForm';
 
-
-const ChromatographyVialSelectFormModal = (
+const ChromatographyPoolingFormModal = (
 	{
-		activity
+		activity,
+		onResolvePooling
 	}) => {
 
 	const [showModal, setShowModal] = useState(false)
 	const toggleModal = () => { setShowModal(!showModal) }
+
+	const handleResolvePooling = () => {
+		toggleModal()
+		onResolvePooling()
+	}
 
 	return (
 		<>
@@ -26,9 +31,10 @@ const ChromatographyVialSelectFormModal = (
 			>
 				<ModalHeader>Select Vials From Automation</ModalHeader>
 				<ModalBody>
-					<ChromatographyVialSelectForm
+					<ChromatographyPoolingForm
 						activity={activity}
-						closeForm={toggleModal}
+						onResolvePooling={handleResolvePooling}
+						onCancel={toggleModal}
 					/>
 				</ModalBody>
 			</Modal>
@@ -36,4 +42,4 @@ const ChromatographyVialSelectFormModal = (
 	)
 }
 
-export default ChromatographyVialSelectFormModal
+export default ChromatographyPoolingFormModal

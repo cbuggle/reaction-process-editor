@@ -40,6 +40,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         modelId={processStep?.id}
         status={automationStatus}
         onChange={setAutomationStatus}
+        onResolvePooling={onSave}
       />
       <FormButtons
         onSave={handleSave}

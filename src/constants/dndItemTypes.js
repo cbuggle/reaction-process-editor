@@ -1,4 +1,5 @@
 export const DndItemTypes = {
   ACTION: 'action',
-  STEP: 'step'
+  STEP: 'step',
+  VIALBUTTON: 'vialButton'
 }

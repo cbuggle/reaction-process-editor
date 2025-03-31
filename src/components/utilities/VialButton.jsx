@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button } from "reactstrap";
+import { useDrag } from 'react-dnd'
 
+import { DndItemTypes } from '../../constants/dndItemTypes';
 import VialSelectDecorator from '../../decorators/VialSelectDecorator'
 
 const VialButton = (
@@ -9,18 +11,32 @@ const VialButton = (
     onClick
   }) => {
 
-  const colorStyle = vial.id ? VialSelectDecorator.colorFor(vial.group) : "transparent"
+  const colorStyle = vial?.id ? VialSelectDecorator.colorFor(vial.group) : "transparent"
+
+  const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
+    type: DndItemTypes.VIALBUTTON,
+    item: {
+      vial: vial,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+      canDrag: monitor.canDrag()
+    }),
+    canDrag: () => vial?.id,
+  }), [vial])
 
   return (
-    <Button className="circle-button m-1"
-      disabled={!vial.id}
-
-      style={{ backgroundColor: colorStyle }}
-      onClick={onClick}>
-      {vial.id}
-      <br />
-      {vial.group}
-    </Button>
+    <div ref={dragRef} style={{ display: "inline" }}>
+      <div ref={previewRef} style={{ display: "inline-block " }}>
+        <Button className={'circle-button m-1 inline-flow'}
+          style={{ backgroundColor: colorStyle }}
+          disabled={!vial?.id}
+          onClick={onClick}
+        >
+          {vial?.id}
+        </Button >
+      </div>
+    </div >
   )
 }
 
