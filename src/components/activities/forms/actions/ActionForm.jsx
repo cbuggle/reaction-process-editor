@@ -72,6 +72,8 @@ const ActionForm = (
               workup={workup}
               onWorkupChange={onWorkupChange}
               preconditions={preconditions}
+              reactionProcessVessel={activity.reaction_process_vessel}
+              onChangeVessel={onChangeVessel}
             />
           </>
         )
