@@ -178,9 +178,9 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 						onChange={setCurrentTray}
 						className='form-control'
 					/>
-					<div className={'p-3'}>
-						{"Tray No. " + currentTray + "/" + trayCount}
-					</div>
+					{/* <div className={'p-3'}> */}
+					{"Tray No. " + currentTray + "/" + trayCount}
+					{/* </div> */}
 				</Col>
 
 				<Col md={1}>

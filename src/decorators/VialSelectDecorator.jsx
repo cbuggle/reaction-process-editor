@@ -7,13 +7,18 @@ export default class VialSelectDecorator {
     return (
 
       ["#000000",
-        "#660033",
         "#469110",
+        "#660033",
+        "#0033AA",
         "#00520A",
         "#A2574F",
         "#E68057",
+        "#003366",
         "#993A8B",
-        "#993A8B",
+        "#AA3300",
+        "#ff0000",
+        "#00ff00",
+        "#0000ff",
       ][currentVialGroup]
     )
   }
