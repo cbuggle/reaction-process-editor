@@ -13,7 +13,7 @@ import VialButton from './VialButton'
 import { SelectOptions } from "../../contexts/SelectOptions";
 
 
-const PoolingGroupForm = ({ poolingGroup, allVials, vialPlateColumns, claimVial, setVessel, setFollowUpAction }) => {
+const PoolingGroupForm = ({ poolingGroup, groupId, allVials, vialPlateColumns, claimVial, setVessel, setFollowUpAction }) => {
 
 	console.log("poolingGroupForm")
 	console.log(poolingGroup)
@@ -34,7 +34,11 @@ const PoolingGroupForm = ({ poolingGroup, allVials, vialPlateColumns, claimVial,
 	}
 
 	const dropClassName = () => {
-		return isOver ? "bg bg-success bg-opacity-25" : ""
+		return isOver ? " bg bg-success bg-opacity-25 " : ""
+	}
+
+	const groupClassName = () => {
+		return " bg bg-primary bg-opacity-25 "
 	}
 
 	const renderBreak = (idx) => {
@@ -42,6 +46,7 @@ const PoolingGroupForm = ({ poolingGroup, allVials, vialPlateColumns, claimVial,
 	}
 
 	const renderVialPlate = () => {
+		// works but users decided for VialLine display
 		return allVials.map((currentPlateVial, idx) => {
 			return (
 				<>
@@ -69,11 +74,14 @@ const PoolingGroupForm = ({ poolingGroup, allVials, vialPlateColumns, claimVial,
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div ref={dropRef} className={"border border-top-1 mt-5 " + dropClassName()}>
+			<div ref={dropRef} className={"border border-top-1 mt-3 " + dropClassName() + groupClassName()}>
 				<Row className={"pt-4 ps-4"}>
 					<Col md={4} className="border-end">
-						<Label>
+						<span className="pe-5">
 							Followup Action
+						</span>
+						<Label className="ps-5">
+							{'Pooling Group ' + (groupId + 1)}
 						</Label>
 						<Select
 							className="react-select--overwrite"
@@ -90,10 +98,6 @@ const PoolingGroupForm = ({ poolingGroup, allVials, vialPlateColumns, claimVial,
 					<Col md={8}>
 						{renderVialLine()}
 					</Col>
-					{/* <Col md={4}>
-
-					</Col> */}
-
 				</Row >
 			</div>
 		</DndProvider>

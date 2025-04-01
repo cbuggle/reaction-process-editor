@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Label } from 'reactstrap'
 
 import FormButtons from './FormButtons'
 import NumericalInput from './NumericalInput'
@@ -13,22 +13,24 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => {
 	const api = useReactionsFetcher()
 
-	const automationResponse = activity.automation_response[0]
+	const [currentTray, setCurrentTray] = useState(1)
+	const trayCount = activity.automation_response.length
+
+	let allVials = []
+	activity.automation_response.forEach(ar => allVials = allVials.concat(ar.vials))
+
+	const automationResponse = activity.automation_response[currentTray - 1] || []
 	const tray_type = automationResponse?.['tray_type'] || "No tray_type defined, automation response defect?"
-	const vials_list = automationResponse?.['vials'] || [[]]
-	const vialPlateColumns = automationResponse?.['vial_columns'] || 1
+	// const vials_list = automationResponse?.['vials'] || [[]]
+	const vialPlateColumns = automationResponse?.['vial_columns'] || 5
+	const vialsPerTray = 15 // TODO extract this from tray_type
 
-	const [currentTray, setCurrentTray] = useState(0)
-
-	const [vials, setVials] = useState(vials_list.map(vial => { return { id: vial, groupId: 0 } }))
+	const [vials, setVials] = useState(allVials.map(vial => { return { id: vial, groupId: 0 } }))
 	const [vessels, setVessels] = useState([])
 	const [followUpActions, setFollowUpActions] = useState([])
 	const [groupCount, setGroupCount] = useState(1)
 
 	const [renderCountToForciblyUpdateVialsStateInFunctionClaimVial, setRenderCount] = useState(0);
-
-	// const initialPoolingGroup = { vials: [], groupId: 0, vessel: {}, followupActivity: 'EVAPORATION' }
-	// const [poolingGroups, setPoolingGroups] = useState([initialPoolingGroup])
 
 	useEffect(() => {
 		let newVials = vials.map(vial => { return { ...vial, groupId: vial.groupId > (groupCount - 1) ? 0 : vial.groupId } })
@@ -96,7 +98,7 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 		let poolingGroup = poolingGroups()[groupId]
 		return (
 			<PoolingGroupForm
-				key={"evaporation-group-form" + groupId + "-" + renderCountToForciblyUpdateVialsStateInFunctionClaimVial}
+				key={"pooling-group-form" + groupId + "-" + renderCountToForciblyUpdateVialsStateInFunctionClaimVial}
 				poolingGroup={poolingGroup}
 				vials={groupVials}
 				groupId={groupId}
@@ -128,14 +130,17 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 		if (idx % vialPlateColumns === vialPlateColumns - 1) { return (<br />) }
 	}
 
-	const renderVialPlate = () => {
-		return vials.map((vial, idx) => {
+	const renderCurrentVialPlate = (trayNo) => {
+		const firstVial = 0 + (trayNo - 1) * vialsPerTray
+		const lastVial = firstVial + vialsPerTray
+
+		return vials.slice(firstVial, lastVial).map((vial, idx) => {
 			return (
 				<>
 					<VialButton
 						key={"vial-button-" + vial.id}
 						vial={vial}
-						onClick={handleVialGroupChange(idx)()}
+						onClick={handleVialGroupChange(firstVial + idx)()}
 					/>
 					{renderBreak(idx)}
 				</>
@@ -147,6 +152,7 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 		return (
 			<Row className='gx-2 mb-5'>
 				<Col md={1}>
+					<Label>Pooling Groups</Label>
 					<NumericalInput
 						value={groupCount}
 						step={1}
@@ -156,15 +162,32 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 						className='form-control'
 					/>
 				</Col>
-				<Col md={2}>
-					Pooling Groups
-				</Col>
-				<Col md={2}>{tray_type}
+
+				<Col md={2} className={'p-3'}>
+					<div className={'p-3'}>
+
+						{tray_type}
+					</div>
+					<NumericalInput
+
+						value={currentTray}
+						step={1}
+						min={1}
+						max={trayCount}
+						size={8}
+						onChange={setCurrentTray}
+						className='form-control'
+					/>
+					<div className={'p-3'}>
+						{"Tray No. " + currentTray + "/" + trayCount}
+					</div>
 				</Col>
 
-				<Col md={6}>
+				<Col md={1}>
+				</Col>
+				<Col md={5}>
 					<DndProvider backend={HTML5Backend}>
-						{renderVialPlate()}
+						{renderCurrentVialPlate(currentTray)}
 					</DndProvider>
 				</Col>
 				<Col md={1}>
