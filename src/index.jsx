@@ -39,7 +39,12 @@ import {
   faShare,
   faShareFromSquare,
   faHandPointRight,
-  faHand
+  faHand,
+  faThumbsUp,
+  // faCircleCheck,
+  faCheck,
+  // faSquareCheck,
+  // faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -77,7 +82,12 @@ library.add(
   faShare,
   faShareFromSquare,
   faHandPointRight,
-  faHand
+  faHand,
+  faThumbsUp,
+  // faCircleCheck,
+  faCheck,
+  // faSquareCheck,
+  // faCheckDouble
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

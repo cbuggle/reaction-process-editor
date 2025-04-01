@@ -13,11 +13,12 @@ import VialButton from './VialButton'
 import { SelectOptions } from "../../contexts/SelectOptions";
 
 
-const PoolingGroupForm = ({ vials, group, allVials, vialPlateColumns, claimVial }) => {
+const PoolingGroupForm = ({ poolingGroup, allVials, vialPlateColumns, claimVial, setVessel, setFollowUpAction }) => {
+
+	console.log("poolingGroupForm")
+	console.log(poolingGroup)
 
 	const selectOptions = useContext(SelectOptions).FORMS.POOLING_GROUP;
-	const [reactionProcessVessel, setReactionProcessVessel] = useState({})
-	const [activityCreateType, setActivityCreateType] = useState('EVAPORATION')
 
 	const [{ isOver, }, dropRef] = useDrop(() => ({
 		accept: DndItemTypes.VIALBUTTON,
@@ -29,7 +30,7 @@ const PoolingGroupForm = ({ vials, group, allVials, vialPlateColumns, claimVial 
 	}), [])
 
 	const dropItem = (monitor) => {
-		claimVial(group, monitor.vial)
+		claimVial(monitor.vial)
 	}
 
 	const dropClassName = () => {
@@ -41,12 +42,12 @@ const PoolingGroupForm = ({ vials, group, allVials, vialPlateColumns, claimVial 
 	}
 
 	const renderVialPlate = () => {
-		return allVials.map((vial, idx) => {
+		return allVials.map((currentPlateVial, idx) => {
 			return (
 				<>
 					<VialButton
-						key={"vial-button-" + vial.id}
-						vial={vials.find(v => v === vial)}
+						key={"vial-button-" + currentPlateVial.id}
+						vial={poolingGroup.vials.find(vial => vial.id === currentPlateVial.id)}
 						onClick={event => { }}
 						disabled
 					/>
@@ -58,7 +59,7 @@ const PoolingGroupForm = ({ vials, group, allVials, vialPlateColumns, claimVial 
 
 	const renderVialLine = () => {
 		return (
-			vials.map(vial =>
+			poolingGroup.vials.map(vial =>
 				<VialButton
 					vial={vial}
 					onClick={(event => { })} />
@@ -68,38 +69,31 @@ const PoolingGroupForm = ({ vials, group, allVials, vialPlateColumns, claimVial 
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div ref={dropRef} className={dropClassName()}>
-				<Row className={"border border-top-5"}>
-					<Col md={4}>
-						{renderVialPlate()}
-					</Col>
-					{/* <Col md={4}>
-						{renderVialLine()}
-					</Col> */}
-					<Col md={2}>
-						<Label check >
+			<div ref={dropRef} className={"border border-top-1 mt-5 " + dropClassName()}>
+				<Row className={"pt-4 ps-4"}>
+					<Col md={4} className="border-end">
+						<Label>
 							Followup Action
 						</Label>
 						<Select
 							className="react-select--overwrite"
 							classNamePrefix="react-select"
 							name="activityType"
-							options={selectOptions.activity_types}
-							value={activityCreateType}
-							onChange={setActivityCreateType}
+							options={selectOptions.followup_action_types}
+							value={poolingGroup.followUpAction}
+							onChange={setFollowUpAction}
 						/>
-						{/* <Select
-							className="mx-3"
-							type="checkbox"
-							checked={throwGroupAway}
-							onChange={(event) => setThrowGroupAway(event.target.checked)}
-						/> */}
-					</Col>
-					<Col md={4}>
 						<VesselableFormSection
-							onChange={setReactionProcessVessel}
-							reactionProcessVessel={reactionProcessVessel} />
+							onChange={setVessel}
+							reactionProcessVessel={poolingGroup.vessel || {}} />
 					</Col>
+					<Col md={8}>
+						{renderVialLine()}
+					</Col>
+					{/* <Col md={4}>
+
+					</Col> */}
+
 				</Row >
 			</div>
 		</DndProvider>

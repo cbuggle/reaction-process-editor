@@ -13,22 +13,25 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => {
 	const api = useReactionsFetcher()
 
-	const automationResponse = activity.automation_response
+	const automationResponse = activity.automation_response[0]
 	const tray_type = automationResponse?.['tray_type'] || "No tray_type defined, automation response defect?"
 	const vials_list = automationResponse?.['vials'] || [[]]
 	const vialPlateColumns = automationResponse?.['vial_columns'] || 1
 
 	const [currentTray, setCurrentTray] = useState(0)
 
-	const [vials, setVials] = useState(vials_list.map(vial => { return { id: vial, group: 0 } }))
-	const [vessels, setVessels] = useState({})
+	const [vials, setVials] = useState(vials_list.map(vial => { return { id: vial, groupId: 0 } }))
+	const [vessels, setVessels] = useState([])
+	const [followUpActions, setFollowUpActions] = useState([])
 	const [groupCount, setGroupCount] = useState(1)
 
 	const [renderCountToForciblyUpdateVialsStateInFunctionClaimVial, setRenderCount] = useState(0);
 
+	// const initialPoolingGroup = { vials: [], groupId: 0, vessel: {}, followupActivity: 'EVAPORATION' }
+	// const [poolingGroups, setPoolingGroups] = useState([initialPoolingGroup])
 
 	useEffect(() => {
-		let newVials = vials.map(vial => { return { ...vial, group: vial.group > (groupCount - 1) ? 0 : vial.group } })
+		let newVials = vials.map(vial => { return { ...vial, groupId: vial.groupId > (groupCount - 1) ? 0 : vial.groupId } })
 
 		setVials(newVials)
 		setRenderCount(renderCountToForciblyUpdateVialsStateInFunctionClaimVial + 1)
@@ -40,48 +43,77 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 		createPoolingActivities()
 	}
 
-	const createPoolingActivities = (reactionProcessVessel) => {
+	const createPoolingActivities = () => {
 		api.appendPoolingsToActivity(activity, poolingGroups())
 	}
 
 	const poolingGroups = () => {
 		let groups = []
 		for (let currentGroup = 0; currentGroup < groupCount; currentGroup++) {
-			let vialsInGroup = vials.filter(vial => vial.group === currentGroup)
-			groups.push({ vessel: {}, vials: vialsInGroup, activity_name: "ACTIVITY_NAME" }) // Todo fetch fron subform
+			let vialsInGroup = vials.filter(vial => vial.id && (vial.groupId === currentGroup))
+			groups.push({
+				vessel: vessels[currentGroup],
+				vials: vialsInGroup,
+				followUpAction: followUpActions[currentGroup] || { value: 'EVAPORATION', label: 'Evaporation' }
+			})
 		}
 		return groups
 	}
 
-	const handleVialGroupChange = (idx) => (newGroup) => () => {
+	const handleVialGroupChange = (idx) => (newGroupId) => () => {
 		if (groupCount === 1) setGroupCount(2)
 
-		newGroup ||= vials[idx].group + 1
-		if (newGroup >= groupCount && groupCount > 1) { newGroup = 0 }
-		setVials(vials.toSpliced(idx, 1, { ...vials[idx], group: newGroup }))
+		newGroupId ||= vials[idx].groupId + 1
+		if (newGroupId >= groupCount && groupCount > 1) { newGroupId = 0 }
+		setVials(vials.toSpliced(idx, 1, { ...vials[idx], groupId: newGroupId }))
 
 		setRenderCount(renderCountToForciblyUpdateVialsStateInFunctionClaimVial + 1)
 	}
 
+	// const handlePoolingGroupChange = (idx) => (newGroup) => {
+	// 	let newPoolingGroups = poolingGroups
+	// 	newPoolingGroups[idx] = newGroup
+	// 	setPoolingGroups(newPoolingGroups)
 
-	const renderPoolingGroup = (group) => {
-		let groupVials = vials.filter(vial => vial.id && vial.group === group)
+	// }
+	const handlePoolingGroupVessel = (idx) => (newVessel) => {
+		let newVessels = { ...vessels }
+		newVessels[idx] = newVessel
+		setVessels(newVessels)
+		setRenderCount(renderCountToForciblyUpdateVialsStateInFunctionClaimVial + 1)
+	}
+
+	const handlefollowUpAction = (idx) => (newAction) => {
+		let newfollowUpActions = { ...followUpActions }
+		newfollowUpActions[idx] = newAction
+		setFollowUpActions(newfollowUpActions)
+		setRenderCount(renderCountToForciblyUpdateVialsStateInFunctionClaimVial + 1)
+
+	}
+
+	const renderPoolingGroup = (groupId) => {
+		let groupVials = vials.filter(vial => vial.id && vial.groupId === groupId)
+		let poolingGroup = poolingGroups()[groupId]
 		return (
 			<PoolingGroupForm
-				key={"evaporation-group-form" + group + "-" + renderCountToForciblyUpdateVialsStateInFunctionClaimVial}
+				key={"evaporation-group-form" + groupId + "-" + renderCountToForciblyUpdateVialsStateInFunctionClaimVial}
+				poolingGroup={poolingGroup}
 				vials={groupVials}
-				group={group}
-				claimVial={claimVial}
+				groupId={groupId}
+				claimVial={claimVial(groupId)}
 				allVials={vials}
 				vialPlateColumns={vialPlateColumns}
+				// onChange={handlePoolingGroupChange(groupId)}
+				setVessel={handlePoolingGroupVessel(groupId)}
+				setFollowUpAction={handlefollowUpAction(groupId)}
 			/>
 		)
 	}
 
-	const claimVial = (group, vial) => {
+	const claimVial = (groupId) => (vial) => {
 		let idx = vials.findIndex(v => v.id === vial.id)
 		if (idx !== -1) {
-			setVials(vials.toSpliced(idx, 1, { ...vials[idx], group: group }))
+			setVials(vials.toSpliced(idx, 1, { ...vials[idx], groupId: groupId }))
 		}
 		setRenderCount(renderCountToForciblyUpdateVialsStateInFunctionClaimVial + 1)
 	}
@@ -134,6 +166,12 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 					<DndProvider backend={HTML5Backend}>
 						{renderVialPlate()}
 					</DndProvider>
+				</Col>
+				<Col md={1}>
+					<FormButtons
+						onSave={handleSave}
+						onCancel={onCancel}
+					/>
 				</Col>
 			</Row >
 		)

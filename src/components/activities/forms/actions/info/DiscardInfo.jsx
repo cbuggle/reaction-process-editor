@@ -4,13 +4,13 @@ import VesselableDecorator from '../../../../../decorators/VesselableDecorator';
 
 import InfoLinesBox from './InfoLinesBox';
 
-const EvaporationInfo = ({ activity }) => {
+const DiscardInfo = ({ activity }) => {
 	let workup = activity.workup
 
-	let infoTitle = ""
+	let infoTitle = 'Discard';
 
 	let infoLines = []
-	infoLines.push("Vials: " + workup.vials?.join(", "));
+	infoLines.push(workup.vials?.join(", "));
 
 	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vessel));
 
@@ -19,4 +19,4 @@ const EvaporationInfo = ({ activity }) => {
 	)
 }
 
-export default EvaporationInfo
+export default DiscardInfo

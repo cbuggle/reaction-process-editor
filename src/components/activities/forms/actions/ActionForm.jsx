@@ -8,6 +8,8 @@ import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
 import EvaporationForm from './EvaporationForm';
+import DiscardForm from './DiscardForm';
+import VialFormGroup from '../formgroups/VialFormGroup';
 
 const ActionForm = (
   {
@@ -31,13 +33,6 @@ const ActionForm = (
             workup={workup}
             preconditions={preconditions}
             onWorkupChange={onWorkupChange}
-          />
-        )
-      case "EVAPORATION":
-        return (
-          <EvaporationForm
-            workup={workup}
-            reactionProcessVessel={activity.reaction_process_vessel}
           />
         )
       case "SAVE":
@@ -86,6 +81,20 @@ const ActionForm = (
             />
           </>
         )
+      case "DISCARD":
+        return (
+          <DiscardForm
+            workup={workup}
+            reactionProcessVessel={activity.reaction_process_vessel}
+          />
+        )
+      case "EVAPORATION":
+        return (
+          <EvaporationForm
+            workup={workup}
+            reactionProcessVessel={activity.reaction_process_vessel}
+          />
+        )
       case "WAIT":
         return (<></>)
       default:
@@ -101,6 +110,7 @@ const ActionForm = (
       onSave={onSave}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
+      <VialFormGroup vials={workup.vials} />
       {customActivityForm()}
     </ActivityForm>
   );

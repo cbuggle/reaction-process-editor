@@ -11,7 +11,7 @@ const VialButton = (
     onClick
   }) => {
 
-  const colorStyle = vial?.id ? VialSelectDecorator.colorFor(vial.group) : "transparent"
+  const colorStyle = vial?.id ? VialSelectDecorator.colorFor(vial.groupId) : "transparent"
 
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.VIALBUTTON,
@@ -27,7 +27,7 @@ const VialButton = (
 
   return (
     <div ref={dragRef} style={{ display: "inline" }}>
-      <div ref={previewRef} style={{ display: "inline-block " }}>
+      <div ref={previewRef} style={{ display: "inline-block ", opaque: 0 }}>
         <Button className={'circle-button m-1 inline-flow'}
           style={{ backgroundColor: colorStyle }}
           disabled={!vial?.id}
