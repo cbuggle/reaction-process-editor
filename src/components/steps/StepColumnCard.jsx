@@ -50,11 +50,17 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
 
   const hasChanges = (stepName, reactionProcessVessel, automationStatus) => {
     return stepName !== processStep.name
-      || reactionProcessVessel?.id !== processStep.reaction_process_vessel?.id
+      || reactionProcessVessel?.id !== processStep.reaction_process_vessel?.vesselable_id
       || automationStatus !== processStep.automation_status
   }
 
   const onSave = (stepName, reactionProcessVessel, automationStatus) => {
+    console.log("onSave stepName")
+    console.log(stepName)
+    console.log(reactionProcessVessel?.id)
+    console.log(processStep)
+    console.log(hasChanges(stepName, reactionProcessVessel, automationStatus))
+
     setShowForm(false);
     if (isInitialised) {
       hasChanges(stepName, reactionProcessVessel, automationStatus) &&
