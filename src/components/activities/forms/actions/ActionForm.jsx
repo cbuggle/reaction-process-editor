@@ -85,6 +85,7 @@ const ActionForm = (
         return (
           <DiscardForm
             workup={workup}
+            onChangeVessel={onChangeVessel}
             reactionProcessVessel={activity.reaction_process_vessel}
           />
         )
@@ -92,6 +93,7 @@ const ActionForm = (
         return (
           <EvaporationForm
             workup={workup}
+            onChangeVessel={onChangeVessel}
             reactionProcessVessel={activity.reaction_process_vessel}
           />
         )

@@ -14,10 +14,6 @@ import { SelectOptions } from "../../contexts/SelectOptions";
 
 
 const PoolingGroupForm = ({ poolingGroup, groupId, allVials, vialPlateColumns, claimVial, setVessel, setFollowUpAction }) => {
-
-	console.log("poolingGroupForm")
-	console.log(poolingGroup)
-
 	const selectOptions = useContext(SelectOptions).FORMS.POOLING_GROUP;
 
 	const [{ isOver, }, dropRef] = useDrop(() => ({

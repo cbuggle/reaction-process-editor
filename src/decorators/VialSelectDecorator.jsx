@@ -3,14 +3,12 @@ export default class VialSelectDecorator {
   static colorFor = (currentVialGroup) => {
 
     currentVialGroup ||= 0
-
     return (
-
       ["#000000",
         "#469110",
         "#660033",
-        "#0033AA",
-        "#00520A",
+        "#3399AA",
+        "#66520A",
         "#A2574F",
         "#E68057",
         "#003366",

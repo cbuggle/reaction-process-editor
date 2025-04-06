@@ -11,7 +11,7 @@ const AutomationStatusFormGroup = ({ onChange, onResolvePooling, status, modelId
     <FormGroup className={"form-section"}>
       <div className="d-flex justify-content-between align-self-center">
         <Label className={"col-form-label"}>
-          {"Automation Status"}
+          {"Automation"}
         </Label>
         <Label className={"col-form-label"}>
           {AutomationStatusDecorator.labelForStatus(status)}
@@ -22,7 +22,7 @@ const AutomationStatusFormGroup = ({ onChange, onResolvePooling, status, modelId
           status={status}
         />
       </div >
-      {activity && AutomationStatusDecorator.automationNeedsResolve(status) &&
+      {activity && AutomationStatusDecorator.automationNeedsManualResolve(status) &&
         <ChromatographyPoolingFormModal
           activity={activity}
           onResolvePooling={onResolvePooling}

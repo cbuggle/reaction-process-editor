@@ -12,6 +12,9 @@ import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SubFormController } from "../../contexts/SubFormController";
 import { StepLock } from "../../contexts/StepLock";
 import { useActivityValidator } from "../../validators/ActivityValidator";
+import IconButton from "../utilities/IconButton";
+import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
+import { UncontrolledTooltip } from "reactstrap";
 
 const ActivityCard = ({
   type,
@@ -102,9 +105,27 @@ const ActivityCard = ({
     }));
   };
 
+  const renderTitleBar = (title) => {
+    return (
+      <div className="d-md-flex gap-2">
+        <div id={"activity_automation_status_" + activity?.id}>
+          <IconButton disabled
+            size={"sm"}
+            positive={false}
+            icon={AutomationStatusDecorator.iconForStatus(activity?.workup['AUTOMATION_STATUS'])}
+            color={AutomationStatusDecorator.colorForStatus(activity?.workup['AUTOMATION_STATUS'])} />
+        </div>
+        <UncontrolledTooltip target={"activity_automation_status_" + activity?.id} >
+          {AutomationStatusDecorator.labelForStatus(activity?.workup['AUTOMATION_STATUS'])}
+        </UncontrolledTooltip>
+        {title}
+      </div>
+    )
+  }
+
   return (
     <ProcedureCard
-      title={cardTitle}
+      title={renderTitleBar(cardTitle)}
       type={type}
       onEdit={edit}
       onDelete={onDelete}

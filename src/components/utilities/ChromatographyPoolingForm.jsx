@@ -14,12 +14,14 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 	const api = useReactionsFetcher()
 
 	const [currentTray, setCurrentTray] = useState(1)
-	const trayCount = activity.automation_response.length
+	const trayCount = activity.automation_response?.length || 0
 
 	let allVials = []
-	activity.automation_response.forEach(ar => allVials = allVials.concat(ar.vials))
+	activity.automation_response?.forEach(tray => allVials = allVials.concat(tray.vials))
 
-	const automationResponse = activity.automation_response[currentTray - 1] || []
+	const hasAutomationResponse = !!activity.automation_response
+
+	const automationResponse = activity.automation_response?.[currentTray - 1] || []
 	const tray_type = automationResponse?.['tray_type'] || "No tray_type defined, automation response defect?"
 	// const vials_list = automationResponse?.['vials'] || [[]]
 	const vialPlateColumns = automationResponse?.['vial_columns'] || 5
@@ -72,12 +74,6 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 		setRenderCount(renderCountToForciblyUpdateVialsStateInFunctionClaimVial + 1)
 	}
 
-	// const handlePoolingGroupChange = (idx) => (newGroup) => {
-	// 	let newPoolingGroups = poolingGroups
-	// 	newPoolingGroups[idx] = newGroup
-	// 	setPoolingGroups(newPoolingGroups)
-
-	// }
 	const handlePoolingGroupVessel = (idx) => (newVessel) => {
 		let newVessels = { ...vessels }
 		newVessels[idx] = newVessel
@@ -105,7 +101,6 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 				claimVial={claimVial(groupId)}
 				allVials={vials}
 				vialPlateColumns={vialPlateColumns}
-				// onChange={handlePoolingGroupChange(groupId)}
 				setVessel={handlePoolingGroupVessel(groupId)}
 				setFollowUpAction={handlefollowUpAction(groupId)}
 			/>
@@ -165,7 +160,6 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 
 				<Col md={2} className={'p-3'}>
 					<div className={'p-3'}>
-
 						{tray_type}
 					</div>
 					<NumericalInput
@@ -178,14 +172,14 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 						onChange={setCurrentTray}
 						className='form-control'
 					/>
-					{/* <div className={'p-3'}> */}
-					{"Tray No. " + currentTray + "/" + trayCount}
-					{/* </div> */}
+					<div className={'p-3'}>
+						{"Tray No. " + currentTray + "/" + trayCount}
+					</div>
 				</Col>
 
 				<Col md={1}>
 				</Col>
-				<Col md={5}>
+				<Col md={7}>
 					<DndProvider backend={HTML5Backend}>
 						{renderCurrentVialPlate(currentTray)}
 					</DndProvider>
@@ -200,10 +194,20 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 		)
 	}
 
+	const renderNoAutomationResponseHint = () => {
+		return (
+			<>
+				The action has not received an automation response that needs to be resolved.
+			</>
+		)
+	}
+
 	return (
+
 		<>
-			{renderVialGroupCounter()}
-			{renderPoolingGroups()}
+			{hasAutomationResponse && renderVialGroupCounter()}
+			{hasAutomationResponse && renderPoolingGroups()}
+			{!hasAutomationResponse && renderNoAutomationResponseHint()}
 			<FormButtons
 				onSave={handleSave}
 				onCancel={onCancel}

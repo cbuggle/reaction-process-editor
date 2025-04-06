@@ -12,13 +12,7 @@ const VesselableQuickSelector = ({
 }) => {
 
   useEffect(() => {
-    console.log("VesselableQuickSelector useEffect")
-    console.log(currentVesselable)
-    console.log(filteredVesselableOptions)
-
     if (currentVesselable && !filteredVesselableOptions.find(v => v.id === currentVesselable.id)) {
-
-      console.log("Reset label text")
       setVesselLabelText('')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

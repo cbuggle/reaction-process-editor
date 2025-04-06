@@ -1,60 +1,65 @@
 export default class AutomationStatusDecorator {
   static nextAutomationStatus = (currentValue) => {
     return ({
-      "RUN": "HALT", // For Activities
-      "HALT": "AUTOMATION_RESPONDED", // For Activities
-      "AUTOMATION_RESPONDED": "HALT_RESOLVED_NEEDS_CONFIRMATION", // For Activities
-      "HALT_RESOLVED_NEEDS_CONFIRMATION": "HALT_RESOLVED", // For Activities
+      "RUN": "HALT",
+      "HALT": "AUTOMATION_RESPONDED",
+      "AUTOMATION_RESPONDED": "HALT_RESOLVED_NEEDS_CONFIRMATION",
+      "HALT_RESOLVED_NEEDS_CONFIRMATION": "HALT_RESOLVED",
       "HALT_RESOLVED": "COMPLETED",
       "COMPLETED": "RUN",
-      "HALT_BY_PRECEDING": "MANUAL_PROCEED", // for Steps, maybe separate component?
-      "MANUAL_PROCEED": "HALT_BY_PRECEDING",
-      // "CONTINUE_AFTER_HALT": "CONTINUE_AFTER_HALT" // for Steps, maybe separate component?
-    }[currentValue] || "RUN")
+      "STEP_RUNNING": "STEP_RUNNING",
+      "STEP_COMPLETED": "STEP_COMPLETED",
+      "STEP_HALT_BY_PRECEDING": "STEP_MANUAL_PROCEED", // for Steps, maybe separate component?
+      "STEP_MANUAL_PROCEED": "STEP_HALT_BY_PRECEDING",
+    }[currentValue] || "HALT")
   }
 
-  static automationNeedsResolve = (status) => {
+  static automationNeedsManualResolve = (status) => {
     return status === "AUTOMATION_RESPONDED" || status === "HALT_RESOLVED_NEEDS_CONFIRMATION"
   }
 
   static labelForStatus = (currentStatus) => {
     return ({
-      "RUN": "Run", // For Activities
-      "HALT": "Halt Automation", // For Activities
-      "AUTOMATION_RESPONDED": "Automation Responded", // For Activities
-      "HALT_RESOLVED_NEEDS_CONFIRMATION": "Resolve Needs Confirmation", // For Activities
-      "HALT_RESOLVED": "Halt Resolved", // For Activities
+      "RUN": "Running",
+      "HALT": "Halts Automation",
+      "AUTOMATION_RESPONDED": "Automation Responded",
+      "HALT_RESOLVED_NEEDS_CONFIRMATION": "Resolved Needs Confirm",
+      "HALT_RESOLVED": "Halt Resolved",
       "COMPLETED": "Completed",
-      "HALT_BY_PRECEDING": "Halt by Preceding", // for Steps, maybe separate component?
-      "MANUAL_PROCEED": "Manual Proceed" // for Steps, maybe separate component?
+      "STEP_RUNNING": "Step Can Run", // for Steps
+      "STEP_COMPLETED": "Step Completed", // for Steps
+      "STEP_HALT_BY_PRECEDING": "Step halted by Preceding", // for Steps, maybe separate component?
+      "STEP_MANUAL_PROCEED": "Manual Proceed" // for Steps, maybe separate component?
     }[currentStatus] || "Running")
   }
 
   static iconForStatus = (currentStatus) => {
     return ({
-      "RUN": "play", // For Activities
-      "HALT": "pause", // For Activities
-      "AUTOMATION_RESPONDED": "share-from-square", // For Activities maybe separate
-      "HALT_RESOLVED_NEEDS_CONFIRMATION": "thumbs-up", // For Activities maybe separate
-      "HALT_RESOLVED": "share", // For Activities maybe separate
+      "RUN": "play",
+      "HALT": "pause",
+      "AUTOMATION_RESPONDED": "share-from-square",
+      "HALT_RESOLVED_NEEDS_CONFIRMATION": "thumbs-up",
+      "HALT_RESOLVED": "share",
       "COMPLETED": "check",
-      "HALT_BY_PRECEDING": "hand", // for Steps
-      "MANUAL_PROCEED": "hand-point-right" // for Steps
+      "STEP_RUNNING": "play", // for Steps
+      "STEP_COMPLETED": "check", // for Steps
+      "STEP_HALT_BY_PRECEDING": "hand", // for Steps
+      "STEP_MANUAL_PROCEED": "hand-point-right" // for Steps
     }[currentStatus] || "play")
   }
 
   static colorForStatus = (currentStatus) => {
     return ({
-      "RUN": "info", // For Activities
-      "HALT": "danger", // For Activities
-      "AUTOMATION_RESPONDED": "preparation", // For Activities maybe separate
-      "HALT_RESOLVED_NEEDS_CONFIRMATION": "warning", // For Activities maybe separate
-      "HALT_RESOLVED": "success", // For Activities maybe separate
+      "RUN": "info",
+      "HALT": "danger",
+      "AUTOMATION_RESPONDED": "preparation",
+      "HALT_RESOLVED_NEEDS_CONFIRMATION": "warning",
+      "HALT_RESOLVED": "success",
       "COMPLETED": "success",
-      "HALT_BY_PRECEDING": "warning", // for Steps
-      "MANUAL_PROCEED": "step" // for Steps
+      "STEP_RUNNING": "info",// for Steps
+      "STEP_COMPLETED": "success", // for Steps
+      "STEP_HALT_BY_PRECEDING": "warning", // for Steps
+      "STEP_MANUAL_PROCEED": "step" // for Steps
     }[currentStatus] || "")
   }
 }
-
-// faHandPointRight
