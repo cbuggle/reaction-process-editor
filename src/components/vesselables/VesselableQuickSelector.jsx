@@ -53,7 +53,7 @@ const VesselableQuickSelector = ({
   const renderVesselSelect = () => {
     return (
       <Select
-        key={"filtered-vessels-" + filteredVesselableOptions.length}
+        key={"filtered-vessels-" + filteredVesselableOptions.length + "-" + currentVesselable?.value}
         className="react-select--overwrite"
         classNamePrefix="react-select"
         name="filteredVesselableOptions"
@@ -62,7 +62,6 @@ const VesselableQuickSelector = ({
         onChange={handleSelectVesselable}
       />
     )
-
   }
 
   return (

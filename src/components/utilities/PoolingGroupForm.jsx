@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import Select from 'react-select';
 import { useDrop } from 'react-dnd'
 import { DndItemTypes } from '../../constants/dndItemTypes';
@@ -84,7 +84,7 @@ const PoolingGroupForm = ({ poolingGroup, groupId, allVials, vialPlateColumns, c
 							classNamePrefix="react-select"
 							name="activityType"
 							options={selectOptions.followup_action_types}
-							value={poolingGroup.followUpAction}
+							value={poolingGroup.followup_action}
 							onChange={setFollowUpAction}
 						/>
 						<VesselableFormSection

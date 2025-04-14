@@ -58,7 +58,7 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 			groups.push({
 				vessel: vessels[currentGroup],
 				vials: vialsInGroup,
-				followUpAction: followUpActions[currentGroup] || { value: 'EVAPORATION', label: 'Evaporation' }
+				followup_action: followUpActions[currentGroup] || { value: 'EVAPORATION', label: 'Evaporation' }
 			})
 		}
 		return groups

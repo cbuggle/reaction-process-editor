@@ -7,7 +7,7 @@ export default class AutomationStatusDecorator {
       "HALT_RESOLVED_NEEDS_CONFIRMATION": "HALT_RESOLVED",
       "HALT_RESOLVED": "COMPLETED",
       "COMPLETED": "RUN",
-      "STEP_RUNNING": "STEP_RUNNING",
+      "STEP_CAN_RUN": "STEP_CAN_RUN",
       "STEP_COMPLETED": "STEP_COMPLETED",
       "STEP_HALT_BY_PRECEDING": "STEP_MANUAL_PROCEED", // for Steps, maybe separate component?
       "STEP_MANUAL_PROCEED": "STEP_HALT_BY_PRECEDING",
@@ -26,11 +26,11 @@ export default class AutomationStatusDecorator {
       "HALT_RESOLVED_NEEDS_CONFIRMATION": "Resolved Needs Confirm",
       "HALT_RESOLVED": "Halt Resolved",
       "COMPLETED": "Completed",
-      "STEP_RUNNING": "Step Can Run", // for Steps
+      "STEP_CAN_RUN": "Step Can Run", // for Steps
       "STEP_COMPLETED": "Step Completed", // for Steps
       "STEP_HALT_BY_PRECEDING": "Step halted by Preceding", // for Steps, maybe separate component?
       "STEP_MANUAL_PROCEED": "Manual Proceed" // for Steps, maybe separate component?
-    }[currentStatus] || "Running")
+    }[currentStatus] || "RUN")
   }
 
   static iconForStatus = (currentStatus) => {
@@ -41,7 +41,7 @@ export default class AutomationStatusDecorator {
       "HALT_RESOLVED_NEEDS_CONFIRMATION": "thumbs-up",
       "HALT_RESOLVED": "share",
       "COMPLETED": "check",
-      "STEP_RUNNING": "play", // for Steps
+      "STEP_CAN_RUN": "play", // for Steps
       "STEP_COMPLETED": "check", // for Steps
       "STEP_HALT_BY_PRECEDING": "hand", // for Steps
       "STEP_MANUAL_PROCEED": "hand-point-right" // for Steps
@@ -56,7 +56,7 @@ export default class AutomationStatusDecorator {
       "HALT_RESOLVED_NEEDS_CONFIRMATION": "warning",
       "HALT_RESOLVED": "success",
       "COMPLETED": "success",
-      "STEP_RUNNING": "info",// for Steps
+      "STEP_CAN_RUN": "info",// for Steps
       "STEP_COMPLETED": "success", // for Steps
       "STEP_HALT_BY_PRECEDING": "warning", // for Steps
       "STEP_MANUAL_PROCEED": "step" // for Steps
