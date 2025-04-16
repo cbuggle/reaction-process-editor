@@ -13,7 +13,7 @@ import VialButton from './VialButton'
 import { SelectOptions } from "../../contexts/SelectOptions";
 
 
-const PoolingGroupForm = ({ poolingGroup, groupId, allVials, vialPlateColumns, claimVial, setVessel, setFollowUpAction }) => {
+const PoolingGroupForm = ({ poolingGroup, groupId, allVials, trayColumns, claimVial, setVessel, setFollowUpAction }) => {
 	const selectOptions = useContext(SelectOptions).FORMS.POOLING_GROUP;
 
 	const [{ isOver, }, dropRef] = useDrop(() => ({
@@ -38,11 +38,11 @@ const PoolingGroupForm = ({ poolingGroup, groupId, allVials, vialPlateColumns, c
 	}
 
 	const renderBreak = (idx) => {
-		if (idx % vialPlateColumns === vialPlateColumns - 1) { return (<br />) }
+		if (idx % trayColumns === trayColumns - 1) { return (<br />) }
 	}
 
 	const renderVialPlate = () => {
-		// works but users decided for VialLine display
+		// works but NJ, PH decided for Vial line display
 		return allVials.map((currentPlateVial, idx) => {
 			return (
 				<>

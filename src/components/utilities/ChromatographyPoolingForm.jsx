@@ -14,18 +14,20 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 	const api = useReactionsFetcher()
 
 	const [currentTray, setCurrentTray] = useState(1)
-	const trayCount = activity.automation_response?.length || 0
-
-	let allVials = []
-	activity.automation_response?.forEach(tray => allVials = allVials.concat(tray.vials))
 
 	const hasAutomationResponse = !!activity.automation_response
 
-	const automationResponse = activity.automation_response?.[currentTray - 1] || []
-	const tray_type = automationResponse?.['tray_type'] || "No tray_type defined, automation response defect?"
-	// const vials_list = automationResponse?.['vials'] || [[]]
-	const vialPlateColumns = automationResponse?.['vial_columns'] || 5
-	const vialsPerTray = 15 // TODO extract this from tray_type
+	const vialPlates = activity.automation_response?.vialPlates
+	const trayCount = vialPlates?.length || 0
+
+	let allVials = []
+	vialPlates?.forEach(tray => allVials = allVials.concat(tray.vials))
+
+	const currentPlate = vialPlates?.[currentTray - 1] || []
+	const trayType = currentPlate?.['trayType'] || "No trayType defined, automation response defect?"
+
+	const trayColumns = currentPlate?.['trayColumns'] || 1
+	const vialsPerTray = currentPlate?.['vials']?.length || 1
 
 	const [vials, setVials] = useState(allVials.map(vial => { return { id: vial, groupId: 0 } }))
 	const [vessels, setVessels] = useState([])
@@ -100,7 +102,7 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 				groupId={groupId}
 				claimVial={claimVial(groupId)}
 				allVials={vials}
-				vialPlateColumns={vialPlateColumns}
+				trayColumns={trayColumns}
 				setVessel={handlePoolingGroupVessel(groupId)}
 				setFollowUpAction={handlefollowUpAction(groupId)}
 			/>
@@ -122,7 +124,7 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 	}
 
 	const renderBreak = (idx) => {
-		if (idx % vialPlateColumns === vialPlateColumns - 1) { return (<br />) }
+		if (idx % trayColumns === trayColumns - 1) { return (<br />) }
 	}
 
 	const renderCurrentVialPlate = (trayNo) => {
@@ -160,7 +162,7 @@ const ChromatographyPoolingForm = ({ activity, onResolvePooling, onCancel }) => 
 
 				<Col md={2} className={'p-3'}>
 					<div className={'p-3'}>
-						{tray_type}
+						{trayType}
 					</div>
 					<NumericalInput
 
