@@ -5,25 +5,19 @@ import ExtractionForm from './purification/ExtractionForm';
 import CrystallizationForm from './purification/CrystallizationForm';
 import ChromatographyForm from './purification/ChromatographyForm';
 
-const PurificationForm = (
-  {
-    workup,
-    onWorkupChange,
-    preconditions
-  }) => {
+const PurificationForm = (props) => {
 
-  switch (workup.purification_type) {
+  switch (props.workup.purification_type) {
     case "CHROMATOGRAPHY":
-      return (<ChromatographyForm workup={workup} onWorkupChange={onWorkupChange} />)
+      return (<ChromatographyForm {...props} />)
     case "CRYSTALLIZATION":
-      return (<CrystallizationForm workup={workup} onWorkupChange={onWorkupChange} preconditions={preconditions} />)
+      return (<CrystallizationForm {...props} />)
     case "EXTRACTION":
-      return (<ExtractionForm workup={workup}
-        onWorkupChange={onWorkupChange} />)
+      return (<ExtractionForm {...props} />)
     case "FILTRATION":
-      return (<FiltrationForm workup={workup} onWorkupChange={onWorkupChange} />)
+      return (<FiltrationForm {...props} />)
     default:
-      return (<>{"Unknown purification type Error in PurificationForm: " + workup.purification_type} </>)
+      return (<>{"Unknown purification type Error in PurificationForm: " + props.workup.purification_type} </>)
   }
 }
 

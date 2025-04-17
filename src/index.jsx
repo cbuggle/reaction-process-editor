@@ -31,6 +31,17 @@ import {
   faSignOut,
   faUndoAlt,
   faTimes,
+  faPause,
+  faPlay,
+  faForwardFast,
+  faForwardStep,
+  faForward,
+  faShare,
+  faShareFromSquare,
+  faHandPointRight,
+  faHand,
+  faThumbsUp,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -59,7 +70,18 @@ library.add(
   faTemperatureHigh,
   faSignOut,
   faUndoAlt,
-  faTimes
+  faTimes,
+  faPause,
+  faPlay,
+  faForwardFast,
+  faForwardStep,
+  faForward,
+  faShare,
+  faShareFromSquare,
+  faHandPointRight,
+  faHand,
+  faThumbsUp,
+  faCheck,
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -30,6 +30,7 @@ function useReactionsFetcher() {
     deleteActivity,
     updateActivityPosition,
     updateProcessStepPosition,
+    appendPoolingsToActivity
   }
 
   function index() {
@@ -121,6 +122,10 @@ function useReactionsFetcher() {
   function createActivity(processStepId, activity, insertBefore) {
     return api.post(`/reaction_process_steps/${processStepId}/activities`,
       { 'activity': activity, 'insert_before': insertBefore })
+  }
+
+  function appendPoolingsToActivity(activity, poolings) {
+    return api.put(`/reaction_process_activities/${activity.id}/append_pooling_groups`, { 'pooling_groups': poolings })
   }
 
   function updateActivity(activity) {

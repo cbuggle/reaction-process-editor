@@ -1,19 +1,24 @@
 import React, { useState } from "react";
+import { UncontrolledTooltip } from "reactstrap";
 
 import { useDrag, useDrop } from "react-dnd";
 import { DndItemTypes } from "../../constants/dndItemTypes";
 
 import Activity from "../activities/Activity";
 import ActivityCreator from "../activities/ActivityCreator";
-import ProcedureCard from "../utilities/ProcedureCard";
 import StepInfo from "./StepInfo";
 import StepForm from "./StepForm";
 import StepLockButton from "./StepLockButton";
 
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import IconButton from "../utilities/IconButton";
+import ProcedureCard from "../utilities/ProcedureCard";
+
+import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
 
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 import { StepLock } from "../../contexts/StepLock";
+
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel }) => {
   const isInitialised = !!processStep;
@@ -43,27 +48,29 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
     }
   };
 
-  const onSave = (stepName, reactionProcessVessel) => {
+  const hasChanges = (stepName, reactionProcessVessel, automationStatus) => {
+    return stepName !== processStep?.name
+      || reactionProcessVessel?.vesselable_id !== processStep?.reaction_process_vessel?.vesselable_id
+      || automationStatus !== processStep?.automation_status
+  }
+
+  const onSave = (stepName, reactionProcessVessel, automationStatus) => {
+    setShowForm(false);
     if (isInitialised) {
-      if (
-        stepName !== processStep.name || stepName === "" ||
-        reactionProcessVessel !== processStep.reaction_process_vessel
-      ) {
+      hasChanges(stepName, reactionProcessVessel, automationStatus) &&
         api.updateProcessStep({
           ...processStep,
           name: stepName,
           reaction_process_vessel: reactionProcessVessel,
+          automation_status: automationStatus
         });
-      }
-
-      setShowForm(false);
     } else {
       api.createProcessStep(reactionProcess.id, {
         ...processStep,
         name: stepName,
         reaction_process_vessel: reactionProcessVessel,
+        automation_status: automationStatus
       });
-      setShowForm(false);
       onCancel();
     }
   };
@@ -111,6 +118,24 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
     ));
   };
 
+  const renderTitleBar = (title) => {
+    return (
+      <div className="d-md-flex gap-2">
+        <div id={"step_automation_status_" + processStep?.id}>
+          <IconButton disabled
+            positive={false}
+            icon={AutomationStatusDecorator.iconForStatus(processStep?.automation_status)}
+            color={AutomationStatusDecorator.colorForStatus(processStep?.automation_status)} />
+        </div>
+        <UncontrolledTooltip target={"step_automation_status_" + processStep?.id} >
+          {AutomationStatusDecorator.labelForStatus(processStep?.automation_status)}
+        </UncontrolledTooltip>
+        {title}
+      </div>
+    )
+
+  }
+
   return (
     <StepSelectOptions.Provider value={processStep?.select_options}>
       <div ref={dropRef} style={{ opacity: isOver ? 0.5 : 1 }}>
@@ -123,7 +148,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
         >
           <StepLock.Provider value={isLocked}>
             <ProcedureCard
-              title={cardTitle}
+              title={renderTitleBar(cardTitle)}
               type="step"
               showEditBtn={!showForm && !isLocked}
               showMoveBtn={!showForm && !isLocked}
@@ -165,14 +190,14 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                   </div>
                 </ProcedureCard.Details>
               )}
-              {isInitialised && (
+              {isInitialised && !showForm && (
                 <ProcedureCard.ExtraButtons>
-                  {!showForm && (
+                  <div className="d-md-flex gap-2">
                     <StepLockButton
                       stepId={processStep?.id}
                       locked={isLocked}
                     />
-                  )}
+                  </div>
                 </ProcedureCard.ExtraButtons>
               )}
             </ProcedureCard>

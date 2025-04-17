@@ -1,14 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { Button, Col, Form, InputGroup, Input } from "reactstrap";
+import { Button, Col, InputGroup, Input } from "reactstrap";
 
 import { VesselOptions } from "../../contexts/VesselOptions";
 import Select from "react-select";
 
-const VesselableLabelQuickSelectorInput = ({
+const VesselableQuickSelector = ({
+  currentVesselable,
   onSelectVesselable,
   typeColor,
 }) => {
+
+  useEffect(() => {
+    if (currentVesselable && !filteredVesselableOptions.find(v => v.id === currentVesselable.id)) {
+      setVesselLabelText('')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentVesselable])
 
   const vesselables = useContext(VesselOptions);
 
@@ -45,7 +53,7 @@ const VesselableLabelQuickSelectorInput = ({
   const renderVesselSelect = () => {
     return (
       <Select
-        key={"filtered-vessels-" + filteredVesselableOptions.length}
+        key={"filtered-vessels-" + filteredVesselableOptions.length + "-" + currentVesselable?.value}
         className="react-select--overwrite"
         classNamePrefix="react-select"
         name="filteredVesselableOptions"
@@ -54,7 +62,6 @@ const VesselableLabelQuickSelectorInput = ({
         onChange={handleSelectVesselable}
       />
     )
-
   }
 
   return (
@@ -79,4 +86,4 @@ const VesselableLabelQuickSelectorInput = ({
   );
 };
 
-export default VesselableLabelQuickSelectorInput;
+export default VesselableQuickSelector;

@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import AddInfo from "./forms/actions/info/AddInfo";
 import AnalysisInfo from "./forms/actions/info/AnalysisInfo";
 import ConditionInfo from "./forms/actions/info/ConditionInfo";
+import DiscardInfo from "./forms/actions/info/DiscardInfo";
+import EvaporationInfo from "./forms/actions/info/EvaporationInfo";
 import PurificationInfo from "./forms/actions/info/PurificationInfo";
 import RemoveInfo from "./forms/actions/info/RemoveInfo";
 import SaveInfo from "./forms/actions/info/SaveInfo";
@@ -12,6 +14,7 @@ import WaitInfo from "./forms/actions/info/WaitInfo";
 import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
+
 
 const ActivityInfo = (props) => {
   const selectOptions = useContext(SelectOptions);
@@ -29,6 +32,8 @@ const ActivityInfo = (props) => {
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
+      'EVAPORATION': EvaporationInfo,
+      'DISCARD': EvaporationInfo,
       'WAIT': WaitInfo,
     }[activity.activity_name]
 
@@ -36,7 +41,7 @@ const ActivityInfo = (props) => {
       return (<ActivityComponent {...props} />
       )
     } else {
-      return "Error in ActivityInfo. Unknown activity type: " + activity.activity_name
+      return activity.activity_name || "Error in ActivityInfo. Activity has no activity_name."
     }
   };
 

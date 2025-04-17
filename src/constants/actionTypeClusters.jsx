@@ -138,7 +138,8 @@ export const actionTypeClusters = [
             purification_type: 'CHROMATOGRAPHY', // supportive? soon unused?
             action: ontologyId.action.purification,
             class: ontologyId.class.chromatography,
-            automation_mode: ontologyId.automation_modes.automated
+            automation_mode: ontologyId.automation_modes.automated,
+            AUTOMATION_STATUS: 'HALT',
           }
         }
       },
@@ -168,7 +169,8 @@ export const actionTypeClusters = [
             analysis_type: 'CHROMATOGRAPHY', // soon unused
             action: ontologyId.action.analysis,
             class: ontologyId.class.chromatography,
-            automation_mode: ontologyId.automation_modes.automated
+            automation_mode: ontologyId.automation_modes.automated,
+            AUTOMATION_STATUS: 'HALT',
           }
         }
       },

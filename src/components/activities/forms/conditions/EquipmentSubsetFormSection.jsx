@@ -17,7 +17,7 @@ const EquipmentSubsetFormSection = (
   return (
     <>
       {equipmentOptions.length > 0 &&
-        < FormGroup >
+        <FormGroup>
           <Label>
             {'Equipment'}
           </Label>

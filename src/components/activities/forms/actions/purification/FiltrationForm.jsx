@@ -8,6 +8,7 @@ import FormSection from '../../../../utilities/FormSection'
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
+import VesselableFormSection from '../../../../vesselables/VesselableFormSection';
 
 const FiltrationForm = (
   {
@@ -16,6 +17,8 @@ const FiltrationForm = (
     activitySteps,
     showNewStepForm,
     addStep,
+    reactionProcessVessel,
+    onChangeVessel,
     onSaveStep,
     onCancelStep,
     onDeleteStep
@@ -48,6 +51,10 @@ const FiltrationForm = (
   return (
     <>
       <FormSection type='action'>
+        <VesselableFormSection
+          onChange={onChangeVessel}
+          reactionProcessVessel={reactionProcessVessel || {}}
+        />
         {renderFilterMethodToggle()}
         {renderAutomationToggle()}
       </FormSection>

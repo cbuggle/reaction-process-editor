@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import ApplyExtraEquipmentFormSet from './formsets/ApplyExtraEquipmentFormSet';
 import TextInputFormSet from './formsets/TextInputFormSet';
 import FormButtons from "../../utilities/FormButtons";
+import AutomationStatusFormGroup from './formgroups/AutomationStatusFormGroup';
 import Timer from '../timing/Timer';
 
 import { useActivityValidator } from '../../../validators/ActivityValidator'
@@ -41,7 +42,6 @@ const ActivityForm = (
     onWorkupChange({ name: key, value: value });
   };
 
-
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
@@ -64,6 +64,13 @@ const ActivityForm = (
         onWorkupChange={onWorkupChange}
         displayMode={'form'}
       />
+      <AutomationStatusFormGroup
+        activity={activity}
+        status={workup['AUTOMATION_STATUS']}
+        modelId={activity.id}
+        onChange={handleWorkupChange('AUTOMATION_STATUS')}
+        onResolvePooling={onSave}
+      />
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
@@ -71,7 +78,8 @@ const ActivityForm = (
         disableSave={stepLock}
         saveLabel={stepLock ? 'Step is locked' : "Save"}
         type={type}
-      />
+      >
+      </FormButtons>
     </Form>
   )
 }

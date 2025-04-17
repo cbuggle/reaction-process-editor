@@ -22,7 +22,6 @@ import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { ontologyId } from '../../../../../constants/ontologyId'
 
-
 const ChromatographyForm = (
   {
     workup,
