@@ -41,10 +41,7 @@ import {
   faHandPointRight,
   faHand,
   faThumbsUp,
-  // faCircleCheck,
   faCheck,
-  // faSquareCheck,
-  // faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -84,10 +81,7 @@ library.add(
   faHandPointRight,
   faHand,
   faThumbsUp,
-  // faCircleCheck,
   faCheck,
-  // faSquareCheck,
-  // faCheckDouble
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
