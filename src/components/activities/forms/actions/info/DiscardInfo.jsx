@@ -10,7 +10,7 @@ const DiscardInfo = ({ activity }) => {
 	let infoTitle = 'Discard';
 
 	let infoLines = []
-	infoLines.push(workup.vials?.join(", "));
+	infoLines.push(workup.fractions?.join(", "));
 
 	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vessel));
 
