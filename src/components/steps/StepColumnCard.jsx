@@ -54,7 +54,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
       || automationStatus !== processStep?.automation_status
   }
 
-  const onSave = (stepName, reactionProcessVessel, automationStatus) => {
+  const handleSave = (stepName, reactionProcessVessel, automationStatus) => {
     setShowForm(false);
     if (isInitialised) {
       hasChanges(stepName, reactionProcessVessel, automationStatus) &&
@@ -68,8 +68,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
       api.createProcessStep(reactionProcess.id, {
         ...processStep,
         name: stepName,
-        reaction_process_vessel: reactionProcessVessel,
-        automation_status: automationStatus
+        reaction_process_vessel: reactionProcessVessel
       });
       onCancel();
     }
@@ -124,11 +123,11 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
         <div id={"step_automation_status_" + processStep?.id}>
           <IconButton disabled
             positive={false}
-            icon={AutomationStatusDecorator.iconForStatus(processStep?.automation_status)}
-            color={AutomationStatusDecorator.colorForStatus(processStep?.automation_status)} />
+            icon={AutomationStatusDecorator.iconForStatus(processStep?.step_automation_status)}
+            color={AutomationStatusDecorator.colorForStatus(processStep?.step_automation_status)} />
         </div>
         <UncontrolledTooltip target={"step_automation_status_" + processStep?.id} >
-          {AutomationStatusDecorator.labelForStatus(processStep?.automation_status)}
+          {AutomationStatusDecorator.labelForStatus(processStep?.step_automation_status)}
         </UncontrolledTooltip>
         {title}
       </div>
@@ -172,7 +171,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                   nameSuggestionOptions={
                     reactionProcess.select_options.step_name_suggestions
                   }
-                  onSave={onSave}
+                  onSave={handleSave}
                   onCancel={handleCancel}
                 />
               </ProcedureCard.Form>

@@ -30,7 +30,7 @@ export default class AutomationStatusDecorator {
       "STEP_COMPLETED": "Step Completed", // for Steps
       "STEP_HALT_BY_PRECEDING": "Step halted by Preceding", // for Steps, maybe separate component?
       "STEP_MANUAL_PROCEED": "Manual Proceed" // for Steps, maybe separate component?
-    }[currentStatus] || "RUN")
+    }[currentStatus] || "Unknown status")
   }
 
   static iconForStatus = (currentStatus) => {
