@@ -51,7 +51,7 @@ const PurificationInfo = ({ activity }) => {
 			break;
 		case "EXTRACTION":
 			addStepsToTitle()
-			infoTitle += " " + workup.automation_mode.toLowerCase() + ", Phase: " + workup.phase.toLowerCase();
+			infoTitle += " " + workup.automation_mode?.toLowerCase() + ", Phase: " + workup.phase?.toLowerCase();
 			addPurificationSolventsToLines()
 			break;
 		case "FILTRATION":

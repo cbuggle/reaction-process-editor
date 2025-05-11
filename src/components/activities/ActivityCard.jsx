@@ -62,6 +62,7 @@ const ActivityCard = ({
   const onDelete = () => api.deleteActivity(activity.id);
 
   const onSelectType = (newActivity) => () => {
+    newActivity.workup['AUTOMATION_STATUS'] ||= 'RUN'
     fillActivityForm(newActivity);
     setDisplayMode("form");
   };

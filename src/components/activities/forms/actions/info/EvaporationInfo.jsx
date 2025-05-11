@@ -10,7 +10,7 @@ const EvaporationInfo = ({ activity }) => {
 	let infoTitle = ""
 
 	let infoLines = []
-	infoLines.push("Vials: " + workup.vials?.join(", "));
+	infoLines.push("Fractions: " + workup.fractions?.join(", "));
 
 	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vessel));
 

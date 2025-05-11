@@ -1,19 +1,19 @@
 import React from 'react';
 import { FormGroup, Label } from "reactstrap";
 
-const VialFormGroup = (
+const FractionsFormGroup = (
   {
-    label = 'Vials',
-    vials
+    label = 'Fractions',
+    fractions
   }) => {
   return (
-    vials ?
+    fractions ?
       <FormGroup className='row gx-2 pt-1'>
         <Label className='col-5 col-form-label d-flex'>
           {label}
         </Label>
         <div className='col-7'>
-          {vials.join(', ')}
+          {fractions.join(', ')}
         </div>
       </FormGroup>
       :
@@ -21,4 +21,4 @@ const VialFormGroup = (
   );
 };
 
-export default VialFormGroup;
+export default FractionsFormGroup;

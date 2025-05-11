@@ -9,7 +9,7 @@ import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
 import EvaporationForm from './EvaporationForm';
 import DiscardForm from './DiscardForm';
-import VialFormGroup from '../formgroups/VialFormGroup';
+import FractionsFormGroup from '../formgroups/FractionsFormGroup';
 
 const ActionForm = (
   {
@@ -112,7 +112,7 @@ const ActionForm = (
       onSave={onSave}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
-      <VialFormGroup vials={workup.vials} />
+      <FractionsFormGroup fractions={workup.fractions} />
       {customActivityForm()}
     </ActivityForm>
   );

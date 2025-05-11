@@ -20,7 +20,7 @@ const ChromatographyPoolingFormModal = (
 	return (
 		<>
 			<Button onClick={toggleModal}>
-				Select Vials
+				Select Fractions
 			</Button>
 			<Modal
 				className={'d-flex align-items-center justify-content-center modal--primary modal-xl'}
@@ -29,7 +29,7 @@ const ChromatographyPoolingFormModal = (
 				toggle={toggleModal}
 				backdrop={"static"}
 			>
-				<ModalHeader>Select Vials From Automation</ModalHeader>
+				<ModalHeader>Select Fractions From Automation</ModalHeader>
 				<ModalBody>
 					<ChromatographyPoolingForm
 						activity={activity}

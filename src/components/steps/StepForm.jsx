@@ -7,13 +7,8 @@ import AutomationStatusFormGroup from "../activities/forms/formgroups/Automation
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel }) => {
 
-  const previousStepIsHalted = ["HALT_BY_PRECEDING", "MANUAL_PROCEED"].includes(previousStep?.automation_status)
-  const previousStepHasHalt = previousStep?.activities?.find(activity => ['HALT', 'AUTOMATION_RESPONDED'].includes(activity.workup['AUTOMATION_STATUS']))
-
-  const haltStatusFromPreviousStep = previousStepIsHalted || previousStepHasHalt ? "HALT_BY_PRECEDING" : ""
-
   const [stepName, setStepName] = useState(processStep?.name || "");
-  const [automationStatus, setAutomationStatus] = useState(processStep?.automation_status || haltStatusFromPreviousStep);
+  const [automationStatus, setAutomationStatus] = useState(processStep?.automation_status);
   const [reactionProcessVessel, setReactionProcessVessel] = useState(processStep?.reaction_process_vessel || {});
 
   const handleSave = () => {
@@ -36,12 +31,12 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         typeColor="step"
         scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
       />
-      <AutomationStatusFormGroup
+      {processStep?.id && <AutomationStatusFormGroup
         modelId={processStep?.id}
-        status={automationStatus}
+        status={automationStatus || processStep?.step_automation_status}
         onChange={setAutomationStatus}
         onResolvePooling={onSave}
-      />
+      />}
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
