@@ -20,7 +20,7 @@ export default class AutomationStatusDecorator {
 
   static labelForStatus = (currentStatus) => {
     return ({
-      "RUN": "Running",
+      "RUN": "Can Run",
       "HALT": "Halts Automation",
       "AUTOMATION_RESPONDED": "Automation Responded",
       "HALT_RESOLVED_NEEDS_CONFIRMATION": "Resolved Needs Confirm",
@@ -30,7 +30,7 @@ export default class AutomationStatusDecorator {
       "STEP_COMPLETED": "Step Completed", // for Steps
       "STEP_HALT_BY_PRECEDING": "Step halted by Preceding", // for Steps, maybe separate component?
       "STEP_MANUAL_PROCEED": "Manual Proceed" // for Steps, maybe separate component?
-    }[currentStatus] || "Unknown status")
+    }[currentStatus] || "can run")
   }
 
   static iconForStatus = (currentStatus) => {
