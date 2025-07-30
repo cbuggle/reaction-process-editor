@@ -6,6 +6,7 @@ import RemoveDiverseSolventsForm from "./remove/RemoveDiverseSolventsForm";
 import RemoveFromReactionForm from "./remove/RemoveFromReactionForm";
 import RemoveFromSampleForm from "./remove/RemoveFromSampleForm";
 import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
+import RemoveFromFractionForm from "./remove/RemoveFromFractionForm";
 import RemoveStepWiseForm from "./remove/RemoveStepWiseForm";
 
 import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
@@ -55,6 +56,8 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
         return (<RemoveFromMethodForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       case 'STEPWISE':
         return (<RemoveStepWiseForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
+      case 'SOLVENT_FROM_FRACTION':
+        return (<RemoveFromFractionForm workup={workup} preconditions={preconditions} onWorkupChange={onWorkupChange} />)
       default:
         break;
     }
@@ -69,6 +72,8 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
           <ButtonGroupToggle value={workup.automation_mode} options={selectOptions.automation_modes}
             onChange={handleWorkupChange('automation_mode')} />
         </FormGroup>
+      </FormSection>
+      <FormSection>
         <SingleLineFormGroup label="Origin">
           <Select
             className="react-select--overwrite"

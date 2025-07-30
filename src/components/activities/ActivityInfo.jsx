@@ -4,7 +4,6 @@ import AddInfo from "./forms/actions/info/AddInfo";
 import AnalysisInfo from "./forms/actions/info/AnalysisInfo";
 import ConditionInfo from "./forms/actions/info/ConditionInfo";
 import DiscardInfo from "./forms/actions/info/DiscardInfo";
-import EvaporationInfo from "./forms/actions/info/EvaporationInfo";
 import PurificationInfo from "./forms/actions/info/PurificationInfo";
 import RemoveInfo from "./forms/actions/info/RemoveInfo";
 import SaveInfo from "./forms/actions/info/SaveInfo";
@@ -32,8 +31,8 @@ const ActivityInfo = (props) => {
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
-      'EVAPORATION': EvaporationInfo,
-      'DISCARD': EvaporationInfo,
+      'DEFINE_FRACTION': DiscardInfo,
+      'DISCARD': DiscardInfo,
       'WAIT': WaitInfo,
     }[activity.activity_name]
 
@@ -44,6 +43,15 @@ const ActivityInfo = (props) => {
       return activity.activity_name || "Error in ActivityInfo. Activity has no activity_name."
     }
   };
+
+  const renderFractionsInfo = () => {
+    let fraction = activity.followup_fraction
+    let infoLine = fraction ?
+      "Fraction #" + fraction.position + ': ' + (fraction.vials.length || 'No') + " Vials"
+      : ''
+
+    return (<>{infoLine}</>)
+  }
 
   const renderEquipmentLines = () => {
     return ActivityInfoDecorator.infoLineEquipment(workup.EQUIPMENT, selectOptions.equipment)
@@ -60,6 +68,7 @@ const ActivityInfo = (props) => {
   return <>
     <div className="d-flex">
       <div className="activity-info__text-block">
+        {renderFractionsInfo()}
         {renderActivityInfo()}
         {renderEquipmentLines()}
         {renderWorkupDescription()}

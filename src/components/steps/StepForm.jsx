@@ -29,7 +29,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         reactionProcessVessel={reactionProcessVessel}
         reactionProcessVesselSuggestion={previousStep?.reaction_process_vessel}
         typeColor="step"
-        scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
+        label={"Step" + (stepName ? ' "' + stepName + '"' : "")}
       />
       {processStep?.id && <StepAutomationStatusFormGroup
         modelId={processStep?.id}

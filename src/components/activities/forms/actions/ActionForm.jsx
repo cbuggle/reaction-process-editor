@@ -7,9 +7,9 @@ import PurificationForm from "./PurificationForm";
 import RemoveForm from "./RemoveForm";
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
-import EvaporationForm from './EvaporationForm';
+import DefineFractionForm from './DefineFractionForm';
 import DiscardForm from './DiscardForm';
-import FractionsFormGroup from '../formgroups/FractionsFormGroup';
+import FractionFormGroup from '../formgroups/FractionFormGroup';
 
 const ActionForm = (
   {
@@ -89,9 +89,9 @@ const ActionForm = (
             reactionProcessVessel={activity.reaction_process_vessel}
           />
         )
-      case "EVAPORATION":
+      case "DEFINE_FRACTION":
         return (
-          <EvaporationForm
+          <DefineFractionForm
             workup={workup}
             onChangeVessel={onChangeVessel}
             reactionProcessVessel={activity.reaction_process_vessel}
@@ -112,7 +112,7 @@ const ActionForm = (
       onSave={onSave}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
-      <FractionsFormGroup fractions={workup.fractions} />
+      <FractionFormGroup fraction={activity.followup_fraction} />
       {customActivityForm()}
     </ActivityForm>
   );

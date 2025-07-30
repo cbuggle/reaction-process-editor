@@ -18,8 +18,7 @@ const VesselableSelector = ({
   currentVesselable,
   onSelectVesselable,
   typeColor,
-  buttonLabel,
-  scope,
+  buttonLabel
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -52,7 +51,7 @@ const VesselableSelector = ({
         className={"modal--" + typeColor}
       >
         <ModalHeader tag="h4">
-          {buttonLabel} Vessel for {scope}
+          {buttonLabel} Vessel
         </ModalHeader>
         <ModalBody>
           <VesselableIndex
