@@ -47,60 +47,7 @@ export const actionTypeClusters = [
       },
     ]
   },
-  {
-    id: 'remove_exchange',
-    label: 'Remove / Exchange',
-    types: [
-      {
-        id: 'remove_exchange_sample',
-        createLabel: 'From Reaction',
-        activity: {
-          activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_REACTION', automation_mode: 'AUTOMATED' }
-        }
-      },
-      {
-        id: 'remove_exchange_sample',
-        createLabel: 'From Reaction Step',
-        activity: {
-          activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_REACTION_STEP', automation_mode: 'AUTOMATED' }
-        }
-      },
-      {
-        id: 'remove_exchange_sample',
-        createLabel: 'From Sample',
-        activity: {
-          activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_SAMPLE', automation_mode: 'AUTOMATED' }
-        }
-      },
-      {
-        id: 'remove_exchange_sample',
-        createLabel: 'Diverse Solvents',
-        activity: {
-          activity_name: 'REMOVE',
-          workup: { origin_type: 'DIVERSE_SOLVENTS', automation_mode: 'AUTOMATED' }
-        }
-      },
-      {
-        id: 'remove_exchange_sample',
-        createLabel: 'Stepwise',
-        activity: {
-          activity_name: 'REMOVE',
-          workup: { origin_type: 'STEPWISE', automation_mode: 'AUTOMATED' }
-        }
-      },
-      {
-        id: 'remove_exchange_sample',
-        createLabel: 'From Method',
-        activity: {
-          activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_METHOD', automation_mode: 'AUTOMATED' }
-        }
-      },
-    ]
-  },
+
   {
     id: 'purification',
     label: 'Separate / Purify',
@@ -185,6 +132,20 @@ export const actionTypeClusters = [
             automation_mode: ontologyId.automation_modes.automated,
             analysis_type: 'SPECTROSCOPY'
           }
+        }
+      },
+    ]
+  },
+  {
+    id: 'remove_exchange',
+    label: 'Remove / Exchange',
+    types: [
+      {
+        id: 'remove_exchange_sample',
+        createLabel: 'Remove',
+        activity: {
+          activity_name: 'REMOVE',
+          workup: { origin_type: 'FROM_REACTION', automation_mode: 'AUTOMATED' }
         }
       },
     ]

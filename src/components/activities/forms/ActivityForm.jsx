@@ -69,7 +69,7 @@ const ActivityForm = (
         status={workup['AUTOMATION_STATUS']}
         modelId={activity.id}
         onChange={handleWorkupChange('AUTOMATION_STATUS')}
-        onResolvePooling={onSave}
+        onResolvePooling={handleWorkupChange('fractions')}
       />
       <FormButtons
         onSave={handleSave}

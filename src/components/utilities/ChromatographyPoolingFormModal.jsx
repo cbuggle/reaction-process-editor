@@ -12,9 +12,9 @@ const ChromatographyPoolingFormModal = (
 	const [showModal, setShowModal] = useState(false)
 	const toggleModal = () => { setShowModal(!showModal) }
 
-	const handleResolvePooling = () => {
+	const handleResolvePooling = (fractions) => {
 		toggleModal()
-		onResolvePooling()
+		onResolvePooling(fractions)
 	}
 
 	return (
@@ -29,11 +29,11 @@ const ChromatographyPoolingFormModal = (
 				toggle={toggleModal}
 				backdrop={"static"}
 			>
-				<ModalHeader>Select Fractions From Automation</ModalHeader>
+				<ModalHeader>Select Fractions From Automation Result</ModalHeader>
 				<ModalBody>
 					<ChromatographyPoolingForm
 						activity={activity}
-						onResolvePooling={handleResolvePooling}
+						onSave={handleResolvePooling}
 						onCancel={toggleModal}
 					/>
 				</ModalBody>

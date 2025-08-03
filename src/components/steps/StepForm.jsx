@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AutoComplete from "../activities/forms/formgroups/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
 import VesselableFormSection from "../vesselables/VesselableFormSection";
-import AutomationStatusFormGroup from "../activities/forms/formgroups/AutomationStatusFormGroup";
+import StepAutomationStatusFormGroup from "../activities/forms/formgroups/StepAutomationStatusFormGroup";
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel }) => {
 
@@ -29,13 +29,12 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         reactionProcessVessel={reactionProcessVessel}
         reactionProcessVesselSuggestion={previousStep?.reaction_process_vessel}
         typeColor="step"
-        scope={"Step" + (stepName ? ' "' + stepName + '"' : "")}
+        label={"Step" + (stepName ? ' "' + stepName + '"' : "")}
       />
-      {processStep?.id && <AutomationStatusFormGroup
+      {processStep?.id && <StepAutomationStatusFormGroup
         modelId={processStep?.id}
         status={automationStatus || processStep?.step_automation_status}
         onChange={setAutomationStatus}
-        onResolvePooling={onSave}
       />}
       <FormButtons
         onSave={handleSave}

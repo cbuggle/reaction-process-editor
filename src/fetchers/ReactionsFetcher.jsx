@@ -30,7 +30,7 @@ function useReactionsFetcher() {
     deleteActivity,
     updateActivityPosition,
     updateProcessStepPosition,
-    appendPoolingsToActivity
+    createFractionActivities
   }
 
   function index() {
@@ -124,8 +124,8 @@ function useReactionsFetcher() {
       { 'activity': activity, 'insert_before': insertBefore })
   }
 
-  function appendPoolingsToActivity(activity, poolings) {
-    return api.put(`/reaction_process_activities/${activity.id}/append_pooling_groups`, { 'pooling_groups': poolings })
+  function createFractionActivities(activity, fractions) {
+    return api.put(`/reaction_process_activities/${activity.id}/create_fraction_activities`, { 'fractions': fractions })
   }
 
   function updateActivity(activity) {

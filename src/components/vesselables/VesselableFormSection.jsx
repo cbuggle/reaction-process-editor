@@ -16,7 +16,6 @@ const VesselableFormSection = ({
   reactionProcessVessel,
   reactionProcessVesselSuggestion,
   typeColor,
-  scope,
 }) => {
   const selectOptions = useContext(SelectOptions);
   const vesselables = useContext(VesselOptions);
@@ -72,7 +71,6 @@ const VesselableFormSection = ({
             currentVesselable={currentVesselable}
             onSelectVesselable={assignVesselable}
             typeColor={typeColor}
-            scope={scope}
           />
         </div>
         <div className="pt-1 mb-3">
@@ -81,7 +79,6 @@ const VesselableFormSection = ({
             onSelectVesselable={assignVesselable}
             typeColor={typeColor}
             buttonLabel={!!reactionProcessVessel?.vesselable_id ? "Change" : "Set"}
-            scope={scope}
           />
         </div>
         <SingleLineFormGroup label="Preparations:" typeColor={typeColor}>

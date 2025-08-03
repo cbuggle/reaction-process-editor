@@ -2,7 +2,7 @@ import React from "react";
 
 import VesselableFormSection from "../../../vesselables/VesselableFormSection";
 
-const EvaporationForm = ({ reactionProcessVessel, onChangeVessel }) => {
+const DefineFractionForm = ({ reactionProcessVessel, onChangeVessel }) => {
 
   return (
     <VesselableFormSection
@@ -12,4 +12,4 @@ const EvaporationForm = ({ reactionProcessVessel, onChangeVessel }) => {
   );
 };
 
-export default EvaporationForm;
+export default DefineFractionForm;
