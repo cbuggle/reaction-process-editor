@@ -105,18 +105,15 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 
 
 	const renderFractionForm = (fraction) => {
-		return (<Row>
-			<Col md={11}>
-				<ChromatographyFractionForm
-					key={"fraction-form-" + fraction.position + "-" + renderCountToForciblyUpdateVialsStateInFunctionClaimVial}
-					fraction={fraction}
-					claimVial={moveVialToFraction(fraction.position)}
-					onChange={handleFractionChange(fraction.position)}
-					onDelete={deleteFraction(fraction.position)}
-					canDelete={fractions.length > 1}
-				/>
-			</Col>
-		</Row>
+		return (
+			<ChromatographyFractionForm
+				key={"fraction-form-" + fraction.position + "-" + renderCountToForciblyUpdateVialsStateInFunctionClaimVial}
+				fraction={fraction}
+				claimVial={moveVialToFraction(fraction.position)}
+				onChange={handleFractionChange(fraction.position)}
+				onDelete={deleteFraction(fraction.position)}
+				canDelete={fractions.length > 1}
+			/>
 		)
 	}
 
@@ -134,11 +131,12 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 		const firstVial = 0 + (trayNo - 1) * vialsPerTray
 		const lastVial = firstVial + vialsPerTray
 
+
 		return allVials.slice(firstVial, lastVial).map((vial, idx) => {
 			return (
 				<>
 					<VialButton
-						key={"vial-button-" + vial}
+						key={"vial-button-" + idx}
 						vial={vial}
 						colorGroup={fractionNoForVial(vial)}
 						onClick={moveVialToNextFraction(vial)}

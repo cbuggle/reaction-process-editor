@@ -112,7 +112,7 @@ const ActionForm = (
       onSave={onSave}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
-      <FractionFormGroup fraction={activity.followup_fraction} />
+      <FractionFormGroup fraction={activity.consumed_fraction} />
       {customActivityForm()}
     </ActivityForm>
   );
