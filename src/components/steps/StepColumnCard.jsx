@@ -13,7 +13,7 @@ import StepLockButton from "./StepLockButton";
 import IconButton from "../utilities/IconButton";
 import ProcedureCard from "../utilities/ProcedureCard";
 
-import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
+import StepAutomationStatusDecorator from "../../decorators/StepAutomationStatusDecorator";
 
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 import { StepLock } from "../../contexts/StepLock";
@@ -123,11 +123,11 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
         <div id={"step_automation_status_" + processStep?.id}>
           <IconButton disabled
             positive={false}
-            icon={AutomationStatusDecorator.iconForStatus(processStep?.step_automation_status)}
-            color={AutomationStatusDecorator.colorForStatus(processStep?.step_automation_status)} />
+            icon={StepAutomationStatusDecorator.iconForStatus(processStep?.step_automation_status)}
+            color={StepAutomationStatusDecorator.colorForStatus(processStep?.step_automation_status)} />
         </div>
         <UncontrolledTooltip target={"step_automation_status_" + processStep?.id} >
-          {AutomationStatusDecorator.labelForStatus(processStep?.step_automation_status)}
+          {StepAutomationStatusDecorator.labelForStatus(processStep?.step_automation_status)}
         </UncontrolledTooltip>
         {title}
       </div>
