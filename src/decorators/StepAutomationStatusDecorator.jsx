@@ -14,7 +14,7 @@ export default class AutomationStatusDecorator {
       "STEP_COMPLETED": "Step Completed",
       "STEP_HALT_BY_PRECEDING": "Step halted by Preceding",
       "STEP_MANUAL_PROCEED": "Manual Proceed"
-    }[currentStatus] || "can run")
+    }[currentStatus] || "step can run")
   }
 
   static iconForStatus = (currentStatus) => {
