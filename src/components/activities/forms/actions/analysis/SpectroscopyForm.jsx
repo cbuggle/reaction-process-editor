@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Label, FormGroup } from 'reactstrap'
 
 import FormSection from '../../../../utilities/FormSection'
 import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
@@ -12,11 +13,14 @@ import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import { ontologyId } from '../../../../../constants/ontologyId'
+import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
 
 	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
+
+	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
 	const handleChangeAutomation = (automation) => {
 		if (automation !== ontologyId.automation_modes.automated) {
@@ -40,6 +44,14 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 	return (
 		<FormSection>
+			<FormGroup>
+				<Label>Molecular Entities</Label>
+				<SamplesIconSelect
+					isMulti
+					isClearable={false}
+					samples={workup.samples}
+					onChange={handleWorkupChange("samples")} />
+			</FormGroup>
 			<ButtonGroupToggle
 				value={workup.automation_mode}
 				options={filteredOntologiesForRole('automation_mode')}

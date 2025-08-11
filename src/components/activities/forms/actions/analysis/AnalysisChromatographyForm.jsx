@@ -20,6 +20,8 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
+import SamplesIconSelect from '../../../../utilities/SamplesIconSelect.jsx';
+
 import { ontologyId } from '../../../../../constants/ontologyId'
 
 const AnalysisChromatographyForm = (
@@ -286,6 +288,14 @@ const AnalysisChromatographyForm = (
   return (
     <>
       <FormSection type='action'>
+        <FormGroup>
+          <Label>Molecular Entities</Label>
+          <SamplesIconSelect
+            isMulti
+            isClearable={false}
+            samples={workup.samples}
+            onChange={handleWorkupChange("samples")} />
+        </FormGroup>
         <Label>Mode</Label>
 
         <ButtonGroupToggle
