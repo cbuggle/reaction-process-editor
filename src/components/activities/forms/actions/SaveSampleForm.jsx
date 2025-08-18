@@ -144,8 +144,8 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
         <SamplesIconSelect
           isMulti
           isClearable={false}
-          samples={workup.samples}
-          onChange={handleWorkupChange("samples")} />
+          samples={workup.molecular_entities}
+          onChange={handleWorkupChange("molecular_entities")} />
       </FormGroup>
 
       <FormGroup>

@@ -69,8 +69,8 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 				<SamplesIconSelect
 					isMulti
 					isClearable={false}
-					samples={workup.samples}
-					onChange={handleWorkupChange("samples")} />
+					samples={workup.molecular_entities}
+					onChange={handleWorkupChange("molecular_entities")} />
 			</FormGroup>
 			<ButtonGroupToggle
 				value={workup.automation_mode}
