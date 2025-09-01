@@ -6,7 +6,7 @@ import SamplesDecorator from "../../decorators/SamplesDecorator";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 
-const SamplesIconSelect = ({ samples, isMulti, onChange }) => {
+const SamplesIconSelect = ({ samples, isMulti, onChange, isClearable }) => {
 
 	const { Option } = components;
 	const selectOptions = useContext(SelectOptions);
@@ -46,6 +46,7 @@ const SamplesIconSelect = ({ samples, isMulti, onChange }) => {
 	return (
 		<Select
 			isMulti={isMulti}
+			isClearable={isClearable}
 			className="react-select--overwrite sample-selection__select"
 			classNamePrefix="react-select"
 			name="select_samples"

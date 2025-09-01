@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Label, FormGroup, Input } from 'reactstrap';
+import Select from 'react-select';
 
 import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
 
@@ -12,17 +13,17 @@ import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup';
 
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
+import SamplesIconSelect from '../../../../utilities/SamplesIconSelect.jsx';
 
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
-import { SelectOptions } from '../../../../../contexts/SelectOptions';
-
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-import SamplesIconSelect from '../../../../utilities/SamplesIconSelect.jsx';
-
 import { ontologyId } from '../../../../../constants/ontologyId'
+
+import { SelectOptions } from '../../../../../contexts/SelectOptions';
+import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions.jsx';
 
 const AnalysisChromatographyForm = (
   {
@@ -39,6 +40,9 @@ const AnalysisChromatographyForm = (
 
   const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
   const ontologies = useContext(SelectOptions).ontologies
+
+  const sampleOptions = useContext(StepSelectOptions).saved_samples
+  const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
@@ -289,15 +293,27 @@ const AnalysisChromatographyForm = (
     <>
       <FormSection type='action'>
         <FormGroup>
+          <Label>Sample</Label>
+          <Select
+            key={"sample" + currentSample?.value}
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="sample_id"
+            options={sampleOptions}
+            value={currentSample}
+            onChange={handleSelectChange('sample_id')}
+          />
+        </FormGroup>
+        <FormGroup>
           <Label>Molecular Entities</Label>
           <SamplesIconSelect
             isMulti
             isClearable={false}
-            samples={workup.samples}
-            onChange={handleWorkupChange("samples")} />
+            samples={workup.molecular_entities}
+            onChange={handleWorkupChange("molecular_entities")} />
         </FormGroup>
-        <Label>Mode</Label>
 
+        <Label>Mode</Label>
         <ButtonGroupToggle
           value={workup.automation_mode}
           options={filteredOntologiesForRole('automation_mode')}

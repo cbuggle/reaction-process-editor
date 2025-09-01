@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Label, FormGroup } from 'reactstrap'
+import Select from 'react-select';
 
 import FormSection from '../../../../utilities/FormSection'
 import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
@@ -11,6 +12,7 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
+import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions';
 
 import { ontologyId } from '../../../../../constants/ontologyId'
 import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
@@ -42,15 +44,33 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
 	}
 
+	const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
+
+
+	const sampleOptions = useContext(StepSelectOptions).saved_samples
+	const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
+
 	return (
 		<FormSection>
+			<FormGroup>
+				<Label>Sample</Label>
+				<Select
+					key={"sample" + currentSample?.value}
+					className="react-select--overwrite"
+					classNamePrefix="react-select"
+					name="sample_id"
+					options={sampleOptions}
+					value={currentSample}
+					onChange={handleSelectChange('sample_id')}
+				/>
+			</FormGroup>
 			<FormGroup>
 				<Label>Molecular Entities</Label>
 				<SamplesIconSelect
 					isMulti
 					isClearable={false}
-					samples={workup.samples}
-					onChange={handleWorkupChange("samples")} />
+					samples={workup.molecular_entities}
+					onChange={handleWorkupChange("molecular_entities")} />
 			</FormGroup>
 			<ButtonGroupToggle
 				value={workup.automation_mode}
