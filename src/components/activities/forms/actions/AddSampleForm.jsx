@@ -114,7 +114,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             onChange={handleSampleChange}
           />
         ) : (
-          <SingleLineFormGroup label="Sample">
+          <SingleLineFormGroup label="Solvent">
             <Select
               className="react-select--overwrite"
               classNamePrefix="react-select"
@@ -128,6 +128,19 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
                 })
               }
             />
+          </SingleLineFormGroup>
+        )}
+        {currentSampleActsAs === "SOLVENT" && (
+          <SingleLineFormGroup label="abs." check className="mb-3">
+
+            <Input
+              type="checkbox"
+              checked={workup["is_waterfree_solvent"]}
+              onChange={(event) =>
+                handleChange("is_waterfree_solvent")(event.target.checked)
+              }
+            />
+
           </SingleLineFormGroup>
         )}
         <AmountInputSet
@@ -151,21 +164,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
         </SingleLineFormGroup>
 
         {renderConditionInputs()}
-
-        {currentSampleActsAs === "SOLVENT" && (
-          <FormGroup check className="mb-3">
-            <Label check>
-              <Input
-                type="checkbox"
-                checked={workup["is_waterfree_solvent"]}
-                onChange={(event) =>
-                  handleChange("is_waterfree_solvent")(event.target.checked)
-                }
-              />
-              Water Free Solvent
-            </Label>
-          </FormGroup>
-        )}
       </FormSection>
     </>
   );
