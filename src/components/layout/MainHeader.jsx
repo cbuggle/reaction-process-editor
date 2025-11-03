@@ -26,8 +26,8 @@ const MainHeader = () => {
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
 
-  // const [reactions, setReactions] = useState([]);
   const [reactionOptions, setReactionOptions] = useState([]);
+  // const [sampleOptions, setSampleOptions] = useState([]);
   const [collectionOptions, setCollectionOptions] = useState([]);
   const [selectOptions, setSelectOptions] = useState([]);
   const [userDefaultConditions, setUserDefaultConditions] = useState([]);
@@ -106,6 +106,13 @@ const MainHeader = () => {
     });
   };
 
+  // const fetchSampleOptions = () => {
+  //   reactionApi.sampleSelectOptions().then((data) => {
+  //     data?.sample_select_options &&
+  //       setSampleOptions(data["sample_select_options"]);
+  //   });
+  // };
+
   const fetchUserDefaultConditions = () => {
     reactionApi.geDefaultConditions().then((data) => {
       let defaultConditions = data["default_conditions"];
@@ -128,10 +135,19 @@ const MainHeader = () => {
   };
 
 
-  // superquick superdirty hack to have sample options for the header dropdown
-  const sampleOptions = [
-    { id: 1, label: "Test Sample 1", value: 1, url: sampleLinkTarget(1), },
-    { id: 2, label: "Test Sample 2 ", value: 1, url: sampleLinkTarget(2), }]
+  // // superquick superdirty hack to have sample options for the header dropdown
+  // const sampleOptions = [
+  //   { id: 1, label: "Test Sample 1", value: 1, url: sampleLinkTarget(1), },
+  //   { id: 2, label: "Test Sample 2 ", value: 1, url: sampleLinkTarget(2), }]
+
+  console.log("select options")
+  console.log(selectOptions)
+
+  const sampleOptions = selectOptions.samples.map(({ id, label }) => ({
+    key: id,
+    url: sampleLinkTarget(id),
+    label: id + ": " + label,
+  }));
 
   return (
     <SelectOptions.Provider value={selectOptions}>
