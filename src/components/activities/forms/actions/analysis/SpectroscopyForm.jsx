@@ -20,7 +20,7 @@ import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
 
-	const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
+	const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
 	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
@@ -33,7 +33,7 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 
 	const handleChangeType = (newType) => {
 		onWorkupChange({ name: 'type', value: newType?.value })
-		handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesForRole('subtype')))
+		handleChangeSubType(OptionsDecorator.optionForValue(workup.subtype, filteredOntologiesByRoleName('subtype')))
 	}
 
 	const handleChangeSubType = (newSubType) => {
@@ -54,6 +54,15 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		<FormSection>
 			<FormGroup>
 				<Label>Sample</Label>
+				<SamplesIconSelect
+					isMulti
+					isClearable={false}
+					samples={workup.samples}
+					onChange={handleWorkupChange('samples')}
+				/>
+			</FormGroup>
+			<FormGroup>
+				<Label>Molecular Entity</Label>
 				<Select
 					key={"sample" + currentSample?.value}
 					className="react-select--overwrite"
@@ -61,20 +70,11 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 					name="sample_id"
 					options={sampleOptions}
 					value={currentSample}
-					onChange={handleSelectChange('sample_id')}
-				/>
-			</FormGroup>
-			<FormGroup>
-				<Label>Molecular Entities</Label>
-				<SamplesIconSelect
-					isMulti
-					isClearable={false}
-					samples={workup.molecular_entities}
 					onChange={handleWorkupChange("molecular_entities")} />
 			</FormGroup>
 			<ButtonGroupToggle
 				value={workup.automation_mode}
-				options={filteredOntologiesForRole('automation_mode')}
+				options={filteredOntologiesByRoleName('automation_mode')}
 				onChange={handleChangeAutomation} />
 
 			<OntologySelectFormGroup

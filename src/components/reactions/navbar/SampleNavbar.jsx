@@ -19,13 +19,17 @@ import OrdDownloadButton from "./OrdDownloadButton";
 import ProvenanceFormButton from "./ProvenanceFormButton";
 import ReactionConditionsFormButton from "./ReactionConditionsFormButton";
 
+import SamplesDecorator from "../../../decorators/SamplesDecorator";
+
 import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 import {
   SubFormController,
   SubFormToggle,
 } from "../../../contexts/SubFormController";
 
-const ReactionNavbar = ({ reactionProcess }) => {
+const SampleNavbar = ({ reactionProcess }) => {
+  console.log("SampleProcess in SampleNavbar:");
+  console.log(reactionProcess);
   const api = useReactionsFetcher();
   const [open, setOpen] = useState("scheme");
   const [schemeIsEnlarged, setSchemeIsEnlarged] = useState(false);
@@ -44,15 +48,17 @@ const ReactionNavbar = ({ reactionProcess }) => {
   const toggleSchemeEnlarge = () => {
     setSchemeIsEnlarged(!schemeIsEnlarged);
   };
+
+  const sample = reactionProcess.sample || {}
   return (
     <SubFormController.Provider value={SubFormToggle()}>
       <div className="reaction-header">
         <Navbar className="reaction-navbar bg-primary" dark>
           <NavbarBrand>
             <span className="h3 reaction-name">
-              Reaction: {reactionProcess.short_label}
+              Sample: {sample.short_label}
             </span>
-            <span className="reaction-id">{reactionProcess.id}</span>
+            <span className="sample-id">{sample.id}</span>
           </NavbarBrand>
           <Nav>
             <ReactionConditionsFormButton
@@ -73,8 +79,8 @@ const ReactionNavbar = ({ reactionProcess }) => {
             <AccordionBody accordionId="scheme" className="text-center">
               <div className="reaction-header__scheme-container">
                 <img
-                  src={api.svgImage(reactionProcess)}
-                  alt={reactionProcess.short_label}
+                  src={SamplesDecorator.sampleSvgPath(sample)}
+                  alt={sample.short_label}
                   className={schemeImageClass}
                 />
                 <div className="reaction-header__scheme-enlarge-button-container">
@@ -110,4 +116,4 @@ const ReactionNavbar = ({ reactionProcess }) => {
   );
 };
 
-export default ReactionNavbar;
+export default SampleNavbar;

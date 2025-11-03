@@ -13,11 +13,11 @@ import { useVesselsFetcher } from '../../fetchers/VesselsFetcher';
 import { SelectOptions } from '../../contexts/SelectOptions';
 import { VesselOptions } from '../../contexts/VesselOptions';
 
-const Reaction = () => {
+const ReactionProcess = () => {
   const api = useReactionsFetcher();
   const vesselApi = useVesselsFetcher();
 
-  const { reactionId } = useParams()
+  const { reactionId, sampleId } = useParams()
   const location = useLocation();
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
   const username = new URLSearchParams(useLocation().search).get('username');
@@ -75,10 +75,21 @@ const Reaction = () => {
   }, [location, auth_token, username])
 
   const fetchReactionProcess = () => {
-    api.getReactionProcess(reactionId).then((data) => {
-      data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
-      window.dispatchEvent(new Event("reloadDone"))
-    })
+
+    console.log("fetchReactionProcess", reactionId, sampleId)
+
+    if (reactionId) {
+      api.getReactionProcess(reactionId).then((data) => {
+        data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
+        window.dispatchEvent(new Event("reloadDone"))
+      })
+    } else if (sampleId) {
+      api.getSampleProcess(sampleId).then((data) => {
+        data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
+        window.dispatchEvent(new Event("reloadDone"))
+      })
+
+    }
   }
 
   const renderReactionNavbar = () => {
@@ -117,4 +128,4 @@ const Reaction = () => {
   );
 }
 
-export default Reaction;
+export default ReactionProcess;

@@ -2,15 +2,13 @@ import React from "react";
 
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
+import SamplesDecorator from "../../decorators/SamplesDecorator";
 
-const PreparationInfo = ({ preparation, preparationOptions }) => {
-  const api = useReactionsFetcher();
-
+const SamplePreparationInfo = ({ preparation, preparationOptions }) => {
   return (
     <div className="d-flex">
       <img
-        src={api.sampleSvgImage(preparation.sample)}
+        src={SamplesDecorator.sampleSvgPath(preparation.sample)}
         alt={preparation.sample.short_label}
         className="sample-molecule-image bg-white border rounded-3"
       />
@@ -33,4 +31,4 @@ const PreparationInfo = ({ preparation, preparationOptions }) => {
   );
 };
 
-export default PreparationInfo;
+export default SamplePreparationInfo;

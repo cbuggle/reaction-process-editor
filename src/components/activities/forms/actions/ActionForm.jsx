@@ -128,21 +128,9 @@ const ActionForm = (
     onWorkupChange({ name: 'method', value: method?.value })
   }
 
-  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
-
+  const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
-
-  const filterMethodsByDetectors = (detectors, methods) => {
-    if (!methods) { return [] }
-    return (detectors?.length > 0) ?
-      methods.filter((method) => detectors.every(detector => method.detectors?.map(item => item.value)?.includes(detector)))
-      :
-      methods
-  }
-
-  const filteredMethodOptions = filterMethodsByDetectors(workup.detector, currentDeviceOption?.methods)
-
 
   const renderDeviceOntologiesForm = () => {
     return (
@@ -150,20 +138,20 @@ const ActionForm = (
         <Label>Mode</Label>
         <ButtonGroupToggle
           value={workup.automation_mode}
-          options={filteredOntologiesForRole('automation_mode')}
+          options={ontologiesByRoleName('automation_mode')}
           onChange={handleChangeAutomation} />
 
         <OntologySelectFormGroup
           key={"device" + workup.device}
           roleName={'device'}
-          workup={workup}
+          options={ontologiesByRoleName('device')}
           onChange={handleChangeDevice}
         />
         <OntologySelectFormGroup
           key={"method" + workup.method}
           roleName={'method'}
           workup={workup}
-          options={filteredMethodOptions}
+          options={currentDeviceOption?.methods}
           onChange={handleChangeMethod}
         />
       </>

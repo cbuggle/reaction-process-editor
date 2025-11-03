@@ -5,7 +5,8 @@ import GlobalNotification from "./components/layout/GlobalNotification";
 import Login from "./components/views/Login";
 import MainHeader from "./components/layout/MainHeader";
 import ReactionIndex from "./components/views/ReactionIndex";
-import Reaction from "./components/views/Reaction";
+import ReactionProcess from "./components/views/ReactionProcess";
+import SampleProcess from "./components/views/SampleProcess";
 
 import NotificationContext from "./contexts/NotificationContext";
 
@@ -28,7 +29,8 @@ const App = () => {
         <Routes>
           <Route path="/" exact={true} element={<Login />} />
           <Route path="/reactions" exact={true} element={<ReactionIndex />} />
-          <Route path="/reactions/:reactionId" element={<Reaction />} />
+          <Route path="/reactions/:reactionId" element={<ReactionProcess />} />
+          <Route path="/samples/:sampleId" element={<SampleProcess />} />
         </Routes>
       </NotificationContext.Provider>
     </BrowserRouter>

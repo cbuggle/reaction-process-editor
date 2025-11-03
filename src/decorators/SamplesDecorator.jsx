@@ -11,13 +11,15 @@ export default class SamplesDecorator {
     if (sample && sample.sample_svg_file) {
       return (
         <img
-          src={`${apiHostname}/images/samples/${sample.sample_svg_file}`}
+          src={this.sampleSvgPath(sample)}
           alt={sample.short_label}
           className='sample-molecule-image bg-white border rounded-3'
         />
       )
     }
   }
+
+  static sampleSvgPath = (sample) => `${apiHostname}/images/samples/${sample.sample_svg_file}`
 
   static infoAvailableAmounts = (availableAmounts) => {
     return amountsDefaultUnits.map((unit) =>
