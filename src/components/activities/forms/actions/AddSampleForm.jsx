@@ -7,6 +7,7 @@ import AmountInputSet from "../../../utilities/AmountInputSet";
 import FormSection from "../../../utilities/FormSection";
 import MetricsInputFormGroup from "../formgroups/MetricsInputFormGroup";
 import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
+import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
@@ -54,7 +55,8 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   // 'DIVERSE_SOLVENT' shall be categorized as 'SOLVENT' in AddSample, requested by NJung.
   const currentSampleActsAs =
     workup["acts_as"] === "DIVERSE_SOLVENT" ? "SOLVENT" : workup["acts_as"];
-  const currentSampleOptions = selectOptions.materials[currentSampleActsAs];
+  const currentSampleOptions = selectOptions.materials[currentSampleActsAs] || [];
+
   const [sample, setSample] = useState(
     currentSampleOptions.find(
       (sample) =>
@@ -114,7 +116,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             onChange={handleSampleChange}
           />
         ) : (
-          <SingleLineFormGroup label="Sample">
+          <SingleLineFormGroup label="Solvent">
             <Select
               className="react-select--overwrite"
               classNamePrefix="react-select"
@@ -130,6 +132,30 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             />
           </SingleLineFormGroup>
         )}
+        {currentSampleActsAs === "SOLVENT" && (
+          <SingleLineFormGroup label="abs." check className="mb-3">
+
+            <Input
+              type="checkbox"
+              checked={workup["is_waterfree_solvent"]}
+              onChange={(event) =>
+                handleChange("is_waterfree_solvent")(event.target.checked)
+              }
+            />
+
+          </SingleLineFormGroup>
+        )}
+        <FormGroup>
+          <Label>Molecular Entity</Label>
+          <SamplesIconSelect
+            isMulti
+            isClearable={false}
+            options={selectOptions.materials['SAMPLE']}
+            samples={workup.molecular_entitites}
+            onChange={handleChange('molecular_entities')}
+          />
+        </FormGroup>
+
         <AmountInputSet
           amount={workup["target_amount"]}
           maxAmounts={sample?.unit_amounts}
@@ -151,21 +177,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
         </SingleLineFormGroup>
 
         {renderConditionInputs()}
-
-        {currentSampleActsAs === "SOLVENT" && (
-          <FormGroup check className="mb-3">
-            <Label check>
-              <Input
-                type="checkbox"
-                checked={workup["is_waterfree_solvent"]}
-                onChange={(event) =>
-                  handleChange("is_waterfree_solvent")(event.target.checked)
-                }
-              />
-              Water Free Solvent
-            </Label>
-          </FormGroup>
-        )}
       </FormSection>
     </>
   );

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
+import SampleNavbar from '../reactions/navbar/SampleNavbar';
 import PreparationColumnCard from '../preparations/SamplePreparationColumnCard';
+import ProcessSampleStartInfoCard from '../preparations/ProcessSampleStartInfoCard';
 import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
 
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
@@ -13,11 +14,11 @@ import { useVesselsFetcher } from '../../fetchers/VesselsFetcher';
 import { SelectOptions } from '../../contexts/SelectOptions';
 import { VesselOptions } from '../../contexts/VesselOptions';
 
-const Reaction = () => {
+const SampleProcess = () => {
   const api = useReactionsFetcher();
   const vesselApi = useVesselsFetcher();
 
-  const { reactionId } = useParams()
+  const { reactionId, sampleId } = useParams()
   const location = useLocation();
   const auth_token = new URLSearchParams(useLocation().search).get('auth');
   const username = new URLSearchParams(useLocation().search).get('username');
@@ -75,10 +76,18 @@ const Reaction = () => {
   }, [location, auth_token, username])
 
   const fetchReactionProcess = () => {
-    api.getReactionProcess(reactionId).then((data) => {
-      data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
-      window.dispatchEvent(new Event("reloadDone"))
-    })
+    if (reactionId) {
+      api.getReactionProcess(reactionId).then((data) => {
+        data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
+        window.dispatchEvent(new Event("reloadDone"))
+      })
+    } else if (sampleId) {
+      api.getSampleProcess(sampleId).then((data) => {
+        data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
+        window.dispatchEvent(new Event("reloadDone"))
+      })
+
+    }
   }
 
   const renderReactionNavbar = () => {
@@ -87,7 +96,7 @@ const Reaction = () => {
         {isLoading ?
           <SpinnerWithMessage message={'Storing process data'} isOpen={true} />
           :
-          <ReactionNavbar reactionProcess={reactionProcess} />
+          <SampleNavbar reactionProcess={reactionProcess} />
         }
       </>
     )
@@ -102,7 +111,7 @@ const Reaction = () => {
             <div className='px-5 py-6 d-inline-block'>
               <div className='d-inline-flex flex-nowrap align-items-start gap-5'>
                 <div className='d-flex gap-5 flex-column'>
-                  <PreparationColumnCard reactionProcess={reactionProcess} />
+                  <ProcessSampleStartInfoCard reactionProcess={reactionProcess} />
                   <VesselPreparationColumnCard reactionProcess={reactionProcess} />
                 </div>
                 <StepsContainer reactionProcess={reactionProcess} />
@@ -117,4 +126,4 @@ const Reaction = () => {
   );
 }
 
-export default Reaction;
+export default SampleProcess;

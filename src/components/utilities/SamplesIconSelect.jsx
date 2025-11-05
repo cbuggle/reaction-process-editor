@@ -1,15 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import Select, { components } from "react-select";
 
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 
-import { SelectOptions } from "../../contexts/SelectOptions";
-
-const SamplesIconSelect = ({ samples, isMulti, onChange, isClearable }) => {
+const SamplesIconSelect = ({ samples, options, isMulti, onChange, isClearable }) => {
 
 	const { Option } = components;
-	const selectOptions = useContext(SelectOptions);
 
 	const IconOption = (props) => {
 		let sample = OptionsDecorator.optionForValue(props.value, props.options)
@@ -51,7 +48,7 @@ const SamplesIconSelect = ({ samples, isMulti, onChange, isClearable }) => {
 			classNamePrefix="react-select"
 			name="select_samples"
 			renderIcon={SamplesDecorator.sampleSvgImg}
-			options={selectOptions.materials['SAMPLE']}
+			options={options}
 			value={samples}
 			onChange={onChange}
 			components={{ Option: IconOption, SingleValue: IconSingleValue, MultiValue: IconMultiValue }}

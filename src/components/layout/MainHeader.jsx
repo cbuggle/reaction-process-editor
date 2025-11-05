@@ -26,8 +26,8 @@ const MainHeader = () => {
   const location = useLocation();
   const reactionApi = useReactionsFetcher();
 
-  const [reactions, setReactions] = useState([]);
   const [reactionOptions, setReactionOptions] = useState([]);
+  // const [sampleOptions, setSampleOptions] = useState([]);
   const [collectionOptions, setCollectionOptions] = useState([]);
   const [selectOptions, setSelectOptions] = useState([]);
   const [userDefaultConditions, setUserDefaultConditions] = useState([]);
@@ -74,12 +74,16 @@ const MainHeader = () => {
     return "/reactions/" + id;
   };
 
+  const sampleLinkTarget = (id) => {
+    return "/samples/" + id;
+  };
+
   const reactionIndexLinkTarget = "/reactions";
 
   const fetchReactionOptions = () => {
     reactionApi.index().then((data) => {
       if (data && data["reactions"]) {
-        setReactions(data["reactions"]);
+        // setReactions(data["reactions"]);
         const options = data["reactions"].map(({ id, short_label }) => ({
           key: id,
           url: reactionLinkTarget(id),
@@ -102,6 +106,13 @@ const MainHeader = () => {
     });
   };
 
+  // const fetchSampleOptions = () => {
+  //   reactionApi.sampleSelectOptions().then((data) => {
+  //     data?.sample_select_options &&
+  //       setSampleOptions(data["sample_select_options"]);
+  //   });
+  // };
+
   const fetchUserDefaultConditions = () => {
     reactionApi.geDefaultConditions().then((data) => {
       let defaultConditions = data["default_conditions"];
@@ -122,6 +133,12 @@ const MainHeader = () => {
   const brandHref = () => {
     return localStorage.getItem("username") ? "/reactions" : "/";
   };
+
+  const sampleOptions = selectOptions.samples?.map(({ id, label }) => ({
+    key: id,
+    url: sampleLinkTarget(id),
+    label: id + ": " + label,
+  })) || [];
 
   return (
     <SelectOptions.Provider value={selectOptions}>
@@ -154,10 +171,26 @@ const MainHeader = () => {
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    Reactions ({reactions.length})
+                    Reactions ({reactionOptions.length})
                   </DropdownToggle>
                   <DropdownMenu>
                     {reactionOptions.map((reaction) => (
+                      <DropdownItem
+                        key={reaction.key}
+                        tag={Link}
+                        to={reaction.url}
+                      >
+                        {reaction.label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+                <UncontrolledDropdown nav>
+                  <DropdownToggle nav caret>
+                    Samples ({sampleOptions.length})
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    {sampleOptions.map((reaction) => (
                       <DropdownItem
                         key={reaction.key}
                         tag={Link}

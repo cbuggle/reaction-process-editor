@@ -10,10 +10,10 @@ function useReactionsFetcher() {
   return {
     index,
     svgImage,
-    sampleSvgImage,
     collectionSelectOptions,
     reactionSelectOptions,
     getReactionProcess,
+    getSampleProcess,
     geDefaultConditions,
     updateReactionDefaultConditions,
     updateUserDefaultConditions,
@@ -30,7 +30,8 @@ function useReactionsFetcher() {
     deleteActivity,
     updateActivityPosition,
     updateProcessStepPosition,
-    createFractionActivities
+    createFractionActivities,
+    updateSampleInitialInfo
   }
 
   function index() {
@@ -47,9 +48,9 @@ function useReactionsFetcher() {
     return `${apiHostname}/images/reactions/${reaction.reaction_svg_file}`
   }
 
-  function sampleSvgImage(sample) {
+  function svgImageLink(file) {
     // Note that this is not an api call but a link target.
-    return `${apiHostname}/images/samples/${sample.sample_svg_file}`
+    return `${apiHostname}/images/reactions/${file}`
   }
 
   function collectionSelectOptions() {
@@ -68,6 +69,10 @@ function useReactionsFetcher() {
 
   function getReactionProcess(id) {
     return api.get(`/reactions/${id}/reaction_process`);
+  }
+
+  function getSampleProcess(id) {
+    return api.get(`/samples/${id}/reaction_process`);
   }
 
   function updateProvenance(provenance) {
@@ -91,6 +96,11 @@ function useReactionsFetcher() {
 
   function updateReactionProcessVessel(reactionProcessVessel) {
     return api.put(`/reaction_process_vessels/${reactionProcessVessel.id}`, { 'reaction_process_vessel': reactionProcessVessel })
+  }
+
+  function updateSampleInitialInfo(reactionProcessId, sampleInitialInfo) {
+    return api.put(`/reaction_processes/${reactionProcessId}/sample_initial_info`,
+      { 'sample_initial_info': sampleInitialInfo })
   }
 
   function updateSamplePreparation(reactionProcessId, samplePreparation) {

@@ -11,7 +11,13 @@ export default class OntologiesDecorator {
 
   static createUnavailableOption = ({ ontologyId }) => ontologyId && { ontology_id: ontologyId, value: ontologyId, label: ontologyId, unavailable: true, roles: [] }
 
-  static activeOptionsMeetingDependencies = ({ roleName, workup, options }) => {
+  static activeOptionsForRoleName = ({ roleName, options }) => {
+    return options.filter((option) => {
+      return option.active && option.roles[roleName]
+    })
+  }
+
+  static activeOptionsForWorkupDependencies = ({ roleName, workup, options }) => {
     return options.filter((option) => {
       let roles = option.roles[roleName]
 
@@ -23,10 +29,10 @@ export default class OntologiesDecorator {
     })
   }
 
-  static selectableOptions = ({ roleName, options, ontologies, workup }) => {
+  static selectableOptionsMatchingWorkupDependencies = ({ roleName, options, ontologies, workup }) => {
     options ||= ontologies
     let currentValue = workup[roleName]
-    let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
+    let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, options: options, workup: workup })
 
     if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
       let missingCurrentOption =
@@ -38,10 +44,10 @@ export default class OntologiesDecorator {
     return activeDependencyOptions
   }
 
-  static selectableMultiOptions = ({ roleName, ontologies, options, workup }) => {
+  static selectableMultiOptionsForWorkupDependencies = ({ roleName, ontologies, options, workup }) => {
     options ||= ontologies
     let currentValues = workup[roleName]
-    let activeDependencyOptions = this.activeOptionsMeetingDependencies({ roleName: roleName, options: options, workup: workup })
+    let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, options: options, workup: workup })
 
     currentValues?.forEach(currentValue => {
       if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {

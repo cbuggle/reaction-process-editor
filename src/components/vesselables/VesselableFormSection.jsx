@@ -23,7 +23,7 @@ const VesselableFormSection = ({
   const preparationOptions = selectOptions.vessel_preparations.preparation_types;
 
   const currentVesselable = VesselableDecorator.getVesselableByParams(
-    { vesselable_id: reactionProcessVessel.vesselable_id, vesselable_type: reactionProcessVessel.vesselable_type },
+    { vesselable_id: reactionProcessVessel?.vesselable_id, vesselable_type: reactionProcessVessel?.vesselable_type },
     vesselables)
 
   const assignVesselable = (vesselableParams) => {
@@ -90,7 +90,7 @@ const VesselableFormSection = ({
             isMulti
             isClearable={false}
             options={preparationOptions}
-            value={OptionsDecorator.optionsForValues(reactionProcessVessel.preparations, preparationOptions)}
+            value={OptionsDecorator.optionsForValues(reactionProcessVessel?.preparations, preparationOptions)}
             onChange={(selected) =>
               handleSelectPreparations(selected.map((option) => option.value))
             }

@@ -13,17 +13,22 @@ const VesselableQuickSelector = ({
 
   useEffect(() => {
     if (currentVesselable && !filteredVesselableOptions.find(v => v.id === currentVesselable.id)) {
-      setVesselLabelText('')
+      setVesselQuery('')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVesselable])
 
   const vesselables = useContext(VesselOptions);
 
-  const [vesselLabelText, setVesselLabelText] = useState('');
+  const [vesselQuery, setVesselQuery] = useState('');
+
+  const vesselMatchesQuery = (vessel) => {
+    return vessel.short_label?.toLowerCase().match(vesselQuery?.toLowerCase()) ||
+      vessel.material_type?.toLowerCase().match(vesselQuery?.toLowerCase())
+  }
 
   const filteredVesselableOptions = vesselables
-    .filter(vessel => vessel.short_label?.toLowerCase().match(vesselLabelText?.toLowerCase()))
+    .filter(vessel => vesselMatchesQuery(vessel))
     .map(vessel => { return { ...vessel, value: vessel.id, label: vessel.short_label } })
 
   const ambigousVessel = filteredVesselableOptions.length !== 1
@@ -70,8 +75,8 @@ const VesselableQuickSelector = ({
         <Col md={5}>
           <Input
             placeholder={'Find Vessel by Label'}
-            value={vesselLabelText}
-            onChange={(event) => setVesselLabelText(event.target.value)}
+            value={vesselQuery}
+            onChange={(event) => setVesselQuery(event.target.value)}
             onKeyUp={handleVesselInputKeyUp}
           />
         </Col>

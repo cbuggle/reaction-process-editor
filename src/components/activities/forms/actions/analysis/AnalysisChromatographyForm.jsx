@@ -39,16 +39,17 @@ const AnalysisChromatographyForm = (
 
 
   const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
-  const ontologies = useContext(SelectOptions).ontologies
 
+  const selectOptions = useContext(SelectOptions);
   const sampleOptions = useContext(StepSelectOptions).saved_samples
+
   const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
 
-  const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
+  const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, selectOptions.ontologies)
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
-  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
+  const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: selectOptions.ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }
@@ -233,7 +234,7 @@ const AnalysisChromatographyForm = (
               onChange={handleSelectChange('material')}
             />
 
-            {filteredOntologiesForRole('stationary_phase')?.length > 0 ?
+            {filteredOntologiesByRoleName('stationary_phase')?.length > 0 ?
               <OntologySelectFormGroup
                 key={"stationary_phase" + workup.stationary_phase}
                 roleName={'stationary_phase'}
@@ -294,6 +295,23 @@ const AnalysisChromatographyForm = (
       <FormSection type='action'>
         <FormGroup>
           <Label>Sample</Label>
+          <SamplesIconSelect
+            isMulti
+            isClearable={false}
+            options={selectOptions.materials['SAMPLE']}
+            samples={workup.samples}
+            onChange={handleWorkupChange('samples')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Molecular Entity</Label>
+          <SamplesIconSelect
+            isMulti
+            isClearable={false}
+            options={selectOptions.materials['MOLECULAR_ENTITITES']}
+            samples={workup.molecular_entitites}
+            onChange={handleWorkupChange('molecular_entities')}
+          />
           <Select
             key={"sample" + currentSample?.value}
             className="react-select--overwrite"
@@ -301,22 +319,13 @@ const AnalysisChromatographyForm = (
             name="sample_id"
             options={sampleOptions}
             value={currentSample}
-            onChange={handleSelectChange('sample_id')}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Molecular Entities</Label>
-          <SamplesIconSelect
-            isMulti
-            isClearable={false}
-            samples={workup.molecular_entities}
             onChange={handleWorkupChange("molecular_entities")} />
         </FormGroup>
 
         <Label>Mode</Label>
         <ButtonGroupToggle
           value={workup.automation_mode}
-          options={filteredOntologiesForRole('automation_mode')}
+          options={filteredOntologiesByRoleName('automation_mode')}
           onChange={handleChangeAutomation} />
 
         <OntologySelectFormGroup
@@ -332,33 +341,37 @@ const AnalysisChromatographyForm = (
           onChange={handleChangeSubType}
         />
         {renderAutomationSpecificFields()}
-      </FormSection>
+      </FormSection >
       {renderDetectorFormSection()}
 
-      {activitySteps.map((step, idx) =>
-        <AnalysisChromatographyStepForm
-          key={'chromatography-step-' + idx + '-' + activitySteps.length}
-          label={'Chromatography Step ' + (idx + 1)}
-          workup={step}
-          solventOptions={filteredOntologiesForRole('solvent')}
-          onSave={onSaveStep(idx)}
-          onCancel={onCancelStep(idx)}
-          onDelete={onDeleteStep(idx)}
-          canDelete={activitySteps.length > 1}
-          disabled={isAutomated}
-        />
-      )}
-      {showNewStepForm &&
+      {
+        activitySteps.map((step, idx) =>
+          <AnalysisChromatographyStepForm
+            key={'chromatography-step-' + idx + '-' + activitySteps.length}
+            label={'Chromatography Step ' + (idx + 1)}
+            workup={step}
+            solventOptions={filteredOntologiesByRoleName('solvent')}
+            onSave={onSaveStep(idx)}
+            onCancel={onCancelStep(idx)}
+            onDelete={onDeleteStep(idx)}
+            canDelete={activitySteps.length > 1}
+            disabled={isAutomated}
+          />
+        )
+      }
+      {
+        showNewStepForm &&
         <AnalysisChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
-          solventOptions={filteredOntologiesForRole('solvent')}
+          solventOptions={filteredOntologiesByRoleName('solvent')}
           initialShowForm={true}
           onSave={onSaveStep(activitySteps.length)}
           onCancel={onCancelStep(activitySteps.length)}
         />
       }
-      {!isAutomated &&
+      {
+        !isAutomated &&
         <FormSection type='action'>
           <CreateButton
             label='Chromatography Step'

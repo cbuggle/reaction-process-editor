@@ -42,7 +42,7 @@ const ChromatographyForm = (
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
-  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
+  const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }
@@ -227,7 +227,7 @@ const ChromatographyForm = (
               onChange={handleSelectChange('material')}
             />
 
-            {filteredOntologiesForRole('stationary_phase')?.length > 0 ?
+            {filteredOntologiesByRoleName('stationary_phase')?.length > 0 ?
               <OntologySelectFormGroup
                 key={"stationary_phase" + workup.stationary_phase}
                 roleName={'stationary_phase'}
@@ -290,7 +290,7 @@ const ChromatographyForm = (
 
         <ButtonGroupToggle
           value={workup.automation_mode}
-          options={filteredOntologiesForRole('automation_mode')}
+          options={filteredOntologiesByRoleName('automation_mode')}
           onChange={handleChangeAutomation} />
 
         <OntologySelectFormGroup
@@ -314,7 +314,7 @@ const ChromatographyForm = (
           key={'chromatography-step-' + idx + '-' + activitySteps.length}
           label={'Chromatography Step ' + (idx + 1)}
           workup={step}
-          solventOptions={filteredOntologiesForRole('solvent')}
+          solventOptions={filteredOntologiesByRoleName('solvent')}
           onSave={onSaveStep(idx)}
           onCancel={onCancelStep(idx)}
           onDelete={onDeleteStep(idx)}
@@ -326,7 +326,7 @@ const ChromatographyForm = (
         <ChromatographyStepForm
           label={'Chromatography Step ' + (activitySteps.length + 1)}
           workup={activitySteps.at(-1) || {}}
-          solventOptions={filteredOntologiesForRole('solvent')}
+          solventOptions={filteredOntologiesByRoleName('solvent')}
           initialShowForm={true}
           onSave={onSaveStep(activitySteps.length)}
           onCancel={onCancelStep(activitySteps.length)}
