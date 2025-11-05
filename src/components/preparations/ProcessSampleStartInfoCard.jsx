@@ -34,22 +34,14 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
     closeForm();
   };
 
-
   const handleCancel = () => {
     setReactionProcessVessel(reactionProcess?.sample_initial_info?.reaction_process_vessel);
     closeForm();
   }
 
-
   const displayMode = () => {
     return showForm ? "form" : "info";
   };
-
-
-  const onDelete = () => {
-    closeForm();
-  };
-
 
   const closeForm = () => {
     setShowForm(false);

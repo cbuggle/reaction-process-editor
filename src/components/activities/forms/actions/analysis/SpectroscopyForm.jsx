@@ -44,9 +44,6 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
 	}
 
-	const handleSelectChange = (workupKey) => (selected) => onWorkupChange({ name: workupKey, value: selected.value })
-
-
 	const sampleOptions = useContext(StepSelectOptions).saved_samples
 	const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
 

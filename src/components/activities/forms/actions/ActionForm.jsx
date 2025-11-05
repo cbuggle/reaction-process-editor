@@ -144,6 +144,7 @@ const ActionForm = (
         <OntologySelectFormGroup
           key={"device" + workup.device}
           roleName={'device'}
+          // workup={workup}
           options={ontologiesByRoleName('device')}
           onChange={handleChangeDevice}
         />

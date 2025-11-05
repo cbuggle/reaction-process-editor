@@ -48,10 +48,10 @@ function useReactionsFetcher() {
     return `${apiHostname}/images/reactions/${reaction.reaction_svg_file}`
   }
 
-  function svgImageLink(file) {
-    // Note that this is not an api call but a link target.
-    return `${apiHostname}/images/reactions/${file}`
-  }
+  // function svgImageLink(file) {
+  //   // Note that this is not an api call but a link target.
+  //   return `${apiHostname}/images/reactions/${file}`
+  // }
 
   function collectionSelectOptions() {
     return api.get(`/collection_select_options`);

@@ -29,7 +29,6 @@ const OntologySelectFormGroup = (
 
   let selectableOptionsMatchingWorkupDependencies = workup ? OntologiesDecorator.selectableOptionsMatchingWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) }) : options
 
-
   let selectedOption = OntologiesDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
   tooltip ||= selectedOption?.unavailable && tooltips['selection_unavailable']

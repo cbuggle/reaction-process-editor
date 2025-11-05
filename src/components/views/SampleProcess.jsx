@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import SampleNavbar from '../reactions/navbar/SampleNavbar';
-import PreparationColumnCard from '../preparations/SamplePreparationColumnCard';
 import ProcessSampleStartInfoCard from '../preparations/ProcessSampleStartInfoCard';
 import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
 
