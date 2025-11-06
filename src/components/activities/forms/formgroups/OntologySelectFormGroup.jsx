@@ -18,7 +18,8 @@ const OntologySelectFormGroup = (
     disabled,
     placeholder,
     tooltip,
-    options
+    options,
+    ignoreWorkupDependencies
   }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
@@ -27,7 +28,10 @@ const OntologySelectFormGroup = (
 
   let value = workup?.[roleName]
 
-  let selectableOptionsMatchingWorkupDependencies = workup ? OntologiesDecorator.selectableOptionsMatchingWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) }) : options
+  let selectableOptionsMatchingWorkupDependencies = ignoreWorkupDependencies ? options :
+    OntologiesDecorator.selectableOptionsMatchingWorkupDependencies(
+      { options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) }
+    )
 
   let selectedOption = OntologiesDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 

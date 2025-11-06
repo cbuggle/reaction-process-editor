@@ -148,6 +148,7 @@ const ActionForm = (
           roleName={'device'}
           workup={workup}
           options={ontologiesByRoleName('device')}
+          ignoreWorkupDependencies={true}
           onChange={handleChangeDevice}
         />
         <OntologySelectFormGroup
