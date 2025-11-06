@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Label, FormGroup, Input } from 'reactstrap';
-import Select from 'react-select';
 
 import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
 
@@ -23,7 +22,6 @@ import withActivitySteps from '../../../../utilities/WithActivitySteps';
 import { ontologyId } from '../../../../../constants/ontologyId'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions.jsx';
 
 const AnalysisChromatographyForm = (
   {
@@ -41,9 +39,6 @@ const AnalysisChromatographyForm = (
   const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
 
   const selectOptions = useContext(SelectOptions);
-  const sampleOptions = useContext(StepSelectOptions).saved_samples
-
-  const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
 
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, selectOptions.ontologies)
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
