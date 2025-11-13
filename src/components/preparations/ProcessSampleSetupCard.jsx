@@ -35,7 +35,7 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
   };
 
   const handleCancel = () => {
-    setReactionProcessVessel(reactionProcess?.sample_setup?.reaction_process_vessel);
+    setReactionProcessVessel(reactionProcess?.reaction_process_vessel);
     closeForm();
   }
 
@@ -58,6 +58,9 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
     )
   }
 
+  console.log("vsessel")
+  console.log(reactionProcessVessel)
+
   return (
     <ProcedureCard
       title="Initial"
@@ -74,7 +77,7 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
     >
       <ProcedureCard.Info>
         {renderSampleFormGroup()}
-        {reactionProcessVessel ?
+        {reactionProcessVessel?.vesselable ?
           <>
             <span className="procedure-card__info-line">
               {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
