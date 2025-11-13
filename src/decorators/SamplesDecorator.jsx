@@ -25,6 +25,10 @@ export default class SamplesDecorator {
     return amountsDefaultUnits.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
       MetricsDecorator.infoLineAmount({ value: Number(availableAmounts[unit]).toFixed(2), unit: unit })
-    ).filter((el) => el)
+    ).filter((el) => el).map((amount, index) => (
+      <p key={index + "" + amount} className="mb-0">
+        {amount}
+      </p>
+    ))
   }
 }

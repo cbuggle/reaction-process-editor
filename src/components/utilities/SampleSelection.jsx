@@ -15,10 +15,6 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
     }
   };
 
-  const availableAmounts = (sample) => {
-    return SamplesDecorator.infoAvailableAmounts(sample["unit_amounts"]);
-  };
-
   const formatOptionLabel = ({ label, value }) => (
     <div
       onMouseEnter={() => updatePreview(value)}
@@ -41,16 +37,7 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
             )}
           </Col>
           <Col xs={6}>
-            {previewSample && availableAmounts(previewSample).length > 0 && (
-              <>
-                <h6 className="mb-0">Available:</h6>
-                {availableAmounts(previewSample).map((amount, index) => (
-                  <p key={index + "" + amount} className="mb-0">
-                    {amount}
-                  </p>
-                ))}
-              </>
-            )}
+            {previewSample && SamplesDecorator.infoAvailableAmounts(previewSample["unit_amounts"])}
           </Col>
         </Row>
         <Select
