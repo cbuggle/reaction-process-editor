@@ -16,32 +16,26 @@ import StringDecorator from "../../../../decorators/StringDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import SampleSelection from "../../../utilities/SampleSelection";
 
+import { addFormMetricNames } from "../../../../constants/formMetrics";
+
 const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
-  // TODO: move to metrics.jsx (and restrict to keys; requires some work as workup_keys depend on it)
-  const inputMetrics = [
-    ["VELOCITY", "add_sample_velocity"],
-    ["TEMPERATURE", "add_sample_temperature"],
-    ["PRESSURE", "add_sample_pressure"],
-  ];
 
   const selectOptions = useContext(SelectOptions)
   const additionOptions = selectOptions.FORMS.ADD
 
-
-
   useEffect(() => {
-    inputMetrics.forEach(([metricName, workupKey]) => {
+    addFormMetricNames.forEach((metricName) => {
       const unit =
-        workup[workupKey]?.unit ||
+        workup[metricName]?.unit ||
         preconditions[metricName]?.unit ||
         MetricsDecorator.defaultUnit(metricName);
 
-      let value = workup[workupKey]?.value;
+      let value = workup[metricName]?.value;
       value = value === 0 ? 0 : value || preconditions[metricName]?.value;
 
       if (value || value === 0) {
         onWorkupChange({
-          name: workupKey,
+          name: metricName,
           value: { value: value, unit: unit },
         });
       }
@@ -97,14 +91,14 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     onWorkupChange({ name: name, value: value });
 
   const renderConditionInputs = () => {
-    return inputMetrics.map(([metricName, workupKey]) => {
+    return addFormMetricNames.map((metricName) => {
       return (
         <>
           <MetricsInputFormGroup
             key={metricName}
             metricName={metricName}
-            amount={workup[workupKey]}
-            onChange={handleChange(workupKey)}
+            amount={workup[metricName]}
+            onChange={handleChange(metricName)}
           />
         </>
       );
@@ -156,7 +150,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
                 handleChange("is_waterfree_solvent")(event.target.checked)
               }
             />
-
           </SingleLineFormGroup>
         }
         {displayMolecularEntity &&
@@ -170,7 +163,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
               onChange={handleChange('molecular_entities')}
             />
           </FormGroup>
-
         }
         <AmountInputSet
           amount={workup["target_amount"]}
@@ -191,7 +183,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             }
           />
         </SingleLineFormGroup>
-
         {renderConditionInputs()}
       </FormSection>
     </>
