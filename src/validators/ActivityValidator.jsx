@@ -7,25 +7,31 @@ function useActivityValidator() {
   const { addNotification } = useContext(NotificationContext);
 
   return {
-    validate,
+    validateActivity,
+    errorsOnVesselPreparation,
+    validateSamplePreparation,
+    validateStep
   };
 
-  function validateAdd(action) {
+  function errorsOnAdd(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Sample");
     return errors;
   }
 
-  function validateTransfer(action) {
+
+  function errorsOnTransfer(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Sample");
     action.workup["transfer_target_step_id"] || errors.push("Transfer Target");
     return errors;
   }
 
-  function validateRemove() {
+  function errorsOnVessel(vessel) {
     let errors = [];
-    // currently no mandatory fields; sample_id is optional! cbuggle, 07.11.2021.
+
+    vessel?.id || errors.push("Vessel must be defined")
+    vessel?.cleanup || errors.push("Vessel Cleanup must be defined")
     return errors;
   }
 
@@ -38,23 +44,49 @@ function useActivityValidator() {
     });
   }
 
-  function validate(action) {
+  function validateActivity(action) {
     let errors = [];
+
+    let requiresVessel =
+      ['DEFINE_FRACTION', 'DISCARD', 'SAVE'].includes(action.activity_name)
+      || (action.workup['purification_type'] === 'FILTRATION')
 
     switch (action.activity_name) {
       case "ADD":
-        errors = validateAdd(action);
+        errors.push(...errorsOnAdd(action));
         break;
       case "TRANSFER":
-        errors = validateTransfer(action);
-        break;
-      case "REMOVE":
-        errors = validateRemove(action);
+        errors.push(...errorsOnTransfer(action));
         break;
       default:
         break;
     }
 
+    if (requiresVessel) {
+      errors.push(...errorsOnVessel(action.reaction_process_vessel))
+    }
+
+    if (errors.length > 0) { displayNotifications(errors); }
+    return errors.length === 0;
+  }
+
+  function validateStep(_name, vessel, _automationStatus) {
+    let errors = errorsOnVessel(vessel)
+
+    if (errors.length > 0) { displayNotifications(errors); }
+    return errors.length === 0;
+  }
+
+  function validateSamplePreparation(preparation) {
+    let errors = [];
+    preparation.sample_id || errors.push("Sample");
+
+    if (errors.length > 0) { displayNotifications(errors); }
+    return errors.length === 0;
+  }
+
+  function errorsOnVesselPreparation(preparation) {
+    let errors = errorsOnVessel(preparation.vesselable)
     if (errors.length > 0) { displayNotifications(errors); }
 
     return errors.length === 0;
