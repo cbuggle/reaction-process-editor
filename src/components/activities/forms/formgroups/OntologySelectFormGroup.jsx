@@ -18,8 +18,7 @@ const OntologySelectFormGroup = (
     disabled,
     placeholder,
     tooltip,
-    options,
-    ignoreWorkupDependencies
+    options
   }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
@@ -28,7 +27,7 @@ const OntologySelectFormGroup = (
 
   let value = workup?.[roleName]
 
-  let selectableOptionsMatchingWorkupDependencies = ignoreWorkupDependencies ? options :
+  let selectableOptionsMatchingWorkupDependencies =
     OntologiesDecorator.selectableOptionsMatchingWorkupDependencies(
       { options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) }
     )
@@ -48,6 +47,7 @@ const OntologySelectFormGroup = (
       label={label}
       tooltip={tooltip}
     >
+
       <Select
         className="react-select--overwrite"
         classNamePrefix="react-select"
@@ -57,7 +57,7 @@ const OntologySelectFormGroup = (
         onChange={onChange}
         isClearable={true}
         placeholder={placeholder}
-        isDisabled={disabled}
+        isDisabled={disabled || selectableOptionsMatchingWorkupDependencies.length === 0}
       />
     </SingleLineFormGroup>
   </>
