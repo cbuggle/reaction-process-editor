@@ -27,7 +27,7 @@ const OptionsQuickNavigator = ({ options, label }) => {
   const ambigousOption = filteredOptions.length !== 1
 
   const handleKeyInput = (event) => {
-    if (event.key === "Enter") { navigate(filteredOptions[0].url) }
+    if (event.key === "Enter" && !!filteredOptions[0]) { navigate(filteredOptions[0].url) }
   }
 
   const renderSelectSubmitButton = () => {
@@ -46,7 +46,7 @@ const OptionsQuickNavigator = ({ options, label }) => {
     return (
       <UncontrolledDropdown nav>
         <DropdownToggle nav caret>
-          {filteredOptions[0]?.label}
+          {label}
           {' '}
           ({filteredOptions.length})
         </DropdownToggle>
