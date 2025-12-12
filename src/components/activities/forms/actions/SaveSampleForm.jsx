@@ -19,10 +19,11 @@ import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
 const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChangeVessel }) => {
 
   const selectOptions = useContext(SelectOptions);
+  const stepSelectOptions = useContext(StepSelectOptions);
   const saveSampleOptions = selectOptions.FORMS.SAVE
+  const originOptions = stepSelectOptions.FORMS.SAVE.origins
   const molecularEntitiesOptions = selectOptions.materials['MOLECULAR_ENTITY']
 
-  const stepSelectOptions = useContext(StepSelectOptions);
 
   useEffect(() => {
     workup.solvents_amount ||
@@ -40,9 +41,9 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
     onWorkupChange({ name: 'sample_origin_action_id', value: action.value });
   }
 
-  const currentOriginAction = OptionsDecorator.optionForValue(workup.sample_origin_action_id, saveSampleOptions.origins)
+  const currentOriginAction = OptionsDecorator.optionForValue(workup.sample_origin_action_id, originOptions)
 
-  const purificationStepFormIsDisabled = currentOriginAction?.purification_type === 'CRYSTALLIZATION'
+  const purificationStepFormIsDisabled = currentOriginAction?.activity_name === 'CRYSTALLIZATION'
 
   const renderStepSelect = () => {
     return (<>
@@ -72,7 +73,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="sample_origin_action_id"
-            options={stepSelectOptions.FORMS.SAVE.origins}
+            options={originOptions}
             value={currentOriginAction}
             onChange={handleChangeAction}
           />
