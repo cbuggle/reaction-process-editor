@@ -2,9 +2,8 @@ import React from 'react';
 import { Button, Row, Col } from "reactstrap";
 import { actionTypeClusters } from "../../constants/actionTypeClusters";
 
-const TypeSelectionPanel = ({ onSelect }) => {
+const ActionTypeSelectionPanel = ({ onSelect }) => {
   const columns = actionTypeClusters
-
 
   const renderActionCluster = (cluster, cIndex) => {
     return (
@@ -33,4 +32,4 @@ const TypeSelectionPanel = ({ onSelect }) => {
   );
 };
 
-export default TypeSelectionPanel;
+export default ActionTypeSelectionPanel;
