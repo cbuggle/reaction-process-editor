@@ -13,6 +13,7 @@ const ApplyExtraEquipmentFormSet = ({
   actionName,
   workup,
   onWorkupChange,
+  disabled
 }) => {
   const [equipment, setEquipment] = useState(workup.EQUIPMENT?.value || []);
 
@@ -34,6 +35,7 @@ const ApplyExtraEquipmentFormSet = ({
           onSave={handleSaveEquipment}
           onCancel={handleCancelEquipment}
           typeColor={activityType}
+          disabled={disabled}
         >
           <Select
             name="EQUIPMENT"

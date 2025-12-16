@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import InfoLinesBox from './InfoLinesBox';
 
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
-import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import { removeFormMetricNames } from '../../../../../constants/formMetrics';
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
@@ -21,9 +20,7 @@ const RemoveInfo = ({ activity }) => {
 	if (solventsLine) { infoLines.push("Solvents: " + solventsLine) }
 
 	if (workup['remove_steps']) {
-		infoLines.push(' ' + workup['remove_steps'].length + ' Steps ' + OptionsDecorator.valueToLabel(workup.automation_mode, selectOptions.automation_modes))
-	} else {
-		infoLines.push(OptionsDecorator.valueToLabel(workup.automation_mode, selectOptions.automation_modes))
+		infoLines.push(' ' + workup['remove_steps'].length + ' Steps ')
 	}
 
 	for (let [key, removeWorkup] of Object.entries(workup)) {

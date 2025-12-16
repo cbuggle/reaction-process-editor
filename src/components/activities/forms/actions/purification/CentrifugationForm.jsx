@@ -1,13 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle';
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
 
 import MetricsDecorator from '../../../../../decorators/MetricsDecorator';
 
 import FormSection from "../../../../utilities/FormSection";
-
-import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import { centrifugationFormMetricNames } from '../../../../../constants/formMetrics';
 
@@ -17,8 +14,6 @@ const CentrifugationForm = (
     preconditions,
     onWorkupChange,
   }) => {
-
-  const centrifugationOptions = useContext(SelectOptions).FORMS.CENTRIFUGATION
 
   useEffect(() => {
     centrifugationFormMetricNames.forEach(metricName => {
@@ -62,12 +57,6 @@ const CentrifugationForm = (
   return (
     <>
       <FormSection type='action'>
-        <ButtonGroupToggle
-          value={workup.automation_mode}
-          options={centrifugationOptions.automation_modes}
-          onChange={handleWorkupChange('automation_mode')}
-          label='Automation'
-        />
         {renderConditionInputs()}
       </FormSection>
     </>

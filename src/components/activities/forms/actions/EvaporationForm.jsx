@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { FormGroup, Label } from "reactstrap";
 import Select from "react-select";
 
 import RemoveDiverseSolventsForm from "./remove/RemoveDiverseSolventsForm";
@@ -9,7 +8,6 @@ import RemoveFromMethodForm from "./remove/RemoveFromMethodForm";
 import RemoveFromFractionForm from "./remove/RemoveFromFractionForm";
 import RemoveStepWiseForm from "./remove/RemoveStepWiseForm";
 
-import ButtonGroupToggle from "../formgroups/ButtonGroupToggle";
 import FormSection from "../../../utilities/FormSection";
 import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 
@@ -28,8 +26,6 @@ const EvaporationForm = ({ workup, preconditions, onWorkupChange }) => {
 			: onWorkupChange({ name: 'samples', value: undefined })
 		// eslint-disable-next-line
 	}, [])
-
-	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
 	const handleTypeChange = (newType) => {
 		onWorkupChange({ name: "origin_type", value: newType })
@@ -65,14 +61,6 @@ const EvaporationForm = ({ workup, preconditions, onWorkupChange }) => {
 
 	return (
 		<>
-			<FormSection type='action'>
-				<FormGroup>
-					<Label> Automation </Label>
-					{workup.automation_mode?.label}
-					<ButtonGroupToggle value={workup.automation_mode} options={selectOptions.automation_modes}
-						onChange={handleWorkupChange('automation_mode')} />
-				</FormGroup>
-			</FormSection>
 			<FormSection>
 				<SingleLineFormGroup label="Origin">
 					<Select
