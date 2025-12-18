@@ -61,7 +61,7 @@ export default class VesselableDecorator {
   };
 
   static vesselVolume = (vessel) => {
-    return vessel.volume_amount + " " + vessel.volume_unit.toLowerCase();
+    return vessel.volume_amount + " " + vessel.volume_unit?.toLowerCase();
   };
 
   static vesselMaterial = (vessel) => {
