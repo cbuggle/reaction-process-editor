@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, InputGroup, Input } from "reactstrap";
+import { InputGroup, Input } from "reactstrap";
 
 import { useNavigate } from 'react-router-dom'
 
@@ -24,29 +24,17 @@ const OptionsQuickNavigator = ({ options, label }) => {
     .filter(option => optionMatchesQuery(option))
     .map(option => { return { ...option, value: option.key, label: option.label } })
 
-  const ambigousOption = filteredOptions.length !== 1
-
   const handleKeyInput = (event) => {
-    if (event.key === "Enter" && !!filteredOptions[0]) { navigate(filteredOptions[0].url) }
-  }
-
-  const renderSelectSubmitButton = () => {
-    return (
-      <Button color={'success'} disabled={ambigousOption}
-        tag={Link}
-        to={filteredOptions[0].url}
-        className="main-header-name"
-      >
-        {filteredOptions[0].label}
-      </Button >
-    )
+    if (event.key === "Enter" && !!filteredOptions[0]) { navigate(filteredOptions[0].path) }
   }
 
   const renderOptionsSelect = () => {
+    let displayLabel = query.length && filteredOptions.length ? filteredOptions[0].label : label
+
     return (
       <UncontrolledDropdown nav>
         <DropdownToggle nav caret>
-          {label}
+          {displayLabel}
           {' '}
           ({filteredOptions.length})
         </DropdownToggle>
@@ -68,17 +56,20 @@ const OptionsQuickNavigator = ({ options, label }) => {
   }
 
   return (
-    <>
-      <InputGroup>
+    <InputGroup
+      className="metrics-input navbar-direct-link">
+      <div className='col-6'>
         <Input
           placeholder={label}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyUp={handleKeyInput}
         />
-        {ambigousOption ? renderOptionsSelect() : renderSelectSubmitButton()}
-      </InputGroup>
-    </>
+      </div>
+      <div className='col-6'>
+        {renderOptionsSelect()}
+      </div>
+    </InputGroup>
   );
 };
 

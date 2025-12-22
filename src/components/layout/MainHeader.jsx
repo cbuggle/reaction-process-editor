@@ -8,21 +8,17 @@ import {
   Nav,
   UncontrolledDropdown,
 } from "reactstrap";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
-
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
-
 import OptionsQuickNavigator from "../utilities/OptionsQuickNavigator";
 
-import { SelectOptions } from "../../contexts/SelectOptions";
-import {
-  SubFormController,
-  SubFormToggle,
-} from "../../contexts/SubFormController";
-
 import OptionsDecorator from "../../decorators/OptionsDecorator";
+
+import { SubFormController, SubFormToggle } from "../../contexts/SubFormController";
+import { SelectOptions } from "../../contexts/SelectOptions";
+
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const MainHeader = () => {
   const location = useLocation();
@@ -74,9 +70,6 @@ const MainHeader = () => {
       return "/" + model + "/" + id
     }
   }
-
-  const reactionsIndexPath = (model) => "/reactions"
-
   const fetchReactionsOptions = () => {
     let model = "reactions"
     reactionApi.indexOf(model).then((data) => {
@@ -144,13 +137,10 @@ const MainHeader = () => {
           </NavbarBrand>
           {localStorage.getItem("username") && (
             <>
-              <Nav navbar className="me-auto main-header__nav">
+              <Nav justified navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    {OptionsDecorator.valueToLabel(
-                      filterCollectionId,
-                      collectionOptions
-                    ) || "Collections"}
+                    {OptionsDecorator.valueToLabel(filterCollectionId, collectionOptions) || "Collections"}
                   </DropdownToggle>
                   <DropdownMenu>
                     {collectionOptions.map((collection) => (
@@ -164,34 +154,12 @@ const MainHeader = () => {
                     ))}
                   </DropdownMenu>
                 </UncontrolledDropdown>
-                <UncontrolledDropdown nav>
-                  <DropdownToggle nav caret>
-                    Reactions ({reactionOptions.length})
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem
-                      key={"reactions-index-link"}
-                      tag={Link}
-                      to={reactionsIndexPath()}
-                    >
-                      Reactions
-                    </DropdownItem>
-                    {reactionOptions.map((reaction) => (
-                      <DropdownItem
-                        key={reaction.key}
-                        tag={Link}
-                        to={reaction.path}
-                      >
-                        {reaction.label}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-                <OptionsQuickNavigator
-                  label={'Samples'}
-                  options={sampleOptions}
-                />
-
+              </Nav>
+              <Nav justified navbar className="me-auto main-header__nav">
+                <OptionsQuickNavigator justified label={'Reactions'} options={reactionOptions} />
+              </Nav>
+              <Nav justified navbar className="me-auto main-header__nav">
+                <OptionsQuickNavigator justified label={'Samples'} options={sampleOptions} />
               </Nav>
               <Nav navbar className="justify-content-end align-items-center">
                 <UserMenu
