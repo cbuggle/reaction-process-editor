@@ -18,7 +18,7 @@ const MergeSamplesForm = ({
 }) => {
 	const sampleOptions = useContext(SelectOptions).materials.SAMPLE;
 
-	const handleWorkupChange = (name) => (selected) => { onWorkupChange({ name, value: selected?.value }); };
+	// const handleWorkupChange = (name) => (selected) => { onWorkupChange({ name, value: selected?.value }); };
 
 	const selectedSample = (sampleId) => sampleOptions.find((sample) => sample.value === sampleId);
 
