@@ -4,7 +4,6 @@ import Select from "react-select";
 import AmountInputSet from "../../../utilities/AmountInputSet";
 import FormSection from "../../../utilities/FormSection";
 import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
-import VesselableFormSection from "../../../vesselables/VesselableFormSection";
 
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 
