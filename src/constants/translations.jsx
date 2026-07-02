@@ -7,7 +7,8 @@ export const tooltips = {
 	vessel_unmet_automation_mode: "Selected Vessel is not available in the current Automation mode",
 	purification_amount: 'Please add volume for manual purification',
 	purification_duration: 'Please add the duration of the step for manual purification.',
-	reload_spinner: 'Toggle visibility of the spinner after an Action is saved. The spinner indicates that the displayed data is not yet up-to-date but may be considered annoying by some users for disturbing the workflow.'
+	reload_spinner: 'Toggle visibility of the spinner after an Action is saved. The spinner indicates that the displayed data is not yet up-to-date but may be considered annoying by some users for disturbing the workflow.',
+	merge_sample_type_unspecified: 'The type of the merged Samples needs to be specified.'
 }
 
 export const notifications = {
