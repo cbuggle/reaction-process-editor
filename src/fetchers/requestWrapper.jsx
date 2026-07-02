@@ -29,6 +29,7 @@ function useRequestWrapper() {
     };
     requestOptions.headers["Accept"] = "application/json";
     requestOptions.headers["Content-Type"] = "application/json";
+    requestOptions.headers["Access-Control-Allow-Origin"] = "*";
 
     if (body) {
       requestOptions.body = JSON.stringify(body);
