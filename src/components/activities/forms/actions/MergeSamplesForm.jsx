@@ -30,11 +30,6 @@ const MergeSamplesForm = ({
 
 	return (
 		<>
-			<VesselableFormSection
-				onChange={onChangeVessel}
-				reactionProcessVessel={reactionProcessVessel}
-				automationMode={workup.automation_mode}
-			/>
 			<FormSection type="action">
 				<SingleLineFormGroup label="Source Sample">
 					<Select
