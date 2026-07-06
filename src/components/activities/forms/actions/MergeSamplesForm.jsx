@@ -51,7 +51,7 @@ const MergeSamplesForm = ({
 					/>
 				</SingleLineFormGroup>
 				<AmountInputSet
-					amount={workup['target_amount']}
+					amount={workup['amount']}
 					maxAmounts={currentSample?.unit_amounts}
 					onChangeAmount={handleChangeAmount}
 				/>
