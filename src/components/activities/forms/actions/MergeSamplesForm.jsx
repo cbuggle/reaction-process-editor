@@ -21,7 +21,7 @@ const MergeSamplesForm = ({
 
 	const selectedSample = (sampleId) => sampleOptions.find((sample) => sample.value === sampleId);
 
-	const handleChangeAmount = (amount) => onWorkupChange({ name: "target_amount", value: amount })
+	const handleChangeAmount = (amount) => onWorkupChange({ name: "amount", value: amount })
 
 	const currentSample = OptionsDecorator.optionForValue(workup['target_sample_id'], sampleOptions)
 
