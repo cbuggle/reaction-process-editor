@@ -119,4 +119,31 @@ describe("reaction 2 user default conditions", () => {
       })
     );
   });
+
+  test("removes metric equipment when resetting a user default condition", async () => {
+    const temperatureEquipment =
+      reaction2Process.select_options.FORMS.CONDITION.equipment.TEMPERATURE[0];
+
+    renderUserDefaultConditions({
+      defaultConditions: {
+        TEMPERATURE: {
+          value: 21,
+          unit: "CELSIUS",
+          additional_information: "AMBIENT",
+        },
+        EQUIPMENT: { value: [temperatureEquipment.value] },
+      },
+    });
+
+    openUserDefaultConditions();
+    const section = openConditionSubform("Temperature");
+    userEvent.click(within(section).getByRole("button", { name: "Reset" }));
+    userEvent.click(screen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => expect(mockUpdateUserDefaultConditions).toHaveBeenCalledTimes(1));
+    const updatedDefaultConditions = mockUpdateUserDefaultConditions.mock.calls[0][0];
+
+    expect(updatedDefaultConditions).not.toHaveProperty("TEMPERATURE");
+    expect(updatedDefaultConditions.EQUIPMENT).toEqual({ value: [] });
+  });
 });

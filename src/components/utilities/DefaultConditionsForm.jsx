@@ -27,9 +27,17 @@ const DefaultConditionsForm = (
 
   const handleWorkupChange = (field) => {
     const { name, value } = field;
-    updateDefaultConditionsForm(prevState => ({
-      ...prevState, [name]: value
-    }));
+    updateDefaultConditionsForm(prevState => {
+      const nextState = { ...prevState };
+
+      if (value === undefined) {
+        delete nextState[name];
+      } else {
+        nextState[name] = value;
+      }
+
+      return nextState;
+    });
   }
 
   const handleSave = () => {

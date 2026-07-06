@@ -58,6 +58,24 @@ const MetricFormGroup = ({
   const resetEquipment = () =>
     setEquipment(workup["EQUIPMENT"]?.["value"] || []);
 
+  const equipmentOptionsForMetric = () =>
+    selectOptions.FORMS.CONDITION.equipment[metricName] || [];
+
+  const equipmentValuesForMetric = () =>
+    equipmentOptionsForMetric().map((option) => option.value);
+
+  const equipmentWithoutCurrentMetric = () => {
+    if (metricName === "EQUIPMENT") {
+      return [];
+    }
+
+    const currentMetricEquipment = equipmentValuesForMetric();
+
+    return (workup["EQUIPMENT"]?.["value"] || []).filter(
+      (item) => !currentMetricEquipment.includes(item)
+    );
+  };
+
   useEffect(() => {
     resetEquipment();
     // eslint-disable-next-line
@@ -75,6 +93,10 @@ const MetricFormGroup = ({
   const handleChangeEquipment = (newEquipment) => setEquipment(newEquipment);
 
   const handleResetToPredifined = () => {
+    const remainingEquipment = equipmentWithoutCurrentMetric();
+
+    setEquipment(remainingEquipment);
+    onWorkupChange({ name: "EQUIPMENT", value: { value: remainingEquipment } });
     onWorkupChange({ name: metricName, value: undefined });
   };
 
