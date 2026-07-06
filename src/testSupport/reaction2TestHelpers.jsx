@@ -15,14 +15,18 @@ global.structuredClone ||= (value) => JSON.parse(JSON.stringify(value));
 
 export const mockCreateProcessStep = jest.fn();
 export const mockUpdateProcessStep = jest.fn();
+export const mockUpdateProcessStepPosition = jest.fn();
 export const mockDeleteProcessStep = jest.fn();
 export const mockCreateActivity = jest.fn();
 export const mockUpdateActivity = jest.fn();
+export const mockUpdateActivityPosition = jest.fn();
 export const mockUpdateSamplePreparation = jest.fn();
 export const mockDeleteSamplePreparation = jest.fn();
 export const mockUpdateReactionProcessVessel = jest.fn();
 export const mockUpdateUserDefaultConditions = jest.fn(() => Promise.resolve());
 export const mockUpdateReactionDefaultConditions = jest.fn(() => Promise.resolve());
+export const mockUpdateProvenance = jest.fn(() => Promise.resolve());
+export const mockDownloadClap = jest.fn(() => Promise.resolve());
 
 jest.mock("../fetchers/ReactionsFetcher", () => ({
   useReactionsFetcher: () => ({
@@ -30,23 +34,33 @@ jest.mock("../fetchers/ReactionsFetcher", () => ({
     updateProcessStep: mockUpdateProcessStep,
     deleteProcessStep: mockDeleteProcessStep,
     createActivity: mockCreateActivity,
-    updateProcessStepPosition: jest.fn(),
+    updateProcessStepPosition: mockUpdateProcessStepPosition,
     deleteActivity: jest.fn(),
     updateActivity: mockUpdateActivity,
-    updateActivityPosition: jest.fn(),
+    updateActivityPosition: mockUpdateActivityPosition,
     createFractionActivities: jest.fn(),
     updateSamplePreparation: mockUpdateSamplePreparation,
     deleteSamplePreparation: mockDeleteSamplePreparation,
     updateReactionProcessVessel: mockUpdateReactionProcessVessel,
     updateUserDefaultConditions: mockUpdateUserDefaultConditions,
     updateReactionDefaultConditions: mockUpdateReactionDefaultConditions,
+    updateProvenance: mockUpdateProvenance,
+    downloadClap: mockDownloadClap,
+    svgImage: () => "/fixture-reaction.svg",
   }),
 }));
+
+export const mockReactDndDropSpecs = [];
 
 jest.mock("react-dnd", () => ({
   DndProvider: ({ children }) => children,
   useDrag: () => [{ isDragging: false }, jest.fn(), jest.fn()],
-  useDrop: () => [{ isOver: false }, jest.fn()],
+  useDrop: (createSpec) => {
+    const spec = createSpec();
+    mockReactDndDropSpecs.push(spec);
+
+    return [{ isOver: false, canDrop: false, getItem: { source_position: 0 } }, jest.fn()];
+  },
 }));
 
 jest.mock("react-dnd-html5-backend", () => ({
@@ -59,8 +73,8 @@ jest.mock("@fortawesome/react-fontawesome", () => ({
 
 jest.mock("../components/utilities/IconButton", () => ({
   __esModule: true,
-  default: ({ icon, onClick, disabled }) => (
-    <button aria-label={icon} disabled={disabled} onClick={onClick} type="button">
+  default: ({ icon, onClick, disabled, id }) => (
+    <button aria-label={icon} disabled={disabled} id={id} onClick={onClick} type="button">
       {icon}
     </button>
   ),
@@ -220,9 +234,12 @@ export const reaction2Process = reaction2Fixture.response.json.reaction_process;
 export const resetReaction2Mocks = () => {
   mockCreateProcessStep.mockClear();
   mockUpdateProcessStep.mockClear();
+  mockUpdateProcessStepPosition.mockClear();
   mockDeleteProcessStep.mockClear();
   mockCreateActivity.mockClear();
   mockUpdateActivity.mockClear();
+  mockUpdateActivityPosition.mockClear();
+  mockReactDndDropSpecs.splice(0);
   mockUpdateSamplePreparation.mockClear();
   mockDeleteSamplePreparation.mockClear();
   mockUpdateReactionProcessVessel.mockClear();
@@ -230,6 +247,10 @@ export const resetReaction2Mocks = () => {
   mockUpdateUserDefaultConditions.mockImplementation(() => Promise.resolve());
   mockUpdateReactionDefaultConditions.mockClear();
   mockUpdateReactionDefaultConditions.mockImplementation(() => Promise.resolve());
+  mockUpdateProvenance.mockClear();
+  mockUpdateProvenance.mockImplementation(() => Promise.resolve());
+  mockDownloadClap.mockClear();
+  mockDownloadClap.mockImplementation(() => Promise.resolve());
 };
 
 export const reaction2Step = (name, position = 0, overrides = {}) => {

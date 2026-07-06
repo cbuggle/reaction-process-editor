@@ -112,4 +112,32 @@ describe("reaction 2 base conditions", () => {
       })
     );
   });
+
+  test("removes metric equipment when resetting a reaction base condition", async () => {
+    const temperatureEquipment =
+      reaction2Process.select_options.FORMS.CONDITION.equipment.TEMPERATURE[0];
+
+    renderReactionBaseConditions({
+      defaultConditions: {
+        reaction_process_id: reaction2Process.id,
+        TEMPERATURE: {
+          value: 21,
+          unit: "CELSIUS",
+          additional_information: "AMBIENT",
+        },
+        EQUIPMENT: { value: [temperatureEquipment.value] },
+      },
+    });
+
+    openReactionBaseConditions();
+    const section = openConditionSubform("Temperature");
+    userEvent.click(within(section).getByRole("button", { name: "Reset" }));
+    userEvent.click(screen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => expect(mockUpdateReactionDefaultConditions).toHaveBeenCalledTimes(1));
+    const updatedDefaultConditions = mockUpdateReactionDefaultConditions.mock.calls[0][0];
+
+    expect(updatedDefaultConditions).not.toHaveProperty("TEMPERATURE");
+    expect(updatedDefaultConditions.EQUIPMENT).toEqual({ value: [] });
+  });
 });

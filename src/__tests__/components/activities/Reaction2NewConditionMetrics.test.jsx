@@ -108,7 +108,7 @@ const initialWorkupForMetric = {
   },
 };
 
-const persistedConditionActivity = (metricName) => ({
+const persistedConditionActivity = (metricName, workupOverrides = {}) => ({
   id: `reaction-2-condition-${metricName.toLowerCase()}`,
   value: `reaction-2-condition-${metricName.toLowerCase()}`,
   step_id: "reaction-2-step-1",
@@ -116,19 +116,20 @@ const persistedConditionActivity = (metricName) => ({
   position: 0,
   workup: {
     ...initialWorkupForMetric[metricName],
+    ...workupOverrides,
     automation_control: { status: "CAN_RUN" },
     automation_mode: reaction2Process.initial_conditions.automation_mode,
   },
   preconditions: reaction2Process.initial_conditions,
 });
 
-const openPersistedCondition = (metricName) => {
+const openPersistedCondition = (metricName, workupOverrides = {}) => {
   const { container } = renderReaction2Steps({
     reactionProcess: {
       ...reaction2Process,
       reaction_process_steps: [
         reaction2Step("Charge reagents", 0, {
-          activities: [persistedConditionActivity(metricName)],
+          activities: [persistedConditionActivity(metricName, workupOverrides)],
         }),
       ],
     },
@@ -297,5 +298,24 @@ describe("reaction 2 New Condition metrics", () => {
         workup: expect.objectContaining(expectedWorkup),
       })
     );
+  });
+
+  test("removes metric equipment when resetting a condition metric", async () => {
+    const temperatureEquipment =
+      reaction2Process.select_options.FORMS.CONDITION.equipment.TEMPERATURE[0];
+
+    openPersistedCondition("TEMPERATURE", {
+      EQUIPMENT: { value: [temperatureEquipment.value] },
+    });
+
+    const section = openMetricSubform("Temperature");
+    userEvent.click(within(section).getByRole("button", { name: "Reset" }));
+    userEvent.click(screen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => expect(mockUpdateActivity).toHaveBeenCalledTimes(1));
+    const updatedActivity = mockUpdateActivity.mock.calls[0][0];
+
+    expect(updatedActivity.workup).not.toHaveProperty("TEMPERATURE");
+    expect(updatedActivity.workup.EQUIPMENT).toEqual({ value: [] });
   });
 });
