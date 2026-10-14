@@ -243,7 +243,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
             value={selectedOntologyOption}
             placeholder={`Selectable: ${filteredOntologyOptions.length} / ${ontologies.length}`}
             isClearable
-            onChange={()=>{}}
+            onChange={setSelectedOntologyOption}
           />
         </div>
       </div>)
