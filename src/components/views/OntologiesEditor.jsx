@@ -107,12 +107,18 @@ const OntologiesEditor = () => {
         <div className="ontologies-editor__toolbar">
           <Nav fill className="navbar bg-preparation px-5">
             <NavbarBrand>
-              <Button onClick={e => setShowNewForm(true)}>+ New Entry</Button>
+              <Button
+                title="Create a new Ontology Entry"
+                onClick={e => setShowNewForm(true)}
+              >
+                + New Entry
+              </Button>
             </NavbarBrand>
             <NavItem>
               <Input
                 className="mt-2 flex-grow-1"
                 placeholder={'Search Ontologies'}
+                title="Filter by Ontology ID, label, or name"
                 value={ontologyQuery}
                 onChange={(event) => setOntologyQuery(event.target.value)}
               />

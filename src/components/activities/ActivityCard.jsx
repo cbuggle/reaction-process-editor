@@ -16,7 +16,6 @@ import IconButton from "../utilities/IconButton";
 
 import { tooltips } from "../../constants/translations";
 
-import { UncontrolledTooltip } from "reactstrap";
 import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 
 const ActivityCard = ({
@@ -120,18 +119,13 @@ const ActivityCard = ({
 
   const renderIconWarning = (tooltipName) => {
     return (
-      <>
-        <div id={"activity_automation_mode_" + activity?.id + tooltipName}>
+      <div title={tooltips[tooltipName]}>
           <IconButton
             size={"sm"}
             positive={true}
             icon={"circle-info"}
             color={"danger"} />
-        </div>
-        <UncontrolledTooltip target={"activity_automation_mode_" + activity?.id + tooltipName}>
-          {tooltips[tooltipName]}
-        </UncontrolledTooltip>
-      </>
+      </div>
     )
   }
 
@@ -143,7 +137,7 @@ const ActivityCard = ({
       <div className="d-md-flex gap-2">
         {automationModeMismatch && formDependsOnAutomationMode && renderIconWarning('action_unmet_automation_mode')}
         {isMergeSamplesForm && samplesTypeUnspecified && renderIconWarning('merge_sample_type_unspecified')}
-        <div id={"activity_automation_status_" + activity?.id}>
+        <div title={currentAutomationStatus.tooltip}>
           <IconButton
             disabled
             size={"sm"}
@@ -151,9 +145,6 @@ const ActivityCard = ({
             icon={currentAutomationStatus.icon}
             color={currentAutomationStatus.color} />
         </div>
-        <UncontrolledTooltip target={"activity_automation_status_" + activity?.id} >
-          {currentAutomationStatus.tooltip}
-        </UncontrolledTooltip>
         {title}
       </div>
     )
