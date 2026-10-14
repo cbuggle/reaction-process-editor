@@ -204,6 +204,7 @@ const ActivityCard = ({
             onSave={onSaveForm}
             onWorkupChange={handleWorkupChange}
             onChangeDuration={setDuration}
+            processStep={processStep}
           />
         )}
       </ProcedureCard.Form>

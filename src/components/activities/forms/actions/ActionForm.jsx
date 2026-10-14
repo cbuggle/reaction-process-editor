@@ -106,7 +106,8 @@ const ActionForm = (
       onCancel={onCancel}
       onSave={onSave}
       onWorkupChange={onWorkupChange}
-      onChangeDuration={onChangeDuration} >
+      onChangeDuration={onChangeDuration}
+      automationMode={processStep?.automation_mode} >
       <FractionFormGroup fraction={activity.consumed_fraction} />
       {renderDeviceOntologiesForm()}
       {renderCustomActivityForm()}
