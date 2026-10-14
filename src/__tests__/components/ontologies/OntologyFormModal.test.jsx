@@ -46,14 +46,14 @@ describe('OntologyFormModal', () => {
     expect(filter.closest('.modal-body')).not.toBeInTheDocument();
     expect(filter).toHaveAttribute(
       'title',
-      'Filter the Ontologies in the Select Fields for a better overview'
+      'Filter the Ontologies in the Select Fields for a better overview.'
     );
     expect(screen.getByText('Selectable: 2 / 2')).toBeInTheDocument();
     const ontologySelect = screen.getByLabelText('Filtered Ontologies');
     expect(ontologySelect.closest('.modal-header')).toBeInTheDocument();
     expect(ontologySelect.closest('.ontology-form__filtered-options')).toHaveAttribute(
       'title',
-      'Preview of selectable Ontology-terms.'
+      'Show filtered Ontology-terms as available in all Select fields of this form for an overview.'
     );
   });
 
